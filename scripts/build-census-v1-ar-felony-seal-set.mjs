@@ -18,6 +18,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(ROOT);
@@ -216,7 +217,10 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8
 const writeJson = (rel, value) => {
   const file = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(file, `${JSON.stringify(preserveIdentityRefresh(fs, file, value), null, 2)}\n`);
 };
 
 function verifyLegalRecords() {

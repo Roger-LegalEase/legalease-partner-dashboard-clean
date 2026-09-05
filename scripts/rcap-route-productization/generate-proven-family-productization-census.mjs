@@ -35,10 +35,12 @@ const OUT = "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION
 
 const OWNER_SEPTEMBER = "OWN-ADOPT-2026-09-02-BATCH-53";
 const OWNER_AUGUST = "auth-2026-08-19-owner-legal-approval-completed-output";
-// The generator carries a codified track-authority memo input for these four
-// jurisdictions only. A custom-pleading family outside them has no authority
-// input for the generator to bind, whatever else it holds.
-const CODIFIED_TRACK_JURISDICTIONS = new Set(["DC", "IL", "MS", "WY"]);
+// The generator carries a codified track-authority memo input for these
+// jurisdictions only (CODIFIED_TRACK_INPUTS in
+// scripts/generate-rcap-grade-a-fulfillment-authority.mjs; GA and SD were
+// pinned by the PROD-D lane). A custom-pleading family outside them has no
+// authority input for the generator to bind, whatever else it holds.
+const CODIFIED_TRACK_JURISDICTIONS = new Set(["DC", "IL", "MS", "WY", "GA", "SD"]);
 
 const INPUTS = {
   masterQueue: "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
@@ -125,15 +127,22 @@ for (const qualification of ownerAdoption.adoption.qualifications ?? []) {
 }
 
 const SPEC_DIR = "data/record-clearing/packet-specifications";
-const specByRouteId = new Map();
+// Every specification that names a route key, kept per key. A specification is
+// this family's only when it also names this family (packetFamily): two
+// families can claim one runtime route (the ga-seal-m obligations share both
+// Georgia routes with the (j)(4) and (j)(7) families), and a sibling's
+// specification must not be counted as this family's route-scoped artifact.
+const specsByRouteId = new Map();
 for (const file of fs.readdirSync(path.join(ROOT, SPEC_DIR)).sort()) {
   if (!file.endsWith(".json")) continue;
   const rel = path.posix.join(SPEC_DIR, file);
   const doc = read(rel);
   for (const key of [doc.routeKey, ...(doc.routeKeys ?? [])].filter(Boolean)) {
-    if (!specByRouteId.has(key)) specByRouteId.set(key, { path: rel, doc });
+    if (!specsByRouteId.has(key)) specsByRouteId.set(key, []);
+    specsByRouteId.get(key).push({ path: rel, doc });
   }
 }
+const specFor = (key, familyId) => (specsByRouteId.get(key) ?? []).find((s) => s.doc.packetFamily === familyId) ?? null;
 
 // ------------------------------------------------- route identity per key ---
 // The crosswalk is the existing answer to "what runtime route is this?" and it
@@ -145,7 +154,7 @@ function routesFor(family) {
     let routeId = entry?.routeContractId ?? null;
     if (!routeId && entry?.runtimePathwayId) routeId = `${family.jurisdiction}:${entry.runtimePathwayId}`;
     const launch = routeId ? launchByRouteId.get(routeId) ?? null : null;
-    const spec = routeId ? specByRouteId.get(routeId) ?? null : specByRouteId.get(routeKey) ?? null;
+    const spec = routeId ? specFor(routeId, family.familyId) : specFor(routeKey, family.familyId);
     const witness = routeId ? witnessByRouteId.get(routeId) ?? null : null;
     const record = routeId ? recordByRouteId.get(routeId) ?? null : null;
     const projected = routeId ? projectionByRouteId.get(routeId) ?? null : null;
@@ -629,7 +638,7 @@ function nextActionFor(family, routes, chain, unmet) {
       blocker: "NO_CODIFIED_TRACK_AUTHORITY_INPUT_FOR_THIS_JURISDICTION",
       owner: "engineering, after the legal instrument is settled",
       onlyRogerCanDoThis: false,
-      action: `Add a codified track-authority input for ${family.jurisdiction} to CODIFIED_TRACK_INPUTS in scripts/generate-rcap-grade-a-fulfillment-authority.mjs, pinning the jurisdiction's legal-design memo by digest. The generator carries DC, IL, MS and WY only.`,
+      action: `Add a codified track-authority input for ${family.jurisdiction} to CODIFIED_TRACK_INPUTS in scripts/generate-rcap-grade-a-fulfillment-authority.mjs, pinning the jurisdiction's legal-design memo by digest. The generator carries ${[...CODIFIED_TRACK_JURISDICTIONS].join(", ")} only.`,
       why: `${family.jurisdiction} has no entry in the generator's codified track-authority table.`
     };
   }
@@ -875,6 +884,24 @@ const document = {
       generator: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
       whyItWasStale: "the raster queue moved in the commit this lane branched from, so the Illinois and DC records bound stale receipt rows and the authority verifier failed",
       effect: "re-bound the current raster receipt rows; the same 14 records, the same 5 commercially eligible, no record added or removed",
+      opensAnything: false
+    },
+    {
+      generator: "scripts/generate-rcap-factory-v2-registry.mjs",
+      whyItWasStale: "PROD-D registered five route-scoped packet specifications (MS first-offender misdemeanor, IL mistaken identity, GA (j)(4), GA (j)(7), SD SIS sealing) in src/lib/rcap/grade-a/packet-specification.ts, and the registry copies each route's packetFamilyId and specification-declared required facts from that registry",
+      effect: "five routes acquired a packetFamilyId and their specification facts in requiredInputIds; factory_v2 resolves stayed 172 of 262 and no route gained an admission",
+      opensAnything: false
+    },
+    {
+      generator: "scripts/generate-rcap-witness-divergence-diagnosis.mjs",
+      whyItWasStale: "already stale at the commit PROD-D branched from (79f886f2): one Oregon route's evaluator result had moved to needs_review after the fixtures were last taken",
+      effect: "re-pinned that one route's observed resultCode; expected.paymentAllowed stayed false for it and 262 fixtures still cover 262 rows",
+      opensAnything: false
+    },
+    {
+      generator: "scripts/generate-rcap-launch-graph.mjs",
+      whyItWasStale: "its factory-v2 registry input digest trailed the regeneration above",
+      effect: "re-pinned the input digest and copied the five routes' enlarged requiredInputIds; operationallySellable stayed 0, paymentAllowed stayed 28, and every one of the five routes stayed UNFINISHED with paymentAllowed false",
       opensAnything: false
     }
   ],

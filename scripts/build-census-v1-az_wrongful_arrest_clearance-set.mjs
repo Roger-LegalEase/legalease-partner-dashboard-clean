@@ -39,7 +39,7 @@ const SPEC = {
   ],
   "routes": [
     {
-      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+      "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
     }
   ],
   "records": [
@@ -74,14 +74,14 @@ const SPEC = {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
       "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
       "mustContain": [
-        "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+        "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
       ]
     }
   ],
   "components": [
     {
       "id": "az_wrongful_arrest_clearance-primary-filing-1",
-      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+      "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
       "title": "Petition - Clearing a Wrongful Arrest or Charge",
       "role": "primary_filing",
       "description": "the composed petition, on this route's own statutory ground (Clearing a Wrongful Arrest or Charge)",
@@ -167,6 +167,14 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "caption_court",
+          "label": "The court name on the caption line at the top of the petition",
+          "printedLine": "IN THE ............................................................ COURT",
+          "supply": "The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. \u00a7 13-4051 in your case, and write that court's name on this line before you file.",
+          "why": "the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" and records no county venue rule, so the platform holds no value for which superior court this petition is filed in and this build may not choose one"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_arrestOrChargeIdentifiers",
           "label": "Item C1 - arrest or charge identifiers",
           "supply": "What was the arrest, indictment or charge, and which agency and court were involved?",
@@ -208,7 +216,7 @@ const SPEC = {
     },
     {
       "id": "az_wrongful_arrest_clearance-filing-instructions-2",
-      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+      "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
       "role": "filing_instructions",
       "title": "Filing Instructions - Clearing a Wrongful Arrest or Charge",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clearing a Wrongful Arrest or Charge)",
@@ -284,7 +292,7 @@ const SPEC = {
   "routeSelectionNote": "One route, one instrument set: every composed page states this route's statutory ground in its own title and body, and no election control exists on any composed page.",
   "routeSelectionsMade": [
     {
-      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+      "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
       "statute": "A.R.S. § 13-4051",
       "instrument": "primary_filing: az_wrongful_arrest_clearance-primary-filing-1",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
@@ -514,9 +522,16 @@ function composedBody(componentId, facts) {
 
 /* ---- field-map helpers, in the maps-with-canonical-and-boundary shape -------- */
 function mapHelpers(componentId) {
-  const base = (id, label) => ({
+  /*
+   * printedLine defaults to the label, because on a composed page the label
+   * IS the printed line for every blank this family prints as
+   * "[label] {{DOTS}}". The caption court line is the one blank whose printed
+   * form is not its description - it prints as "IN THE ....... COURT" - so it
+   * declares its printed line explicitly rather than being described by it.
+   */
+  const base = (id, label, printedLine = null) => ({
     field: `${componentId}.${id}`, fieldName: `${componentId}.${id}`, page: 1,
-    printedLabel: label, printedLine: label,
+    printedLabel: printedLine ?? label, printedLine: printedLine ?? label,
     effectiveLabel: label, regionHeading: label, sectionHeading: null,
     rectBasis: "composed_document_authored_by_this_build"
   });
@@ -534,8 +549,8 @@ function mapHelpers(componentId) {
       category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
       requiredBeforeFiling: false, document: componentId, why
     }),
-    rbf: (id, label, what, why) => ({
-      ...base(id, label),
+    rbf: (id, label, what, why, printedLine = null) => ({
+      ...base(id, label, printedLine),
       reason: `the participant supplies this before filing: ${what}`,
       category: null, completenessClass: null, class: null,
       disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
@@ -550,7 +565,7 @@ function composedMap(componentId) {
   const h = mapHelpers(componentId);
   const writes = (c.writes ?? []).map((w) => h.write(w.id, w.label, w.factId));
   const refusals = (c.blanks ?? []).map((b) => {
-    if (b.kind === "rbf") return h.rbf(b.id, b.label, b.supply, b.why);
+    if (b.kind === "rbf") return h.rbf(b.id, b.label, b.supply, b.why, b.printedLine ?? null);
     if (b.kind === "protected") return h.protectedBlank(b.id, b.label, b.why);
     if (b.kind === "court") return h.clerkBlank(b.id, b.label, b.why);
     throw new Error(`${componentId}.${b.id}: unknown blank kind ${b.kind}`);

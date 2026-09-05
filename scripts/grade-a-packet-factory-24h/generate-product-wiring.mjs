@@ -13,6 +13,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -49,31 +50,20 @@ if (selectedFamilyId !== null && selectedFamilies.length !== 1) {
 
 const rasterQueue = (() => { try { return read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"); } catch { return { rows: [] }; } })();
 const verifierReturns = (() => { try { return read("data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json"); } catch { return { rows: [] }; } })();
-const rasterCandidatesByFamily = new Map();
-for (const r of [...(rasterQueue.historicalRasterRows ?? []), ...(rasterQueue.rows ?? [])]) {
-  if (!r.familyId) continue;
-  const candidates = rasterCandidatesByFamily.get(r.familyId) ?? [];
-  candidates.push(r);
-  rasterCandidatesByFamily.set(r.familyId, candidates);
-}
-const fileMatchesDigest = (rel, digest) => {
-  if (!rel || !/^[0-9a-f]{64}$/.test(String(digest ?? ""))) return false;
-  const abs = path.join(ROOT, rel);
-  if (!fs.existsSync(abs)) return false;
-  return crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex") === digest;
-};
+const rasterCandidatesByFamily = candidateRowsByFamily(rasterQueue);
+/*
+ * The re-hash this file has always done, now shared.
+ *
+ * It moved to ./acceptance-identity.mjs because verify-lane-contracts L4 was
+ * missing exactly this test and was counting families proven on receipts bound
+ * to bytes that had moved. The behaviour here is unchanged: a receipt that
+ * never declared its coverage is still refused for a binding a route installs
+ * from, which is what `requireReceiptDeclaredCoverage` preserves.
+ */
 const exactRasterFor = (familyId) => {
-  const candidates = rasterCandidatesByFamily.get(familyId) ?? [];
-  for (let i = candidates.length - 1; i >= 0; i--) {
-    const candidate = candidates[i];
-    const receipt = candidate.rasterReceipt;
-    if (!receipt || receipt.coversTheWholeFamily !== true) continue;
-    if (!fileMatchesDigest(candidate.canonicalPdfPath, receipt.boundToCanonicalSha256)) continue;
-    if (receipt.boundToBoundarySha256
-      && !fileMatchesDigest(candidate.boundaryPdfPath, receipt.boundToBoundarySha256)) continue;
-    return candidate;
-  }
-  return null;
+  const evaluation = acceptedRasterFor(ROOT, rasterCandidatesByFamily.get(familyId) ?? [],
+    { requireReceiptDeclaredCoverage: true });
+  return evaluation.proven ? evaluation.row : null;
 };
 const currentVerdict = new Map();
 for (const r of verifierReturns.rows ?? []) {

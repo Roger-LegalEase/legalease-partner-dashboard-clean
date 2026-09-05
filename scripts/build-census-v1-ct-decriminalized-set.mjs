@@ -417,6 +417,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -715,8 +716,12 @@ function countCompleteness(maps, writeProofs, instructionsText) {
 
 /* ---- outputs ------------------------------------------------------------------- */
 function writeJson(rel, value) {
-  fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
 }
 
 /*

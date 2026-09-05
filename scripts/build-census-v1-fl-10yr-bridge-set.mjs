@@ -19,6 +19,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyBlank, classifyField, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -95,7 +96,10 @@ const sanitize = (text) => String(text).replaceAll("‑", "-").replaceAll("–",
 function writeJson(rel, value) {
   const absolute = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(absolute), { recursive: true });
-  fs.writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
 }
 
 function hashRepoFile(rel) {

@@ -1,0 +1,304 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX28-AZ-WRONGFUL-ARREST-CLEARANCE",
+  "assignmentId": "FIX28",
+  "assignedBase": "aa866d165",
+  "branch": "fix28-az-wrongful-arrest",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX28 az_wrongful_arrest_clearance-set returned CLAIM_OK FIX28 az_wrongful_arrest_clearance-set (repair, grant set ac91ea469946a395), exit 0, before anything was read or written.",
+  "verdictRepaired": {
+    "lane": "VF11",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "79f886f26a16cde736a830c842bb7ea06b14f174",
+    "failedObligationNames": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "REQUIRED_BEFORE_FILING"
+    ]
+  },
+  "scope": "Exactly the three failed obligations. The 21 registry and specification statements VF11 verified on the pages were not touched, and the extracted page text of both fixtures differs from the pre-repair bytes on the Route footer line and on nothing else.",
+  "preflight": {
+    "worktree": "/home/user/fix28-worktree, created from the Captain branch at aa866d165 on branch fix28-az-wrongful-arrest",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "copied from /home/user/legalease-partner-dashboard-clean/private (the Captain worktree holds none); nothing there was edited. This family binds committed repository records rather than document bytes, so no corpus file resolves any of its sources.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; pdf-lib importable; no tracked file changed by either step",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "rows": [
+    {
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "jurisdiction": "AZ",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "routeKeys": [
+        "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
+      ],
+      "obligationsRepaired": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsAddressed": {
+        "ROUTE_IDENTITY": {
+          "findingAsWritten": "Every page footer, the field map, the source receipt, the top of product-wiring.json and the participant instructions named obligation:track-only:AZ:az_wrongful_arrest_clearance, a key that appears nowhere in the current census; the census, MASTER_QUEUE.json, product-wiring.json's own binding block and the dispatched grant name obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051. product-wiring.json therefore contradicted itself.",
+          "repaired": true,
+          "howTheCurrentKeyWasObtained": "Read from the census record at this base, not typed from memory: data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, the single routes[] entry whose jurisdiction is AZ and whose trackId is az_wrongful_arrest_clearance. Its routeKey was then checked against the MASTER_QUEUE.json family row's routeKeys, which is that one key and only that key; the build refuses if they disagree.",
+          "currentRouteKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+          "staleRouteKeyRetiredAt": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "whatWasChanged": "Five occurrences of the retired key in the builder's SPEC block were replaced with the census key: SPEC.routes[0].routeKey, the census record's mustContain anchor, the routeKey of both components, and routeSelectionsMade[0].routeKey. Everything downstream is derived from those, so a single rebuild moved every printed and recorded key at once.",
+          "whereTheCurrentKeyNowPrintsOrIsRecorded": [
+            "fixtures/canonical.pdf page 2 and page 4 Route footer",
+            "fixtures/boundary.pdf page 2 and page 4 Route footer",
+            "production-field-map.json routeKeys, componentRoutes (both components), maps[0].documentPolicy.routeKey, routeSelectionsMade[0].routeKey",
+            "source-receipt.json routeKeys",
+            "product-wiring.json routeKey, routeKeys and binding.routeKeys",
+            "participant-instructions.md closing Route(s) line"
+          ],
+          "occurrencesOfTheRetiredKeyInTheFamilyDirectoryAfterTheRepair": 0,
+          "occurrencesOfTheRetiredKeyInEitherFixtureContentStreamAfterTheRepair": 0,
+          "howTheFixturesWereChecked": "Every stream object of both PDFs was inflated, its hex Tj strings decoded, and the flattened text searched: track-only 0 hits, track-pathway present in both. Confirmed again from pdftotext -layout and from a local 110 dpi pdftoppm raster of all eight pages read into /tmp.",
+          "appearanceOfTheLongerKey": "The key is 116 characters and 533.9 pt wide at 11 pt Times-Roman against a 468 pt text column, so the footer wraps mid-token as 'Route:' / 'obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest' / '-under-13-4051'. That is the existing house appearance for a long key on this composed-pleading host, not a new one: the shipped WV custom pleading wraps its 116-character key the same way through the same renderer. No character is lost or added; the two printed rows concatenate to the key exactly. The renderer was not changed.",
+          "productWiringNote": "The owning generator, scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, was run with --family az_wrongful_arrest_clearance-set. Its refresh path rewrites binding and re-pins component digests but never revisits the top-level routeKey/routeKeys, which it writes only when creating a record; those two fields were therefore set from the MASTER_QUEUE row after asserting that the row and the census agree on exactly one key. No hash was hand-edited: every digest in that file was written by the generator."
+        },
+        "SOURCE_IDENTITY": {
+          "findingAsWritten": "The census record pinned in source-receipt.json (9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1, 2,607,149 bytes) no longer matched the on-disk record (4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f, 2,625,273 bytes), and the anchor the receipt verified in it - the retired route key - was absent from the current bytes. The rebuild case, not the re-pin case.",
+          "repaired": true,
+          "howItWasRepaired": "Rebuilt against the current census bytes. resolveRecords() re-reads each bound record from disk, re-verifies every anchor string in it and refuses the whole build if one is missing, then writes the receipt's sha256 and byteLength from the bytes it just read. No pinned hash was hand-edited and none could be: the receipt is generated.",
+          "censusPinBefore": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "censusPinAfter": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "theAnchorThatHadLeftTheSource": "obligation:track-only:AZ:az_wrongful_arrest_clearance - it is no longer the anchor, because it is no longer this family's route. The census record's mustContain is now the current key, and the build verified it in the current bytes before composing anything.",
+          "everyAnchorTheReceiptQuotesRecheckedInTheRePinnedRecords": {
+            "method": "Independent of the build: each bound record was re-read from disk here, re-hashed, and every mustContain string of the builder's SPEC searched in it.",
+            "recordsRehashed": 3,
+            "pinMatches": 3,
+            "byteLengthMatches": 3,
+            "anchorsChecked": 13,
+            "anchorsMissing": 0,
+            "perRecord": [
+              {
+                "path": "data/record-clearing/legal-design-track-registry.json",
+                "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+                "byteLength": 16586150,
+                "anchorStatementsVerified": 11,
+                "unchangedSinceVF11": true
+              },
+              {
+                "path": "data/record-clearing/legal-design-specifications.json",
+                "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+                "byteLength": 16829391,
+                "anchorStatementsVerified": 1,
+                "unchangedSinceVF11": true
+              },
+              {
+                "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+                "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+                "byteLength": 2625273,
+                "anchorStatementsVerified": 1,
+                "unchangedSinceVF11": false,
+                "note": "re-pinned by this repair; the one anchor is the current route key"
+              }
+            ]
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "findingAsWritten": "The caption's court line on page 1 - 'IN THE ........ COURT', a labelled dotted blank the participant must fill before the petition can be filed - was not among the field map's twelve terminal fields, carried no disposition, and was absent from the items table in participant-instructions.md. The completeness script cannot count a blank the builder never declared.",
+          "repaired": true,
+          "whatWasDeclared": {
+            "field": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+            "document": "az_wrongful_arrest_clearance-primary-filing-1",
+            "page": 1,
+            "printedLabel": "IN THE ............................................................ COURT",
+            "printedLine": "IN THE ............................................................ COURT",
+            "effectiveLabel": "The court name on the caption line at the top of the petition",
+            "disposition": "REQUIRED_BEFORE_FILING",
+            "completenessDisposition": "REQUIRED_BEFORE_FILING",
+            "requiredBeforeFiling": true,
+            "routeDetermined": false,
+            "factId": null,
+            "identity": "az_wrongful_arrest_clearance-primary-filing-1 field caption_court",
+            "why": "the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" and records no county venue rule, so the platform holds no value for which superior court this petition is filed in and this build may not choose one",
+            "participantMustSupply": "The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file."
+          },
+          "disclosedIn": "participant-instructions.md, first row of the 'The items you must supply' table for az_wrongful_arrest_clearance-primary-filing-1, above items C1, C2 and C3 - the order the participant meets the blanks down page 1.",
+          "noCountyWasPrefilled": true,
+          "noVenueRuleWasInvented": "The declaration states the recorded venue verbatim - 'Statewide Arizona law; petition in superior court.' - says that no committed record states a county rule, says that is why the packet does not choose one, and sends the participant to an Arizona superior court clerk. It asserts no county, no county-of-arrest rule and no county-of-charge rule.",
+          "thePrintedPageWasNotChanged": "The caption line was already a labelled dotted blank; the defect was that nothing declared or disclosed it. Its printed characters are byte-identical to the pre-repair fixtures. The only text change on any page is the Route footer.",
+          "howTheContractReadsIt": "classifyBlank returns REQUIRED_BEFORE_FILING for this row on the declared channel: it declares the disposition and requiredBeforeFiling true, it carries a field identity and a non-empty printed label, routeDetermined is false, the packet holds and writes no value for it anywhere (factAvailable false), and the field class is COURT_IDENTITY, which is participant-completable. The builder's ledger now reads REQUIRED_BEFORE_FILING 4, PROTECTED_FIELD 3.",
+          "terminalFieldsBefore": 12,
+          "terminalFieldsAfter": 13,
+          "requiredBeforeFilingItemsBefore": 3,
+          "requiredBeforeFilingItemsAfter": 4,
+          "regeneratedReports": [
+            "reports/blanks-left-for-the-participant.json",
+            "reports/completeness-counters.json"
+          ]
+        }
+      },
+      "whatChanged": {
+        "files": [
+          "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs — the five SPEC route keys replaced with the census key; the caption_court blank declared first in component 1's blanks; the composed-map base() and rbf() helpers gained an optional printedLine so the one blank whose printed form is not its description can declare both. No other family uses this script: it is this family's exclusive host.",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf — rebuilt; Route footer on pages 2 and 4 only",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf — rebuilt; Route footer on pages 2 and 4 only",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/production-field-map.json — route keys; the caption_court row; requiredBeforeFilingCount 3 to 4",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/source-receipt.json — routeKeys; census record re-pinned to 4d0eb74b… / 2,625,273 B",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/participant-instructions.md — the caption_court item disclosed; closing Route(s) line",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/blanks-left-for-the-participant.json — the new required-before-filing item",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/completeness-counters.json — regenerated; nine zeros; blankDispositions REQUIRED_BEFORE_FILING 4, PROTECTED_FIELD 3",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/reports/rendered-artifacts.json — new artifact digests; rasterSkipped true and the eight stale rasterPages entries dropped, because the build ran --no-raster as instructed",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/build-status.json — builder-owned raster fields only: rasterEngine, rasterPages 8 to 0, rasterState RASTER_LOCAL_PENDING_CENTRAL to BUILT_RASTER_PENDING",
+          "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/product-wiring.json — routeKey/routeKeys to the current key; binding refreshed by its own generator, which set acceptanceReceipt to null and re-pinned the component digest",
+          "data/rcap-grade-a/packet-factory-24h/fix28/rows.json — this return",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json — written by claim.mjs on assert and release"
+        ],
+        "unchangedInTheFamilyDirectory": [
+          "build-findings.json",
+          "approval-request.json",
+          "reports/actual-writes.json"
+        ],
+        "centralRecordsNotTouched": [
+          "RASTER_QUEUE.json",
+          "MASTER_QUEUE.json",
+          "VERIFIER_RETURNS.json",
+          "the census candidate",
+          "the track registry",
+          "the specifications",
+          "every other family directory",
+          "every other build script"
+        ],
+        "sharedScriptsChanged": 0,
+        "buildScriptsChanged": 1,
+        "otherFamiliesTouched": 0
+      },
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs --no-raster",
+        "runs": 2,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "The whole family directory was copied after the first build and diff -r against it after the second returned no differences at all - both PDFs and all nine records.",
+        "returnedStatus": "COMPLETED, nineCountersZero true, recordsBound 3, writes 6, requiredBeforeFiling 4"
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "6a0c2d807560a619c234a003ce8bf40031a73625aec815e2360ef8ec347506d6",
+          "oldByteLength": 9254,
+          "newSha256": "276e1ab9531edc0641eb222d43e0a2b1a9d69b1d3adad9215eb264cce48be0ec",
+          "newByteLength": 9504,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "5d62c2e04775223b983cf502af0571f1a77c2bf9e6f1042ea916de4b62adf1bc",
+          "oldByteLength": 9480,
+          "newSha256": "fcfc45c3ecd4bbce73222854cc63cdf9dc55bba4702ccf6857d48203eb4ef7af",
+          "newByteLength": 9726,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "digestsMovedInThisLane": true,
+        "legalTextPreserved": {
+          "method": "The pre-repair fixtures were extracted from HEAD and pdftotext -layout run over both old and new bytes for each fixture; the two texts were diffed line by line.",
+          "canonicalTextDiff": "the Route footer line on pages 2 and 4, and nothing else",
+          "boundaryTextDiff": "the Route footer line on pages 2 and 4, and nothing else",
+          "registryAndSpecificationStatementsChanged": 0
+        },
+        "appearanceReadAtDeliveryLevel": {
+          "contentStreams": "every stream object of both PDFs inflated and its hex Tj strings decoded; text operators only, 11 pt Times-Roman at x=72, no paths, no XObjects, no inline images, no /AcroForm",
+          "localRaster": "pdftoppm -r 110 -png into /tmp only, all 8 pages, each read; nothing was rastered into the delivered tree and no rasterState was set by it",
+          "maxWordExtentX": 538.697,
+          "wordsOutsideThePage": 0,
+          "captionBlankMatchesTheFieldMap": "page 1 of both fixtures prints 'IN THE ............................................................ COURT' - character-for-character the printedLabel and printedLine the new field-map row declares",
+          "protectedBlanksStillCarryNoInk": "DATE, SIGNATURE OF PETITIONER and the case-number line print label and dot leaders only, in both fixtures"
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
+          "before": "PASS_COMPLETE, 6/12 written, all nine counters 0",
+          "after": "PASS_COMPLETE, 6/13 written, all nine counters 0",
+          "readOnly": "no --write and no --mutations"
+        },
+        "verifyIdentityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 248 receipts compared against HEAD, 52 carrying an identityRefresh, exit 0",
+          "note": "this family's receipt carries no identityRefresh; the rebuild restored nothing and destroyed nothing"
+        },
+        "verifySourceCarriedValuesAreDispositioned": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "19 dispositioned, 0 not examinable, 2 UNDISPOSITIONED, exit 0",
+          "theTwoUndispositioned": "both rcap-tx-custom-pleading / tx-expunction-fee-waiver-statement, fields 'Value / Valor 11' and 'Amount Cantidad 15'. Texas, another family, pre-existing at this base and recorded identically by FIX26 at 79f886f26. This lane did not touch that family and did not change this result.",
+          "thisFamilysContribution": "none - a custom pleading composed from codified text ships no source-carried values"
+        }
+      },
+      "rasterOwed": true,
+      "rasterNote": "A fresh whole-family central raster is owed, on canonical 276e1ab9531edc0641eb222d43e0a2b1a9d69b1d3adad9215eb264cce48be0ec and boundary fcfc45c3ecd4bbce73222854cc63cdf9dc55bba4702ccf6857d48203eb4ef7af. The receipt that stood before this repair - RASTER_PASS, workflow run 33923497915, job 101187692690, artifact 9956091397 - is bound to 6a0c2d80… and 5d62c2e0…, which the family no longer ships, so it is superseded. product-wiring.json binding.acceptanceReceipt is null: its own generator set it, having found no receipt whose bound digests match the bytes on disk. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched by this lane and still name the superseded digests; enrolling the new ones is Captain's, not this lane's.",
+      "whatIsOwedNext": "A central raster on the two digests above, then a fresh independent read. This lane issues no verdict on its own repair.",
+      "selfVerified": 0,
+      "selfVerificationPerformed": 0,
+      "claimReleased": true,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired packet is repaired evidence. It is not a PASS, it approves no output, it opens no commercial route, and it promotes nothing.",
+      "countersAfterNotes": {
+        "measuredHow": "the same command after the repair: PASS_COMPLETE, 6/13 written",
+        "whatChangedBehindTheZeros": "The declared terminal-field count rose from 12 to 13 and the required-before-filing set from 3 to 4. The counters stay at zero because the newly declared blank is declared, identified by its printed label, held by nobody, participant-completable and disclosed - so requiredFactsNotCollected, which is the counter that catches an undisclosed required-before-filing item, has something to measure here for the first time and finds it disclosed."
+      },
+      "countersBeforeNotes": {
+        "measuredHow": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set, run in this worktree at the assigned base before any edit: PASS_COMPLETE, 6/12 written",
+        "whatTheZerosMeantThen": "VF11 recorded the same nine zeros and said plainly what they measured: the script counts the field-map rows the builder declared, and the caption court blank was not one of them, so the zero was a true statement about the script and not about the page."
+      },
+      "captainCorrection": {
+        "correctedOn": "2026-09-05",
+        "by": "Claude Code Captain",
+        "what": "countersAfter and countersBefore carried two prose keys each beside the nine counters (measuredHow, whatChangedBehindTheZeros / whatTheZerosMeantThen). The supersession reader requires exactly the nine counter names, so the row was read as work not done. The prose is moved verbatim to countersAfterNotes / countersBeforeNotes; no counter value and no other field changed.",
+        "laneCommit": "e8689692c"
+      }
+    }
+  ],
+  "notDone": [
+    "No verdict was issued and none was restored: a repair is not a PASS, and VERIFIER_RETURNS.json was not touched.",
+    "RASTER_QUEUE.json and MASTER_QUEUE.json were not edited, so the queue still pins the superseded digests. A fresh central raster is owed and this lane does not discharge it.",
+    "The two Texas UNDISPOSITIONED source-carried values reported by verify-source-carried-values-are-dispositioned.mjs were left alone: another family, no grant here, pre-existing at this base.",
+    "MASTER_QUEUE.json still contains the retired key obligation:track-only:AZ:az_wrongful_arrest_clearance somewhere outside this family's routeKeys row, as do the historical lane returns that recorded it. Those are records of what was, and rewriting them would falsify the history the repair is measured against."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": 1,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This return records a repair. It approves nothing, promotes nothing, and opens no commercial route."
+}

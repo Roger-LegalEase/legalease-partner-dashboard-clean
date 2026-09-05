@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "PROD-D",
+  "laneKind": "route-productization",
+  "generatedAtBase": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "branch": "prod-d-route-productization",
+  "commercialRoutesOpened": 0,
+  "createsApproval": false,
+  "productionTouched": false,
+  "theStandard": "a fulfillment record alone is not an operational route; an operational route is route-scoped, legally covered, runtime-bound and securely deliverable, with hosted canaries",
+  "hostedCanaryHold": "unchanged and restated only: the five commercially eligible routes remain held on hosted-canary credentials only Roger can supply (VERCEL_TOKEN, VERCEL_AUTOMATION_BYPASS_SECRET, HOSTED_CLINIC_DEMO_PASSWORD, HOSTED_CLINIC_DEMO_ACCESS_CODE); the regenerated disposition still reports 0 hosted canaries, 0 operationally sellable routes, and the same five routes under activeCommercialDeliveryHold",
+  "censusCounters": {
+    "before": {
+      "provenFamilies": 142,
+      "provenFamiliesWithEveryObligationResolvedToARuntimeRoute": 69,
+      "provenFamiliesWithNoRuntimeRouteAtAll": 72,
+      "provenFamiliesWithARouteScopedArtifact": 114,
+      "provenFamiliesWithCurrentLegalApproval": 6,
+      "provenFamiliesInsideAnyOwnerApproval": 52,
+      "provenFamiliesWithAFulfillmentAuthorityRecord": 5,
+      "provenFamiliesMeetingEveryGeneratorPrecondition": 4,
+      "provenFamiliesWithAtLeastOneStepOnlyRogerCanTake": 112,
+      "provenFamiliesOneBoundedEngineeringStepFromARecord": 0,
+      "provenFamiliesEngineeringOwnableButMoreThanOneStepAway": 39,
+      "provenFamiliesReadyForGenerationNow": 0,
+      "hostedConsumerCanariesOnRecord": 0,
+      "hostedSponsoredCanariesOnRecord": 0,
+      "operationallySellableRoutes": 0,
+      "routesWhereTheEvaluatorAllowsPaymentButNoFulfillmentRecordExists": 26
+    },
+    "after": {
+      "provenFamilies": 141,
+      "provenFamiliesWithEveryObligationResolvedToARuntimeRoute": 68,
+      "provenFamiliesWithNoRuntimeRouteAtAll": 72,
+      "provenFamiliesWithARouteScopedArtifact": 113,
+      "provenFamiliesWithCurrentLegalApproval": 6,
+      "provenFamiliesInsideAnyOwnerApproval": 52,
+      "provenFamiliesWithAFulfillmentAuthorityRecord": 5,
+      "provenFamiliesMeetingEveryGeneratorPrecondition": 4,
+      "provenFamiliesWithAtLeastOneStepOnlyRogerCanTake": 106,
+      "provenFamiliesOneBoundedEngineeringStepFromARecord": 5,
+      "provenFamiliesEngineeringOwnableButMoreThanOneStepAway": 34,
+      "provenFamiliesReadyForGenerationNow": 0,
+      "hostedConsumerCanariesOnRecord": 0,
+      "hostedSponsoredCanariesOnRecord": 0,
+      "operationallySellableRoutes": 0,
+      "routesWhereTheEvaluatorAllowsPaymentButNoFulfillmentRecordExists": 26
+    }
+  },
+  "whatChangedAcrossTheCohort": "five proven families went from a specification-less state to a route-scoped, owner-decision-bound, runtime-registered specification each (3->1, 3->1, 4->1, 4->1, 4->1 remaining steps); one family is blocked on a shared runtime route (4->3); six Tier 3 families were not attempted (5->5)",
+  "filesThisLaneChanged": [
+    "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json (new)",
+    "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json (new)",
+    "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json (new)",
+    "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json (new)",
+    "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json (new)",
+    "src/lib/rcap/grade-a/packet-specification.ts (five registrations)",
+    "scripts/generate-rcap-grade-a-fulfillment-authority.mjs (GA and SD memo pins in CODIFIED_TRACK_INPUTS; --check output identical before and after)",
+    "scripts/rcap-route-productization/generate-proven-family-productization-census.mjs (mirror of the codified-track table; specification-to-family match now requires packetFamily === familyId; this lane's regenerations recorded)",
+    "data/record-clearing/factory-v2-route-registry.json (regenerated)",
+    "data/rcap-ledger/launch-graph.json (regenerated)",
+    "data/rcap-ledger/public-witness-fixtures.json and witness-divergence-diagnosis.json (regenerated; were already stale at the base commit)",
+    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json and ROUTE_PRODUCTIZATION_DISPOSITION.json (regenerated)",
+    "data/rcap-grade-a/packet-factory-24h/prod-d/rows.json (this return)"
+  ],
+  "regeneratedButReverted": {
+    "file": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "why": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check was already red at the base commit (the RASTER_QUEUE digest moved in the Captain's commits) and its verifier already failed there on IL:felony-prostitution-relief's raster receipt. Regenerating it here re-bound the raster receipt rows and recordSha256 of the five commercially eligible records, which this lane may not modify, so the regeneration was reverted and the file is byte-identical to the base commit. The generator's stale state is pre-existing and is the Captain's to regenerate.",
+    "verifierAtBase": "scripts/verify-rcap-grade-a-fulfillment-authority.mjs: 1 failure (IL:felony-prostitution-relief raster receipt moved) — identical here"
+  },
+  "verifiers": [
+    {
+      "script": "npx tsc --noEmit",
+      "result": "pass"
+    },
+    {
+      "script": "npx eslint src/lib/rcap/grade-a/packet-specification.ts scripts/generate-rcap-grade-a-fulfillment-authority.mjs scripts/rcap-route-productization/generate-proven-family-productization-census.mjs",
+      "result": "0 errors, 1 pre-existing warning (unused 'name' in the census generator, present at the base commit)"
+    },
+    {
+      "script": "scripts/verify-route-resolution.mjs",
+      "result": "pass, 215 checks"
+    },
+    {
+      "script": "scripts/verify-rcap-first-route-cohort-productization.mjs",
+      "result": "pass, 7 routes"
+    },
+    {
+      "script": "scripts/verify-commercial-packet-integrity.mjs",
+      "result": "pass, 314 checks over 30 commercial routes"
+    },
+    {
+      "script": "scripts/verify-rcap-status-currentness.mjs",
+      "result": "pass"
+    },
+    {
+      "script": "generate-proven-family-productization-census.mjs --check / generate-route-productization-disposition.mjs --check / generate-rcap-factory-v2-registry.mjs --check / generate-rcap-launch-graph.mjs --check / generate-rcap-witness-divergence-diagnosis.mjs --check / generate-rcap-hosted-acceptance-journeys.mjs --check",
+      "result": "all current"
+    },
+    {
+      "script": "scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+      "result": "FAIL, 1 failure, identical at the base commit (IL:felony-prostitution-relief raster receipt moved); not caused and not fixed by this lane"
+    },
+    {
+      "script": "scripts/verify-rcap-census-v1-money-credit-gate.mjs",
+      "result": "FAIL, identical at the base commit (the five held routes attach and deliver while resolver-unsellable); this is the activeCommercialDeliveryHold the disposition already records and this lane changed no gate"
+    }
+  ],
+  "needsRoger": [
+    "hosted-canary credentials for the five commercially eligible routes (unchanged, restated only)",
+    "nothing new: no family in this return hit APPROVED_SHIPPING_DIGEST_MOVED_SINCE_APPROVAL; every bound family's owner-pinned canonical and boundary digests match the bytes on disk"
+  ],
+  "needsTheCaptain": [
+    "S6 post-approval change-audit rows for ms-misd-1st-set, the IL mistaken-identity composed treatment, ga-misd-j4-set, ga-pardon-j7-set and composed-treatment:sd_sis_sealing (evidence per row below)",
+    "regenerating data/rcap-grade-a/fulfillment-authority-registry.json, which was stale at the base commit and re-binds the five held records",
+    "a runtime pathway of its own for ga-seal-m-set (S1) before its specification can exist without displacing a sibling",
+    "legal-design records the IL and SD composed treatments lack before the generator's codified-authority proof can bind them: an IL.memo.json custom_pleading track and a packet-set manifest entry for the IL family; a custom_pleading track and a manifest entry for the SD composed treatment"
+  ],
+  "rows": [
+    {
+      "familyId": "ms-misd-1st-set",
+      "tier": 1,
+      "routeIds": [
+        "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+      ],
+      "stepsClosed": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "closedBy": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "closedBy": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json (legalSectionsBound=true; legalSectionsBoundBy.ownerDecisionRecordId=OWN-ADOPT-2026-09-02-BATCH-53; approvedArtifacts = the two owner-pinned fixtures, digests read from the family's rendered-artifacts report and re-hashed from disk)",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "runtime binding (not a census step)",
+          "closedBy": "src/lib/rcap/grade-a/packet-specification.ts registers the specification under the exact route id; data/record-clearing/factory-v2-route-registry.json and data/rcap-ledger/launch-graph.json regenerated over it"
+        }
+      ],
+      "stepsRemaining": [
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 3,
+      "remainingStepCountAfter": 1,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
+      "blockedAt": null,
+      "specificationSha256": "fb0056b72317264b46ca3f7e84034ba626887f54ff5ea75e33135ddd01efd8fb",
+      "specificationFileSha256": "edecbc55093d2b82155d2fd9b0ca8116321c8490d10e8bac09d512c896894cdf",
+      "postApprovalAuditVerdictWrittenInTheSpecification": "NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET (truthful: no row exists; the generator and the factory-v2 migration path refuse anything but COVERED_BY_EXISTING_APPROVAL)",
+      "nextConcreteResult": "Once the S6 row exists and reads COVERED_BY_EXISTING_APPROVAL, every generator precondition P01-P22 is met and the route's next result is READY_FOR_FULFILLMENT_AUTHORITY_GENERATION: add it to EXACT_PRODUCTIZED_ROUTES in scripts/generate-rcap-grade-a-fulfillment-authority.mjs and regenerate. MS already has a codified track input, the ms-misd-1st track is custom_pleading in MS.memo.json, and ms-misd-1st-set has a packet-set manifest entry, so the codified-authority proof has every input it reads.",
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "0809d94e687064edb3a05cb404676e1625b08667",
+        "familyTreeObjectNow": "b2eae99d0569248cf341e845b1a7c03d6a0813a6",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [
+          "source-receipt.json (identityRefresh of the packet-set-manifests whole-file pin on 2026-09-05; anchors identical)"
+        ],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "0f2ce34a14dc50179e15b931055a54d9366928e027c4ad02480ab6a02a58e5ef",
+          "participantInstructionsSha256": "52dbdb6394744fd5f73ae598fe96bea468c41b4c1b051a0f3f337cbd5a45edb4",
+          "productionFieldMapSha256": "92a25a2b904e632821f3af531858426dac0166c1cf863c993a877fc0ef09e766",
+          "renderedArtifactsReportSha256": "968e575e3e3354395b4496e64de99e0deb4f190d6d49e9c234af0a4f6d20c067",
+          "canonicalSha256Now": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+          "boundarySha256Now": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33547709781",
+          "jobId": "99990088798",
+          "canonicalSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+          "boundarySha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf02",
+            "verifiedAtBase": null,
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL"
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "tier": 1,
+      "routeIds": [
+        "IL:criminal-identity-theft-mistaken-identity-relief"
+      ],
+      "stepsClosed": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "closedBy": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "closedBy": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json (legalSectionsBound=true; legalSectionsBoundBy.ownerDecisionRecordId=OWN-ADOPT-2026-09-02-BATCH-53; approvedArtifacts = the two owner-pinned fixtures, digests read from the family's rendered-artifacts report and re-hashed from disk)",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "runtime binding (not a census step)",
+          "closedBy": "src/lib/rcap/grade-a/packet-specification.ts registers the specification under the exact route id; data/record-clearing/factory-v2-route-registry.json and data/rcap-ledger/launch-graph.json regenerated over it"
+        }
+      ],
+      "stepsRemaining": [
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 3,
+      "remainingStepCountAfter": 1,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
+      "blockedAt": null,
+      "specificationSha256": "b8ffaec0593554f25941d2b13fef120a0349346f464f0c28d85ffc192375b4e5",
+      "specificationFileSha256": "a26999ca50e3a959f7371aac25f372a8debc8db7551c8605632920b5e1645e4e",
+      "postApprovalAuditVerdictWrittenInTheSpecification": "NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET (truthful: no row exists; the generator and the factory-v2 migration path refuse anything but COVERED_BY_EXISTING_APPROVAL)",
+      "nextConcreteResult": "After S6 the census will read READY_FOR_FULFILLMENT_AUTHORITY_GENERATION, but the generator's codifiedAuthorityProof will refuse this route on two inputs the census does not measure: it requires exactly one legal_design_intake_track source identity whose trackId is a custom_pleading track in IL.memo.json (this composed treatment has no memo track), and a legal-design-packet-set-manifests.json entry whose packetSetId equals the family id (none exists). Both are legal-design records; the specification records their absence under whatThisSpecificationCannotYetBind.",
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "c37e81e99cf47384d75854f241337d9e9c654980",
+        "familyTreeObjectNow": "1a4c57a5d0003332ab890931502a5a5925e4ed9f",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [
+          "source-receipt.json (identityRefresh of the route-obligation-census whole-file pin on 2026-09-05; anchors identical)",
+          "product-wiring.json"
+        ],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "9e07844a057110adebb8fd1bdc319f79b78d8ebbb48b1f656aa9b325628d4cd8",
+          "participantInstructionsSha256": "94b1fceef1e17ab2054452830efb08121f9a0d1ca88fbf6754b2ce91c282f562",
+          "productionFieldMapSha256": "66d2ad83463d1125a31f58d2d99167f04ca8ac30de0cca1bcb11ea9849a73f0b",
+          "renderedArtifactsReportSha256": "70cd61bac9ca5e7a0bd69da5b5ba5b3130bfa13f964ea1d42ff642b8ada61edb",
+          "canonicalSha256Now": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+          "boundarySha256Now": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33605354695",
+          "jobId": "100168605645",
+          "canonicalSha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+          "boundarySha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf01",
+            "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL",
+        "notesForTheCaptain": "the family's legal design is the committed route contract route-splits.json (LD-IL-04), the compiled IL pathway and the route-ratification row (Lawrence, ratified_deployable); all three still hash to the digests the source receipt pins"
+      }
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "tier": 2,
+      "routeIds": [
+        "GA:sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ],
+      "stepsClosed": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "closedBy": "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "closedBy": "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json (legalSectionsBound=true; legalSectionsBoundBy.ownerDecisionRecordId=OWN-ADOPT-2026-09-02-BATCH-53; approvedArtifacts = the two owner-pinned fixtures, digests read from the family's rendered-artifacts report and re-hashed from disk)",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "runtime binding (not a census step)",
+          "closedBy": "src/lib/rcap/grade-a/packet-specification.ts registers the specification under the exact route id; data/record-clearing/factory-v2-route-registry.json and data/rcap-ledger/launch-graph.json regenerated over it"
+        }
+      ],
+      "stepsRemaining": [
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 4,
+      "remainingStepCountAfter": 1,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
+      "blockedAt": null,
+      "specificationSha256": "c912097021611fc77cf84232f331ad16e169e1991c2ecb3e932ab3d452dca05f",
+      "specificationFileSha256": "4ab9dfbd07d33de49192736dd6a48cbfd0c59aa08648f8c525ded514e9089780",
+      "postApprovalAuditVerdictWrittenInTheSpecification": "NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET (truthful: no row exists; the generator and the factory-v2 migration path refuse anything but COVERED_BY_EXISTING_APPROVAL)",
+      "nextConcreteResult": "After S6, READY_FOR_FULFILLMENT_AUTHORITY_GENERATION at the census; the generator now carries the GA memo pin (S12) and ga-misd-j4 is a custom_pleading track with a manifest entry, so the codified-authority proof has its inputs. Note the runtime route is shared with the ga-seal-m obligation (see ga-seal-m-set).",
+      "caveats": [
+        "S12 closed by pinning data/record-clearing/legal-design-intake/GA.memo.json (sha256 44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183) in CODIFIED_TRACK_INPUTS; the generator's --check output is byte-identical before and after the edit, so no record moved"
+      ],
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "f8b4f01d384414345a5c89a33b41bf6f472a883a",
+        "familyTreeObjectNow": "57443ee78ce259eb3f713e1405800f3dd05c2232",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [
+          "source-receipt.json"
+        ],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "335d19cf5b2f7c038fbb09d0a242e012466bd06c19d261ea6ca1046e665d9793",
+          "participantInstructionsSha256": "ba0316a1b190ce2b9ed2b7fb1276a4f612b2445b234d297986e7d1cf22906686",
+          "productionFieldMapSha256": "7c780b60d674b9eec50ed50b0f79f9c76bda88240ba05c59acb88756901f0af4",
+          "renderedArtifactsReportSha256": "b65f89747f18e7df8b0d27a32521d09fe55175436b39a4b45027b7d286a9ad1e",
+          "canonicalSha256Now": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+          "boundarySha256Now": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33547709781",
+          "jobId": "99990088709",
+          "canonicalSha256": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+          "boundarySha256": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf01",
+            "verifiedAtBase": null,
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL"
+      }
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "tier": 2,
+      "routeIds": [
+        "GA:restriction-and-sealing-of-a-pardoned-felony"
+      ],
+      "stepsClosed": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "closedBy": "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "closedBy": "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json (legalSectionsBound=true; legalSectionsBoundBy.ownerDecisionRecordId=OWN-ADOPT-2026-09-02-BATCH-53; approvedArtifacts = the two owner-pinned fixtures, digests read from the family's rendered-artifacts report and re-hashed from disk)",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "runtime binding (not a census step)",
+          "closedBy": "src/lib/rcap/grade-a/packet-specification.ts registers the specification under the exact route id; data/record-clearing/factory-v2-route-registry.json and data/rcap-ledger/launch-graph.json regenerated over it"
+        }
+      ],
+      "stepsRemaining": [
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 4,
+      "remainingStepCountAfter": 1,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
+      "blockedAt": null,
+      "specificationSha256": "423a3efc88a04e83255e9e61b9cb95aed0eb1743b575939da5dfa4de9ce07296",
+      "specificationFileSha256": "6e9ed98d289fe60edf205f03c65730dc09c84c8659e12f1610aed21ada546af9",
+      "postApprovalAuditVerdictWrittenInTheSpecification": "NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET (truthful: no row exists; the generator and the factory-v2 migration path refuse anything but COVERED_BY_EXISTING_APPROVAL)",
+      "nextConcreteResult": "After S6, READY_FOR_FULFILLMENT_AUTHORITY_GENERATION at the census; same inputs as ga-misd-j4-set. The runtime route is shared with the ga-seal-m obligation (see ga-seal-m-set).",
+      "caveats": [
+        "S12 closed by the same GA memo pin"
+      ],
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "f118904c56fa8cbe23d6c2e758e7deb6900d077a",
+        "familyTreeObjectNow": "c538245f602854f0924b642204b1619023642dbf",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [
+          "source-receipt.json"
+        ],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "bdc38835f06002f2238264dd7e11d960a040553f946a667dc67d8fe337c702fa",
+          "participantInstructionsSha256": "a8bd9e8d1094d862a57e0f30b62e894b58bcdd70f7cd6eb6f5309489b4d404d7",
+          "productionFieldMapSha256": "adc0044946f16be20d93364c7df1bc3cc0c5e1ace1e7079c905b58d34c5a0d93",
+          "renderedArtifactsReportSha256": "a34de71e6ff0cfa706a5d3c48c6446d3ce0642cea0add1bfbd88fdb870054f43",
+          "canonicalSha256Now": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+          "boundarySha256Now": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33547709781",
+          "jobId": "99990088761",
+          "canonicalSha256": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+          "boundarySha256": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf02",
+            "verifiedAtBase": null,
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL"
+      }
+    },
+    {
+      "familyId": "composed-treatment:sd_sis_sealing",
+      "tier": 2,
+      "routeIds": [
+        "SD:suspended-imposition-of-sentence-sealing"
+      ],
+      "stepsClosed": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "closedBy": "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "closedBy": "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json (legalSectionsBound=true; legalSectionsBoundBy.ownerDecisionRecordId=OWN-ADOPT-2026-09-02-BATCH-53; approvedArtifacts = the two owner-pinned fixtures, digests read from the family's rendered-artifacts report and re-hashed from disk)",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "runtime binding (not a census step)",
+          "closedBy": "src/lib/rcap/grade-a/packet-specification.ts registers the specification under the exact route id; data/record-clearing/factory-v2-route-registry.json and data/rcap-ledger/launch-graph.json regenerated over it"
+        }
+      ],
+      "stepsRemaining": [
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 4,
+      "remainingStepCountAfter": 1,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
+      "blockedAt": null,
+      "specificationSha256": "19c67171360a4209cdb495c7f3e8a7c9d8ccada6e65cda3cb7b33db509dc3187",
+      "specificationFileSha256": "b71af9b924ccd9797ca608cdc1e91782af3de839c4873ecb05013e8c5f2eb26a",
+      "postApprovalAuditVerdictWrittenInTheSpecification": "NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET (truthful: no row exists; the generator and the factory-v2 migration path refuse anything but COVERED_BY_EXISTING_APPROVAL)",
+      "nextConcreteResult": "After S6 the census will read READY_FOR_FULFILLMENT_AUTHORITY_GENERATION, but the generator's codifiedAuthorityProof will refuse: SD.memo.json's sd_sis_sealing track is process_guidance (the proof requires an exact custom_pleading track) and legal-design-packet-set-manifests.json binds the runtime route to the guidance set sd_sis_sealing-set, with no entry for the composed treatment. Both are legal-design records; the specification records their absence under whatThisSpecificationCannotYetBind. The family tree is byte-identical to the owner record's application base, which should make its S6 row the shortest.",
+      "caveats": [
+        "S12 closed by pinning data/record-clearing/legal-design-intake/SD.memo.json (sha256 8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7, the same digest the Q-037 decision recorded); P22 is a table-membership measurement and its closure does not make the SD track custom_pleading",
+        "the specification binds one runtime route for two decision-branch obligation keys (written_implementation_request, original_case_enforcement_motion), exactly as the crosswalk resolves them"
+      ],
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "0a4e07cb65f097b2868d75e814fa93c7b1df93dd",
+        "familyTreeObjectNow": "0a4e07cb65f097b2868d75e814fa93c7b1df93dd",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "8895d2fa2abe1bb2acbd3e5e6665504cfe4d85faadbc76d6a247bd1584e61b9b",
+          "participantInstructionsSha256": "ecea96bb3c5cf382830f04693c79b242aa5793fbdfdaca8e12abed544913cf81",
+          "productionFieldMapSha256": "19b4b827ea34bc8e8671e4233d9016327f8f1b2d70068ef6f6632430444e5d01",
+          "renderedArtifactsReportSha256": "321b1066fc400bdcc6fe10cd5bdb87be20ea65a612e7e5e09470e6ea8d1383c1",
+          "canonicalSha256Now": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+          "boundarySha256Now": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33579500812",
+          "jobId": "100091041690",
+          "canonicalSha256": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+          "boundarySha256": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf11",
+            "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL"
+      }
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "tier": 2,
+      "routeIds": [
+        "GA:restriction-and-sealing-of-a-pardoned-felony",
+        "GA:sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "preconditionsNowMet": [
+        "P01",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "preconditionsStillUnmet": [
+        "P02: no packet specification names every route this family serves",
+        "P03: legalSectionsBound is false or the specification is absent",
+        "P04: bound by nothing",
+        "P05: approvedArtifacts count 0",
+        "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      ],
+      "remainingStepCountBefore": 4,
+      "remainingStepCountAfter": 3,
+      "blockerBefore": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockerAfter": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+      "blockedAt": "S2 — both obligation keys resolve to runtime routes already owned by sibling families (GA:sb-288-... by ga-misd-j4-set, GA:restriction-and-sealing-of-a-pardoned-felony by ga-pardon-j7-set). src/lib/rcap/grade-a/packet-specification.ts is a Map keyed by route id, resolvePacketFamilyId returns one family per route, and a fulfillment record binds one family per route, so a ga-seal-m specification on either route would displace the sibling rather than add a route-scoped artifact. The family needs a runtime pathway of its own (S1, done as PROD-C did it: a jurisdiction:pathwayId identity the resolver, crosswalk and launch graph consume) before S2 can bind without displacement; that is a compiled-profile and legal-authority change this lane did not make.",
+      "whyTheCountWentFrom4To3": "P22 closed by the GA memo pin (S12). The remaining three are S2, S3 and S6. Before the census tightening below, the regenerated census briefly showed this family at 1 because it matched the sibling specifications by route id alone; the census now requires the specification to name the family, and this row reports the corrected figure.",
+      "censusCorrectionMade": "scripts/rcap-route-productization/generate-proven-family-productization-census.mjs now matches a specification to a family only when spec.packetFamily === familyId; the only row that moved was ga-seal-m-set (1 -> 3).",
+      "whatTheCaptainAuditRowMustRecord": {
+        "registry": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+        "shapeToMatch": "the wy_fel_1502-set row: verdict, routesServed, reviewedAtCaptainBase, reviewedAgainstApprovalRecordId=OWN-ADOPT-2026-09-02-BATCH-53, whichListItIsOn, approvedScope, postApprovalPathAndByteCensus, currentShippingArtifact (four file digests + both fixture hashes with page counts), currentSourceIdentity, currentIndependentVerification, currentRasterPins, substantiveSurfaceRead, decisiveEvidence, whyTheFamilyApprovalDoesNotOpenTheRoute, mayEnterTheFirstCohort",
+        "preconditionsTheRowCloses": [
+          "P10",
+          "P12",
+          "P13",
+          "P14",
+          "P15"
+        ],
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase_47a32ceb5": "d7c6b7d274ce6377161ba7bc8254aaa92894b60f",
+        "familyTreeObjectNow": "53e3ab84c01b2b8346c81044a2b7266a9ac62e6e",
+        "pathsThatChangedInTheFamilyDirectorySinceTheApplicationBase": [
+          "source-receipt.json"
+        ],
+        "currentShippingArtifact": {
+          "sourceReceiptSha256": "d00c02bf9418845b6ed96979c2d5bd5d7292540996f94641699eb4ecd8755ebd",
+          "participantInstructionsSha256": "a6f5ec38efc1d8834c788b39635064fe585b5b50aa25c989129d5345920c70a3",
+          "productionFieldMapSha256": "01f96d320d2f05608de5f196c24312fd8e59eb5785ef5c4f9d3a09d0d8189ec1",
+          "renderedArtifactsReportSha256": "0ad9c644f09078503d6d0497bc949fca6f6eaf894508681ec1e3016399474371",
+          "canonicalSha256Now": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+          "boundarySha256Now": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182"
+        },
+        "currentRasterPins": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33547709781",
+          "jobId": "99990088920",
+          "canonicalSha256": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+          "boundarySha256": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182",
+          "coversTheWholeFamily": true
+        },
+        "currentIndependentVerification": [
+          {
+            "verdict": "PASS_COMPLETE_INDEPENDENT",
+            "verifierId": "vf03",
+            "verifiedAtBase": null,
+            "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+          }
+        ],
+        "whatTheRowMustDecide": "classify the diffs above against the decision record's own two lists (byte-identical approved shipping artifacts vs substantive legal change); this lane measured, it did not rule",
+        "afterTheRowIsWritten": "update legalSectionsBoundBy.postApprovalAuditVerdict in the family's specification from NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET to the row's verdict, re-stamp specificationSha256, and regenerate the census; the fulfillment-authority generator and the factory-v2 migration path require exactly COVERED_BY_EXISTING_APPROVAL",
+        "notesForTheCaptain": "an S6 row is still useful ahead of S1/S2 because the family's fixtures are owner-pinned and current; it does not resolve the shared-route problem"
+      }
+    },
+    {
+      "familyId": "ct-cannabis-petition-set",
+      "tier": 3,
+      "routeIds": [
+        "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "owner": "engineering"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10",
+        "P22"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S10/S12/S2/S3 all open; the route CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v is not_recorded_in_sellable_closure and absent from the launch graph, so S10 (a public witness fixture) cannot be closed by regenerating public-witness-fixtures.json, which covers launch-graph rows only",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "tier": 3,
+      "routeIds": [
+        null
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S1_compileRuntimePathway",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S1 — obligation:track-only:DC:dc_correct_misattributed_arrest resolves to no runtime route (missing_from_compiled_runtime); a compiled DC pathway in PROD-C's manner is required first. The existing DC-correct-misattributed-arrest.v1.json is a deliberately unbound DerivedPacketSpecification and was left untouched",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    },
+    {
+      "familyId": "dc_seal_fugitive-set",
+      "tier": 3,
+      "routeIds": [
+        null
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S1_compileRuntimePathway",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S1 — obligation:track-only:DC:dc_seal_fugitive resolves to no runtime route (missing_from_compiled_runtime)",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "tier": 3,
+      "routeIds": [
+        "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "owner": "engineering"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10",
+        "P22"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S10/S12/S2/S3 all open; the KY route is not_recorded_in_sellable_closure and absent from the launch graph, so S10 cannot be closed by regeneration",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    },
+    {
+      "familyId": "ms-nonadj-set",
+      "tier": 3,
+      "routeIds": [
+        null
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S1_compileRuntimePathway",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S1 — obligation:track-only:MS:ms-nonadj resolves to no runtime route (unresolved_ambiguous_candidates)",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    },
+    {
+      "familyId": "nv_repository_removal-set",
+      "tier": 3,
+      "routeIds": [
+        "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+      ],
+      "stepsClosed": [],
+      "stepsRemaining": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "owner": "engineering, only once an owner decision covers the family"
+        },
+        {
+          "stepId": "S10_addThePublicWitnessFixture",
+          "owner": "engineering"
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "owner": "a Captain audit lane reading diffs"
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "owner": "engineering"
+        }
+      ],
+      "preconditionsStillUnmet": [
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P10",
+        "P22"
+      ],
+      "remainingStepCountBefore": 5,
+      "remainingStepCountAfter": 5,
+      "blockedAt": "S10/S12/S2/S3 all open; the NV route is not_recorded_in_sellable_closure and absent from the launch graph, so S10 cannot be closed by regeneration",
+      "notAttemptedBecause": "Tier 1 and Tier 2 were worked to completion first; each Tier 3 family additionally needs either S1 (a compiled runtime pathway) or S10 (a witness fixture for a route outside the launch graph), neither of which a packet specification closes",
+      "whatTheCaptainAuditRowMustRecord": "same shape as the Tier 1 rows once a route-scoped specification exists; premature before S1/S10"
+    }
+  ]
+}

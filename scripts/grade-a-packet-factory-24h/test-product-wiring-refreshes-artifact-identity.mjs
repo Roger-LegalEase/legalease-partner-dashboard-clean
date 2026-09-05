@@ -19,10 +19,15 @@ try {
   const queueDir = path.join(sandbox, "data", "rcap-grade-a", "packet-factory-24h");
   fs.mkdirSync(scriptDir, { recursive: true });
   fs.mkdirSync(queueDir, { recursive: true });
-  fs.copyFileSync(
-    path.join(repoRoot, "scripts", "grade-a-packet-factory-24h", "generate-product-wiring.mjs"),
-    path.join(scriptDir, "generate-product-wiring.mjs")
-  );
+  /* The generator imports its byte-identity rule from a sibling module; the
+   * sandbox must carry both or the generator cannot start and the test reads
+   * an empty stdout as a wrong answer. */
+  for (const file of ["generate-product-wiring.mjs", "acceptance-identity.mjs"]) {
+    fs.copyFileSync(
+      path.join(repoRoot, "scripts", "grade-a-packet-factory-24h", file),
+      path.join(scriptDir, file)
+    );
+  }
 
   const families = [familyId, otherFamilyId].map((id) => ({
     familyId: id,
@@ -41,6 +46,11 @@ try {
     historicalRasterRows: [{
       familyId,
       canonicalPdfPath: `data/families/${familyId}/fixtures/canonical.pdf`,
+      canonicalPdfSha256: sha256(initialArtifactBytes),
+      /* Every real row declares what it covers and whether that coverage is
+       * complete; acceptance re-hashes only against a row that says so. */
+      coverage: { complete: true, documents: ["canonical.pdf"], rastered: ["canonical.pdf"] },
+      documents: [{ role: "canonical", name: "canonical.pdf", path: `data/families/${familyId}/fixtures/canonical.pdf`, sha256: sha256(initialArtifactBytes) }],
       rasterReceipt: {
         verdict: "RASTER_PASS",
         workflowRunId: "test-run",

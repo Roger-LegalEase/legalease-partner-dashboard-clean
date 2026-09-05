@@ -107,6 +107,19 @@ const CODIFIED_TRACK_INPUTS = {
   WY: {
     path: "data/record-clearing/legal-design-intake/WY.memo.json",
     sha256: "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+  },
+  // Added by the PROD-D route-productization lane (census step S12) for the
+  // Georgia and South Dakota proven families that now hold route-scoped
+  // specifications. A pinned memo input is a precondition the codified-authority
+  // proof reads for an EXACT_PRODUCTIZED_ROUTES entry; no GA or SD route is in
+  // that list, so these two pins change no record and open nothing.
+  GA: {
+    path: "data/record-clearing/legal-design-intake/GA.memo.json",
+    sha256: "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183"
+  },
+  SD: {
+    path: "data/record-clearing/legal-design-intake/SD.memo.json",
+    sha256: "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7"
   }
 };
 const FIRST_COHORT_VERIFICATION = {

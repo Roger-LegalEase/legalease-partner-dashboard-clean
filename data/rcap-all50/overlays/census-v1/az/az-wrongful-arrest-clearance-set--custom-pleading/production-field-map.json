@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
   "familyId": "az_wrongful_arrest_clearance-set",
   "routeKeys": [
-    "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+    "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
   ],
   "renderStrategy": "composed_pleading",
   "jurisdiction": "AZ",
@@ -20,8 +20,8 @@
   ],
   "componentConditions": {},
   "componentRoutes": {
-    "az_wrongful_arrest_clearance-primary-filing-1": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
-    "az_wrongful_arrest_clearance-filing-instructions-2": "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+    "az_wrongful_arrest_clearance-primary-filing-1": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+    "az_wrongful_arrest_clearance-filing-instructions-2": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
   },
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
@@ -29,7 +29,7 @@
   ],
   "routeSelectionsMade": [
     {
-      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+      "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
       "statute": "A.R.S. § 13-4051",
       "instrument": "primary_filing: az_wrongful_arrest_clearance-primary-filing-1",
       "statedOn": "the composed pages for this route, in their titles, bodies and footers"
@@ -58,8 +58,18 @@
       "answer": "**Stop and get help if:** Any evidentiary dispute or contested hearing. **Stop and get help if:** The merits burden about wrongfulness, which is on the petitioner and is not a checklist. **Stop and get help if:** A denial the person wants to challenge. **Stop and get help if:** Immigration consequences are in play. **Stop and get help if:** Any evidentiary dispute or contested hearing triggers handoff."
     }
   ],
-  "requiredBeforeFilingCount": 3,
+  "requiredBeforeFilingCount": 4,
   "requiredBeforeFiling": [
+    {
+      "document": "az_wrongful_arrest_clearance-primary-filing-1",
+      "field": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+      "page": 1,
+      "printedContext": "IN THE ............................................................ COURT",
+      "disclosureLabel": "The court name on the caption line at the top of the petition",
+      "identity": "az_wrongful_arrest_clearance-primary-filing-1 field caption_court",
+      "why": "the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" and records no county venue rule, so the platform holds no value for which superior court this petition is filed in and this build may not choose one",
+      "participantMustSupply": "The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file."
+    },
     {
       "document": "az_wrongful_arrest_clearance-primary-filing-1",
       "field": "az_wrongful_arrest_clearance-primary-filing-1.fact_arrestOrChargeIdentifiers",
@@ -100,7 +110,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+        "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
@@ -180,6 +190,30 @@
         }
       ],
       "canonicalRefusals": [
+        {
+          "field": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+          "fieldName": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+          "page": 1,
+          "printedLabel": "IN THE ............................................................ COURT",
+          "printedLine": "IN THE ............................................................ COURT",
+          "effectiveLabel": "The court name on the caption line at the top of the petition",
+          "regionHeading": "The court name on the caption line at the top of the petition",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "az_wrongful_arrest_clearance-primary-filing-1 field caption_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "az_wrongful_arrest_clearance-primary-filing-1",
+          "why": "the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" and records no county venue rule, so the platform holds no value for which superior court this petition is filed in and this build may not choose one",
+          "participantMustSupply": "The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file."
+        },
         {
           "field": "az_wrongful_arrest_clearance-primary-filing-1.fact_arrestOrChargeIdentifiers",
           "fieldName": "az_wrongful_arrest_clearance-primary-filing-1.fact_arrestOrChargeIdentifiers",
@@ -381,6 +415,30 @@
       ],
       "boundaryRefusals": [
         {
+          "field": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+          "fieldName": "az_wrongful_arrest_clearance-primary-filing-1.caption_court",
+          "page": 1,
+          "printedLabel": "IN THE ............................................................ COURT",
+          "printedLine": "IN THE ............................................................ COURT",
+          "effectiveLabel": "The court name on the caption line at the top of the petition",
+          "regionHeading": "The court name on the caption line at the top of the petition",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "az_wrongful_arrest_clearance-primary-filing-1 field caption_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "az_wrongful_arrest_clearance-primary-filing-1",
+          "why": "the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" and records no county venue rule, so the platform holds no value for which superior court this petition is filed in and this build may not choose one",
+          "participantMustSupply": "The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as \"Statewide Arizona law; petition in superior court.\" - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file."
+        },
+        {
           "field": "az_wrongful_arrest_clearance-primary-filing-1.fact_arrestOrChargeIdentifiers",
           "fieldName": "az_wrongful_arrest_clearance-primary-filing-1.fact_arrestOrChargeIdentifiers",
           "page": 1,
@@ -516,7 +574,7 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+        "routeKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",

@@ -597,6 +597,7 @@ import { captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capt
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -1292,8 +1293,12 @@ function countCompleteness(maps, writeProofs, instructionsText) {
 
 /* ---- outputs ------------------------------------------------------------------- */
 function writeJson(rel, value) {
-  fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
 }
 
 function requiredBeforeFilingItems(maps) {

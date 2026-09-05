@@ -22,6 +22,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { acceptedRasterFor, candidateRowsByFamily, inventoryIsInspectable, ACCEPTANCE } from "./acceptance-identity.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const MUTATIONS = process.argv.includes("--mutations");
@@ -118,6 +119,8 @@ const proofProblems = [];
 if (!master) proofProblems.push("no master queue");
 if (!queue) proofProblems.push("no raster queue; there is nowhere for a RASTER_PASS to come from");
 if (!fs.existsSync(path.join(ROOT, RASTER_WORKFLOW))) proofProblems.push("the central raster workflow is absent");
+let provenOnBytes = 0;
+let unverifiableHere = 0;
 if (master && queue) {
   /*
    * A RASTER_PASS proves the family only when the row that carries it covers
@@ -126,14 +129,49 @@ if (master && queue) {
    * unrendered; nine of those already carry RASTER_PASS. Reading the state
    * alone would let a verdict on Washington's petition stand in for a verdict
    * on the order it is filed with.
+   *
+   * AND THE ROW HAS TO STILL BE TRUE OF THE BYTES.
+   *
+   * This built its proven set from two strings -- `currentRasterState` and
+   * `coverage.complete` -- and never opened the PDF the row pins. A packet
+   * rebuilt after its receipt was accepted keeps both strings and stops being
+   * the thing that was rendered, and L4 went on reporting 9/9 over it. The
+   * missing test was not missing from the repository: generate-product-wiring
+   * has always re-hashed the canonical and the boundary before writing an
+   * acceptanceReceipt into a binding, and wrote `acceptanceReceipt: null` when
+   * the bytes had moved. The two surfaces disagreed and the weaker one was the
+   * gate.
+   *
+   * That test now lives in ./acceptance-identity.mjs and both surfaces call it.
+   * It re-hashes the canonical, the boundary, and every other required document
+   * the accepted coverage carries, and it refuses a receipt that covers a
+   * document the row does not declare or that leaves one of them out.
+   *
+   * The one thing it does NOT do is call absence corruption. A worktree that
+   * has not checked the fixture out -- sparse checkout has caught nine lanes,
+   * and an unmounted Nationwide corpus produced 24 false A1_MISSING_ON_DISK
+   * findings in a sibling lane -- cannot say the bytes are valid, and equally
+   * cannot say they are wrong. Both refuse the promotion; they are reported
+   * apart because mounting the custody and rebuilding the packet are different
+   * jobs.
    */
-  const passed = new Set((queue.rows ?? [])
-    .filter((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === true)
-    .map((r) => r.familyId));
+  const inspectable = inventoryIsInspectable(queue);
+  if (!inspectable.ok) proofProblems.push(inspectable.why);
+  /* Current rows only. A superseded row is not this family's raster state, and
+   * one family in the queue holds its only RASTER_PASS there. */
+  const candidates = candidateRowsByFamily(queue, { includeSuperseded: false });
   const PROVEN = ["COMPLETE_PACKET_PROVEN"];
   for (const f of master.families) {
-    if (PROVEN.includes(f.state) && !passed.has(f.familyId)) {
+    if (!PROVEN.includes(f.state)) continue;
+    const acceptance = acceptedRasterFor(ROOT, candidates.get(f.familyId) ?? []);
+    if (acceptance.proven) { provenOnBytes += 1; continue; }
+    if (acceptance.status === ACCEPTANCE.NO_ACCEPTED_RECEIPT) {
       proofProblems.push(`${f.familyId} is ${f.state} with no RASTER_PASS`);
+    } else if (!acceptance.conclusive) {
+      unverifiableHere += 1;
+      proofProblems.push(`${f.familyId} is ${f.state} and its accepted bytes cannot be verified here (${acceptance.status}): ${acceptance.reasons[0] ?? ""}`);
+    } else {
+      proofProblems.push(`${f.familyId} is ${f.state} and its accepted receipt no longer describes the bytes on disk (${acceptance.status}): ${acceptance.reasons[0] ?? ""}`);
     }
   }
   if (!(master.stateVocabulary ?? []).includes("BUILT_RASTER_PENDING")) proofProblems.push("BUILT_RASTER_PENDING is not a declared state, so a builder cannot return it");
@@ -143,9 +181,9 @@ if (master && queue) {
     if (!/^[0-9a-f]{64}$/.test(String(r.canonicalPdfSha256 ?? ""))) { proofProblems.push(`${r.familyId} is queued with no exact canonical hash`); break; }
   }
 }
-check("L4", "no family is proven without a hash-bound RASTER_PASS from the central workflow",
+check("L4", "no family is proven without a RASTER_PASS whose accepted bytes still hash to what it was bound to",
   proofProblems.length === 0,
-  `${(queue?.rows ?? []).length} famil(ies) queued; ${proofProblems.length} problem(s): ${proofProblems.slice(0, 3).join(" | ")}`);
+  `${(queue?.rows ?? []).length} famil(ies) queued; ${provenOnBytes} proven famil(ies) re-hashed to their accepted receipt, ${unverifiableHere} unverifiable on this filesystem; ${proofProblems.length} problem(s): ${proofProblems.slice(0, 3).join(" | ")}`);
 
 /* ---- L7. a row states what its verdict covers ---------------------------- */
 /*
@@ -415,6 +453,16 @@ if (MUTATIONS) {
     const o = spawnSync(process.execPath, [import.meta.filename], { cwd: ROOT, encoding: "utf8" });
     return `${o.stdout ?? ""}${o.stderr ?? ""}`;
   };
+  /* A digest of the right shape that names bytes nothing on disk holds. */
+  const MOVED_DIGEST = "0".repeat(63) + "1";
+  /* A row under a family the master queue calls proven, matching a predicate.
+   * Built from the data rather than named, so the case survives repairs. */
+  const provenRow = (queueDoc, predicate) => {
+    const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
+    const proven = new Set((m.families ?? []).filter((x) => x.state === "COMPLETE_PACKET_PROVEN").map((x) => x.familyId));
+    return (queueDoc.rows ?? []).find((r) => proven.has(r.familyId)
+      && r.currentRasterState === "RASTER_PASS" && r.rasterReceipt && predicate(r)) ?? null;
+  };
   const cases = [
     { name: "Codex setup invoking playwright install is caught", id: "L1", file: SETUP,
       edit: (t) => t.replace("echo \"Browser: not provisioned here", "npx --yes playwright install chromium\necho \"Browser: not provisioned here") },
@@ -566,6 +614,70 @@ if (MUTATIONS) {
      * is exactly the state L4 refuses, and it can be constructed from any
      * proven family, so the case keeps a subject for as long as one exists.
      */
+    /*
+     * ---- the five cases the byte binding has to discriminate -------------
+     *
+     * All five are built on the QUEUE, never on a packet. A control that
+     * rewrote a delivered PDF to prove a point would be changing bytes this
+     * lane holds no grant for, and a restore-afterwards is not a defence: the
+     * family's fixtures are the thing under measurement. Moving the pin is
+     * exactly as decisive and touches nothing a participant receives.
+     *
+     * `provenRow` picks a subject from whatever is proven today, so these keep
+     * a subject for as long as one exists rather than being anchored to a
+     * family that may be repaired out from under them.
+     */
+    { name: "a proven family whose canonical moved under its accepted receipt is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => {
+        const j = JSON.parse(t);
+        const row = provenRow(j, (r) => r.canonicalPdfPath && /^[0-9a-f]{64}$/.test(String(r.rasterReceipt?.boundToCanonicalSha256 ?? "")));
+        if (!row) return t;
+        /* The pin moves consistently everywhere the row states it, so the row
+         * is internally coherent and the ONLY thing wrong is that no such bytes
+         * exist on disk. Anything less would be caught by the row/receipt
+         * disagreement rule instead, and would prove nothing about re-hashing. */
+        const moved = MOVED_DIGEST;
+        for (const d of row.documents ?? []) if (d.role === "canonical" && d.path === row.canonicalPdfPath) d.sha256 = moved;
+        row.canonicalPdfSha256 = moved;
+        row.rasterReceipt.boundToCanonicalSha256 = moved;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "a proven family whose boundary moved under its accepted receipt is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => {
+        const j = JSON.parse(t);
+        const row = provenRow(j, (r) => r.boundaryPdfPath && /^[0-9a-f]{64}$/.test(String(r.rasterReceipt?.boundToBoundarySha256 ?? "")));
+        if (!row) return t;
+        const moved = MOVED_DIGEST;
+        for (const d of row.documents ?? []) if (d.role === "boundary" && d.path === row.boundaryPdfPath) d.sha256 = moved;
+        row.boundaryPdfSha256 = moved;
+        row.rasterReceipt.boundToBoundarySha256 = moved;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    /* Absence is not corruption and this case does not claim it is -- it
+     * asserts only that an unverifiable family is NOT COUNTED VERIFIED, which
+     * is the half a promotion turns on. The message L4 prints for it names
+     * mounting the custody rather than rebuilding the packet. */
+    { name: "a proven family whose required document is not on disk is not counted verified", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => {
+        const j = JSON.parse(t);
+        const row = provenRow(j, (r) => r.canonicalPdfPath);
+        if (!row) return t;
+        const gone = `${row.canonicalPdfPath.replace(/\.pdf$/, "")}--a-fixture-no-checkout-here-holds.pdf`;
+        for (const d of row.documents ?? []) if (d.path === row.canonicalPdfPath) d.path = gone;
+        row.canonicalPdfPath = gone;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "a receipt covering a document the row does not declare is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => {
+        const j = JSON.parse(t);
+        const row = provenRow(j, (r) => Array.isArray(r.rasterReceipt?.documentsCovered));
+        if (!row) return t;
+        row.rasterReceipt.documentsCovered = ["a-document-from-some-other-family.pdf"];
+        return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "a receipt that says it did not cover the whole family is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => {
+        const j = JSON.parse(t);
+        const row = provenRow(j, (r) => r.rasterReceipt?.coversTheWholeFamily === true);
+        if (!row) return t;
+        row.rasterReceipt.coversTheWholeFamily = false;
+        return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
         const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
