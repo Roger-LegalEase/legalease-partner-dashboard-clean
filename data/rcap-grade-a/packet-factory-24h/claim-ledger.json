@@ -3693,10 +3693,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX20",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:42:08.257Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3903,10 +3903,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX20",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:31:50.368Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12748,7 +12748,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "12764387fb8446667ffc3fb632a055ed378eb08a06019d331bf280c4187016c3",
+  "claimsDigest": "c284cc89fb8147c6db188817cd3a9460fb1a87f20e76eb27a763e2ff62ea5378",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37303,6 +37303,28 @@
       "previouslyReleasedAt": "2026-09-05T04:22:37.692Z",
       "transferredAt": "2026-09-05T04:57:49.941Z",
       "reason": "Captain moves this released grant to PF27 before dispatch. Two SOURCE_READY families with no live claim, freed when PF02 exited."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX20",
+      "previouslyReleasedAt": "2026-09-04T22:42:08.257Z",
+      "transferredAt": "2026-09-05T05:27:34.522Z",
+      "reason": "Captain moves this released grant to FIX20 before dispatch. Two Illinois families with overlapping failed obligations, a shared-root candidate. Moved centrally because a family with a standing FAIL necessarily has a released grant on the lane that issued the verdict."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX20",
+      "previouslyReleasedAt": "2026-09-04T22:31:50.368Z",
+      "transferredAt": "2026-09-05T05:27:34.715Z",
+      "reason": "Captain moves this released grant to FIX20 before dispatch. Two Illinois families with overlapping failed obligations, a shared-root candidate. Moved centrally because a family with a standing FAIL necessarily has a released grant on the lane that issued the verdict."
     }
   ],
   "withdrawals": [
