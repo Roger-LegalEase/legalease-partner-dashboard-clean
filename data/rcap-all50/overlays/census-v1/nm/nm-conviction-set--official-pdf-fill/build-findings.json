@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_conviction-set",
+  "blocking": [
+    {
+      "severity": "blocking_for_release",
+      "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank.",
+      "consequence": "A participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) would receive a fee-waiver application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and stated to the participant in participant-instructions.md, which tells them to strike the printed line and write their own district or to obtain their district's copy of Form 4-222 NMRA. Counsel should decide whether the fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it.",
+      "measuredFrom": "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+    }
+  ],
+  "findings": [
+    {
+      "finding": "SERVICE IS REQUIRED ON THIS TRACK, and that changes the disposition of twenty blanks relative to the identity-theft family. Form 4-960.1's four page-2 service blocks are for parties entitled to notice of the hearing, which the form's own USE NOTES limit to the petitioner and any party that filed and served an objection under Rule 1-077.1(G)(1) NMRA within sixty-three days of the date of service.",
+      "consequence": "On the identity-theft track, where Rule 1-077.1(E) NMRA entitles no responding party to notice, those twenty blanks are NOT_APPLICABLE_ON_THIS_ROUTE. Here the petition is served on three parties, an objection can be filed, and the same twenty blanks are REQUIRED_BEFORE_FILING and named in participant-instructions.md. The shared dictionary takes the route's service posture as a parameter so the two answers cannot be confused, and neither was copied from the other."
+    },
+    {
+      "finding": "Form 4-956 is a certificate of service from end to end, and Form 4-960 carries one at its foot.",
+      "consequence": "The caption of Form 4-956 is written and nothing else on it is. Everything below that caption is the petitioner certifying under penalty of perjury when they posted the petition and to whom; service has not happened when this packet is prepared and the platform has no knowledge of it. The shared field semantics protect a service block for the same reason, and this build agrees with that rather than working round it."
+    },
+    {
+      "finding": "Forms 4-960 and 4-960.3 are the SECOND STAGE, filed sixty-three days or more after the petition is served. Form 4-960 states whether each of the three responding parties filed a non-objection, filed an objection, or did nothing; Form 4-960.3 affirms under penalty of perjury that nothing is pending and what the most recent conviction was.",
+      "consequence": "Every one of those eighteen response controls and every pending-charge line is the participant's. Nothing about the sixty-three day period is knowable when the packet is prepared, and the instructions are organised around the sequence -- gather, file, mail, wait, then the second stage -- rather than around the forms."
+    },
+    {
+      "finding": "The waiting period in paragraph 9 of Form 4-953 offers five boxes: two, four, six, eight or ten or more years. Which applies is set by the degree of the most serious conviction being expunged.",
+      "consequence": "The packet asserts none of them. Choosing one is a legal characterisation of a code section, and the platform holds no charge degree for this route's intake; the instructions set out which period goes with which class of offence and the participant marks the box. Writing a period the record does not establish onto a petition sworn under penalty of perjury is the defect this refuses."
+    },
+    {
+      "finding": "Every glyph on Form 4-222 reports inexact metrics, and Form 4-953 page 3 prints five bullet characters that do the same.",
+      "consequence": "Measurability is decided per BASELINE rather than per page: a glyph positioned by a fallback advance shifts everything after it on its own line and nothing else. The bullets sit on the five lines of the statutory exclusions list, which carry no blanks, so Form 4-953 measures cleanly; every line of Form 4-222 is affected, so nothing on it is positioned from text geometry and only its exact AcroForm widget rectangles are used. The retained conviction order draws all thirty-six of its tick boxes as a symbol-font glyph, so the twenty-one blanks that sit to the right of one on their own baseline are recorded with no coordinate at all -- and none of them is a place this build writes."
+    },
+    {
+      "finding": "The shared fact registry has no descriptor for other names or aliases, and Form 4-953 asks for them on three lines. The only name descriptor whose pattern reaches such a line is participant.full_legal_name.",
+      "consequence": "The alias lines are left to the participant and named in the instructions. Binding them to full_legal_name would put the petitioner's own legal name on the alias line of a petition sworn under penalty of perjury, and adding a descriptor is a change to machinery forty-odd builders share, which a packet-build lane does not make mid-cohort. The gap is reported for the owner of the registry."
+    },
+    {
+      "finding": "The shared fact registry has no one-line mailing-address fact. Its only address descriptor is the street line, and four blanks in this packet -- Form 4-953 page 4, Form 4-960 page 2, Form 4-960.3 page 2 and Form 4-960.1 page 1 -- give a single line for a whole mailing address.",
+      "consequence": "Those four are left to the participant with the reason stated. A street with no city, on the line the court writes to, is worse than a line the participant completes. Reported for the owner of the registry alongside the alias gap."
+    },
+    {
+      "finding": "Form 4-222's caption prints a judicial district that no field covers. See the blocking finding above.",
+      "consequence": "Recorded as blocking, named for visual review, and stated to the participant. The same finding is carried by every New Mexico family that binds this fee-waiver component."
+    }
+  ]
+}

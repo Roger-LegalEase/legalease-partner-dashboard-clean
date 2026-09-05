@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest-reconciliation/v1",
+  "familyId": "nm_identity_theft-set",
+  "manifestFound": true,
+  "manifest": "data/record-clearing/legal-design-packet-set-manifests.json",
+  "trackId": "nm_identity_theft",
+  "whyThisExists": "verify-packet-completeness.mjs derives its component denominator from this family's own field map and source receipt and never opens the packet-set manifest, so its requiredComponentsMissing counter measures the build against itself. This reconciliation measures it against the manifest instead.",
+  "componentsInTheManifest": 6,
+  "components": [
+    {
+      "componentId": "nm_identity_theft-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "officialFormId": "4-951",
+      "outputStrategy": "official_pdf_fill",
+      "deliveredAs": "official_pdf_fill",
+      "deliveredBy": "NM-4-951, pages 1 to 3 of both fixtures",
+      "sectionOfParticipantInstructions": null,
+      "sectionIsPresentInTheInstructions": null,
+      "accountedFor": true,
+      "note": null
+    },
+    {
+      "componentId": "nm_identity_theft-notice-of-hearing-2",
+      "role": "notice_of_hearing",
+      "requirement": "conditional",
+      "officialFormId": "4-960.1",
+      "outputStrategy": "official_pdf_fill",
+      "deliveredAs": "official_pdf_fill",
+      "deliveredBy": "NM-4-960.1, pages 4 to 6 of both fixtures",
+      "sectionOfParticipantInstructions": null,
+      "sectionIsPresentInTheInstructions": null,
+      "accountedFor": true,
+      "note": null
+    },
+    {
+      "componentId": "nm_identity_theft-proposed-order-3",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "officialFormId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "outputStrategy": "official_pdf_fill",
+      "deliveredAs": "official_pdf_fill",
+      "deliveredBy": "NM-LOCAL-IDENTITY-THEFT-ORDER, pages 7 to 10 of both fixtures",
+      "sectionOfParticipantInstructions": null,
+      "sectionIsPresentInTheInstructions": null,
+      "accountedFor": true,
+      "note": "the manifest marks this conditional on the participant filing in the judicial district that published the retained order. The instructions tell every other district's participant to obtain their own district's order form."
+    },
+    {
+      "componentId": "nm_identity_theft-local-order-form-instructions-4",
+      "role": "local_order_form_instructions",
+      "requirement": "required",
+      "officialFormId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "process_guidance",
+      "deliveredBy": "participant-instructions.md",
+      "sectionOfParticipantInstructions": "## Which district's order form you need",
+      "sectionIsPresentInTheInstructions": true,
+      "accountedFor": true,
+      "note": "required by the manifest and by the track's own record, because no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set and the retained order is one district's copy."
+    },
+    {
+      "componentId": "nm_identity_theft-fee-waiver-application-5",
+      "role": "fee_waiver_application",
+      "requirement": "conditional",
+      "officialFormId": "4-222",
+      "outputStrategy": "official_pdf_fill",
+      "deliveredAs": "official_pdf_fill",
+      "deliveredBy": "NM-4-222 with Form 4-223, pages 11 to 17 of both fixtures",
+      "sectionOfParticipantInstructions": null,
+      "sectionIsPresentInTheInstructions": null,
+      "accountedFor": true,
+      "note": "conditional on the participant being unable to pay the district court filing fee. See the blocking finding about the district printed in its caption."
+    },
+    {
+      "componentId": "nm_identity_theft-filing-instructions-6",
+      "role": "filing_instructions",
+      "requirement": "required",
+      "officialFormId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "process_guidance",
+      "deliveredBy": "participant-instructions.md",
+      "sectionOfParticipantInstructions": "## Where you file, and what it costs",
+      "sectionIsPresentInTheInstructions": true,
+      "accountedFor": true,
+      "note": "which district court, what to bring, that no service is required on this track, that the court may decide on the pleadings, and the post-order timing, which is carried in the section headed 'After the order is signed'."
+    }
+  ],
+  "claimsForComponentsNotInTheManifest": [],
+  "everyRequiredComponentAccountedFor": true
+}

@@ -1,0 +1,1551 @@
+{
+  "schemaVersion": "rcap-actual-writes-byte-proof/v1",
+  "familyId": "nm_identity_theft-set",
+  "derivedFromArtifactBytes": true,
+  "note": "Read back from the finalized PDF bytes at every write box, not from the finalizer's own report. On a flat document the write box is the measured blank the value sits on, the source's own text at those coordinates is subtracted so the form's printed caption is not reported as this build's ink, and measuredBlank travels with each write so a reviewer can check the placement against the paper.",
+  "documents": [
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-951",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 15,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 147,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y62820-x14328",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 145.28,
+            "y": 630.2,
+            "width": 146.12,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "COUNTY OF",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 628.2,
+            "x": 143.28,
+            "endX": 293.4,
+            "width": 150.12,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Bernalillo"
+          ],
+          "expected": "Bernalillo",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y61236-x7200",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74,
+            "y": 614.36,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "Judicial district of the district court in the caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 612.36,
+            "x": 72,
+            "endX": 162,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y55512-x9720",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 99.2,
+            "y": 557.12,
+            "width": 194.12,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "In re, the petitioner's name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 555.12,
+            "x": 97.2,
+            "endX": 295.32,
+            "width": 198.12,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y35796-x16260",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 164.6,
+            "y": 359.96,
+            "width": 157.4,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Date of Birth",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 357.96,
+            "x": 162.6,
+            "endX": 324,
+            "width": 161.4,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "1978-04-17"
+          ],
+          "expected": "1978-04-17",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y34212-x21336",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 215.36,
+            "y": 344.12,
+            "width": 322.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Current Mailing Address",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 342.12,
+            "x": 213.36,
+            "endX": 540,
+            "width": 326.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "412 Coal Avenue SW"
+          ],
+          "expected": "412 Coal Avenue SW",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x11700",
+          "factId": "participant.city",
+          "page": 1,
+          "rect": {
+            "x": 119,
+            "y": 328.16,
+            "width": 131,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "City",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 117,
+            "endX": 252,
+            "width": 135,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "Albuquerque"
+          ],
+          "expected": "Albuquerque",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x28536",
+          "factId": "participant.state",
+          "page": 1,
+          "rect": {
+            "x": 287.36,
+            "y": 328.16,
+            "width": 106.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "State",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 285.36,
+            "endX": 396,
+            "width": 110.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "NM"
+          ],
+          "expected": "NM",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x45036",
+          "factId": "participant.zip",
+          "page": 1,
+          "rect": {
+            "x": 452.36,
+            "y": 328.16,
+            "width": 85.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Zip Code",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 450.36,
+            "endX": 540,
+            "width": 89.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "87102"
+          ],
+          "expected": "87102",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y20328-x35976",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 361.76,
+            "y": 205.28,
+            "width": 50,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has no pending expungement cases",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 203.28,
+            "x": 359.76,
+            "endX": 413.76,
+            "width": 54,
+            "glyphs": 9
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y18948-x40776",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 409.76,
+            "y": 191.48,
+            "width": 49.88,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 189.48,
+            "x": 407.76,
+            "endX": 461.64,
+            "width": 53.88,
+            "glyphs": 9
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y16188-x26784",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 269.84,
+            "y": 163.88,
+            "width": 68.12,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district court the pending expungement cases are before",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 161.88,
+            "x": 267.84,
+            "endX": 339.96,
+            "width": 72.12,
+            "glyphs": 12
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y59304-x15924",
+          "factId": "matter.case_number",
+          "page": 2,
+          "rect": {
+            "x": 161.24,
+            "y": 595.04,
+            "width": 374.12,
+            "height": 12
+          },
+          "section": "4. The criminal case Petitioner was improperly named in",
+          "effectiveLabel": "Case number of the criminal case",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 593.04,
+            "x": 159.24,
+            "endX": 537.36,
+            "width": 378.12,
+            "glyphs": 63
+          },
+          "drawnText": [
+            "D-202-CR-2019-01147"
+          ],
+          "expected": "D-202-CR-2019-01147",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y44904-x20340",
+          "factId": "matter.court",
+          "page": 2,
+          "rect": {
+            "x": 205.4,
+            "y": 451.04,
+            "width": 73.88,
+            "height": 12
+          },
+          "section": "6. Agencies holding the records",
+          "effectiveLabel": "Judicial district of the District Court holding the records",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 449.04,
+            "x": 203.4,
+            "endX": 281.28,
+            "width": 77.88,
+            "glyphs": 13
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y29724-x20340",
+          "factId": "matter.court",
+          "page": 2,
+          "rect": {
+            "x": 205.4,
+            "y": 299.24,
+            "width": 67.88,
+            "height": 12
+          },
+          "section": "7. Where the charges were disposed of or originated",
+          "effectiveLabel": "Judicial district of the District Court the charges were disposed of or originated in",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 297.24,
+            "x": 203.4,
+            "endX": 275.28,
+            "width": 71.88,
+            "glyphs": 12
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y10404-x7200",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 74,
+            "y": 106.04,
+            "width": 200,
+            "height": 12
+          },
+          "section": "Signature section",
+          "effectiveLabel": "Printed name of Petitioner",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 104.04,
+            "x": 72,
+            "endX": 276,
+            "width": 204,
+            "glyphs": 34
+          },
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-960.1",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 4,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 52,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y63970-x14328",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 145.28,
+            "y": 641.7,
+            "width": 146.11,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "COUNTY OF",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 639.7,
+            "x": 143.28,
+            "endX": 293.39,
+            "width": 150.11,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Bernalillo"
+          ],
+          "expected": "Bernalillo",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y62590-x7202",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74.02,
+            "y": 627.9,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "Judicial district of the district court",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 625.9,
+            "x": 72.02,
+            "endX": 162.02,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y58450-x9722",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 99.22,
+            "y": 586.5,
+            "width": 194.11,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "In re, the petitioner's name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 584.5,
+            "x": 97.22,
+            "endX": 295.33,
+            "width": 198.11,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y19586-x7202",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 74.02,
+            "y": 197.86,
+            "width": 229.94,
+            "height": 12
+          },
+          "section": "Parties entitled to notice: the petitioner",
+          "effectiveLabel": "Petitioner Name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 195.86,
+            "x": 72.02,
+            "endX": 305.96,
+            "width": 233.94,
+            "glyphs": 38
+          },
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 3,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 34,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y69300-x14652",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 148.52,
+            "y": 695,
+            "width": 146.12,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "COUNTY OF in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 693,
+            "x": 146.52,
+            "endX": 296.64,
+            "width": 150.12,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Bernalillo"
+          ],
+          "expected": "Bernalillo",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y67716-x7200",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74,
+            "y": 679.16,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "Judicial district of the district court in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 677.16,
+            "x": 72,
+            "endX": 162,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Second"
+          ],
+          "expected": "Second",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y60600-x9996",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 101.96,
+            "y": 608,
+            "width": 194,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "In re, the petitioner's name in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 606,
+            "x": 99.96,
+            "endX": 297.96,
+            "width": 198,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-222",
+      "strategy": "acroform_fill",
+      "sourceSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 161,
+      "addedGlyphsReadFromOutputBytes": 85,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "COUNTY OF",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 144.56,
+            "y": 632.6,
+            "width": 108.88,
+            "height": 21.6
+          },
+          "section": "Caption of the application",
+          "effectiveLabel": "COUNTY OF",
+          "drawnText": [
+            "Bernalillo"
+          ],
+          "expected": "Bernalillo",
+          "matchesExpected": true
+        },
+        {
+          "field": "Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 578.72,
+            "width": 185.64,
+            "height": 21.6
+          },
+          "section": "Caption of the application",
+          "effectiveLabel": "Name of the Petitioner in the caption",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "Print Name",
+          "factId": "participant.full_legal_name",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 418.08,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "Print Name of the applicant",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "Street Address",
+          "factId": "participant.street_address",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 333.6,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "Street Address of the applicant",
+          "drawnText": [
+            "412 Coal Avenue SW"
+          ],
+          "expected": "412 Coal Avenue SW",
+          "matchesExpected": true
+        },
+        {
+          "field": "City State Zip Code",
+          "factId": "participant.city_state_zip",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 291.6,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "City, State, Zip Code of the applicant",
+          "drawnText": [
+            "Albuquerque, NM 87102"
+          ],
+          "expected": "Albuquerque, NM 87102",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-951",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 15,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 219,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y62820-x14328",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 145.28,
+            "y": 630.2,
+            "width": 146.12,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "COUNTY OF",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 628.2,
+            "x": 143.28,
+            "endX": 293.4,
+            "width": 150.12,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Sierra"
+          ],
+          "expected": "Sierra",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y61236-x7200",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74,
+            "y": 614.36,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "Judicial district of the district court in the caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 612.36,
+            "x": 72,
+            "endX": 162,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y55512-x9720",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 99.2,
+            "y": 557.12,
+            "width": 194.12,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "In re, the petitioner's name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 555.12,
+            "x": 97.2,
+            "endX": 295.32,
+            "width": 198.12,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y35796-x16260",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 164.6,
+            "y": 359.96,
+            "width": 157.4,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Date of Birth",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 357.96,
+            "x": 162.6,
+            "endX": 324,
+            "width": 161.4,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "1961-12-31"
+          ],
+          "expected": "1961-12-31",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y34212-x21336",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 215.36,
+            "y": 344.12,
+            "width": 322.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Current Mailing Address",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 342.12,
+            "x": 213.36,
+            "endX": 540,
+            "width": 326.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "1188 Upper Notch Crossing Rd Apt 14B"
+          ],
+          "expected": "1188 Upper Notch Crossing Rd Apt 14B",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x11700",
+          "factId": "participant.city",
+          "page": 1,
+          "rect": {
+            "x": 119,
+            "y": 328.16,
+            "width": 131,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "City",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 117,
+            "endX": 252,
+            "width": 135,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "Truth or Consequences"
+          ],
+          "expected": "Truth or Consequences",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x28536",
+          "factId": "participant.state",
+          "page": 1,
+          "rect": {
+            "x": 287.36,
+            "y": 328.16,
+            "width": 106.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "State",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 285.36,
+            "endX": 396,
+            "width": 110.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "NM"
+          ],
+          "expected": "NM",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y32616-x45036",
+          "factId": "participant.zip",
+          "page": 1,
+          "rect": {
+            "x": 452.36,
+            "y": 328.16,
+            "width": 85.64,
+            "height": 12
+          },
+          "section": "1. Information about Petitioner",
+          "effectiveLabel": "Zip Code",
+          "measuredBlank": {
+            "kind": "stroke",
+            "y": 326.16,
+            "x": 450.36,
+            "endX": 540,
+            "width": 89.64,
+            "thickness": 0.6
+          },
+          "drawnText": [
+            "87901"
+          ],
+          "expected": "87901",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y20328-x35976",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 361.76,
+            "y": 205.28,
+            "width": 50,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has no pending expungement cases",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 203.28,
+            "x": 359.76,
+            "endX": 413.76,
+            "width": 54,
+            "glyphs": 9
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y18948-x40776",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 409.76,
+            "y": 191.48,
+            "width": 49.88,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 189.48,
+            "x": 407.76,
+            "endX": 461.64,
+            "width": 53.88,
+            "glyphs": 9
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y16188-x26784",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 269.84,
+            "y": 163.88,
+            "width": 68.12,
+            "height": 12
+          },
+          "section": "2. Pending expungement cases",
+          "effectiveLabel": "Judicial district court the pending expungement cases are before",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 161.88,
+            "x": 267.84,
+            "endX": 339.96,
+            "width": 72.12,
+            "glyphs": 12
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y59304-x15924",
+          "factId": "matter.case_number",
+          "page": 2,
+          "rect": {
+            "x": 161.24,
+            "y": 595.04,
+            "width": 374.12,
+            "height": 12
+          },
+          "section": "4. The criminal case Petitioner was improperly named in",
+          "effectiveLabel": "Case number of the criminal case",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 593.04,
+            "x": 159.24,
+            "endX": 537.36,
+            "width": 378.12,
+            "glyphs": 63
+          },
+          "drawnText": [
+            "D-721-CR-2014-00118"
+          ],
+          "expected": "D-721-CR-2014-00118",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y44904-x20340",
+          "factId": "matter.court",
+          "page": 2,
+          "rect": {
+            "x": 205.4,
+            "y": 451.04,
+            "width": 73.88,
+            "height": 12
+          },
+          "section": "6. Agencies holding the records",
+          "effectiveLabel": "Judicial district of the District Court holding the records",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 449.04,
+            "x": 203.4,
+            "endX": 281.28,
+            "width": 77.88,
+            "glyphs": 13
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y29724-x20340",
+          "factId": "matter.court",
+          "page": 2,
+          "rect": {
+            "x": 205.4,
+            "y": 299.24,
+            "width": 67.88,
+            "height": 12
+          },
+          "section": "7. Where the charges were disposed of or originated",
+          "effectiveLabel": "Judicial district of the District Court the charges were disposed of or originated in",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 297.24,
+            "x": 203.4,
+            "endX": 275.28,
+            "width": 71.88,
+            "glyphs": 12
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p2-y10404-x7200",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 74,
+            "y": 106.04,
+            "width": 200,
+            "height": 12
+          },
+          "section": "Signature section",
+          "effectiveLabel": "Printed name of Petitioner",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 104.04,
+            "x": 72,
+            "endX": 276,
+            "width": 204,
+            "glyphs": 34
+          },
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-960.1",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 4,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 91,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y63970-x14328",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 145.28,
+            "y": 641.7,
+            "width": 146.11,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "COUNTY OF",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 639.7,
+            "x": 143.28,
+            "endX": 293.39,
+            "width": 150.11,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Sierra"
+          ],
+          "expected": "Sierra",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y62590-x7202",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74.02,
+            "y": 627.9,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "Judicial district of the district court",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 625.9,
+            "x": 72.02,
+            "endX": 162.02,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y58450-x9722",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 99.22,
+            "y": 586.5,
+            "width": 194.11,
+            "height": 12
+          },
+          "section": "Caption",
+          "effectiveLabel": "In re, the petitioner's name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 584.5,
+            "x": 97.22,
+            "endX": 295.33,
+            "width": 198.11,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y19586-x7202",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 74.02,
+            "y": 197.86,
+            "width": 229.94,
+            "height": 12
+          },
+          "section": "Parties entitled to notice: the petitioner",
+          "effectiveLabel": "Petitioner Name",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 195.86,
+            "x": 72.02,
+            "endX": 305.96,
+            "width": 233.94,
+            "glyphs": 38
+          },
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "strategy": "measured_flat_overlay",
+      "sourceSha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+      "proofMethod": "text read back from the finalized bytes at every measured blank the overlay wrote on, with the source's own text at the same coordinates subtracted",
+      "valuesReportedByFinalizer": 3,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 52,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "p1-y69300-x14652",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 148.52,
+            "y": 695,
+            "width": 146.12,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "COUNTY OF in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 693,
+            "x": 146.52,
+            "endX": 296.64,
+            "width": 150.12,
+            "glyphs": 25
+          },
+          "drawnText": [
+            "Sierra"
+          ],
+          "expected": "Sierra",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y67716-x7200",
+          "factId": "matter.court",
+          "page": 1,
+          "rect": {
+            "x": 74,
+            "y": 679.16,
+            "width": 86,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "Judicial district of the district court in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 677.16,
+            "x": 72,
+            "endX": 162,
+            "width": 90,
+            "glyphs": 15
+          },
+          "drawnText": [
+            "Seventh"
+          ],
+          "expected": "Seventh",
+          "matchesExpected": true
+        },
+        {
+          "field": "p1-y60600-x9996",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 101.96,
+            "y": 608,
+            "width": 194,
+            "height": 12
+          },
+          "section": "Caption of the order",
+          "effectiveLabel": "In re, the petitioner's name in the order's caption",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 606,
+            "x": 99.96,
+            "endX": 297.96,
+            "width": 198,
+            "glyphs": 33
+          },
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-222",
+      "strategy": "acroform_fill",
+      "sourceSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 161,
+      "addedGlyphsReadFromOutputBytes": 151,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "glyphsOutsideMeasuredWriteBoxesSample": [],
+      "refusedFieldsWithInk": [],
+      "documentAuthoredAppearances": [],
+      "unfittable": [],
+      "actualWrites": [
+        {
+          "field": "COUNTY OF",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 144.56,
+            "y": 632.6,
+            "width": 108.88,
+            "height": 21.6
+          },
+          "section": "Caption of the application",
+          "effectiveLabel": "COUNTY OF",
+          "drawnText": [
+            "Sierra"
+          ],
+          "expected": "Sierra",
+          "matchesExpected": true
+        },
+        {
+          "field": "Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 578.72,
+            "width": 185.64,
+            "height": 21.6
+          },
+          "section": "Caption of the application",
+          "effectiveLabel": "Name of the Petitioner in the caption",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "Print Name",
+          "factId": "participant.full_legal_name",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 418.08,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "Print Name of the applicant",
+          "drawnText": [
+            "Maria-Alejandra O'Shaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+          "matchesExpected": true
+        },
+        {
+          "field": "Street Address",
+          "factId": "participant.street_address",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 333.6,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "Street Address of the applicant",
+          "drawnText": [
+            "1188 Upper Notch Crossing Rd Apt 14B"
+          ],
+          "expected": "1188 Upper Notch Crossing Rd Apt 14B",
+          "matchesExpected": true
+        },
+        {
+          "field": "City State Zip Code",
+          "factId": "participant.city_state_zip",
+          "page": 4,
+          "rect": {
+            "x": 287.28,
+            "y": 291.6,
+            "width": 209.64,
+            "height": 21.6
+          },
+          "section": "The applicant's oath",
+          "effectiveLabel": "City, State, Zip Code of the applicant",
+          "drawnText": [
+            "Truth or Consequences, NM 87901"
+          ],
+          "expected": "Truth or Consequences, NM 87901",
+          "matchesExpected": true
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-951",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 15,
+      "addedGlyphsReadFromOutputBytes": 147,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-960.1",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 52,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 3,
+      "addedGlyphsReadFromOutputBytes": 34,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "canonical",
+      "documentId": "NM-4-222",
+      "strategy": "acroform_fill",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 85,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 161,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-951",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 15,
+      "addedGlyphsReadFromOutputBytes": 219,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-960.1",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 4,
+      "addedGlyphsReadFromOutputBytes": 91,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "strategy": "measured_flat_overlay",
+      "valuesReportedByFinalizer": 3,
+      "addedGlyphsReadFromOutputBytes": 52,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "boundary",
+      "documentId": "NM-4-222",
+      "strategy": "acroform_fill",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 151,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 161,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    }
+  ],
+  "blockingFindings": []
+}

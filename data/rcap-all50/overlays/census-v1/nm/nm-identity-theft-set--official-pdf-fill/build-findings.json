@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_identity_theft-set",
+  "blocking": [
+    {
+      "severity": "blocking_for_release",
+      "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank.",
+      "consequence": "A participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) would receive a fee-waiver application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and stated to the participant in participant-instructions.md, which tells them to strike the printed line and write their own district or to obtain their district's copy of Form 4-222 NMRA. Counsel should decide whether the fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it.",
+      "measuredFrom": "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+    }
+  ],
+  "findings": [
+    {
+      "finding": "Three of the four documents are FLAT PDFs with no AcroForm field: Form 4-951, Form 4-960.1 and the retained local order. Their blanks are underscore GLYPH RUNS far more often than stroked rules -- the existing stroke reader finds 15 rules on Form 4-951 where the form has 71 blanks -- so the shared measureRuledBlank path finds almost none of them.",
+      "consequence": "They are measured by scripts/rcap-nm-flat-forms/nm-flat-blank-measurer.mjs, which reads underscore runs from the per-glyph x and advance the shared anchor-capture walker reports, joins runs that abut across two text-showing operators at 1.2pt, and locates printed \"[ ]\" pairs and symbol-font tick glyphs. Every measured blank must carry a dictionary row and every dictionary row must match a measured blank, checked on every build in both directions, so a blank that moves stops the build rather than moving a write box with it."
+    },
+    {
+      "finding": "New Mexico rule forms mark amended text by UNDERLINING and BRACKETING it, and the 2025 amendments left both marks all over these forms. Eleven strokes on Form 4-951 and four on the local order carry printed words on them; three bracket pairs on Form 4-951 page 2 are the renumbered old paragraph numbers \"[5.]\", \"[6.]\" and \"[7.]\" rather than tick boxes.",
+      "consequence": "The measurer tells an underline from a blank by whether printed glyphs sit on the stroke and overlap its span by more than two points, and tells a control from a citation by whether the bracket pair is EMPTY. Both tests were written against a first measurement that got them wrong: a width threshold generous enough for \"[ ]\" also admitted \"[5.]\", and a bare overlap test made the colon of \"District Court case number:\" into an amendment mark and deleted a real blank from the map."
+    },
+    {
+      "finding": "The retained order is one judicial district's form. The Master Library holds it under 05_SOURCE_GATED with its official_title recorded as \"Petitioner.\" -- the harvest could not read a title off it -- and no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set.",
+      "consequence": "The packet-set manifest already makes the component conditional on the district that published it, and the record requires a local_order_form_instructions component telling everyone else to obtain their own district's form. participant-instructions.md carries that instruction under a heading of its own, before the field tables. A build that shipped the retained order unconditionally would assert one district's practice as statewide."
+    },
+    {
+      "finding": "Form 4-222's caption prints a judicial district that no field covers. See the blocking finding above.",
+      "consequence": "Recorded as blocking, named for visual review, and stated to the participant. Counsel should decide whether the fee-waiver component may ship statewide on this binary."
+    },
+    {
+      "finding": "Every glyph on Form 4-222 reports inexact metrics: the font supplies no widths, so the shared text walker falls back to the font size as the advance and the reported x drifts to nearly twice the truth by the end of a line. All 11,846 glyphs on the document are affected.",
+      "consequence": "Nothing on that document is positioned from text geometry. Its 158 AcroForm widget rectangles are exact and are what every write is placed on. The 27 blanks Form 4-223 prints on pages 6 and 7, which no widget covers, are identified by page, baseline and position along the printed line -- an ordinal survives the drift where a coordinate does not -- and no write box is derived from any of them. The three flat forms are checked the other way: the build refuses if any page of a measured-overlay document reports inexact metrics."
+    },
+    {
+      "finding": "Form 4-222 is bound in the Master Library with Form 4-223, Order on Application for Free Process, on pages 6 and 7 of the same binary, and the manifest marks the asset packet_candidate: no.",
+      "consequence": "Both forms are censused. The order's findings and decretal blanks are printed characters with no widget behind them and are carried in the field map as the court's, so nothing on the paper the participant receives is unclassified. The manifest's packet_candidate flag is recorded here for counsel: the track's own legal-design record names Form 4-222 as this route's fee-waiver component with outputStrategy official_pdf_fill, and the two records should be reconciled before release."
+    },
+    {
+      "finding": "The intake this track's legal-design record defines collects the participant's name, other names, date of birth, mailing location, county, case identifiers and the agencies holding the records. It collects NO telephone number and NO e-mail address, and the forms ask for a telephone number six times and an e-mail three times.",
+      "consequence": "Every one of those blanks is declared required-before-filing and named in participant-instructions.md rather than filled from a value the platform does not hold. Form 4-951's three separate boxes -- Home Phone, Work Phone and Cell -- would in any case be three different facts, and writing one held number into any of them would assert on a petition sworn under penalty of perjury which kind of number it is."
+    },
+    {
+      "finding": "The judicial district is written seven times on Form 4-951 alone, and the platform holds it: the New Mexico state pack's required-field set for the identity_theft pathway names judicialDistrict as a required intake field.",
+      "consequence": "It is written on every one of them, including on the two paragraph-2 lines whose boxes the participant has yet to tick. The district is the same on either branch, so the value is correct whichever box they mark."
+    },
+    {
+      "finding": "No selection control anywhere in this packet is marked, including on Form 4-222 where the controls ARE AcroForm checkboxes with measured rectangles.",
+      "consequence": "On the three flat forms there is nothing measured to mark: the controls are printed \"[ ]\" characters or symbol-font glyphs, checkboxCandidates finds no stroked box, and a mark drawn from a derived coordinate is a mark nobody measured. On Form 4-222 the shared finalizer writes text values only -- and every box on it is a sworn assertion about the applicant's own finances. All of them are listed in reports/blanks-left-for-the-participant.json and named in participant-instructions.md with what to mark."
+    }
+  ]
+}
