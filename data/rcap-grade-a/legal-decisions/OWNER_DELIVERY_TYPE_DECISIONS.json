@@ -321,6 +321,54 @@
         "checkout stays disabled"
       ],
       "whatWouldReopenIt": "A later route-specific owner or counsel approval expressly authorising packet delivery on this route. Nothing the factory measures reopens it."
+    },
+    {
+      "decisionId": "OWN-DT-PENDING-2026-09-05-TRAFFICKING-THREE",
+      "raisedOn": "2026-09-05",
+      "raisedBy": "Claude Code Captain, from FIX13's anchor comparison",
+      "decidedOn": null,
+      "decisionOwner": "Roger Roman",
+      "decision": null,
+      "isADecision": false,
+      "whyThisIsHereAndNotInANewQueue": "Delivery type is the owner's call, and this record is where those calls live. Nothing here decides anything.",
+      "families": [
+        "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+        "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement"
+      ],
+      "theQuestion": "Each of these three routes is recorded in the route-obligation census as one a participant may not initiate, and each has a composed participant petition built for it. Which is right?",
+      "whatTheCensusSays": {
+        "participantCanInitiate": false,
+        "participantFacingInstrument": "no participant filing -- attorney or qualified legal-assistance handoff",
+        "destination": "attorney or qualified legal-assistance referral",
+        "currentOutputStrategy": "process_guidance",
+        "packetFamilyId": null,
+        "routeContract": "referral",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED"
+      },
+      "whatTheRepositoryHasBuilt": {
+        "implementationStrategy": "custom_pleading",
+        "delivered": "a composed petition and filing instructions, rendered to canonical.pdf and boundary.pdf in each family directory",
+        "states": {
+          "NV": "HANDOFF_READY",
+          "PA": "GUIDANCE_READY",
+          "SD": "HANDOFF_READY"
+        }
+      },
+      "theContradictionIsInsideTheCensusRowItself": "The same row carries participantCanInitiate false and currentServiceDisposition paid_packet_intended. One of those two is wrong and the record does not say which.",
+      "howItWasFound": "FIX13 was dispatched to refresh stale whole-file pins and refused these three. Their single bound census route row had not merely drifted -- it was RECLASSIFIED underneath them: A_MUST_FULFILL to B_LEGITIMATE_EXCLUSION, custom_pleading to process_guidance, participantCanInitiate true to false, contract participant_packet to referral, with reasons UNSUITABLE_FOR_SELF_HELP and COURT_INITIATED. Refreshing the pin would have written 'anchors identical' over exactly that reclassification and made a substantive change look like bookkeeping.",
+      "whatIsNotAtRiskToday": [
+        "no route is open: all three are LAUNCH_GRAPH_CLOSED and none is operationally sellable",
+        "no packet can be generated: each family's build-status records generationAllowed false and runtimeSelectable false",
+        "the Nevada packet leads its SELF_HELP_STOP with the census's own point, in the compiled profile's words -- that this pathway should be routed to legal aid or an attorney because it can involve vacating the conviction, not just sealing it"
+      ],
+      "whyItStillNeedsAnswering": "A composed petition exists for a route the census says produces no participant filing. While the route is closed that is a contradiction on paper; if the route is ever opened on the strength of the packet being built, it becomes an invitation to self-file where the record says an attorney is required. The safe order is to settle the delivery type before anything reaches a participant.",
+      "theTwoAnswersAndWhatEachMeans": {
+        "referral": "The census is right. The three families are re-treated as handoff or guidance products, the composed petitions are preserved as evidence rather than as deliverables, and no participant filing ships on these routes. Precedent: the WRONG_DELIVERY_TYPE treatment already recorded in this file.",
+        "participantPacket": "The census rows are wrong and must be corrected -- participantCanInitiate, participantFacingInstrument, destination, currentOutputStrategy and the route contract all restated -- before the packets can advance. Until then the pins stay stale, because a stale pin is the honest state."
+      },
+      "whatMustNotHappenMeanwhile": "The receipt pins on these three families must not be refreshed. A refresh asserts the bound content is unchanged, and it changed.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fix13/shared-committed-record-pin-drift-return.json"
     }
   ],
   "grantsNothing": "This file records refusals. It approves no family, opens no route and creates no commercial authority."
