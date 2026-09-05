@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+  "generatedAtCommit": "ca5bacc52b1585b273d6023425205ac77781d9d6",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3037,10 +3037,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF06",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T01:19:11.939Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4545,10 +4544,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF15",
+      "lane": "PF20",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T01:19:11.695Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4575,10 +4573,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF16",
+      "lane": "PF02",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T01:19:11.816Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6081,7 +6078,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF20",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:01:24.574Z"
@@ -12953,7 +12950,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0fda67970c828c033ac15c3e498a988b1113b6d0ab81dca24c4617b25c427c79",
+  "claimsDigest": "761256563ee3864d1f92992c2aee8022d267270e285da6235ce9b5a20a76bdaf",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33013,6 +33010,36 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T01:16:42Z",
       "reason": "the current dispatch names FIX08 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "packet-build",
+      "lane": "PF02",
+      "dispatchNames": "PF02",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T01:23:05Z",
+      "reason": "the current dispatch names PF02 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-sealing-set",
+      "operation": "packet-build",
+      "lane": "PF06",
+      "dispatchNames": "PF06",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T01:23:05Z",
+      "reason": "the current dispatch names PF06 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "packet-build",
+      "lane": "PF20",
+      "dispatchNames": "PF20",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T01:23:05Z",
+      "reason": "the current dispatch names PF20 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

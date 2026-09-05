@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-active-assignments/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+  "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
   "concurrency": {
@@ -25,8 +25,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'md_10110_conviction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'md_10110_conviction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -203,14 +203,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -306,8 +306,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nm_identity_theft-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nm_identity_theft-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -319,9 +319,10 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 2 exact families before reading or writing family content:",
+        "Assert only these 3 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 'nm_identity_theft-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 'az_record_sealing_conviction-set'`",
+        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 'la-985-1-interim-expungement-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
         "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
       ],
@@ -336,18 +337,18 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf02",
-      "mission": "Build 2 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 2,
+      "itemCount": 3,
       "items": [
         "nm_identity_theft-set",
-        "az_record_sealing_conviction-set"
+        "az_record_sealing_conviction-set",
+        "la-985-1-interim-expungement-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
       "sharedAxes": [
-        "sharedBuildHost",
-        "implementationStrategy"
+        "sharedBuildHost"
       ],
       "groupsCarried": [
         {
@@ -359,6 +360,11 @@
         {
           "families": [
             "az_record_sealing_conviction-set"
+          ]
+        },
+        {
+          "families": [
+            "la-985-1-interim-expungement-set"
           ]
         }
       ],
@@ -447,6 +453,38 @@
               "tier": "exact_identity_confirmed_from_document_text"
             }
           ]
+        },
+        {
+          "familyId": "la-985-1-interim-expungement-set",
+          "jurisdiction": "LA",
+          "strategy": "custom_pleading",
+          "forms": [
+            "LA-CCRP-ART-988",
+            "LA-CCRP-ART-994"
+          ],
+          "components": 2,
+          "instrumentKinds": [
+            "Louisiana Article 985.1 Interim Expungement Packet"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+          "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": [
+            {
+              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+              "tier": "exact_content_hash"
+            },
+            {
+              "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+              "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+              "tier": "exact_content_hash"
+            }
+          ]
         }
       ],
       "builderObligations": [
@@ -467,14 +505,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -494,8 +532,10 @@
         "data/rcap-grade-a/packet-factory-24h/pf02/**",
         "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/az/az-record-sealing-conviction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/**",
         "scripts/build-census-v1-nm_identity_theft-set.mjs",
-        "scripts/build-census-v1-az_record_sealing_conviction-set.mjs"
+        "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+        "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -525,7 +565,8 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nm_identity_theft-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'az_record_sealing_conviction-set'"
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'az_record_sealing_conviction-set'",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-985-1-interim-expungement-set'"
       ],
       "stopConditions": [
         "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
@@ -567,8 +608,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nm_release_without_conviction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nm_release_without_conviction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -776,14 +817,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -879,8 +920,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-veterans-court-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-veterans-court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -1150,14 +1191,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -1259,8 +1300,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nc_145_8a_youthful-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nc_145_8a_youthful-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -1513,14 +1554,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -1619,8 +1660,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'tx_nd_veterans_court-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'tx_nd_veterans_court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -1632,10 +1673,11 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 4 exact families before reading or writing family content:",
+        "Assert only these 5 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 'tx_nd_veterans_court-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 'al-trafficking-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 'de_pardon_expungement-set'`",
+        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 'fl-sealing-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF06 'ia-901c3-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
         "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
@@ -1651,13 +1693,14 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf06",
-      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 5 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 4,
+      "itemCount": 5,
       "items": [
         "tx_nd_veterans_court-set",
         "al-trafficking-set",
         "de_pardon_expungement-set",
+        "fl-sealing-set",
         "ia-901c3-set"
       ],
       "provisionedEmpty": false,
@@ -1680,6 +1723,11 @@
         {
           "families": [
             "de_pardon_expungement-set"
+          ]
+        },
+        {
+          "families": [
+            "fl-sealing-set"
           ]
         },
         {
@@ -1799,6 +1847,34 @@
           ]
         },
         {
+          "familyId": "fl-sealing-set",
+          "jurisdiction": "FL",
+          "strategy": "custom_pleading",
+          "forms": [
+            "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+            "FL-RULE-3.989-ORDER",
+            "FL-RULE-3.989-PETITION",
+            "FL-RULE-3.989-SWORN-STATEMENT"
+          ],
+          "components": 4,
+          "instrumentKinds": [
+            "Florida Petition to Seal under § 943.059"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
+          "buildScript": "scripts/build-census-v1-fl-sealing-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": [
+            {
+              "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+              "path": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
+              "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+              "tier": "exact_content_hash"
+            }
+          ]
+        },
+        {
           "familyId": "ia-901c3-set",
           "jurisdiction": "IA",
           "strategy": "official_pdf_fill",
@@ -1845,14 +1921,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -1873,10 +1949,12 @@
         "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/**",
         "scripts/build-census-v1-tx_nd_veterans_court-set.mjs",
         "scripts/build-census-v1-al-trafficking-set.mjs",
         "scripts/build-census-v1-de_pardon_expungement-set.mjs",
+        "scripts/build-census-v1-fl-sealing-set.mjs",
         "scripts/build-census-v1-ia-901c3-set.mjs"
       ],
       "scriptsNotOwned": [],
@@ -1909,6 +1987,7 @@
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'tx_nd_veterans_court-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'al-trafficking-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'de_pardon_expungement-set'",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'fl-sealing-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-901c3-set'"
       ],
       "stopConditions": [
@@ -1951,8 +2030,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'al-misd-nonconviction-90-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'al-misd-nonconviction-90-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -2233,14 +2312,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -2342,8 +2421,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ky_protective_order_record_expungement-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ky_protective_order_record_expungement-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -2669,14 +2748,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -2781,8 +2860,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-self-defense-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-self-defense-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -2794,9 +2873,8 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 5 exact families before reading or writing family content:",
+        "Assert only these 4 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'fl-self-defense-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'in_conviction_misd-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'md_10105_favorable-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'mo-610-122-arrest-expungement-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'ne-seal-pre2017-set'`",
@@ -2814,12 +2892,11 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf09",
-      "mission": "Build 5 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 5,
+      "itemCount": 4,
       "items": [
         "fl-self-defense-set",
-        "in_conviction_misd-set",
         "md_10105_favorable-set",
         "mo-610-122-arrest-expungement-set",
         "ne-seal-pre2017-set"
@@ -2833,11 +2910,6 @@
         {
           "families": [
             "fl-self-defense-set"
-          ]
-        },
-        {
-          "families": [
-            "in_conviction_misd-set"
           ]
         },
         {
@@ -2878,54 +2950,6 @@
               "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
               "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
               "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
-              "tier": "exact_identity_confirmed_from_document_text"
-            }
-          ]
-        },
-        {
-          "familyId": "in_conviction_misd-set",
-          "jurisdiction": "IN",
-          "strategy": "custom_pleading",
-          "forms": [
-            "CCA-GF-0120-3016",
-            "CCA-XP-0120-7002 Form ACR",
-            "CCA-XP-0220-7008",
-            "Confidential Information Form"
-          ],
-          "components": 6,
-          "instrumentKinds": [
-            "attachment",
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-in_conviction_misd-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:CCA-XP-0220-7008",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
-              "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
-              "tier": "exact_form_number"
-            },
-            {
-              "sourceId": "official-form:CCA-GF-0120-3016",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:Confidential Information Form",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
               "tier": "exact_identity_confirmed_from_document_text"
             }
           ]
@@ -3063,14 +3087,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -3089,12 +3113,10 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf09/**",
         "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill/**",
         "scripts/build-census-v1-fl-self-defense-set.mjs",
-        "scripts/build-census-v1-in_conviction_misd-set.mjs",
         "scripts/build-census-v1-md_10105_favorable-set.mjs",
         "scripts/build-census-v1-mo-610-122-arrest-expungement-set.mjs",
         "scripts/build-census-v1-ne-seal-pre2017-set.mjs"
@@ -3127,7 +3149,6 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'fl-self-defense-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'in_conviction_misd-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'md_10105_favorable-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mo-610-122-arrest-expungement-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ne-seal-pre2017-set'"
@@ -3172,8 +3193,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'co_municipal_conviction_seal-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'co_municipal_conviction_seal-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -3185,9 +3206,8 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 5 exact families before reading or writing family content:",
+        "Assert only these 4 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'co_municipal_conviction_seal-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'in_conviction_d6-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'md_10105_early-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'mo-575-120-identity-theft-correction-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'rcap-in-custom-pleading'`",
@@ -3205,12 +3225,11 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf10",
-      "mission": "Build 5 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 5,
+      "itemCount": 4,
       "items": [
         "co_municipal_conviction_seal-set",
-        "in_conviction_d6-set",
         "md_10105_early-set",
         "mo-575-120-identity-theft-correction-set",
         "rcap-in-custom-pleading"
@@ -3224,11 +3243,6 @@
         {
           "families": [
             "co_municipal_conviction_seal-set"
-          ]
-        },
-        {
-          "families": [
-            "in_conviction_d6-set"
           ]
         },
         {
@@ -3278,54 +3292,6 @@
               "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
               "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
               "tier": "exact_content_hash"
-            }
-          ]
-        },
-        {
-          "familyId": "in_conviction_d6-set",
-          "jurisdiction": "IN",
-          "strategy": "custom_pleading",
-          "forms": [
-            "CCA-GF-0120-3016",
-            "CCA-XP-0120-7002 Form ACR",
-            "CCA-XP-0220-7009",
-            "Confidential Information Form"
-          ],
-          "components": 6,
-          "instrumentKinds": [
-            "attachment",
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-in_conviction_d6-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:CCA-XP-0220-7009",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
-              "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
-              "tier": "exact_form_number"
-            },
-            {
-              "sourceId": "official-form:CCA-GF-0120-3016",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:Confidential Information Form",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
             }
           ]
         },
@@ -3469,14 +3435,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -3495,12 +3461,10 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf10/**",
         "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/**",
         "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
-        "scripts/build-census-v1-in_conviction_d6-set.mjs",
         "scripts/build-census-v1-md_10105_early-set.mjs",
         "scripts/build-census-v1-mo-575-120-identity-theft-correction-set.mjs",
         "scripts/build-census-v1-rcap-in-custom-pleading.mjs"
@@ -3533,7 +3497,6 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'co_municipal_conviction_seal-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'in_conviction_d6-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'md_10105_early-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mo-575-120-identity-theft-correction-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-in-custom-pleading'"
@@ -3578,8 +3541,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ca-diversion-seal-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ca-diversion-seal-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -3591,10 +3554,8 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 6 exact families before reading or writing family content:",
+        "Assert only these 4 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'ca-diversion-seal-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'in_conviction_felony-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'la-977-misdemeanor-conviction-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'mo-610-145-mistaken-identity-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'nh_conviction_standard-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'nh_marijuana_annulment-set'`",
@@ -3612,13 +3573,11 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf11",
-      "mission": "Build 6 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 6,
+      "itemCount": 4,
       "items": [
         "ca-diversion-seal-set",
-        "in_conviction_felony-set",
-        "la-977-misdemeanor-conviction-set",
         "mo-610-145-mistaken-identity-set",
         "nh_conviction_standard-set",
         "nh_marijuana_annulment-set"
@@ -3626,22 +3585,13 @@
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
       "sharedAxes": [
-        "sharedBuildHost"
+        "sharedBuildHost",
+        "implementationStrategy"
       ],
       "groupsCarried": [
         {
           "families": [
             "ca-diversion-seal-set"
-          ]
-        },
-        {
-          "families": [
-            "in_conviction_felony-set"
-          ]
-        },
-        {
-          "families": [
-            "la-977-misdemeanor-conviction-set"
           ]
         },
         {
@@ -3683,99 +3633,6 @@
               "sourceId": "official-form:SDSC-CRM-307",
               "path": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
               "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
-              "tier": "exact_content_hash"
-            }
-          ]
-        },
-        {
-          "familyId": "in_conviction_felony-set",
-          "jurisdiction": "IN",
-          "strategy": "custom_pleading",
-          "forms": [
-            "CCA-GF-0120-3016",
-            "CCA-XP-0120-7002 Form ACR",
-            "CCA-XP-0220-7010",
-            "Confidential Information Form"
-          ],
-          "components": 6,
-          "instrumentKinds": [
-            "attachment",
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-in_conviction_felony-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:CCA-XP-0220-7010",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7010__conviction-expungement-insert-i-c-35-38-9-4__REV-2020-02__EN.pdf",
-              "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
-              "tier": "exact_form_number"
-            },
-            {
-              "sourceId": "official-form:CCA-GF-0120-3016",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:Confidential Information Form",
-              "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
-              "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
-              "tier": "exact_identity_confirmed_from_document_text"
-            }
-          ]
-        },
-        {
-          "familyId": "la-977-misdemeanor-conviction-set",
-          "jurisdiction": "LA",
-          "strategy": "custom_pleading",
-          "forms": [
-            "LA-CCRP-ART-988",
-            "LA-CCRP-ART-989",
-            "LA-CCRP-ART-991",
-            "LA-CCRP-ART-992"
-          ],
-          "components": 4,
-          "instrumentKinds": [
-            "Louisiana Article 977 Misdemeanor Expungement Packet",
-            "continuation",
-            "fee_waiver",
-            "instructions",
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 3,
-          "directory": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/03_INSTRUCTIONS/LA__INSTRUCTIONS__LA-CCRP-ART-984__article-984-additional-requirements-for-expungement-involving-operating-a-vehicle-while-in__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
               "tier": "exact_content_hash"
             }
           ]
@@ -3944,14 +3801,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -3970,14 +3827,10 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf11/**",
         "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/**",
-        "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/mo/mo-610-145-mistaken-identity-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/**",
         "scripts/build-census-v1-ca-diversion-seal-set.mjs",
-        "scripts/build-census-v1-in_conviction_felony-set.mjs",
-        "scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs",
         "scripts/build-census-v1-mo-610-145-mistaken-identity-set.mjs",
         "scripts/build-census-v1-nh_conviction_standard-set.mjs",
         "scripts/build-census-v1-nh_marijuana_annulment-set.mjs"
@@ -4010,8 +3863,6 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ca-diversion-seal-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'in_conviction_felony-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-977-misdemeanor-conviction-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mo-610-145-mistaken-identity-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nh_conviction_standard-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nh_marijuana_annulment-set'"
@@ -4056,8 +3907,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'la-978-felony-conviction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ma-seal-court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -4069,8 +3920,7 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 7 exact families before reading or writing family content:",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 'la-978-felony-conviction-set'`",
+        "Assert only these 6 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 'ma-seal-court-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 'mo-610-140-arrest-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF12 'nh_conviction_streamlined-set'`",
@@ -4091,11 +3941,10 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf12",
-      "mission": "Build 7 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 6 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 7,
+      "itemCount": 6,
       "items": [
-        "la-978-felony-conviction-set",
         "ma-seal-court-set",
         "mo-610-140-arrest-set",
         "nh_conviction_streamlined-set",
@@ -4109,11 +3958,6 @@
         "sharedBuildHost"
       ],
       "groupsCarried": [
-        {
-          "families": [
-            "la-978-felony-conviction-set"
-          ]
-        },
         {
           "families": [
             "ma-seal-court-set"
@@ -4146,52 +3990,6 @@
         }
       ],
       "familyDetail": [
-        {
-          "familyId": "la-978-felony-conviction-set",
-          "jurisdiction": "LA",
-          "strategy": "custom_pleading",
-          "forms": [
-            "LA-CCRP-ART-988",
-            "LA-CCRP-ART-989",
-            "LA-CCRP-ART-991",
-            "LA-CCRP-ART-992"
-          ],
-          "components": 4,
-          "instrumentKinds": [
-            "Louisiana Article 978 Felony Expungement Packet",
-            "Louisiana Article 978 First-Offender-Pardon Expungement Packet",
-            "continuation",
-            "fee_waiver",
-            "instructions",
-            "primary_filing",
-            "proposed_order"
-          ],
-          "routeCount": 4,
-          "directory": "data/rcap-all50/overlays/census-v1/la/la-978-felony-conviction-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-la-978-felony-conviction-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/03_INSTRUCTIONS/LA__INSTRUCTIONS__LA-CCRP-ART-984__article-984-additional-requirements-for-expungement-involving-operating-a-vehicle-while-in__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
-              "tier": "exact_content_hash"
-            }
-          ]
-        },
         {
           "familyId": "ma-seal-court-set",
           "jurisdiction": "MA",
@@ -4453,14 +4251,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -4478,14 +4276,12 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf12/**",
-        "data/rcap-all50/overlays/census-v1/la/la-978-felony-conviction-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/ca/official-form-treatment:obligation:research-decision-route:ca:ca-1203-4b--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/**",
-        "scripts/build-census-v1-la-978-felony-conviction-set.mjs",
         "scripts/build-census-v1-ma-seal-court-set.mjs",
         "scripts/build-census-v1-mo-610-140-arrest-set.mjs",
         "scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
@@ -4520,7 +4316,6 @@
         "rule": "An unrecognised status is refused at integration rather than translated."
       },
       "focusedTests": [
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-978-felony-conviction-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ma-seal-court-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mo-610-140-arrest-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nh_conviction_streamlined-set'",
@@ -4568,8 +4363,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'hi_nonconviction_expungement-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'hi_nonconviction_expungement-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -4838,14 +4633,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -4947,8 +4742,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-12347-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-12347-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -5170,14 +4965,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -5276,8 +5071,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'de_discretionary_superior_court-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'de_discretionary_superior_court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -5289,10 +5084,9 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 4 exact families before reading or writing family content:",
+        "Assert only these 3 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 'de_discretionary_superior_court-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 'ia-dci77-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 'la-977d-marijuana-first-offense-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 'mt_mmrta_serving-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
         "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
@@ -5308,19 +5102,19 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf15",
-      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 4,
+      "itemCount": 3,
       "items": [
         "de_discretionary_superior_court-set",
         "ia-dci77-set",
-        "la-977d-marijuana-first-offense-set",
         "mt_mmrta_serving-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
       "sharedAxes": [
-        "sharedBuildHost"
+        "sharedBuildHost",
+        "implementationStrategy"
       ],
       "groupsCarried": [
         {
@@ -5331,11 +5125,6 @@
         {
           "families": [
             "ia-dci77-set"
-          ]
-        },
-        {
-          "families": [
-            "la-977d-marijuana-first-offense-set"
           ]
         },
         {
@@ -5417,39 +5206,6 @@
               "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
               "path": "google-drive:15Ts_wps2vvJhPamwj-OFrez9IUZFsYac",
               "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
-              "tier": "exact_content_hash"
-            }
-          ]
-        },
-        {
-          "familyId": "la-977d-marijuana-first-offense-set",
-          "jurisdiction": "LA",
-          "strategy": "custom_pleading",
-          "forms": [
-            "LA-CCRP-ART-988",
-            "LA-CCRP-ART-991",
-            "LA-CCRP-ART-992"
-          ],
-          "components": 3,
-          "instrumentKinds": [
-            "Louisiana Article 977(D) First-Offense Marijuana Expungement Packet"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
               "tier": "exact_content_hash"
             }
           ]
@@ -5544,14 +5300,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -5571,11 +5327,9 @@
         "data/rcap-grade-a/packet-factory-24h/pf15/**",
         "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/**",
         "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-serving-set--official-pdf-fill/**",
         "scripts/build-census-v1-de_discretionary_superior_court-set.mjs",
         "scripts/build-census-v1-ia-dci77-set.mjs",
-        "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
         "scripts/build-census-v1-mt_mmrta_serving-set.mjs"
       ],
       "scriptsNotOwned": [],
@@ -5607,7 +5361,6 @@
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'de_discretionary_superior_court-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-dci77-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-977d-marijuana-first-offense-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mt_mmrta_serving-set'"
       ],
       "stopConditions": [
@@ -5650,8 +5403,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'il-prb-cert-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'il-prb-cert-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -5663,9 +5416,8 @@
         "The preflight now gates on the rasterizer resolving a browser it can execute, so a lane that cannot raster learns before it builds rather than after."
       ],
       "claimRule": [
-        "Assert only these 4 exact families before reading or writing family content:",
+        "Assert only these 3 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 'il-prb-cert-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 'la-985-1-interim-expungement-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 'mt_misdemeanor_expungement-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF16 'mt_mmrta_completed-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
@@ -5682,12 +5434,11 @@
       ],
       "theDiffIsTheReturn": "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
       "returnDirectory": "data/rcap-grade-a/packet-factory-24h/pf16",
-      "mission": "Build 4 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
+      "mission": "Build 3 packet families to the builder contract, one at a time, checkpointing as you go. A family that stops does not stop the lane.",
       "itemKind": "packetFamily",
-      "itemCount": 4,
+      "itemCount": 3,
       "items": [
         "il-prb-cert-set",
-        "la-985-1-interim-expungement-set",
         "mt_misdemeanor_expungement-set",
         "mt_mmrta_completed-set"
       ],
@@ -5700,11 +5451,6 @@
         {
           "families": [
             "il-prb-cert-set"
-          ]
-        },
-        {
-          "families": [
-            "la-985-1-interim-expungement-set"
           ]
         },
         {
@@ -5773,38 +5519,6 @@
               "path": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
               "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
               "tier": "exact_form_number"
-            }
-          ]
-        },
-        {
-          "familyId": "la-985-1-interim-expungement-set",
-          "jurisdiction": "LA",
-          "strategy": "custom_pleading",
-          "forms": [
-            "LA-CCRP-ART-988",
-            "LA-CCRP-ART-994"
-          ],
-          "components": 2,
-          "instrumentKinds": [
-            "Louisiana Article 985.1 Interim Expungement Packet"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
-              "tier": "exact_content_hash"
-            },
-            {
-              "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
-              "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
-              "tier": "exact_content_hash"
             }
           ]
         },
@@ -5924,14 +5638,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -5950,11 +5664,9 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf16/**",
         "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/**",
         "scripts/build-census-v1-il-prb-cert-set.mjs",
-        "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
         "scripts/build-census-v1-mt_misdemeanor_expungement-set.mjs",
         "scripts/build-census-v1-mt_mmrta_completed-set.mjs"
       ],
@@ -5986,7 +5698,6 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'il-prb-cert-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-985-1-interim-expungement-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mt_misdemeanor_expungement-set'",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'mt_mmrta_completed-set'"
       ],
@@ -6030,8 +5741,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:nc_146_dismissal_petition' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:nc_146_dismissal_petition' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -6236,14 +5947,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -6339,8 +6050,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'de_discretionary_family_court-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'de_discretionary_family_court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -6354,7 +6065,7 @@
       "claimRule": [
         "Assert only these 2 exact families before reading or writing family content:",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF18 'de_discretionary_family_court-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF18 'fl-sealing-set'`",
+        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF18 'nm_conviction-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
         "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
       ],
@@ -6374,12 +6085,13 @@
       "itemCount": 2,
       "items": [
         "de_discretionary_family_court-set",
-        "fl-sealing-set"
+        "nm_conviction-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
       "sharedAxes": [
-        "sharedBuildHost"
+        "sharedBuildHost",
+        "implementationStrategy"
       ],
       "groupsCarried": [
         {
@@ -6388,8 +6100,9 @@
           ]
         },
         {
+          "groupKey": "NO_SHARED_HOST::4-222+4-953+4-956+4-960+4-960.1+4-960.3+NM-LOCAL-CONVICTION-ORDER::official_pdf_fill::certificate_of_service+fee_waiver_application+hearing_expectation_instructions+local_order_form_instructions+notice_of_hearing+primary_filing+proposed_order+record_gathering_instructions+second_stage_affirmation+second_stage_notice",
           "families": [
-            "fl-sealing-set"
+            "nm_conviction-set"
           ]
         }
       ],
@@ -6429,30 +6142,78 @@
           ]
         },
         {
-          "familyId": "fl-sealing-set",
-          "jurisdiction": "FL",
-          "strategy": "custom_pleading",
+          "familyId": "nm_conviction-set",
+          "jurisdiction": "NM",
+          "strategy": "official_pdf_fill",
           "forms": [
-            "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-            "FL-RULE-3.989-ORDER",
-            "FL-RULE-3.989-PETITION",
-            "FL-RULE-3.989-SWORN-STATEMENT"
+            "4-222",
+            "4-953",
+            "4-956",
+            "4-960",
+            "4-960.1",
+            "4-960.3",
+            "NM-LOCAL-CONVICTION-ORDER"
           ],
-          "components": 4,
+          "components": 7,
           "instrumentKinds": [
-            "Florida Petition to Seal under § 943.059"
+            "certificate_of_service",
+            "fee_waiver_application",
+            "hearing_expectation_instructions",
+            "local_order_form_instructions",
+            "notice_of_hearing",
+            "primary_filing",
+            "proposed_order",
+            "record_gathering_instructions",
+            "second_stage_affirmation",
+            "second_stage_notice"
           ],
           "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
-          "buildScript": "scripts/build-census-v1-fl-sealing-set.mjs",
+          "directory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-nm_conviction-set.mjs",
           "sharedBuildHost": null,
           "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
           "sourceHashes": [
             {
-              "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
-              "path": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
-              "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
-              "tier": "exact_content_hash"
+              "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+              "sha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
+              "tier": "exact_form_number"
+            },
+            {
+              "sourceId": "official-form:4-222",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+              "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+              "tier": "exact_identity_confirmed_from_document_text"
+            },
+            {
+              "sourceId": "official-form:4-953",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+              "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+              "tier": "exact_identity_confirmed_from_document_text"
+            },
+            {
+              "sourceId": "official-form:4-956",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+              "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+              "tier": "exact_identity_confirmed_from_document_text"
+            },
+            {
+              "sourceId": "official-form:4-960",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+              "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+              "tier": "exact_identity_confirmed_from_document_text"
+            },
+            {
+              "sourceId": "official-form:4-960.1",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+              "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+              "tier": "exact_identity_confirmed_from_document_text"
+            },
+            {
+              "sourceId": "official-form:4-960.3",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+              "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
+              "tier": "exact_identity_confirmed_from_document_text"
             }
           ]
         }
@@ -6475,14 +6236,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -6501,9 +6262,9 @@
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf18/**",
         "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/**",
+        "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/**",
         "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
-        "scripts/build-census-v1-fl-sealing-set.mjs"
+        "scripts/build-census-v1-nm_conviction-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -6533,7 +6294,7 @@
       },
       "focusedTests": [
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'de_discretionary_family_court-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'fl-sealing-set'"
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nm_conviction-set'"
       ],
       "stopConditions": [
         "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
@@ -6575,8 +6336,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-expunction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-expunction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -6707,14 +6468,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -6807,8 +6568,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ne-seal-pardoned-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'la-977d-marijuana-first-offense-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -6821,8 +6582,8 @@
       ],
       "claimRule": [
         "Assert only these 2 exact families before reading or writing family content:",
+        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 'la-977d-marijuana-first-offense-set'`",
         "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 'ne-seal-pardoned-set'`",
-        "`node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 'nm_conviction-set'`",
         "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
         "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
       ],
@@ -6841,29 +6602,60 @@
       "itemKind": "packetFamily",
       "itemCount": 2,
       "items": [
-        "ne-seal-pardoned-set",
-        "nm_conviction-set"
+        "la-977d-marijuana-first-offense-set",
+        "ne-seal-pardoned-set"
       ],
       "provisionedEmpty": false,
       "refillRule": "When a source lane releases a family, Captain appends it to the emptiest PF lane and the lane starts it without waiting for the rest of the source lane to finish.",
       "sharedAxes": [
-        "sharedBuildHost",
-        "implementationStrategy"
+        "sharedBuildHost"
       ],
       "groupsCarried": [
         {
           "families": [
-            "ne-seal-pardoned-set"
+            "la-977d-marijuana-first-offense-set"
           ]
         },
         {
-          "groupKey": "NO_SHARED_HOST::4-222+4-953+4-956+4-960+4-960.1+4-960.3+NM-LOCAL-CONVICTION-ORDER::official_pdf_fill::certificate_of_service+fee_waiver_application+hearing_expectation_instructions+local_order_form_instructions+notice_of_hearing+primary_filing+proposed_order+record_gathering_instructions+second_stage_affirmation+second_stage_notice",
           "families": [
-            "nm_conviction-set"
+            "ne-seal-pardoned-set"
           ]
         }
       ],
       "familyDetail": [
+        {
+          "familyId": "la-977d-marijuana-first-offense-set",
+          "jurisdiction": "LA",
+          "strategy": "custom_pleading",
+          "forms": [
+            "LA-CCRP-ART-988",
+            "LA-CCRP-ART-991",
+            "LA-CCRP-ART-992"
+          ],
+          "components": 3,
+          "instrumentKinds": [
+            "Louisiana Article 977(D) First-Offense Marijuana Expungement Packet"
+          ],
+          "routeCount": 1,
+          "directory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
+          "buildScript": "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
+          "sharedBuildHost": null,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceHashes": [
+            {
+              "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+              "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+              "tier": "exact_content_hash"
+            },
+            {
+              "sourceId": "source-sha256:8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+              "sha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+              "tier": "exact_content_hash"
+            }
+          ]
+        },
         {
           "familyId": "ne-seal-pardoned-set",
           "jurisdiction": "NE",
@@ -6898,82 +6690,6 @@
               "tier": "exact_identity_confirmed_from_document_text"
             }
           ]
-        },
-        {
-          "familyId": "nm_conviction-set",
-          "jurisdiction": "NM",
-          "strategy": "official_pdf_fill",
-          "forms": [
-            "4-222",
-            "4-953",
-            "4-956",
-            "4-960",
-            "4-960.1",
-            "4-960.3",
-            "NM-LOCAL-CONVICTION-ORDER"
-          ],
-          "components": 7,
-          "instrumentKinds": [
-            "certificate_of_service",
-            "fee_waiver_application",
-            "hearing_expectation_instructions",
-            "local_order_form_instructions",
-            "notice_of_hearing",
-            "primary_filing",
-            "proposed_order",
-            "record_gathering_instructions",
-            "second_stage_affirmation",
-            "second_stage_notice"
-          ],
-          "routeCount": 1,
-          "directory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-nm_conviction-set.mjs",
-          "sharedBuildHost": null,
-          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-          "sourceHashes": [
-            {
-              "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
-              "sha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
-              "tier": "exact_form_number"
-            },
-            {
-              "sourceId": "official-form:4-222",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-              "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:4-953",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
-              "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:4-956",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
-              "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:4-960",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
-              "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:4-960.1",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
-              "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
-              "tier": "exact_identity_confirmed_from_document_text"
-            },
-            {
-              "sourceId": "official-form:4-960.3",
-              "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
-              "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
-              "tier": "exact_identity_confirmed_from_document_text"
-            }
-          ]
         }
       ],
       "builderObligations": [
@@ -6994,14 +6710,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -7019,10 +6735,10 @@
       "neverSelfVerify": "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
       "ownedPaths": [
         "data/rcap-grade-a/packet-factory-24h/pf20/**",
+        "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading/**",
         "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/**",
-        "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/**",
-        "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
-        "scripts/build-census-v1-nm_conviction-set.mjs"
+        "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
+        "scripts/build-census-v1-ne-seal-pardoned-set.mjs"
       ],
       "scriptsNotOwned": [],
       "prohibitedPaths": [
@@ -7051,8 +6767,8 @@
         "rule": "An unrecognised status is refused at integration rather than translated."
       },
       "focusedTests": [
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ne-seal-pardoned-set'",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'nm_conviction-set'"
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'la-977d-marijuana-first-offense-set'",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ne-seal-pardoned-set'"
       ],
       "stopConditions": [
         "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
@@ -7094,8 +6810,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-juvenile-diversion-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'fl-juvenile-diversion-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -7219,14 +6935,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -7319,8 +7035,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-901c2-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-901c2-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -7506,14 +7222,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -7609,8 +7325,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-12346-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ia-12346-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -7777,14 +7493,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -7880,8 +7596,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nd-prohibit-remote-public-access-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'nd-prohibit-remote-public-access-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -8103,14 +7819,14 @@
       "rowStopContract": {
         "laneGate": {
           "what": "global environment integrity",
-          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+          "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
           "mustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
           "onFailure": "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
           "note": "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
         },
         "rowGate": {
           "what": "this family's own sources",
-          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+          "command": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
           "onFamilySourcesBindFailure": "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
           "onOpenLegalInput": "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
           "onAnyOtherCheckFailing": "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
@@ -8219,8 +7935,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8248,8 +7964,8 @@
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
-      "launchRule": "Launch now. Every seed family below is rendered at 7f707619f2a49be0a7a54ea61cca6c852db84fd1, which your checkout must contain.",
-      "verifiesCommit": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "launchRule": "Launch now. Every seed family below is rendered at ca5bacc52b1585b273d6023425205ac77781d9d6, which your checkout must contain.",
+      "verifiesCommit": "ca5bacc52b1585b273d6023425205ac77781d9d6",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill"
       ],
@@ -8355,8 +8071,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'wv_conv_multiple_misdemeanors-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'wv_conv_multiple_misdemeanors-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8384,8 +8100,8 @@
       ],
       "seedItemsAreNotTheWholeJob": "These are the families already complete and awaiting verification at dispatch. The rest arrive as PF checkpoints land; claim from the ledger.",
       "launchNow": true,
-      "launchRule": "Launch now. Every seed family below is rendered at 7f707619f2a49be0a7a54ea61cca6c852db84fd1, which your checkout must contain.",
-      "verifiesCommit": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "launchRule": "Launch now. Every seed family below is rendered at ca5bacc52b1585b273d6023425205ac77781d9d6, which your checkout must contain.",
+      "verifiesCommit": "ca5bacc52b1585b273d6023425205ac77781d9d6",
       "packetDirectories": [
         "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill"
       ],
@@ -8491,8 +8207,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8618,8 +8334,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8745,8 +8461,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8872,8 +8588,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -8999,8 +8715,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -9126,8 +8842,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": null,
       "claimRule": [
@@ -9253,8 +8969,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -9434,8 +9150,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -9615,8 +9331,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -9796,8 +9512,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -9977,8 +9693,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -10158,8 +9874,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -10339,8 +10055,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ut_pet_special_certificate-set::official-form:1001EX' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ut_pet_special_certificate-set::official-form:1001EX' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -10557,8 +10273,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ri_decriminalized-set::official-form:DC-33-ORDER' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ri_decriminalized-set::official-form:DC-33-ORDER' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -10824,8 +10540,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -11062,8 +10778,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_set_aside-set::official-form:R-26-0001 adopted Form 31(a)' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_set_aside-set::official-form:R-26-0001 adopted Form 31(a)' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -11319,8 +11035,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -11494,8 +11210,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -11669,8 +11385,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -11844,8 +11560,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -12021,8 +11737,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -12198,8 +11914,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "SOURCE_CONVEYOR_PREFLIGHT_READY",
       "rasterRule": null,
       "claimRule": [
@@ -12375,8 +12091,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_marijuana_expungement_limited_jurisdiction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_marijuana_expungement_limited_jurisdiction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -12718,8 +12434,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'co_motion_seal_conviction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'co_motion_seal_conviction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -13060,8 +12776,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -13411,8 +13127,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-pardon-seal-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-pardon-seal-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -13867,8 +13583,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ca-17b-reduction-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ca-17b-reduction-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -14272,8 +13988,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -14875,8 +14591,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'il-exp-pardon-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'il-exp-pardon-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
@@ -15417,8 +15133,8 @@
       "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
       "captainBranch": "claude/legalease-sprint-captain-utucnw",
       "workerBranch": "work",
-      "minimumCaptainSha": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
-      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-drug-court-set' --codex-cloud --minimum-captain-sha 7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+      "minimumCaptainSha": "ca5bacc52b1585b273d6023425205ac77781d9d6",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'ar-drug-court-set' --codex-cloud --minimum-captain-sha ca5bacc52b1585b273d6023425205ac77781d9d6",
       "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
       "rasterRule": [
         "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",

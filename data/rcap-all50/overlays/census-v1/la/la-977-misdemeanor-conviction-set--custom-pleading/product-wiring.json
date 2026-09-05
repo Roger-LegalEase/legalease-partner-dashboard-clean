@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "la-977-misdemeanor-conviction-set",
+  "routeKey": "obligation:track-pathway:LA:la-977-misdemeanor-conviction:human-trafficking-survivor-expungement-fee-exempt-route",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:human-trafficking-survivor-expungement-fee-exempt-route",
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-five-year-clean-period-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "la-977-misdemeanor-conviction-set",
+    "jurisdiction": "LA",
+    "routeKeys": [
+      "obligation:track-pathway:LA:la-977-misdemeanor-conviction:human-trafficking-survivor-expungement-fee-exempt-route",
+      "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+      "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-five-year-clean-period-expungement"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Louisiana Article 977 Misdemeanor Expungement Packet",
+      "continuation",
+      "fee_waiver",
+      "instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:la-977-misdemeanor-conviction-fee-waiver-4",
+      "component:la-977-misdemeanor-conviction-primary-filing-1",
+      "component:la-977-misdemeanor-conviction-proposed-order-2",
+      "component:la-977-misdemeanor-conviction-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
+        "sha256": "df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "la-977-misdemeanor-conviction-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "la-977-misdemeanor-conviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "LA-CCRP-ART-989",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-977-misdemeanor-conviction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "LA-CCRP-ART-991",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-977-misdemeanor-conviction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "LA-CCRP-ART-992",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-977-misdemeanor-conviction-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "la-977-misdemeanor-conviction-instructions-7",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446",
+        "requirement": "required"
+      }
+    ]
+  }
+}

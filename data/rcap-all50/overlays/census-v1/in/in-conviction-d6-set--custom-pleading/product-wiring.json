@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "in_conviction_d6-set",
+  "routeKey": "obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access",
+  "routeKeys": [
+    "obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "in_conviction_d6-set",
+    "jurisdiction": "IN",
+    "routeKeys": [
+      "obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "attachment",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:in_conviction_d6-attachment-3",
+      "component:in_conviction_d6-attachment-4",
+      "component:in_conviction_d6-attachment-5",
+      "component:in_conviction_d6-attachment-6",
+      "component:in_conviction_d6-primary-filing-1",
+      "component:in_conviction_d6-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CCA-XP-0220-7009",
+        "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CCA-GF-0120-3016",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:Confidential Information Form",
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-in_conviction_d6-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "in_conviction_d6-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "in_conviction_d6-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "in_conviction_d6-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "in_conviction_d6-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "CCA-XP-0220-7009",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "in_conviction_d6-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "CCA-GF-0120-3016",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "in_conviction_d6-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "CCA-XP-0120-7002 Form ACR",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      },
+      {
+        "componentId": "in_conviction_d6-set-component-6",
+        "role": "companion_document",
+        "order": 6,
+        "documentId": "Confidential Information Form",
+        "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+        "requirement": "required"
+      }
+    ]
+  }
+}
