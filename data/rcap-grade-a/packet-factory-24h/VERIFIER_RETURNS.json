@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 791,
+    "rows": 792,
     "independentVerdicts": 240,
-    "failRepairRequired": 55,
+    "failRepairRequired": 54,
     "passIndependent": 172
   },
   "failRepairRequiredFamilies": [
@@ -69,7 +69,6 @@
     "il-seal-edu-set",
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
-    "la-987-set-aside-and-dismiss-set",
     "mi_setaside_trafficking-set",
     "ms-nonconv-set",
     "nc_145_5_felony-set",
@@ -8528,6 +8527,39 @@
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b35fbc6ed",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "BLOCKED_LEGAL_INPUT, named exactly: whether the Article 987 Motion's 'Conviction offense wording' and 'Conviction statute' lines must be prefilled by LegalEase as neutral case fields, as LA.memo.json's legal-design narrative states, or collected from the participant as the same memo's participantInputs convictionOffense states, or left blank on the instrument for the participant to complete as the build declares. Every other known required fact is written and visible on the page it belongs to. This is not a FAIL and it is not a PASS.",
+          "evidence": {
+            "whatIsWrittenAndVisible": "Thirteen declared writes per fixture, all thirteen read back from the delivered bytes on the page they belong to. Twelve are on the instrument (page 1) and the thirteenth is the instructions component's participant_name on page 4. Canonical: mover_name 'Jordan Avery Reyes', mover_date_of_birth 1991-04-17, judicial_district 'Twenty-First Judicial District Court', parish 'Tangipahoa Parish', docket_number TEST-2026-000001, division 'Division A', conviction_level 'Misdemeanor - Article 894(B)', conviction_date 2021-04-17, deferred_sentence_date 2021-06-01, deferral_period 'Two years', probation_completion_date 2023-06-01, representation 'No - use the unrepresented mover block', and instructions participant_name 'Jordan Avery Reyes'. Boundary: the same thirteen fields with the long-token values - 'Maria-Alejandra O'Shaughnessy-Whitfield', 'TEST-BOUNDARY-2026-0000000000000001', 'Forty-Second Judicial District Court', 'Saint John the Baptist Parish', 'Division Z-Long', 'Felony - Article 893(E)' - each rendering as a whole token, unhyphenated and unclipped, on pages 1, 2 and 3.",
+            "theOpenItem": "Two lines on delivered page 1 of both fixtures - 'Conviction offense wording: ...........' and 'Conviction statute: ...........' - print as captioned dotted blanks and carry no value.",
+            "whyThisIsALegalDeterminationAndNotADefectThisLaneCanScore": "The committed record does not settle who supplies them. data/record-clearing/legal-design-intake/LA.memo.json, in the same track this family binds by hash, says in its legal-design narrative that 'LegalEase completes the neutral participant and case fields - the caption, docket number, division, parties, the offence and statute, the sentencing date and the deferred-sentence and probation dates', which reads as an instruction to print them. The same memo's participantInputs lists key convictionOffense, question 'What offence were you convicted of, and under what statute?', requirement required, which reads as a fact LegalEase asks the participant for. The build resolved the tension a third way: it declares both fields REQUIRED_BEFORE_FILING on the ground that 'the court record this fixture declares carries neither', prints the caption, and tells the participant in participant-instructions.md and on delivered page 4 to write the offence and the statutory citation exactly as they appear on the minute entry or sentencing order. Whether the platform is supposed to hold these two values and print them, or to collect them from the participant, or to leave them for the participant to write on the filed instrument, is a legal-design determination. It is not one a verification lane may make and it is not one the record makes.",
+            "notAnIncompleteFixtureArgumentEither": "The contract's warning about a fixture that fails to establish a value is aimed at route elections, and the route election here is made: conviction level prints as 'Misdemeanor - Article 894(B)' canonical and 'Felony - Article 893(E)' boundary. The offence wording and the statute are not route elections.",
+            "noValueIsHeldElsewhereInThePacket": "Neither an offence name nor a statutory citation of conviction is written anywhere else in either fixture, so the REQUIRED_BEFORE_FILING declaration is at least internally consistent; what is unsettled is whether the platform should hold the value at all.",
+            "sameConclusionReachedIndependently": "VF02 scored this obligation BLOCKED_LEGAL_INPUT at 97be5bcda and FIX45 declined to touch it, recording it as counsel's. This lane re-read LA.memo.json and the field map at b35fbc6ed and reaches the same reading on its own measurement rather than by adopting theirs."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-987-set-aside-and-dismiss-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -8586,7 +8618,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",

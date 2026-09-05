@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c7116a38f447ce6fa3c6f54ea4a137ccd2aa4d24",
+  "generatedAtCommit": "f7c1c1b5cf4af53184b8a6618603a5ba757a70c0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5255,6 +5255,21 @@
         "ms-nonconv-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "familyId": "ms-nonconv-set",
+      "itemId": null,
+      "familyIds": [
+        "ms-nonconv-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF05",
       "laneKind": "packet-build",
@@ -7280,6 +7295,21 @@
       "lane": "PF12",
       "laneKind": "packet-build",
       "released": false
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_conviction_no_supervision-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -11181,6 +11211,20 @@
     },
     {
       "subjectType": "source-obligation",
+      "subjectId": "la-987-set-aside-and-dismiss-set::official-form:LA-CCRP-ART-987",
+      "itemId": "la-987-set-aside-and-dismiss-set::official-form:LA-CCRP-ART-987",
+      "familyIds": [
+        "la-987-set-aside-and-dismiss-set"
+      ],
+      "sourceId": "official-form:LA-CCRP-ART-987",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "laneKind": "source-reconciliation",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "source-obligation",
       "subjectId": "ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K",
       "itemId": "ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K",
       "familyIds": [
@@ -13014,7 +13058,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "ef1a65f47a040b62eafa51951e56650c8475681f79d1b4761763bc2ccba68c2c",
+  "claimsDigest": "1c4bf114323c383c76246a2a1d6a57ed5b31d7123a3362fe5bdf1831c3fa51c8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
