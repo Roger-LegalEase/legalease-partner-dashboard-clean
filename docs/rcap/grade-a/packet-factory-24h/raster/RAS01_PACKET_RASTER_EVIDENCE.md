@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `98323a33ed4a3b2bc801ebac1de5dfa1f1aa3d6e`
+**Minimum required ancestor:** `c73ebea429a295591d5a6bab4c4ca631ec7b561f`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -303,7 +303,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e`
 - expected pages 6 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### wa_crop_certificate_of_restoration-set
 
