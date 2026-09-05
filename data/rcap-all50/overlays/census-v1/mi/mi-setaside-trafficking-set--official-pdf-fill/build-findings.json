@@ -12,8 +12,12 @@
       "consequence": "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the conviction date blank would read as finished while missing the fact the application turns on. All sixteen cells are declared and disclosed."
     },
     {
-      "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box. The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
-      "consequence": "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing only the name would put a third of an answer in the box the court reads for the applicant's contact details. The gap is a shared-registry one: a composed participant contact fact would let this box be filled, and that list is outside this family's owned paths."
+      "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box, and the platform holds all three. This family shipped it blank on the reason that the build \"has no way to compose them into a single block for this form\".",
+      "consequence": "Repaired. That reason described the build rather than the filing, which is what the completeness contract classes as policy-shaped, and it left a sworn application naming the applicant nowhere. The box is now composed from participant.full_legal_name, participant.street_address and participant.phone through the finalizer's opt-in composedFieldValues channel, which takes fact ids rather than text and refuses the whole box if any named fact is not held, so a partial contact block cannot be drawn."
+    },
+    {
+      "finding": "All fourteen checkboxes on MC 227b carried a disposition of \"explicit_refusal\" — a word outside the closed vocabulary — an authored label rather than the words printed beside the box, and, for the five that are not the participant's to mark, no line in the participant inventory.",
+      "consequence": "Repaired. Each of the fourteen now carries its printed caption, a disposition from the closed vocabulary (nine PARTICIPANT_ELECTION_GENUINE, five PROTECTED_FIELD), who marks it and when, and a line in participant-instructions.md, so no box on a filed application goes unconsidered. They were not, as an independent read recorded, absent from the field map: they sit in maps[].selectionControls, which the completeness verifier does read — what was missing was the caption, the vocabulary and the disclosure."
     },
     {
       "finding": "scripts/build-census-v1-mi-setaside-trafficking-set.mjs (hyphenated) also writes this family's overlay directory and predates this builder.",
@@ -21,8 +25,8 @@
     },
     {
       "severity": "advisory",
-      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
-      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019). This family previously recorded that the finalized bytes carry the name WITHOUT it. That was a reading error rather than a defect: the finalizer encodes it as WinAnsi 0x92 and the read-back decoded the appearance as Latin-1, which turns 0x92 into an invisible control character.",
+      "consequence": "The apostrophe is on the page, and it now reaches the page for the first time, in the composed Parties box of the boundary fixture. The read-back translates the WinAnsi 0x80-0x9F block before comparing, and the byte proof requires each of the three held facts to be present in the ink, so a character the encoding really did drop would fail the build rather than ship."
     }
   ]
 }
