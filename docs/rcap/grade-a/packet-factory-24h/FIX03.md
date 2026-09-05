@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c85258a6db0d19ddde1b96a89355f679edde7a84` (or the newer dispatch base)
+**Minimum required ancestor:** `a3dc426e4877e9f41652950d0eb50abfbd97a5c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' \
   --codex-cloud \
-  --minimum-captain-sha c85258a6db0d19ddde1b96a89355f679edde7a84
+  --minimum-captain-sha a3dc426e4877e9f41652950d0eb50abfbd97a5c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -42,10 +42,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ar-felony-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'de_mandatory_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-exp-qualprob-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'rcap-nd-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ut_pet_acquittal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-felony-dwop-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nc_146_dismissal_petition-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'tx_nd_conviction_no_supervision-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,12 +66,12 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 7 families
 
 - `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`
-- `ar-felony-seal-set` — failing: visualDefects
+- `ar-felony-seal-set`
 - `de_mandatory_expungement-set`
-- `al-diversion-set`
-- `il-exp-qualprob-set`
 - `rcap-nd-custom-pleading`
-- `ut_pet_acquittal-set`
+- `al-felony-dwop-set`
+- `nc_146_dismissal_petition-set`
+- `tx_nd_conviction_no_supervision-set`
 
 ## What you receive
 
@@ -87,15 +87,17 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
 - `scripts/build-census-v1-ar-felony-seal-set.mjs`
 - `scripts/build-census-v1-de_mandatory_expungement-set.mjs`
-- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
 - `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
+- `scripts/build-census-v1-al-felony-dwop-set.mjs`
+- `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 
@@ -112,13 +114,18 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/fix03/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after
+- data/rcap-grade-a/packet-factory-24h/fix03/rows.json — one row per family: itemId, status, the obligation repaired, repairedByThisLane, and countersAfter (all nine, as an object). If this directory already holds a return under that name, write yours alongside under a distinct name rather than overwriting it — returns are found by shape, not by filename.
 
 ### Output schema
 
 Array key `rows`, item key `itemId`, status words: `COMPLETED`, `STOPPED`.
 
-An unrecognised status is refused at integration rather than translated.
+- `repairedByThisLane` — true only where THIS lane changed the family. A family you re-measured and found already sound is COMPLETED with this false or absent, and its stale verdict is Captain's to clear -- claiming a repair you did not perform is how a verdict gets superseded by nothing.
+- `countersAfter` — the nine completeness counters as an object, measured after your change by verify-packet-completeness.mjs --family <id>. Every value must be zero for the repair to supersede the failing verdict. Report a non-zero counter honestly rather than omitting it; a repair that did not finish is a finding, not a pass.
+- `laneKind` — omit it, or set it to "repair" or "shared-host-repair". Any other value is read as not-a-repair.
+- `obligationCoverage` — the row text must name every obligation in the family's failedObligationNames. A repair that does not mention what it repaired cannot be matched to the verdict it answers.
+
+An unrecognised status is refused at integration rather than translated. A COMPLETED row missing repairedByThisLane or countersAfter is read as work not done -- it is not translated into a pass.
 
 ## Focused tests
 

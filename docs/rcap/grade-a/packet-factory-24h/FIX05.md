@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c85258a6db0d19ddde1b96a89355f679edde7a84` (or the newer dispatch base)
+**Minimum required ancestor:** `a3dc426e4877e9f41652950d0eb50abfbd97a5c7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ca-17b-reduction-set' \
   --codex-cloud \
-  --minimum-captain-sha c85258a6db0d19ddde1b96a89355f679edde7a84
+  --minimum-captain-sha a3dc426e4877e9f41652950d0eb50abfbd97a5c7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,15 +38,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 8 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ca-17b-reduction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'il-cannabis-vacate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-tx-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ut_pet_dismissed_without_prejudice-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'al-felony-nonconviction-90-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'in_arrest_no_charges-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-wa-custom-pleading-clean-tracks'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'vt_seal_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'al-misd-conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'oh_marijuana_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_nd_probation_misdemeanor-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -64,16 +63,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 7 families
 
 - `ca-17b-reduction-set`
 - `il-cannabis-vacate-set`
 - `rcap-tx-custom-pleading`
 - `ut_pet_dismissed_without_prejudice-set`
-- `al-felony-nonconviction-90-set`
-- `in_arrest_no_charges-set`
-- `rcap-wa-custom-pleading-clean-tracks`
-- `vt_seal_nonconviction-set`
+- `al-misd-conviction-set`
+- `oh_marijuana_expungement-set`
+- `tx_nd_probation_misdemeanor-set`
 
 ## What you receive
 
@@ -90,18 +88,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
 - `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
-- `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
-- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
-- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
-- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-al-misd-conviction-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
+- `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
 
 ## Never write here
 
@@ -118,13 +114,18 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/fix05/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after
+- data/rcap-grade-a/packet-factory-24h/fix05/rows.json — one row per family: itemId, status, the obligation repaired, repairedByThisLane, and countersAfter (all nine, as an object). If this directory already holds a return under that name, write yours alongside under a distinct name rather than overwriting it — returns are found by shape, not by filename.
 
 ### Output schema
 
 Array key `rows`, item key `itemId`, status words: `COMPLETED`, `STOPPED`.
 
-An unrecognised status is refused at integration rather than translated.
+- `repairedByThisLane` — true only where THIS lane changed the family. A family you re-measured and found already sound is COMPLETED with this false or absent, and its stale verdict is Captain's to clear -- claiming a repair you did not perform is how a verdict gets superseded by nothing.
+- `countersAfter` — the nine completeness counters as an object, measured after your change by verify-packet-completeness.mjs --family <id>. Every value must be zero for the repair to supersede the failing verdict. Report a non-zero counter honestly rather than omitting it; a repair that did not finish is a finding, not a pass.
+- `laneKind` — omit it, or set it to "repair" or "shared-host-repair". Any other value is read as not-a-repair.
+- `obligationCoverage` — the row text must name every obligation in the family's failedObligationNames. A repair that does not mention what it repaired cannot be matched to the verdict it answers.
+
+An unrecognised status is refused at integration rather than translated. A COMPLETED row missing repairedByThisLane or countersAfter is read as work not done -- it is not translated into a pass.
 
 ## Focused tests
 

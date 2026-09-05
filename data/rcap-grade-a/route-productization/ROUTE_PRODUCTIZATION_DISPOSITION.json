@@ -1,0 +1,1402 @@
+{
+  "schemaVersion": "rcap-route-productization-disposition/v1",
+  "generatedBy": "scripts/rcap-route-productization/generate-route-productization-disposition.mjs",
+  "question": "Which routes are operationally sellable today, and for every route that is not, what is the single exact thing standing in front of it right now?",
+  "createsApproval": false,
+  "changesRuntime": false,
+  "opensAnyRoute": false,
+  "productionTouched": false,
+  "paymentTripleTouched": false,
+  "whatThisIsNot": [
+    "not a registry: the controlling registry of fulfillment authority remains data/rcap-grade-a/fulfillment-authority-registry.json",
+    "not a launch graph: route gates are read from data/rcap-ledger/launch-graph.json",
+    "not a second census: family distance is read from PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json and not recomputed",
+    "not an authority: every legal fact here is copied from an owner or counsel record and none is created"
+  ],
+  "headline": {
+    "routesNewlyOperationallySellable": 0,
+    "routesOperationallySellable": 0,
+    "fulfillmentAuthorityRecordsGeneratedByThisLane": 0,
+    "productPathPendingFamiliesClosedByThisLane": 0,
+    "why": "No route clears all seven conditions. Four routes hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
+  },
+  "inputs": {
+    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "d849c8f442adf1f1bd5340624bc3101774f1ec2f7266e917c9639b4ba37004d9",
+    "data/rcap-ledger/launch-graph.json": "92bf8a160b631b7b02ed100ea9fe17bb2e81af4d473d0705d5b01a231b74c69a",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+    "data/rcap-grade-a/fulfillment-authority-registry.json": "41470c77244c29840c2682cbfbd68689850ac74bf1a919f7afad164ba34032a3",
+    "data/rcap-grade-a/fulfillment-authority-projection.json": "b9cfc708e0523150d1a42bab584afd960812c142770bda84d351142a6f7b5dca",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "09fccf1bffacade4565a7a98e86a4bbc38a92488ef99e502aa5e0b1077b1838d",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
+    "data/rcap-ledger/public-witness-fixtures.json": "f7211bc13e07f77b33085c96d2aefc906c372e8e97c2de658ac21f8869e7f294",
+    "data/record-clearing/factory-v2-route-registry.json": "4bbcdaef32b7198d7bde7621a7197234d4b9cafd99f4135ea5b0ccc5c2348557",
+    "data/record-clearing/legal-decisions/route-ratification-registry.json": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
+    "data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json": "25dcba6b7f76224a99b4ac2c5f4a4b95c64079810e00072e469dc1984909fc8b",
+    "data/rcap-grade-a/codex-cloud/cs2-productize-dc-misattributed-be7d/RETURN.json": "a95bf917c6e99a681cbb319ea8d0fb6faa9584f0e6f2a1194d19e4be02e570cf",
+    "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json": "83bc7d7b19cb61610a38964202ab11bfb3c0d1f952582bb1e481fb83f05ed5d4",
+    "src/lib/rcap/documents/factory-v2-registry.ts": "ddc31b74a0ad0d5e641f496e2fa6e4c9746260cadaa2f4399883dd1691be8411"
+  },
+  "commercialRouteRequirements": [
+    {
+      "requirement": "exact runtime route identity",
+      "measurement": "launch-graph row carries a compiled pathway",
+      "routesSatisfying": 262,
+      "outOf": 262
+    },
+    {
+      "requirement": "a route-scoped artifact",
+      "measurement": "launch-graph artifactResult.rendered === true",
+      "routesSatisfying": 165,
+      "outOf": 262
+    },
+    {
+      "requirement": "a fulfillment-authority record",
+      "measurement": "data/rcap-grade-a/fulfillment-authority-registry.json binds the exact route",
+      "routesSatisfying": 14,
+      "outOf": 262,
+      "ofWhichCommerciallyEligible": 5
+    },
+    {
+      "requirement": "a hosted consumer canary",
+      "measurement": "a hosted consumer canary receipt bound to the exact route",
+      "routesSatisfying": 0,
+      "outOf": 262,
+      "evidence": {
+        "onlyHostedCanaryReturnOnRecord": "data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json",
+        "consumerCanariesExecuted": 0,
+        "sponsoredCanariesExecuted": 0,
+        "routesOpened": 0,
+        "dispatchAttempted": "NO",
+        "selectionResult": "NO_COMPLIANT_EXISTING_WORKFLOW",
+        "whyNoCanaryCanBeRunFromThisRepository": "The only existing persistent hosted workflow has no route, family, or batch input and its payment journey dynamically selects a sellable state route. The GitHub-hosted fallback is Pennsylvania-specific. Neither may substitute for four exact route bindings.",
+        "missingCredentialNames": [
+          "VERCEL_TOKEN",
+          "VERCEL_AUTOMATION_BYPASS_SECRET",
+          "HOSTED_CLINIC_DEMO_PASSWORD",
+          "HOSTED_CLINIC_DEMO_ACCESS_CODE"
+        ],
+        "credentialValuesAreNotCarriedHere": true
+      }
+    },
+    {
+      "requirement": "a hosted sponsored canary",
+      "measurement": "a hosted sponsored canary receipt bound to the exact route",
+      "routesSatisfying": 0,
+      "outOf": 262,
+      "evidence": {
+        "onlyHostedCanaryReturnOnRecord": "data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json",
+        "consumerCanariesExecuted": 0,
+        "sponsoredCanariesExecuted": 0,
+        "routesOpened": 0,
+        "dispatchAttempted": "NO",
+        "selectionResult": "NO_COMPLIANT_EXISTING_WORKFLOW",
+        "whyNoCanaryCanBeRunFromThisRepository": "The only existing persistent hosted workflow has no route, family, or batch input and its payment journey dynamically selects a sellable state route. The GitHub-hosted fallback is Pennsylvania-specific. Neither may substitute for four exact route bindings.",
+        "missingCredentialNames": [
+          "VERCEL_TOKEN",
+          "VERCEL_AUTOMATION_BYPASS_SECRET",
+          "HOSTED_CLINIC_DEMO_PASSWORD",
+          "HOSTED_CLINIC_DEMO_ACCESS_CODE"
+        ],
+        "credentialValuesAreNotCarriedHere": true
+      }
+    },
+    {
+      "requirement": "security, ownership and payment admission",
+      "measurement": "every launch-graph operational gate met on the exact route",
+      "routesSatisfying": 0,
+      "outOf": 262
+    },
+    {
+      "requirement": "no genuine launch hold",
+      "measurement": "scripts/verify-rcap-census-v1-money-credit-gate.mjs is green",
+      "routesSatisfying": 0,
+      "outOf": 262,
+      "note": "This condition is currently unmet for the whole corpus, because the gate that proves an unsellable route delivers nothing is red. See activeCommercialDeliveryHold."
+    }
+  ],
+  "activeCommercialDeliveryHold": {
+    "holdIsReal": true,
+    "statement": "The launch graph defines a sellable route as a fulfillment record AND every operational gate. The shipped commercial admission points consult the fulfillment record only. For the routes below the two disagree: the launch graph says operationallySellable=false while sponsored entitlement, artifact attachment and Briefcase delivery are admitted at the strongest participant context the authority accepts.",
+    "whyThisMattersForThisLane": "'No genuine launch hold' is one of the seven conditions a commercial route needs. Generating a further fulfillment-authority record today would extend this open delivery admission to another route, so no record was generated and no route was opened.",
+    "moneyIsNotReachable": "No route in the compiled corpus displays a consumer price or reaches Stripe Checkout Session creation; the leak is on the sponsored and delivery surfaces, not the consumer-payment surface.",
+    "detectedBy": "scripts/verify-rcap-census-v1-money-credit-gate.mjs",
+    "alreadyOnTheCaptainFollowUpList": [
+      "Fix the exact four-route sponsored/credit/delivery leakage detected by verify-rcap-census-v1-money-credit-gate.mjs without treating COMPLETE fulfillment authority as runtime authority."
+    ],
+    "routes": [
+      {
+        "routeId": "DC:dc_actual_innocence_expungement_16_803",
+        "launchGraphOperationallySellable": false,
+        "launchGraphUnmetOperationalGates": [
+          "paymentAllowed",
+          "ownerApprovedLegalDesign",
+          "technicalApprovalCurrent"
+        ],
+        "admissionSurface": {
+          "launch_graph_commercial_status": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "consumer_checkout": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "sponsored_entitlement_reservation": {
+            "admitted": false,
+            "denialCode": "unknown_admission_point"
+          },
+          "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "artifact_commercial_attachment": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          }
+        }
+      },
+      {
+        "routeId": "IL:felony-prostitution-relief",
+        "launchGraphOperationallySellable": false,
+        "launchGraphUnmetOperationalGates": [
+          "paymentAllowed",
+          "deterministicArtifactProven"
+        ],
+        "admissionSurface": {
+          "launch_graph_commercial_status": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "consumer_checkout": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "sponsored_entitlement_reservation": {
+            "admitted": false,
+            "denialCode": "unknown_admission_point"
+          },
+          "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "artifact_commercial_attachment": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          }
+        }
+      },
+      {
+        "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "launchGraphOperationallySellable": false,
+        "launchGraphUnmetOperationalGates": [
+          "paymentAllowed",
+          "ownerApprovedLegalDesign",
+          "technicalApprovalCurrent"
+        ],
+        "admissionSurface": {
+          "launch_graph_commercial_status": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "consumer_checkout": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "sponsored_entitlement_reservation": {
+            "admitted": false,
+            "denialCode": "unknown_admission_point"
+          },
+          "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "artifact_commercial_attachment": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          }
+        }
+      },
+      {
+        "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "launchGraphOperationallySellable": false,
+        "launchGraphUnmetOperationalGates": [
+          "paymentAllowed",
+          "ownerApprovedLegalDesign",
+          "technicalApprovalCurrent"
+        ],
+        "admissionSurface": {
+          "launch_graph_commercial_status": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "consumer_checkout": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "sponsored_entitlement_reservation": {
+            "admitted": false,
+            "denialCode": "unknown_admission_point"
+          },
+          "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "artifact_commercial_attachment": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          }
+        }
+      },
+      {
+        "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+        "launchGraphOperationallySellable": false,
+        "launchGraphUnmetOperationalGates": [
+          "paymentAllowed",
+          "technicalApprovalCurrent"
+        ],
+        "admissionSurface": {
+          "launch_graph_commercial_status": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "consumer_checkout": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "sponsored_entitlement_reservation": {
+            "admitted": false,
+            "denialCode": "unknown_admission_point"
+          },
+          "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "artifact_commercial_attachment": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          }
+        }
+      }
+    ],
+    "theFixIsATightening": "Make the sponsored, attachment and delivery admission points require the launch graph's operational-gate intersection as well as the fulfillment record. Nothing here may be closed by loosening a gate, and this lane did not change any admission point.",
+    "whoOwnsTheFix": "the Captain lane that owns src/lib/rcap/fulfillment/grade-a-admission.ts, per the follow-up already recorded on the hosted-canary return"
+  },
+  "nearestRoutes": [
+    {
+      "routeId": "DC:dc_actual_innocence_expungement_16_803",
+      "familyId": "dc_innocence_expungement-set",
+      "fulfillmentRecordId": "grade-a-dc-dc_actual_innocence_expungement_16_803-v1",
+      "projectedState": null,
+      "commercialStatus": "commercially_eligible",
+      "launchGraphAvailability": "MAINTENANCE_HOLD",
+      "launchGraphUnmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent"
+      ],
+      "operationallySellable": false,
+      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
+      "secondaryBlockers": [
+        "launch-graph gates still unmet: paymentAllowed, ownerApprovedLegalDesign, technicalApprovalCurrent"
+      ]
+    },
+    {
+      "routeId": "IL:felony-prostitution-relief",
+      "familyId": "il-prostitution-j-vacate-set",
+      "fulfillmentRecordId": "grade-a-il-felony-prostitution-relief-v1",
+      "projectedState": null,
+      "commercialStatus": "commercially_eligible",
+      "launchGraphAvailability": "MAINTENANCE_HOLD",
+      "launchGraphUnmetOperationalGates": [
+        "paymentAllowed",
+        "deterministicArtifactProven"
+      ],
+      "operationallySellable": false,
+      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
+      "secondaryBlockers": [
+        "launch-graph gates still unmet: paymentAllowed, deterministicArtifactProven"
+      ]
+    },
+    {
+      "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "familyId": "ms-misd-addl-set",
+      "fulfillmentRecordId": "grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1",
+      "projectedState": null,
+      "commercialStatus": "commercially_eligible",
+      "launchGraphAvailability": "MAINTENANCE_HOLD",
+      "launchGraphUnmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent"
+      ],
+      "operationallySellable": false,
+      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
+      "secondaryBlockers": [
+        "launch-graph gates still unmet: paymentAllowed, ownerApprovedLegalDesign, technicalApprovalCurrent"
+      ]
+    },
+    {
+      "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "familyId": "ms-misd-addl-set",
+      "fulfillmentRecordId": "grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1",
+      "projectedState": null,
+      "commercialStatus": "commercially_eligible",
+      "launchGraphAvailability": "MAINTENANCE_HOLD",
+      "launchGraphUnmetOperationalGates": [
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent"
+      ],
+      "operationallySellable": false,
+      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
+      "secondaryBlockers": [
+        "launch-graph gates still unmet: paymentAllowed, ownerApprovedLegalDesign, technicalApprovalCurrent"
+      ]
+    },
+    {
+      "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+      "familyId": "wy_fel_1502-set",
+      "fulfillmentRecordId": "grade-a-wy-felony-conviction-expungement-w-s-7-13-1502-v1",
+      "projectedState": null,
+      "commercialStatus": "commercially_eligible",
+      "launchGraphAvailability": "MAINTENANCE_HOLD",
+      "launchGraphUnmetOperationalGates": [
+        "paymentAllowed",
+        "technicalApprovalCurrent"
+      ],
+      "operationallySellable": false,
+      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
+      "secondaryBlockers": [
+        "launch-graph gates still unmet: paymentAllowed, technicalApprovalCurrent"
+      ]
+    }
+  ],
+  "productPathPending": {
+    "note": "One row per PRODUCT_PATH_PENDING family, re-measured against today's bytes. executableByThisLane records whether route productization could have closed it; where it could not, the reason names the lane that owns it.",
+    "total": 20,
+    "closedByThisLane": 0,
+    "executableByThisLane": 1,
+    "byMechanism": {
+      "exact_route_delivery_defect": 2,
+      "execution_reclassification": 10,
+      "source_permission_hold": 6,
+      "source_reconciliation_product_question": 1,
+      "derived_route_product_graph_stale": 1
+    },
+    "families": [
+      {
+        "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "jurisdiction": "CT",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "exact_route_delivery_defect",
+        "executionOwnerOfRecord": "legal design plus engineering",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "The route has no exact output artifact at all, so there is nothing to productize until a build lane produces one.",
+        "recordedNextAction": "The current route-obligation record requires currentOutputStrategy participant_agency_application and a participant-signed absolute-pardon application submitted through the Board of Pardons and Paroles portal, but the only delivered component is agency_preparation_guide. The PDF expressly says it is not an official form, not a court filing and not a substitute for the Board's application; the route record still has packetFamilyId null, packetSetId null, existingArtifactIds [], and missingImplementationWork requiring the participant-facing agency-application workflow and an exact route output artifact.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+            "exactRuntimeRouteId": "CT:absolute-pardon-resulting-in-erasure",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "participant_agency_application",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "rendererSelected",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the route still carries no exact output artifact (existingArtifactIds is empty) and no completed-output legal approval for this family",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "az_record_sealing_arrest_no_charges-set",
+        "jurisdiction": "AZ",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "LEGAL-PURGE-W3",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Encode the charging-document and initial-appearance filing-court rule, route only when the record establishes the court, and hard-stop ambiguous records.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:AZ:az_record_sealing_arrest_no_charges:remedy-1-record-sealing",
+            "exactRuntimeRouteId": "AZ:remedy-1-record-sealing",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by LEGAL-PURGE-W3: Encode the charging-document and initial-appearance filing-court rule, route only when the record establishes the court, and hard-stop ambiguous records.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "az_record_sealing_dismissal_not_guilty-set",
+        "jurisdiction": "AZ",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "LEGAL-PURGE-W3",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Encode the charging-history filing-court rule, route only on established record facts, and hard-stop ambiguity.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by LEGAL-PURGE-W3: Encode the charging-history filing-court rule, route only on established record facts, and hard-stop ambiguity.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-21-6614-conviction-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:KS:ks-21-6614-conviction:conviction-or-diversion-216614",
+            "exactRuntimeRouteId": "KS:conviction-or-diversion-216614",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:criminal-cover-sheet-102025",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-21-6614-diversion-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:KS:ks-21-6614-diversion",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:criminal-cover-sheet-102025",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-21-6614-prostitution-coercion-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:KS:ks-21-6614-prostitution-coercion:prostitution-coercion",
+            "exactRuntimeRouteId": "KS:prostitution-coercion",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:criminal-cover-sheet-102025",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-21-6614-specialty-court-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:KS:ks-21-6614-specialty-court:specialty-court-accelerated",
+            "exactRuntimeRouteId": "KS:specialty-court-accelerated",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:criminal-cover-sheet-102025",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "custom_pleading",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-22-2410-arrest-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:KS:ks-22-2410-arrest",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:criminal-cover-sheet-102025",
+              "source-artifact:ksjc-petition-for-expungement-of-arrest-record-rev-2013-02"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ks-22-4908-registration-relief-set",
+        "jurisdiction": "KS",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_permission_hold",
+        "executionOwnerOfRecord": "Roger — an issuer permission negotiation",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An issuer permission negotiation. No agent can resolve a licence term.",
+        "recordedNextAction": "Kansas Judicial Council noncommercial-use and republication restriction",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-combined-expungement",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:ksjc-petition-for-relief-from-offender-registration-rev-2022-06",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          },
+          {
+            "obligationRouteKey": "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-4908-registration-relief-petition",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:ksjc-petition-for-relief-from-offender-registration-rev-2022-06",
+              "source-artifact:petition-for-expungement-of-conviction-or-diversion-82022"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "Kansas Judicial Council noncommercial-use and republication restriction — every exact current source byte is already held; only the licence term is unresolved",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ky_misdemeanor_expungement-set",
+        "jurisdiction": "KY",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "LEGAL-PURGE-W3",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Map misdemeanor, violation, and qualifying traffic screening facts to exact AOC-496 selections and hard-stop when the record does not establish an election.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:KY:ky_misdemeanor_expungement:misdemeanor-violation-traffic-conviction",
+            "exactRuntimeRouteId": "KY:misdemeanor-violation-traffic-conviction",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven",
+              "noProblematicPdfHold"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by LEGAL-PURGE-W3: Map misdemeanor, violation, and qualifying traffic screening facts to exact AOC-496 selections and hard-stop when the record does not establish an election.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ne-setaside-noncustodial-set",
+        "jurisdiction": "NE",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "LEGAL-PURGE-W3",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Replace the conflicting custom-pleading vehicle with official_pdf_fill, bind the exact CC-6-11 source, and release the official-form build.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service",
+            "exactRuntimeRouteId": "NE:set-aside-probation-fine-community-service",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "custom_pleading",
+            "launchGraphUnmetOperationalGates": [
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven",
+              "noProblematicPdfHold"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by LEGAL-PURGE-W3: Replace the conflicting custom-pleading vehicle with official_pdf_fill, bind the exact CC-6-11 source, and release the official-form build.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "or_contempt_setaside-set",
+        "jurisdiction": "OR",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "LEGAL-PURGE-W3",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Reconcile the legacy identifier to the ORS 137.225 route or retire it as a duplicate while preserving history, then release the resulting family.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:OR:or_contempt_setaside:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+            "exactRuntimeRouteId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": true,
+            "exactRouteOutputArtifactIds": [
+              "grade-a-fixture:OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a:sha256:5f552f875c113ccf25a1636b72eae90f67adab1f6b5b30e19afd9091bed46f34",
+              "grade-a-output-artifact-sha256:582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by LEGAL-PURGE-W3: Reconcile the legacy identifier to the ORS 137.225 route or retire it as a duplicate while preserving history, then release the resulting family.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "pa_6308_underage-set",
+        "jurisdiction": "PA",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "CAPTAIN",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Bind court-status facts to the proper filing vehicle, refuse automatic selection when status is not established, and then build the selected artifact.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement",
+            "exactRuntimeRouteId": "PA:path-g-underage-drinking-conviction-expungement",
+            "inLaunchGraph": false,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "custom_pleading",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by CAPTAIN: Bind court-status facts to the proper filing vehicle, refuse automatic selection when status is not established, and then build the selected artifact.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "rcap-ga-guidance-implementation",
+        "jurisdiction": "GA",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "exact_route_delivery_defect",
+        "executionOwnerOfRecord": "legal design plus engineering",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "The route has no exact output artifact at all, so there is nothing to productize until a build lane produces one.",
+        "recordedNextAction": "The route census promises a custom participant-facing 'Georgia § 42-8-66 Retroactive First Offender Petition', but this family deliberately delivers only a factual record and process guidance, explicitly contains no petition, and its product-wiring binding has generationAllowed false with empty instrumentKinds and packetComponents. The route therefore has no deliverable petition after written prosecutorial consent; this guidance family cannot be used as that petition family.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66",
+            "exactRuntimeRouteId": "GA:retroactive-first-offender-treatment-under-42-8-66",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "custom_pleading",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "rendererSelected",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the route still carries no exact output artifact (existingArtifactIds is empty) and no completed-output legal approval for this family",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "rcap-oh-custom-pleading-clean-tracks",
+        "jurisdiction": "OH",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "CAPTAIN",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:OH:oh_2953_32_sealing",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by CAPTAIN: Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "ut_pet_remove_link-set",
+        "jurisdiction": "UT",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "source_reconciliation_product_question",
+        "executionOwnerOfRecord": "legal design plus engineering",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "An unanswered legal-design question about which record fact selects which official form. Answering it is a legal-design determination, then a build.",
+        "recordedNextAction": "Which route/case fact selects 1110GE versus 1111GE?",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:UT:ut_pet_remove_link",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "unanswered product question: Which route/case fact selects 1110GE versus 1111GE?",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "va_exp_absolute_pardon-set",
+        "jurisdiction": "VA",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "derived_route_product_graph_stale",
+        "executionOwnerOfRecord": "engineering",
+        "executableByThisLane": true,
+        "whyThisLaneCannotExecuteIt": null,
+        "recordedNextAction": "The derived route/product graph is stale and internally inconsistent after registration of this exact packet specification. factory-v2-route-registry.json fails its own generator --check and exports 15 inputs while the current packet plan adds date_of_birth, mailing_address, phone_number and email_address; paid-pathway-legal-join.json still records no family bridge or owner adoption; and the route-acceptance projection emits an undefined source-problem placeholder absent from the zero-problem RASTER_PASS semantics.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+            "exactRuntimeRouteId": "VA:regime-1-expungement-available-now",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": true,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "custom_pleading",
+            "launchGraphUnmetOperationalGates": [
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "1 of 5 recorded sub-claims remain: paid-pathway-legal-join.json records no owner adoption for this route",
+        "stillOpenAfterTodaysRemeasurement": true,
+        "subClaimRemeasurement": [
+          {
+            "claim": "factory-v2-route-registry.json fails its own generator --check",
+            "stillTrue": false,
+            "measuredNow": "node scripts/generate-rcap-factory-v2-registry.mjs --check reports the registry current",
+            "closedBy": "the derived-graph regeneration already recorded in the census"
+          },
+          {
+            "claim": "the admitted VA route exports 15 requiredInputIds while the current packet plan adds date_of_birth, mailing_address, phone_number and email_address",
+            "stillTrue": false,
+            "measuredNow": "the registry now exports 19 requiredInputIds for this route, including date_of_birth, mailing_address, phone_number, email_address",
+            "closedBy": "the same regeneration"
+          },
+          {
+            "claim": "paid-pathway-legal-join.json records no family bridge for this route",
+            "stillTrue": false,
+            "measuredNow": "familyBridgePresent=true with packetFamilies=[va_exp_absolute_pardon-set]",
+            "closedBy": "the same regeneration"
+          },
+          {
+            "claim": "paid-pathway-legal-join.json records no owner adoption for this route",
+            "stillTrue": true,
+            "measuredNow": "legalStatus=owner_approval_pending; the family is inside OWN-ADOPT-2026-09-02-BATCH-53 (true) but scripts/generate-rcap-paid-pathway-legal-join.mjs joins only EXT-ADOPT-01-standing-external-counsel-adoption and auth-2026-08-19-owner-legal-approval-completed-output, and the September batch adoption is not one of its inputs",
+            "closedBy": null,
+            "whyThisLaneDidNotCloseIt": "Adding OWN-ADOPT-2026-09-02-BATCH-53 as an input to the legal-join generator would flip ownerApprovedLegalDesign on the launch graph for every family the September adoption covers. That is a gate-affecting change to a legal-status derivation across many routes, not a Virginia repair, and it needs to be authorized as its own change rather than taken as a side effect here."
+          },
+          {
+            "claim": "the route-acceptance projection emits an undefined source-problem placeholder",
+            "stillTrue": false,
+            "measuredNow": "no undefined placeholder remains in data/rcap-grade-a/route-artifact-acceptance/",
+            "closedBy": "the same regeneration"
+          }
+        ]
+      },
+      {
+        "familyId": "wa_vac_substance_use_disorder-set",
+        "jurisdiction": "WA",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "CAPTAIN",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:WA:wa_vac_substance_use_disorder",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by CAPTAIN: Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "wi_exp_cr266-set",
+        "jurisdiction": "WI",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "CAPTAIN",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, and release the build.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-only:WI:wi_exp_cr266",
+            "exactRuntimeRouteId": null,
+            "inLaunchGraph": false,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": null,
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by CAPTAIN: Map established discharge facts to exact CR-266 selections, leave participant assertions blank, hard-stop unknown discharge types, and release the build.",
+        "stillOpenAfterTodaysRemeasurement": true
+      },
+      {
+        "familyId": "wv_nc_acquittal_dismissal-set",
+        "jurisdiction": "WV",
+        "factoryState": "PRODUCT_PATH_PENDING",
+        "pendingMechanism": "execution_reclassification",
+        "executionOwnerOfRecord": "CAPTAIN",
+        "executableByThisLane": false,
+        "whyThisLaneCannotExecuteIt": "Each named next action terminates in a packet build — a field-election mapping, an official-form vehicle swap or a route-family split — and then in a MASTER_QUEUE state transition. Both are outside this lane: packet bytes and MASTER_QUEUE.json are not this lane's to write.",
+        "recordedNextAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+        "routes": [
+          {
+            "obligationRouteKey": "obligation:track-pathway:WV:wv_nc_acquittal_dismissal:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+            "exactRuntimeRouteId": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+            "inLaunchGraph": true,
+            "inRatificationRegistry": false,
+            "hasAFulfillmentRecord": false,
+            "exactRouteOutputArtifactIds": [
+              "source-artifact:sca-c-903"
+            ],
+            "currentOutputStrategy": "official_pdf_fill",
+            "launchGraphUnmetOperationalGates": [
+              "paymentAllowed",
+              "ownerApprovedLegalDesign",
+              "technicalApprovalCurrent",
+              "deterministicArtifactProven"
+            ],
+            "operationallySellable": false
+          }
+        ],
+        "exactCurrentBlocker": "the recorded next action is still unexecuted and is owned by CAPTAIN: Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+        "stillOpenAfterTodaysRemeasurement": true
+      }
+    ]
+  },
+  "anomaliesRestated": {
+    "evaluatorPaymentOpenWithoutAFulfillmentRecord": {
+      "priorFinding": "26 routes returning paymentAllowed=true at the evaluator with no fulfillment record",
+      "stillTrue": true,
+      "measuredNow": {
+        "paymentAllowedAtTheEvaluator": 28,
+        "ofWhichHoldAFulfillmentRecord": 2,
+        "ofWhichHoldNone": 26
+      },
+      "restatement": "The count is unchanged and the layering is intentional rather than broken. paymentAllowed is a screening-layer verdict read off the public witness fixture's terminal evaluation; commercial admission is decided separately by the fulfillment registry, which refuses all 26 with fulfillment_no_record. Nothing participant-visible follows from the evaluator's verdict either: no route in the compiled corpus displays a consumer price or reaches Checkout.",
+      "whatWouldResolveIt": "A product decision about whether the evaluator should keep returning paymentAllowed=true for a route no fulfillment record can serve. It is a reporting-consistency question, not a safety one, and it is not this lane's to decide.",
+      "routes": [
+        {
+          "routeId": "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+          "availability": "MAINTENANCE_HOLD",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven",
+            "noProblematicPdfHold"
+          ]
+        },
+        {
+          "routeId": "CA:tool-1-dismissal-set-aside",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "CA:tool-4-arrest-record-sealing",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "rendererSelected",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "rendererSelected",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "DE:discretionary-court-expungement-under-11-del-c-4374",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "HI:nonconviction-arrest-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "IL:adult-conviction-sealing",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "LA:felony-article-893-e-set-aside-followed-by-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "LA:non-conviction-arrest-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MN:petition-based-expungement-under-609a-02-03",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MS:eligible-felony-conviction-expungement-99-19-71",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MS:first-offense-dui-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "MS:minor-in-possession-underage-alcohol-expungement",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+          "availability": "MAINTENANCE_HOLD",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven",
+            "noProblematicPdfHold"
+          ]
+        },
+        {
+          "routeId": "NE:set-aside-incarceration-one-year-or-less",
+          "availability": "MAINTENANCE_HOLD",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven",
+            "noProblematicPdfHold"
+          ]
+        },
+        {
+          "routeId": "NE:set-aside-probation-fine-community-service",
+          "availability": "MAINTENANCE_HOLD",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven",
+            "noProblematicPdfHold"
+          ]
+        },
+        {
+          "routeId": "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "rendererSelected",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "UT:path-i-traffic-offense-expungement-or-deletion",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "VA:petition-based-sealing",
+          "availability": "MAINTENANCE_HOLD",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven",
+            "noProblematicPdfHold"
+          ]
+        },
+        {
+          "routeId": "VA:regime-1-expungement-available-now",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent"
+          ]
+        },
+        {
+          "routeId": "WI:adult-conviction-expungement-under-wis-stat-973-015",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "rendererSelected",
+            "deterministicArtifactProven"
+          ]
+        },
+        {
+          "routeId": "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+          "availability": "UNFINISHED",
+          "unmetOperationalGates": [
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ]
+        }
+      ]
+    },
+    "kansasMunicipalRoutes": {
+      "priorFinding": "two Kansas municipal routes whose sole unmet gate is paymentAllowed",
+      "stillTrue": true,
+      "restatement": "True at the launch graph and misleading as a measure of distance. unmetOperationalGates is one gate long for both routes, but operationallySellable is the intersection of the gates AND a fulfillment record, and neither route has a record: their family, rcap-ks-custom-pleading, carries 8 unmet generator preconditions and 4 remaining steps, one of which only Roger can take. The paymentAllowed gate is itself unmet because the evaluator's own settled outcome for these routes is guidance_only and needs_more_info — the product deliberately answers with guidance rather than a paid packet — so closing it would mean changing the screening outcome, not flipping a switch.",
+      "routes": [
+        {
+          "routeId": "KS:municipal-arrest-record-expungement-under-12-4516a",
+          "unmetOperationalGates": [
+            "paymentAllowed"
+          ],
+          "fulfillmentAuthorityAdmitted": false,
+          "hasAFulfillmentRecord": false,
+          "witnessResultCode": "guidance_only",
+          "witnessExpectedPaymentAllowed": false,
+          "inRatificationRegistry": false
+        },
+        {
+          "routeId": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+          "unmetOperationalGates": [
+            "paymentAllowed"
+          ],
+          "fulfillmentAuthorityAdmitted": false,
+          "hasAFulfillmentRecord": false,
+          "witnessResultCode": "needs_more_info",
+          "witnessExpectedPaymentAllowed": false,
+          "inRatificationRegistry": false
+        }
+      ],
+      "familyDistance": {
+        "familyId": "rcap-ks-custom-pleading",
+        "blocker": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+        "unmetGeneratorPreconditionCount": 8,
+        "remainingStepCount": 4,
+        "remainingStepsOnlyRogerCanTake": [
+          "S4_obtainCompletedOutputOwnerApproval"
+        ],
+        "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding."
+      }
+    },
+    "dcCorrectMisattributedArrest": {
+      "routeId": "DC:dc_correct_misattributed_arrest",
+      "declaredInRuntimeRegistrySource": true,
+      "presentInCompiledDcProfile": false,
+      "presentInGeneratedFactoryV2Registry": false,
+      "presentInLaunchGraph": false,
+      "presentInRatificationRegistry": false,
+      "hasAFulfillmentRecord": false,
+      "commercialAdmission": {
+        "launch_graph_commercial_status": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "consumer_checkout": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "sponsored_entitlement_reservation": {
+          "admitted": false,
+          "denialCode": "unknown_admission_point"
+        },
+        "packet_credit_admission": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "artifact_commercial_attachment": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "briefcase_ready": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        }
+      },
+      "familyState": "COMPLETE_PACKET_PROVEN",
+      "restatement": "The declaration is inert, not a door. src/lib/rcap/documents/factory-v2-registry.ts carries a literal DC misattributed-arrest crosswalk, but the obligation is track-only: no compiled DC pathway emits the route, so screening can never select it, and every commercial admission point refuses it with fulfillment_no_record. It is a renderer crosswalk with nothing upstream that can reach it.",
+      "whatWouldChangeThat": "Adding a compiled runtime pathway under src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json, which would make the route participant-reachable in screening. This lane did not do that: it is a live RCAP route change and a legal-design act, and the route also carries no counsel ratification.",
+      "decisionRequired": "counsel ratification for DC:dc_correct_misattributed_arrest in data/record-clearing/legal-decisions/route-ratification-registry.json, before any compiled pathway is added"
+    }
+  },
+  "decisionsOnlyTheOwnerOrCounselCanMake": [
+    {
+      "decision": "Adopt the completed output of the families that hold no completed-output owner approval, naming their exact shipping-artifact digests",
+      "whoDecides": "Roger",
+      "record": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json (OWN-ADOPT-2026-09-02-BATCH-53) or a successor record",
+      "blocks": "42 proven families, including ct-cleanslate-petition-set and rcap-ks-custom-pleading",
+      "generatorPreconditionItCloses": "P08"
+    },
+    {
+      "decision": "Re-review the families whose approved shipping-artifact digest moved after approval",
+      "whoDecides": "Roger",
+      "record": "OWN-ADOPT-2026-09-02-BATCH-53, as a re-review",
+      "blocks": "2 proven families",
+      "generatorPreconditionItCloses": "P09"
+    },
+    {
+      "decision": "Resolve Kansas Judicial Council commercial reuse and republication treatment for the six held Kansas source families",
+      "whoDecides": "Roger — an issuer permission negotiation",
+      "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+      "blocks": "6 PRODUCT_PATH_PENDING families; every exact current source byte is already held",
+      "generatorPreconditionItCloses": null
+    },
+    {
+      "decision": "Decide what to do about the routes whose evaluator payment gate is open while the fulfillment layer refuses",
+      "whoDecides": "Roger",
+      "record": "data/rcap-ledger/launch-graph.json read together with data/rcap-grade-a/fulfillment-authority-registry.json",
+      "blocks": "26 routes, none of which can take money today",
+      "generatorPreconditionItCloses": "P07"
+    },
+    {
+      "decision": "Ratify DC:dc_correct_misattributed_arrest, or record that it stays unratified, before any compiled DC pathway is added for it",
+      "whoDecides": "counsel (Lawrence), through the route ratification registry",
+      "record": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "blocks": "the only proven family whose blocker is NO_COMPILED_RUNTIME_PATHWAY and whose crosswalk already ships",
+      "generatorPreconditionItCloses": "P01"
+    },
+    {
+      "decision": "Answer which Utah route or case fact selects hearing form 1110GE versus no-hearing form 1111GE",
+      "whoDecides": "counsel or a recorded source determination — not an agent",
+      "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, family ut_pet_remove_link-set",
+      "blocks": "1 PRODUCT_PATH_PENDING family",
+      "generatorPreconditionItCloses": null
+    },
+    {
+      "decision": "Authorize the hosted acceptance credentials and a Captain-owned exact-route batch input, so hosted consumer and sponsored canaries can be run for the five commercially eligible routes",
+      "whoDecides": "Roger",
+      "record": "data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json — hostedWorkflow.missingCredentialNames and remainingCaptainFollowUp",
+      "blocks": "all 5 routes that already hold a commercially eligible fulfillment record",
+      "generatorPreconditionItCloses": null
+    }
+  ]
+}

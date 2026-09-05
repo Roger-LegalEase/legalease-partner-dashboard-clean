@@ -1306,35 +1306,45 @@ function onlyChangeIsAnIdentityRefresh(base, directory) {
    * separately is what an earlier attempt did, and it never matched: the
    * pre-refresh receipt carries no identityRefresh to key on, so its sha256 and
    * byteLength survived while the current one's were stripped. */
+  /*
+   * Receipts hold their pins under at least five different array names --
+   * committedRecords, groundingRecords, committedLegalRecords, evidence,
+   * heldFormComponents -- so both passes below walk the whole document and key
+   * on SHAPE: an object carrying a repository path and a sha256. Naming two of
+   * the five, which is what this did first, silently skipped every family whose
+   * pins live under the other three.
+   */
+  const PIN_PATH_KEYS = ["path", "pathInRepository", "pathInPack", "pathInArchive", "recordPath"];
+  const eachPin = (node, visit) => {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) { for (const x of node) eachPin(x, visit); return; }
+    const key = PIN_PATH_KEYS.map((k) => node[k]).find((v) => typeof v === "string");
+    if (key && typeof node.sha256 === "string") visit(node, key);
+    for (const v of Object.values(node)) eachPin(v, visit);
+  };
   const refreshedPaths = (doc) => {
     const out = new Set();
-    for (const list of [doc?.committedRecords, doc?.groundingRecords]) {
-      for (const rec of list ?? []) {
-        const r = rec?.identityRefresh;
-        if (!r) continue;
-        /* Only a record whose refresh RECORDED identical anchors may be
-         * normalised. A refresh written without that comparison proves nothing
-         * and must still read as movement. */
-        if (!(r.anchorsCompared > 0) || r.anchorsCompared !== r.anchorsIdentical) return null;
-        const key = rec.pathInRepository ?? rec.path;
-        if (!key) return null;
-        out.add(key);
-      }
-    }
-    return out;
+    let refused = false;
+    eachPin(doc, (rec, key) => {
+      const r = rec.identityRefresh;
+      if (!r) return;
+      /* Only a record whose refresh RECORDED identical anchors may be
+       * normalised. A refresh written without that comparison proves nothing
+       * and must still read as movement. */
+      if (!(r.anchorsCompared > 0) || r.anchorsCompared !== r.anchorsIdentical) { refused = true; return; }
+      out.add(key);
+    });
+    return refused ? null : out;
   };
   const normalise = (text, paths) => {
     let doc;
     try { doc = JSON.parse(text); } catch { return null; }
-    for (const list of [doc.committedRecords, doc.groundingRecords]) {
-      for (const rec of list ?? []) {
-        const key = rec?.pathInRepository ?? rec?.path;
-        if (!key || !paths.has(key)) continue;
-        delete rec.identityRefresh;
-        delete rec.sha256;
-        delete rec.byteLength;
-      }
-    }
+    eachPin(doc, (rec, key) => {
+      if (!paths.has(key)) return;
+      delete rec.identityRefresh;
+      delete rec.sha256;
+      delete rec.byteLength;
+    });
     return JSON.stringify(doc);
   };
   let before;
@@ -1367,6 +1377,34 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
         { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
       moved = out.status === 0 && out.stdout.trim().length > 0;
     } catch { moved = false; }
+    /*
+     * A COMMIT LANDING IS NOT THE SAME FACT AS CONTENT CHANGING.
+     *
+     * This branch asks git whether anything was committed under the family's
+     * paths since the verdict, which is the only question available without a
+     * declared base -- and it answers yes for a commit that changed nothing a
+     * verdict depends on. Seven families with no base went back to
+     * VERIFY_PENDING purely because a receipt re-pin touched their directory,
+     * while the seven with a base were correctly left alone by the exemptions
+     * below. Same edit, opposite outcome, decided by whether an old verdict
+     * happened to record a commit.
+     *
+     * So when a commit did land, the last commit at or before the verdict is
+     * resolved and the same content comparison runs against it. That gives the
+     * base-less families the same treatment as the rest instead of a stricter
+     * one they did nothing to earn.
+     */
+    if (moved) {
+      const asOf = spawnSync("git", ["rev-list", "-1", `--before=${at}`, "HEAD"],
+        { cwd: ROOT, encoding: "utf8" });
+      const commit = asOf.status === 0 ? asOf.stdout.trim() : "";
+      if (/^[0-9a-f]{7,40}$/.test(commit)) {
+        const dirOnly = spawnSync("git", ["diff", "--quiet", commit, "HEAD", "--",
+          directory, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT });
+        if (dirOnly.status === 0) moved = false;
+        else if (onlyChangeIsAnIdentityRefresh(commit, directory)) moved = false;
+      }
+    }
     movedSinceCache.set(key, moved);
     return moved;
   }
@@ -3390,9 +3428,33 @@ for (let i = 0; i < FIX_LANES; i += 1) {
     ownedPaths: [`${FACT}/${slug}/**`, ...items.map((f) => `${f.directory}/**`), ...items.filter((f) => f.exclusiveScript).map((f) => f.buildScript)],
     prohibitedPaths: ["scripts/rcap-packet-completeness/**", `${LC}/**`, ...activePaths.map((p) => p.path)],
     requiredOutputs: [
-      `${FACT}/${slug}/rows.json — one row per family: itemId, status, the obligation repaired, and the nine counters after`
+      `${FACT}/${slug}/rows.json — one row per family: itemId, status, the obligation repaired, repairedByThisLane, and countersAfter (all nine, as an object). If this directory already holds a return under that name, write yours alongside under a distinct name rather than overwriting it — returns are found by shape, not by filename.`
     ],
-    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
+    /*
+     * THE TWO FIELDS THE STATE MACHINE ACTUALLY READS, SAID OUT LOUD.
+     *
+     * A repair only supersedes a standing FAIL when its row carries
+     * `repairedByThisLane: true` and a `countersAfter` object whose nine values
+     * are all zero. That has always been the rule and it was never published
+     * here: the schema named only the array key, the item key and the status
+     * words. A cohort that repaired eight families wrote a return without those
+     * two fields, exactly as a careful reader of this schema would, and all
+     * eight stayed FAIL_REPAIR_REQUIRED with the work already done and pushed.
+     *
+     * Publishing a requirement is cheaper than diagnosing its absence eight
+     * times, so the schema now names them and says what each one has to mean.
+     */
+    outputSchema: {
+      arrayKey: "rows", itemKeyField: "itemId",
+      completionVocabulary: ["COMPLETED", "STOPPED"],
+      requiredOnACompletedRow: {
+        repairedByThisLane: "true only where THIS lane changed the family. A family you re-measured and found already sound is COMPLETED with this false or absent, and its stale verdict is Captain's to clear -- claiming a repair you did not perform is how a verdict gets superseded by nothing.",
+        countersAfter: "the nine completeness counters as an object, measured after your change by verify-packet-completeness.mjs --family <id>. Every value must be zero for the repair to supersede the failing verdict. Report a non-zero counter honestly rather than omitting it; a repair that did not finish is a finding, not a pass.",
+        laneKind: "omit it, or set it to \"repair\" or \"shared-host-repair\". Any other value is read as not-a-repair.",
+        obligationCoverage: "the row text must name every obligation in the family's failedObligationNames. A repair that does not mention what it repaired cannot be matched to the verdict it answers."
+      },
+      rule: "An unrecognised status is refused at integration rather than translated. A COMPLETED row missing repairedByThisLane or countersAfter is read as work not done -- it is not translated into a pass."
+    },
     focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
     stopConditions: [
       "LANE STOP — you do not change the completeness contract.",
@@ -3838,7 +3900,14 @@ const promptFor = (a) => {
   }
   p.push("## Never write here", "", bullet([...new Set(a.prohibitedPaths)].slice(0, 24).map((x) => `\`${x}\``)), "");
   p.push("## Required outputs", "", bullet(a.requiredOutputs), "");
-  p.push("### Output schema", "", `Array key \`${a.outputSchema.arrayKey}\`, item key \`${a.outputSchema.itemKeyField}\`, status words: ${a.outputSchema.completionVocabulary.map((v) => `\`${v}\``).join(", ")}.`, "", a.outputSchema.rule, "");
+  p.push("### Output schema", "", `Array key \`${a.outputSchema.arrayKey}\`, item key \`${a.outputSchema.itemKeyField}\`, status words: ${a.outputSchema.completionVocabulary.map((v) => `\`${v}\``).join(", ")}.`, "");
+  /* A required field a lane is never shown is a requirement only the reader
+   * knows about, which is how eight finished repairs read as unfinished. */
+  for (const [field, meaning] of Object.entries(a.outputSchema.requiredOnACompletedRow ?? {})) {
+    p.push(`- \`${field}\` — ${meaning}`);
+  }
+  if (a.outputSchema.requiredOnACompletedRow) p.push("");
+  p.push(a.outputSchema.rule, "");
   p.push("## Focused tests", "", bullet(a.focusedTests.map((t) => `\`${t}\``)), "", "> Focused checks only. The full national repository chain runs at Captain checkpoints, never inside a worker.", "");
   p.push("## Stop conditions", "", bullet(a.stopConditions), "", "Stopping with an honest account of what is missing is a complete return. One blocked family never stops the lane.", "");
   p.push("## How you return", "", a.theDiffIsTheReturn, "", "```text", ...a.returnFormat, "```", "");
