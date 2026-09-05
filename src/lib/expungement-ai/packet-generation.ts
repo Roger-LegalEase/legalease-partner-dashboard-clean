@@ -354,7 +354,8 @@ async function gradeAPacketDownload(
   assertPacketFulfillmentProven(
     verification.snapshot.jurisdiction,
     verification.snapshot.pathwayId,
-    "participant delivery"
+    "participant delivery",
+    { trackId: verification.snapshot.selectedTrackId }
   );
 
   /**
@@ -639,7 +640,8 @@ export async function assertPacketGenerationAllowed(
   assertPacketFulfillmentProven(
     verification.snapshot.jurisdiction,
     verification.snapshot.pathwayId,
-    "packet generation"
+    "packet generation",
+    { trackId: verification.snapshot.selectedTrackId }
   );
   const resultCode = verification.snapshot.resultCode ?? "guidance_only";
   const paymentRequired = options.paymentRequired ?? true;
@@ -748,7 +750,7 @@ async function buildConsumerPacketArtifact(
    * approved provider. Dispatch on it. Until a family is implemented behind one
    * of those providers, the record cannot exist and generation never gets here.
    */
-  const fulfillment = packetFulfillmentAuthority(verification.snapshot.jurisdiction, pathwayId);
+  const fulfillment = packetFulfillmentAuthority(verification.snapshot.jurisdiction, pathwayId, undefined, { trackId: verification.snapshot.selectedTrackId });
   if (!fulfillment.allowed) {
     throw new ConsumerPacketGenerationError(
       `No proven packet fulfillment for ${verification.snapshot.jurisdiction}:${pathwayId} (missing ${fulfillment.missing.join(", ")}). A purchased packet is not a route summary.`

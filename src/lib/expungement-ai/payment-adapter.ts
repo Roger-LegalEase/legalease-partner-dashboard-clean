@@ -106,7 +106,7 @@ export function createConsumerPaymentPlaceholder(
   // whether this route produces the filing it promises.
   let fulfillmentProven = true;
   try {
-    assertPacketFulfillmentProven(result.state, pathwayId, "consumer payment authority");
+    assertPacketFulfillmentProven(result.state, pathwayId, "consumer payment authority", { trackId: result.selectedTrackId });
   } catch {
     fulfillmentProven = false;
   }
@@ -660,7 +660,7 @@ export function assertPacketRouteCanDeliver(
   // Participant delivery. The route resolver below answers "can this state
   // render at all"; this answers "does this route deliver the packet it
   // promises", which is the question the resolver cannot reach.
-  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "participant delivery");
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "participant delivery", { trackId: snapshot.selectedTrackId });
   const route = resolvePacketRoute({
     state: snapshot.jurisdiction,
     pathway: snapshot.pathwayId,
@@ -693,7 +693,7 @@ export function assertCheckoutAllowed(
   assertNotComponentDeferral(snapshot);
   assertNotTerminalTreatment(snapshot);
   assertPacketRouteCanDeliver(snapshot);
-  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation");
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation", { trackId: snapshot.selectedTrackId });
   const packetProduct = snapshot.packetType === "custom_pleading"
     || snapshot.packetType === "official_pdf_overlay"
     || snapshot.packetType === "legacy_packet";
