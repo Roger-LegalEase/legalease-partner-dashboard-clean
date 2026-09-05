@@ -4220,12 +4220,35 @@ async function buildOfficial(familyId, config) {
          * ever intended to write. Measured on the boundary proposed order,
          * whose one-line petitioner address does not fit item 3.
          */
+        /*
+         * FIX76: the same channel, saying the true cause.
+         *
+         * The overlay refuses for more than one reason and this list stated one
+         * of them for all of them. On the two New Jersey families that do not
+         * deny ExpungeCntyName the overlay refuses it because the widget is a
+         * DROPDOWN of the twenty-one county names and not a free-text line, and
+         * the guide then told the participant that their county "does not fit
+         * this box at a size a court could read" -- a sentence about width,
+         * printed over a refusal about type, on the page they are told to
+         * complete by hand. A disclosure that misstates why a box is empty is
+         * worse than the counter it satisfies. The width sentence is kept
+         * verbatim where the refusal really is a width refusal, so no family
+         * whose overlay refusals are fit refusals moves a byte.
+         *
+         * A row with no held value is dropped rather than listed: this section
+         * is for facts the platform HOLDS and could not print, and a fact it
+         * does not hold belongs in the required-before-filing list instead.
+         */
         ...(report.fieldFinalizer?.exactMappingOverlay?.refused ?? [])
           .filter((row) => Object.hasOwn(mappings, row.field))
+          .filter((row) => row.reason !== "no_value_for_exact_mapping")
           .map((row) => ({
             field: row.field, factId: mappings[row.field],
             valueHeld: facts[mappings[row.field]] ?? null,
-            why: "the value does not fit this box at a size a court could read",
+            why: row.reason === "exact_mapping_requires_text_field"
+              ? "this blank is a chooser the form fills from its own list of options, not a free-text line, "
+                + "and the held value is not one of those options"
+              : "the value does not fit this box at a size a court could read",
             reason: row.reason,
           })),
       ].filter((row, index, rows) => rows.findIndex((other) => other.field === row.field) === index)
