@@ -1586,9 +1586,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX80",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX80 so the shared finalizer opt-in has one writer; no work was done on FIX01."
     },
     {
       "subjectType": "packet-family",
@@ -4578,8 +4580,9 @@
       "operation": "independent-verification",
       "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T23:23:30.130Z",
+      "releaseReason": "VF09 read at 3a2f1cf3d: BLOCKED_LEGAL_INPUT, the registry hard stop stands verbatim (do not assign TC0057, TC0059 or the custom pleading as the controlling petition until the issuing court identifies the Standing Order form or confirms none is published); SOURCE_IDENTITY also FAIL because codifiedGrounds carry no sha256; twelve obligations pass; rows.json at f926aa2c6"
     },
     {
       "subjectType": "packet-family",
@@ -5925,10 +5928,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX81",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:51:28.804Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6386,9 +6389,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Bookkeeping: the dispatch generator packs VERIFY_PENDING reads only onto the VF01 to VF08 roster and refuses a claim held on VF09; the read itself continues on the VF09 worker already asserted and running, and its row lands in vf09/rows.json; the claim moves to VF02, the lane the dispatch names, so the dispatch can regenerate. No work was done or undone by this move."
+      "released": true,
+      "releasedAt": "2026-09-05T23:23:30.026Z",
+      "releaseReason": "VF09 read at 3a2f1cf3d on the FIX72 bytes (claim held on VF02 for the dispatch roster): PASS_COMPLETE_INDEPENDENT, fifteen obligations pass, nine counters zero, all twelve stop conditions in the guide and the referral page, both codified-ground records bound by exact hash; rows.json at f926aa2c6"
     },
     {
       "subjectType": "packet-family",
@@ -6631,8 +6634,9 @@
       "operation": "independent-verification",
       "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T23:23:30.246Z",
+      "releaseReason": "VF09 read at 3a2f1cf3d with a declared base: FAIL_REPAIR_REQUIRED on nine obligations; the fee and waiver record is settled (in forma pauperis motion published statewide) while the guide says not established; certificate of service missing and undeclared; eight boundary writes dropped at minimum font including the petitioner name; five synthesized squares; four of seven self-help boundaries absent; rows.json at f926aa2c6"
     },
     {
       "subjectType": "packet-family",
@@ -8241,10 +8245,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX82",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T22:37:22.970Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13611,7 +13615,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "2c5b83da350c632d5aef23e1b8bd62adbc2b6e3f77f7f9a882099d8b6ef6ecc8",
+  "claimsDigest": "02c7bb6b7aa945e73292274797f677bc6e460499fb3200bf81446491751f2628",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30591,6 +30595,42 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T23:19:56.249Z",
       "reason": "VF03 read at e80c4a759 on the FIX74 bytes: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP only, the shared flatten synthesizes a black square at 17 unmarked CC-1473 check boxes (2299 added dark pixels per fixture) and a zero-write baseline with suppressSynthesizedAppearances is pixel-identical to the pinned form; FEE_AND_WAIVER passes with the registry clause verbatim; sweep 41/41; rows.json at 0e886ecdf"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T23:23:28.846Z",
+      "reason": "Consolidated onto FIX80 so the shared finalizer opt-in has one writer; no work was done on FIX01."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T23:23:30.026Z",
+      "reason": "VF09 read at 3a2f1cf3d on the FIX72 bytes (claim held on VF02 for the dispatch roster): PASS_COMPLETE_INDEPENDENT, fifteen obligations pass, nine counters zero, all twelve stop conditions in the guide and the referral page, both codified-ground records bound by exact hash; rows.json at f926aa2c6"
+    },
+    {
+      "lane": "VF09",
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T23:23:30.130Z",
+      "reason": "VF09 read at 3a2f1cf3d: BLOCKED_LEGAL_INPUT, the registry hard stop stands verbatim (do not assign TC0057, TC0059 or the custom pleading as the controlling petition until the issuing court identifies the Standing Order form or confirms none is published); SOURCE_IDENTITY also FAIL because codifiedGrounds carry no sha256; twelve obligations pass; rows.json at f926aa2c6"
+    },
+    {
+      "lane": "VF09",
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T23:23:30.246Z",
+      "reason": "VF09 read at 3a2f1cf3d with a declared base: FAIL_REPAIR_REQUIRED on nine obligations; the fee and waiver record is settled (in forma pauperis motion published statewide) while the guide says not established; certificate of service missing and undeclared; eight boundary writes dropped at minimum font including the petitioner name; five synthesized squares; four of seven self-help boundaries absent; rows.json at f926aa2c6"
     }
   ],
   "reissues": [
@@ -44091,6 +44131,39 @@
       "previouslyReleasedAt": "2026-09-05T21:27:52.946Z",
       "transferredAt": "2026-09-05T22:47:58.397Z",
       "reason": "VF01 FAIL KNOWN_PREFILLS at 5326f747d on the FIX65 bytes: held facts refused on the official form while written elsewhere in the packet; NC 146 dismissal: write participant.date_of_birth into AOC-CR-287 DateOfBirth, participant.zip into PetitionerZip and participant.street_address into AOC-CV-226 ApplicantStreetNumberAndStreetNameLine1 at each widget's own Rect (the FIX56 caption-correction and FIX66 named-fact channels); NH pre-2019: bind participant.city to NHJB-2317 'Mailing Address.2', last/first/middle name to NHJB-2956 name.1/name.3/name.4 and the composed street-city-state-zip line to NHJB-2956 'Mailing Address1', leaving name.2 (maiden or alias) to the participant; remove the repaired rows from requiredBeforeFiling and the disclosure tables; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX80",
+      "previouslyReleasedAt": "2026-09-05T23:23:28.846Z",
+      "transferredAt": "2026-09-05T23:23:28.959Z",
+      "reason": "VF02 FAIL CLIPPING_AND_OVERLAP at ebe931e4e on the FIX68 bytes: pdf-lib regenerates the appearances of JDF-641 fields 9B.0, 9B.2 and 9C.0 (participant elections the packet leaves unmade) from their /MK /BC and strokes a black rectangle where the form draws a rule, 8344 dark pixels outside every write box on packet page 4; the fix belongs with the shared finalizer as an opt-in in the FIX50 family (preserve a usable source /AP, or neutralise /MK /BC for a field the packet does not write), one writer; rebuild, raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX81",
+      "previouslyReleasedAt": "2026-09-05T21:51:28.804Z",
+      "transferredAt": "2026-09-05T23:23:29.079Z",
+      "reason": "VF02 FAIL at ebe931e4e on the FIX68 bytes: COMPONENT_SET (the required local_rules_check component, role process_guidance, is delivered nowhere; carry NE.memo.json components[5].notes into participant-instructions.md) and KNOWN_PREFILLS (matter.case_number blank on all three case-numbered documents, the caption court and county and the DC-1-15 certificate-of-service identity block left blank while factsFor() holds them, under reasons that describe build policy); repair both together; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX82",
+      "previouslyReleasedAt": "2026-09-05T22:37:22.970Z",
+      "transferredAt": "2026-09-05T23:23:29.197Z",
+      "reason": "VF03 FAIL CLIPPING_AND_OVERLAP at e80c4a759 on the FIX74 bytes: the shared flatten synthesizes a black square at 17 unmarked CC-1473 check boxes (2299 added dark pixels per fixture) and the reader proved a suppressSynthesizedAppearances rebuild pixel-identical to the pinned form at all 17 rects; add the opt-in at the builder's finalize call; raster and re-read then owed."
     }
   ],
   "grants": [
