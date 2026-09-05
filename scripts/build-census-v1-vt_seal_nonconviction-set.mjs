@@ -832,6 +832,22 @@ async function renderDocument(source, census, fixtureName) {
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     evaluateDeclaredMinimumSize: true,
     alignWidgetFontSizeToFit: true,
+    /* FIX50. Both 200-00130 and 200-00132 ship every check box at /AS /Off with
+     * /Yes as the only state in /AP /N. The shared sanitizer runs
+     * updateFieldAppearances() before flatten, pdf-lib regenerates an
+     * appearance for exactly that condition, and its default provider paints a
+     * stroked 14.4pt square -- so all 14 unticked boxes on the petition and the
+     * stipulation were delivered inside a square the court's paper does not
+     * print and no conforming viewer paints (ISO 32000-1 12.5.5). VF02 proved
+     * the square came from this step and not from this family, by rebuilding
+     * the pinned 200-00130 through the same sanitizer with no writes at all and
+     * finding the squares pixel-identical in the zero-write baseline.
+     *
+     * Opting in supplies the missing /Off state as an EMPTY appearance instead,
+     * so nothing is synthesized and nothing is flattened there. 600-00228 ships
+     * its own /Off appearance and is untouched by this: its six boxes are the
+     * court's own and stay, which is what RI-OFF-APPEARANCE settles. */
+    suppressSynthesizedAppearances: true,
     title: FORMS[source.formNumber].title
   });
   if (process.env.VT_DEBUG_RENDER) {
