@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "041da0a55d03aa8fb804832d2d6f6e13084e55a8",
+  "minimumCaptainSha": "c9bbb6ecd5682edc17ea988a3228615396acce27",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,17 +72,17 @@
     "sourceReady": 83,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 24,
-    "repairRequired": 44,
+    "verifyPending": 23,
+    "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 141,
-    "FAIL_REPAIR_REQUIRED": 48,
+    "FAIL_REPAIR_REQUIRED": 49,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 83,
-    "VERIFY_PENDING": 24,
+    "VERIFY_PENDING": 23,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
@@ -5323,29 +5323,15 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf08",
-        "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf11",
+        "verifiedAtBase": "79f886f26a16cde736a830c842bb7ea06b14f174",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-        "allDriftedRecords": [
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-            "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -5371,11 +5357,147 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The legal identity is right — superior court, notation of clearance, petitioner files, judge decides — but the route identity the packet carries is not the route this family serves. Every page footer, the field map, the source receipt, the top of product-wiring.json and the participant instructions name obligation:track-only:AZ:az_wrongful_arrest_clearance, a key that appears nowhere in the current census; the census, the MASTER_QUEUE, product-wiring.json's own binding block and this lane's grant name obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051. product-wiring.json therefore contradicts itself (routeKey vs binding.routeKeys). A Grade-A record is keyed to an exact route; a packet stamped with a key no controlling record carries cannot be keyed. REPAIR: rebuild through scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs with the controlling key so that the printed footers (pages 2 and 4 of both fixtures), production-field-map.json (routeKeys, componentRoutes, documentPolicy.routeKey, routeSelectionsMade), source-receipt.json routeKeys, product-wiring.json routeKey/routeKeys and participant-instructions.md all name obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051; then re-raster, because the fixture bytes will move.",
+          "evidence": {
+            "statute": "A.R.S. § 13-4051",
+            "court": "Superior court (registry destination.kind=court, name=Superior court; census destination identical)",
+            "relief": "notation of clearance on all court, police and agency records, plus an order that agencies not release copies except on court order — not a sealing under § 13-911, a set-aside under § 13-905 or a marijuana expungement under § 36-2862 (route contract AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051 exclusions)",
+            "filerPosture": "participant-initiated petition; the petitioner signs personally",
+            "decidingActor": "the superior court judge, after the hearing the statute contemplates, if the judge believes justice will be served",
+            "legalIdentityOnThePages": "correct in both fixtures: title, paragraph A, paragraph D and the instructions page all name § 13-4051, the superior court and a notation of clearance; the only occurrence of sealing vocabulary is the registry-mandated instruction that this remedy is different from sealing",
+            "printedRouteKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+            "printedAt": [
+              {
+                "fixture": "canonical",
+                "page": 2,
+                "xPt": "72.0-350.3",
+                "yPtFromTop": "267.5-277.4"
+              },
+              {
+                "fixture": "canonical",
+                "page": 4,
+                "xPt": "72.0-350.3",
+                "yPtFromTop": "238.5-248.4"
+              },
+              {
+                "fixture": "boundary",
+                "page": 2,
+                "xPt": "72.0-350.3",
+                "yPtFromTop": "296.5-306.4"
+              },
+              {
+                "fixture": "boundary",
+                "page": 4,
+                "xPt": "72.0-350.3",
+                "yPtFromTop": "238.5-248.4"
+              }
+            ],
+            "controllingRouteKey": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+            "occurrencesOfPrintedKeyInCurrentCensusBytes": 0,
+            "occurrencesOfControllingKeyInCurrentCensusBytes": 1,
+            "recordsStillNamingTheStaleKey": [
+              "production-field-map.json: routeKeys, componentRoutes (both components), maps[0].documentPolicy.routeKey, routeSelectionsMade[0].routeKey",
+              "source-receipt.json: routeKeys",
+              "product-wiring.json: routeKey and routeKeys (top level)",
+              "participant-instructions.md: closing Route(s) line",
+              "fixtures/canonical.pdf and fixtures/boundary.pdf: the Route footer on pages 2 and 4"
+            ],
+            "recordsNamingTheControllingKey": [
+              "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json routes[320] (sha256 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f)",
+              "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json family row routeKeys",
+              "product-wiring.json: binding.routeKeys",
+              "claim-ledger.json: the VF11 verification grant as dispatched"
+            ],
+            "censusCommitThatRenamedTheRoute": "2d01b84f7a57d9bfb2717297783b1951940e506c (2026-09-05, 'Regenerate the census at the five-route runtime head'); the last census version carrying the printed key is ecd2bde7980de4c5c33c4db956acec6a37102588, whose bytes hash to the receipt's pin 9816a479…"
+          }
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Two of the three committed records rehash exactly. The third — the route-obligation census the receipt binds as 'the exact route keys this family serves' — no longer matches its pin (9816a479… / 2,607,149 bytes pinned; 4d0eb74b… / 2,625,273 bytes on disk), and the anchor the receipt verified in it, the route key obligation:track-only:AZ:az_wrongful_arrest_clearance, is absent from the current bytes. This is the rebuild case, not the re-pin case: the pleading names the departed anchor on its pages. REPAIR: rebuild against the current census (re-verify the anchor obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051 in it), re-pin source-receipt.json to sha256 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f / 2,625,273 bytes, and record anchorStatementsVerified from the rebuilt read.",
+          "evidence": {
+            "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT — no official-form bytes are bound; the receipt pins three committed repository records",
+            "rehashedHere": [
+              {
+                "path": "data/record-clearing/legal-design-track-registry.json",
+                "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+                "now": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+                "pinnedBytes": 16586150,
+                "nowBytes": 16586150,
+                "match": true
+              },
+              {
+                "path": "data/record-clearing/legal-design-specifications.json",
+                "pinned": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+                "now": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+                "pinnedBytes": 16829391,
+                "nowBytes": 16829391,
+                "match": true
+              },
+              {
+                "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+                "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+                "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+                "pinnedBytes": 2607149,
+                "nowBytes": 2625273,
+                "match": false,
+                "anchorTheReceiptVerifiedInIt": "the exact route keys this family serves (anchorStatementsVerified: 1)",
+                "anchorStillPresentInCurrentBytes": false,
+                "driftCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c"
+              }
+            ],
+            "anchorsQuotedInThePleadingCheckedAgainstTheRehashedRegistryAndSpecification": "21 of 21 present in both fixtures after normalising § to Sec. and — to -: legalName, mechanism, venue, destination name and detail, rules.fees/feeWaiver/notice/service/notarization, packetInstructions[0], selfHelpBoundaries[0-4], the three generationRequirements questions, publicName. rules.filing and rules.participantSignature are paraphrased on the pages rather than quoted, which is not a defect. Specification rules, generationRequirements and stopConditions equal the registry's.",
+            "mountedCustodies": {
+              "master_library": "absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 in this worktree (preflight FAIL)",
+              "human_source_returns": "no such mount found anywhere on this host",
+              "consequence": "not a defect here: this family binds no document bytes (preflight family_sources_bind: zero-source composition), so neither custody is needed to resolve its sources"
+            },
+            "masterQueueLapse": "MASTER_QUEUE.json already records verificationLapsedBecause BOUND_SOURCE_DRIFTED on this record with the same pinned/now pair; its stated meaning is 'usually a re-pin; a rebuild when an anchor the packet names has left the source' — the anchor has left the source"
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The three participant facts the registry requires are declared, printed with labels C1-C3 and disclosed, and the signature, date and case-number blanks are correctly protected. But the caption's court line on page 1 — 'IN THE ........ COURT', a labelled dotted blank the participant must fill before the petition can be filed — is not among the field map's twelve terminal fields, carries no disposition, and is absent from the 'items you must supply' table in participant-instructions.md. The completeness script cannot count a blank the builder never declared. REPAIR: add a declared row on az_wrongful_arrest_clearance-primary-filing-1 (page 1, printedLabel 'IN THE ... COURT', disposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, participantMustSupply the name of the superior court the petition is filed in, stating — as the records do — that no county venue rule is recorded and the participant confirms the county superior court with the clerk); disclose it in participant-instructions.md; regenerate blanks-left-for-the-participant.json and completeness-counters.json.",
+          "evidence": {
+            "declaredAndDisclosed": [
+              "Item C1 - arrest or charge identifiers (page 1)",
+              "Item C2 - wrongfulness facts (page 1)",
+              "Item C3 - records to annotate (page 1)"
+            ],
+            "theseMatchRegistryGenerationRequirements": true,
+            "protectedBlanksCorrectlyNotRequiredBeforeFiling": [
+              "case_number",
+              "petition_signature",
+              "petition_signature_date"
+            ],
+            "undeclaredParticipantBlank": {
+              "fixture": "both",
+              "page": 1,
+              "component": "az_wrongful_arrest_clearance-primary-filing-1",
+              "printedLine": "IN THE ............................................................ COURT",
+              "contentStreamOrigin": "1 0 0 1 72 691 Tm (11 pt Times-Roman)",
+              "wordBoxesPtFromTop": "x 72.0-315.5, y 93.5-103.4",
+              "followedBy": "(Superior court - see the filing instructions in this packet) at Tm 72 676.5",
+              "fieldMapRowForIt": null,
+              "terminalFieldsInFieldMap": 12,
+              "listedInParticipantInstructionsItemsTable": false,
+              "platformHoldsTheValue": false,
+              "whyUnavailable": "the registry records venue only as 'Statewide Arizona law; petition in superior court.' and no county rule; pleading-config.json flags the county superior court for clerk confirmation"
+            },
+            "contractConditions": "REQUIRED_BEFORE_FILING must be DECLARED on a field-map row, IDENTIFIED by a printed label, and DISCLOSED in participant-instructions.md; a participant-completable blank on the filing with none of these is the required fact nobody was asked for"
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "041da0a55d03aa8fb804832d2d6f6e13084e55a8",
+  "generatedAtCommit": "c9bbb6ecd5682edc17ea988a3228615396acce27",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1107,8 +1107,9 @@
       "operation": "independent-verification",
       "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T09:39:19.314Z",
+      "releaseReason": "VF11 returned FAIL_REPAIR_REQUIRED at 3ed0495d (ROUTE_IDENTITY: pages print the retired track-only route key; SOURCE_IDENTITY: census pin 9816a479 drifted to 4d0eb74b; REQUIRED_BEFORE_FILING: undeclared caption court blank on page 1). Verdict extracted into VERIFIER_RETURNS; the family goes to repair."
     },
     {
       "subjectType": "packet-family",
@@ -1124,6 +1125,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:34:38.877Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "itemId": null,
+      "familyIds": [
+        "az_wrongful_arrest_clearance-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3723,7 +3739,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:57:01.413Z"
@@ -6049,7 +6065,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6184,7 +6200,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6349,7 +6365,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6844,7 +6860,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7577,7 +7593,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T09:34:51.937Z"
@@ -7981,21 +7997,6 @@
         "vt_seal_nonconviction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF35",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T06:25:31.275Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "vt_seal_nonconviction-set",
-      "familyId": "vt_seal_nonconviction-set",
-      "itemId": null,
-      "familyIds": [
-        "vt_seal_nonconviction-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
@@ -8012,7 +8013,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T09:34:51.808Z"
@@ -12884,7 +12885,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7fdf7251dadcb2d585991c7e9dc60a89691994e6600a53aff86c144ba2b88ee1",
+  "claimsDigest": "287eb3ed590ea1050622d455ee9840d84f2cfbe00a9f59e3e9e1716487b0e84a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27056,6 +27057,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T09:34:51.937Z",
       "reason": "PAGE_ORDER and SELF_HELP_STOP both already repaired at 79f886f26 by ancestor commit e621bb5a1: delivered sequence is the packet-set manifest's 1..9 and all eight committed stop conditions are carried verbatim. Reorder proven a pure permutation with byte-identical per-page text. No repair owed; a fresh central raster is owed on b6614145/9a3c2721. (Replayed by Captain from FIX26 commit 3fe996ed7.)"
+    },
+    {
+      "lane": "VF11",
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T09:39:19.314Z",
+      "reason": "VF11 returned FAIL_REPAIR_REQUIRED at 3ed0495d (ROUTE_IDENTITY: pages print the retired track-only route key; SOURCE_IDENTITY: census pin 9816a479 drifted to 4d0eb74b; REQUIRED_BEFORE_FILING: undeclared caption court blank on page 1). Verdict extracted into VERIFIER_RETURNS; the family goes to repair."
     }
   ],
   "reissues": [
@@ -37783,6 +37793,17 @@
       "previouslyReleasedAt": "2026-09-05T09:12:57.402Z",
       "transferredAt": "2026-09-05T09:12:57.540Z",
       "reason": "Captain assigns before dispatch. The last family shipping the Texas source-default zeros: confirmed on both fixtures at page 7 (313,131) and page 8 (318,91), the same rectangles already repaired on two siblings."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF35",
+      "toLane": "VF12",
+      "previouslyReleasedAt": "2026-09-03T06:25:31.275Z",
+      "transferredAt": "2026-09-05T09:39:19.442Z",
+      "reason": "VF35 (a retired Codex lane) released this grant after its FAIL at base 5c718222; FIX26 found the ARTIFACTS finding no longer reproduces and no fixture byte moved. Moving the released grant to VF12 so a current independent read can clear the stale verdict."
     }
   ],
   "withdrawals": [
@@ -41272,6 +41293,22 @@
       "operation": "rapid-repair",
       "lane": "FIX22",
       "withdrawnAt": "2026-09-05T06:07:34Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-05T09:40:00Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "withdrawnAt": "2026-09-05T09:40:00Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
