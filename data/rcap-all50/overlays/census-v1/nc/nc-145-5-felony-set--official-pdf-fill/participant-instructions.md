@@ -8,7 +8,7 @@ This packet is the Administrative Office of the Courts' own **AOC-CR-297, Petiti
 
 **Most of this form is not yours, and that is why so little of it is filled in.** Side One carries the petition, but it also carries a CERTIFICATE OF SERVICE that is only true once the district attorney has actually been served, and a REQUEST BY JUDGE block addressed to the State Bureau of Investigation. The whole of Side Two is the SBI's certification, the AOC records officer's report, thirteen FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK. This packet writes nothing on any of them, and neither should you.
 
-The platform filled what it holds and nothing else: your name, your street address, your city, your state, your ZIP code and your date of birth in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your city, state and ZIP, your telephone number and your date of birth.
+The platform filled what it holds and nothing else: your name, your street address, your city, your state, your ZIP code and your date of birth in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.
 
 **The offence table on Side One is left entirely to you.** Its six columns — File No.(s), Date Of Arrest, Offense Description, Date Of Offense, Disposition, Date Of Disposition/Conviction — are conviction facts about your own record, and paragraph 1 asks you to certify that no offence listed is more serious than a Class H felony and that none is on the statute's exclusion list. Those are characterizations of the official record, not of your memory, and the table below tells you which record each column comes from.
 
@@ -111,7 +111,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | --- | --- |
 | Monthly income from the applicant's employment | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Name And Address Of Applicant's Employer (if not employed, state reason; if self-employed, state trade) | your employer's name and address, or the reason you are not employed, or your trade if you are self-employed |
-| Street Number And Street Name, Including Apartment Or Unit No. | your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one |
 | Cash on hand and in bank accounts - bank name and account type (do not list account no.) | the name of your bank and the type of account, without the account number |
 | Bond Amount | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Bond Type | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |

@@ -7,8 +7,8 @@
     {
       "fixture": "canonical",
       "proofMethod": "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes, and every official document's finished text compared item by item against the pinned source document's own text so that only what this build added is measured",
-      "valuesReportedByFinalizer": 16,
-      "addedGlyphsReadFromOutputBytes": 138,
+      "valuesReportedByFinalizer": 17,
+      "addedGlyphsReadFromOutputBytes": 154,
       "flattenedWidgetAppearancesReadFromOutputBytes": 0,
       "flattenedWidgetNote": "zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet, and a flat overlay draws into page content to begin with, so every mark this family makes is counted as a glyph in the column beside this one",
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
@@ -38,8 +38,8 @@
           "fixture": "canonical",
           "component": "fee_waiver",
           "documentId": "AOC-CV-226",
-          "addedTextItems": 8,
-          "addedGlyphs": 67,
+          "addedTextItems": 9,
+          "addedGlyphs": 83,
           "glyphsOutsideMeasuredWriteBoxes": 0,
           "refusedFieldsWithInk": [],
           "method": "every text item of the finished document compared against the pinned source document's own items by position and content; what remains is what this build added, and each added item is tested against every measured box"
@@ -119,6 +119,14 @@
           "proof": "value read back from the extracted text of the component's own pages in the saved packet bytes"
         },
         {
+          "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
+          "document": "fee_waiver",
+          "factId": "participant.street_address",
+          "expected": "42 Larkspur Street",
+          "foundInOutputBytes": true,
+          "proof": "value read back from the extracted text of the component's own pages in the saved packet bytes"
+        },
+        {
           "field": "fee_waiver.ApplicantCity",
           "document": "fee_waiver",
           "factId": "participant.city",
@@ -179,8 +187,8 @@
     {
       "fixture": "boundary",
       "proofMethod": "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes, and every official document's finished text compared item by item against the pinned source document's own text so that only what this build added is measured",
-      "valuesReportedByFinalizer": 16,
-      "addedGlyphsReadFromOutputBytes": 274,
+      "valuesReportedByFinalizer": 17,
+      "addedGlyphsReadFromOutputBytes": 319,
       "flattenedWidgetAppearancesReadFromOutputBytes": 0,
       "flattenedWidgetNote": "zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet, and a flat overlay draws into page content to begin with, so every mark this family makes is counted as a glyph in the column beside this one",
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
@@ -210,8 +218,8 @@
           "fixture": "boundary",
           "component": "fee_waiver",
           "documentId": "AOC-CV-226",
-          "addedTextItems": 8,
-          "addedGlyphs": 125,
+          "addedTextItems": 9,
+          "addedGlyphs": 170,
           "glyphsOutsideMeasuredWriteBoxes": 0,
           "refusedFieldsWithInk": [],
           "method": "every text item of the finished document compared against the pinned source document's own items by position and content; what remains is what this build added, and each added item is tested against every measured box"
@@ -291,6 +299,14 @@
           "proof": "value read back from the extracted text of the component's own pages in the saved packet bytes"
         },
         {
+          "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
+          "document": "fee_waiver",
+          "factId": "participant.street_address",
+          "expected": "1188 Upper Yadkin River Crossing Road, Apartment 14B",
+          "foundInOutputBytes": true,
+          "proof": "value read back from the extracted text of the component's own pages in the saved packet bytes"
+        },
+        {
           "field": "fee_waiver.ApplicantCity",
           "document": "fee_waiver",
           "factId": "participant.city",
@@ -352,16 +368,16 @@
   "artifacts": [
     {
       "fixture": "canonical",
-      "valuesReportedByFinalizer": 16,
-      "addedGlyphsReadFromOutputBytes": 138,
+      "valuesReportedByFinalizer": 17,
+      "addedGlyphsReadFromOutputBytes": 154,
       "flattenedWidgetAppearancesReadFromOutputBytes": 0,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
     },
     {
       "fixture": "boundary",
-      "valuesReportedByFinalizer": 16,
-      "addedGlyphsReadFromOutputBytes": 274,
+      "valuesReportedByFinalizer": 17,
+      "addedGlyphsReadFromOutputBytes": 319,
       "flattenedWidgetAppearancesReadFromOutputBytes": 0,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
@@ -1070,7 +1086,7 @@
       "component": "fee_waiver",
       "documentId": "AOC-CV-226",
       "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "outputSha256": "1387076d50e25acdb8e3d991a3429322e55a72b84ef4d23af035ede49b2f2831",
+      "outputSha256": "ddc3292290a5a598c795323be1dd334ce8a2b6d24fa0d00ff41a63e6088bb75b",
       "written": [
         {
           "field": "FileNumber",
@@ -1135,6 +1151,16 @@
           "fontSize": 11,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "ApplicantStreetNumberAndStreetNameLine1",
+          "factId": "participant.street_address",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 11,
+          "outcome": "fit",
+          "lines": 1
         }
       ],
       "refused": [
@@ -1166,12 +1192,6 @@
           "field": "SuperiorCourtDivisionCkBox",
           "reason": "non_text_field_type",
           "category": "type_guard",
-          "regionHeading": null
-        },
-        {
-          "field": "ApplicantStreetNumberAndStreetNameLine1",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
           "regionHeading": null
         },
         {
@@ -2258,7 +2278,7 @@
       "component": "fee_waiver",
       "documentId": "AOC-CV-226",
       "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "outputSha256": "3a9e31c75e44ad5ff46ebdd66641e10510ba535585c04c24256ee6bc2a3c121c",
+      "outputSha256": "915ad381423fda665e1abe2bf62fce479b59ad046ee11bd7d9ed9e747800d7e6",
       "written": [
         {
           "field": "FileNumber",
@@ -2323,6 +2343,16 @@
           "fontSize": 11,
           "outcome": "fit",
           "lines": 1
+        },
+        {
+          "field": "ApplicantStreetNumberAndStreetNameLine1",
+          "factId": "participant.street_address",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10.5,
+          "outcome": "fit",
+          "lines": 1
         }
       ],
       "refused": [
@@ -2354,12 +2384,6 @@
           "field": "SuperiorCourtDivisionCkBox",
           "reason": "non_text_field_type",
           "category": "type_guard",
-          "regionHeading": null
-        },
-        {
-          "field": "ApplicantStreetNumberAndStreetNameLine1",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
           "regionHeading": null
         },
         {
