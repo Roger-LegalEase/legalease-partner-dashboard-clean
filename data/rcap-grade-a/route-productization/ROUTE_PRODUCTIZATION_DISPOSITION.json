@@ -18,7 +18,12 @@
     "routesOperationallySellable": 0,
     "fulfillmentAuthorityRecordsGeneratedByThisLane": 0,
     "productPathPendingFamiliesClosedByThisLane": 0,
-    "why": "No route clears all seven conditions. Four routes hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
+    "routesHoldingACommerciallyEligibleFulfillmentRecord": 5,
+    "productPathPendingFamiliesRemeasuredAgainstTodaysBytes": 20,
+    "productPathPendingSubClaimsMeasuredClosed": 4,
+    "productPathPendingSubClaimsStillOpen": 1,
+    "whatMovedAndWhatDidNot": "Nothing was closed by this lane. The one PRODUCT_PATH_PENDING cause route productization owns, the stale Virginia route/product graph, was re-measured claim by claim: four of its five recorded sub-claims are already closed by the derived-graph regenerations recorded in the census, and one remains. The remaining nineteen are owned by other lanes or by a person, and each is re-stated with the blocker measured today rather than the blocker recorded when the verdict was written.",
+    "why": "No route clears all seven conditions. Five routes across four packet families hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
   },
   "inputs": {
     "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "d849c8f442adf1f1bd5340624bc3101774f1ec2f7266e917c9639b4ba37004d9",
@@ -117,9 +122,57 @@
   ],
   "activeCommercialDeliveryHold": {
     "holdIsReal": true,
-    "statement": "The launch graph defines a sellable route as a fulfillment record AND every operational gate. The shipped commercial admission points consult the fulfillment record only. For the routes below the two disagree: the launch graph says operationallySellable=false while sponsored entitlement, artifact attachment and Briefcase delivery are admitted at the strongest participant context the authority accepts.",
+    "statement": "Three layers answer the sellability question differently for the same five routes, and the verifier that encodes the participant-safety contract is red. The route resolver reports sellable=false for every route in the compiled corpus. The launch graph reports operationallySellable=false for every route, because its predicate is a fulfillment record AND every operational gate. The Grade-A authority admits every one of its nine commercial admission points for these five, because a COMPLETE fulfillment record is the whole of its test. scripts/verify-rcap-census-v1-money-credit-gate.mjs asserts that a resolver-unsellable route must not reserve sponsored entitlement, reach packet-credit accounting, or attach or deliver a commercial artifact, and it currently fails on exactly these five.",
+    "whichLayerIsRightIsNotThisLanesToDecide": "AGENTS.md says commercial authority comes from a Grade-A fulfillment record and from nothing else, which is the authority's behaviour. The money-credit-gate verifier encodes the stricter contract. Reconciling the two is a design decision above route productization; this lane measured the disagreement and changed no gate.",
     "whyThisMattersForThisLane": "'No genuine launch hold' is one of the seven conditions a commercial route needs. Generating a further fulfillment-authority record today would extend this open delivery admission to another route, so no record was generated and no route was opened.",
-    "moneyIsNotReachable": "No route in the compiled corpus displays a consumer price or reaches Stripe Checkout Session creation; the leak is on the sponsored and delivery surfaces, not the consumer-payment surface.",
+    "moneyIsNotReachable": "No route in the compiled corpus displays a consumer price or reaches Stripe Checkout Session creation. consumer_checkout is admitted at the authority for these routes, but the checkout guard assertCheckoutAllowed throws ahead of it for every route in the corpus, and createConsumerPaymentPlaceholder returns no price. The open surface is generation, attachment and delivery, not consumer payment.",
+    "admittedDeliveryPointsPerRoute": {
+      "DC:dc_actual_innocence_expungement_16_803": [
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download"
+      ],
+      "IL:felony-prostitution-relief": [
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download"
+      ],
+      "MS:additional-justice-court-misdemeanor-relief-9-11-15-3": [
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download"
+      ],
+      "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6": [
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download"
+      ],
+      "WY:felony-conviction-expungement-w-s-7-13-1502": [
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download"
+      ]
+    },
     "detectedBy": "scripts/verify-rcap-census-v1-money-credit-gate.mjs",
     "alreadyOnTheCaptainFollowUpList": [
       "Fix the exact four-route sponsored/credit/delivery leakage detected by verify-rcap-census-v1-money-credit-gate.mjs without treating COMPLETE fulfillment authority as runtime authority."
@@ -127,6 +180,8 @@
     "routes": [
       {
         "routeId": "DC:dc_actual_innocence_expungement_16_803",
+        "resolverSellable": false,
+        "resolverCreditConsumable": false,
         "launchGraphOperationallySellable": false,
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
@@ -142,11 +197,19 @@
             "admitted": true,
             "denialCode": null
           },
-          "sponsored_entitlement_reservation": {
-            "admitted": false,
-            "denialCode": "unknown_admission_point"
+          "sponsored_entitlement": {
+            "admitted": true,
+            "denialCode": null
           },
           "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "generation_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "provider_dispatch": {
             "admitted": true,
             "denialCode": null
           },
@@ -157,11 +220,17 @@
           "briefcase_ready": {
             "admitted": true,
             "denialCode": null
+          },
+          "private_download": {
+            "admitted": true,
+            "denialCode": null
           }
         }
       },
       {
         "routeId": "IL:felony-prostitution-relief",
+        "resolverSellable": false,
+        "resolverCreditConsumable": false,
         "launchGraphOperationallySellable": false,
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
@@ -176,11 +245,19 @@
             "admitted": true,
             "denialCode": null
           },
-          "sponsored_entitlement_reservation": {
-            "admitted": false,
-            "denialCode": "unknown_admission_point"
+          "sponsored_entitlement": {
+            "admitted": true,
+            "denialCode": null
           },
           "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "generation_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "provider_dispatch": {
             "admitted": true,
             "denialCode": null
           },
@@ -189,6 +266,10 @@
             "denialCode": null
           },
           "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "private_download": {
             "admitted": true,
             "denialCode": null
           }
@@ -196,6 +277,8 @@
       },
       {
         "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "resolverSellable": false,
+        "resolverCreditConsumable": false,
         "launchGraphOperationallySellable": false,
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
@@ -211,11 +294,19 @@
             "admitted": true,
             "denialCode": null
           },
-          "sponsored_entitlement_reservation": {
-            "admitted": false,
-            "denialCode": "unknown_admission_point"
+          "sponsored_entitlement": {
+            "admitted": true,
+            "denialCode": null
           },
           "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "generation_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "provider_dispatch": {
             "admitted": true,
             "denialCode": null
           },
@@ -224,6 +315,10 @@
             "denialCode": null
           },
           "briefcase_ready": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "private_download": {
             "admitted": true,
             "denialCode": null
           }
@@ -231,6 +326,8 @@
       },
       {
         "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "resolverSellable": false,
+        "resolverCreditConsumable": false,
         "launchGraphOperationallySellable": false,
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
@@ -246,11 +343,19 @@
             "admitted": true,
             "denialCode": null
           },
-          "sponsored_entitlement_reservation": {
-            "admitted": false,
-            "denialCode": "unknown_admission_point"
+          "sponsored_entitlement": {
+            "admitted": true,
+            "denialCode": null
           },
           "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "generation_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "provider_dispatch": {
             "admitted": true,
             "denialCode": null
           },
@@ -261,11 +366,17 @@
           "briefcase_ready": {
             "admitted": true,
             "denialCode": null
+          },
+          "private_download": {
+            "admitted": true,
+            "denialCode": null
           }
         }
       },
       {
         "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+        "resolverSellable": false,
+        "resolverCreditConsumable": false,
         "launchGraphOperationallySellable": false,
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
@@ -280,11 +391,19 @@
             "admitted": true,
             "denialCode": null
           },
-          "sponsored_entitlement_reservation": {
-            "admitted": false,
-            "denialCode": "unknown_admission_point"
+          "sponsored_entitlement": {
+            "admitted": true,
+            "denialCode": null
           },
           "packet_credit_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "generation_admission": {
+            "admitted": true,
+            "denialCode": null
+          },
+          "provider_dispatch": {
             "admitted": true,
             "denialCode": null
           },
@@ -295,11 +414,15 @@
           "briefcase_ready": {
             "admitted": true,
             "denialCode": null
+          },
+          "private_download": {
+            "admitted": true,
+            "denialCode": null
           }
         }
       }
     ],
-    "theFixIsATightening": "Make the sponsored, attachment and delivery admission points require the launch graph's operational-gate intersection as well as the fulfillment record. Nothing here may be closed by loosening a gate, and this lane did not change any admission point.",
+    "anyRepairMustBeATightening": "If the reconciliation lands on the stricter reading, the change is to make the sponsored, generation, attachment and delivery admission points require the launch graph's operational-gate intersection in addition to the fulfillment record. Nothing here may be closed by loosening a check, and this lane changed no admission point, no gate and no verifier.",
     "whoOwnsTheFix": "the Captain lane that owns src/lib/rcap/fulfillment/grade-a-admission.ts, per the follow-up already recorded on the hosted-canary return"
   },
   "nearestRoutes": [
@@ -1325,11 +1448,19 @@
           "admitted": false,
           "denialCode": "fulfillment_no_record"
         },
-        "sponsored_entitlement_reservation": {
+        "sponsored_entitlement": {
           "admitted": false,
-          "denialCode": "unknown_admission_point"
+          "denialCode": "fulfillment_no_record"
         },
         "packet_credit_admission": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "generation_admission": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "provider_dispatch": {
           "admitted": false,
           "denialCode": "fulfillment_no_record"
         },
@@ -1338,6 +1469,10 @@
           "denialCode": "fulfillment_no_record"
         },
         "briefcase_ready": {
+          "admitted": false,
+          "denialCode": "fulfillment_no_record"
+        },
+        "private_download": {
           "admitted": false,
           "denialCode": "fulfillment_no_record"
         }

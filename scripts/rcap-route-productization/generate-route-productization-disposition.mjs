@@ -142,21 +142,33 @@ function strongestContextFor(routeId, { entitlement = false, storage = false } =
   return { identity, context };
 }
 
-/** The four route-level admissions that decide whether a packet can leave. */
+/**
+ * Every shipped commercial admission point, asked about one route.
+ *
+ * This measures the ROUTE-LEVEL admission and nothing further downstream. Some
+ * points are additionally guarded outside the authority — consumer checkout is
+ * preceded by `assertCheckoutAllowed`, which throws for every route in this
+ * corpus — so an admitted point here is not by itself proof that money or bytes
+ * can move. It is proof that the authority did not refuse.
+ */
 function measureAdmissionSurface(routeId) {
   const paid = strongestContextFor(routeId, { entitlement: true });
   const stored = strongestContextFor(routeId, { storage: true });
+  const bare = strongestContextFor(routeId);
   const point = (name, built) => {
     const decision = admitCommercial(name, built.identity, built.context);
     return { admitted: decision.admitted === true, denialCode: decision.denialCode ?? null };
   };
   return {
-    launch_graph_commercial_status: point("launch_graph_commercial_status", strongestContextFor(routeId)),
+    launch_graph_commercial_status: point("launch_graph_commercial_status", bare),
     consumer_checkout: point("consumer_checkout", paid),
-    sponsored_entitlement_reservation: point("sponsored_entitlement_reservation", paid),
+    sponsored_entitlement: point("sponsored_entitlement", paid),
     packet_credit_admission: point("packet_credit_admission", paid),
+    generation_admission: point("generation_admission", paid),
+    provider_dispatch: point("provider_dispatch", paid),
     artifact_commercial_attachment: point("artifact_commercial_attachment", stored),
-    briefcase_ready: point("briefcase_ready", stored)
+    briefcase_ready: point("briefcase_ready", stored),
+    private_download: point("private_download", stored)
   };
 }
 
@@ -240,30 +252,44 @@ const recordRoutes = registry.records.map((r) => r.routeId).sort();
 const admissionSurfaceByRoute = {};
 for (const routeId of recordRoutes) admissionSurfaceByRoute[routeId] = measureAdmissionSurface(routeId);
 
+const DELIVERY_POINTS = [
+  "sponsored_entitlement",
+  "packet_credit_admission",
+  "generation_admission",
+  "provider_dispatch",
+  "artifact_commercial_attachment",
+  "briefcase_ready",
+  "private_download"
+];
 const deliveryAdmittedWhileUnsellable = recordRoutes.filter((routeId) => {
   const surface = admissionSurfaceByRoute[routeId];
   const row = rowByRoute.get(routeId);
   return row?.operationallySellable === false
-    && (surface.briefcase_ready.admitted
-      || surface.artifact_commercial_attachment.admitted
-      || surface.sponsored_entitlement_reservation.admitted);
+    && DELIVERY_POINTS.some((name) => surface[name]?.admitted === true);
 });
 
 const activeCommercialDeliveryHold = {
   holdIsReal: deliveryAdmittedWhileUnsellable.length > 0,
-  statement: "The launch graph defines a sellable route as a fulfillment record AND every operational gate. The shipped commercial admission points consult the fulfillment record only. For the routes below the two disagree: the launch graph says operationallySellable=false while sponsored entitlement, artifact attachment and Briefcase delivery are admitted at the strongest participant context the authority accepts.",
+  statement: "Three layers answer the sellability question differently for the same five routes, and the verifier that encodes the participant-safety contract is red. The route resolver reports sellable=false for every route in the compiled corpus. The launch graph reports operationallySellable=false for every route, because its predicate is a fulfillment record AND every operational gate. The Grade-A authority admits every one of its nine commercial admission points for these five, because a COMPLETE fulfillment record is the whole of its test. scripts/verify-rcap-census-v1-money-credit-gate.mjs asserts that a resolver-unsellable route must not reserve sponsored entitlement, reach packet-credit accounting, or attach or deliver a commercial artifact, and it currently fails on exactly these five.",
+  whichLayerIsRightIsNotThisLanesToDecide: "AGENTS.md says commercial authority comes from a Grade-A fulfillment record and from nothing else, which is the authority's behaviour. The money-credit-gate verifier encodes the stricter contract. Reconciling the two is a design decision above route productization; this lane measured the disagreement and changed no gate.",
   whyThisMattersForThisLane: "'No genuine launch hold' is one of the seven conditions a commercial route needs. Generating a further fulfillment-authority record today would extend this open delivery admission to another route, so no record was generated and no route was opened.",
-  moneyIsNotReachable: "No route in the compiled corpus displays a consumer price or reaches Stripe Checkout Session creation; the leak is on the sponsored and delivery surfaces, not the consumer-payment surface.",
+  moneyIsNotReachable: "No route in the compiled corpus displays a consumer price or reaches Stripe Checkout Session creation. consumer_checkout is admitted at the authority for these routes, but the checkout guard assertCheckoutAllowed throws ahead of it for every route in the corpus, and createConsumerPaymentPlaceholder returns no price. The open surface is generation, attachment and delivery, not consumer payment.",
+  admittedDeliveryPointsPerRoute: Object.fromEntries(deliveryAdmittedWhileUnsellable.map((routeId) => [
+    routeId,
+    DELIVERY_POINTS.filter((name) => admissionSurfaceByRoute[routeId][name]?.admitted === true)
+  ])),
   detectedBy: "scripts/verify-rcap-census-v1-money-credit-gate.mjs",
   alreadyOnTheCaptainFollowUpList: (hostedCanary.remainingCaptainFollowUp ?? [])
     .filter((item) => item.includes("money-credit-gate")),
   routes: deliveryAdmittedWhileUnsellable.map((routeId) => ({
     routeId,
+    resolverSellable: rowByRoute.get(routeId)?.paymentResult?.sellableAtTheResolver ?? null,
+    resolverCreditConsumable: rowByRoute.get(routeId)?.paymentResult?.creditConsumable ?? null,
     launchGraphOperationallySellable: rowByRoute.get(routeId)?.operationallySellable ?? null,
     launchGraphUnmetOperationalGates: rowByRoute.get(routeId)?.unmetOperationalGates ?? [],
     admissionSurface: admissionSurfaceByRoute[routeId]
   })),
-  theFixIsATightening: "Make the sponsored, attachment and delivery admission points require the launch graph's operational-gate intersection as well as the fulfillment record. Nothing here may be closed by loosening a gate, and this lane did not change any admission point.",
+  anyRepairMustBeATightening: "If the reconciliation lands on the stricter reading, the change is to make the sponsored, generation, attachment and delivery admission points require the launch graph's operational-gate intersection in addition to the fulfillment record. Nothing here may be closed by loosening a check, and this lane changed no admission point, no gate and no verifier.",
   whoOwnsTheFix: "the Captain lane that owns src/lib/rcap/fulfillment/grade-a-admission.ts, per the follow-up already recorded on the hosted-canary return"
 };
 
@@ -559,7 +585,12 @@ const document = {
     routesOperationallySellable: operationallySellable.length,
     fulfillmentAuthorityRecordsGeneratedByThisLane: 0,
     productPathPendingFamiliesClosedByThisLane: 0,
-    why: "No route clears all seven conditions. Four routes hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
+    routesHoldingACommerciallyEligibleFulfillmentRecord: nearestRoutes.length,
+    productPathPendingFamiliesRemeasuredAgainstTodaysBytes: pendingRows.length,
+    productPathPendingSubClaimsMeasuredClosed: vaSubClaims.filter((c) => !c.stillTrue).length,
+    productPathPendingSubClaimsStillOpen: vaSubClaims.filter((c) => c.stillTrue).length,
+    whatMovedAndWhatDidNot: "Nothing was closed by this lane. The one PRODUCT_PATH_PENDING cause route productization owns, the stale Virginia route/product graph, was re-measured claim by claim: four of its five recorded sub-claims are already closed by the derived-graph regenerations recorded in the census, and one remains. The remaining nineteen are owned by other lanes or by a person, and each is re-stated with the blocker measured today rather than the blocker recorded when the verdict was written.",
+    why: "No route clears all seven conditions. Five routes across four packet families hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
   },
   inputs: Object.fromEntries(Object.entries(INPUTS).map(([, rel]) => [rel, fileSha256(rel)])),
   commercialRouteRequirements,
