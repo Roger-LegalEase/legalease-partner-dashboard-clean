@@ -432,8 +432,30 @@
   },
   "acceptance": ["Rebuild both fixtures, rehash all outputs, obtain a new whole-family raster receipt, and have a new independent reader rescore all fifteen obligations and nine counters."],
   "repairMustNotDo": ["do not edit official source PDFs", "do not weaken the pardon/restoration conditions", "this verification opens no commercial route and grants no approval"]
- }
- ],
+ },
+      {
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "raisedBy": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "itemId": "ar-felony-seal-set",
+        "lane": "VF06",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+        "severity": "low - a recording defect in the family's own receipt. No packet byte, no legal statement and no participant-facing page is wrong.",
+        "decisiveDefect": "source-receipt.json pins the shared national record data/record-clearing/legal-design-packet-set-manifests.json at sha256 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3677637 bytes. Recomputed from the working tree at base 5de917b3574b6e27df362e13b86b4bfaac4915f8 it is 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The declared binding does not verify.",
+        "failedProofObligations": [
+          "SOURCE_IDENTITY"
+        ],
+        "perObligation": {
+          "SOURCE_IDENTITY": {
+            "measuredDetail": "Everything else in this family's source identity is exact. Both official ACIC PDFs resolve by content hash in the mounted Master Library corpus (petition 6065fe0248e9..., order dcb87ba9ff3b...), and the second committed legal record, src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, recomputes equal at 640152c67534.... Only the packet-set manifest is stale. The pinned digest is the file as of commit 77f24687c; it has been amended six times since, most recently by d798dc66b. The ar-felony-seal-set entry inside it is byte-identical between the pinned commit and this base - compared here - so the four anchorStatementsVerified still hold and no legal statement this family makes has changed.",
+            "whatRepairMustDo": "Re-pin data/record-clearing/legal-design-packet-set-manifests.json in this family's source-receipt.json to the digest and byte length it actually has at the repair base, after re-confirming the four anchor statements against the current file. Do not touch any packet byte, instruction file or fixture; nothing else in this family failed. If a durable fix is wanted rather than a re-pin that goes stale again, see the shared-tooling finding.",
+            "doNotDo": "Do not re-render the fixtures. They are bound by a hash-bound RASTER_PASS receipt (run 33923497915, job 101187692718) to the exact bytes on disk, and re-rendering would cost the family its visual gate for a receipt-field correction."
+          }
+        },
+        "alsoWorthKnowing": "Every other obligation passed on independent measurement. This is the strongest of the six families this cohort read: 35 writes covering venue, division, case number, name, arrest date components, both offence descriptions, class, statute section, address, city, state, ZIP, race, sex and date of birth; five route-determined elections all correctly made; the certificate of service, the notary jurat and every judge field blank; zero write-box overflows in either fixture including the long boundary values; and a sourced $0 fee traced to the AR compiled profile, which itself recomputes to its pinned digest."
+      }
+    ],
      "vf06ReDispatchWaveBlockedFamilies": {
         "whatThisIs": "families this lane read and could not score PASS or FAIL, because an obligation depends on a legal input no record the family binds answers. Not repair assignments; the work here is a decision, not an edit.",
         "families": [
@@ -610,5 +632,13 @@
   "overlayDirectoriesModified": 0,
   "packetsModified": 0,
   "note": "All four families this lane verified in wave 4 passed all fifteen obligations, so this wave raises no repair assignment here. The one obligation not scored PASS on three of them is SELF_HELP_STOP on the runtime-only composed treatments, recorded as NOT_MEASURABLE_HERE because no track in the legal-design-track-registry carries those routes and the diff this obligation names has no left-hand side. That is a measurement gap in the registry's coverage of runtime-only route obligations, not a defect of any family, and it is raised as an observation rather than as a repair."
- }
+ },
+  "vfbRead20260905": {
+    "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+    "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+    "baseSha": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "assignmentsAddedHere": 1,
+    "assignmentCountFieldNotEditedHere": "The top-level assignmentCount field in this file was already stale before this append (vf04 read 1 against 17 assignments, vf06 read 1 against 13) and is a prior worker's field, so it was not edited here. assignmentsAddedHere is this reading's own count; assignments.length is the truth for the file.",
+    "whatThisMarkerIs": "Assignments carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's. Every assignment already here is preserved byte for byte."
+  }
 }

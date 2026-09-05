@@ -829,8 +829,53 @@
     "claimsReleased": 0,
     "routesOpened": 0,
     "productionTouched": false
-  }
- ],
+  },
+      {
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "raisedBy": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "lane": "VF04",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+        "severity": "low - a recording defect in the family's own receipt. No packet byte, no legal statement and no participant-facing page is wrong.",
+        "decisiveDefect": "source-receipt.json pins the shared national record data/rcap-ledger/completed-output-counsel-manifest.json at sha256 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161 bytes. Recomputed from the working tree at base 5de917b3574b6e27df362e13b86b4bfaac4915f8 it is fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 / 321306 bytes. The declared binding does not verify.",
+        "failedProofObligations": [
+          "SOURCE_IDENTITY"
+        ],
+        "perObligation": {
+          "SOURCE_IDENTITY": {
+            "measuredDetail": "The other three compositionSources recompute equal (CT.memo.json 90d96d9d..., data/rcap-all50/guidance-packets/ct.json 0acfc6fe..., route-obligation-candidate.json 9816a479...). Only the counsel manifest is stale. The pinned digest is the file as of commit eab70f926; the current bytes are commit cb6cbf45e ('chore(rcap): project Virginia pardon route mapping'), whose only delta to this file is the addition of one Kansas route entry, KS:municipal-conviction-or-diversion-expungement-under-12-4516. Nothing CT-related changed.",
+            "whatRepairMustDo": "Re-pin data/rcap-ledger/completed-output-counsel-manifest.json in this family's source-receipt.json to the digest and byte length it actually has at the repair base, after confirming that the CT rows this family relies on are unchanged (they are, at this base). Do not touch any packet byte, instruction file or fixture; nothing else in this family failed. If a durable fix is wanted rather than a re-pin that goes stale again, see the shared-tooling finding: pin the family's own subtree of a shared record rather than the whole file.",
+            "doNotDo": "Do not re-render the fixtures. They are bound by a hash-bound RASTER_PASS receipt (run 33923497915, job 101187692687) to the exact bytes on disk, and re-rendering would cost the family its visual gate for a receipt-field correction."
+          }
+        },
+        "alsoWorthKnowing": "Every other obligation passed on independent measurement, including the fourteen not scored by any counter. The family's product path is separately declared not installed (product-wiring.json status DECLARED_NOT_INSTALLED) and no stable Board application document is bound, so the deliverable is a preparation guide by design. That is a promotion question, not part of this repair."
+      },
+      {
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "raisedBy": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "itemId": "fl-early-juvenile-set",
+        "lane": "VF04",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+        "severity": "medium - visible on the participant's page, in both fixtures, on a form that goes to a state agency.",
+        "decisiveDefect": "On page 1 of the FDLE40-028 application the drawn telephone value overprints the printed closing parenthesis of the form's area-code '( )'. In the canonical fixture the value '850-555-0142' spans x 359.00-411.92 while the printed ')' occupies x 379.89-384.22: the write covers that glyph by 4.3 x 7.7 points and continues 27.7 points beyond it. The boundary fixture repeats it with '850-555-0199' at identical coordinates. The area-code parenthetical is only 21.7 points wide, so the entire ten-digit number is being drawn into a box sized for three digits.",
+        "failedProofObligations": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "perObligation": {
+          "CLIPPING_AND_OVERLAP": {
+            "measuredDetail": "Measured with pdftotext -bbox on every page of both fixtures, comparing every word box against every other and excluding printed underscore rules so that a value written on its own rule is not counted as a collision. This is the only text-on-text overlap anywhere in the family: 1 in canonical, 1 in boundary, both this one. The exact page-1 bbox rows are: printed '(' 353.87-358.20, drawn phone 359.00-411.92, printed ')' 379.89-384.22.",
+            "whyNoCounterSawIt": "This source is a flat official PDF with no AcroForm, so values are drawn at coordinates the builder measures itself. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, which is consistent only if the measured write box for page1_phone wrongly spans the printed ')'. A builder that measures its own box cannot detect a box measured wrongly.",
+            "whatRepairMustDo": "Either split the phone write into an area-code box bounded by the printed parentheses (x 358.2-379.9) and a second box starting after x 384.2 for the remaining seven digits, or start the single write at x >= 384.5 so it clears the ')' entirely. Re-render both fixtures, then re-enrol the family in the raster queue: the current RASTER_PASS receipt (run 33923497915, job 101187692842) binds ec718a25... and 3d58ac3d..., and new bytes invalidate it.",
+            "checkAfterRepair": "Re-run the same bbox overlap measure on both fixtures and confirm 0 text-on-text overlaps with printed rules excluded, and confirm the phone value still extracts whole from page 1."
+          }
+        },
+        "alsoWorthKnowing": "Every other obligation passed except SOURCE_IDENTITY, which is NOT_MEASURABLE_HERE rather than failed: the bound FDLE40-028 source d9417ea382c9... is in neither custody this container mounts. That is an environment fact and must not be repaired as if it were a source defect. The FL owner determination lists this form under remainOfficialAndMustBeHeld, so the pin is the right shape."
+      }
+    ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF04",
@@ -978,5 +1023,13 @@
         "grantsNothing": "This assignment promotes nothing, opens no route and grants no approval."
       }
     ]
+  },
+  "vfbRead20260905": {
+    "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+    "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+    "baseSha": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "assignmentsAddedHere": 2,
+    "assignmentCountFieldNotEditedHere": "The top-level assignmentCount field in this file was already stale before this append (vf04 read 1 against 17 assignments, vf06 read 1 against 13) and is a prior worker's field, so it was not edited here. assignmentsAddedHere is this reading's own count; assignments.length is the truth for the file.",
+    "whatThisMarkerIs": "Assignments carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's. Every assignment already here is preserved byte for byte."
   }
 }

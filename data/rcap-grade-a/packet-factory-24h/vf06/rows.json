@@ -5514,8 +5514,325 @@
    "commercialRoutesOpened": 0,
    "productionTouched": false,
    "grantsNothing": "This verdict records semantic defects the mechanical counters missed. It approves no output, opens no route and grants no production authority."
-  }
- ],
+  },
+      {
+        "itemId": "ar-felony-seal-set",
+        "lane": "VF06",
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+        "buildStatus": "state_built",
+        "rasterState": "RASTER_PASS",
+        "fixturesMoved": false,
+        "fixtureBinding": "canonical 483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a and boundary daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb recomputed here and equal to reports/rendered-artifacts.json and to the RASTER_QUEUE pin for run 33923497915.",
+        "verdictCeilingApplied": "none - a hash-bound RASTER_PASS receipt (run 33923497915, job 101187692718) binds the bytes on disk at this base",
+        "nineCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0,
+          "allZero": true,
+          "measuredHere": true,
+          "howMeasured": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run in this container at this base with MASTER_LIBRARY_SOURCE_DIR set to the mounted Master Library",
+          "whyNineZerosAreNotTheVerdict": "Nine zeroes are the completeness contract's own counters. Eleven of the fifteen obligations below were measured with other instruments, named per obligation, because no counter can see a wrong-but-present write, a source-authored value, or a component the field map does not enumerate."
+        },
+        "proofObligations": {
+          "ROUTE_IDENTITY": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "whitespace-insensitive scan of both fixtures, the packet's own printed instrument titles, and the route key in participant-instructions.md, filing-instructions.md, the field map, the source receipt and the RASTER_QUEUE row",
+            "finding": "The route key obligation:track-pathway:AR:ar-felony-seal:situation-c-felony-convictions occurs 0 times in the PDF bytes. That is not a wrapped-footer false negative - the scan collapses all whitespace - and it is not a defect: the assembly is the two official ACIC forms alone with no packet-authored footer page, and both instruction files carry the key, the first in their opening sentence. Identity is proved on substance: the fixture prints 'PETITION TO SEAL FELONY UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq.' on page 1 and the matching 'ORDER TO SEAL FELONY UNDER ACT 1460 OF 2013' on page 5, and the instructions forbid substituting the misdemeanor, drug-possession, drug-court, arrest, non-conviction, pardon or Act 346 form.",
+            "evidence": "whitespace-insensitive scan of both fixtures, the packet's own printed instrument titles, and the route key in participant-instructions.md, filing-instructions.md, the field map, the source receipt and the RASTER_QUEUE row"
+          },
+          "SOURCE_IDENTITY": {
+            "measured": true,
+            "result": "FAIL",
+            "instrument": "both official PDFs resolved by content hash across the mounted master_library corpus, and both committedLegalRecords recomputed with sha256sum against the working tree at this base",
+            "finding": "The two official sources are exact: ACIC-UNIFORM-PETITION-TO-SEAL 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b and ACIC-UNIFORM-ORDER-TO-SEAL dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc both recompute from files under STATES/AR/05_SOURCE_GATED/ whose names state the same instruments and revisions. The compiled profile src/lib/rcap-engine/compiled/profiles/AR-arkansas.json also recomputes equal at 640152c67534.... The failure is the other committed legal record: data/record-clearing/legal-design-packet-set-manifests.json is pinned at 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3677637 bytes and recomputes to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The pin corresponds to commit 77f24687c; the file has been amended six times since. The ar-drug-court and ar-felony-seal entries in it are byte-identical between the pinned commit and this base - I compared them - so the four anchorStatementsVerified still hold and the legal substance has not moved. The binding, which is what this obligation measures, no longer verifies.",
+            "evidence": "both official PDFs resolved by content hash across the mounted master_library corpus, and both committedLegalRecords recomputed with sha256sum against the working tree at this base"
+          },
+          "COMPONENT_SET": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the national packet-set manifest entry for packetSetId ar-felony-seal-set read directly, then the rendered pageManifest and the assembled page text",
+            "finding": "The national manifest names two required components in order: ar-felony-seal-primary-filing-1 (ACIC-UNIFORM-PETITION-TO-SEAL) and ar-felony-seal-proposed-order-2 (ACIC-UNIFORM-ORDER-TO-SEAL). Both are rendered - petition pages 1-4, order pages 5-7 - in both fixtures.",
+            "evidence": "the national packet-set manifest entry for packetSetId ar-felony-seal-set read directly, then the rendered pageManifest and the assembled page text"
+          },
+          "KNOWN_PREFILLS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "every declared write re-extracted from the fixture bytes page by page with pdftotext and matched against reports/actual-writes.json, then each flattened widget appearance decoded and its drawn string read directly from the appearance stream",
+            "finding": "35 writes in each fixture; 35 of 35 on the declared page, 0 absent, 0 drawnText/expected mismatches. Independently, decoding the appearance streams recovers 37 drawn strings (the 35 values plus the two paragraph selections written as literal X into text fields '8' and '9') and 3 selection marks. This is the strongest fixture of the six: venue county, division, case number, name, arrest day/month/year, both offence descriptions and continuations, class, statute section, two address lines, city, state, ZIP, race, sex and date of birth are all written on both the petition and, for the caption and identification facts, the proposed order.",
+            "evidence": "every declared write re-extracted from the fixture bytes page by page with pdftotext and matched against reports/actual-writes.json, then each flattened widget appearance decoded and its drawn string read directly from the appearance stream"
+          },
+          "REQUIRED_BEFORE_FILING": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "reports/blanks-left-for-the-participant.json checked item by item against participant-instructions.md by exact identity string, and the fields confirmed blank in the fixture bytes",
+            "finding": "4 declared items, 4 named, 0 missing. Each is named by its exact identity - 'ar-felony-seal-primary-filing-1 field Arrest Tracking Number' (page 3), 'ar-felony-seal-primary-filing-1 field SID No' (page 3), and the two matching fields on the proposed order - with a sentence saying where to copy it from. All four widgets are empty in both fixtures. The instructions also state correctly that the FBI number stays blank because each form labels it 'if known', and that the conditional paragraph 9 narrative must not be filled when 'no pending felony matters' is selected.",
+            "evidence": "reports/blanks-left-for-the-participant.json checked item by item against participant-instructions.md by exact identity string, and the fields confirmed blank in the fixture bytes"
+          },
+          "ROUTE_OPTIONS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "production-field-map.json routeSelectionsMade against a fill-colour classification of every flattened checkbox appearance in both fixtures, and against the source form's own AcroForm checkbox states",
+            "finding": "Five route-determined elections are declared and all five are made. Three are real checkboxes and carry a BLACK inset filled rectangle - paragraph 1 offence level felony ('0 0 0 rg 2.76 2.52 11.28 9.96 re f'), paragraph 2 offence level felony, and paragraph 10 'IS NOT required to register'. Two are text fields carrying a literal X - paragraph 8 first eligibility statement and paragraph 9 no pending felony matters. The competing options are correctly unmarked: the 'misdemeanor' box and the paragraph 10 'IS' box are empty appearances. This needed the fill-colour test: pdftotext sees no glyph in a checkbox whose mark is a vector fill, so a text-layer check reports these three elections as absent when they are present.",
+            "evidence": "production-field-map.json routeSelectionsMade against a fill-colour classification of every flattened checkbox appearance in both fixtures, and against the source form's own AcroForm checkbox states"
+          },
+          "REPEATING_ROWS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the paragraph 1 and paragraph 2 offence groups read cell by cell from the field map and confirmed in the fixture bytes",
+            "finding": "Each offence group carries offence description, continuation, class and statute section, and all four cells are written in both paragraphs and both fixtures. No group carries a written cell beside a blank required cell, and there is no numbered row structure whose index could be confused with a statutory numeral.",
+            "evidence": "the paragraph 1 and paragraph 2 offence groups read cell by cell from the field map and confirmed in the fixture bytes"
+          },
+          "PROTECTED_FIELDS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "every flattened widget appearance in both fixtures decoded and its content length read, cross-checked against the protectedBlanks list and the extracted page text",
+            "finding": "The defendant's signature widget (page 2, 189.36 x 17.76) and its date widget are both the empty appearance '/Tx BMC EMC'. The verification jurat county, jurat date, notary signature and commission expiry are blank. The certificate of service is completely blank - no certifying name, no 'Defendant or Defendant's Attorney' line, no date - so the certificate of mailing carries no ink. On the proposed order every finding, the arrest date, offence, class and statute section, both felony/misdemeanor election boxes and the judge fields are empty; only caption and identification facts are prefilled, which is what documentPolicy captionOnly declares and what the instructions tell the participant to expect.",
+            "evidence": "every flattened widget appearance in both fixtures decoded and its content length read, cross-checked against the protectedBlanks list and the extracted page text"
+          },
+          "ARTIFACTS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "sha256, byte length and pdfinfo page count recomputed here for both fixtures against reports/rendered-artifacts.json and the RASTER_QUEUE row",
+            "finding": "Both equal on all three; 7 pages each; poppler reads both cleanly with no xref reconstruction.",
+            "evidence": "sha256, byte length and pdfinfo page count recomputed here for both fixtures against reports/rendered-artifacts.json and the RASTER_QUEUE row"
+          },
+          "PAGE_ORDER": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the rendered pageManifest against pdfinfo and per-page text",
+            "finding": "7 sequential entries against pageCount 7 and pdfinfo 7, both fixtures. Petition source pages 1-4 map to packet pages 1-4 and order source pages 1-3 to packet pages 5-7, each entry carrying the source sha256 of the document it came from.",
+            "evidence": "the rendered pageManifest against pdfinfo and per-page text"
+          },
+          "CLIPPING_AND_OVERLAP": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "every flattened widget appearance decoded, its drawn string and font size read from the appearance stream and its width computed against the widget BBox; corroborated by pdftotext -bbox pairwise word overlap with printed rule runs excluded",
+            "finding": "0 overflows in canonical and 0 in boundary - the widest boundary write, the 43-character petitioner name at 193.22pt, sits in a 238.56pt box. 0 text-on-text overlaps in either fixture once printed underscore rules are excluded; values written on their own printed rules are not collisions and are not counted as such.",
+            "evidence": "every flattened widget appearance decoded, its drawn string and font size read from the appearance stream and its width computed against the widget BBox; corroborated by pdftotext -bbox pairwise word overlap with printed rule runs excluded"
+          },
+          "FILING_DESTINATION": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against the AR compiled profile's own filing step",
+            "finding": "'File the completed ACIC petition and the matching proposed order together in the circuit court in the county where the offence was committed and the person was convicted. File separately for records in different courts.' The profile agrees: sealing is filed in the court that handled the case, and a person with cases in several courts files in each.",
+            "evidence": "filing-instructions.md against the AR compiled profile's own filing step"
+          },
+          "FEE_AND_WAIVER": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, which recomputes to its pinned digest",
+            "finding": "'The committed Arkansas profile records a $0 Act 1460 sealing-petition filing fee. Confirm any local copy, records, or counter-practice charges with the filing clerk; an ACIC history or certified court record may have its own cost.' The profile's fee section carries exactly that: 'Sealing petition filing fee $0 - Filing fees eliminated by the 2019 amendments', with the real costs identified as the ACIC history and the Judgment and Commitment Order. The figure is sourced, not invented. Recorded: at a $0 fee there is no waiver route to state, and the national manifest's apply_fee_waiver entry says the source review does not address one.",
+            "evidence": "filing-instructions.md against src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, which recomputes to its pinned digest"
+          },
+          "SERVICE": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against the national manifest's serve_party entry and the certificate printed in the packet",
+            "finding": "'service on the prosecuting attorney within three days after filing' plus the arresting agency, which the packet's own certificate of service names, with a recorded 30-day prosecutor objection period. The manifest's serve_party entry says the same. The instructions require completing and signing the certificate only after service occurs.",
+            "evidence": "filing-instructions.md against the national manifest's serve_party entry and the certificate printed in the packet"
+          },
+          "SELF_HELP_STOP": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "participant-instructions.md and filing-instructions.md read here",
+            "finding": "'A contested filing or hearing requires attorney handoff; this build does not resolve opposition', and in the participant instructions a records-check stop: compare the criminal history against the Judgment and Commitment Order and docket, and 'Stop if they disagree.'",
+            "evidence": "participant-instructions.md and filing-instructions.md read here"
+          }
+        },
+        "failedProofObligations": [
+          "SOURCE_IDENTITY"
+        ],
+        "notMeasurableHere": [],
+        "evidenceRead": [
+          "production-field-map.json",
+          "source-receipt.json",
+          "field-census.census-v1.json",
+          "build-status.json",
+          "build-findings.json",
+          "participant-instructions.md",
+          "filing-instructions.md",
+          "reports/actual-writes.json",
+          "reports/blanks-left-for-the-participant.json",
+          "reports/rendered-artifacts.json",
+          "reports/completeness-counters.json",
+          "fixtures/canonical.pdf",
+          "fixtures/boundary.pdf",
+          "the two ACIC source PDFs in the mounted Master Library",
+          "data/record-clearing/legal-design-packet-set-manifests.json",
+          "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        ]
+      },
+      {
+        "itemId": "la-987-set-aside-and-dismiss-set",
+        "lane": "VF06",
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+        "buildStatus": "state_built",
+        "rasterState": "RASTER_PASS",
+        "fixturesMoved": false,
+        "fixtureBinding": "canonical 9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450 and boundary a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02 recomputed here and equal to reports/rendered-artifacts.json, component-page-manifest.json and the RASTER_QUEUE pin for run 33923497915.",
+        "verdictCeilingApplied": "none - a hash-bound RASTER_PASS receipt (run 33923497915, job 101187692760) binds the bytes on disk at this base",
+        "nineCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0,
+          "allZero": true,
+          "measuredHere": true,
+          "howMeasured": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run in this container at this base with MASTER_LIBRARY_SOURCE_DIR set to the mounted Master Library",
+          "whyNineZerosAreNotTheVerdict": "Nine zeroes are the completeness contract's own counters. Eleven of the fifteen obligations below were measured with other instruments, named per obligation, because no counter can see a wrong-but-present write, a source-authored value, or a component the field map does not enumerate."
+        },
+        "proofObligations": {
+          "ROUTE_IDENTITY": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "whitespace-insensitive scan of both fixtures plus the field map, packet-set-manifest, component-page-manifest, source receipt and RASTER_QUEUE row",
+            "finding": "obligation:track-only:LA:la-987-set-aside-and-dismiss occurs 6 times in each fixture and is the single routeKey throughout the record. The packet names its own instrument correctly on page 1 - 'MOTION TO SET ASIDE CONVICTION AND DISMISS PROSECUTION; RULE TO SHOW CAUSE; ORDER OF DISMISSAL' - and states on its face what it is not: 'This is not an expungement and does not itself clear any record.'",
+            "evidence": "whitespace-insensitive scan of both fixtures plus the field map, packet-set-manifest, component-page-manifest, source receipt and RASTER_QUEUE row"
+          },
+          "SOURCE_IDENTITY": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the receipt's zero-source declaration checked against the family's build findings and the catalogue entry",
+            "finding": "This family requires zero source binaries. custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and the build findings record the discrepancy openly: the catalogue declares official_pdf_fill and LA-CCRP-ART-987 while the source status carries no source hash, resolved by the existing LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision, with no binary acquired, read or claimed. The component-page-manifest records sourceSha256 null with sourceClass composed_from_committed_authority for each page rather than asserting a digest it does not have. Nothing binds by SHA-256 because nothing is claimed to; the obligation is satisfied vacuously and honestly. This family declares no committedLegalRecords, so it is not touched by the stale-pin defect reported separately.",
+            "evidence": "the receipt's zero-source declaration checked against the family's build findings and the catalogue entry"
+          },
+          "COMPONENT_SET": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the national packet-set manifest entry for packetSetId la-987-set-aside-and-dismiss-set read directly, then component-page-manifest.json and the per-page text of the rendered fixtures",
+            "finding": "The national manifest names two required components in order: la-987-set-aside-and-dismiss-primary-filing-1 (primary_filing) and la-987-set-aside-and-dismiss-instructions-2 (instructions). Both are rendered, and every one of the five packet pages is assigned to a component in the component-page manifest - pages 1-3 to the primary filing, pages 4-5 to the instructions - which page text confirms.",
+            "evidence": "the national packet-set manifest entry for packetSetId la-987-set-aside-and-dismiss-set read directly, then component-page-manifest.json and the per-page text of the rendered fixtures"
+          },
+          "KNOWN_PREFILLS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "each of the 15 declared values re-extracted from the fixture bytes with pdftotext and matched against reports/actual-writes.json",
+            "finding": "15 of 15 found in canonical and 15 of 15 in boundary; 0 absent, 0 misplaced. The instructions tell the participant to check every prefilled neutral fact against the court record and correct the packet if it disagrees.",
+            "evidence": "each of the 15 declared values re-extracted from the fixture bytes with pdftotext and matched against reports/actual-writes.json"
+          },
+          "REQUIRED_BEFORE_FILING": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "reports/blanks-left-for-the-participant.json counted against the required-before-filing table in participant-instructions.md, and the two assertions confirmed unanswered in the fixture bytes",
+            "finding": "2 declared items, 2 table rows, in declared order, named by the document's own printed question: 'Has the period of the deferred sentence run? [ ] YES [ ] NO' and 'Did you successfully complete the terms of your probation? [ ] YES [ ] NO'. Both appear in the packet under the heading 'PARTICIPANT ASSERTIONS - THE BUILD DOES NOT ANSWER THESE' with neither box marked, and the instructions say plainly that the assertions are the participant's alone. The conditional records the participant may need - the minute entry or sentencing order, and proof of probation completion - are named with where to get each.",
+            "evidence": "reports/blanks-left-for-the-participant.json counted against the required-before-filing table in participant-instructions.md, and the two assertions confirmed unanswered in the fixture bytes"
+          },
+          "ROUTE_OPTIONS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "production-field-map.json routeSelectionsMade against the packet text",
+            "finding": "One route-determined election, ARTICLE_987_SET_ASIDE_AND_DISMISS under La. C.Cr.P. art. 987, marked routeDetermined true, and the packet composes that instrument and no other. The two YES/NO controls on the page are participant assertions, not route elections, and are correctly left unmarked.",
+            "evidence": "production-field-map.json routeSelectionsMade against the packet text"
+          },
+          "REPEATING_ROWS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the field map read for numbered groups and the packet text read page by page",
+            "finding": "No repeating row group exists in this instrument, so no row can carry a written cell beside a blank required cell. The statutory numerals that appear throughout - 987, 986(C), 894(B), 893(E), 977(A)(1), 978(A)(1), 983(F), 988 - are citations in body text, not row indices, and were not read as groups.",
+            "evidence": "the field map read for numbered groups and the packet text read page by page"
+          },
+          "PROTECTED_FIELDS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "the 16 protected blanks in reports/blanks-left-for-the-participant.json checked against the extracted text of both fixtures",
+            "finding": "The whole represented-mover attorney block (name, bar number, address, telephone, signature), the unrepresented mover signature and its date, the Rule to Show Cause return date, time, place and judge signature, and every finding, decretal paragraph, date, place and judge signature on the Order of Dismissal are blank. The packet states the rule on its own face: 'The participant leaves every finding, ruling, date, place, decretal paragraph, and judicial signature blank.' The district attorney's response to the rule is expressly identified as not a participant field.",
+            "evidence": "the 16 protected blanks in reports/blanks-left-for-the-participant.json checked against the extracted text of both fixtures"
+          },
+          "ARTIFACTS": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "sha256, byte length and pdfinfo page count recomputed here for both fixtures against reports/rendered-artifacts.json, component-page-manifest.json and the RASTER_QUEUE row",
+            "finding": "All three records agree with the bytes on hash, byte length (14642 canonical) and page count (5); poppler reads both cleanly with no xref reconstruction.",
+            "evidence": "sha256, byte length and pdfinfo page count recomputed here for both fixtures against reports/rendered-artifacts.json, component-page-manifest.json and the RASTER_QUEUE row"
+          },
+          "PAGE_ORDER": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "component-page-manifest.json against pdfinfo and the first line of each rendered page",
+            "finding": "5 sequential entries against pageCount 5 and pdfinfo 5. Pages 1-3 open with LA-CCRP-ART-987 and carry the Motion, the Rule to Show Cause and the Order of Dismissal in that statutory order; pages 4-5 are the instructions component. That is the componentOrder the manifest declares.",
+            "evidence": "component-page-manifest.json against pdfinfo and the first line of each rendered page"
+          },
+          "CLIPPING_AND_OVERLAP": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "pdftotext -bbox word boxes, pairwise overlap of every word on every page of both fixtures, with printed rule runs excluded",
+            "finding": "0 text-on-text overlaps in canonical and 0 in boundary, including the long boundary identity values.",
+            "evidence": "pdftotext -bbox word boxes, pairwise overlap of every word on every page of both fixtures, with printed rule runs excluded"
+          },
+          "FILING_DESTINATION": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against the article the route names",
+            "finding": "'File the three-part Article 987 instrument with the clerk of the court that imposed the deferred sentence, in the parish of conviction', with the authority for the form itself given - Article 986 makes Article 987 the form to be used and Article 986(C) lets a clerk alter it only to show the name of that court.",
+            "evidence": "filing-instructions.md against the article the route names"
+          },
+          "FEE_AND_WAIVER": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against the national manifest's pay_fee and apply_fee_waiver entries",
+            "finding": "Both are stated and reasoned. Fee: 'Article 983 governs the cost of an expungement, not this Article 987 set-aside; ordinary motion costs may apply and vary by parish, and the committed record supplies no figure' - with the instruction to ask the clerk before filing. Waiver: 'Article 987 prescribes no fee waiver. The Article 988 fee exemption is an expungement instrument under Article 983(F) and does not reach this filing.' That is the manifest's position, argued rather than asserted.",
+            "evidence": "filing-instructions.md against the national manifest's pay_fee and apply_fee_waiver entries"
+          },
+          "SERVICE": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "filing-instructions.md against the national manifest's serve_party entry",
+            "finding": "'Service is on the district attorney and on the attorney for the defendant or the defendant', with the mechanics routed to the clerk and the Rule to Show Cause identified as directed to the district attorney. The packet also corrects a foreseeable error: 'No sixty-day objection window applies; that scheme belongs to Articles 979 and 980 and governs a motion to expunge.'",
+            "evidence": "filing-instructions.md against the national manifest's serve_party entry"
+          },
+          "SELF_HELP_STOP": {
+            "measured": true,
+            "result": "PASS",
+            "instrument": "participant-instructions.md and filing-instructions.md read here",
+            "finding": "'Stop self-help if the district attorney opposes the motion at the contradictory hearing; if there is any dispute whether the deferred-sentence period ran or probation was successfully completed; if the court sets a contested evidentiary hearing; or if you are unsure whether the sentence was deferred under Article 893 or Article 894, or deferred at all.' The packet also states where the participant goes next, so the stop is not a dead end: after the Order of Dismissal is signed, return to the Article 977(A)(1) or 978(A)(1) expungement track.",
+            "evidence": "participant-instructions.md and filing-instructions.md read here"
+          }
+        },
+        "failedProofObligations": [],
+        "notMeasurableHere": [],
+        "evidenceRead": [
+          "production-field-map.json",
+          "source-receipt.json",
+          "packet-set-manifest.json",
+          "component-page-manifest.json",
+          "build-status.json",
+          "build-findings.json",
+          "participant-instructions.md",
+          "filing-instructions.md",
+          "reports/actual-writes.json",
+          "reports/blanks-left-for-the-participant.json",
+          "reports/rendered-artifacts.json",
+          "reports/completeness-counters.json",
+          "fixtures/canonical.pdf",
+          "fixtures/boundary.pdf",
+          "data/record-clearing/legal-design-packet-set-manifests.json",
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+        ]
+      }
+    ],
    "vf06ReDispatchWave": {
      "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
      "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
@@ -6140,5 +6457,69 @@
   "buildScriptsModified": 0,
   "masterQueueModified": false,
   "verifierReturnsModified": false
- }
+ },
+  "vfbRead20260905": {
+    "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+    "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+    "baseSha": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "whatThisMarkerIs": "A reading was appended to this return directory. Every row already here was written by earlier workers on this lane and is preserved byte for byte; nothing in them is edited, withdrawn or restated. The rows carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's, and only those.",
+    "roster": "The two families this reading verified are the VF06 families this cohort was dispatched for, each holding a LIVE (released:false) independent-verification grant in data/rcap-grade-a/packet-factory-24h/claim-ledger.json, and each asserted through scripts/grade-a-packet-factory-24h/claim.mjs --assert before any artifact of it was read - once at dispatch base 21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14 (grant set c79f2feeef6e2a34) and again after resetting to this base (grant set 3c237f03d7223a66).",
+    "independence": "This cohort built, repaired, rendered and rastered none of these packets, and wrote nothing outside its own lane return directories.",
+    "verdictsHere": {
+      "FAIL_REPAIR_REQUIRED": 1,
+      "PASS_COMPLETE_INDEPENDENT": 1
+    },
+    "fixturesMoved": "none - every fixture recomputed here equals both reports/rendered-artifacts.json and the RASTER_QUEUE pin from run 33923497915",
+    "instrumentsUsed": [
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs for the nine counters",
+      "sha256 recomputed here for every fixture, every declared source and every committed legal record",
+      "content-hash resolution across the two mounted source custodies (master_library, human_source_returns) rather than by declared path",
+      "flattened widget appearance streams decoded per page, with fill colour classified so a white empty-box appearance is not read as a selection mark",
+      "drawn string width against widget BBox width, to find writes clipped or overflowing their measured box",
+      "pdftotext -bbox pairwise word-box overlap with printed underscore rules excluded",
+      "whitespace-insensitive route-key scan, so a footer wrapped across lines cannot read as absent",
+      "the national packet-set manifest read directly for COMPONENT_SET, rather than the requiredComponentsMissing counter, which reads the field map",
+      "row groups formed on a trailing _N index qualified by page prefix, so statutory numerals in identifiers are not read as row counts"
+    ],
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "buildScriptsModified": 0,
+    "masterQueueModified": false,
+    "claimLedgerModified": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "laneMembershipChanged": false,
+    "sharedToolingFinding": {
+      "title": "Whole-file SHA-256 pins on shared national records go stale whenever any other jurisdiction is amended",
+      "scope": "cross-family, not specific to any family this cohort read",
+      "measured": "Every source-receipt.json under data/rcap-all50/overlays/census-v1 was scanned at base 5de917b3574b6e27df362e13b86b4bfaac4915f8 and every pinned repository record recomputed with sha256. 233 receipts; 45 pins; 35 recompute equal; 10 are stale, spread over 10 families.",
+      "staleFamilies": [
+        "ar/ar-felony-seal-set--official-pdf-fill",
+        "ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+        "ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+        "ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+        "ct/ct-under18-misdemeanor-set--custom-pleading",
+        "me/me-nonconv-set--custom-pleading",
+        "ms/ms-misd-1st-set--custom-pleading",
+        "ms/ms-nonconv-set--custom-pleading",
+        "nd/nd-deferred-imposition-records-set--custom-pleading",
+        "vt/vt-seal-under-25-set--custom-pleading"
+      ],
+      "twoRecordsAccountForAllTen": {
+        "data/record-clearing/legal-design-packet-set-manifests.json": "7 stale pins, 0 current. Amended 8 times in the history reachable here; receipts across the census pin 4 different historical digests of it (80d88d69..., 563147bf..., 713ed7ab..., 6076f734...), and only 6076f734... is the file today.",
+        "data/rcap-ledger/completed-output-counsel-manifest.json": "3 stale pins, 0 current. Pinned at 99e80291... (commit eab70f926); current is fbf9bfef... (commit cb6cbf45e), whose only delta to the file is one added Kansas route entry."
+      },
+      "whyItHappens": "Both records are national and are amended in place as each new jurisdiction is productized. A per-family receipt that pins the whole file therefore fails the moment an unrelated state is added, even though the family's own entry is untouched. I confirmed for both families in this cohort that the family's own entry is byte-identical between the pinned commit and this base, so no legal statement moved.",
+      "whyItMatters": "SOURCE IDENTITY is stated as an exact recomputation, so a verifier that measures it honestly must fail these families, and a repair lane must re-pin. The re-pin then goes stale again on the next unrelated amendment. Two of this cohort's six FAIL-bearing obligations are this defect and nothing else.",
+      "suggestedDurableFix": "Pin the family's own subtree of a shared national record - the packetSetId entry, the route entry - rather than the whole file, or record the pin as {commit, path, selector, subtreeDigest}. Either makes the binding survive amendments to other jurisdictions while still failing if the family's own legal content changes. This is a decision for a tooling or Captain lane; this cohort verifies and does not repair.",
+      "whatThisIsNot": "Not a defect in the two records themselves, not a legal-content change, and not grounds to re-render any fixture. Every affected family here is bound by a hash-bound RASTER_PASS receipt to the bytes on disk, and re-rendering would cost it that gate for a receipt-field correction."
+    },
+    "otherCrossFamilyObservations": [
+      "ar-drug-court-set: poppler cannot read the cross-reference table of any of its four fixtures and reconstructs it on every read. The hashes match and pdf-lib parses the files, but no other family in this cohort produces these errors from the same pdf-lib pipeline. Recorded on that family's row and repair assignment.",
+      "The RASTER_PASS receipts for all six families name documentsCovered as the canonical assemblies only (both canonicals, for the two-variant ar-drug-court family). Two of the three packet defects this cohort found live in boundary fixtures, which the visual gate as configured does not cover. Worth Captain's attention as a gate-coverage question, not a family defect.",
+      "MASTER_QUEUE.packetComponents for ar-drug-court-set omits ar-drug-court-process-guidance-1, which the national packet-set manifest marks required and which the packet renders as page 1 of every assembly. The queue under-counts what the packet contains; COMPONENT_SET was therefore measured against the manifest, not the queue.",
+      "reports/rendered-artifacts.json, reports/independent-visual-review.json and build-status.json in all six families still record rasterState BUILT_RASTER_PENDING and independentVerificationPending true, while RASTER_QUEUE.json records RASTER_PASS for each from run 33923497915. The queue is the authoritative record and the family-level files are stale relative to it. Not scored against any family."
+    ],
+    "claimsReleased": "none - the lane prompts say Captain releases centrally after integrating the bounded return, so no grant was released here"
+  }
 }

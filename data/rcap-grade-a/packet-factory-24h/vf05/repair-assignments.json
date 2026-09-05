@@ -684,8 +684,41 @@
    "do not edit artifact receipts to match changed bytes",
    "this assignment opens no route, grants no fulfillment authority and touches no Production system"
   ]
- }
- ],
+ },
+      {
+        "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "raisedBy": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "itemId": "ar-drug-court-set",
+        "lane": "VF05",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+        "severity": "high - one defect misdirects a participant into writing the wrong fact on a filed petition; the other silently truncates a case number and a name on the rendered page.",
+        "decisiveDefect": "production-field-map.json gives ACIC-PETITION-DRUG-COURT-POST:Sex the effectiveLabel 'Race'. participant-instructions.md renders that label, so the post-adjudication document is given two consecutive rows both named 'Race', no row named 'Sex', and the sentence 'supply Race from the court, ACIC, program-completion, or case record' pointing at the Sex field. A participant who follows it writes their race into the sex box of a petition they then file.",
+        "failedProofObligations": [
+          "REQUIRED_BEFORE_FILING",
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "perObligation": {
+          "REQUIRED_BEFORE_FILING": {
+            "measuredDetail": "All 66 requiredBeforeFiling refusals appear in participant-instructions.md, so a presence test passes and the counters are all zero. Reading each item against the field it addresses defeats both. One item names the wrong field (POST:Sex labelled 'Race'). A further 43 are named by a mis-derived fragment of adjacent printed page text rather than the field's caption, among them: PRE:YEAR labelled '1'; PRE:CLASS labelled 'A'; PRE:ACA labelled '2'; PRE:DATE 01 labelled '4.On'; PRE:COUNTY labelled '_______ DI'; PRE:COURT labelled 'IN THE'; POST:COURT OF labelled 'IN TH'; POST:from labelled 'prays'; POST:Guilty charge labelled '2'; POST:ACA Code 2 labelled 'A.C.A'; POST:Month 3 labelled '____________________________'; POST:2 labelled a bare run of underscores. 57 of the 66 have an effectiveLabel that differs from the field name.",
+            "whatRepairMustDo": "Fix ACIC-PETITION-DRUG-COURT-POST:Sex to a label that names the sex field, and re-derive effectiveLabel for the required-before-filing set so each item is named by the caption a participant can find on the page. The label derivation is taking the nearest preceding text run rather than the field's own caption; on these ACIC forms that run is often a fragment of the paragraph above. Regenerate participant-instructions.md from the corrected map.",
+            "checkAfterRepair": "For every requiredBeforeFiling item, assert that effectiveLabel names the same fact as fieldName, and that no label is a bare numeral, a bare underscore run, a single conjunction, or a truncation of a printed sentence."
+          },
+          "CLIPPING_AND_OVERLAP": {
+            "measuredDetail": "Eight writes across the two boundary assemblies exceed their widget BBox, measured by decoding each flattened appearance stream, reading its drawn string and Tf size, and computing the string width against the BBox width. pre-adjudication-boundary: p2 case number +3.3pt, p4 name +34.0pt, p4 name +26.4pt, p8 name +18.6pt. post-adjudication-boundary: p2 case number +15.2pt, p4 name +8.5pt, p4 name +43.5pt, p8 name +37.6pt. The case number '0123-45-2026-CR-900123.00-AB-CDE/2201' needs 118.05pt and is given a 104.85pt box; the petitioner name needs 195.64pt and is given boxes of 154.13 to 189.15pt. An AcroForm appearance is clipped at its BBox, so the rendered page shows a truncated case number and a truncated name while the text layer still carries the whole string. Corroborated independently by pdftotext -bbox: drawn name fragments collide with the printed words 'prays', 'to' and 'Dismiss' on pages 4 and 8 of both boundary assemblies.",
+            "whyTheVisualGateDidNotCatchIt": "The RASTER_PASS receipt for this family (run 33923497915, job 101187692725) names documentsCovered as the two canonical assemblies only. Both canonical assemblies measure clean. Every one of these eight overflows is in a boundary assembly.",
+            "whatRepairMustDo": "Auto-shrink the font or wrap the value to fit the widget BBox for the case-number and full-name writes on all four ACIC drug-court documents, as the boundary fixture exists to force. Re-render all four fixtures and re-enrol the family in the raster queue with the boundary assemblies covered, not only the canonical ones.",
+            "checkAfterRepair": "Recompute drawn-string width against BBox width for every write in all four fixtures and confirm 0 overflows, and confirm the full case number and full name extract whole from the rendered page."
+          }
+        },
+        "alsoWorthKnowing": [
+          "Structural, recorded but not scored: poppler cannot read the cross-reference table of any of the four fixtures ('Couldn't find trailer dictionary', 'Invalid XRef entry 8/78/120/175/184/240', 'xref num N not found but needed, try to reconstruct') and rebuilds it on every read. The hashes match the record and pdf-lib parses the files, so the content is intact, but no other family in this cohort produces these errors from the same pdf-lib pipeline. Worth fixing while the fixtures are being re-rendered anyway; an e-filing portal may refuse a file whose xref must be reconstructed.",
+          "Fixture coverage, recorded but not scored: this builder's FIXTURES object holds seven facts (name, case number, date of birth, street, city, state, zip), so the family refuses 66 blanks with the reason 'the platform does not hold that exact fact'. That reason is true of this builder and false of the platform - the sibling ar-felony-seal-set writes court, county, division, arrest day/month/year, offence, class, statute section, race and sex onto the same ACIC form family from the same state pack. A build lane deciding what this family should prefill should look at that disparity.",
+          "Graph derivation, recorded but not scored: MASTER_QUEUE.packetComponents for this family lists only the two official components and omits ar-drug-court-process-guidance-1, which the national packet-set manifest marks required and which the packet does render as page 1 of every assembly."
+        ]
+      }
+    ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF05",
@@ -861,5 +894,13 @@
   "releases": 0,
   "routesOpened": 0,
   "productionTouched": false
- }
+ },
+  "vfbRead20260905": {
+    "wave": "packet-factory-24h/VF04-VF06/vf-b (2026-09-05)",
+    "worker": "VF-B (independent; built, repaired, rendered and rastered none of these packets)",
+    "baseSha": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "assignmentsAddedHere": 1,
+    "assignmentCountFieldNotEditedHere": "The top-level assignmentCount field in this file was already stale before this append (vf04 read 1 against 17 assignments, vf06 read 1 against 13) and is a prior worker's field, so it was not edited here. assignmentsAddedHere is this reading's own count; assignments.length is the truth for the file.",
+    "whatThisMarkerIs": "Assignments carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's. Every assignment already here is preserved byte for byte."
+  }
 }
