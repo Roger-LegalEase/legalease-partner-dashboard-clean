@@ -23,6 +23,10 @@ import type { PacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
 import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
 import { governPacketDownloadAdmission } from "@/lib/rcap/render/commercial-admission";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
+import { packetSpecificationForTrack, specificationContentSha256 } from "@/lib/rcap/grade-a/packet-specification";
+import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
+import { currentPersonalizedVerification } from "@/lib/rcap/render/personalized-packet";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
 
 export type DeliveryPorts = {
   getJob(jobId: string): Promise<RenderJobRow | null>;
@@ -146,7 +150,20 @@ export async function authorizePacketDownload(
     if (!consumerItemId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
     }
-    const current = await ports.getCurrentVerification?.(consumerItemId);
+    let current = await ports.getCurrentVerification?.(consumerItemId);
+    // The existing consumer grant endpoint shares this delivery core. When it
+    // supplies no reader, resolve the protected owner verification here; an
+    // omitted port must never silently skip current-verification admission.
+    if (!ports.getCurrentVerification && exactIllinoisRoute
+      && resolveConsumerDeliveryAccess({ subjectId: input.userId }).allowed) {
+      try {
+        const verification = await currentPersonalizedVerification(input.userId, consumerItemId);
+        current = { ...verification, ownerUserId: input.userId,
+          matterId: consumerMatterIdForItem(consumerItemId), alreadyDownloaded: job.status === "delivered" };
+      } catch {
+        current = null;
+      }
+    }
     if (!current) {
       // No current verification is a denial, not a pass. "We cannot see the
       // current verification" and "the verification is current" are different
@@ -155,6 +172,16 @@ export async function authorizePacketDownload(
     }
     if (current.ownerUserId !== input.userId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    if (exactIllinoisRoute) {
+      const binding = job.personalizedBinding;
+      const specification = packetSpecificationForTrack(job.routeId, current.snapshot.selectedTrackId ?? "");
+      if (!specification || !binding || job.consumerVerificationHash !== current.hash
+        || binding.trackId !== current.snapshot.selectedTrackId
+        || binding.packetFamilyId !== specification.packetFamily
+        || binding.specificationSha256 !== specificationContentSha256(specification)) {
+        return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
+      }
     }
     if ((exactIllinoisRoute || `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` === "IL:felony-prostitution-relief")
       && (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` || job.matterId !== current.matterId)) {

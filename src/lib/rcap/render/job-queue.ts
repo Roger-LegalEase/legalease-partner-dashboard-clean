@@ -55,6 +55,8 @@ export type RenderJobRow = {
    */
   consumerBriefcaseItemId: string | null;
   consumerAuthUserId: string | null;
+  consumerVerificationHash?: string | null;
+  personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string } | null;
 };
 
 function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
@@ -80,6 +82,7 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
       ? null : String(record.consumer_briefcase_item_id),
     consumerAuthUserId: record.consumer_auth_user_id === null || record.consumer_auth_user_id === undefined
       ? null : String(record.consumer_auth_user_id),
+    consumerVerificationHash: typeof record.consumer_verification_hash === "string" ? record.consumer_verification_hash : null,
     deliveryEligibility: String(record.delivery_eligibility ?? "not_evaluated") as DeliveryEligibility,
     accountingResult: record.accounting_result === null || record.accounting_result === undefined
       ? null
@@ -190,6 +193,33 @@ export async function enqueueVerifiedConsumerRender(
 ): Promise<RenderJobRow | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return null;
+
+  // All existing consumer entry points converge here. The exact assigned route
+  // carries the protected snapshot and specification into the durable input;
+  // the RPC still owns atomic verification/payment comparison and insertion.
+  const { PERSONALIZED_DELIVERY_ROUTE, currentPersonalizedVerification, preparePersonalizedPacket } = await import("@/lib/rcap/render/personalized-packet");
+  if (spec.routeId === PERSONALIZED_DELIVERY_ROUTE) {
+    const verification = await currentPersonalizedVerification(identity.expectedConsumerAuthUserId, identity.consumerBriefcaseItemId);
+    if (verification.hash !== identity.expectedVerificationHash) return null;
+    const prepared = preparePersonalizedPacket({
+      authUserId: identity.expectedConsumerAuthUserId, briefcaseItemId: identity.consumerBriefcaseItemId,
+      personId: identity.personId, matterId: identity.matterId,
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    spec = prepared.spec;
+    payload = prepared.payload;
+    // The existing enqueue RPC creates a new attempt after a failed row. A
+    // failed input already belongs to the worker's retry/terminal lifecycle;
+    // participant double-clicks must not create a second job beside it.
+    const { data: retries, error: retryError } = await supabase.from("packet_render_jobs")
+      .select("*").eq("packet_id", spec.packetId).eq("input_hash", spec.inputHash)
+      .eq("consumer_auth_user_id", identity.expectedConsumerAuthUserId)
+      .eq("consumer_briefcase_item_id", identity.consumerBriefcaseItemId)
+      .eq("consumer_verification_hash", identity.expectedVerificationHash)
+      .eq("status", "failed");
+    if (retryError) return null;
+    if (retries?.length) return rowFromRecord(retries[0] as Record<string, unknown>);
+  }
 
   const { data, error } = await supabase.rpc("enqueue_verified_consumer_packet_render", {
     p_packet_id: spec.packetId,
@@ -384,10 +414,20 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   const { data, error } = await supabase
     .from("packet_render_jobs")
     .select(
-      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id"
+      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id, consumer_verification_hash"
     )
     .eq("id", jobId)
     .maybeSingle();
   if (error || !data) return null;
-  return rowFromRecord(data as Record<string, unknown>);
+  const job = rowFromRecord(data as Record<string, unknown>);
+  if (job.routeId === "IL:felony-prostitution-relief") {
+    const { data: input } = await supabase.from("rcap_document_packet_inputs")
+      .select("input_payload").eq("document_packet_id", job.packetId).maybeSingle();
+    const payload = input?.input_payload;
+    if (payload?.schemaVersion === "rcap-personalized-render/v1") {
+      job.personalizedBinding = { trackId: payload.trackId, packetFamilyId: payload.packetFamilyId,
+        specificationSha256: payload.specificationSha256 };
+    }
+  }
+  return job;
 }

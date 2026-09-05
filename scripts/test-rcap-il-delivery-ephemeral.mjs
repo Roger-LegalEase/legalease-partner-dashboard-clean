@@ -27,7 +27,9 @@ async function exerciseIllinoisDeliveryWithFixture({ db, deps, deliveryPorts, us
     getJob: async (id) => {
       const job = await deliveryPorts.getJob(id);
       const binding = db.json(`select row_to_json(t) from (select consumer_briefcase_item_id from packet_render_jobs where id = '${id}') t`);
-      return job && { ...job, consumerBriefcaseItemId: binding.consumer_briefcase_item_id };
+      return job && { ...job, consumerBriefcaseItemId: binding.consumer_briefcase_item_id,
+        consumerVerificationHash: "local-il-verification",
+        personalizedBinding: { trackId: IL_TRACK, packetFamilyId: IL_FAMILY, specificationSha256: IL_SPECIFICATION.specificationSha256 } };
     },
     userOwnsBriefcaseItem: async (user, item) => user === userId && currents.has(item),
     getCurrentVerification: async (item) => currents.get(item) ?? null
