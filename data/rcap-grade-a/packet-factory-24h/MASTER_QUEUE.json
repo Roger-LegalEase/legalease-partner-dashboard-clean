@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b991e22c02c312a7408b0c590af8669d29d7eb89",
+  "minimumCaptainSha": "557bda1b34f035a7594e4282b0313e12f401d389",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "e98b19fd5345e514f9fb72626bef9de40cc1414c0e7fa42505ced09bfde9482d",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "78ba4c781204dc833e653627e8a8eccc9f66893dabfb476cf89df8f4e64c5559",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 19,
+    "activeFamiliesExcluded": 18,
     "guidanceOnly": 0,
-    "remaining": 327,
+    "remaining": 328,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 12,
@@ -78,7 +78,7 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 131,
-    "FAIL_REPAIR_REQUIRED": 63,
+    "FAIL_REPAIR_REQUIRED": 62,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,7 +87,7 @@
     "LEGAL_BLOCKED": 12,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 11,
+    "BUILT_RASTER_PENDING": 12,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -114,7 +114,6 @@
       "co_motion_seal_nonconviction-set",
       "il-seal-edu-set",
       "me-seal-prost-set",
-      "nc_145_5_felony-set",
       "nc_146_dismissal_petition-set",
       "nd-nonconviction-close-petition-set",
       "nh_petition_nonconviction_pre2019-set",
@@ -27909,9 +27908,7 @@
         "verifiedAtBase": "ff4dee3ab",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27952,9 +27949,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX56",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27965,8 +27962,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nc_145_5_misdemeanor-set",
