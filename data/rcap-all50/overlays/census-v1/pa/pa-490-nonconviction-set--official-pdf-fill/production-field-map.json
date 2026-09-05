@@ -112,7 +112,7 @@
           "routeDetermined": false,
           "identity": "PA-RCRIM-P-490-PETITION field Statute DescriptionRow1",
           "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "REQUIRED_BEFORE_FILING: this cell is one of the seven cells of row 1 of the petition's offence table -- Title, Section, Subsection, Statute Description, Counts, Grade, Disposition -- and the platform holds no value for the other six. A row is completed or it is left untouched, so row 1 is yours to complete from your own court records. This packet does hold a plain-language charge and prints it on the proposed order; it is not the statute row this table asks for and it is not written here.",
           "completesAfterService": false,
           "widgets": [
             {
@@ -126,7 +126,12 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "factHeldElsewhereInThisPacket": {
+            "factId": "matter.charge",
+            "printedOn": "PA-RCRIM-P-490-ORDER field SpecificCharges, item 11 of the proposed order",
+            "whyNotWrittenHere": "row_integrity: the other six cells of offence-table row 1 have no held value, and a half-written row reads as a finished one"
+          }
         },
         {
           "field": "CountsRow1",
@@ -2176,7 +2181,7 @@
         {
           "field": "PetitionersAddress",
           "decision": "candidate_write",
-          "factId": "participant.street_address",
+          "factId": "participant.address_one_line",
           "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
@@ -2260,15 +2265,9 @@
         },
         {
           "field": "DateAndArrestingAgency",
-          "decision": "refuse",
-          "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "routeDetermined": false,
-          "identity": "PA-RCRIM-P-490-ORDER field DateAndArrestingAgency",
-          "effectiveLabel": "justice agency that made the arrest",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
-          "completesAfterService": false,
+          "decision": "candidate_write",
+          "factId": "matter.citation_or_arrest_date_and_arresting_agency",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4552,6 +4551,89 @@
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
           ]
+        }
+      ]
+    },
+    {
+      "documentId": "pa_490_nonconviction-certificate-of-service-3",
+      "documentRole": "certificate_of_service",
+      "generatedParticipantArtifact": true,
+      "fields": [
+        {
+          "field": "Printed name",
+          "decision": "candidate_write",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "field": "Docket number",
+          "decision": "candidate_write",
+          "factId": "matter.case_number"
+        },
+        {
+          "field": "Office and address where the copy was served",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_490_nonconviction-certificate-of-service-3 field Office and address where the copy was served",
+          "effectiveLabel": "Office and address where the copy was served:",
+          "page": 1,
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "completesAfterService": true,
+          "widgets": []
+        },
+        {
+          "field": "Service method accepted by the filing court",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_490_nonconviction-certificate-of-service-3 field Service method accepted by the filing court",
+          "effectiveLabel": "Service method accepted by the filing court:",
+          "page": 1,
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "completesAfterService": true,
+          "widgets": []
+        },
+        {
+          "field": "Date service actually occurred",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_490_nonconviction-certificate-of-service-3 field Date service actually occurred",
+          "effectiveLabel": "Date service actually occurred:",
+          "page": 1,
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "completesAfterService": true,
+          "widgets": []
+        },
+        {
+          "field": "Signature of petitioner after service",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "effectiveLabel": "Signature of petitioner after service:",
+          "page": 1,
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "completesAfterService": true,
+          "widgets": []
+        },
+        {
+          "field": "Date signed",
+          "decision": "refuse",
+          "factId": null,
+          "refusalClass": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "effectiveLabel": "Date signed:",
+          "page": 1,
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "completesAfterService": true,
+          "widgets": []
         }
       ]
     }
