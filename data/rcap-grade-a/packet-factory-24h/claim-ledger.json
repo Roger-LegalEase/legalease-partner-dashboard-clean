@@ -6560,8 +6560,8 @@
       "operation": "rapid-repair",
       "lane": "FIX16",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T04:52:27.326Z"
     },
     {
       "subjectType": "packet-family",
@@ -6709,8 +6709,8 @@
       "operation": "rapid-repair",
       "lane": "FIX16",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T04:52:39.096Z"
     },
     {
       "subjectType": "packet-family",
@@ -12746,7 +12746,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a0c6a99d5e4e9b98ec38915da33708bd09e72860973ea03af35587adf7b97f25",
+  "claimsDigest": "0781db6ffb2452388d696f831cb2cf389b9c2cd8f3ca40f8a96a45eca50664a6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26732,6 +26732,24 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-05T04:22:37.692Z",
       "reason": "PF02 finished and its return is integrated; this grant was left live. Released by Captain so the family is not held by a lane that has exited."
+    },
+    {
+      "lane": "FIX16",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T04:52:27.326Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired in the composed-page renderer at commit ef504bf04. Five route-only pages and the split contact block are gone from both fixtures; measured on delivered bytes with pdftotext -layout over all 80 pages, 54 and 55 findings to zero. Content is byte-identical modulo layout. New canonical dc46fce7aea8d092fd2789ac38e4df14fbf1c754edf57df8da6a42d4ca0c3803 and boundary 5aaf65f8810c061a8932cd59a6cb46870956f6de8ab4af5151ecad982a4e1fd9, both 80pp, down from 83pp. Fixtures moved, so a fresh raster is owed and no standing raster receipt survives."
+    },
+    {
+      "lane": "FIX16",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T04:52:39.096Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired in the composed-page renderer at commit ef504bf04. Page 12 no longer opens on a bare postcode and the route key no longer splits mid-token; measured on delivered bytes with pdftotext -layout over all 17 pages, 4 and 5 findings to zero. Content is byte-identical modulo layout. New canonical 480ee39a4b05c3fc8440c0ca239c0b1cdda291a11572653b8eb83e2277a06dc1 and boundary dbf023bdbf496697549ab752237a237d95d79997b0b520ab48acb8560371ec8f, both 17pp. Fixtures moved, so a fresh raster is owed and no standing raster receipt survives."
     }
   ],
   "reissues": [
