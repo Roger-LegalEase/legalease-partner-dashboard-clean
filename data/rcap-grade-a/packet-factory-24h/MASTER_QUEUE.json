@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f79329dda309449d4227859c0dd988f94402d9af",
+  "minimumCaptainSha": "eaf8d691e7477eb4d0531ce47bda20229f4492f5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,24 +66,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 4,
+    "activeFamiliesExcluded": 3,
     "guidanceOnly": 0,
-    "remaining": 342,
+    "remaining": 343,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 20,
+    "verifyPending": 21,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 136,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 20,
+    "VERIFY_PENDING": 21,
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -110,7 +110,6 @@
     "families": [
       "co_motion_seal_nonconviction-set",
       "il-seal-edu-set",
-      "me-seal-prost-set",
       "ut_pet_limitations-set"
     ],
     "staleRosterFamilies": [
@@ -163,7 +162,7 @@
     "sourceReadyFamilies": 82,
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
+    "finding": "44 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 10 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -24547,9 +24546,7 @@
         "verifiedAtBase": "ab018b86a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24590,9 +24587,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX71",
-      "activeOwnerLane": "rapid-repair",
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24603,8 +24600,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "me-seal-survivor-set",
@@ -47839,9 +47835,9 @@
     }
   ],
   "totals": {
-    "lanes": 56,
+    "lanes": 60,
     "builders": 24,
-    "verifiers": 8,
+    "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 82,
