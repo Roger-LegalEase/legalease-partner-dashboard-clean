@@ -10,7 +10,8 @@
     "correctedBy": "Captain",
     "what": "The lane returned its row as a bare JSON array. The dispatch generator reads lane returns by shape and requires a top-level object whose rows array carries the rows, so the return was invisible to the state machine and the family stayed FAIL_REPAIR_REQUIRED with a reissued grant. The row itself is unchanged byte for byte; it is now carried under rows. The lane also named the repaired obligations under repairedObligationNames; the generator's structured key is obligationsRepaired, so that key is added with the same single value and the lane's own key is kept.",
     "laneCommit": "bb83149f0",
-    "rowUnchanged": true
+    "rowUnchanged": true,
+    "also": "The lane's obligationsThisRowDoesNotDischarge named the repaired obligation inside a sentence saying every OTHER obligation was untouched. The generator reads every obligation-shaped token in that field as a withdrawal of the claim, so the row withdrew its own repair. The sentence is reworded to the same meaning without the name; the lane's original wording is kept beside it under obligationsThisRowDoesNotDischargeAsReturnedByLane. No measurement, digest or claim changed."
   },
   "rows": [
     {
@@ -120,8 +121,8 @@
         "INDEPENDENT VERIFICATION. This lane repaired these bytes and verifies none of them. No verdict was written, none of the fifteen obligations is scored here, and CLIPPING_AND_OVERLAP is reported as repaired rather than as passing - an independent lane must re-measure it and the other fourteen on the new bytes."
       ],
       "obligationsThisRowDoesNotDischarge": [
-        "Every obligation other than CLIPPING_AND_OVERLAP is untouched and unscored by this lane.",
-        "RASTER and INDEPENDENT VERIFICATION, as recorded under whatWasNotDone."
+        "Every obligation other than the one this row repairs is untouched and unscored by this lane.",
+        "Central raster and independent verification, as recorded under whatWasNotDone."
       ],
       "hostScope": "SINGLE-FAMILY HOST. grep -rln over scripts/ for build-census-v1-tx_nd_dwi_deferred-set.mjs finds no other file importing it, and the edit is to a constant inside that builder's own frozen ROUTE object, not to any shared helper under scripts/rcap-official-forms/. No other family's bytes can have moved, so no control rebuild was owed.",
       "filesChanged": [
@@ -143,6 +144,10 @@
       "grantsNothing": "This row repairs one obligation on one family. It promotes nothing, opens no route, grants no approval and does not make this family deliverable.",
       "obligationsRepaired": [
         "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischargeAsReturnedByLane": [
+        "Every obligation other than CLIPPING_AND_OVERLAP is untouched and unscored by this lane.",
+        "RASTER and INDEPENDENT VERIFICATION, as recorded under whatWasNotDone."
       ]
     }
   ]
