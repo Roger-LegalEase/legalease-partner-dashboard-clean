@@ -34,7 +34,10 @@
         "role": "cover_and_contents",
         "order": 1,
         "requirement": "required",
-        "manifestComponentIds": []
+        "manifestComponentIds": [],
+        "censusV1ComponentIds": [
+          "cover_and_contents"
+        ]
       },
       {
         "documentId": "ms-petition-for-expungement",
@@ -43,6 +46,9 @@
         "requirement": "required",
         "manifestComponentIds": [
           "ms-nonconv-primary-filing-1"
+        ],
+        "censusV1ComponentIds": [
+          "primary_filing"
         ]
       },
       {
@@ -52,6 +58,9 @@
         "requirement": "required",
         "manifestComponentIds": [
           "ms-nonconv-proposed-order-2"
+        ],
+        "censusV1ComponentIds": [
+          "proposed_order"
         ]
       },
       {
@@ -62,6 +71,10 @@
         "manifestComponentIds": [
           "ms-nonconv-certificate-of-service-3",
           "ms-nonconv-attachment-4"
+        ],
+        "censusV1ComponentIds": [
+          "certificate_of_service",
+          "attachment"
         ]
       },
       {
@@ -71,6 +84,9 @@
         "requirement": "required",
         "manifestComponentIds": [
           "ms-nonconv-instructions-5"
+        ],
+        "censusV1ComponentIds": [
+          "instructions"
         ]
       }
     ]
@@ -204,5 +220,60 @@
       "reRasterRequiredWhen": "either current participant-delivery artifact hash changes",
       "reVerificationRequiredWhen": "the route, specification, facts, renderer, or artifact bytes change"
     }
+  },
+  "censusV1Representation": {
+    "whatThisIs": "The census-v1 overlay this family builds, recorded so the specification's document set can be measured against delivered pages rather than only against the packet-set manifest. It is NOT the participant-delivery artifact bound above: binding.artifacts still names the two Grade-A clinic PDFs Lawrence Blackmon approved by exact SHA-256, and neither of those bytes moved.",
+    "addedBy": "FIX01, repairing VF06's FAIL_REPAIR_REQUIRED on COMPONENT_SET at b3467e894",
+    "directory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+    "builder": "scripts/build-census-v1-ms-nonconv-set.mjs",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json",
+    "packetSpecification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "componentSet": [
+      "cover_and_contents",
+      "primary_filing",
+      "proposed_order",
+      "certificate_of_service",
+      "attachment",
+      "instructions"
+    ],
+    "specificationDocumentsNamed": 5,
+    "specificationDocumentsRendered": 5,
+    "specificationDocumentsDispositionedWithoutRendering": 0,
+    "everySpecificationDocumentRendersOrIsDispositioned": true,
+    "measuredAgainst": "the specification, not this build's own componentSet; the build fails if a specification document neither renders nor carries a stated disposition",
+    "fixtures": {
+      "canonical": {
+        "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+        "byteLength": 29578,
+        "pageCount": 10
+      },
+      "boundary": {
+        "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+        "byteLength": 29851,
+        "pageCount": 10
+      }
+    },
+    "supersededFixtures": {
+      "canonical": {
+        "sha256": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
+        "byteLength": 22815,
+        "pageCount": 8
+      },
+      "boundary": {
+        "sha256": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
+        "byteLength": 23066,
+        "pageCount": 8
+      }
+    },
+    "acceptanceReceipt": null,
+    "whyAcceptanceReceiptIsNull": "RASTER_QUEUE.json's RASTER_PASS receipt for this family (workflow run 33973869055, job 101327371890) is bound to the superseded 8-page digests above. No raster of any kind covers the current bytes; this lane built with --no-raster and did not open RASTER_QUEUE.json or MASTER_QUEUE.json for writing. A central raster of the new canonical and boundary is owed.",
+    "independentVerificationOwed": "VF06's FAIL_REPAIR_REQUIRED at b3467e894 stands until an independent lane re-reads these bytes. This lane verified nothing it built.",
+    "manifestGap": "data/record-clearing/legal-design-packet-set-manifests.json declares five components for ms-nonconv-set and none of them is the specification's required order-1 cover_and_contents document, so product-wiring.json maps it to manifestComponentIds []. This build renders the document as the composed component cover_and_contents and does not edit the manifest, the specification or any legal-design record. Giving the document a manifest component id is owed to the productization lane.",
+    "openCounselQuestion": "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake memo, which records notarization as unresolved and prints a simple truth statement?",
+    "howTheOpenQuestionIsTreated": "It does not resolve it. No verification block and no notarial certificate was added to the petition, the order or the certificate of service. The cover's signing-and-notarization page prints the SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, says on the page that it is printed from the specification, states that the composed petition carries a truth statement instead, and sends the participant to the records office of the court that heard the case - which is what the filing instructions already do.",
+    "grantsNothing": "Rendering the specification's fifth document opens no commercial route, marks nothing proven and changes no live RCAP route. The counsel approval recorded above is bound to the Grade-A clinic artifact hashes and is untouched by this record."
   }
 }

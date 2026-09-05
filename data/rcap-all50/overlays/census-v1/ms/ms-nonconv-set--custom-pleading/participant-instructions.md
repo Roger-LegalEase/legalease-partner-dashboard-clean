@@ -10,6 +10,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 | Component | What it is |
 | --- | --- |
+| `cover_and_contents` | the cover and contents page — what the packet is, what is in it in delivery order, the records to have beside you, and the signing and notarization page; it is not filed |
 | `primary_filing` | the composed petition under § 99-19-71(4), quoting the statute's own mandatory words |
 | `proposed_order` | the proposed order tendered with the petition; the Court alone completes it |
 | `certificate_of_service` | the record of delivery of a copy to the prosecuting authority, contemporaneous with filing |
