@@ -56,6 +56,7 @@ if (receipts.length === 0) throw new Error("git ls-files matched zero source rec
 
 let checked = 0, withRefresh = 0;
 const lost = [];
+const notMeasured = [];
 for (const rel of receipts) {
   let head;
   try { head = JSON.parse(execFileSync("git", ["show", `${AGAINST}:${rel}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 28 })); }
@@ -64,17 +65,37 @@ for (const rel of receipts) {
   if (before.size === 0) { checked++; continue; }
   withRefresh++;
   checked++;
+  /*
+   * A file that is not on disk was not rebuilt -- it was never checked out.
+   * Sparse checkout has caught seven lanes in this operation, one of them with
+   * 4,587 of 15,725 files present, and against that tree this check reported 49
+   * receipts as ERASED BY A REBUILD when nothing had been rebuilt at all. A
+   * check that cries wolf 49 times under a common condition teaches its readers
+   * to ignore it, which costs more than the defect it was written for.
+   *
+   * So absence is reported as a hole in the MEASUREMENT, not as a finding, and
+   * the exit code turns only on annotations that were genuinely dropped from a
+   * file that is present.
+   */
+  const absolute = path.join(ROOT, rel);
+  if (!fs.existsSync(absolute)) { notMeasured.push({ rel, why: "not present in the working tree; a file that was never checked out was never rebuilt" }); continue; }
   let now;
-  try { now = JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8")); }
-  catch { lost.push({ rel, why: "unreadable in the working tree", annotations: [...before.values()] }); continue; }
+  try { now = JSON.parse(fs.readFileSync(absolute, "utf8")); }
+  catch (e) { notMeasured.push({ rel, why: `present but unreadable (${e.message.slice(0, 60)}); this check cannot tell a truncated checkout from a rebuild` }); continue; }
   const after = refreshesIn(now);
   const gone = [...before.keys()].filter((k) => !after.has(k));
   if (gone.length) lost.push({ rel, why: `${gone.length} of ${before.size} identityRefresh annotation(s) dropped`, annotations: gone.map((k) => before.get(k)) });
 }
 
 console.log(`receipts compared against ${AGAINST}: ${checked} · carrying an identityRefresh: ${withRefresh}`);
+if (notMeasured.length) {
+  console.log(`\nNOT MEASURED: ${notMeasured.length} receipt(s) carrying an annotation are not readable here, so this run says nothing about them.`);
+  for (const n of notMeasured.slice(0, 5)) console.log(`  ${n.rel}\n    ${n.why}`);
+  if (notMeasured.length > 5) console.log(`  ... and ${notMeasured.length - 5} more`);
+  console.log("  If that is a sparse checkout, disable it and re-run before trusting this result.");
+}
 if (lost.length === 0) {
-  console.log("EVERY_IDENTITY_REFRESH_SURVIVED");
+  console.log(notMeasured.length ? `EVERY_IDENTITY_REFRESH_SURVIVED_WHERE_MEASURABLE (${notMeasured.length} not measured)` : "EVERY_IDENTITY_REFRESH_SURVIVED");
   process.exit(0);
 }
 console.log(`\nERASED BY A REBUILD: ${lost.length} receipt(s)`);
