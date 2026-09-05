@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "47a46baaa37c75a7e5a400e86b5a22285f3736cd",
+  "generatedAtCommit": "db200fee0155c135976064d165f07a109cb47715",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4694,7 +4694,8 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T02:10:19.032Z"
     },
     {
       "subjectType": "packet-family",
@@ -5185,7 +5186,8 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T02:10:18.916Z"
     },
     {
       "subjectType": "packet-family",
@@ -13038,7 +13040,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d4b74190b086f9fb9b74d708b0c3f63b10e3abcee06312310cc809020b4130d3",
+  "claimsDigest": "1deb109064ccc58e8edbd52765bdff52a6cb059798d809a8ec53a781e172cd4c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26734,6 +26736,22 @@
       "operation": "packet-build",
       "laneKind": "packet-build",
       "releasedAt": "2026-09-05T02:01:48.100Z"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T02:10:18.916Z"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T02:10:19.032Z"
     }
   ],
   "reissues": [
