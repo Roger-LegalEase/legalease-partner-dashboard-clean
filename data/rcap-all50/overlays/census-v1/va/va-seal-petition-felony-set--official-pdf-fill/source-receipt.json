@@ -22,6 +22,68 @@
       "byteLength": 282919
     }
   ],
+  "committedRecordsBound": [
+    {
+      "recordId": "fee-and-waiver:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+      "byteLength": 2625273,
+      "field": "routes[routeKey=obligation:track-only:VA:va_seal_petition_felony].destination.detail",
+      "role": "the committed route-obligation census: this route's canonical key and the destination detail the packet quotes"
+    },
+    {
+      "recordId": "fee-and-waiver:data/record-clearing/legal-design-intake/VA.memo.json",
+      "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "sha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "byteLength": 300158,
+      "field": "tracks[va_seal_petition_felony].rules.fees and .rules.feeWaiver",
+      "role": "the controlling legal-design memo: the fee statement the packet quotes, with its two sections"
+    },
+    {
+      "recordId": "fee-and-waiver:data/record-clearing/legal-design-packet-set-manifests.json",
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419,
+      "field": "packetSets[va_seal_petition_felony-set].participantActionRequired pay_fee and apply_fee_waiver",
+      "role": "the committed packet-set manifest: the same two statements, required here to agree word for word"
+    },
+    {
+      "recordId": "self-help-stop:data/record-clearing/legal-design-track-registry.json",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "byteLength": 16586150,
+      "field": "tracks[va_seal_petition_felony].selfHelpStopConditions",
+      "role": "the committed track registry: the authority for where self-help ends, quoted verbatim on the filing-instructions page and in participant-instructions.md"
+    },
+    {
+      "recordId": "self-help-stop:data/record-clearing/legal-design-intake/VA.memo.json",
+      "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "sha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "byteLength": 300158,
+      "field": "tracks[va_seal_petition_felony].selfHelpStopConditions",
+      "role": "the controlling legal-design memo: required here to hold the identical list"
+    }
+  ],
+  "feeAndWaiverAsDelivered": {
+    "routeKey": "obligation:track-only:VA:va_seal_petition_felony",
+    "anchorStatementVerified": "no court fees or costs",
+    "destinationName": "Clerk of the circuit court of the locality where the case was disposed of",
+    "destinationDetail": "File the petition with no court fees or costs, serve the attorney for the Commonwealth of that locality, and separately request that the CCRE electronically forward the Virginia and national criminal history record to the court. Multiple charges may go on one petition only if they all arose from the same transaction or occurrence and all are eligible.",
+    "feeStatement": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+    "feeWaiverStatement": "none — no court fee is charged, so there is nothing to waive.",
+    "citedAs": "Va. Code § 19.2-392.12(B) and § 19.2-392.12:1(C)"
+  },
+  "selfHelpStopConditionsAsDelivered": [
+    "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+    "Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+    "Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+    "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+    "Any question about the felony-history bars, which turn on the national criminal history record.",
+    "Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+    "Any alcohol or drug involvement requiring a rehabilitation showing.",
+    "Immigration consequences.",
+    "Any attack on the underlying conviction."
+  ],
   "composedComponentsAuthoredByThisBuild": [
     "commonwealth_service_and_stipulation_request",
     "ccre_forwarding_request",

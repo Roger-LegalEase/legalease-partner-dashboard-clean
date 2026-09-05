@@ -12,9 +12,16 @@ File the completed packet with the **Circuit Court** for the city or county prin
 
 If your case was decided in a General District Court or in a Juvenile and Domestic Relations District Court, the petition still goes to the **Circuit Court** for that city or county. The petition asks separately which court decided the case, and that is a different question from where the petition is filed.
 
-Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:
+## What this costs, and why there is nothing to waive
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.
+Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: *"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost."*
+
+Those two sections are **Va. Code § 19.2-392.12(B) and § 19.2-392.12:1(C)**. The route record this packet is built on says the same thing in its own words: *"File the petition with no court fees or costs."*
+
+On a waiver, the same two records say: *"none — no court fee is charged, so there is nothing to waive."* So there is **no filing fee** for you to pay on this petition, and there is **nothing for you to ask the court to waive**. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.
+
+One thing this packet does **not** tell you, because it is not established by the petition and an unsourced figure in a filing instruction is worse than none:
+
 - **How long you have, and exactly how the copy must be served.** The petition's own acknowledgment says a copy goes to the Attorney for the Commonwealth by delivery or by first-class mail with postage prepaid. It sets no deadline, and neither does this page. Ask the same clerk.
 
 ## What is in this packet
@@ -102,8 +109,24 @@ Check each marked box against your own record before you file. If any of them is
 - **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.
 - **Your Social Security number.** The platform does not store it and will not write it for you.
 
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.
+- Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.
+- Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.
+- Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.
+- Any question about the felony-history bars, which turn on the national criminal history record.
+- Any petitioner who has previously obtained sealing under § 19.2-392.12.
+- Any alcohol or drug involvement requiring a rehabilitation showing.
+- Immigration consequences.
+- Any attack on the underlying conviction.
+
+This list is the registry's, quoted and not summarised. It is not shortened for length and no condition on it is softer than it reads.
+
 ## What this packet is not
 
 This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.
 
-_Route: obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing_
+_Route: obligation:track-only:VA:va_seal_petition_felony_
