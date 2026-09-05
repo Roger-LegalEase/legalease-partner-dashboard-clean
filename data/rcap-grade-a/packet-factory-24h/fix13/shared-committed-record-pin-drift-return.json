@@ -1,0 +1,1556 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "workerId": "FIX13",
+  "laneKind": "repair",
+  "assignmentId": "FIX13-shared-committed-record-pin-drift",
+  "assignedBase": "31d82b6d982f760addee1a5019f58cd3bc532e0b",
+  "measuredAtBase": "31d82b6d982f760addee1a5019f58cd3bc532e0b",
+  "branch": "fix13-shared-record-drift",
+  "everyRowStopped": true,
+  "noFamilyWasWritten": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": [],
+  "packetsModified": [],
+  "whyEveryRowIsStopped": "FIX13 holds no grant on any of the twelve families in its dispatch. claim.mjs --assert returned exit 8 GRANTED_ELSEWHERE for five (FIX03 CT provisional pardon, FIX01 CT destruction request, FIX02 DE, FIX07 VA, FIX08 VT -- four of those five are LIVE, not released) and exit 6 NOT_GRANTED for the other seven, which have no repair-lane grant at all. The dispatch forbids transferring a GRANTED_ELSEWHERE subject; minting a grant where none exists is the same dispatch act by another name, and claim.mjs has no verb for it. The lane's only ledger grant is wa_vac_homicide_victim_prostitution-set, released 2026-09-02, which is not in this dispatch. So the analysis below is offered as evidence for whoever does hold these families.",
+  "correctionToTheDispatchCensus": {
+    "dispatchClaimed": "14 receipts carry a stale repository-relative pin, over six records.",
+    "thisLaneMeasured": {
+      "receiptsScanned": 357,
+      "pinsFoundByShape": 741,
+      "pinsResolvingToAFileInThisCheckout": 280,
+      "pinsNamingAPathOutsideTheRepository": 448,
+      "pinsNamingARepositoryPathThatIsGone": 13,
+      "stalePins": 33,
+      "staleReceipts": 20,
+      "staleByRecord": {
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": 10,
+        "data/rcap-ledger/completed-output-counsel-manifest.json": 5,
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": 5,
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": 5,
+        "data/rcap-all50/local-source-corpus-index.json": 3,
+        "src/lib/legal-authority/routes/single-routes.json": 1,
+        "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json": 1,
+        "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json": 1,
+        "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json": 1,
+        "data/record-clearing/legal-design-track-registry.json": 1
+      }
+    },
+    "theDispatchUnderCounted": "33 stale pins over 20 receipts and 10 records, not 14 receipts over 6 records. The dispatch's 14 is exactly the subset belonging to its own twelve families. It missed data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (5 receipts: three Indiana, two Louisiana), three further receipts pinning CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json (Indiana), and three Oregon pins. A packet pinning MASTER_QUEUE.json -- a file this factory regenerates continuously -- is the most re-firing pin in the repository and was not in the dispatch's table at all.",
+    "pathKeysThisLaneHadToWalk": {
+      "pathInArchive": 386,
+      "path": 163,
+      "pathInRepository": 118,
+      "record": 37,
+      "declaredPath": 18,
+      "sourcePath": 8,
+      "pathInPack": 6,
+      "file": 3,
+      "custodyPath": 2
+    },
+    "containerArrayNamesSeen": {
+      "documents": 271,
+      "committedRecords": 118,
+      "(root)": 117,
+      "sources": 77,
+      "groundingRecords": 60,
+      "compositionSources": 43,
+      "evidence": 23,
+      "derivedRepairs": 8,
+      "records": 4,
+      "authorityRecords": 4,
+      "heldFormComponents": 3,
+      "committedRecordsBound": 3,
+      "committedLegalRecords": 2,
+      "mountedReadOnlySource": 2,
+      "codifiedGrounds": 2,
+      "quotedButNotRenderedSources": 1,
+      "overlayProfile": 1,
+      "fieldCensus": 1,
+      "optionGeometry": 1
+    },
+    "walkerNote": "The dispatch named five container names and seven path keys. Walking by SHAPE -- any object carrying a string path-like key and a 64-hex sha256 -- found nineteen container names and nine path keys, including declaredPath, sourcePath and custodyPath, which no named-key walker would have reached."
+  },
+  "environmentDefectFoundAndCorrected": {
+    "what": "git worktree add inherited a sparse-checkout cone that excluded /data/* except /data/rcap-grade-a/.",
+    "effect": "data/record-clearing (150 files), data/rcap-ledger (124) and data/rcap-all50 (8773) were ABSENT on disk while tracked in HEAD.",
+    "ifUncorrected": "Every pin into those three trees would have measured as MISSING -- a universal negative over files present in HEAD, exactly the failure the dispatch warned about.",
+    "correction": "Cone reset to everything except **/*.pdf; 1616 PDFs remain deselected and no pin in this cohort resolves to one. Verified tracked-file count equals on-disk count for all three trees before any measurement was taken."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "CT",
+      "queueState": "FAIL_REPAIR_REQUIRED",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX03 and is LIVE (unreleased). Another repair lane is executing this family now. FIX13 holds no grant on it and wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "PF17",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T15:18:30.321Z"
+        },
+        {
+          "lane": "FIX03",
+          "laneKind": "repair",
+          "operation": "rapid-repair",
+          "released": false,
+          "releasedAt": null
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 4,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "container": "compositionSources",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/source-receipt.json",
+          "previousPin": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "previousByteLength": 321161,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+          "currentSha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "currentByteLength": 321306,
+          "anchorUnit": "families[] whose jurisdictions[] contains CT",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json",
+          "previousPin": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+          "previousByteLength": 2596674,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "7613a4b50ff129537a9911c4c89fb634f753628c",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json",
+          "previousPin": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "previousByteLength": 321161,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+          "currentSha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "currentByteLength": 321306,
+          "anchorUnit": "families[] whose jurisdictions[] contains CT",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/source-receipt.json",
+          "previousPin": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+          "previousByteLength": 241655,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "c78eb99f94b6b7928762a03ac243c52c2e55265e",
+          "currentSha256": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
+          "currentByteLength": 1025084,
+          "anchorUnit": "byState.CT + entries[] for CT",
+          "anchorsCompared": 10,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "byState.CT",
+            "entries:STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+            "entries:STATES/CT/04_SUPPORTING_PROCESS/CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
+            "entries:STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill": {
+          "canonical": {
+            "sha256": "31f3c2fd8e59ffb83292faea73213dc70483d427c8f5f944d72f535bd1f03ef1",
+            "byteLength": 5472,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "0e7f7008cd40fba4f6c3a04ba800147d4d4af3f5298f0b9c9b777ae31087c772",
+            "byteLength": 5605,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        },
+        "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application": {
+          "null": {
+            "sha256": "6cc63aab8747d14d618e66c4ba54e00c89a12852b85f6337e30b12a7e6b5534a",
+            "byteLength": 4688,
+            "pageCount": null,
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application/participant-instructions.md"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "CT",
+      "queueState": "FAIL_REPAIR_REQUIRED",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX01 and was released 2026-09-04T17:09:54.318Z. Choosing a released grant's destination is a dispatch act, so FIX13 did not take it. FIX13 holds no grant on it and wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "PF17",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T15:18:30.142Z"
+        },
+        {
+          "lane": "FIX01",
+          "laneKind": "repair",
+          "operation": "rapid-repair",
+          "released": true,
+          "releasedAt": "2026-09-04T17:09:54.318Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 2,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/source-receipt.json",
+          "previousPin": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+          "previousByteLength": 2596674,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "7613a4b50ff129537a9911c4c89fb634f753628c",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/source-receipt.json",
+          "previousPin": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "previousByteLength": 321161,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+          "currentSha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "currentByteLength": 321306,
+          "anchorUnit": "families[] whose jurisdictions[] contains CT",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": true,
+      "whyThisMattersBeyondThePin": null,
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application": {
+          "null": {
+            "sha256": "534f85ca2bdfac218b3886118bad0102c739a2bdbcfe499f1cee6083d450b5e9",
+            "byteLength": 5326,
+            "pageCount": null,
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/participant-instructions.md"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "DE",
+      "queueState": "FAIL_REPAIR_REQUIRED",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX02 and is LIVE (unreleased). Another repair lane is executing this family now. FIX13 holds no grant on it and wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "PF21",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T16:19:42.099Z"
+        },
+        {
+          "lane": "FIX02",
+          "laneKind": "repair",
+          "operation": "rapid-repair",
+          "released": false,
+          "releasedAt": null
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "container": "compositionSources",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
+          "previousPin": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+          "previousByteLength": 61590,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "currentSha256": "ab279fbe0cce34d28ca5e83450d7ee0081a2511329c3f4c745a3af76bb4015fd",
+          "currentByteLength": 73597,
+          "anchorUnit": "determinations[] + reconciliation42.families for de_mandatory_expungement-set/DE",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": true,
+      "whyThisMattersBeyondThePin": null,
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill": {
+          "canonical": {
+            "sha256": "dccf986f5051559312d86b794a02174756a843dfce41474ff9cd0a68ae9b752f",
+            "byteLength": 8712,
+            "pageCount": 3,
+            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "8a58177069960152ae1ae2b9f76d93dfc895ea6e876fc91602af52c2883f9266",
+            "byteLength": 8845,
+            "pageCount": 3,
+            "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "VA",
+      "queueState": "FAIL_REPAIR_REQUIRED",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "failedObligationNames": [
+        "PAGE_ORDER",
+        "SELF_HELP_STOP"
+      ],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX07 and is LIVE (unreleased). Another repair lane is executing this family now. FIX13 holds no grant on it and wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF07",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-03T18:52:05.613Z"
+        },
+        {
+          "lane": "PF01",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-01T08:18:10.485Z"
+        },
+        {
+          "lane": "FIX07",
+          "laneKind": "repair",
+          "operation": "rapid-repair",
+          "released": false,
+          "releasedAt": null
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "committedRecordsBound",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json",
+          "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "previousByteLength": 2599752,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "39b88c674bd028cb03b90b60fc13affe6b227b60",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": true,
+      "whyThisMattersBeyondThePin": null,
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill": {
+          "canonical": {
+            "sha256": "8c6b3c46f9fc874c55aa27764768693b419443970c102487adb8446fc2678c30",
+            "byteLength": 232668,
+            "pageCount": 9,
+            "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "b8a85562ada431804a4da6b9e6943096934ae812507e57a39fa103fce2892989",
+            "byteLength": 232936,
+            "pageCount": 9,
+            "file": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "familyId": "vt_exp_decriminalized-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "VT",
+      "queueState": "FAIL_REPAIR_REQUIRED",
+      "directory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX08 and is LIVE (unreleased). Another repair lane is executing this family now. FIX13 holds no grant on it and wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF35",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-03T06:25:31.204Z"
+        },
+        {
+          "lane": "PF03",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-01T08:49:15.274Z"
+        },
+        {
+          "lane": "FIX08",
+          "laneKind": "repair",
+          "operation": "rapid-repair",
+          "released": false,
+          "releasedAt": null
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 2,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "committedRecordsBound",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/source-receipt.json",
+          "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "previousByteLength": 2599752,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "39b88c674bd028cb03b90b60fc13affe6b227b60",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/record-clearing/legal-design-track-registry.json",
+          "container": "committedRecordsBound",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/source-receipt.json",
+          "previousPin": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+          "previousByteLength": 16555956,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "22e6a1fa46200ed8f4d89b7d7f127cb6fc72c8c5",
+          "currentSha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+          "currentByteLength": 16586150,
+          "anchorUnit": "tracks[] for jurisdiction VT",
+          "anchorsCompared": 11,
+          "anchorsIdentical": 10,
+          "anchorsMoved": [
+            "tracks:vt_seal_under_25"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill": {
+          "canonical": {
+            "sha256": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0",
+            "byteLength": 849812,
+            "pageCount": 8,
+            "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d",
+            "byteLength": 850846,
+            "pageCount": 8,
+            "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "AL",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF01",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-05T00:17:36.739Z"
+        },
+        {
+          "lane": "PF17",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T15:18:29.801Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 2,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/source-receipt.json",
+          "previousPin": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+          "previousByteLength": 2596674,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "7613a4b50ff129537a9911c4c89fb634f753628c",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/source-receipt.json",
+          "previousPin": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+          "previousByteLength": 241655,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "c78eb99f94b6b7928762a03ac243c52c2e55265e",
+          "currentSha256": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
+          "currentByteLength": 1025084,
+          "anchorUnit": "byState.AL + entries[] for AL",
+          "anchorsCompared": 14,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "byState.AL",
+            "entries:STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+            "entries:STATES/AL/04_SUPPORTING_PROCESS/AL__SUPPORT__SBI-FORM-46__application-to-review-alabama-criminal-history-record-information__REV-2017-10-01__EN.pdf",
+            "entries:STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application": {
+          "null": {
+            "sha256": "e7edb21f8272a58a0fecfe71124bd01bab9508af3a1f6c9f0f82ae5a6a6c8163",
+            "byteLength": 5509,
+            "pageCount": null,
+            "file": "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/participant-instructions.md"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "familyId": "fl-administrative-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "FL",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF03",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-05T00:17:37.466Z"
+        },
+        {
+          "lane": "PF20",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T16:41:12.823Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "container": "compositionSources",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/source-receipt.json",
+          "previousPin": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+          "previousByteLength": 61590,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "currentSha256": "ab279fbe0cce34d28ca5e83450d7ee0081a2511329c3f4c745a3af76bb4015fd",
+          "currentByteLength": 73597,
+          "anchorUnit": "determinations[] + reconciliation42.families for fl-administrative-set/FL",
+          "anchorsCompared": 2,
+          "anchorsIdentical": 2,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": true,
+      "whyThisMattersBeyondThePin": null,
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill": {
+          "canonical": {
+            "sha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+            "byteLength": 5476,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+            "byteLength": 5578,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "NM",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF02",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-05T00:17:37.105Z"
+        },
+        {
+          "lane": "PF17",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T15:18:29.970Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 2,
+      "anchorComparisons": [
+        {
+          "record": "src/lib/legal-authority/routes/single-routes.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application/source-receipt.json",
+          "previousPin": "3c96528143c0e86363873c68dc64bcb8704241900681731e6d24c7c3e8ab5a36",
+          "previousByteLength": 52860,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "ea5bc43797c47f162a9098a0f97b040c66a59679",
+          "currentSha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+          "currentByteLength": 67533,
+          "anchorUnit": "routes[] for jurisdiction NM",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application/source-receipt.json",
+          "previousPin": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+          "previousByteLength": 2596674,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "7613a4b50ff129537a9911c4c89fb634f753628c",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": true,
+      "whyThisMattersBeyondThePin": null,
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application": {
+          "null": {
+            "sha256": "a12e88f43417d9dd1d3ac91ab3786f497b0cc5000d1250903465744a96e65ae3",
+            "byteLength": 5216,
+            "pageCount": null,
+            "file": "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application/participant-instructions.md"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "CT",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF05",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-04T16:25:56.033Z"
+        },
+        {
+          "lane": "PF17",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-04T15:18:30.487Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 4,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "container": "compositionSources",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/source-receipt.json",
+          "previousPin": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "previousByteLength": 321161,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+          "currentSha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "currentByteLength": 321306,
+          "anchorUnit": "families[] whose jurisdictions[] contains CT",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json",
+          "previousPin": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+          "previousByteLength": 2596674,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "7613a4b50ff129537a9911c4c89fb634f753628c",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json",
+          "previousPin": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "previousByteLength": 321161,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+          "currentSha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "currentByteLength": 321306,
+          "anchorUnit": "families[] whose jurisdictions[] contains CT",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorsMoved": [],
+          "verdict": "IDENTITY_MOVE_ONLY"
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json",
+          "container": "evidence",
+          "pathKey": "path",
+          "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/source-receipt.json",
+          "previousPin": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+          "previousByteLength": 241655,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "c78eb99f94b6b7928762a03ac243c52c2e55265e",
+          "currentSha256": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
+          "currentByteLength": 1025084,
+          "anchorUnit": "byState.CT + entries[] for CT",
+          "anchorsCompared": 10,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "byState.CT",
+            "entries:STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+            "entries:STATES/CT/04_SUPPORTING_PROCESS/CT__SUPPORT__DPS-0846-C__state-of-connecticut-criminal-history-record-request-form__REV-2017-12-01__EN.pdf",
+            "entries:STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill": {
+          "canonical": {
+            "sha256": "83cdb5a02b746d5c922fa73c37bc556106d4882822c241ac1a881099fbce8d42",
+            "byteLength": 5829,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "41a1b3284fcfb61aaa2e9949167b89cdbc1aa88af518f3bee1fde531e2223cf1",
+            "byteLength": 5979,
+            "pageCount": 2,
+            "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/boundary.pdf"
+          }
+        },
+        "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application": {
+          "null": {
+            "sha256": "ef131d1da54a06fdec99f6a9993c2196ad6b10833474f4a8e40c0f734f396054",
+            "byteLength": 5081,
+            "pageCount": null,
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application/participant-instructions.md"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "NV",
+      "queueState": "HANDOFF_READY",
+      "directory": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF05",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-02T09:16:56.592Z"
+        },
+        {
+          "lane": "PF01",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-02T07:34:39.594Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "committedRecords",
+          "pathKey": "pathInRepository",
+          "receipt": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/source-receipt.json",
+          "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "previousByteLength": 2599752,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "39b88c674bd028cb03b90b60fc13affe6b227b60",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading": {
+          "canonical": {
+            "sha256": "ace550b2facfe49073b96b693f687da88ef69294a1654be2b253424913eb4364",
+            "byteLength": 12143,
+            "pageCount": 4,
+            "file": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "cbae759020043282ceb3213a052dae9271c263a87e81a3a7e6cd5404c5b7cae0",
+            "byteLength": 12324,
+            "pageCount": 4,
+            "file": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "SD",
+      "queueState": "HANDOFF_READY",
+      "directory": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF07",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-02T11:45:32.397Z"
+        },
+        {
+          "lane": "PF01",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-02T07:34:39.896Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "committedRecords",
+          "pathKey": "pathInRepository",
+          "receipt": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/source-receipt.json",
+          "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "previousByteLength": 2599752,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "39b88c674bd028cb03b90b60fc13affe6b227b60",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "obligation:runtime-only:SD:juvenile-trafficking-expungement"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading": {
+          "canonical": {
+            "sha256": "d292e9b4f2d0c9b11dd90ca0f662c24544d53a1e10cd7dc5ee241cd720c05655",
+            "byteLength": 11837,
+            "pageCount": 4,
+            "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "4a4cd512bf4a30df9fb527c9aafeb3836c30a852c34648e91be7bb2a9ab4e401",
+            "byteLength": 12454,
+            "pageCount": 5,
+            "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "PA",
+      "queueState": "GUIDANCE_READY",
+      "directory": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading",
+      "failedObligationNames": [],
+      "receiptsCarryingAStalePin": [
+        "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/source-receipt.json"
+      ],
+      "stoppedBy": "the claim gate: no repair-lane grant exists for this family at all (claim.mjs --assert returns exit 6 NOT_GRANTED). Minting a grant for this lane would be a dispatch act, and claim.mjs exposes no mint verb. FIX13 wrote no byte of it.",
+      "claimLedgerGrants": [
+        {
+          "lane": "VF06",
+          "laneKind": "independent-verification",
+          "operation": "independent-verification",
+          "released": true,
+          "releasedAt": "2026-09-02T10:58:41.352Z"
+        },
+        {
+          "lane": "PF01",
+          "laneKind": "packet-build",
+          "operation": "packet-build",
+          "released": true,
+          "releasedAt": "2026-09-02T07:34:39.814Z"
+        }
+      ],
+      "theDefectIsReal": true,
+      "stalePinCount": 1,
+      "anchorComparisons": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "container": "committedRecords",
+          "pathKey": "pathInRepository",
+          "receipt": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/source-receipt.json",
+          "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "previousByteLength": 2599752,
+          "previousPinRecomputesFromHistory": true,
+          "previousPinLastSeenAtCommit": "39b88c674bd028cb03b90b60fc13affe6b227b60",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "anchorUnit": "routes[].routeKey",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 0,
+          "anchorsMoved": [
+            "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
+          ],
+          "verdict": "ANCHOR_MOVED_SUBSTANTIVE"
+        }
+      ],
+      "refreshWouldHaveBeenSafe": false,
+      "whyThisMattersBeyondThePin": "At least one anchor this receipt binds MOVED. This is not an identity refresh and a re-pin here would paper over a record that changed under the packet.",
+      "renderedArtifactDigests": {
+        "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading": {
+          "canonical": {
+            "sha256": "ed70579671b2b948b32fdd2854bbf4082b9f5013e591164dd0a77c0387710f4e",
+            "byteLength": 11486,
+            "pageCount": 4,
+            "file": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/canonical.pdf"
+          },
+          "boundary": {
+            "sha256": "7609ccbb635efa704dd57886a3e773b7eca7534691561fc11d288e19780232a8",
+            "byteLength": 11670,
+            "pageCount": 4,
+            "file": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/boundary.pdf"
+          }
+        }
+      },
+      "participantFacingBytesMoved": false,
+      "countersAfter": null,
+      "countersNote": "Omitted deliberately. This lane repaired nothing, so there is no 'after'. Separately, this family is NOT auditable by scripts/rcap-packet-completeness/verify-packet-completeness.mjs at this base -- only 48 families are, and none of the twelve in this cohort is among them. MASTER_QUEUE's PASS_COMPLETE and allNineCountersZero for it are carried from the stored PACKET_COMPLETENESS_MATRIX.json (232 rows), not reproducible by a live run at this head. Nine zeros would not have been evidence of a SOURCE_IDENTITY repair in any case: that verifier does not measure source identity.",
+      "nineCounterNames": [
+        "knownRequiredFieldsMissing",
+        "requiredFactsNotCollected",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing",
+        "invisibleWrites",
+        "protectedWrites",
+        "visualDefects"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "connecticutDuplicateDirectoryAnswer": {
+    "question": "Which directory holds the delivered packet, is the other abandoned or live, and does anything read the unreferenced one?",
+    "scopeCorrection": "This is not a Connecticut problem. Exactly five overlay directories in the whole census (240 on disk, 235 referenced) are unreferenced by MASTER_QUEUE, and all five are this same pair: al/al-uncharged-arrest-record-challenge--agency-application, ct/ct-absolute-pardon--agency-application, ct/ct-destruction-request--agency-application, ct/ct-provisional-pardon--agency-application, nm/nm-dna-sample-profile-expungement--agency-application. All five belong to participant_agency_application families. Connecticut holds three of the five.",
+    "whyTheSuffixContradictsTheStrategy": "scripts/grade-a-packet-factory-24h/generate.mjs line 1073: `const suffixOf = (s) => (s === \"custom_pleading\" ? \"custom-pleading\" : \"official-pdf-fill\");`. The suffix is a two-valued function with no branch for participant_agency_application, so every agency-application family is named --official-pdf-fill by default. The suffix in the queue-referenced directory name is therefore not a claim about the packet's content; it is the fall-through arm of a binary. Line 848 of the same file treats participant_agency_application as a sibling of custom_pleading for source readiness, so the generator is internally inconsistent about which of the two the strategy resembles.",
+    "whichHoldsTheDeliveredPacket": "The queue-referenced --official-pdf-fill directory. It carries production-field-map.json, product-wiring.json, a four-file reports/ set including completeness-counters.json, and canonical + boundary PDF fixtures; it is the directory the stored PACKET_COMPLETENESS_MATRIX row names. It was created 2026-09-04 by PF17 ('build PF17 source-light packet families').",
+    "whatTheUnreferencedOneIs": "A superseded earlier build, not a live one. Created 2026-09-01 by PF04 ('CT ct-destruction-request: agency-application guidance packet'), three days before PF17 rebuilt the same familyId under the queue-generated name. It has no production-field-map, no product-wiring, no completeness counters, and a single guidance artifact rather than a canonical/boundary pair. Its own build-status.json declares deliverableType participant_agency_application_guidance and rasterState NOT_APPLICABLE_GUIDANCE_DELIVERABLE. data/rcap-grade-a/packet-safety/MIS_WRITE_CLASS_CENSUS_2026-09-04.json independently lists all five among the eight families with no production field map.",
+    "doesAnythingReadIt": "No runtime or product code reads it: git grep over src/ and app/ returns nothing. The only references are diagnostic -- ACROFORM_APPEARANCE_DEFECT.json, COMPONENT_NAME_SWEEP.json, MIS_WRITE_CLASS_CENSUS_2026-09-04.json, the fable b11 return, and vf01/vf02/vf03 rows -- plus its own still-present build script. Every one of those found it by enumerating directories on disk, not by following the queue.",
+    "andThatIsThePointForThisDefectClass": "Both twins carry a source-receipt.json and both claim the SAME familyId. A queue-driven repair edits one; a directory-walking reader measures both. That asymmetry is the 'two receipts' trap: FIX12/Captain refreshed the counsel-manifest pin in ct/agency-application-treatment:...ct-destruction-request--official-pdf-fill at the tip commit, and the orphan twin ct/ct-destruction-request--agency-application still carries the stale pin at this base. The family reads as repaired from the queue and as failing from a shape walk, and it will keep doing so until the orphan is retired.",
+    "recommendationNotTaken": "Retiring a duplicate is an owner determination, not a repair. Nothing was deleted, moved or renamed. Note only that the orphans are not merely inert: they hold receipts that keep re-entering the SOURCE_IDENTITY denominator."
+  },
+  "familiesOutsideThisDispatchCarryingTheSameDefect": [
+    {
+      "familyId": "in_conviction_d6-set",
+      "jurisdiction": "IN",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "stalePinCount": 2,
+      "records": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "verdict": "IDENTITY_MOVE_ONLY",
+          "anchorsCompared": 4,
+          "anchorsIdentical": 4
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "verdict": "NO_EXTRACTOR",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "jurisdiction": "IN",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "stalePinCount": 2,
+      "records": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "verdict": "IDENTITY_MOVE_ONLY",
+          "anchorsCompared": 4,
+          "anchorsIdentical": 4
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "verdict": "NO_EXTRACTOR",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "jurisdiction": "IN",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "stalePinCount": 2,
+      "records": [
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "verdict": "IDENTITY_MOVE_ONLY",
+          "anchorsCompared": 4,
+          "anchorsIdentical": 4
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "verdict": "NO_EXTRACTOR",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    },
+    {
+      "familyId": "la-977-misdemeanor-conviction-set",
+      "jurisdiction": "LA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "stalePinCount": 1,
+      "records": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "verdict": "NO_EXTRACTOR",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    },
+    {
+      "familyId": "la-978-felony-conviction-set",
+      "jurisdiction": "LA",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "stalePinCount": 1,
+      "records": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "verdict": "NO_EXTRACTOR",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "jurisdiction": "OR",
+      "queueState": "GUIDANCE_READY",
+      "stalePinCount": 3,
+      "records": [
+        {
+          "record": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+          "verdict": "HISTORY_DOES_NOT_CHECK_OUT",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        },
+        {
+          "record": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
+          "verdict": "HISTORY_DOES_NOT_CHECK_OUT",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        },
+        {
+          "record": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
+          "verdict": "HISTORY_DOES_NOT_CHECK_OUT",
+          "anchorsCompared": null,
+          "anchorsIdentical": null
+        }
+      ],
+      "note": "Not in the FIX13 dispatch list and not touched. Reported because this lane's re-measurement found it and the dispatch's census did not."
+    }
+  ],
+  "determinationsForTheOwner": [
+    {
+      "id": "DET-FIX13-01-NV-PA-SD-RECLASSIFIED-UNDER-THEIR-PACKETS",
+      "severity": "substantive, not a pin refresh",
+      "families": [
+        "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+        "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement"
+      ],
+      "what": "For all three, the single census route row each receipt binds MOVED between the commit carrying the previous pin (39b88c674) and this base. possibleCategory went A_MUST_FULFILL -> B_LEGITIMATE_EXCLUSION; currentOutputStrategy went custom_pleading -> process_guidance; participantCanInitiate went true -> false; participantFacingInstrument went from a named petition to 'no participant filing -- attorney or qualified legal-assistance handoff' (NV, SD) and 'no filing -- process guidance' (PA); the route contract went :participant_packet -> :referral (NV, SD) and -> :guidance_status (PA); possibleCategoryBReason became UNSUITABLE_FOR_SELF_HELP (NV, SD) and COURT_INITIATED (PA).",
+      "whyItMatters": "All three are built as custom_pleading, sit in --custom-pleading overlay directories, and are queued at HANDOFF_READY (NV, SD) and GUIDANCE_READY (PA). Their own grounding record now says the route should not produce a participant-filed pleading at all. Refreshing these pins would have recorded 'anchors identical' over a reclassification that contradicts the packet's existence. An automated re-pin would have done exactly that.",
+      "disposition": "STOPPED. These three need a legal-design read, not a pin refresh."
+    },
+    {
+      "id": "DET-FIX13-02-ANCHOR-IDENTICAL-BUT-UNCLAIMABLE",
+      "severity": "blocked on dispatch, not on evidence",
+      "families": [
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "de_mandatory_expungement-set",
+        "fl-administrative-set",
+        "va_seal_petition_misdemeanor-set",
+        "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement"
+      ],
+      "what": "Every previous pin recomputes exactly from the historical blob, and every anchor these receipts bind is byte-identical across the drift. These are clean whole-file identity moves and would take an identityRefresh block as written.",
+      "disposition": "Ready to refresh. Not refreshed here: FIX13 holds no grant on any of them."
+    },
+    {
+      "id": "DET-FIX13-03-CORPUS-INDEX-SCHEMA-MIGRATION",
+      "severity": "needs an owner rule, not a repair",
+      "families": [
+        "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "record": "data/rcap-all50/local-source-corpus-index.json",
+      "what": "This index migrated v1 -> v2: every entry gained custody, custodyType and assetFormat, and the per-state entry set grew (AL 3 -> 13). Compared object-for-object the anchors are NOT identical. Compared on the fields the receipts actually name, they are: the AL SBI-FORM-46 entry and the CT DPS-0846-C entry each keep the same path, sha256, byteLength, pageCount, acroFieldCount, structuralClassObserved and loadError, and each still matches the receipt's own heldFormComponents pin.",
+      "theQuestionForTheOwner": "Does an identityRefresh require the anchor OBJECT to be identical, or the anchor's SUBSTANTIVE PROJECTION? generate.mjs enforces anchorsCompared === anchorsIdentical and cannot tell the difference. Under a strict object rule these three cannot be refreshed and must be re-derived; under a projection rule they can. This lane refuses to pick, because picking silently is how a schema migration becomes indistinguishable from a content change.",
+      "disposition": "STOPPED pending that rule."
+    },
+    {
+      "id": "DET-FIX13-04-VT-ANCHOR-HOLDS-UNDER-THE-RECEIPT-S-OWN-BINDING",
+      "severity": "informational",
+      "family": "vt_exp_decriminalized-set",
+      "record": "data/record-clearing/legal-design-track-registry.json",
+      "what": "One of the eleven VT tracks (vt_seal_under_25) gained officialFormSetMapping (STOPPED_AMBIGUOUS, candidate form 200-00130) and sourceBindings, both previously null. The receipt binds 'the eleven held self-help stopping conditions', and selfHelpStopConditions is byte-identical on all eleven tracks (90 conditions), as are selfHelpBoundaries, packetInstructions and participantFilingRequirements. The two added fields are not reproduced in the packet.",
+      "disposition": "Same rule question as DET-FIX13-03: identical under the receipt's declared binding, not identical as whole objects. vt_exp_decriminalized-set also fails ARTIFACTS, which no pin refresh addresses."
+    },
+    {
+      "id": "DET-FIX13-05-OREGON-PINS-DO-NOT-CHECK-OUT",
+      "severity": "a different defect, outside this dispatch",
+      "family": "or_conviction_setaside-set",
+      "what": "Three pins in or/or-conviction-setaside-set--official-pdf-fill (overlay-profile.json, field-census.json, or-option-selection-geometry.json, under container keys overlayProfile/fieldCensus/optionGeometry via the path key 'file') all carry the SAME digest b22cc346caf6c387... for three different files. No commit in any of those paths' histories produces a blob hashing to it.",
+      "whyItIsNotThisClass": "One digest cannot be the whole-file identity of three different files. This is a mis-pin written by the builder, not drift under a receipt. Rule 1 forbids refreshing it: the history does not check out.",
+      "disposition": "Reported, not touched. Needs its own repair with a rebuild, not a re-pin."
+    },
+    {
+      "id": "DET-FIX13-06-THREE-FAMILIES-FAIL-FOR-OBLIGATIONS-THIS-CLASS-DOES-NOT-TOUCH",
+      "severity": "scoping correction",
+      "what": "The dispatch groups six families as FAIL_REPAIR_REQUIRED as though the stale pin were what holds them. It is not, for three of them: de_mandatory_expungement-set fails FEE_AND_WAIVER, va_seal_petition_misdemeanor-set fails PAGE_ORDER and SELF_HELP_STOP, vt_exp_decriminalized-set fails ARTIFACTS. Only the two Connecticut track-only families fail SOURCE_IDENTITY. Refreshing all six pins would clear the FAIL on none of the other three, and a return that said COMPLETED for them would read at integration as work that was never done."
+    }
+  ],
+  "willThisClassKeepReFiring": {
+    "answer": "Yes, and the measurement shows it accelerating rather than settling.",
+    "why": [
+      "Six of the ten drifted records are FACTORY OUTPUT, not legal sources: MASTER_QUEUE.json, route-obligation-candidate.json, CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, local-source-corpus-index.json, completed-output-counsel-manifest.json and legal-design-track-registry.json are all regenerated or appended by ordinary lane work. MASTER_QUEUE.json in particular is rewritten by every generate.mjs run, so the five receipts pinning it are stale again the moment anyone regenerates the queue.",
+      "The pin is whole-file over a shared multi-tenant record. route-obligation-candidate.json holds 708 routes and completed-output-counsel-manifest.json holds 57 family rows, so a one-row edit for one jurisdiction invalidates every pin into the file. Connecticut failed because of a Virginia commit changing a Kansas row; that is structural, not accidental.",
+      "Refresh is O(receipts) while breakage is O(1). One commit breaks ten receipts; ten separate claimed lanes must each recover history, compare anchors and write an identityRefresh to undo it. The dispatch's own count was already stale against mine before I started.",
+      "The orphan twins double the surface for five families and are invisible to queue-driven repair."
+    ],
+    "smallestDurableChange": "Pin the ANCHORS, not the containing file. A receipt entry into a shared multi-tenant record should carry the digest of the canonicalised subtree it actually binds -- the route rows for its routeKeys, the counsel-manifest rows for its jurisdiction, the corpus-index entry for its held form -- under a field such as anchorSha256, alongside the record path and the commit the anchors were read at. Then a Virginia commit changing a Kansas row moves no Connecticut digest, no identityRefresh block is ever owed, and a digest that DOES move is by construction a real change to bound content, which is the only case a human should ever be asked to read. The whole-file sha256 can stay as provenance, marked not-binding.",
+    "twoSmallerChangesWorthMakingAnyway": [
+      "Stop pinning data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json from any receipt. It is derived, it is regenerated continuously, and it can never hold a stable digest. Five receipts pin it today.",
+      "Give generate.mjs's suffixOf a branch for participant_agency_application. The two-valued function is what produced five directories whose name contradicts their strategy and five orphan twins beside them."
+    ]
+  },
+  "whatThisReturnDoesNotEstablish": [
+    "that any of the twelve families is repaired -- none was written, and no pin was refreshed",
+    "that the seven clean identity moves may be refreshed by anyone other than the lane holding the grant",
+    "that the NV, PA and SD packets are wrong -- only that their grounding route rows were reclassified under them and that a pin refresh must not proceed until someone reads that",
+    "that either directory in a duplicate pair should be deleted; nothing was deleted and retirement is an owner determination",
+    "any completeness result: no live counter run covers these families at this base"
+  ]
+}
