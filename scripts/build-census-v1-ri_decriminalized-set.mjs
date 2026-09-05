@@ -1662,6 +1662,22 @@ async function renderOfficialForm(source, census, facts, familyId) {
     unwritableFields: census.rows.map((r) => ({ field: r.name, class: "written_as_a_measured_appearance_instead" })),
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: `${source.formNumber} ${familyId} review artifact`,
+    /* FIX59. DC-33 and Superior-55 both ship every selection widget at /AS /Off
+     * with /On as the only state in /AP /N, except one radio group on the last
+     * page of each that carries its own /Off stream. The shared sanitizer calls
+     * updateFieldAppearances() before flatten, pdf-lib regenerates an appearance
+     * for exactly the condition of a current state with no stream, and its
+     * default provider paints a stroked square -- so 37 boxes on DC-33 and 33 on
+     * Superior-55 were delivered inside a border the court's paper does not
+     * print and no conforming viewer paints (ISO 32000-1 12.5.5). VF08 proved
+     * the ink is not this family's: a zero-write baseline over the same pinned
+     * bytes paints the same pixels. Opting in supplies the missing state as an
+     * EMPTY appearance instead, so nothing is synthesized there.
+     *
+     * The radio group that ships its own /Off appearance is untouched by this:
+     * that stream is the court's own and stays, which is what RI-OFF-APPEARANCE
+     * settles. */
+    suppressSynthesizedAppearances: true,
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${familyId}:${source.formNumber}`)
   });
   assert.deepEqual(report.written, [],
