@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e3196e72e03fbcacb383fed02188b7cf6ddc46b4",
+  "generatedAtCommit": "f79329dda309449d4227859c0dd988f94402d9af",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1418,11 +1418,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:32.157Z",
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, unscaled flattened appearance paints outside its Rect on the delivered bytes (option-OFF baseline carries the identical pixels); row in vf08/rows.json at e3f7e1880"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -1556,11 +1554,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T21:16:32.271Z",
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, unscaled flattened appearance paints outside its Rect on the delivered bytes (option-OFF baseline carries the identical pixels); row in vf08/rows.json at e3f7e1880"
+      "releasedAt": "2026-09-05T21:16:32.271Z"
     },
     {
       "subjectType": "packet-family",
@@ -5028,11 +5025,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T21:35:11.588Z",
-      "releaseReason": "VF05 re-read at d3312169e on the FIX51 bytes: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS, the MC 227b caption field dinfo is left empty while the builder holds the defendant name, address and telephone and the trafficking family composes the same facts into the same caption; SELF_HELP_STOP disclosure landed; rows.json committed at 562ee39be"
+      "releasedAt": "2026-09-05T21:35:11.588Z"
     },
     {
       "subjectType": "packet-family",
@@ -5910,11 +5906,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T21:16:32.392Z",
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, unscaled flattened appearance paints outside its Rect on the delivered bytes (option-OFF baseline carries the identical pixels); row in vf08/rows.json at e3f7e1880"
+      "releasedAt": "2026-09-05T21:16:32.392Z"
     },
     {
       "subjectType": "packet-family",
@@ -13591,7 +13586,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "2c433d8e161f4ce7a99eb52cf61c15419399f67587eb80bca09d410b60ca2168",
+  "claimsDigest": "db939ba153b5bfe4145f9e2c9a3b3366c588ea8f3fa3df222eb862d3b7cd4f13",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37315,6 +37310,18 @@
       "previouslyReleasedAt": "2026-09-05T21:07:21.417Z",
       "reissuedAt": "2026-09-05T21:58:12.636Z",
       "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_decriminalized_conduct_seal-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T22:05:03Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "OWNER_CONFIRMED_ROUTE_MAPPING_COMPLETE"
     }
   ],
   "transfers": [
