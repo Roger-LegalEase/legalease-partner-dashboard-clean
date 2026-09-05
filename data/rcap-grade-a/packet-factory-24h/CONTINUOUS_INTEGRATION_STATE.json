@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-05T02:38:27.871Z",
-  "captainHead": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
+  "generatedAt": "2026-09-05T03:55:11.279Z",
+  "captainHead": "e8079978db30ca94921b19f5bdfaa529253fd93f",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-05T02:58:27.871Z",
-    "nextSourceReleaseDeadline": "2026-09-05T03:08:27.871Z",
+    "nextIntegrationDeadline": "2026-09-05T04:15:11.279Z",
+    "nextSourceReleaseDeadline": "2026-09-05T04:25:11.279Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 15,
+        "measured": 23,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 58,
+        "measured": 59,
         "threshold": 20,
         "triggered": true
       },
@@ -62,7 +62,7 @@
           "PF23",
           "PF24"
         ],
-        "measured": 91,
+        "measured": 86,
         "threshold": 80,
         "triggered": true
       }
@@ -78,24 +78,24 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 91,
+    "sourceReady": 86,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 15,
-    "repairRequired": 58,
+    "verifyPending": 23,
+    "repairRequired": 59,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 130,
-      "VERIFY_PENDING": 15,
-      "FAIL_REPAIR_REQUIRED": 58,
+      "COMPLETE_PACKET_PROVEN": 121,
+      "FAIL_REPAIR_REQUIRED": 59,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
-      "SOURCE_READY": 91,
+      "SOURCE_READY": 86,
       "SOURCE_BLOCKED": 6,
+      "VERIFY_PENDING": 23,
       "LEGAL_BLOCKED": 7,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "BUILT_RASTER_PENDING": 2,
-      "WRONG_DELIVERY_TYPE": 1
+      "WRONG_DELIVERY_TYPE": 1,
+      "BUILT_RASTER_PENDING": 7
     }
   },
   "commercialRoutesOpened": 0,

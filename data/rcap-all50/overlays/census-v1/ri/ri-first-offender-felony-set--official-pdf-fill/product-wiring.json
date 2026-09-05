@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ri_first_offender_felony-set",
+  "routeKey": "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-1-bci-and-docket",
+  "routeKeys": [
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-1-bci-and-docket",
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ri_first_offender_felony-set",
+    "jurisdiction": "RI",
+    "routeKeys": [
+      "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-1-bci-and-docket",
+      "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+      "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Court-specific Motion to Expunge or Seal Record and Affidavit, with the proposed order (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ri_first_offender_felony-primary-filing-1",
+      "component:ri_first_offender_felony-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:Superior-55",
+        "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
+      "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ri_first_offender_felony-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ri_first_offender_felony-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "ri_first_offender_felony-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_first_offender_felony-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "ri_first_offender_felony-proposed-order-2",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_first_offender_felony-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "ri_first_offender_felony-notice-package-3",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_first_offender_felony-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "ri_first_offender_felony-filing-instructions-4",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_first_offender_felony-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "ri_first_offender_felony-certified-copy-delivery-checklist-5",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+        "requirement": "required"
+      }
+    ]
+  }
+}

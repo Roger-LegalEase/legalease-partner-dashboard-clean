@@ -36,8 +36,29 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 process.chdir(ROOT);
 const CHECK = process.argv.includes("--check");
 
-function verificationClaimProblems(assignments, claims) {
+/*
+ * A released verification claim means one of two very different things, and
+ * this guard could not tell them apart.
+ *
+ * EITHER the lane finished, its verdict was extracted and the family moved on
+ * -- in which case the assignment is spent and there is nothing to protect --
+ * OR the grant was released with no verdict ever integrated, in which case
+ * regenerating the dispatch over it would lose the assignment silently. The
+ * guard exists for the second case and was firing on the first.
+ *
+ * It froze the whole queue. Eighteen assignments were named, and every one of
+ * the twelve it printed was a family already at COMPLETE_PACKET_PROVEN: the
+ * verdict had been consumed, which is exactly what the refusal message asks the
+ * operator to go and do. Nothing could be regenerated until it was answered,
+ * so no built family could reach the queue at all.
+ *
+ * The discriminator is the extracted return itself. A verdict recorded for this
+ * family from this lane IS the integration the message asks for, so the
+ * assignment is spent and the released claim is the correct state.
+ */
+function verificationClaimProblems(assignments, claims, consumedVerdicts = null) {
   const problems = [];
+  const consumed = consumedVerdicts instanceof Set ? consumedVerdicts : new Set();
   for (const assignment of assignments) {
     if (assignment.lane !== "independent-verification") continue;
     for (const familyId of assignment.items ?? []) {
@@ -54,16 +75,35 @@ function verificationClaimProblems(assignments, claims) {
         problems.push(`${assignment.assignmentId}/${familyId}: matching claim belongs to ${claim.lane}`);
       } else if (claim.laneKind !== "independent-verification") {
         problems.push(`${assignment.assignmentId}/${familyId}: matching claim has laneKind ${claim.laneKind}`);
-      } else if (claim.released) {
-        problems.push(`${assignment.assignmentId}/${familyId}: matching claim is released at ${claim.releasedAt ?? "an unknown time"}`);
+      } else if (claim.released && !consumed.has(`${assignment.assignmentId}|${familyId}`) && !consumed.has(familyId)) {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim is released at ${claim.releasedAt ?? "an unknown time"} and no verdict from that lane has been extracted for it`);
       }
     }
   }
   return problems;
 }
 
+/* Every family for which a verdict has actually been extracted, keyed both by
+ * lane and bare, so a verdict recorded under a re-keyed lane still counts as
+ * consumed. Read from the extractor's own output; if it is unreadable the set
+ * is empty and the guard behaves exactly as it did before, which is the safe
+ * direction. */
+function consumedVerificationVerdicts() {
+  const consumed = new Set();
+  try {
+    const vr = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json"), "utf8"));
+    for (const row of vr.rows ?? []) {
+      const familyId = row.familyId ?? row.itemId;
+      if (!familyId || !row.verdict) continue;
+      consumed.add(familyId);
+      if (row.lane) consumed.add(`${String(row.lane).toUpperCase()}|${familyId}`);
+    }
+  } catch { /* unreadable: fall back to the stricter behaviour */ }
+  return consumed;
+}
+
 function reportUnassertableVerificationDispatch(assignments, claims) {
-  const problems = verificationClaimProblems(assignments, claims);
+  const problems = verificationClaimProblems(assignments, claims, consumedVerificationVerdicts());
   if (!problems.length) return false;
   console.error(`REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH ${problems.length}`);
   for (const problem of problems.slice(0, 12)) console.error(`  ${problem}`);

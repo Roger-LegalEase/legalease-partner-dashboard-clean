@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ri_decriminalized-set",
+  "routeKey": "obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement",
+  "routeKeys": [
+    "obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ri_decriminalized-set",
+    "jurisdiction": "RI",
+    "routeKeys": [
+      "obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "decriminalization_affidavit",
+      "filing_instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ri_decriminalized-decriminalization-affidavit-3",
+      "component:ri_decriminalized-primary-filing-1",
+      "component:ri_decriminalized-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:DC-33",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ri_decriminalized-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ri_decriminalized-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "ri_decriminalized-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_decriminalized-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "ri_decriminalized-decriminalization-affidavit-3",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_decriminalized-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "ri_decriminalized-proposed-order-2",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ri_decriminalized-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "ri_decriminalized-filing-instructions-4",
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+        "requirement": "required"
+      }
+    ]
+  }
+}
