@@ -92,6 +92,32 @@ const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs";
 
+/*
+ * THE COST OF FILING, READ OUT OF THE COMMITTED RECORD RATHER THAN DENIED.
+ *
+ * This packet used to tell the participant that "the fee for a petition to annul
+ * is not established in any source this packet holds". That sentence was true of
+ * this family's BINDINGS and false of the repository: the committed New Hampshire
+ * legal-design memo carries the figure, the schedule it was read from, the
+ * single-fee-per-location rule, and the two agency fees this track is exempt
+ * from. A packet that binds four form binaries and then reports the whole
+ * repository silent sends a participant out to ask for something already written
+ * down.
+ *
+ * So the memo is bound here as a grounding record, by its own SHA-256, the way
+ * la-987 binds LA.memo.json -- and the fee sentences the packet prints are read
+ * out of it at build time and quoted, never paraphrased and never retyped.
+ * Nothing about the fee is authored by this file. If the memo changes the packet
+ * changes with it, and if the memo went silent the build would fail rather than
+ * print a figure this file remembered.
+ */
+const GROUNDING_RECORDS = Object.freeze({
+  memo: "data/record-clearing/legal-design-intake/NH.memo.json"
+});
+const MEMO_TRACK_ID = "nh_petition_nonconviction_pre2019";
+/* The schedule the memo names in its own officialSources list. */
+const FEE_SCHEDULE_TITLE_PREFIX = "Circuit Court Filing Fees";
+
 const ROUTE = Object.freeze({
   jurisdiction: "NH",
   routeKey: "obligation:track-only:NH:nh_petition_nonconviction_pre2019",
@@ -121,6 +147,51 @@ function corpusRoot() {
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
   assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
   return configured;
+}
+
+/*
+ * Read a committed record, hash the bytes that were read, and keep both.
+ *
+ * The hash is taken from the same buffer the build parses, so the digest in the
+ * receipt is a digest of what was used and not of a second read of the file.
+ */
+function readGroundingRecord(relative) {
+  const bytes = fs.readFileSync(path.join(ROOT, relative));
+  return {
+    path: relative,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    data: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/*
+ * The cost and waiver sentences this route is charged with disclosing, taken
+ * verbatim from the memo's own track entry.
+ *
+ * Every assertion here is an assertion that the memo still SAYS what the packet
+ * is about to print. A silent memo, a renamed track or an emptied rule stops the
+ * build; none of them lets the packet fall back to prose this file remembers.
+ */
+function loadFeeGrounding() {
+  const memo = readGroundingRecord(GROUNDING_RECORDS.memo);
+  const track = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.memo} holds no track ${MEMO_TRACK_ID}`);
+  assert.equal(track.legalName,
+    "Petition to Annul the Record of a Non-Conviction Disposed of Before January 1, 2019 (RSA 651:5, II)");
+
+  const fees = track.rules?.fees;
+  const feeWaiver = track.rules?.feeWaiver;
+  const sharedFee = track.destination?.detail;
+  for (const [name, value] of [["rules.fees", fees], ["rules.feeWaiver", feeWaiver], ["destination.detail", sharedFee]]) {
+    assert.ok(typeof value === "string" && value.trim().length > 0,
+      `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} carries no ${name}, so the packet cannot state one`);
+  }
+
+  const schedule = (track.officialSources ?? []).find((row) => String(row.title ?? "").startsWith(FEE_SCHEDULE_TITLE_PREFIX));
+  assert.ok(schedule, `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} names no ${FEE_SCHEDULE_TITLE_PREFIX} source`);
+
+  return { record: memo, track, fees, feeWaiver, sharedFee, schedule };
 }
 
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -891,7 +962,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf) {
+function participantInstructions(maps, rbf, fee) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -925,9 +996,28 @@ function participantInstructions(maps, rbf) {
     + "This packet does not state a courthouse address, because the platform holds no court directory and an unsourced "
     + "address in a filing instruction is worse than none.", ""
   );
+  out.push("## What it costs", "");
   out.push(
-    "**Ask the clerk what fee applies.** The fee for a petition to annul is not established in any source this packet "
-    + "holds, so it is not stated here. If you cannot pay it, file NHJB-2311 and NHJB-2328 with the petition.", ""
+    "**The filing fee for this petition is stated in the record this packet is built on.** That record — the committed "
+    + `New Hampshire legal-design memo, bound in source-receipt.json by SHA-256 — states it in its own words: “${fee.fees}”`,
+    ""
+  );
+  out.push(
+    `The schedule it names is ${fee.schedule.title}, read at ${fee.schedule.url} on ${fee.schedule.retrievedOn}.`, ""
+  );
+  out.push(
+    "**One fee per court location, not one fee per petition.** The same record states how petitions filed together are "
+    + `charged: “${fee.sharedFee}” Petitions you file at the same time in one court location are a single fee between `
+    + "them; petitions in two court locations are two fees.", ""
+  );
+  out.push(
+    "This packet does not take payment and cannot confirm what a particular clerk will charge on the day you file. The "
+    + "figure above is the one the record holds, and if the clerk quotes you something different the clerk is the one "
+    + "collecting it — ask them before you pay.", ""
+  );
+  out.push(
+    `**If you cannot pay it.** The record names the papers to file instead: “${fee.feeWaiver}” Both are prepared in `
+    + "this packet, and both are filed with the petition.", ""
   );
   out.push(
     "**A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If "
@@ -1000,6 +1090,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       overlayDirectoryTouched: false
     };
   }
+
+  /* Bound before anything is rendered, so a memo that stopped stating the fee
+   * stops the build rather than producing a packet that quietly omits it. */
+  const fee = loadFeeGrounding();
 
   const censuses = [];
   for (const source of resolved) {
@@ -1115,7 +1209,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+  const instructionsText = participantInstructions(maps, rbf, fee);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1136,6 +1230,23 @@ export async function runFamily(argv = process.argv.slice(2)) {
       sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
       pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
     })),
+    /*
+     * The four binaries above are what the packet is RENDERED from. This record
+     * is what the packet's cost and waiver sentences are QUOTED from, and it is
+     * bound the same way and for the same reason: so a reader can check the
+     * sentence against the bytes it came out of.
+     */
+    groundingRecords: [
+      {
+        path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: ["rules.fees", "rules.feeWaiver", "destination.detail"],
+        whyItIsBound:
+          "participant-instructions.md quotes this track's fee, single-fee-per-location rule and waiver papers verbatim. "
+          + "Before this binding the packet told the participant no source it held established a fee, which was true of "
+          + "its four form binaries and false of the repository."
+      }
+    ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
 

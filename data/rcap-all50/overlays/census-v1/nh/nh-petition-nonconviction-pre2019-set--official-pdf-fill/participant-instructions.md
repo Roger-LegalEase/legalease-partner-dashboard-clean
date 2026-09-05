@@ -19,7 +19,17 @@ NHJB-2317 says it in capitals: **PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENS
 
 File the petition with the **clerk of the New Hampshire court that handled the matter** — the court you pick from the list at the top of NHJB-2317, which carries every circuit-court district division and every superior court. This packet does not state a courthouse address, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
 
-**Ask the clerk what fee applies.** The fee for a petition to annul is not established in any source this packet holds, so it is not stated here. If you cannot pay it, file NHJB-2311 and NHJB-2328 with the petition.
+## What it costs
+
+**The filing fee for this petition is stated in the record this packet is built on.** That record — the committed New Hampshire legal-design memo, bound in source-receipt.json by SHA-256 — states it in its own words: “$125.00 per court location, confirmed on the current Circuit Court Filing Fees schedule. No Department of Corrections investigation fee and no Department of Safety or state police fee on this track: RSA 651:5, IX and X(d) exempt a person found not guilty or whose case was dismissed or not prosecuted.”
+
+The schedule it names is Circuit Court Filing Fees, New Hampshire Judicial Branch — "Petition to Annul Criminal Record (per court location) $125.00", read at https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-06/filing_fees.pdf on 2026-08-06.
+
+**One fee per court location, not one fee per petition.** The same record states how petitions filed together are charged: “New Hampshire is a unified statewide court system with no local variation identified, so the only venue question is which court disposed of the charge. One petition per charge; petitions filed at the same time in one court location share a single $125.00 filing fee.” Petitions you file at the same time in one court location are a single fee between them; petitions in two court locations are two fees.
+
+This packet does not take payment and cannot confirm what a particular clerk will charge on the day you file. The figure above is the one the record holds, and if the clerk quotes you something different the clerk is the one collecting it — ask them before you pay.
+
+**If you cannot pay it.** The record names the papers to file instead: “Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328.” Both are prepared in this packet, and both are filed with the petition.
 
 **A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If your case is in a circuit court district division — which is where most pre-2019 annulment petitions go — that list cannot name your court, so write the court's name on the form by hand. This packet will not choose a superior court you are not in.
 
