@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "29f0b16d8076e3a910489ec270f57e4560a8c2c4",
+  "minimumCaptainSha": "746ff79f60d3c54b45fed73fa73bcc5b896dbadd",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,25 +66,25 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 17,
+    "activeFamiliesExcluded": 18,
     "guidanceOnly": 0,
-    "remaining": 329,
+    "remaining": 328,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 14,
+    "legalBlocked": 13,
     "verifyPending": 4,
     "repairRequired": 55,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 131,
-    "FAIL_REPAIR_REQUIRED": 72,
+    "FAIL_REPAIR_REQUIRED": 73,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "VERIFY_PENDING": 4,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 14,
+    "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "WRONG_DELIVERY_TYPE": 1
@@ -124,6 +124,7 @@
       "vt_seal_dui-set",
       "vt_seal_felony-set",
       "vt_seal_misdemeanor-set",
+      "vt_seal_nonconviction-set",
       "vt_seal_pardon-set"
     ],
     "staleRosterFamilies": [
@@ -177,7 +178,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -44725,30 +44726,23 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf02",
-        "verifiedAtBase": "a71d69523",
+        "verifiedAtBase": "986f826de",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "an open legal input"
+        "the current failed obligations have not been repaired"
       ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": {
-        "familyId": "vt_seal_nonconviction-set",
-        "foundBy": [
-          "vf02 (current independent verification)"
-        ],
-        "why": "CLIPPING_AND_OVERLAP: OPEN QUESTION, named exactly, for an owner rather than for this family: RI-OFF-APPEARANCE (data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json) settles that a widget's UNCHANGED /Off appearance is source-owned form structure where a zero-write normalized baseline proves it unchanged. It does not reach the case here, where the source ships NO appearance for the current /Off state and the normalization SYNTHESIZES a visible border the official form never prints. Both halves of that determination's test point opposite ways: the zero-write baseline proves this family added nothing, and the pinned binary proves the official form paints nothing. Until that is settled the delivered petition and stipulation cannot be called faithful or unfaithful on this point, so this is recorded as blocked rather than passed or failed. It is not repair-actionable inside this family: the same zero-write baseline shows the squares come from the shared flattening step, so any repair belongs to that step and to whatever families share it, and no route or family may be whitelisted for it. What would settle it in one line: whether a synthesized border at a widget whose /AS state has no appearance stream is source-owned form structure like an unchanged /Off appearance, or ink the packet must not add.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -44768,13 +44762,21 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL on the current bytes, on packet page 5, for a defect the four confirmations above do not reach and which the FIX50 repair neither caused nor was expected to fix. It is present identically in the zero-write baseline with the option ON and with it OFF, and packet pages 5 and 6 are pixel-identical before and after the repair, so this family added nothing and FIX50 changed nothing here; FIX50's own return already names 'a widget that ships its own appearance for its current state' as one of the four cases its option deliberately leaves alone and does not close, and this is a defect inside that case. It is NOT the RI-OFF-APPEARANCE question: that determination settles that a widget's UNCHANGED /Off appearance is source-owned form structure, and this appearance is not reproduced unchanged - it is reproduced at 125% of its size. Nor is it a legal input: nothing here is for counsel to decide, because the pinned form itself shows the correct rendering and the specification states the transform. The repair belongs to the shared flattening step that emits the placement matrix, not to this family, and no route or family may be whitelisted for it.",
+          "evidence": "THE FOUR THINGS THIS RE-READ WAS ASKED TO CONFIRM ALL HOLD. (1) The fourteen. A zero-write baseline was built from each pinned binary with the option ON and with it OFF. With it OFF the baseline reproduces the synthesized 14.4pt square at every one of the 14 widget rects; with it ON the baseline is pixel-identical to the pinned form at all 14. The delivered packet matches the option-ON baseline exactly: at 13 of the 14 rects the delivered dark-pixel count equals the pinned form's own, count for count (68/68, 50/50, 68/68, 72/72, 68/68, 68/68, 68/68, 70/70, 132/132, 68/68, 136/136, 136/136, 136/136), in both fixtures. Nothing is synthesized at any of them. (2) The route mark. The fourteenth rect is field 18, where the pinned form carries 68 and the delivered carries 185; the 117 extra are the family's own two diagonal strokes, plainly visible in the raster, drawn inside the widget rect. (3) Direction and location of the repair, measured against the actual pre-repair bytes recovered from history at a71d69523 (which hash 0b657ac8... and 4851f377..., confirming they are the bytes the earlier block was raised on): pages 1, 2 and 3 differ by 1176, 240 and 240 pixels in BOTH fixtures and pages 4 to 9 are PIXEL-IDENTICAL; every one of those 1656 differing pixels lies inside one of the 14 widget rects, ZERO lie outside any widget rect, ZERO lie inside a 600-00228 rect, and every change is ink LOST and none gained (1173 + 240 + 240 dark pixels removed, ~120 per widget, less where the square overlapped existing ink). pdftotext over all nine pages is character-identical before and after. (4) No other pixel moved: every pixel on every page of both fixtures that differs from the zero-write option-ON baseline falls inside a declared write box or field 18's rect, 0 outside at ZERO tolerance, and packet pages 4, 5 and 6 are pixel-identical to that baseline. THE WHOLE STANDARD ON ALL NINE PAGES THEN FINDS A DIFFERENT DEFECT, on page 5, which none of the four conditions above reaches. Reading the delivered bytes rather than a raster: each flattened widget is placed in the page content with a translation and no scale, '1 0 0 1 <x> <y> cm', and for 160 of the 161 flattened widget placements in each fixture that is correct because the appearance BBox equals the widget /Rect. For ONE it is not. 600-00228 field 15, packet page 5, is placed with '1 0 0 1 131.309 438.449 cm' while its XObject FlatWidget-1848524175 carries BBox [0 0 18 18] and strokes '0.5 0.5 17 17 re s', against a /Rect of 14.4 x 14.4 read from the pinned binary. ISO 32000-1 12.5.5 requires the transformed BBox to be mapped into the /Rect, here a 0.8 scale; it is never applied, so a 17pt stroked square is stamped where the official form draws a 13.6pt one. Rendered at 300 dpi and confirmed identically on both fixtures: the delivered box's vertical rules sit at x offsets 17.04-17.76pt from the rect's left edge when the rect ends at 14.40, and its horizontal rules at y offsets -3.60 to -2.88 above the rect's top, whereas the pinned form's own rules sit at 0.00-0.48 and 13.68-14.16, wholly inside the rect. Within 6pt of that rect the delivered page carries 802 dark pixels outside the rect against the pinned form's 132, and 670 of them are ink the official form does not carry anywhere on the page - neither in its page content nor in its own /Off stream. This is a scale-mismatch cohort question, not a Vermont one: the sweep above tested all 161 placements in each fixture by comparing every XObject BBox to its source widget's /Rect, and any family whose widget ships an appearance BBox unequal to its /Rect is exposed to the same stamp."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX61",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -44785,7 +44787,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_pardon-set",
