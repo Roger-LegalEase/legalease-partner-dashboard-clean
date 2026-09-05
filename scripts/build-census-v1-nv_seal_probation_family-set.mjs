@@ -133,10 +133,37 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const MEMO_PATH = "data/record-clearing/legal-design-intake/NV.memo.json";
 const MANIFEST_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 
+/*
+ * The byte identity of a committed record this build rests on.
+ *
+ * The receipt used to say the two codified grounds were "verified present and
+ * un-drifted" and set allSourcesExact true, while binding neither by SHA-256:
+ * createHash was called on the output packet bytes and on raster PNGs and
+ * nowhere else, so the only 64-hex digests in the family directory were the two
+ * artifacts this build itself produced. Present-and-structurally-intact is a
+ * weaker claim than un-drifted, and it cannot see a change to any of the text
+ * the packet actually carries -- the rules, the exclusions, the stop conditions,
+ * the required-before-filing items. Now the records are bound the way every
+ * other family in this repository binds a committed record: by exact SHA-256
+ * over the committed bytes, recorded with the byte length beside it.
+ */
+function bindRecord(relativePath) {
+  const bytes = fs.readFileSync(path.join(ROOT, relativePath));
+  return {
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length
+  };
+}
+
 function resolveCodifiedGrounds() {
   const failures = [];
   let memoTrack = null;
   let manifestSet = null;
+  const bindings = {};
+  try {
+    bindings[MEMO_PATH] = bindRecord(MEMO_PATH);
+    bindings[MANIFEST_PATH] = bindRecord(MANIFEST_PATH);
+  } catch (e) { failures.push({ record: "codified grounds", why: `cannot bind a committed record by SHA-256: ${String(e.message ?? e)}` }); }
   try {
     const memo = JSON.parse(fs.readFileSync(path.join(ROOT, MEMO_PATH), "utf8"));
     memoTrack = (memo.tracks ?? []).find((t) => t.trackId === "nv_seal_probation_family") ?? null;
@@ -156,7 +183,7 @@ function resolveCodifiedGrounds() {
       }
     }
   } catch (e) { failures.push({ record: MANIFEST_PATH, why: String(e.message ?? e) }); }
-  return { memoTrack, manifestSet, failures };
+  return { memoTrack, manifestSet, failures, bindings };
 }
 
 /* ---- fixtures --------------------------------------------------------------- */
@@ -687,7 +714,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
 
-  const { failures } = resolveCodifiedGrounds();
+  const { failures, bindings } = resolveCodifiedGrounds();
   if (failures.length > 0) {
     return {
       familyId: FAMILY_ID, status: "BLOCKED_LEGAL_INPUT", failedGrounds: failures,
@@ -802,8 +829,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod:
       "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus "
       + "CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is "
-      + "grounded on two committed records, verified present and un-drifted before anything is composed: the "
-      + "legal-design intake track and the packet-set manifest.",
+      + "grounded on two committed records, each bound by exact SHA-256 over its committed bytes at build "
+      + "time and each checked for structural drift before anything is composed: the legal-design intake "
+      + "track and the packet-set manifest.",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId,
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
     allSourcesExact: true,
@@ -817,8 +845,24 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "subsection 2 branch and the automatic subsection 1 branch carried as guidance. No form was substituted "
       + "and none was invented.",
     codifiedGrounds: [
-      { record: MEMO_PATH, what: "track nv_seal_probation_family: the three sections read in full 2026-08-08, both branches, exclusions, waiting period, rules, stop conditions, open questions" },
-      { record: MANIFEST_PATH, what: `packetSetId ${FAMILY_ID}: the eight-component set with its conditions and the required-before-filing items` }
+      {
+        record: MEMO_PATH,
+        sourceIds: [`committed-record:${MEMO_PATH}`],
+        instrumentKind: "committed_record_bound_as_authority",
+        sha256: bindings[MEMO_PATH].sha256,
+        byteLength: bindings[MEMO_PATH].byteLength,
+        driftChecked: "track nv_seal_probation_family is present and its outputStrategy is still custom_pleading",
+        what: "track nv_seal_probation_family: the three sections read in full 2026-08-08, both branches, exclusions, waiting period, rules, stop conditions, open questions"
+      },
+      {
+        record: MANIFEST_PATH,
+        sourceIds: [`committed-record:${MANIFEST_PATH}`],
+        instrumentKind: "committed_record_bound_as_authority",
+        sha256: bindings[MANIFEST_PATH].sha256,
+        byteLength: bindings[MANIFEST_PATH].byteLength,
+        driftChecked: `packetSetId ${FAMILY_ID} is present and its component roles still match this builder's component set in order`,
+        what: `packetSetId ${FAMILY_ID}: the eight-component set with its conditions and the required-before-filing items`
+      }
     ],
     documents: [],
     composedComponentsAuthoredByThisBuild: COMPONENTS,

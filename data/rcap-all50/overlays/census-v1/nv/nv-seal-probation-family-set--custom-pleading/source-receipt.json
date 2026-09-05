@@ -6,7 +6,7 @@
   "implementationStrategy": "custom_pleading",
   "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
   "acquisitionCommissioned": false,
-  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track and the packet-set manifest.",
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, each bound by exact SHA-256 over its committed bytes at build time and each checked for structural drift before anything is composed: the legal-design intake track and the packet-set manifest.",
   "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
   "routeSelectionId": "nv-seal-probation-family-composed-set",
   "statutoryAuthority": "NRS 176A.245, 176A.265 and 176A.295",
@@ -16,10 +16,24 @@
   "codifiedGrounds": [
     {
       "record": "data/record-clearing/legal-design-intake/NV.memo.json",
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-intake/NV.memo.json"
+      ],
+      "instrumentKind": "committed_record_bound_as_authority",
+      "sha256": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5",
+      "byteLength": 312293,
+      "driftChecked": "track nv_seal_probation_family is present and its outputStrategy is still custom_pleading",
       "what": "track nv_seal_probation_family: the three sections read in full 2026-08-08, both branches, exclusions, waiting period, rules, stop conditions, open questions"
     },
     {
       "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "instrumentKind": "committed_record_bound_as_authority",
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419,
+      "driftChecked": "packetSetId nv_seal_probation_family-set is present and its component roles still match this builder's component set in order",
       "what": "packetSetId nv_seal_probation_family-set: the eight-component set with its conditions and the required-before-filing items"
     }
   ],
