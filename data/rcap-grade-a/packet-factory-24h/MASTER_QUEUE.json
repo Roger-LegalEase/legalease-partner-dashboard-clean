@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "acd721a717c9ebde44f3f32d2453d2e1f8b6c645",
+  "minimumCaptainSha": "18bbabc2ee096efd7602b81bec62b88d774e999e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,13 +72,13 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
-    "verifyPending": 3,
-    "repairRequired": 63,
+    "verifyPending": 2,
+    "repairRequired": 64,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 140,
-    "FAIL_REPAIR_REQUIRED": 68,
+    "FAIL_REPAIR_REQUIRED": 69,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,7 +87,7 @@
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "BUILT_RASTER_PENDING": 2,
-    "VERIFY_PENDING": 3,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -43895,11 +43895,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf03",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43929,52 +43931,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "COMPONENT_SET"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Twenty AcroForm fields across the three bound source binaries have no row in production-field-map.json. Each renders as a blank control on a delivered page and carries no disposition from the closed vocabulary, so unclassifiedBlanks reads 0 over a map that never saw them. Two of the twenty matter beyond bookkeeping: the stipulation's consent-to-email election is left blank on a page where the packet has already written the email address, and the packet's own route-selection mark lands on a field the map does not carry while routeSelectionsMade is empty. The 46 declarations the map does carry are sound — each is named verbatim in participant-instructions.md with what the participant must supply, and the instructions also explain the three non-conviction endings in prose even though the checkboxes are unmapped. REPAIR: add a field-map row for each of the twenty with a disposition from the closed vocabulary, record the field-18 mark in routeSelectionsMade, and re-run the completeness verifier over the full 161.",
-          "evidence": {
-            "declaredItems": 46,
-            "allDeclaredItemsNamedInParticipantInstructions": true,
-            "sourceFieldsAbsentFromTheFieldMapEntirely": {
-              "200-00130": [
-                "10 (p1, 55.1,444.7)",
-                "12 (p1, 91.1,387.0)",
-                "14 (p1, 91.1,370.4)",
-                "15 (p1, 91.1,340.9)",
-                "16 (p1, 91.1,325.3)",
-                "17 (p1, 91.1,309.3)",
-                "18 (p1, 55.1,292.3)",
-                "19 (p1, 51.0,249.7)",
-                "20 (p1, 72.4,219.4)",
-                "21 (p1, 72.4,203.9)",
-                "36a (p2, 34.3,458.2)",
-                "36b (p2, 81.3,458.2)"
-              ],
-              "200-00132": [
-                "check box 1 (p1, 35.8,251.2)",
-                "chec box 2 (p1, 80.8,251.2)"
-              ],
-              "600-00228": [
-                "15 (131.3,438.4)",
-                "16 (173.6,438.4)",
-                "21 (212.9,335.1)",
-                "22 (249.2,335.1)",
-                "72 (152.0,731.1)",
-                "73 (194.3,731.1)"
-              ]
-            },
-            "coverageMeasurement": "the three bound binaries carry 48, 33 and 80 AcroForm fields read first-hand with pdf-lib; production-field-map.json carries 36, 31 and 74 rows. All 20 missing are checkboxes. For comparison, the Arizona family verified in the same read maps 71 of 71 and 41 of 41.",
-            "whatTheUnmappedOnesAre": "200-00130 fields 19, 20 and 21 are the three § 7603(a)(1) non-conviction endings on question 2 — cited or arrested but never charged, charge filed and no probable cause found, charge filed and later dismissed — none marked. 200-00132 'check box 1' and 'chec box 2' are the YES/NO consent to receive documents by email, unmarked on a page where the packet writes the email address immediately below the question. 200-00130 fields 10, 12, 14, 15, 16 and 17 are the conviction-branch controls the route does not use. Field 18 is the one the packet actually marks.",
-            "internalContradiction": "production-field-map.json routeSelectionsMade is [] while reports/actual-writes.json records a route-selection mark on field 18 in both fixtures, and field 18 has no field-map row at all — so the packet's single drawn mark is on a field the map does not carry."
-          }
+          "obligation": "COMPONENT_SET",
+          "finding": "A component the route names is not rendered and not dispositioned. REPAIR: on the Sec. 7603(g) route either render interests_of_justice_prompts as the manifest and registry describe it - participant-authored prompts, never generated argument - or add a componentRequirements entry for vt_seal_nonconviction-interests-of-justice-prompts-4 stating the condition and why it is not met, the same treatment the fee waiver already receives. Separately, bring the guidance page's automatic-route section into line with the record it renders: the 60-day clock from final disposition, the three Sec. 7603(a)(1) triggers, and Form 200-00331 as how the participant checks.",
+          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set] names FIVE components: automatic-sealing-verification-guidance-1 (requirement required, outputStrategy process_guidance), petition-2 (200-00130), stipulation-and-proposed-order-3 (200-00132), interests-of-justice-prompts-4 (requirement conditional, conditionDescription 'Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden', outputStrategy process_guidance) and fee-waiver-application-5 (600-00228). The packet declares FOUR: production-field-map.json componentSet is [petition, stipulation_and_proposed_order, fee_waiver_application, process_guidance] and documentOfComponent maps process_guidance to itself; no file in the family names interests_of_justice_prompts or automatic_sealing_verification_guidance. Measured on the delivered pages: the composed guidance, packet pages 7-8, discharges component 1 in substance under its heading '3. THE ROUTE THAT FILES NOTHING'. Component 4 is rendered nowhere. pdftotext over pages 7-8 of both fixtures returns zero occurrences of 'interest' or 'justice'; participant-instructions.md carries the phrase three times, none of them a prompt - one blanks-table row ('your own statement of why sealing is in the interests of justice - this is yours to write and the platform never writes it for you') and two self-help stop conditions. The condition on component 4 is MET on these bytes: the guidance page names the route as '1. THE CONTESTED PETITION ... 13 V.S.A. Sec. 7603(g)' and product-wiring binding.instrumentKinds carries 'Ordinary contested petition at any time, Sec. 7603(g)'. legal-design-track-registry.json, unit vt-nonconviction-ordinary-petition, states the requirement in terms: 'The interests-of-justice statement is a participant-authored field with prompts and never generated argument, because on this route the burden is affirmative on the petitioner rather than on the State.' The packet supplies the field and the disclaimer and supplies no prompts. Unlike fee_waiver_application, which carries a componentRequirements entry recording conditionMetOnThisTrack false, filingDispositionForThisTrack do_not_file and deliveryTreatment delivered_unfilled, component 4 carries no componentRequirements entry at all: it is absent silently rather than dispositioned. Recorded as evidence under the same obligation rather than as a second failure: the registry assigns component 1 the job of confirming 'the disposition is one of the three triggers, confirms 60 days have run, and explains how to check whether the record still appears', while the delivered guidance page says 'This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from' - true of the three bound PDFs, but the manifest and registry do establish both (Sec. 7603(a)(1)'s 60 days after final disposition, the three triggers, and Form 200-00331 as the record-search route), so the required component tells the participant no timetable exists where the record supplies one."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",

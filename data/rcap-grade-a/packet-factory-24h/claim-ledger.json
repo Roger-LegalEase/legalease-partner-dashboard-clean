@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "acd721a717c9ebde44f3f32d2453d2e1f8b6c645",
+  "generatedAtCommit": "18bbabc2ee096efd7602b81bec62b88d774e999e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8304,21 +8304,6 @@
         "vt_seal_nonconviction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "vt_seal_nonconviction-set",
-      "familyId": "vt_seal_nonconviction-set",
-      "itemId": null,
-      "familyIds": [
-        "vt_seal_nonconviction-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF04",
       "laneKind": "packet-build",
@@ -8335,11 +8320,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX34",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T12:15:13.758Z",
-      "releaseReason": "REQUIRED_BEFORE_FILING repaired: all 20 checkboxes declared with printed captions, dispositions and instructions; 600-00228 delivered unfilled per the manifest's conditional rule. Return at data/rcap-grade-a/packet-factory-24h/fix34/rows.json; independent verification and central raster owed. (Replayed by Captain from FIX34 commit 74e3308c8.)"
+      "releasedAt": "2026-09-05T12:15:13.758Z"
     },
     {
       "subjectType": "packet-family",
@@ -13223,7 +13207,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6643a345c2cddde37495f692f294cc05ab556531ef907747493839adf4aa84ff",
+  "claimsDigest": "f72017e8266a3983c71d7c39814d2740a1f31bc4a985bdc2c7dcc75ccd8c1549",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43070,6 +43054,14 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-05T14:55:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-05T15:01:23Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 769,
+    "rows": 770,
     "independentVerdicts": 240,
     "failRepairRequired": 71,
     "passIndependent": 159
@@ -20229,7 +20229,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -20261,6 +20261,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
       "superseded": true
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "4dd482867",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "A component the route names is not rendered and not dispositioned. REPAIR: on the Sec. 7603(g) route either render interests_of_justice_prompts as the manifest and registry describe it - participant-authored prompts, never generated argument - or add a componentRequirements entry for vt_seal_nonconviction-interests-of-justice-prompts-4 stating the condition and why it is not met, the same treatment the fee waiver already receives. Separately, bring the guidance page's automatic-route section into line with the record it renders: the 60-day clock from final disposition, the three Sec. 7603(a)(1) triggers, and Form 200-00331 as how the participant checks.",
+          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set] names FIVE components: automatic-sealing-verification-guidance-1 (requirement required, outputStrategy process_guidance), petition-2 (200-00130), stipulation-and-proposed-order-3 (200-00132), interests-of-justice-prompts-4 (requirement conditional, conditionDescription 'Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden', outputStrategy process_guidance) and fee-waiver-application-5 (600-00228). The packet declares FOUR: production-field-map.json componentSet is [petition, stipulation_and_proposed_order, fee_waiver_application, process_guidance] and documentOfComponent maps process_guidance to itself; no file in the family names interests_of_justice_prompts or automatic_sealing_verification_guidance. Measured on the delivered pages: the composed guidance, packet pages 7-8, discharges component 1 in substance under its heading '3. THE ROUTE THAT FILES NOTHING'. Component 4 is rendered nowhere. pdftotext over pages 7-8 of both fixtures returns zero occurrences of 'interest' or 'justice'; participant-instructions.md carries the phrase three times, none of them a prompt - one blanks-table row ('your own statement of why sealing is in the interests of justice - this is yours to write and the platform never writes it for you') and two self-help stop conditions. The condition on component 4 is MET on these bytes: the guidance page names the route as '1. THE CONTESTED PETITION ... 13 V.S.A. Sec. 7603(g)' and product-wiring binding.instrumentKinds carries 'Ordinary contested petition at any time, Sec. 7603(g)'. legal-design-track-registry.json, unit vt-nonconviction-ordinary-petition, states the requirement in terms: 'The interests-of-justice statement is a participant-authored field with prompts and never generated argument, because on this route the burden is affirmative on the petitioner rather than on the State.' The packet supplies the field and the disclaimer and supplies no prompts. Unlike fee_waiver_application, which carries a componentRequirements entry recording conditionMetOnThisTrack false, filingDispositionForThisTrack do_not_file and deliveryTreatment delivered_unfilled, component 4 carries no componentRequirements entry at all: it is absent silently rather than dispositioned. Recorded as evidence under the same obligation rather than as a second failure: the registry assigns component 1 the job of confirming 'the disposition is one of the three triggers, confirms 60 days have run, and explains how to check whether the record still appears', while the delivered guidance page says 'This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from' - true of the three bound PDFs, but the manifest and registry do establish both (Sec. 7603(a)(1)'s 60 days after final disposition, the three triggers, and Form 200-00331 as the record-search route), so the required component tells the participant no timetable exists where the record supplies one."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": false
     },
     {
       "familyId": "vt_seal_nonconviction-set",
