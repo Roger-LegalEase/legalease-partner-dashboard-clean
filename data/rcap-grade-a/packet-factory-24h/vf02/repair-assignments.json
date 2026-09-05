@@ -923,8 +923,55 @@
       "reVerificationOwed": "A different independent lane that neither built nor repaired the return must inspect every repaired page and rerun all fifteen obligations against the new exact hashes.",
       "machineRasterBlindSpot": "A governed RASTER_PASS with workflow success and zero machine-reported problems does not cure a route-footer-only page; human full-page inspection remains required.",
       "grantsNothing": "This assignment authorizes only the exact packet repair. It releases no claim, opens no route, sets no price and grants no approval."
-    }
-  ],
+    },
+  {
+    "itemId": "fl-10yr-bridge-set",
+    "lane": "VF02",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "decisiveDefect": "six of the eight delivered pages are an FDLE application bound to sha256 ced5d88f7305... which is in no custody, in no committed index entry, and marked sourceBinaryCommitted:false, while the receipt asserts allSourcesExact:true; the governed copy of the same instrument is source-gated and rule 6 forbids the resolver selecting it",
+    "failedProofObligations": [
+      "SOURCE_IDENTITY",
+      "SERVICE"
+    ],
+    "perObligation": {
+      "SOURCE_IDENTITY": {
+        "measuredDetail": "declared byte ced5d88f7305/26602 from a staging path in another container; governed byte b2f5a7ba874b/31782 at STATES/FL/05_SOURCE_GATED/, custody master_library, source-gated. Neither the declared digest nor its byte length matches the governed instrument.",
+        "whatRepairMustDo": "this needs a SOURCE DECISION before any packet edit: either the FDLE certificate-of-eligibility application is ungated and committed into a governed custody so the packet can bind it by exact digest, or the family is refused. Do not repair by re-pointing the receipt at the source-gated copy, because rule 6 forbids selecting it, and do not repair by committing the staging byte without the acquisition record that would make it governed."
+      },
+      "SERVICE": {
+        "measuredDetail": "manifest serve_party says 'Certificate of service at the court stage'; the instructions never name a certificate of service or any served party.",
+        "whatRepairMustDo": "participant-instructions.md must state that a certificate of service is required at the court stage and name who is served and by what method, rather than deferring service wholesale to the clerk."
+      }
+    },
+    "repairMustNotDo": [
+      "do not edit an artifact merely so a receipt matches it",
+      "do not select a source-gated file to close this gap",
+      "this verification opens no commercial route and grants no approval"
+    ]
+  },
+  {
+    "itemId": "nc_146_acquittal_petition-set",
+    "lane": "VF02",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "decisiveDefect": "the packet is built and stamped for 'obligation:track-only:NC:nc_146_acquittal_petition', a route key that exists in no canonical record, while every record names 'obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146'",
+    "failedProofObligations": [
+      "ROUTE_IDENTITY"
+    ],
+    "perObligation": {
+      "ROUTE_IDENTITY": {
+        "measuredDetail": "the non-canonical key occurs only in production-field-map.json, source-receipt.json, participant-instructions.md and scripts/build-census-v1-nc_146_acquittal_petition-set.mjs; it is absent from canonical-route-universe.json.",
+        "whatRepairMustDo": "change the route key the builder emits to the canonical track-pathway key in the field map, the source receipt and the printed route line, then re-render. Repair this together with nc_145_5_felony-set: both North Carolina builders form a track-only key by analogy with sibling tracks that really are track-only, so the fix is one pattern in two builders."
+      }
+    },
+    "repairMustNotDo": [
+      "do not edit an artifact merely so a receipt matches it",
+      "do not widen canonical-route-universe.json to accommodate the packet",
+      "this verification opens no commercial route and grants no approval"
+    ]
+  }
+ ],
   "va6Assignments": {
     "assignedBy": "FABLE-VA6",
     "verifiedAtBase": "cd48fc14e",
@@ -1008,5 +1055,10 @@
         "reVerificationOwed": "After repair this family owes a fresh independent read from a lane that neither built nor repaired it, and not from VF02."
       }
     ]
+  },
+  "vfAAssignments": {
+    "verificationRun": "vf-a-2026-09-05",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "added": 2
   }
 }

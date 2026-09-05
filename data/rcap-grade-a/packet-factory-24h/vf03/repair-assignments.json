@@ -593,6 +593,27 @@
    "do not self-verify or release the claim",
    "this assignment opens no route and grants no production authority"
   ]
+ },
+ {
+  "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+  "lane": "VF03",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "decisiveDefect": "source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7... and the file now rehashes to fbf9bfef239f...; commit cb6cbf45e (2026-09-04) changed the shared ledger after the pin was taken",
+  "failedProofObligations": [
+   "SOURCE_IDENTITY"
+  ],
+  "perObligation": {
+   "SOURCE_IDENTITY": {
+    "measuredDetail": "3 of 4 committed records rebind; the counsel manifest does not. The pin was exact at commit eab70f926 (2026-08-28).",
+    "whatRepairMustDo": "re-derive the source receipt against the current bytes so the pin rebinds, and confirm nothing the packet relies on inside that manifest changed in substance between 99e8029120d7 and fbf9bfef239f. Treat this as one instance of a systemic problem: six Connecticut packets pin the same stale digest (see the shared-tooling finding), so fix them together rather than one at a time."
+   }
+  },
+  "repairMustNotDo": [
+   "do not edit an artifact merely so a receipt matches it",
+   "do not repin without checking what changed in the manifest",
+   "this verification opens no commercial route and grants no approval"
+  ]
  }
 ],
  "supersededLaneMembership": {
@@ -673,5 +694,10 @@
    "ut_pet_dismissed_without_prejudice-set"
   ],
   "note": "Appended, not re-serialised. A defect is a verdict plus an assignment; this lane repaired nothing it verified."
+ },
+ "vfAAssignments": {
+  "verificationRun": "vf-a-2026-09-05",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "added": 1
  }
 }

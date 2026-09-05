@@ -586,8 +586,55 @@
       ],
       "everyOtherObligationMeasuredAndPassing": true,
       "doNotRepairHere": "VF01 verifies and never repairs. This is an assignment, not an edit."
-    }
-  ],
+    },
+  {
+    "itemId": "de_mandatory_expungement-set",
+    "lane": "VF01",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "decisiveDefect": "the record states a $75 filing fee on the mandatory path and a 11 Del. C. 4372(l) fee-waiver-or-conversion route, and participant-instructions.md states neither while asking the participant about unpaid fines and fees",
+    "failedProofObligations": [
+      "FEE_AND_WAIVER"
+    ],
+    "perObligation": {
+      "FEE_AND_WAIVER": {
+        "measuredDetail": "packet-set manifest de_mandatory_expungement pay_fee and apply_fee_waiver entries carry both facts; a case-insensitive read of participant-instructions.md finds neither the amount nor the waiver provision",
+        "whatRepairMustDo": "participant-instructions.md must state the $75 filing fee on the mandatory path after the SBI letter, must keep saying the SBI's own current fee is not source-approved, and must state the 4372(l) route by which a court may waive or convert unpaid fines and fees for a person who is otherwise eligible and not wilfully non-compliant."
+      }
+    },
+    "repairMustNotDo": [
+      "do not edit an artifact merely so a receipt matches it",
+      "do not restate the SBI's own fee, which the record marks not source-approved",
+      "this verification opens no commercial route and grants no approval"
+    ]
+  },
+  {
+    "itemId": "nc_145_5_felony-set",
+    "lane": "VF01",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "decisiveDefect": "the packet is built and stamped for 'obligation:track-only:NC:nc_145_5_felony', a route key that exists in no canonical record, while every record names 'obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5'; and the petition leaves the participant's date of birth and ZIP blank while the same packet writes both onto the fee-waiver form",
+    "failedProofObligations": [
+      "ROUTE_IDENTITY",
+      "KNOWN_PREFILLS"
+    ],
+    "perObligation": {
+      "ROUTE_IDENTITY": {
+        "measuredDetail": "'obligation:track-only:NC:nc_145_5_felony' occurs in exactly four places, all inside the packet or its builder: production-field-map.json, source-receipt.json, participant-instructions.md and scripts/build-census-v1-nc_145_5_felony-set.mjs. It is absent from canonical-route-universe.json (708 keys).",
+        "whatRepairMustDo": "change the route key the builder emits to the canonical 'obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5' in the field map, the source receipt and the printed route line, then re-render. Do not add the non-canonical key to the route universe to make the packet right."
+      },
+      "KNOWN_PREFILLS": {
+        "measuredDetail": "page 4 of fixtures/canonical.pdf carries 1991 and 27601; page 1 carries neither, and petition.DOB and petition.PetitionerZip are declared required-before-filing.",
+        "whatRepairMustDo": "either write participant.date_of_birth and participant.zip into the petition blanks that ask for them, or, if a deliberate rule withholds government identifiers from a court filing, apply that rule consistently and correct the sentence in participant-instructions.md that says the build does not write them onto any form - because in this packet it does."
+      }
+    },
+    "repairMustNotDo": [
+      "do not edit an artifact merely so a receipt matches it",
+      "do not widen canonical-route-universe.json to accommodate the packet",
+      "this verification opens no commercial route and grants no approval"
+    ]
+  }
+ ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
     "lane": "VF01",
@@ -728,5 +775,10 @@
     "itemIds": [
       "ar-pardon-seal-set"
     ]
+  },
+  "vfAAssignments": {
+    "verificationRun": "vf-a-2026-09-05",
+    "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "added": 2
   }
 }

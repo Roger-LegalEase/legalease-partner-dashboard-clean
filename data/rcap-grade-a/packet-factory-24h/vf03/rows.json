@@ -9792,8 +9792,290 @@
    "claimsReleased": 0,
    "commercialRoutesOpened": 0,
    "productionTouched": false
+  },
+ {
+  "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+  "lane": "VF03",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "verificationRun": "vf-a-2026-09-05",
+  "independence": "measured in this container from the packet bytes, the committed records and the mounted corpus; no builder self-report was accepted as proof",
+  "nineCounters": {
+   "knownRequiredFieldsMissing": 0,
+   "requiredFactsNotCollected": 0,
+   "unclassifiedBlanks": 0,
+   "incompleteRows": 0,
+   "requiredOptionsMissing": 0,
+   "requiredComponentsMissing": 0,
+   "invisibleWrites": 0,
+   "protectedWrites": 0,
+   "visualDefects": 0,
+   "allZero": true,
+   "measuredHere": true
+  },
+  "nineCountersAreNotAVerdict": "all nine counters read zero for every family in this cohort; the defects recorded here are ones no counter can see",
+  "instrumentsUsed": {
+   "ROUTE_IDENTITY": "routeKeys in production-field-map.json, source-receipt.json and product-wiring.json compared against MASTER_QUEUE.json and membership in canonical-route-universe.json (708 keys), plus the route line in the rendered PDF text with whitespace and hyphens stripped so a wrapped footer cannot read as absent",
+   "SOURCE_IDENTITY": "every declared source SHA-256 recomputed from bytes, resolved by CONTENT HASH across the whole mounted corpus (500 files under private/source-imports and private/human-source-returns) rather than by declared path, plus every committedRecords/compositionSources entry rehashed from its path in this tree",
+   "COMPONENT_SET": "components named by data/record-clearing/legal-design-packet-set-manifests.json for this track, not the field map's own componentSet; official_pdf_fill components checked against the rendered page manifest and process_guidance components checked against participant-instructions.md by section",
+   "KNOWN_PREFILLS": "builder fixture facts vs actual-writes.json, then each written value re-read from the extracted text of the delivered PDF, then a cross-check for any held fact written on one component and demanded from the participant on another",
+   "REQUIRED_BEFORE_FILING": "every requiredBeforeFiling entry's disclosure label matched into participant-instructions.md with whitespace collapsed, plus the manifest's own requiredBeforeFiling list read against the file",
+   "ROUTE_OPTIONS": "routeSelectionsMade / routeElections in the field map, selectionControls dispositions, and routeElectionVectorPaths actually drawn in the write proof",
+   "REPEATING_ROWS": "row grouping under TWO parsers - strict trailing ':N'/'[N]' only, and a permissive trailing-digit parser - so that statutory numerals such as 15A-146, 18_19 or 991c cannot be miscounted as row indices; a defect is a single row carrying written cells beside blank required cells",
+   "PROTECTED_FIELDS": "refusedFieldsWithInk in actual-writes.json plus the withheld/refusal dispositions in the field map, checked against the values actually present in the delivered PDF text",
+   "ARTIFACTS": "sha256 recomputed from every canonical and boundary artifact on disk and compared with rendered-artifacts.json and with the RASTER_QUEUE row's hash binding",
+   "PAGE_ORDER": "pageManifest packetPage sequence vs the real page count of the delivered PDF measured from form feeds",
+   "CLIPPING_AND_OVERLAP": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes / unfittable / refused in the write proof, factoryFitBox containment inside measuredSourceBlankBounds where geometry is recorded, and per-page ink fraction measured by rasterising at 100dpi to grayscale",
+   "FILING_DESTINATION": "participant-instructions.md read in full against the track registry destination and venue",
+   "FEE_AND_WAIVER": "participant-instructions.md read in full against the packet-set manifest pay_fee and apply_fee_waiver entries",
+   "SERVICE": "participant-instructions.md read in full against the packet-set manifest serve_party entry",
+   "SELF_HELP_STOP": "participant-instructions.md read in full against the track registry selfHelpStopConditions"
+  },
+  "proofObligations": {
+   "ROUTE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the field map, source receipt and product wiring all name the same route key(s) as MASTER_QUEUE, and every one is present in canonical-route-universe.json"
+   },
+   "SOURCE_IDENTITY": {
+    "measured": true,
+    "result": "FAIL",
+    "evidence": "one of the four receipt-bound committed records no longer rehashes. source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7...; the file in this tree rehashes to fbf9bfef239f.... Git history shows the pin was exact as of commit eab70f9265c837929c0b73fc208e6c5c1db80670 (2026-08-28) and that commit cb6cbf45eca2df8befa57905b51a658859b2323f (2026-09-04, 'chore(rcap): project Virginia pardon route mapping') changed the shared ledger without touching this packet. The other three records rebind exactly. This is a stale binding created by a shared file drifting underneath it, not a packet built on a wrong source - but the obligation is that every source binds by exact SHA-256 recomputed from the bytes, and this one does not."
+   },
+   "COMPONENT_SET": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest names one component, ct-destruction-request-process-guidance-1, and the delivered agency_preparation_guide is it"
+   },
+   "KNOWN_PREFILLS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every value in actual-writes.json was re-read from the delivered PDF bytes and found; no held fact is written on one component and demanded from the participant on another"
+   },
+   "REQUIRED_BEFORE_FILING": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every declared required-before-filing item is named in participant-instructions.md"
+   },
+   "ROUTE_OPTIONS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every route-determined election is recorded as made and none is left to the participant"
+   },
+   "REPEATING_ROWS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "no row carries written cells beside required cells left blank, under both the strict and the permissive row parser"
+   },
+   "PROTECTED_FIELDS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "refusedFieldsWithInk is empty and no signature, signature-date, certificate-of-service, court-only or prosecutor-only value appears in the delivered text"
+   },
+   "ARTIFACTS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every canonical and boundary artifact rehashes to exactly the digest and byte length the record names, and the RASTER_QUEUE row binds the same bytes"
+   },
+   "PAGE_ORDER": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the delivered page count equals the recorded page count and the page manifest runs 1..n in order"
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "SUPERSEDES the VF03 row at base 706dbbd2439b2fdd8f5580cef46f7cc448b5c5da, which failed this obligation for a page split - boundary page 1 ending on the label 'Date the three-year destruction bar expires:' with its response line orphaned onto a sparse page 2. At this base both fixtures are a single page (ink fraction 0.0645 canonical, 0.0680 boundary) ending cleanly on the PROTECTED ITEMS section and the route line, so the split cannot occur."
+   },
+   "FILING_DESTINATION": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "participant-instructions.md names the court or agency the route names"
+   },
+   "FEE_AND_WAIVER": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest records that the source review states no fee and that a waiver is not applicable on the record reviewed; the guide states no fee, which matches"
+   },
+   "SERVICE": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest records 'The source review does not state a service requirement' and the guide correctly asserts none, telling the participant to ask the clerk holding the erased records how it wants the request made"
+   },
+   "SELF_HELP_STOP": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "participant-instructions.md states where self-help ends"
+   }
+  },
+  "failedProofObligations": [
+   "SOURCE_IDENTITY"
+  ],
+  "notMeasurableHere": [],
+  "evidenceRead": [
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/production-field-map.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/source-receipt.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/product-wiring.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/build-status.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/participant-instructions.md",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/rendered-artifacts.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/actual-writes.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/completeness-counters.json",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/canonical.pdf",
+   "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/boundary.pdf",
+   "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+   "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+   "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+   "data/record-clearing/legal-design-packet-set-manifests.json",
+   "data/record-clearing/legal-design-track-registry.json",
+   "data/rcap-all50/local-source-corpus-index.json",
+   "data/rcap-ledger/completed-output-counsel-manifest.json"
+  ],
+  "supersedes": {
+   "base": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+   "wasVerdict": "FAIL_REPAIR_REQUIRED",
+   "whySuperseded": "the page-split defect it named is repaired - the guide is now one page - but a NEW source-identity regression has appeared at this base, so the family still fails"
   }
- ],
+ },
+ {
+  "itemId": "fl-administrative-set",
+  "lane": "VF03",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "verificationRun": "vf-a-2026-09-05",
+  "independence": "measured in this container from the packet bytes, the committed records and the mounted corpus; no builder self-report was accepted as proof",
+  "nineCounters": {
+   "knownRequiredFieldsMissing": 0,
+   "requiredFactsNotCollected": 0,
+   "unclassifiedBlanks": 0,
+   "incompleteRows": 0,
+   "requiredOptionsMissing": 0,
+   "requiredComponentsMissing": 0,
+   "invisibleWrites": 0,
+   "protectedWrites": 0,
+   "visualDefects": 0,
+   "allZero": true,
+   "measuredHere": true
+  },
+  "nineCountersAreNotAVerdict": "all nine counters read zero for every family in this cohort; the defects recorded here are ones no counter can see",
+  "instrumentsUsed": {
+   "ROUTE_IDENTITY": "routeKeys in production-field-map.json, source-receipt.json and product-wiring.json compared against MASTER_QUEUE.json and membership in canonical-route-universe.json (708 keys), plus the route line in the rendered PDF text with whitespace and hyphens stripped so a wrapped footer cannot read as absent",
+   "SOURCE_IDENTITY": "every declared source SHA-256 recomputed from bytes, resolved by CONTENT HASH across the whole mounted corpus (500 files under private/source-imports and private/human-source-returns) rather than by declared path, plus every committedRecords/compositionSources entry rehashed from its path in this tree",
+   "COMPONENT_SET": "components named by data/record-clearing/legal-design-packet-set-manifests.json for this track, not the field map's own componentSet; official_pdf_fill components checked against the rendered page manifest and process_guidance components checked against participant-instructions.md by section",
+   "KNOWN_PREFILLS": "builder fixture facts vs actual-writes.json, then each written value re-read from the extracted text of the delivered PDF, then a cross-check for any held fact written on one component and demanded from the participant on another",
+   "REQUIRED_BEFORE_FILING": "every requiredBeforeFiling entry's disclosure label matched into participant-instructions.md with whitespace collapsed, plus the manifest's own requiredBeforeFiling list read against the file",
+   "ROUTE_OPTIONS": "routeSelectionsMade / routeElections in the field map, selectionControls dispositions, and routeElectionVectorPaths actually drawn in the write proof",
+   "REPEATING_ROWS": "row grouping under TWO parsers - strict trailing ':N'/'[N]' only, and a permissive trailing-digit parser - so that statutory numerals such as 15A-146, 18_19 or 991c cannot be miscounted as row indices; a defect is a single row carrying written cells beside blank required cells",
+   "PROTECTED_FIELDS": "refusedFieldsWithInk in actual-writes.json plus the withheld/refusal dispositions in the field map, checked against the values actually present in the delivered PDF text",
+   "ARTIFACTS": "sha256 recomputed from every canonical and boundary artifact on disk and compared with rendered-artifacts.json and with the RASTER_QUEUE row's hash binding",
+   "PAGE_ORDER": "pageManifest packetPage sequence vs the real page count of the delivered PDF measured from form feeds",
+   "CLIPPING_AND_OVERLAP": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes / unfittable / refused in the write proof, factoryFitBox containment inside measuredSourceBlankBounds where geometry is recorded, and per-page ink fraction measured by rasterising at 100dpi to grayscale",
+   "FILING_DESTINATION": "participant-instructions.md read in full against the track registry destination and venue",
+   "FEE_AND_WAIVER": "participant-instructions.md read in full against the packet-set manifest pay_fee and apply_fee_waiver entries",
+   "SERVICE": "participant-instructions.md read in full against the packet-set manifest serve_party entry",
+   "SELF_HELP_STOP": "participant-instructions.md read in full against the track registry selfHelpStopConditions"
+  },
+  "proofObligations": {
+   "ROUTE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the field map, source receipt and product wiring all name the same route key(s) as MASTER_QUEUE, and every one is present in canonical-route-universe.json"
+   },
+   "SOURCE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): the receipt records that no official form exists for this route and that the MASTER_QUEUE row binds no corpus bytes; all 6 compositionSources rehash exactly from their paths in this tree. The composed application is explicitly not represented as an FDLE form number or downloadable official form - which is the honest opposite of the fl-10yr-bridge-set defect."
+   },
+   "COMPONENT_SET": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest names one component, fl-administrative-primary-filing-1, and the composed written application is it"
+   },
+   "KNOWN_PREFILLS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every value in actual-writes.json was re-read from the delivered PDF bytes and found; no held fact is written on one component and demanded from the participant on another"
+   },
+   "REQUIRED_BEFORE_FILING": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every declared required-before-filing item is named in participant-instructions.md"
+   },
+   "ROUTE_OPTIONS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every route-determined election is recorded as made and none is left to the participant"
+   },
+   "REPEATING_ROWS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "no row carries written cells beside required cells left blank, under both the strict and the permissive row parser"
+   },
+   "PROTECTED_FIELDS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "refusedFieldsWithInk is empty and no signature, signature-date, certificate-of-service, court-only or prosecutor-only value appears in the delivered text"
+   },
+   "ARTIFACTS": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "every canonical and boundary artifact rehashes to exactly the digest and byte length the record names, and the RASTER_QUEUE row binds the same bytes"
+   },
+   "PAGE_ORDER": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the delivered page count equals the recorded page count and the page manifest runs 1..n in order"
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "no glyph falls outside a measured write box, nothing is unfittable or refused, and no page is a near-empty pagination orphan"
+   },
+   "FILING_DESTINATION": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the packet names the Florida Department of Law Enforcement and the separately obtained agency-head or State Attorney endorsement"
+   },
+   "FEE_AND_WAIVER": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest records that the source review states no fee and does not address a waiver; the packet states neither, which matches the record"
+   },
+   "SERVICE": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the manifest records 'The source review does not state a service requirement' and the packet asserts none"
+   },
+   "SELF_HELP_STOP": {
+    "measured": true,
+    "result": "PASS",
+    "evidence": "the 'Stop conditions' section names refusal to endorse, a disputed material fact, a matter needing advocacy rather than a factual application, and any immigration matter"
+   }
+  },
+  "failedProofObligations": [],
+  "notMeasurableHere": [],
+  "evidenceRead": [
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/production-field-map.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/source-receipt.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/product-wiring.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/build-status.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/participant-instructions.md",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/reports/rendered-artifacts.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/reports/actual-writes.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/reports/completeness-counters.json",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+   "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf",
+   "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+   "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+   "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json",
+   "data/record-clearing/legal-design-packet-set-manifests.json",
+   "data/record-clearing/legal-design-track-registry.json",
+   "data/rcap-all50/local-source-corpus-index.json"
+  ]
+ }
+],
  "supersededLaneMembership": {
   "note": "the earlier reading, when this lane covered other families",
   "schemaVersion": "rcap-independent-verification-rows/v1",
@@ -10466,6 +10748,83 @@
    "rcap-ok-custom-pleading",
    "sd_arrest_expungement-set",
    "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+  ]
+ },
+ "vfARead": {
+  "verificationRun": "vf-a-2026-09-05",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "rowsAppended": 2,
+  "whatThisReaderMeasured": "an independent read of this lane's dispatch families in a container where the Master Library IS mounted, so SOURCE_IDENTITY was recomputed from bytes rather than recorded NOT_MEASURABLE_HERE",
+  "independence": "no builder self-report was accepted as proof; every counter, hash, write and page was re-measured here",
+  "nineCountersWereZeroForEveryFamily": true,
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+ },
+ "vfASharedToolingFindings": {
+  "whatThisIs": "Defects VF-A found in shared tooling and shared records rather than in any one family. Recorded here because they change how other lanes' results should be read.",
+  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "findings": [
+   {
+    "id": "family-sources-bind-ignores-unmounted-custody",
+    "severity": "high-false-positive",
+    "where": "scripts/verify-packet-build-environment.mjs, check family_sources_bind",
+    "problem": "It resolves each source through its declared index path and reports 'does not bind' when that path lies in a custody the container does not mount - even when the identical bytes at the identical SHA-256 are present in a custody that IS mounted. The check immediately above it, corpus_matches_committed_index, already solves this: it excludes unmounted custodies from its sample and names them. family_sources_bind was not given the same treatment, and its own resolver comment already states the governing principle, 'ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY'.",
+    "observedHere": "nc_145_5_felony-set reported '4 of 6 source(s) do not bind' and nc_146_acquittal_petition-set '3 of 4'. Resolving by content hash across the mounted corpus, every source of both families binds exactly. The four/three failing sourceIds declare paths under private/source-imports/rcap-d-source-packs-2026-08-12 (custody d_source_packs, not mounted here) while the same bytes sit in the mounted Master Library.",
+    "consequence": "Any lane reading the preflight literally will record a SOURCE_IDENTITY failure against a packet whose sources are exact. A repair lane could 'fix' a packet that has nothing wrong with it.",
+    "suggestedFix": "Resolve a declared source by content hash across every mounted custody before reporting it unbound, and where the only copy is in an unmounted custody report NOT_MEASURABLE_HERE naming the custody, rather than a failure to bind."
+   },
+   {
+    "id": "master-library-short-of-its-own-index",
+    "severity": "environment-or-corpus",
+    "where": "data/rcap-all50/local-source-corpus-index.json vs the mounted Master Library",
+    "problem": "14 of the 350 index entries whose custody is master_library are absent from the mounted Master Library by path AND by content hash. This is not the unmounted-custody case, which the index resolver already excludes: these entries name the mounted custody itself.",
+    "observedHere": "CA CR-432; AL ABPP-3; MO CR310, CR143, CR370, CR311; NC AOC-CR-293, AOC-CR-293-INSTRUCTIONS, AOC-G-260; UT 1501CR, 1501CR-C, 1502CR, 1001EX, 1021EX. Because of this the preflight check corpus_matches_committed_index fails its 24-entry deterministic sample in this container (1 absent, 0 mismatched) even though master_library_complete passes at 499 files / 329 PDFs / 51 jurisdictions.",
+    "consequence": "Every family-scoped preflight in a container like this one reports one short and can never print the full green line, so a real regression in that check has nowhere to show.",
+    "suggestedFix": "Decide which record is wrong - the corpus release is short of its index, or the index names 14 assets the release never carried - and reconcile one to the other. None of the 14 is a source of any family in this cohort."
+   },
+   {
+    "id": "preflight-json-flag-emits-no-json",
+    "severity": "low",
+    "where": "scripts/verify-packet-build-environment.mjs, `const REPORT = flag(\"--json\")`",
+    "problem": "Passing --json still prints the human-readable table on stdout and no JSON document, so a lane cannot machine-read per-check detail such as which sources failed to bind.",
+    "consequence": "Every lane that needs check detail has to re-implement the resolver by hand, as this one did, which is how two lanes can measure the same obligation differently.",
+    "suggestedFix": "Emit the check array as JSON on stdout when the flag is set."
+   },
+   {
+    "id": "six-connecticut-packets-pin-a-stale-counsel-manifest",
+    "severity": "systemic-source-identity",
+    "where": "data/rcap-ledger/completed-output-counsel-manifest.json",
+    "problem": "Commit cb6cbf45eca2df8befa57905b51a658859b2323f (2026-09-04, 'chore(rcap): project Virginia pardon route mapping') changed this shared ledger from 99e8029120d7... to fbf9bfef239f... without refreshing the packets that pin it. The pin was exact as of eab70f9265c837929c0b73fc208e6c5c1db80670 (2026-08-28).",
+    "affectedFamilies": [
+     "ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+     "ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+     "ct/ct-absolute-pardon--agency-application",
+     "ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+     "ct/ct-destruction-request--agency-application",
+     "ct/ct-provisional-pardon--agency-application"
+    ],
+    "consequence": "All six now fail SOURCE_IDENTITY on a recomputed hash. Only one of the six is in VF-A's dispatch; the other five are unclaimed by this cohort and nobody may have re-read them since the ledger moved.",
+    "suggestedFix": "Re-derive the six receipts together against current bytes, after confirming what changed in the manifest between the two digests. A repair lane should also consider whether a packet ought to pin a whole shared ledger file whose unrelated rows move for unrelated reasons."
+   },
+   {
+    "id": "one-schema-version-four-field-map-shapes",
+    "severity": "medium-silent-misread",
+    "where": "production-field-map.json, schemaVersion rcap-official-form-field-map/v1-census-v1",
+    "problem": "One schemaVersion string covers at least four structurally different shapes: writes-and-refusals, documents-and-decisions, anchors-and-withheld (Washington) and maps-with-canonical-and-boundary. scripts/rcap-packet-completeness/verify-packet-completeness.mjs handles all four deliberately, and refuses an unread schema rather than reading it as empty - which is correct. But any OTHER reader keyed to fieldMap.maps sees zero rows for a documents-shaped family and reports nine zeros over nothing.",
+    "observedHere": "wa_vac_felony-set is documents-shaped and carries no routeKeys and no componentSet; eleven of the twelve families in this cohort are maps-shaped. A first pass keyed to .maps read WA as 0 writes; the family in fact has 49 anchors and 33 withheld blanks, all verified.",
+    "consequence": "Nine zero counters from a reader that cannot parse the shape look identical to nine zero counters from a clean packet.",
+    "suggestedFix": "Either version the schema per shape, or require every reader to go through the same readFieldRows contract and refuse an unrecognised shape as unauditable."
+   },
+   {
+    "id": "per-family-raster-state-is-stale-against-the-central-queue",
+    "severity": "low",
+    "where": "build-status.json in each family directory vs data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "problem": "All twelve families in this cohort carry rasterState BUILT_RASTER_PENDING in their own build-status.json while the central RASTER_QUEUE row for each says RASTER_PASS with canonical and boundary hashes that bind to the bytes on disk.",
+    "consequence": "A lane that reads the per-family record applies a BUILT_RASTER_PENDING verdict ceiling that the central record has already lifted; earlier rows in these very files did exactly that.",
+    "suggestedFix": "Have the raster ingest write back to the per-family build-status, or make the central queue the only place a lane is allowed to read raster state from."
+   }
   ]
  }
 }
