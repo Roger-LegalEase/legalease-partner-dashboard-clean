@@ -86,7 +86,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 - records sit in more than one county or more than one court;
 - federal, tribal, military or out-of-state records — a Nevada order does not reach them;
 - your goal is firearm rights, which sealing does not restore;
-- any pending charge, offence-category question, or immigration question.
+- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.
 
 ## What this packet is not
 
