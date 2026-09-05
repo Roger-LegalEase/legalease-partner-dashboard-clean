@@ -1,6 +1,9 @@
 import "server-only";
 
 import fulfillmentRecords from "@/../data/rcap-ledger/packet-fulfillment-records.json";
+import { fulfillmentAuthorityFor } from "@/lib/rcap/fulfillment/grade-a-admission";
+import { getCurrentFulfillmentRecord } from "@/lib/rcap/fulfillment/grade-a-registry";
+import { consumerSpecificationBinding } from "@/lib/rcap/fulfillment/consumer-specification-binding";
 
 /**
  * The one server-authoritative answer to "may this route take money".
@@ -262,22 +265,47 @@ function postureFor(record: PacketFulfillmentRecord, surface: PacketFulfillmentS
 export function packetFulfillmentAuthority(
   jurisdiction: string | null | undefined,
   pathwayId: string | null | undefined,
-  surface?: PacketFulfillmentSurface
+  surface?: PacketFulfillmentSurface,
+  binding?: { trackId?: string | null; packetFamilyId?: string | null }
 ): PacketFulfillmentDecision {
   const routeKey = packetFulfillmentRouteKey(jurisdiction, pathwayId);
-  const record = RECORDS.get(routeKey);
-  const missing = packetFulfillmentShortfall(record);
-
-  if (!record) {
+  const authority = fulfillmentAuthorityFor(routeKey);
+  const canonical = getCurrentFulfillmentRecord(routeKey);
+  if (!canonical || authority.commercialStatus !== "commercially_eligible"
+    || canonical.schemaVersion !== "rcap-grade-a-fulfillment-authority/v2") {
     return {
       allowed: false,
-      reason: `${routeKey} has no packet fulfillment record, so no commercial authority is granted. A route sells only what it can prove it delivers.`,
-      missing
+      reason: `${routeKey}: ${authority.state}. ${authority.reason}`,
+      missing: [canonical ? `canonical authority: ${authority.state}` : "fulfillment record"]
     };
   }
-  if (missing.length > 0) {
-    return { allowed: false, reason: `${routeKey} has a fulfillment record that does not prove delivery.`, missing, record };
+  const resolved = consumerSpecificationBinding(canonical, binding);
+  if (!resolved) {
+    return { allowed: false, reason: `${routeKey}: exact track, family, provider or specification binding mismatch.`, missing: ["exact fulfillment binding"] };
   }
+  const { specification, path: specificationPath } = resolved;
+  const legacy = RECORDS.get(routeKey);
+  // The old ledger may retain a stricter channel posture. It is never proof,
+  // and its absence cannot veto canonical authority. Provider and document
+  // metadata come from the independently registered specification.
+  const record: PacketFulfillmentRecord = {
+    routeKey, jurisdiction: canonical.jurisdiction, pathwayId: canonical.pathwayId,
+    packetFamily: specification.packetFamily, packetFamilyLabel: specification.packetFamilyLabel,
+    packetSpecificationId: specification.specificationId,
+    packetSpecificationVersion: specification.specificationVersion,
+    packetSpecificationPath: specificationPath,
+    packetSpecificationSha256: specification.specificationSha256 ?? canonical.packetSpecification.sha256,
+    packetComponents: [...REQUIRED_PACKET_COMPONENTS], sourceIdentities: specification.sourceIdentities,
+    artifactProvider: "rcap_grade_a_composer_v1", artifactProviderVersion: canonical.provider.rendererVersion,
+    renderer: canonical.provider.rendererKind, rendererVersion: canonical.provider.rendererVersion,
+    contentType: "application/pdf", requiredFacts: specification.requiredFacts.map((fact) => fact.factId),
+    finalVerificationRequirements: specification.finalVerificationRequirements,
+    verificationBinding: canonical.finalVerification.boundInputsSha256 ?? "",
+    privateDelivery: true, repeatDownload: true,
+    artifactApprovalStatus: "counsel_reviewed_and_visually_verified",
+    consumerPosture: legacy?.consumerPosture ?? "open", sponsoredPosture: legacy?.sponsoredPosture ?? "open",
+    holdReason: legacy?.holdReason ?? "", provenBy: canonical.recordId, provenOn: canonical.effectiveFrom
+  };
 
   if (surface) {
     const posture = postureFor(record, surface);
@@ -318,9 +346,10 @@ export class PacketFulfillmentNotProvenError extends Error {
 export function assertPacketFulfillmentProven(
   jurisdiction: string | null | undefined,
   pathwayId: string | null | undefined,
-  surface: PacketFulfillmentSurface
+  surface: PacketFulfillmentSurface,
+  binding?: { trackId?: string | null; packetFamilyId?: string | null }
 ): void {
-  const decision = packetFulfillmentAuthority(jurisdiction, pathwayId, surface);
+  const decision = packetFulfillmentAuthority(jurisdiction, pathwayId, surface, binding);
   if (decision.allowed) return;
   throw new PacketFulfillmentNotProvenError(
     packetFulfillmentRouteKey(jurisdiction, pathwayId),

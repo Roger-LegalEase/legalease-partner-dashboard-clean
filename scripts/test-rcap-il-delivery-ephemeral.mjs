@@ -1,6 +1,7 @@
 // Extends the existing PostgreSQL/filesystem harnesses. The render port returns
 // the unchanged, specification-pinned fixture: this proves delivery plumbing,
 // not hosted rendering, provider publication or participant personalization.
+import { withIllinoisRegistry } from "./test-rcap-il-authority-fixture.mjs";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { createHash } from "node:crypto";
@@ -10,7 +11,11 @@ const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts
 const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
 const { commercialRouteIdentity, governCommercialAdmission } = await import("../src/lib/rcap/render/commercial-admission.ts");
 
-export async function exerciseIllinoisDelivery({ db, deps, deliveryPorts, userId, partnerId, personId }) {
+export async function exerciseIllinoisDelivery(input) {
+  return withIllinoisRegistry(() => exerciseIllinoisDeliveryWithFixture(input));
+}
+
+async function exerciseIllinoisDeliveryWithFixture({ db, deps, deliveryPorts, userId, partnerId, personId }) {
   const pin = IL_SPECIFICATION.approvedArtifacts.find((artifact) => artifact.fixture === "canonical");
   const bytes = fs.readFileSync(pin.file);
   assert.equal(createHash("sha256").update(bytes).digest("hex"), pin.sha256);

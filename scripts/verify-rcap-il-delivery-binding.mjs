@@ -2,6 +2,7 @@
 // entitlement is created. Imported by the existing delivery acceptance gates.
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { withIllinoisRegistry } from "./test-rcap-il-authority-fixture.mjs";
 import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -69,6 +70,7 @@ assert.equal(row.rcapResult.creditConsumable, false);
 
 // These are authority-unit tests with synthetic verified context, not evidence
 // that the evaluator or deployment permits a checkout. Both remain closed.
+await withIllinoisRegistry(async () => {
 for (const kind of ["consumer_payment", "sponsored_credit"]) {
   const point = kind === "consumer_payment" ? "consumer_checkout" : "sponsored_entitlement";
   const context = ilContext({ kind });
@@ -93,6 +95,15 @@ for (const kind of ["consumer_payment", "sponsored_credit"]) {
       `${kind}: ${trackId ?? "trackless"} verification must not inherit the vacatur family`);
   }
 }
+});
 assert.equal(resolveConsumerDeliveryAccess({ subjectId: null }).allowed, false,
   "this local verifier must run with consumer delivery disabled");
 console.log("Illinois delivery binding: exact track/family/job and consumer/sponsored denials PASS (local only)");
+
+// Current release state is a separate assertion, never the positive fixture.
+const { fulfillmentAuthorityFor, admitCommercial } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
+const current = fulfillmentAuthorityFor(IL_ROUTE);
+const currentAdmission = admitCommercial("generation_admission", identity, ilContext());
+assert.equal(currentAdmission.admitted, current.commercialStatus === "commercially_eligible");
+if (current.state === "REVOKED") assert.equal(currentAdmission.denialCode, "fulfillment_revoked");
+console.log(`Illinois committed registry: ${current.state}; admitted=${currentAdmission.admitted}`);
