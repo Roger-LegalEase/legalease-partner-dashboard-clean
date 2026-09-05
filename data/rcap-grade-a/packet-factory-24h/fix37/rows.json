@@ -1,0 +1,127 @@
+[
+  {
+    "itemId": "tx_nd_dwi_deferred-set",
+    "familyId": "tx_nd_dwi_deferred-set",
+    "jurisdiction": "TX",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+    "status": "COMPLETED",
+    "lane": "FIX37",
+    "laneKind": "repair",
+    "base": "90c56dd7b",
+    "repairedByThisLane": true,
+    "buildHost": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
+    "verdictRepaired": {
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d7e293f81",
+      "failedObligationNames": ["CLIPPING_AND_OVERLAP"]
+    },
+    "repairedObligationNames": ["CLIPPING_AND_OVERLAP"],
+    "whatChanged": "ONE CONSTANT IN ONE FILE. In scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs the frozen ROUTE object carried routeKeys[0] and primaryRouteKey as \"obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure\"; both are now \"obligation:track-only:TX:tx_nd_dwi_deferred\". That is the only edit to the builder, and it is the census key rather than a key this lane chose. THIS LANE READ THE RECORDS RATHER THAN TAKING VF02'S WORD: data/rcap-grade-a/route-obligation-census-v1/category-a-implementation-waves.json carries exactly one obligation key for this family and it is obligation:track-only:TX:tx_nd_dwi_deferred; data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json carries the same one key and no other; source-custody-reconciliation.json and source-queue-reconciliation.json carry the family by worklistGroupId \"tx_nd_dwi_deferred-set\" and name no route key at all, so they contradict nothing; src/lib/legal-authority/routes/route-splits.json does not mention tx_nd_dwi_deferred in any form (0 occurrences). The family's own product-wiring.json, which is generated from the census, already declared routeKey and routeKeys[0] as obligation:track-only:TX:tx_nd_dwi_deferred and binding.routeKeys the same. So the printed key is now the census key because exactly one key exists across every census record that names one, and it is the key product-wiring.json already carried; nothing here is a choice between two candidates and nothing new was invented. The printed suffix that was removed, first-offense-dwi-nondisclosure, is the DWI-probation sibling's pathway suffix: scripts/build-census-v1-tx_nd_dwi_probation-set.mjs carries obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure at the same two lines of its own ROUTE object, which is what a copied builder looks like. The sibling's key is left untouched. AFTER THE EDIT THE FAMILY WAS REBUILT AND EVERY OUTPUT THAT CARRIES THE KEY NOW AGREES WITH product-wiring.json: source-receipt.json routeKeys, production-field-map.json (6 occurrences), participant-instructions.md line 221, and the two composed pages. The \"Route:\" line stayed exactly where the siblings keep it - page 9 line 40 and page 24 line 17 of the pdftotext -layout extraction, unmoved - and a page-by-page text diff of all 24 pages of both fixtures shows that one line and nothing else. No legal text, no write position, no field census row and no protected field was touched: field-census.census-v1.json, build-findings.json, approval-request.json, build-status.json and reports/actual-writes.json are byte-identical across the repair.",
+    "digests": {
+      "canonical": {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/fixtures/canonical.pdf",
+        "beforeSha256": "7cb3e892bf15353ad55ac1b70b922fdc3c83e173017c0640512700f16bdbed2b",
+        "beforeByteLength": 645057,
+        "beforePages": 24,
+        "afterSha256": "c9937525a155d078afd370342274da02ea636d1609c1f6bf8aa4faf1d1784bc1",
+        "afterByteLength": 645002,
+        "afterPages": 24
+      },
+      "boundary": {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/fixtures/boundary.pdf",
+        "beforeSha256": "2ccf4e37ad72ce87502b3c6a9eb6c891c99ce2a6dbfaad9568d1117b35a560c7",
+        "beforeByteLength": 645415,
+        "beforePages": 24,
+        "afterSha256": "01a9b1ad83d4dcb2327a63312b8f561feffc36745b40a9fd26e3c2171c1a541e",
+        "afterByteLength": 645361,
+        "afterPages": 24
+      },
+      "beforeDigestsRehashedFromDiskBeforeAnythingWasMeasured": "Yes. Both fixtures were sha256'd on disk at 90c56dd7b before the builder was opened: canonical 7cb3e892bf15.. 645057 bytes and boundary 2ccf4e37ad72.. 645415 bytes, both equal to VF02's pins at d7e293f81. The repair proceeded only because they matched.",
+      "whyTheyMoved": "The printed key is 41 characters shorter than the one it replaces, twice per fixture. Each fixture lost 54-55 bytes and neither gained or lost a page."
+    },
+    "placementDiff": {
+      "method": "The whole family directory at the base was copied to /tmp/fix37-before first. All 24 pages of BOTH fixtures were then rastered with pdftoppm at 100 dpi, before against after, and compared by PNG md5; all 24 pages of both were also extracted with pdftotext -layout and diffed.",
+      "pagesRasteredAndComparedPixelForPixel": 48,
+      "canonicalPagesPixelIdentical": "22 of 24. Pages 9 and 24 differ; pages 1-8, 10-23 are pixel-identical by PNG md5.",
+      "boundaryPagesPixelIdentical": "22 of 24. Pages 9 and 24 differ; pages 1-8, 10-23 are pixel-identical by PNG md5.",
+      "textDiffAllTwentyFourPages": "canonical and boundary: exactly one changed line per changed page, in place, at the same line number - page 9 line 40 and page 24 line 17. Before: 'Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure'. After: 'Route: obligation:track-only:TX:tx_nd_dwi_deferred'. Every other line of every other page character-identical. No official form page changed in either fixture.",
+      "correctedLineReadOffTheRaster": "Page 9 of the repaired canonical was rastered locally at 150 dpi and the band at the recorded y read directly: it prints 'Route: obligation:track-only:TX:tx_nd_dwi_deferred' as plain body text starting at the same left edge VF02 recorded (xMin 104.09 pt = 217 px at 150 dpi). The line is where the siblings keep it and it is now a key the census carries.",
+      "appearanceLevelWriteComparison": "reports/actual-writes.json, which reads every value back from the flattened widget appearances of the assembled packet bytes, is BYTE-IDENTICAL across the repair. Fifteen writes before and fifteen after, unchanged in field, value, page and box, in both fixtures. verify-packet-completeness reports 15/193 written before and 15/193 after.",
+      "pageCountBefore": 24,
+      "pageCountAfter": 24,
+      "noPageAddedOrRemoved": true,
+      "rastersDeleted": true
+    },
+    "officialFormSliceCharacterIdentity": "Unchanged and untouched. The three bound source binaries carry the same digests source-receipt.json declares (0ef70a8a.. petition, c2b4c3ec.. DWI order, bd17a3fe.. Statement of Inability), no AcroForm field received a new or different value, and all 21 official form pages of both fixtures are pixel-identical at 100 dpi and character-identical by pdftotext -layout.",
+    "stringEradication": "grep -rn \"track-pathway:TX:tx_nd_dwi_deferred\" over the family directory and over scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs returns nothing (exit 1). pdftotext over both repaired fixtures returns 0 occurrences of 'track-pathway'. Four files elsewhere still contain the string and were deliberately NOT edited, because they are the record OF the defect rather than an output carrying it: data/rcap-grade-a/packet-factory-24h/vf02/rows.json, MASTER_QUEUE.json, VERIFIER_RETURNS.json and claim-ledger.json.",
+    "deterministicRebuild": "Built with --no-raster, then built again with no other change: md5 of every one of the 14 files under the family directory is identical across the two runs, fixtures included - canonical c9937525.. and boundary 01a9b1ad.. both times. A third build after the product-wiring edit reproduced the same two fixture digests and did not rewrite product-wiring.json.",
+    "countersBefore": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "countersAfter": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "countersNote": "Nine zeros before and nine zeros after, unchanged, and that is expected rather than reassuring: the defect was invisible to all nine by construction. None of the nine reads the semantic content of a string composed onto a page, so a page printing an internal key nothing carries fails no counter. PASS_COMPLETE with 15/193 written before and after. The verifier was run read-only (no --write) at 90c56dd7b before the builder was opened and again after the final build.",
+    "verifiers": {
+      "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set -> PASS_COMPLETE, 15/193 written, nine counters zero, exit 0. Run read-only before the edit and again after the final build; identical both times.",
+      "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+      "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable, 26 dispositioned by appearance-registry and 3 by clearSourceCarriedTextValues, exit 0",
+      "localRaster": "pdftoppm at 100 dpi over all 24 pages of both fixtures before and after, plus a 150 dpi read of repaired canonical page 9, into /tmp/fix37-raster. Deleted after measuring. This is a local reading, not a central raster acceptance."
+    },
+    "preflight": {
+      "command": "node scripts/verify-packet-build-environment.mjs --family tx_nd_dwi_deferred-set, run once in this worktree at 90c56dd7b with MASTER_LIBRARY_SOURCE_DIR pointing at the mounted Master Library",
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+      "failuresAndWhyTheyDoNotTouchThisRepair": "(1) corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' in the master_library custody - the same known absence VF02 recorded at d7e293f81 - and it touches no source of this family. (2) private_is_git_ignored: reported NOT ignored. This is an artifact of the prescribed setup rather than a source-bytes risk: private/ here is a read-only SYMLINK to the corpus in the sibling clone, .gitignore line 53 is 'private/' which matches directories and not a symlink, so 'git check-ignore -q private/' does not resolve. The check's other half passes - 'git ls-files private/' returns nothing, no byte under private/ is tracked, and git status is clean. No source binary can reach a commit from here.",
+      "whatPassedThatThisRepairNeeded": "master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), family_sources_bind 3/3 by exact SHA-256 via custody_reconciliation, master_library_not_at_operational_path, absent_is_not_empty, stale_artifact_block_consulted (0 artifacts under this family held), repo_identity, clone_is_complete, worktree_clean, node 22.22.2, pdf-lib 1.17.1."
+    },
+    "acceptanceReceipt": null,
+    "productWiring": {
+      "routeKeyUnchanged": "obligation:track-only:TX:tx_nd_dwi_deferred - product-wiring.json already carried the correct key and needed no edit to it. The builder does not regenerate this file.",
+      "acceptanceReceipt": null,
+      "note": "binding.acceptanceReceipt was nulled by this lane because it bound the superseded canonical 7cb3e892..; whyTheAcceptanceReceiptIsNull records the reason and both new digests in the file itself."
+    },
+    "whatWasNotDone": [
+      "CENTRAL RASTER. The RASTER_PASS receipt for workflow run 33950997948, job 101266035730, was bound to canonical 7cb3e892bf15.., a digest this repair supersedes. It stops binding and a central raster acceptance is owed on canonical c9937525a155.. and boundary 01a9b1ad83d4... The local pdftoppm reading recorded above is this lane's own measurement and is not an acceptance. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened or edited by this lane.",
+      "INDEPENDENT VERIFICATION. This lane repaired these bytes and verifies none of them. No verdict was written, none of the fifteen obligations is scored here, and CLIPPING_AND_OVERLAP is reported as repaired rather than as passing - an independent lane must re-measure it and the other fourteen on the new bytes."
+    ],
+    "obligationsThisRowDoesNotDischarge": [
+      "Every obligation other than CLIPPING_AND_OVERLAP is untouched and unscored by this lane.",
+      "RASTER and INDEPENDENT VERIFICATION, as recorded under whatWasNotDone."
+    ],
+    "hostScope": "SINGLE-FAMILY HOST. grep -rln over scripts/ for build-census-v1-tx_nd_dwi_deferred-set.mjs finds no other file importing it, and the edit is to a constant inside that builder's own frozen ROUTE object, not to any shared helper under scripts/rcap-official-forms/. No other family's bytes can have moved, so no control rebuild was owed.",
+    "filesChanged": [
+      "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/fixtures/canonical.pdf",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/fixtures/boundary.pdf",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/source-receipt.json",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/production-field-map.json",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/participant-instructions.md",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/product-wiring.json",
+      "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "data/rcap-grade-a/packet-factory-24h/fix37/rows.json",
+      "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+    ],
+    "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened.",
+    "legalRecordsTouched": "none. No specification, no census record, no route-splits entry, no fulfillment-authority registry entry and no legal decision record was edited. The census was read only.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This row repairs one obligation on one family. It promotes nothing, opens no route, grants no approval and does not make this family deliverable."
+  }
+]
