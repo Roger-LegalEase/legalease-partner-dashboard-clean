@@ -45,6 +45,7 @@ import { extractTextItems, groupIntoLines } from "../rcap-official-forms/rcap-pd
 import { stampDeterministic } from "../rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "../rcap-packet-completeness/completeness-contract.mjs";
 import { preserveIdentityRefresh } from "../rcap-packet-completeness/identity-refresh.mjs";
+import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./composed-page-markdown.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 export const ROOT = path.resolve(path.dirname(thisFile), "../..");
@@ -57,8 +58,13 @@ export const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
 
 export const DOTS = (n = 84) => ".".repeat(n);
 
+/* Source markup a PDF page cannot render is removed before the normalisations
+ * below, on the same footing as the characters they normalise away: emphasis
+ * delimiters are markdown in participant-instructions.md and four black
+ * asterisks on a composed page. See composed-page-markdown.mjs. A string that
+ * carries no closed emphasis pair passes through unchanged. */
 export function sanitizePdfText(text) {
-  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+  return stripMarkdownEmphasis(text).replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
     .replaceAll("§", "Sec. ").replaceAll("…", "...");
@@ -180,6 +186,10 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   const pages = doc.getPages();
   assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
   const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  /* No delivered page may print markup. Read from the saved bytes, so it holds
+   * whatever the markup arrived from -- a component body, a fixture value, or a
+   * future edit to either. */
+  assertNoMarkdownDelimitersOnDeliveredPages(textOfPage, fixtureName);
   const textOfComponent = new Map();
   for (const [i, m] of pageManifest.entries()) {
     textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);
