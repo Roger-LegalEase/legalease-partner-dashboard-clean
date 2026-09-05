@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `fd450d1246b95bbaea7c861eaab4c5eeabc6a4ac` (or the newer dispatch base)
+**Minimum required ancestor:** `98323a33ed4a3b2bc801ebac1de5dfa1f1aa3d6e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-exp-nonconv-set' \
   --codex-cloud \
-  --minimum-captain-sha fd450d1246b95bbaea7c861eaab4c5eeabc6a4ac
+  --minimum-captain-sha 98323a33ed4a3b2bc801ebac1de5dfa1f1aa3d6e
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
