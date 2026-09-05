@@ -53,7 +53,7 @@
     "instructions": [],
     "fee_waiver": []
   },
-  "requiredBeforeFilingCount": 58,
+  "requiredBeforeFilingCount": 56,
   "requiredBeforeFiling": [
     {
       "document": "petition",
@@ -157,17 +157,6 @@
     {
       "document": "petition",
       "documentId": "AOC-CR-297",
-      "field": "petition.DOB",
-      "page": 1,
-      "printedContext": "Date Of Birth on the petition",
-      "disclosureLabel": "Date Of Birth on the petition",
-      "identity": "petition field DOB",
-      "why": "the caption capture returns the run \"Date Of BirthFull Social Security No\" for this blank, so the blank is withheld rather than risk binding a date of birth to the Social Security blank, which is the mis-write the sibling family recorded on AOC-CR-288; the platform holds the date of birth and writes it on AOC-CV-226, so this is a capture defect and not a government identifier",
-      "participantMustSupply": "your date of birth. On this form the platform writes it only on AOC-CV-226"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-297",
       "field": "petition.FileNumber:1",
       "page": 1,
       "printedContext": "File No.(s) - conviction table, row 1",
@@ -219,17 +208,6 @@
       "identity": "petition field OffenseDescription:1",
       "why": "no held record establishes any participant's own conviction, arrest, offence or disposition facts, and a table row completed in part reads as finished when it is not",
       "participantMustSupply": "the offence description and its CLASS, copied from the official record - paragraph 1 certifies that no offence listed is more serious than a Class H felony"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-297",
-      "field": "petition.PetitionerZip",
-      "page": 1,
-      "printedContext": "Address Of Petitioner - Zip",
-      "disclosureLabel": "Address Of Petitioner - Zip",
-      "identity": "petition field PetitionerZip",
-      "why": "the shared caption capture reads this crowded identifier row one blank out of step and returns the printed word \"Race\" for this blank, so the blank is withheld rather than risk writing a ZIP into the neighbouring printed field; the platform holds the ZIP and writes it on AOC-CV-226, so this is a capture defect and not a protected personal descriptor",
-      "participantMustSupply": "your ZIP code. On this form the platform writes it only on AOC-CV-226"
     },
     {
       "document": "petition",
@@ -772,6 +750,34 @@
           "document": "petition"
         },
         {
+          "field": "petition.PetitionerZip",
+          "fieldName": "petition.PetitionerZip",
+          "page": 1,
+          "printedLabel": "Address Of Petitioner - Zip",
+          "printedLine": "Address Of Petitioner - Zip",
+          "effectiveLabel": "Address Of Petitioner - Zip",
+          "regionHeading": "Address Of Petitioner - Zip",
+          "sectionHeading": null,
+          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
+          "factId": "participant.zip",
+          "kind": "composed_text",
+          "document": "petition"
+        },
+        {
+          "field": "petition.DOB",
+          "fieldName": "petition.DOB",
+          "page": 1,
+          "printedLabel": "Date Of Birth on the petition",
+          "printedLine": "Date Of Birth on the petition",
+          "effectiveLabel": "Date Of Birth on the petition",
+          "regionHeading": "Date Of Birth on the petition",
+          "sectionHeading": null,
+          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "petition"
+        },
+        {
           "field": "petition.County",
           "fieldName": "petition.County",
           "page": 1,
@@ -880,30 +886,6 @@
           "why": "used only if your address needs a second line; the platform holds one street address and writes it on the first"
         },
         {
-          "field": "petition.PetitionerZip",
-          "fieldName": "petition.PetitionerZip",
-          "page": 1,
-          "printedLabel": "Address Of Petitioner - Zip",
-          "printedLine": "Address Of Petitioner - Zip",
-          "effectiveLabel": "Address Of Petitioner - Zip",
-          "regionHeading": "Address Of Petitioner - Zip",
-          "sectionHeading": null,
-          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your ZIP code. On this form the platform writes it only on AOC-CV-226",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field PetitionerZip",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the shared caption capture reads this crowded identifier row one blank out of step and returns the printed word \"Race\" for this blank, so the blank is withheld rather than risk writing a ZIP into the neighbouring printed field; the platform holds the ZIP and writes it on AOC-CV-226, so this is a capture defect and not a protected personal descriptor",
-          "participantMustSupply": "your ZIP code. On this form the platform writes it only on AOC-CV-226"
-        },
-        {
           "field": "petition.DLNo",
           "fieldName": "petition.DLNo",
           "page": 1,
@@ -998,30 +980,6 @@
           "document": "petition",
           "why": "the platform does not hold or write a sex fact",
           "participantMustSupply": "your sex, as the form asks"
-        },
-        {
-          "field": "petition.DOB",
-          "fieldName": "petition.DOB",
-          "page": 1,
-          "printedLabel": "Date Of Birth on the petition",
-          "printedLine": "Date Of Birth on the petition",
-          "effectiveLabel": "Date Of Birth on the petition",
-          "regionHeading": "Date Of Birth on the petition",
-          "sectionHeading": null,
-          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your date of birth. On this form the platform writes it only on AOC-CV-226",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field DOB",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the caption capture returns the run \"Date Of BirthFull Social Security No\" for this blank, so the blank is withheld rather than risk binding a date of birth to the Social Security blank, which is the mis-write the sibling family recorded on AOC-CR-288; the platform holds the date of birth and writes it on AOC-CV-226, so this is a capture defect and not a government identifier",
-          "participantMustSupply": "your date of birth. On this form the platform writes it only on AOC-CV-226"
         },
         {
           "field": "petition.SSN",
@@ -2867,6 +2825,34 @@
           "document": "petition"
         },
         {
+          "field": "petition.PetitionerZip",
+          "fieldName": "petition.PetitionerZip",
+          "page": 1,
+          "printedLabel": "Address Of Petitioner - Zip",
+          "printedLine": "Address Of Petitioner - Zip",
+          "effectiveLabel": "Address Of Petitioner - Zip",
+          "regionHeading": "Address Of Petitioner - Zip",
+          "sectionHeading": null,
+          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
+          "factId": "participant.zip",
+          "kind": "composed_text",
+          "document": "petition"
+        },
+        {
+          "field": "petition.DOB",
+          "fieldName": "petition.DOB",
+          "page": 1,
+          "printedLabel": "Date Of Birth on the petition",
+          "printedLine": "Date Of Birth on the petition",
+          "effectiveLabel": "Date Of Birth on the petition",
+          "regionHeading": "Date Of Birth on the petition",
+          "sectionHeading": null,
+          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "petition"
+        },
+        {
           "field": "petition.County",
           "fieldName": "petition.County",
           "page": 1,
@@ -2975,30 +2961,6 @@
           "why": "used only if your address needs a second line; the platform holds one street address and writes it on the first"
         },
         {
-          "field": "petition.PetitionerZip",
-          "fieldName": "petition.PetitionerZip",
-          "page": 1,
-          "printedLabel": "Address Of Petitioner - Zip",
-          "printedLine": "Address Of Petitioner - Zip",
-          "effectiveLabel": "Address Of Petitioner - Zip",
-          "regionHeading": "Address Of Petitioner - Zip",
-          "sectionHeading": null,
-          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your ZIP code. On this form the platform writes it only on AOC-CV-226",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field PetitionerZip",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the shared caption capture reads this crowded identifier row one blank out of step and returns the printed word \"Race\" for this blank, so the blank is withheld rather than risk writing a ZIP into the neighbouring printed field; the platform holds the ZIP and writes it on AOC-CV-226, so this is a capture defect and not a protected personal descriptor",
-          "participantMustSupply": "your ZIP code. On this form the platform writes it only on AOC-CV-226"
-        },
-        {
           "field": "petition.DLNo",
           "fieldName": "petition.DLNo",
           "page": 1,
@@ -3093,30 +3055,6 @@
           "document": "petition",
           "why": "the platform does not hold or write a sex fact",
           "participantMustSupply": "your sex, as the form asks"
-        },
-        {
-          "field": "petition.DOB",
-          "fieldName": "petition.DOB",
-          "page": 1,
-          "printedLabel": "Date Of Birth on the petition",
-          "printedLine": "Date Of Birth on the petition",
-          "effectiveLabel": "Date Of Birth on the petition",
-          "regionHeading": "Date Of Birth on the petition",
-          "sectionHeading": null,
-          "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your date of birth. On this form the platform writes it only on AOC-CV-226",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field DOB",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the caption capture returns the run \"Date Of BirthFull Social Security No\" for this blank, so the blank is withheld rather than risk binding a date of birth to the Social Security blank, which is the mis-write the sibling family recorded on AOC-CR-288; the platform holds the date of birth and writes it on AOC-CV-226, so this is a capture defect and not a government identifier",
-          "participantMustSupply": "your date of birth. On this form the platform writes it only on AOC-CV-226"
         },
         {
           "field": "petition.SSN",
