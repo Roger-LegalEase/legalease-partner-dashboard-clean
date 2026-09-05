@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5aa99d53da08e1b8de60baa00e68e1e61b8c9caa` (or the newer dispatch base)
+**Minimum required ancestor:** `79f886f26a16cde736a830c842bb7ea06b14f174` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-drug-court-set' \
   --codex-cloud \
-  --minimum-captain-sha 5aa99d53da08e1b8de60baa00e68e1e61b8c9caa
+  --minimum-captain-sha 79f886f26a16cde736a830c842bb7ea06b14f174
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -45,7 +45,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nc_146_acquittal_petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-qualprob-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'oh_marijuana_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -71,7 +71,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `nc_146_acquittal_petition-set`
 - `sd_arrest_expungement-set`
 - `vt_exp_decriminalized-set`
-- `il-exp-qualprob-set`
+- `oh_marijuana_expungement-set`
 
 ## What you receive
 
@@ -90,14 +90,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
 - `scripts/build-census-v1-nc_146_acquittal_petition-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
-- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
 
 ## Never write here
 

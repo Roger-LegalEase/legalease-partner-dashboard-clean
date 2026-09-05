@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nm_conviction-set",
+  "routeKey": "obligation:track-pathway:NM:nm_conviction:conviction",
+  "routeKeys": [
+    "obligation:track-pathway:NM:nm_conviction:conviction"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nm_conviction-set",
+    "jurisdiction": "NM",
+    "routeKeys": [
+      "obligation:track-pathway:NM:nm_conviction:conviction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "fee_waiver_application",
+      "hearing_expectation_instructions",
+      "local_order_form_instructions",
+      "notice_of_hearing",
+      "primary_filing",
+      "proposed_order",
+      "record_gathering_instructions",
+      "second_stage_affirmation",
+      "second_stage_notice"
+    ],
+    "packetComponents": [
+      "component:nm_conviction-certificate-of-service-2",
+      "component:nm_conviction-fee-waiver-application-8",
+      "component:nm_conviction-notice-of-hearing-5",
+      "component:nm_conviction-primary-filing-1",
+      "component:nm_conviction-proposed-order-6",
+      "component:nm_conviction-second-stage-affirmation-4",
+      "component:nm_conviction-second-stage-notice-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
+        "sha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:4-222",
+        "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-953",
+        "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-956",
+        "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960",
+        "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960.1",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960.3",
+        "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33950997948",
+      "jobId": 101266035885,
+      "artifactId": null,
+      "boundToCanonicalSha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nm_conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nm_conviction-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nm_conviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "NM-4-953",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "NM-4-956",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "NM-4-960",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "NM-4-960.3",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "NM-4-960.1",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-6",
+        "role": "companion_document",
+        "order": 6,
+        "documentId": "NM-LOCAL-CONVICTION-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_conviction-set-component-7",
+        "role": "companion_document",
+        "order": 7,
+        "documentId": "NM-4-222",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+        "requirement": "required"
+      }
+    ]
+  }
+}
