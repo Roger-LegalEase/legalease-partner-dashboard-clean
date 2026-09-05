@@ -36,22 +36,44 @@ and inside the proposed order, pages 10 and 11 print:
 
 **Every blank on all four insert pages is yours to fill.** Nothing on them is filled in for you, and that is not an oversight — the reason is below, in the section headed "The insert pages".
 
+## This packet is delivered flattened: print it and complete it in pen
 
-## What this packet filled in, and what it did not
+**Nothing in the copy you were given can be typed into.** Both files here — the fifteen-page bundle and the four-page insert form — are delivered flattened. What this packet filled in has been rendered into the page as printed text, and the finished files carry **no fillable boxes, no dropdowns and no tick boxes at all**. Every blank left for you is a printed line or a printed empty square.
 
-**Almost all of this bundle is meant to be completed by hand, and this packet does not pretend otherwise.** Of its fifteen pages, only the Appearance on pages 1–2 carries form boxes for the participant's own details. The petition's caption, its "Comes now the Petitioner ______" line and its paragraph 1 full-name blank carry **no form boxes at all**; nor does the proposed order's caption; nor does the Confidential Information Form's cause number or name.
+**So print both files and complete them in pen.** Where a table below names a box such as `cap-PetitionerFullName` or `Check Box9`, that is the name the Coalition for Court Access gives that blank on **its own fillable form**, published at **www.indianalegalhelp.org**. The name is given so you can find the same blank if you would rather work from the Coalition's fillable copy. There is no such box in the file this packet delivered, and nothing to click.
 
-So this packet filled in, on the **Appearance** only: the county and your name in the caption, your current address, your email address and your phone number. **Everything else on all fifteen pages is yours to write**, and the tables below list what this packet deliberately left blank where a form box does exist.
+**One thing to know if you do work from the Coalition's fillable copy instead.** 14 of the bundle's box names carry more than one box, and 13 of those reach both a page that goes on the public record and a page the Coalition stamps “NOT FOR PUBLIC RECORD” — `cap-PetitionerFullName`, `cap-COUNTY` and `County` among them. On the fillable copy one value fills every box of that name at once, so a fact typed into the petition also prints inside the proposed order's findings. That is the form's own design and it runs in the protective direction: each of those facts is one a public filing already asks for, and the second copy lands inside the non-public order. On the flattened copy you have, each printed line is separate and you fill only the ones you are asked to fill.
 
-**Copy the caption across every document.** The Appearance's caption is the model: the county, the court, the cause number and your name as Petitioner. The petition, Form ACR, the Confidential Information Form and the proposed order all carry the same caption and none of them has boxes for it.
+## What this packet filled in, and where it printed
+
+**This packet filled in five values, and the form spread them across the bundle by itself.** The Coalition's bundle binds one box name to several boxes at once, so a single value can print on several pages. Read back from the finished pages, those five values print in 26 places:
+
+| What was filled | The box name on the Coalition's form | How many, and where | Which blanks |
+| --- | --- | --- | --- |
+| the county | `cap-COUNTY` | 8 places, on pages 1, 3, 7 and 9 | twice in each of the four captions — once after “IN THE” and once after “COUNTY OF” |
+| your full legal name | `cap-PetitionerFullName` | 14 places, on pages 1, 3, 5, 7, 8, 9 and 13 | the caption of the Appearance, the petition, Form ACR and the proposed order; the Appearance's paragraph 1; the petition's “Comes now the Petitioner” line, its paragraph 1 full-name blank and its Printed Name line; two places in Form ACR's notice; the Confidential Information Form's “PETITIONER’S NAME” line; the order's opening line and its FINDINGS paragraph 1; and the order's distribution list |
+| your email address | `Email` | 1 place, on page 1 | the Appearance's contact block |
+| your telephone number | `Phone` | 1 place, on page 1 | the Appearance's contact block |
+| your current address | `Address` | 2 places, on pages 1 and 13 | the Appearance's paragraph 2, and the order's distribution list |
+
+**The caption is therefore already written on all five documents, not on the Appearance alone.** Your name is printed 14 times, on pages 1, 3, 5, 7, 8, 9 and 13; the county 8 times, on pages 1, 3, 7 and 9; your current address twice, on pages 1 and 13. The build's own record of this is `reports/participant-name-placement.json`, which counts 14 placements of your name in the canonical copy and 0 outside the blanks it is allowed in.
+
+**Do not copy the caption onto the other documents, and do not write over what is already printed.** Read the printed name and county instead, check them against your own records and against the county you are filing in, and if either is wrong ask for a corrected packet rather than writing over it.
+
+**Two caption items are not filled, because the bundle has no box for one and no held record answers the other.**
+
+- **The cause number.** There is no box for it anywhere in the bundle. The clerk assigns it when you file. Write it by hand on the “CAUSE NO.” line in the captions of pages 1, 3, 7 and 9, and on the “XP CAUSE NUMBER” line of the Confidential Information Form on page 8.
+- **The type of court.** One box name, `DD-cap-CourtType`, carries it in the caption of pages 1, 3, 7 and 9, and this packet does not choose it because no held record says which court holds your case. **Ask the clerk's office of the county in the caption**, then write it on the printed “COURT” line in each of those captions.
+
+**Everything else on all fifteen pages is yours to write**, and the tables below list what this packet deliberately left blank where the form has a place for it.
 
 ## Where you file it
 
 **File in a circuit or superior court in the county where the charges or allegation were filed — or, if no charges were ever filed, in the county where the arrest happened.** That is what the committed route record for this packet says, in those words.
 
-**The county is already written in the Appearance's caption**, from what the platform holds for your matter. Check it against where the charges were filed, or where the arrest happened, and correct it before you file.
+**The county is already written in all four captions** — pages 1, 3, 7 and 9 — from what the platform holds for your matter. Check it against where the charges were filed, or where the arrest happened, before you file.
 
-**Which court, and which type of court, is left for you.** The Appearance's caption has a dropdown for the court type and this packet does not choose it. **Ask the clerk's office of the county in the caption which court holds your case**, and select that.
+**Which court, and which type of court, is left for you.** The caption's court-type blank is one box name repeated in all four captions and this packet does not choose it. **Ask the clerk's office of the county in the caption which court holds your case**, and write it on the printed line in each caption.
 
 ## What it costs
 
@@ -74,48 +96,51 @@ The committed route record for this packet states the statutory position: "The c
 ## What you must do before you file
 
 1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first, and fill every blank on all four insert pages by hand — the section headed "The insert pages" below says which block is which, and why nothing on them is filled in for you.
-2. **Copy the caption onto every document**: the county, the court, the cause number and your name.
-3. **Write your Social Security number where the packet asks for it, twice and differently.** The petition's paragraph 2 asks for the **last four digits only**, after the printed "XXX-XX-". The **Confidential Information Form** on page 8 asks for the **whole number** — and that form is the reason Form ACR exists. Its own printed words are "ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER. IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT." Put the full number nowhere else.
+2. **Write the cause number into every caption once the clerk gives it to you**: the “CAUSE NO.” line on pages 1, 3, 7 and 9, and the “XP CAUSE NUMBER” line on page 8. The bundle has no box for it. **The county and your name are already printed in those captions — do not write over them.**
+3. **Write your Social Security number only where the packet asks for it, and note that it asks twice, differently.** The petition's paragraph 2 on page 3 asks for the **last four digits only**, after the printed “XXX-XX-”. The **Confidential Information Form** on page 8 asks for the **whole number** — and that form is the reason Form ACR exists. Its own printed words are “ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER. IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT.” The proposed order's findings have a third blank for the whole number, at paragraph 2 on page 9, and that one belongs to the court. **Pages 1 to 7 are the pages that go on the public record: your whole number belongs on none of them.** The only Social Security digits anywhere on a public page are the last four, in the petition's paragraph 2.
 4. **Write your driver licence or state identification number** in the petition's paragraph 2.
-5. **List any other names or aliases you have used**, in the petition's paragraph 1.
+5. **List any other names or aliases you have used**, in the petition's paragraph 1, beside the name already printed there.
 6. **Answer the Appearance's related-cases question**, and list any related captions and case numbers.
 7. **Sign what you are asked to sign**: the Appearance, the petition's AFFIRMATION — "I affirm under penalties for perjury that the foregoing representations and statements are true and accurate" — and Form ACR. Every signature line in this bundle is left blank.
-8. **Leave the proposed order alone below its caption.** Its findings, its decree, its directions to the Indiana State Police, the county sheriff and the other agencies, and its proof of notice are the court's.
+8. **Leave the proposed order's findings and decree alone.** Its findings, its decree and its directions to the Indiana State Police, the county sheriff and the other agencies are the court's, and this packet writes none of them. It is not true that the packet writes nothing below the order's caption: your full legal name and your current address are printed in the order's **distribution list on page 13**, which is the list of who the clerk sends the signed order to, and your name is also printed in the order's opening line and its FINDINGS paragraph 1 on page 9 because those are the same caption box. Check those and leave the rest.
 9. **Serve the prosecutor and complete the certificates of service — after service, not before.**
 
-## The items you must supply, where the form has a box for them
+## The items you must supply, where the form has a place for them
 
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
-| 1 | Appearance caption — the court type (a dropdown; inside the PDF, `DD-cap-CourtType`) | the court your case is in — ask the clerk of the county in the caption |
+| 1, 3, 7, 9 | the caption's court type (the Coalition's box name is `DD-cap-CourtType`; one name, four captions) | the court your case is in — ask the clerk of the county in the caption, then write it in all four captions |
+| 1, 3, 7, 8, 9 | the caption's “CAUSE NO.” line, and page 8's “XP CAUSE NUMBER” line — no box, on any page | the cause number the clerk gives you when you file |
 | 1 | Appearance — "Fax:" (`Fax`) | your fax number, or leave blank if you have none |
-| 1 | Appearance — "I will accept service at the above email address" (`Check Box1`) | tick it if you want to be served by email |
-| 1 | Appearance — "Attorney General confidential address" (`Check Box2`) | tick it only if you have used that address in a related case |
-| 1 | Appearance — "There are related cases: Yes / No" (`Check Box3`, `Check Box4`) | tick the one that is true |
+| 1 | Appearance — "I will accept service at the above email address" (`Check Box1`) | mark the printed square if you want to be served by email |
+| 1 | Appearance — "Attorney General confidential address" (`Check Box2`) | mark it only if you have used that address in a related case |
+| 1 | Appearance — "There are related cases: Yes / No" (`Check Box3`, `Check Box4`) | mark the one that is true |
 | 1–2 | Appearance — the related-cases table, six Caption and Case No. pairs | the caption and case number of each related case, if there are any |
 | 2 | Appearance — "Additional information as required by local rule" (`AdditionalInformation`) | whatever the local rule of your court requires. Ask the clerk |
 | 2 | Appearance — the certificate of service, both limbs | the date, the county, the prosecutor's address — **after you have served** |
 | 3 | Petition ¶2 — "XXX-XX-______" (`PetSSN-Last4`) | the last four digits of your Social Security number |
 | 3 | Petition ¶2 — driver licence or state ID number (`PetDLorStateID#`) | your driver licence or state identification number |
-| 5 | Petition WHEREFORE — the two election boxes (`Check Box9`, `Check Box10`) | tick the relief you are asking the court to order |
+| 3 | Petition ¶1 — the aliases blank (`PetitionerAliases`), beside your printed name | any other names you have used, or "none" |
+| 5 | Petition WHEREFORE — the two election squares (`Check Box9`, `Check Box10`) | mark the relief you are asking the court to order |
+| 5 | Petition — the signature line above your printed name | your signature. Your name is printed beneath it already |
 | 6 | Petition — the certificate of service, both limbs | as on page 2, **after you have served** |
 | 7 | Form ACR — the certificate of service, both limbs | as above, **after you have served** |
-| 8 | Confidential Information Form — full Social Security Number (`PetFullSSN`) | your whole Social Security number. This form is filed as a confidential document |
+| 8 | Confidential Information Form — full Social Security Number (`PetFullSSN`) | your whole Social Security number. This form is filed as a confidential document, and its “PETITIONER’S NAME” line is already printed |
 
 ## The insert pages: everything on them is yours to write, and here is why
 
-**This packet writes nothing at all on the four insert pages, and the reason is in how the form is built rather than in what the platform holds.** The insert's boxes are shared by NAME across its own four pages: the same arrest-date, arresting-agency, county and offence-grid boxes carry *your* facts on pages 1–2, the *court's* findings on page 3, and Exhibit A on page 4. A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding. This family writes nothing below the proposed order's caption anywhere, and that refusal reaches every box on this insert. The Coalition for Court Access publishes these pages for you to complete.
+**This packet writes nothing at all on the four insert pages, and the reason is in how the form is built rather than in what the platform holds.** The insert's boxes are shared by NAME across its own four pages: the same arrest-date, arresting-agency, county and offence-grid boxes carry *your* facts on pages 1–2, the *court's* findings on page 3, and Exhibit A on page 4. A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding. There is no value the platform could put in those boxes that would not also be asserted as a finding the court has not made, so the packet puts none. The Coalition for Court Access publishes these pages for you to complete.
 
 So fill all four insert pages by hand, from your court and arrest records and not from memory.
 
-| Insert page | The block on the form | The boxes inside the PDF | What to write |
+| Insert page | The block on the form | The Coalition's box names | What to write |
 | --- | --- | --- | --- |
 | 1 | the arrest or summons block | `DD-ArrestOrSummons`, `ArrestDate`, `County`, `NameArrestingOfficer`, `ArrestingAgency`, `LEACaseNumber`, `Check Box15`, `Check Box17` | how the matter began, when, in which county, who arrested you, which agency, and that agency's own case number |
 | 1 | the charge block | `AssignedCaseNumber`, `DateChargesFiled`, `DD-HowChargesFiled`, `CauseNumber`, `DD-TypeChargesFiled` | the case number, the date and manner the charges were filed, the cause number and the type of charges |
 | 1 | the offence grid, counts 1 to 4 | `DD-CountNumber`, `OffenseDescript-Ct1`, `OffenseDescript-Ct2`, `OffenseDescript-Ct3`, `OffenseDescript-Ct4`, `DD-LevelChoice-Ct1`, `DD-LevelChoice-Ct2`, `DD-LevelChoice-Ct3`, `DD-LevelChoice-Ct4`, `DD-ChargeLevel-Ct1`, `DD-ChargeLevel-Ct2`, `DD-ChargeLevel-Ct3`, `DD-ChargeLevel-Ct4`, `DD-Misd/Felony-Ct1`, `DD-Misd/Felony-Ct2`, `DD-Misd/Felony-Ct3`, `DD-Misd/Felony-Ct4` | each count as your court record words it, with its level and whether it was a misdemeanour or a felony |
 | 1 | the disposition block | `DateChargesDismissed`, `DateAcquittal`, `AppellateCauseNumber`, `DateAppellateDecFinal`, `Check Box19`, `Check Box21`, `Check Box23`, `Check Box25`, `Check Box26` | how and when the matter ended, and any appellate cause number and final-decision date |
 | 2 | the related-matter block | `Check Box29`, `DescriptRelatedMatter`, `ListRelatedMCCauseNumbers` | whether there is a related matter, what it is, and its cause numbers |
-| 3 | **FINDINGS — leave the eight election boxes alone** | `Check Box16`, `Check Box18`, `Check Box20`, `Check Box22`, `Check Box24`, `Check Box27`, `Check Box28`, `Check Box30` | **nothing. These are the court's own findings.** The text blanks on page 3 carry the same values you write on pages 1–2 |
+| 3 | **FINDINGS — leave the eight election squares alone** | `Check Box16`, `Check Box18`, `Check Box20`, `Check Box22`, `Check Box24`, `Check Box27`, `Check Box28`, `Check Box30` | **nothing. These are the court's own findings.** The text blanks on page 3 repeat what you write on pages 1–2 |
 | 4 | Exhibit A — who you are | `cap-PetitionerFullName`, `PetDOB`, `PetFullSSN`, `AliasNamesDOBsSSNs`, `AddressesSinceArrest` | your full name, date of birth, whole Social Security number, any other names, dates of birth or numbers you have used, and every address you have lived at since the arrest |
 | 4 | Exhibit A — the records to be expunged | `Criminal Cause Number`, `CountyCityArrest`, `Date of Dismissal` | the criminal cause number, the county and city of the arrest, and the date of dismissal |
 | 4 | Exhibit A — the offence grid and dispositions | `OffenseDescript-Exhibit-Ct5`, `OffenseDescript-Exhibit-Ct6`, `OffenseDescript-Exhibit-Ct7`, `DD-LevelChoice-Ct5`, `DD-LevelChoice-Ct6`, `DD-LevelChoice-Ct7`, `DD-ChargeLevel-Ct5`, `DD-ChargeLevel-Ct6`, `DD-ChargeLevel-Ct7`, `DD-Misd/Felony-Ct5`, `DD-Misd/Felony-Ct6`, `DD-Misd/Felony-Ct7`, `ChargeDisposition-Ct1`, `ChargeDisposition-Ct2`, `ChargeDisposition-Ct3`, `ChargeDisposition-Ct4`, `ChargeDisposition-Ct5`, `ChargeDisposition-Ct6`, `ChargeDisposition-Ct7` | any further counts, and the disposition of every count |
@@ -124,10 +149,11 @@ So fill all four insert pages by hand, from your court and arrest records and no
 
 - **Every signature in the bundle, and every date beside one.** You make the statements; the petition's AFFIRMATION is made under penalties for perjury.
 - **Every certificate of service, in full.** Four of them. Service has not happened, and the platform does not hold the county prosecutor's address.
-- **Your Social Security number, in both places**, and your driver licence number. The platform holds neither.
-- **Your aliases.** The shared field binder would have written your own legal name into the "other names or aliases" blank in the proposed order's findings, which asserts you have used your own name as an alias. It is refused for that reason.
+- **Your Social Security number in all three of its blanks** — the petition's last-four blank on page 3, the Confidential Information Form's whole-number blank on page 8, and the order's findings paragraph 2 on page 9 — and your driver licence number. The platform holds none of them.
+- **Your aliases.** The shared field binder would have written your own legal name into the “other names or aliases” blank in the proposed order's findings, which asserts you have used your own name as an alias. It is refused for that reason.
 - **The related criminal cause numbers and the appellate cause numbers** in the proposed order. Both would have received *this* matter's cause number, and both ask for other cases' numbers.
-- **The whole of the proposed order below its caption**, which belongs to the court.
+- **The findings, the decree and the agency directions in the proposed order**, which belong to the court. The order is not untouched: your name and current address are printed in its distribution list on page 13, and your name in its caption, its opening line and its findings paragraph 1 on page 9, all from the same caption boxes that fill the rest of the bundle.
+- **The cause number, everywhere.** The bundle has no box for it and the clerk assigns it when you file.
 
 ## Where self-help ends
 
