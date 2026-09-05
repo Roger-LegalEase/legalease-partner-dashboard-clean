@@ -364,6 +364,67 @@
           "because": "This family's production-field-map.json refuses tx_nd_veterans_court-fee-waiver-statement-4.Today with refusalClass signature_or_date_participant_completion and the stated reason that a date written before the Statement is actually sworn would be false. Preserved, it would print a 2022 date beside the participant's own signature line, on the page headed by the declaration under penalty of perjury. A packet that states a date the participant did not enter, on a document they will swear years later, is stating something false on their behalf."
         }
       }
+    },
+    "nh_petition_nonconviction_pre2019-set:NHJB-2311": {
+      "measuredAt": "5e9951951ef06ffb57583bccc15be879962068d2",
+      "whyThisFamilyNeededClassifying": "NHJB-2311, the New Hampshire Motion for Waiver of Filing Fee, ships its Signature of Filer box carrying a placeholder in the WIDGET APPEARANCE rather than in /V: field sig.8 has no /V at all, and its /AP /N stream draws \"Enter /s/ before name\" in /TiBo 12 at fill 0.75 g. It is a text field with no value, so the structural rule calls it the court's own ink and preserves it, and flatten stamps grey legible text onto the signature rule of a motion the participant has not signed. The packet ships flattened, so the participant cannot make it disappear by typing over it: they sign, or write /s/, on top of text that is already there.",
+      "howMeasured": "Read first-hand by this lane at the commit above from the pinned source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR: STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf, sha256 f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e, 64896 bytes, 2 pages, 20 fields. Of those 20, exactly three carry text a flatten would materialise: the two court/state dropdowns, whose /V is a single space, and sig.8, whose /V is absent and whose appearance stream is the placeholder above. sig.8's widget sits on source page 1 at /Rect [322.444, 303.983, 511.741, 319.823] - lower-left 322.444, 303.983, 189.297 x 15.84 - and carries no /F entry, so it is neither Hidden nor NoView and really does draw. The delivered appearance was then read back from fixtures/canonical.pdf and fixtures/boundary.pdf with flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs: both fixtures drew \"Enter /s/ before name\" at packet page 4, (322.44, 303.98), on the source /Rect lower-left corner.",
+      "theValueIsInTheAppearanceNotTheValue": "This is the class the Texas entries record, arriving by the other door. There, the source ships /V and the appearance follows from it; here the source ships no /V and the appearance carries the text on its own. Clearing /V would have done nothing. The disposition is what settles it, because the finalizer drops both the value and every widget appearance for an unwritten field it is told is a participant input.",
+      "fields": {
+        "sig.8": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "Enter /s/ before name",
+          "rect": [
+            322.444,
+            303.983,
+            189.297,
+            15.84
+          ],
+          "because": "This family's own production-field-map.json refuses NHJB-2311/sig.8 with category signature_or_date_participant_completion and the reason \"you sign this yourself\", and reports/blanks-left-for-the-participant.json carries it as a protected blank. So this build never writes it, and the only thing that can reach the page is the source's own appearance. That appearance is not the court's ink: the form's own /TU says what it is - \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\" - an instruction to a person filling the form in, printed inside the box for them to type over. A delivered filing whose signature line already carries grey text is a signature box that is not empty, and this registry's own vocabulary answers it: a placeholder is a participant input, and unwritten it contributes nothing, so the source placeholder never reaches the filing."
+        }
+      }
+    },
+    "nh_petition_nonconviction_pre2019-set:NHJB-2328": {
+      "measuredAt": "5e9951951ef06ffb57583bccc15be879962068d2",
+      "whyThisFamilyNeededClassifying": "NHJB-2328, the New Hampshire Statement of Assets and Liabilities, is the sworn financial affidavit the fee-waiver motion rests on. Three of its 90 fields ship with a value the official source set - 12.total, money.total and monthly.total, each /V \"0\", each with an /AP /N stream drawing \"0.00\" at fill 1 g, which is WHITE. All three are /Tx text fields, so the structural rule calls each of them the court's own ink and preserves it. On paper the three Total lines then look blank; in the delivered text layer they are not, and pdftotext -layout of the shipped fixtures returned \"Total $ 0.00\" three times while every line feeding each total was blank. That is a sworn zero for weekly income, for money presently available and for monthly household expenses, extractable by any e-filing system, reader or indexer that reads the text layer of what was filed.",
+      "howMeasured": "Read first-hand by this lane at the commit above from the pinned source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR: STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf, sha256 b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919, 66063 bytes, 3 pages, 90 fields. Exactly these three of the 90 carry a non-empty /V other than the single-space dropdown prompts, and each of the three widgets carries /F 4 - Print set, Hidden (bit 2) and NoView (bit 6) both clear - with an /AP /N stream, so none is suppressed by the annotation flags and each really does draw. The /DA of each is \"/TiBo 12 Tf 1 g\", which is where the invisibility comes from and why a page raster cannot find them. The delivered appearances were then read back from both fixtures with flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs: \"0.00\" at packet page 6 (494.32, 132.19) and (494.87, 36.36) and at packet page 7 (205.97, 583.73), each on its own source /Rect lower-left corner.",
+      "whiteInkIsStillInk": "White fill is why the nine completeness counters and the central page raster both read this family as clean while it was shipping three sworn zeros. Neither instrument reads the text layer, and the counters ask only what the BUILD wrote. The value was never written; it arrives from the source binary during flatten.",
+      "theSignatureFieldOnThisFormIsNotClassified": "NHJB-2328 carries its own sig.8 on source page 3, named identically to NHJB-2311's. It is deliberately absent from this entry: it was read at the same time and it ships no /V and no drawing appearance, so it flattens to nothing and there is nothing to disposition. Classifying it would suppress an appearance that does not exist and would state a measurement that was not made.",
+      "fields": {
+        "12.total": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            494.319,
+            132.185,
+            83.066,
+            13.492
+          ],
+          "because": "This family's own production-field-map.json refuses NHJB-2328/12.total as REQUIRED_BEFORE_FILING with requiredBeforeFiling true, telling the participant to supply \"the total of the weekly amounts above\", because the platform holds no financial fact about anyone. The refusal is honoured on the write path and was defeated on the flatten path: the source ships /V \"0\" and an appearance drawing \"0.00\", and the structural rule read that as the court's own ink. It is not the court's ink and it is not an answer anybody gave - the zero is in the blank issuer-original form before any participant sees it, and item 12's own weekly lines are all blank in the delivered bytes. A total of zero on the weekly take-home line of an affidavit sworn under penalty of perjury is an assertion about the participant's income, not an empty space."
+        },
+        "money.total": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            494.87,
+            36.356,
+            85.066,
+            12.492
+          ],
+          "because": "This family's own production-field-map.json refuses NHJB-2328/money.total as REQUIRED_BEFORE_FILING with requiredBeforeFiling true, telling the participant to supply \"the total of the amounts above\", because the platform holds no financial fact about anyone. The source ships /V \"0\" with an appearance drawing \"0.00\" at white fill, and the structural rule preserved it while every line of item 13 - what money is presently available to you - stayed blank. A sworn zero for money presently available is the very fact the fee-waiver motion turns on, and it is an answer the participant never gave."
+        },
+        "monthly.total": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            205.975,
+            583.732,
+            93.067,
+            12.492
+          ],
+          "because": "This family's own production-field-map.json refuses NHJB-2328/monthly.total as REQUIRED_BEFORE_FILING with requiredBeforeFiling true, telling the participant to supply \"the total of the monthly amounts above\", because the platform holds no financial fact about anyone. The source ships /V \"0\" with an appearance drawing \"0.00\" at white fill on source page 2, and the structural rule preserved it while every line of the monthly household expense table stayed blank. A sworn zero for monthly household expenses, beside a sworn zero for income, describes a financial position nobody stated."
+        }
+      }
     }
   }
 }
