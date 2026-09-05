@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `188faa07bfa7c1725886ba64cfa20302e19c7667` (or the newer dispatch base)
+**Minimum required ancestor:** `1f53847b3d663adc6b46a7ddc70a921a97b511b5` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement' \
   --codex-cloud \
-  --minimum-captain-sha 188faa07bfa7c1725886ba64cfa20302e19c7667
+  --minimum-captain-sha 1f53847b3d663adc6b46a7ddc70a921a97b511b5
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 11 exact families before reading or writing family content:
+- Assert only these 10 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'fl-early-juvenile-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-exp-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-seal-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'in_infraction_nondisclosure-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'la-987-set-aside-and-dismiss-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-wv-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ut_pet_no_charges-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'al-misd-dwop-set'`
@@ -67,14 +66,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 11 families
+## The 10 families
 
 - `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
 - `fl-early-juvenile-set`
 - `il-exp-nonconv-set`
 - `il-seal-nonconv-set`
 - `in_infraction_nondisclosure-set`
-- `la-987-set-aside-and-dismiss-set` — failing: visualDefects
 - `rcap-wv-custom-pleading`
 - `ut_pet_no_charges-set`
 - `al-misd-dwop-set`
@@ -97,7 +95,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
@@ -108,7 +105,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-seal-nonconv-set.mjs`
 - `scripts/build-census-v1-in_infraction_nondisclosure-set.mjs`
-- `scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs`
 - `scripts/build-census-v1-rcap-wv-custom-pleading.mjs`
 - `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
 - `scripts/build-census-v1-al-misd-dwop-set.mjs`

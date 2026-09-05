@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "188faa07bfa7c1725886ba64cfa20302e19c7667",
+  "generatedAtCommit": "1f53847b3d663adc6b46a7ddc70a921a97b511b5",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4602,10 +4602,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:53:43.994Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5094,10 +5093,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:53:43.868Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -12950,7 +12948,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a4793148a609b596b7ae2420f226eadbb5ea214d4a6ee3973f94a243242345b3",
+  "claimsDigest": "e4980a6aabf5a3019ba915d14f34fb199e27ee2fdb36ff6b48e47517967aa31f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33056,6 +33054,26 @@
       "familyState": "SOURCE_READY",
       "reissuedAt": "2026-09-05T01:23:05Z",
       "reason": "the current dispatch names PF20 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T01:57:06Z",
+      "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "dispatchNames": "FIX05",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T01:57:06Z",
+      "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
