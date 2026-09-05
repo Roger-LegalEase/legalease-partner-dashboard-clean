@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `952c32390d7a73c0352477352a74a4e101bca9d3`
+**Minimum required ancestor:** `6b914ea3bea5d58d897b1dc60df1855b1e85f76b`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -212,7 +212,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf` — `d7cb7a72a71aaed7c3fac1cefd03f3e2a9c461bec20b7809cb90925daab00c46`
 - boundary `data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf` — `ecfecedb25777d13da1c39311090d6654d32605aea656f0f9aab9f33884cbebe`
 - expected pages 43 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### ny_160_59_petition-set
 
@@ -226,7 +226,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf` — `c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b`
 - boundary `data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-petition-boundary.pdf` — `bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9`
 - expected pages 1 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### rcap-ga-guidance-implementation
 
@@ -275,7 +275,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf` — `0d538027a6945c50b562193222a6c17b22b1582e720931a2e36ed9b9b027dbf8`
 - boundary `data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf` — `3fdd85e7ac3344fa235c9d7f8bcb775660fe058a502115e9f2c7d5a36ad86a9e`
 - expected pages 10 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF05
 
 ### vt_seal_nonconviction-set
 
