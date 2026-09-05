@@ -37,6 +37,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| The court name on the caption line at the top of the petition | The name of the Arizona superior court this petition is filed in. No committed record this packet binds states a county venue rule - the committed track registry records venue only as "Statewide Arizona law; petition in superior court." - so the platform holds no value for it and this packet does not choose a county for you. Ask an Arizona superior court clerk which superior court takes a petition under A.R.S. § 13-4051 in your case, and write that court's name on this line before you file. |
 | Item C1 - arrest or charge identifiers | What was the arrest, indictment or charge, and which agency and court were involved? |
 | Item C2 - wrongfulness facts | In your own words, why was the arrest or charge wrongful? |
 | Item C3 - records to annotate | Which court, police or agency records do you want the notation entered on? |
@@ -67,4 +68,4 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 This is a prepared set of composed pleadings. It is not an official AZ form — no committed record names one for this route — and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.
 
-_Route(s): obligation:track-only:AZ:az_wrongful_arrest_clearance_
+_Route(s): obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051_
