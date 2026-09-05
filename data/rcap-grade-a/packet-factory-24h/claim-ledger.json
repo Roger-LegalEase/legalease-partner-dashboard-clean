@@ -6636,8 +6636,8 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T22:25:47.723Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6786,8 +6786,8 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T22:25:47.873Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7324,8 +7324,8 @@
       "operation": "independent-verification",
       "lane": "VF10",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T19:04:05.121Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12884,7 +12884,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "42dccddb27aea5734d50d0bce7d9fdc9a408ee31b5d1ee7ed4159aa3d41deed6",
+  "claimsDigest": "287390affb8a333727238664667d71f3e7878f27d21bf4ef2a503aaff91279dc",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33586,6 +33586,36 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-05T09:28:37Z",
       "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-04T22:25:47.723Z",
+      "reissuedAt": "2026-09-05T09:33:36.918Z",
+      "reason": "Fresh bytes after the Rule-1b/sworn-zero repairs rastered green in run 33950997948; the earlier PASS bound different digests, so an independent read of the current bytes is owed and the dispatch names VF07."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-04T22:25:47.873Z",
+      "reissuedAt": "2026-09-05T09:33:37.161Z",
+      "reason": "Fresh bytes after the Rule-1b/sworn-zero repairs rastered green in run 33950997948; the earlier PASS bound different digests, so an independent read of the current bytes is owed and the dispatch names VF08."
+    },
+    {
+      "lane": "VF10",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-03T19:04:05.121Z",
+      "reissuedAt": "2026-09-05T09:33:37.378Z",
+      "reason": "Fresh bytes after the Rule-1b/sworn-zero repairs rastered green in run 33950997948; the earlier PASS bound different digests, so an independent read of the current bytes is owed and the dispatch names VF10."
     }
   ],
   "transfers": [
