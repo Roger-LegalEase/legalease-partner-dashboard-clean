@@ -495,7 +495,6 @@ function primaryBody(facts) {
     "MOTION TO SET ASIDE CONVICTION AND DISMISS PROSECUTION;",
     "RULE TO SHOW CAUSE; ORDER OF DISMISSAL",
     "La. C.Cr.P. art. 987 - statutory form composed from the committed LA-STATUTORY-FORMS authority",
-    `Assigned component identity: ${PRIMARY}`,
     ""
   ];
   caption(lines, facts);
@@ -527,7 +526,7 @@ function primaryBody(facts) {
   lines.push(`Route: ${ROUTE_KEY}`);
   lines.push(PAGE_BREAK);
 
-  lines.push(FORM_ID, "RULE TO SHOW CAUSE", `Assigned component identity: ${PRIMARY}`, "");
+  lines.push(FORM_ID, "RULE TO SHOW CAUSE", "");
   caption(lines, facts);
   lines.push("PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION", "");
   lines.push("The district attorney is ordered to show cause why the Motion to Set Aside Conviction and Dismiss Prosecution should not be granted. The rule is directed to the district attorney; the court sets the return date, time, and place.", "");
@@ -536,10 +535,9 @@ function primaryBody(facts) {
   lines.push(`Courtroom or place set by the court clerk: ${DOTS(31)}`, "");
   lines.push(`Judge signature on the Rule to Show Cause: ${DOTS(30)}`, "");
   lines.push("Leave every line above blank for the court. The district attorney's response belongs to the district attorney and is not printed as a participant field in this packet.", "");
-  lines.push(`Route: ${ROUTE_KEY}`);
   lines.push(PAGE_BREAK);
 
-  lines.push(FORM_ID, "ORDER OF DISMISSAL", `Assigned component identity: ${PRIMARY}`, "");
+  lines.push(FORM_ID, "ORDER OF DISMISSAL", "");
   caption(lines, facts);
   lines.push("COURT USE ONLY - UNEXECUTED PROPOSED ORDER", "");
   lines.push("No finding has been made and no relief has been granted unless and until the judge completes and signs an order and the clerk enters it.", "");
@@ -551,7 +549,6 @@ function primaryBody(facts) {
   lines.push(`Place of the court order: ${DOTS(42)}`);
   lines.push(`Judge signature on the Order of Dismissal: ${DOTS(31)}`, "");
   lines.push("The participant leaves every finding, ruling, date, place, decretal paragraph, and judicial signature blank.", "");
-  lines.push(`Route: ${ROUTE_KEY}`);
   return lines.join("\n");
 }
 
@@ -651,14 +648,11 @@ function markdownToPlain(markdown) {
 function instructionsBody(facts, participantText, filingText) {
   return [
     TITLES[INSTRUCTIONS].toUpperCase(),
-    `Assigned component identity: ${INSTRUCTIONS}`,
     `Prepared for: ${facts["participant.full_legal_name"]}`,
     "",
     markdownToPlain(participantText),
     "",
-    markdownToPlain(filingText),
-    "",
-    `Route: ${ROUTE_KEY}`
+    markdownToPlain(filingText)
   ].join("\n");
 }
 
@@ -677,7 +671,22 @@ function sanitizePdfText(text) {
     .replaceAll("…", "...");
 }
 
-async function renderDocument(text, title) {
+/*
+ * THE PAGE FOOT IS CHROME, AND THE COMPOSED BODY IS NOT.
+ *
+ * Pages 2 and 3 of the Article 987 instrument ARE the court's sections - the
+ * Rule the court issues and the unexecuted proposed Order. A machine
+ * identifier set in body face at the body's own left margin, one line under
+ * the court section's closing sentence, reads as a line of the court's own
+ * section, which is what VF02 failed at 97be5bcda. The component identity now
+ * prints once per page as page-foot chrome instead: 7pt against the body's
+ * 10.25pt, grey, below a hairline rule, in the 60pt band beneath the body's
+ * bottom margin that no composed line can reach. The route trailer stays a
+ * composed body line in the register the passing families use, but only in the
+ * preparer's parts of the packet - the Motion and the instructions - and never
+ * inside a court-completed section.
+ */
+async function renderDocument(text, title, componentIdentity) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
@@ -691,6 +700,9 @@ async function renderDocument(text, title) {
   const fontSize = 10.25;
   const lineHeight = 13.25;
   const maxWidth = width - (2 * margin);
+  const footerSize = 7;
+  const footerRuleY = 44;
+  const footerBaseline = 32;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
   const newPage = () => { page = pdf.addPage([width, height]); y = height - margin; };
@@ -733,6 +745,18 @@ async function renderDocument(text, title) {
       if (row) page.drawText(row, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
       y -= lineHeight;
     }
+  }
+  const footer = `Assigned component identity: ${componentIdentity}`;
+  assert.ok(componentIdentity, "every composed component must carry a page-foot identity");
+  assert.ok(font.widthOfTextAtSize(footer, footerSize) <= maxWidth, "the page-foot chrome must fit the column on one line");
+  for (const sheet of pdf.getPages()) {
+    sheet.drawLine({
+      start: { x: margin, y: footerRuleY },
+      end: { x: width - margin, y: footerRuleY },
+      thickness: 0.5,
+      color: rgb(0.72, 0.72, 0.72)
+    });
+    sheet.drawText(footer, { x: margin, y: footerBaseline, size: footerSize, font, color: rgb(0.38, 0.38, 0.38) });
   }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
@@ -913,7 +937,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     for (const item of bodies) {
       assert.ok(item.body.includes(facts["participant.full_legal_name"]));
       assert.ok(item.body.includes(ROUTE_KEY));
-      const bytes = await renderDocument(item.body, TITLES[item.component]);
+      const bytes = await renderDocument(item.body, TITLES[item.component], item.component);
       const componentPdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
       const pages = await packet.copyPages(componentPdf, componentPdf.getPageIndices());
       for (const [index, page] of pages.entries()) {
