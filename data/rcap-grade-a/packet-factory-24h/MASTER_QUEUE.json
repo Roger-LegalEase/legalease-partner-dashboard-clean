@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+  "minimumCaptainSha": "f215269b2725c15bb7e4786a6f75483b92ca76dc",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,24 +66,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 3,
+    "activeFamiliesExcluded": 5,
     "guidanceOnly": 0,
-    "remaining": 343,
+    "remaining": 341,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 9,
-    "verifyPending": 15,
-    "repairRequired": 50,
+    "verifyPending": 10,
+    "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 142,
-    "VERIFY_PENDING": 15,
+    "COMPLETE_PACKET_PROVEN": 147,
     "FAIL_REPAIR_REQUIRED": 53,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
+    "VERIFY_PENDING": 10,
     "LEGAL_BLOCKED": 9,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -110,6 +110,8 @@
     ],
     "families": [
       "il-seal-edu-set",
+      "la-987-set-aside-and-dismiss-set",
+      "mi_setaside_trafficking-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set"
     ],
@@ -294,10 +296,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -328,35 +330,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the agency request (page 2) and on the agency route sheet (page 4), under the line \"Route:\", the machine route key prints broken mid-word across two lines: line one ends \"obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and\" at 464.63pt and line two begins \"_finding_request\". The break is not on one of the token’s own separators — line one carries no terminating separator and line two opens on an orphan underscore — which is the same fault VF06 failed for ri_multiple_misdemeanors-set, and the opposite of the WA case this lane passed, where the key broke after its own hyphen (\"…-under-rcw-10-97-\" / \"060\"). Read from the composed content stream and confirmed on a local raster of canonical page 2 into /tmp: the participant sees \"participant_investigation_and\" on the last line of the request, directly under \"ATTACHED: the identity evidence and any no-charge record listed at paragraphs 3 and 5.\", with \"_finding_request\" dangling beneath it. Fixed-width char-by-char splitting is what does it: the fragment is exactly 100 characters, as the CO petition, NY, DE and MS fragments are.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
@@ -8663,10 +8641,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -8697,36 +8675,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON THREE DELIVERED PAGES, in canonical and in boundary. On the petition (page 2), the proposed order (page 3) and the filing instructions (page 5), the route key prints as \"…participant_court_petition_aft\" on one line and \"er_90_days\" on the next — the word \"after\" is severed between \"aft\" and \"er\". Nothing separates the two fragments; the break is a fixed 100-character measure, not the token’s own separator. Read from the composed content stream and confirmed on a local raster of canonical page 2. Recorded as an additional observation, not scored here: on page 3 the same broken key prints below \"DATED ……\" and below the court’s empty signature rule and its parenthetical \"(The court signs here if, and only if, it grants the petition.)\", so the machine text sits inside the block the court alone completes.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 10,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              3,
-              5
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
@@ -8774,10 +8727,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -8808,35 +8761,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the sentencing-court correction request (page 2) and the process-guidance page (page 4), the route key breaks inside the word \"request\": line one ends \"…sentencing_court_transmission_correction_r\" and line two reads \"equest\". On page 2 that lands immediately below the page’s own words, \"(The person named above signs and dates this request personally. Nothing on this page is signed or dated for them.)\", so the last thing on the participant’s request page is a severed machine token. Read from the composed content stream and confirmed on a local raster of canonical page 2.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs",
@@ -8884,10 +8813,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -8918,35 +8847,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the agency request (page 2) and the process-guidance page (page 4), the statutory section number itself is torn in half: line one ends \"…-1017-1019-1017a:section_1\" and line two begins \"017a_automatic_failure_correction\". A reader looking for the section reads \"section_1\" and then \"017a\". Read from the composed content stream and confirmed on a local raster of canonical page 2, where the fragment sits directly beneath \"(The person named above signs and dates this request personally. Nothing on this page is signed or dated for them.)\".",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs",
@@ -8994,10 +8899,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -9028,35 +8933,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the petition (page 2) and the filing instructions (page 4), the key breaks inside the section number: \"…:section_1\" then \"018_discretionary_petition\". On page 2 it prints under the petitioner’s contact block, four lines below \"DATE …… SIGNATURE OF PETITIONER ……\". The severed token is the same 100-character fixed measure the sibling 1017A family shows. Read from the composed content stream and confirmed on a local raster of canonical page 2.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition.mjs",
@@ -22462,8 +22343,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX45",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -22474,7 +22355,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ma-bmc-multi-set",
@@ -25025,8 +24907,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX44",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -25037,7 +24919,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "mn_petition_15218-set",
