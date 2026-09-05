@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 793,
+    "rows": 794,
     "independentVerdicts": 240,
     "failRepairRequired": 54,
     "passIndependent": 172
@@ -9030,6 +9030,28 @@
       "failedObligationNames": [
         "KNOWN_PREFILLS",
         "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c62b49a9b",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet does not state where self-help ends for the one thing this track exists to do. REPAIR, inside this family and inside participant-instructions.md alone: add the attorney-or-qualified-advocate review instruction for the item 2 narrative, in the adopted memo's own terms and with its own limits (it creates no upload requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation blocker), and add the scope-of-relief paragraph naming the driving record, SORA, firearm rights, restitution and the non-return of money paid. Neither needs a legal input: both are quoted, adopted and provenanced in MI.memo.json today. The second item is shared with mi_setaside_application, mi_setaside_marihuana, mi_setaside_first_owi and mi_setaside_csc4_pre2015, and the only other built Michigan family, mi-setaside-marihuana-set, omits it too, so whoever repairs it should be told it is a Michigan-wide gap and not this family's invention. No packet byte and no field map needs to change for either.",
+          "evidence": "The four selfHelpStopConditions of MI.memo.json for this track ARE stated -- participant-instructions.md 'What happens after you file' names opposition, disputed victim status, an evidentiary or contested hearing and a request for individualized advocacy as requiring a post-generation handoff, and 'What this packet is not' says the packet is not legal advice, is not filed for the participant and does not decide eligibility. That is the ground three earlier lanes measured, and it holds. What no lane has measured, and what fails here, is the SAME MEMO'S legalDesignDecision.limitations, two of which are classified packet_instruction and neither of which reaches anything the participant reads. (1) THE DECISIVE ONE, and it is specific to this track and to no other Michigan track: 'The packet carries a participant-facing instruction that the trafficking-related factual narrative should be reviewed by an attorney or qualified advocate before filing' -- classificationBasis batch_decision_matrix, sourceFile LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md, sourceHeading 'Priority issue resolution matrix / 6. Michigan'. Measured across the ten MI relief tracks in the memo, mi_setaside_trafficking is the only one carrying it, and the track's own participantInputs asks wantsAdvocateReview, 'Would you like information about attorneys and advocates who review trafficking-related statements before filing?', requirement required. The words attorney-or-advocate review, advocate, lawyer and counsel appear nowhere in participant-instructions.md, nowhere in the four delivered pages of either fixture, nowhere in build-findings.json, production-field-map.json, product-wiring.json or reports/independent-visual-review.json, and nowhere in scripts/build-census-v1-mi_setaside_trafficking-set.mjs. The packet asks the participant to write, sign and swear the nexus statement that carries the whole burden of proof under MCL 780.621d(7)(g) -- delivered page 1 item 2, which the packet correctly refuses to draft -- and then never tells them the one thing the adopted memo requires it to tell them at that point. (2) The second, shared with four other Michigan tracks rather than invented here: 'State plainly what a set-aside does not reach: the Secretary of State driving record survives, SORA registration and reporting obligations continue for a listed offence, firearm rights are not restored, restitution obligations survive, and no fine, costs or other money paid is returned' -- classificationBasis explicit_state_addendum, sourceFile LegalEase-Michigan-Record-Clearing-Legal-Review.md, sourceHeading 'TRACK 1 / FILING AND POST-FILING PROCESS'. None of SORA, firearm, restitution, driving record or Secretary of State appears in participant-instructions.md or in the packet. Not a defect and checked because the same memo forbids it: the packet never uses the word expunge for this relief, which is the third packet_instruction and the only one it satisfies."
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
