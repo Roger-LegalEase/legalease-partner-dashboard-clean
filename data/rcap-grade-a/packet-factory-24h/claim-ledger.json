@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "311c6be14f1d6a309ba9765112920ae6f1129028",
+  "generatedAtCommit": "b991e22c02c312a7408b0c590af8669d29d7eb89",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -363,10 +363,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX64",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX02."
     },
     {
       "subjectType": "packet-family",
@@ -409,10 +410,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX64",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -1503,10 +1505,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX64",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -4909,10 +4912,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX64",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX07."
     },
     {
       "subjectType": "packet-family",
@@ -5536,9 +5540,9 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF07 BLOCKED_LEGAL_INPUT at ff4dee3ab: fourteen obligations pass (ROUTE_IDENTITY discharged, 7 route-key fields carry the canonical key; the AOC-CR-288 caption-capture mis-write is absent; canonical f3859799, boundary e13fb2da, RASTER_PASS run 33927262022 still binds); CLIPPING_AND_OVERLAP blocks on the shared-flattening synthesized square at all 14 AOC-CR-288 checkboxes (AS /Off, only /Yes in /AP /N, no /MK /BC), reproduced by a zero-write baseline; the FIX50 opt-in suppressSynthesizedAppearances answers it once this builder opts in. Return at data/rcap-grade-a/packet-factory-24h/vf07/rows.json (Captain release after integrating VF07 commit 271d4b4b5)."
+      "released": true,
+      "releasedAt": "2026-09-05T18:26:02.263Z",
+      "releaseReason": "VF07 PASS_COMPLETE_INDEPENDENT at c8dd4f751: fifteen of fifteen obligations pass on the FIX55 bytes (canonical 135dc7b9, boundary 5597a281); zero differing pixels at all 14 AOC-CR-288 widget rects in both fixtures; nine counters zero; central raster owed on these bytes (the standing receipt binds the superseded pair). Return at data/rcap-grade-a/packet-factory-24h/vf07/rows.json (Captain release after integrating VF07 commit c1449549c)."
     },
     {
       "subjectType": "packet-family",
@@ -5612,10 +5616,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX65",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:42:07.763Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5703,10 +5707,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX65",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T19:24:44.226Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5955,10 +5959,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX65",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T11:45:39.699Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6019,8 +6023,9 @@
       "operation": "rapid-repair",
       "lane": "FIX62",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T20:50:21.039Z",
+      "releaseReason": "Repaired the shared host this family owns so the synthesized /Off square is never born (save without appearance generation plus suppressSynthesizedAppearances to the finalizer), and on its rebuilt fixtures 42 of 44 counted widget rects now carry exactly the pinned form's own ink with the selection mark unchanged and no other pixel moved; KNOWN_PREFILLS, REPEATING_ROWS and REQUIRED_BEFORE_FILING were not in this grant and are untouched, and central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     },
     {
       "subjectType": "packet-family",
@@ -6080,9 +6085,9 @@
       "operation": "rapid-repair",
       "lane": "FIX62",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Opted in to suppressSynthesizedAppearances as Vermont does and it repaired nothing: the East host synthesizes the square before the finalizer, so the fixtures are unchanged, CLIPPING_AND_OVERLAP stays open and raster and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix57/rows.json (Replayed by Captain from FIX57 commit a86f9c760.)"
+      "released": true,
+      "releasedAt": "2026-09-05T20:50:10.280Z",
+      "releaseReason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     },
     {
       "subjectType": "packet-family",
@@ -6112,9 +6117,9 @@
       "operation": "rapid-repair",
       "lane": "FIX62",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Opted in to suppressSynthesizedAppearances as Vermont does and it repaired nothing: the East host synthesizes the square before the finalizer, so the fixtures are unchanged, CLIPPING_AND_OVERLAP stays open and raster and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix57/rows.json (Replayed by Captain from FIX57 commit a86f9c760.)"
+      "released": true,
+      "releasedAt": "2026-09-05T20:50:10.502Z",
+      "releaseReason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     },
     {
       "subjectType": "packet-family",
@@ -6144,9 +6149,9 @@
       "operation": "rapid-repair",
       "lane": "FIX62",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Opted in to suppressSynthesizedAppearances as Vermont does and it repaired nothing: the East host synthesizes the square before the finalizer, so the fixtures are unchanged, CLIPPING_AND_OVERLAP stays open and raster and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix57/rows.json (Replayed by Captain from FIX57 commit a86f9c760.)"
+      "released": true,
+      "releasedAt": "2026-09-05T20:50:10.625Z",
+      "releaseReason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     },
     {
       "subjectType": "packet-family",
@@ -6342,7 +6347,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6477,7 +6482,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6538,10 +6543,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX60",
+      "lane": "FIX62",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T20:50:21.163Z",
+      "releaseReason": "Repaired the New Jersey host this family builds through so the synthesized /Off square is never born, and on its four rebuilt fixtures all 10 counted widget rects now carry exactly the pinned form's own ink with no pixel moved anywhere else on any page; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     },
     {
       "subjectType": "packet-family",
@@ -6658,7 +6664,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6899,7 +6905,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7156,7 +7162,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -8148,7 +8154,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:21:43.145Z"
@@ -8194,10 +8200,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX63",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX02."
     },
     {
       "subjectType": "packet-family",
@@ -8240,10 +8247,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX63",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
     },
     {
       "subjectType": "packet-family",
@@ -8286,10 +8294,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX63",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX04."
     },
     {
       "subjectType": "packet-family",
@@ -13486,7 +13495,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b94b4d3de8b73f38b989d454579af823e395a124499d2cb79941362281be4c73",
+  "claimsDigest": "54501dfa99950eab7823bea6d7f4f7209f9cd7d4d246b4f9080fecbe2463ec10",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -29413,6 +29422,132 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T18:19:49.237Z",
       "reason": "Opted in to suppressSynthesizedAppearances as Vermont does and it repaired nothing: the East host synthesizes the square before the finalizer, so the fixtures are unchanged, CLIPPING_AND_OVERLAP stays open and raster and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix57/rows.json (Replayed by Captain from FIX57 commit a86f9c760.)"
+    },
+    {
+      "lane": "FIX60",
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:21.842Z",
+      "reason": "Consolidated onto FIX62 so one worker holds one lane label and one shared host has one writer; no work was done on FIX60."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.035Z",
+      "reason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX02."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.223Z",
+      "reason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.406Z",
+      "reason": "Consolidated onto FIX63 so one worker holds one lane label and one shared host has one writer; no work was done on FIX04."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "ak-tf800-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.595Z",
+      "reason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX02."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "ak-tf805-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.761Z",
+      "reason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:22.941Z",
+      "reason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX03."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T18:22:23.128Z",
+      "reason": "Consolidated onto FIX64 so one worker holds one lane label and one shared host has one writer; no work was done on FIX07."
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_acquittal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T18:26:02.263Z",
+      "reason": "VF07 PASS_COMPLETE_INDEPENDENT at c8dd4f751: fifteen of fifteen obligations pass on the FIX55 bytes (canonical 135dc7b9, boundary 5597a281); zero differing pixels at all 14 AOC-CR-288 widget rects in both fixtures; nine counters zero; central raster owed on these bytes (the standing receipt binds the superseded pair). Return at data/rcap-grade-a/packet-factory-24h/vf07/rows.json (Captain release after integrating VF07 commit c1449549c)."
+    },
+    {
+      "lane": "FIX62",
+      "subjectType": "packet-family",
+      "subjectId": "nj_disorderly_persons-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T20:50:10.280Z",
+      "reason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
+    },
+    {
+      "lane": "FIX62",
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T20:50:10.502Z",
+      "reason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
+    },
+    {
+      "lane": "FIX62",
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T20:50:10.625Z",
+      "reason": "Repaired the New Jersey host so the synthesized /Off square is never born: the pre-finalize save no longer generates appearances and suppressSynthesizedAppearances is passed to the shared finalizer, and on the rebuilt fixtures 42 of the 44 counted widget rects now carry exactly the pinned form's own ink while the 2 that hold this family's selection mark keep it unchanged, with no pixel moved anywhere else; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
+    },
+    {
+      "lane": "FIX62",
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T20:50:21.039Z",
+      "reason": "Repaired the shared host this family owns so the synthesized /Off square is never born (save without appearance generation plus suppressSynthesizedAppearances to the finalizer), and on its rebuilt fixtures 42 of 44 counted widget rects now carry exactly the pinned form's own ink with the selection mark unchanged and no other pixel moved; KNOWN_PREFILLS, REPEATING_ROWS and REQUIRED_BEFORE_FILING were not in this grant and are untouched, and central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
+    },
+    {
+      "lane": "FIX62",
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T20:50:21.163Z",
+      "reason": "Repaired the New Jersey host this family builds through so the synthesized /Off square is never born, and on its four rebuilt fixtures all 10 counted widget rects now carry exactly the pinned form's own ink with no pixel moved anywhere else on any page; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix62/rows.json"
     }
   ],
   "reissues": [
@@ -41712,6 +41847,127 @@
       "previouslyReleasedAt": "2026-09-05T10:08:55.685Z",
       "transferredAt": "2026-09-05T18:20:18.109Z",
       "reason": "FIX57 found the New Jersey host (finalizeEastOfficialForm in scripts/build-census-v1-nj_arrest_no_conviction-set.mjs) saves the source document with pdf-lib's default updateFieldAppearances before the shared finalizer runs, so the synthesized /Off square is baked into /AP /N /Off and the FIX50 opt-in reaches nothing (22/22 with the default, 0/22 with updateFieldAppearances false); repair the host save and opt in, rebuild every family on the host, confirm every write unchanged. Its other three failed obligations (KNOWN_PREFILLS, REPEATING_ROWS, REQUIRED_BEFORE_FILING) stay open for a later lane; this grant covers the host repair only."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX60",
+      "toLane": "FIX62",
+      "previouslyReleasedAt": "2026-09-05T18:22:21.842Z",
+      "transferredAt": "2026-09-05T18:22:21.938Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on pa_490_nonconviction-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. This family builds through the New Jersey host FIX62 is repairing (finalizeEastOfficialForm), so it belongs to that lane."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX63",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.035Z",
+      "transferredAt": "2026-09-05T18:22:22.126Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on va_seal_ancillary_matter_only-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. The three share the va_seal_petition_misdemeanor host, so one lane writes it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX63",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.223Z",
+      "transferredAt": "2026-09-05T18:22:22.309Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on va_seal_enumerated_seven_year-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. The three share the va_seal_petition_misdemeanor host, so one lane writes it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX63",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.406Z",
+      "transferredAt": "2026-09-05T18:22:22.500Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on va_seal_petition_felony-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. The three share the va_seal_petition_misdemeanor host, so one lane writes it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ak-tf800-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX64",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.595Z",
+      "transferredAt": "2026-09-05T18:22:22.676Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on ak-tf800-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ak-tf805-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX64",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.761Z",
+      "transferredAt": "2026-09-05T18:22:22.838Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on ak-tf805-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX64",
+      "previouslyReleasedAt": "2026-09-05T18:22:22.941Z",
+      "transferredAt": "2026-09-05T18:22:23.030Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on co_motion_seal_nonconviction-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX64",
+      "previouslyReleasedAt": "2026-09-05T18:22:23.128Z",
+      "transferredAt": "2026-09-05T18:22:23.214Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on me-seal-prost-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX65",
+      "previouslyReleasedAt": "2026-09-04T22:42:07.763Z",
+      "transferredAt": "2026-09-05T18:22:23.313Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on nc_146_dismissal_petition-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-nonconviction-close-petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX65",
+      "previouslyReleasedAt": "2026-09-02T19:24:44.226Z",
+      "transferredAt": "2026-09-05T18:22:23.405Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on nd-nonconviction-close-petition-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX65",
+      "previouslyReleasedAt": "2026-09-05T11:45:39.699Z",
+      "transferredAt": "2026-09-05T18:22:23.504Z",
+      "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on nh_petition_nonconviction_pre2019-set: opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the synthesized squares are gone and every write unchanged; raster and re-read then owed. Each builder calls the finalizer directly."
     }
   ],
   "withdrawals": [
