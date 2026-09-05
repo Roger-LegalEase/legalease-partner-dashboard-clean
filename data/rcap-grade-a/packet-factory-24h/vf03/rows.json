@@ -12444,6 +12444,145 @@
     "data/record-clearing/legal-design-packet-set-manifests.json"
    ],
    "whatThisDoesNotEstablish": "An independent PASS proves the packet complete. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "vt_seal_nonconviction-set",
+   "lane": "VF03",
+   "verifier": "VF03 independent-verification (vt_seal_nonconviction read, post-FIX34)",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+   "verifiedAtBase": "4dd482867",
+   "canonicalSha256": "35989442e0569baaa8e062249850f5f29e528ebce972a7b0fcea2bf391026543",
+   "boundarySha256": "1c0dc4cd9fe86227cfe6e33e87d093056218c8f95ec06cbb95f3c29195b44fec",
+   "rasterState": "RASTER_PASS",
+   "rasterReceiptRun": "33965687102",
+   "rasterReceiptCheckedHere": "The receipt in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json rows[148] binds boundToCanonicalSha256 35989442... and boundToBoundarySha256 1c0dc4cd..., job 101305567089 success, canary job 101305294436 passed in the same run. sha256sum on disk returns exactly those two digests, so the receipt covers these bytes and not an earlier build. Recorded observation, not a failure of an obligation: the family's own build-status.json still reads rasterState BUILT_RASTER_PENDING and rasterEngine null, which is what FIX34's --no-raster build wrote; product-wiring.json binding.acceptanceReceipt has been repinned to this run but build-status.json has not been refreshed.",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 11/13 (4 not applicable), run once on the complete tree and recorded here. Full non-sparse checkout confirmed: core.sparseCheckout false, 0 skip-worktree entries, git status clean, 15940 tracked paths present. The two failures are environmental, not integrity: (1) private_is_git_ignored fails only because private/ is a symlink in this worktree, so `git check-ignore -q private/` returns 'pathspec beyond a symbolic link'; `git check-ignore private` resolves ignored via .gitignore line 53 and `git ls-files private/` returns 0 tracked paths, so the check's substance holds. (2) corpus_matches_committed_index reports 1 absent of 24 sampled, the same unmounted-custody reach earlier VF03 rows recorded; 648 of the 984 committed index entries name rcap-d-source-packs and other custodies not mounted here. family_sources_bind passes 3/3 by exact SHA-256. First attempt at the worktree failed on ENOSPC (597 MB free against a 1.42 GB tree); disk was freed and the checkout completed before any obligation was measured.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set -> PASS_COMPLETE, 19/167 written",
+    "whyZeroIsNotAPass": "The counters read the field map. The failure recorded below is a component the packet-set manifest names and the field map never carries a row for, so no counter could have seen it."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "product-wiring.json and reports/rendered-artifacts.json carry the three route keys obligation:unit:VT:vt_seal_nonconviction:{vt-nonconviction-automatic-and-verification, vt-nonconviction-ordinary-petition, vt-nonconviction-stipulated-petition}, and all three are still carried by the census (route-obligation-census-v1/category-a-implementation-waves.json and route-obligation-census-candidate/canonical-route-universe.json). source-receipt.json routeSelectionId is vt-seal-nonconviction-200-00130-complete-set. The three binaries delivered are the Vermont Judiciary's 200-00130, 200-00132 and 600-00228, which are the forms 13 V.S.A. Sec. 7603 uses, and the packet marks question 2 as non-conviction.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Re-resolved by content hash, not by declared path, across the two mounted custodies (Master Library Edition 1 and human-source-returns, 500 files walked). All three hit byte-exact and at their declared pathInArchive: 200-00130 ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed / 1535506 bytes; 200-00132 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 / 1999317; 600-00228 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 / 2871072. Byte lengths equal source-receipt.json. Independently, the preflight's family_sources_bind returns 3/3 by exact SHA-256.",
+     "finding": "Every source binds by exact SHA-256 recomputed from the bytes."
+    },
+    "COMPONENT_SET": {
+     "result": "FAIL",
+     "evidence": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set] names FIVE components: automatic-sealing-verification-guidance-1 (requirement required, outputStrategy process_guidance), petition-2 (200-00130), stipulation-and-proposed-order-3 (200-00132), interests-of-justice-prompts-4 (requirement conditional, conditionDescription 'Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden', outputStrategy process_guidance) and fee-waiver-application-5 (600-00228). The packet declares FOUR: production-field-map.json componentSet is [petition, stipulation_and_proposed_order, fee_waiver_application, process_guidance] and documentOfComponent maps process_guidance to itself; no file in the family names interests_of_justice_prompts or automatic_sealing_verification_guidance. Measured on the delivered pages: the composed guidance, packet pages 7-8, discharges component 1 in substance under its heading '3. THE ROUTE THAT FILES NOTHING'. Component 4 is rendered nowhere. pdftotext over pages 7-8 of both fixtures returns zero occurrences of 'interest' or 'justice'; participant-instructions.md carries the phrase three times, none of them a prompt - one blanks-table row ('your own statement of why sealing is in the interests of justice - this is yours to write and the platform never writes it for you') and two self-help stop conditions. The condition on component 4 is MET on these bytes: the guidance page names the route as '1. THE CONTESTED PETITION ... 13 V.S.A. Sec. 7603(g)' and product-wiring binding.instrumentKinds carries 'Ordinary contested petition at any time, Sec. 7603(g)'. legal-design-track-registry.json, unit vt-nonconviction-ordinary-petition, states the requirement in terms: 'The interests-of-justice statement is a participant-authored field with prompts and never generated argument, because on this route the burden is affirmative on the petitioner rather than on the State.' The packet supplies the field and the disclaimer and supplies no prompts. Unlike fee_waiver_application, which carries a componentRequirements entry recording conditionMetOnThisTrack false, filingDispositionForThisTrack do_not_file and deliveryTreatment delivered_unfilled, component 4 carries no componentRequirements entry at all: it is absent silently rather than dispositioned. Recorded as evidence under the same obligation rather than as a second failure: the registry assigns component 1 the job of confirming 'the disposition is one of the three triggers, confirms 60 days have run, and explains how to check whether the record still appears', while the delivered guidance page says 'This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from' - true of the three bound PDFs, but the manifest and registry do establish both (Sec. 7603(a)(1)'s 60 days after final disposition, the three triggers, and Form 200-00331 as the record-search route), so the required component tells the participant no timetable exists where the record supplies one.",
+     "finding": "A component the route names is not rendered and not dispositioned. REPAIR: on the Sec. 7603(g) route either render interests_of_justice_prompts as the manifest and registry describe it - participant-authored prompts, never generated argument - or add a componentRequirements entry for vt_seal_nonconviction-interests-of-justice-prompts-4 stating the condition and why it is not met, the same treatment the fee waiver already receives. Separately, bring the guidance page's automatic-route section into line with the record it renders: the 60-day clock from final disposition, the three Sec. 7603(a)(1) triggers, and Form 200-00331 as how the participant checks."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "knownRequiredFieldsMissing 0 measured here. All eighteen writes decoded from the flattened widget XObjects of both fixtures and read against their printed labels, then confirmed on a local raster: canonical page 1 case no '123-4-21 Cncr', 'Jordan Avery Reyes', DOB '1991-04-17'; page 2 printed name, '42 Maple Street', 'Burlington, VT 05401', '802-555-0142', 'jordan.reyes@example.org'; page 3 the same eight facts in the stipulation's blocks; pages 7-8 petitioner and case number on the composed page. Every one is visible on the page it belongs to. No fact the platform holds is refused anywhere: the eight writes FIX34 removed from 600-00228 are written on the petition and stipulation instead, so nothing was lost by delivering the waiver blank.",
+     "finding": "Every fact the platform holds is written and visible where it belongs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "This is the obligation VF01 failed at aa866d165 and it holds on these bytes. All 46 requiredBeforeFiling declarations in production-field-map.json match their disclosureLabel verbatim in participant-instructions.md - 0 unmatched, checked against the file. All twenty checkboxes are now declared: 12 on 200-00130, 2 on 200-00132, 6 on 600-00228, each carrying a printedCaption, a disposition and a participantInstruction, and all twenty captions appear verbatim in the instructions' generated checkbox table. No caption carries a control character: every printedCaption, printedLabel, effectiveLabel and participantInstruction across all 167 rows scanned for codepoints below 32 and 127 - none found, so the Wingdings box glyphs VF01 and FIX34 both saw are gone.",
+     "finding": "Every declared item is named in participant-instructions.md, and the twenty checkboxes VF01 found unmapped are declared with the words the form prints."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing 0 measured here. One election is route-determined and it is made: production-field-map.json routeSelectionsMade carries a single entry, 200-00130 field 18, box x 55.11-69.51 y 292.33-306.73, inset 2, two diagonal strokes. Read back from the bytes rather than from the map: the last content stream of page 1 in BOTH fixtures is 182 bytes and contains exactly two stroked segments, (57.11,294.33)-(67.51,304.73) and (57.11,304.73)-(67.51,294.33) at 1.2 w - the declared box inset by exactly 2 on all four sides, two painted strokes, no new box drawn and the court's own box not redrawn. The raster shows the X inside the printed box and touching no glyph. The ten option words that share a YES/NO line with their opposite were re-located independently against the pinned binaries with pdftotext -bbox: for each box, the first printed word to the right of the widget rect on the widget's own line, after discarding the form's own box glyph, is the word the map declares - 14 of 14 MATCH, including 200-00130 36a YES at x50.8 against 36b NO at x97.0 and the four 600-00228 Yes/No pairs. The three Sec. 7603(a)(1) endings stay the participant's, which the registry supports: only the participant knows whether no charge was filed, probable cause was not found, or the charge was dismissed.",
+     "finding": "The one route-determined election is selected, the mark is drawn where the map says it is, and routeSelectionsMade is read back from the strokes actually drawn."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows 0 measured here. No write in either fixture lands in a repeating row: the only field-map write whose label contains 'docket number' is the header 'Case No. (docket number)'. On the raster, 200-00130 question 1 (three rows of Description of Offense / Year / Docket Number) and question 3 (three rows of Offense / Date of Offense / Date of Charge / Date of Conviction), the stipulation's three offence rows, both State Agency / Address pairs and every 600-00228 vehicle, real-property, cash and other-asset row are wholly unwritten in both canonical and boundary.",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "protectedWrites 0 measured here, and read first-hand from the flattened appearances of all 8 pages of both fixtures. No write's label matches any signature, signature-date, certificate-of-mailing, court-only or prosecutor-only pattern. On the pages: petition page 2 leaves 'Signature of Defendant' and 'Date of Signature' blank while printing name, address, city/state/zip, phone and email beneath; stipulation page 3 leaves the Defendant's Date and Signature blank and the entire State's Attorney block - Date, Signature, Printed Name - blank. Decisively, packet page 4, the ORDER page of 200-00132, rasters pixel-identical to page 2 of the pinned source binary (0 differing pixels at 110 dpi), so the judge's page carries no ink at all.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum on disk: canonical.pdf 35989442e0569baaa8e062249850f5f29e528ebce972a7b0fcea2bf391026543 (857566 bytes), boundary.pdf 1c0dc4cd9fe86227cfe6e33e87d093056218c8f95ec06cbb95f3c29195b44fec (857906). Equal to reports/rendered-artifacts.json, to product-wiring.json proposedRepresentation and binding.acceptanceReceipt, and to the RASTER_QUEUE receipt for run 33965687102. The two per-document 600-00228 fixtures both hash 2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42, which is what a form carrying no participant value should do: canonical and boundary differ only in facts and the waiver receives none.",
+     "finding": "Canonical and boundary bytes hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Reproduced page by page from the bytes against the 8-entry pageManifest, using each page's own printed footer: p1 '200-00130 Page 1 of 2', p2 '200-00130 Page 2 of 2', p3 '200-00132 Page 1 of 2', p4 '200-00132 Page 2 of 2', p5 '600-00228 Page 1 of 2', p6 '600-00228 Page 2 of 2', p7-p8 the composed process-guidance page. Both fixtures carry 8 pages. Order and document identity agree with the manifest entry for entry.",
+     "finding": "The rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "visualDefects 0 measured here, and the whole standard measured on the delivered pages rather than inferred. All 16 pages (both fixtures) rastered locally at 110 dpi and inspected, with 2x-4x crops of the route mark, the case-number rule and the stipulation's mailing-address block. Geometry: every text write is a flattened widget whose own appearance clips it - each stream opens '1 1 m ... W n' one point inside its BBox - so no value can leave its write box; the boundary fixture's longest values (Maria-Alejandra O'Shaughnessy-Whitfield, 1188 Upper Notch Crossing Road Apartment 14B, maria.alejandra.oshaughnessy.whitfield@longmailexample.org) shrink to fit and none is cut. Source-shipped ink: the pinned binaries carry no checked box and no text value; their only field values are whitespace-only dropdown defaults (Unit, Division), which render as nothing. Invisible writes: every content stream and every XObject of both fixtures scanned - no text render mode 3, no white-filled text, no zero-size font; the 1pt font flagged on page 1 is present identically in the pristine 200-00130 and is the Judiciary's own content. Ink on 600-00228: packet page 5 differs from page 1 of the pinned source by 428 pixels of 1,131,350 and page 6 by 138, and every differing pixel is inside one of the six checkbox rects - the flattened widget streams there are 21-30 bytes each, one 're' plus one 's', which is the source's own /Off appearance ('1 g 0 0 14.4 14.4 re f 0.5 0.5 13.4 13.4 re s') with the white fill dropped. No glyph, no ZaDb mark, no participant value anywhere on those two pages. No orphaned signature page, no route-key-only page, no truncation, no overprint.",
+     "finding": "No ink outside a measured write box, and 600-00228 carries no ink but the form's own unchecked-box border."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md, '## Where you file this': 'File the completed packet with the Vermont Superior Court, Criminal Division, in the unit where your case was decided', with the Unit box identified and the clerk named as who can resolve the unit from the docket number. The composed guidance page repeats it for the contested route. legal-design-track-registry.json gives venue as 'The Criminal Division of the Vermont Superior Court (13 V.S.A. Sec. 7601(1)), in the county that handled the case'.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md, '## What it costs, and when the fee-waiver form applies': no filing fee on this track, because under 32 V.S.A. Sec. 1431(e) the $90 fee reaches only sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a). Form 600-00228 is named as the statewide waiver route, stated to be conditional, stated to be delivered blank, and stated to be used only where a fee is actually charged and the applicant cannot pay - 'If a court ever does charge you a fee on a different matter, that is when the form is used'. The guidance page carries the same under 'NO FILING FEE ON THIS TRACK'. Ruling on the question this read was asked: delivering 600-00228 unfilled IS what the record requires. The manifest carries it as component 5 of this packet set, so dropping it would remove a component the set names; the manifest resolves its condition against this track ('Only where a filing fee is charged; on this track none is') and the apply_fee_waiver action says in the participant's own words 'Use it only if you are asking the court to waive the filing fee'; and page 2 of the form is a declaration under oath, so prefilling it would assert the participant's finances on a form they are told not to file. Delivered unfilled keeps the component and asserts nothing. Verified on the bytes rather than taken from the record: the two 600-00228 pages carry no participant ink at all.",
+     "finding": "The fee and the waiver route are stated, and the waiver form is correctly delivered unfilled."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md, '## Filing and prosecutor workflow': 'You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor. If you use the stipulation, sign it and take or send it to the prosecuting office; the prosecutor signs and files it with the court.' The guidance page repeats it under 'NO PARTICIPANT SERVICE OF PROCESS'. This matches the manifest's serve_party action, which records that under Sec. 7602(a)(4) the respondent files the stipulation.",
+     "finding": "Who must be served, and how, is stated, including that the participant serves nobody."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "All six selfHelpStopConditions the track registry records for vt_seal_nonconviction appear in participant-instructions.md under '## When to stop and get a lawyer', matched verbatim 6 of 6: the interests-of-justice objection converting the automatic route into a Sec. 7603(b) hearing, the prosecutor opposing or the court scheduling a hearing, any pending charge, an unclear Sec. 7603(a)(1) trigger, expecting expungement rather than sealing after Act 60, and immigration consequences. The instructions add the point in terms - 'A scheduled hearing is where this packet's self-help ends' - and the guidance page closes with what the packet is not.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [
+    "COMPONENT_SET"
+   ],
+   "historyReadFresh": "VF01's FAIL row for this family in vf01/rows.json at aa866d165 (single failed obligation REQUIRED_BEFORE_FILING: twenty checkboxes with no field-map row; plus a COMPONENT_SET finding that 600-00228 was generated and prefilled although its condition is unmet and its disposition do_not_file), and FIX34's return in fix34/rows.json. Both read, neither copied: every obligation below is measured on the bytes at 4dd482867.",
+   "whatFix34FixedAndHolds": "All twenty checkboxes are declared with the printed caption, a disposition and an instruction; the option word on each shared YES/NO line is located against the binary and I re-located all fourteen independently; routeSelectionsMade is read back from the two strokes actually drawn and I re-read those strokes from the page-1 content stream; 600-00228 is delivered unfilled and carries no ink; the canonical and boundary digests are the ones FIX34 reported. FIX34 discharged what it was asked to discharge.",
+   "whyThisStillFails": "FIX34 repaired REQUIRED_BEFORE_FILING and acted on the fee-waiver finding, and both hold. The failure recorded here is one neither VF01 nor FIX34 measured: a fifth manifest component, interests-of-justice prompts on the Sec. 7603(g) route, that the packet neither renders nor dispositions. No counter reads it, because the field map carries no row for a component that was never built.",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--600-00228.pdf",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/fix34/rows.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf"
+   ],
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "selfVerified": false,
+   "whatThisDoesNotEstablish": "An independent FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record, and released no claim. Nothing here approves an output or opens a commercial route."
   }
  ],
  "supersededLaneMembership": {
