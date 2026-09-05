@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "22774eeba6e692044d1d5df5b8db3aa29649404e",
+  "minimumCaptainSha": "fba17f4724585696faeccbda301c3f5246b01612",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,18 +72,18 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 28,
-    "repairRequired": 44,
+    "verifyPending": 24,
+    "repairRequired": 47,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 141,
-    "FAIL_REPAIR_REQUIRED": 45,
+    "COMPLETE_PACKET_PROVEN": 142,
+    "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
-    "VERIFY_PENDING": 28,
     "SOURCE_BLOCKED": 6,
+    "VERIFY_PENDING": 24,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -4986,7 +4986,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -5020,7 +5025,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
@@ -22367,10 +22372,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22400,18 +22407,90 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "KNOWN_PREFILLS",
         "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
           "obligation": "SOURCE_IDENTITY",
-          "finding": null,
-          "evidence": "This is an authority-only composition: custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinariesRequired 0, documents[] and sources[] both empty, so no binary hash is owed and none is missing. But the receipt's own bindingMethod claims 'the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time', and one of the eight groundingRecords does not bind. data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json is pinned at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B; the file at this base hashes 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B. The other seven pins all re-hash equal. This is NOT the AR-class false failure: I recovered the blob carrying the pinned hash (commit b45f513141cb796e806a4cd4c69c989647d1b190) and compared this family's own MASTER_QUEUE entry object-for-object. It is not byte-identical - at the pinned hash LA read state 'SOURCE_READY', artifactStatus 'NOT_RENDERED', buildScriptExists false, completenessStatus 'NOT_BUILT', counters null. The pin predates this family's own build, so no identityRefresh asserting an unchanged node can cure it. Two further points in the family's favour, both verified here: (a) the identityRefresh that IS present, on data/record-clearing/legal-design-packet-set-manifests.json, is sound - I recovered the historical blob at was.sha256 713ed7ab... from commit 0be1fee76 (exactly the previousPinLastSeenAtCommit it names) and this family's packetSet entry is object-identical to the current one; (b) the pin was ALREADY stale at base 5de917b3, where MASTER_QUEUE hashed 1f4c2f66..., so the earlier VF06 PASS did not catch it and this is a genuine miss rather than later drift. Also inconsistent: allSourcesExact is false here while RI and VT, authority-only compositions in the same posture with zero binaries owed, both declare true; the completeness contract reads that boolean directly and books it to visualDefects."
+          "finding": "Six of the seven grounding records recompute exactly. The seventh does not: source-receipt.json pins route-obligation-candidate.json at 9816a479…/2607149 B and the file on disk at this base is 4d0eb74b…/2625273 B. The receipt's own bindingMethod says every grounding record is bound twice, whole file and this family's own entry, and only the whole-file half is stale — the family's route node still canonicalises to 3071 bytes and hashes to 0cbbf35e…, unchanged. REPAIR: refresh the groundingRecords[1] sha256 and byteLength to the current file and leave boundEntry alone; the shared census moved because other lanes edited other routes, so no legal content of this family changed and nothing needs rebuilding. Recorded as a FAIL because the obligation is that every source binds by SHA-256 recomputed from the bytes, and this one does not.",
+          "evidence": {
+            "pinsChecked": 7,
+            "pinsMatching": 6,
+            "stalePin": {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "at": "source-receipt.json groundingRecords[1]",
+              "declaredSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+              "declaredByteLength": 2607149,
+              "recomputedFromDisk": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+              "diskByteLength": 2625273
+            },
+            "boundEntryStillBinds": {
+              "pointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]",
+              "declaredSha256": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
+              "recomputedHere": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
+              "canonicalByteLength": 3071,
+              "canonicalisation": "JSON with object keys sorted at every depth, no whitespace",
+              "match": true
+            },
+            "ownerDeterminationBinds": {
+              "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+              "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+              "match": true,
+              "decision": "LA-STATUTORY-FORMS: COMPOSE_FROM_AUTHORITY"
+            },
+            "noBinaryOwed": "custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinariesRequired 0; there is no official-form binary to rehash and none is claimed."
+          }
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The delivered Motion to Set Aside Conviction and Dismiss Prosecution names no offence and cites no statute. Where the offence wording belongs the page prints 'Offense wording from the canonical fixture court record', and where the statutory citation belongs it prints 'Statute citation from the canonical fixture court record'. Both are declared writes in production-field-map.json bound to case.conviction_offense and case.conviction_statute, so the completeness verifier counts them written and returns knownRequiredFieldsMissing 0 over two fields whose value is a description of where the value should have come from. On the boundary fixture the same defect reaches a third field, the period of the deferred sentence. A court reading this motion cannot tell which conviction it is asked to set aside. REPAIR: the fixture fact map for case.conviction_offense, case.conviction_statute and case.deferral_period must supply an offence description, a Louisiana statutory citation and a stated period; a value that describes the field is not a value.",
+          "evidence": {
+            "placeholderInkOnTheDeliveredPage": [
+              {
+                "fixture": "canonical",
+                "page": 1,
+                "field": "LA-CCRP-ART-987.conviction_statute",
+                "factId": "case.conviction_statute",
+                "labelWordsAt": "x 60.0-137.7, yMin 265.0 (pdftotext -bbox, top-down)",
+                "printedLine": "Conviction statute: Statute citation from the canonical fixture court record"
+              },
+              {
+                "fixture": "canonical",
+                "page": 1,
+                "field": "LA-CCRP-ART-987.conviction_offense",
+                "factId": "case.conviction_offense",
+                "labelWordsAt": "x 60.0-177.9, yMin 251.75",
+                "printedLine": "Conviction offense wording: Offense wording from the canonical fixture court record"
+              },
+              {
+                "fixture": "boundary",
+                "page": 1,
+                "field": "LA-CCRP-ART-987.conviction_statute",
+                "printedLine": "Conviction statute: Statutory citation exactly as it appears on the boundary fixture court record"
+              },
+              {
+                "fixture": "boundary",
+                "page": 1,
+                "field": "LA-CCRP-ART-987.conviction_offense",
+                "printedLine": "Conviction offense wording: Offense wording exactly as it appears on the boundary fixture court record, including the full court-record description"
+              },
+              {
+                "fixture": "boundary",
+                "page": 1,
+                "field": "LA-CCRP-ART-987.deferral_period",
+                "factId": "case.deferral_period",
+                "printedLine": "Period of the deferred sentence: Five years and the full period stated in the boundary fixture court record"
+              }
+            ],
+            "howRead": "pdftotext -layout over the delivered bytes and a 100 dpi raster of page 1 read directly; the strings are visible ink, not metadata.",
+            "comparison": "The same build writes real values for every neighbouring field — 'Misdemeanor - Article 894(B)', '2021-04-17', '2021-06-01', 'Two years', '2023-06-01', 'Tangipahoa Parish', 'TEST-2026-000001' — so this is not a house convention for fixtures. The Arizona family verified in the same read writes 'Possession of a dangerous drug, A.R.S. 13-3407(A)(1), a class 4 felony' in the equivalent field."
+          }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
@@ -24921,11 +25000,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24955,18 +25036,89 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "evidence": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into three caption widgets that are too small for it, and the appearance stream clips it. Measured from the bytes: the string is complete in the stream (hex 323032342D...2D4659 decoded from the /Tx BMC block), text origin Tm x=2.00, required width 163.95pt by Helvetica AFM metrics. Page 1, FlatWidget-6857870938, /BBox [0 0 160.437 10.36] - overflow 5.51pt. Page 2, FlatWidget-9538628408, /BBox [0 0 103 12] - overflow 62.95pt. Page 3, FlatWidget-1316047934, /BBox [0 0 103 12] - overflow 62.95pt. Pages 2 and 3 additionally carry an explicit clip path '2 2 m 2 10 l 101 10 l 101 2 l h W n', so only about 99pt of a 164pt string can appear: pdftotext recovers '2024-0011882-SUPPLEMENTA' on both pages, i.e. the printed case number stops mid-token and loses 'L-FY'. Independently confirmed by MediaBox containment - on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. There is no auto-shrink and no unfittable handling: reports/actual-writes.json for the boundary fixture claims unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three, because the builder's readback reads the string in the appearance stream and never measures whether it fits its box. The canonical fixture is clean - its 14-character case number fits. This is boundary-only, and MI has no raster directory, so no raster receipt covers it."
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The delivered MC 227b names the applicant nowhere. The Parties box that should carry the applicant's name, address and telephone is blank, and the field map's own refusal says in one sentence both that 'the platform holds no value for this' and that 'The platform holds all three'. The operative reason it gives — that the build 'has no way to compose them into a single block for this form' — is a statement about the build, which is exactly what the completeness contract classes as policy-shaped and refuses. Beside that, the whole item-1 conviction table and the whole item-2 nexus statement are blank, so a court receives a sworn application that identifies neither the applicant nor the convictions to be set aside. Two fields of 102 carry ink: the county and the case number. REPAIR: write the dinfo box from participant.full_legal_name, participant.street_address, participant.city_state_zip and participant.phone as a multi-line block inside the 253.3 x 46.8 rect at page 1 (320, 581.4) — the same three facts the Arizona and Vermont families in this read write into three separate boxes — and take item 1's crime, charge code, conviction date and case number from the same screening record that supplied 2019-004217-FY to the caption.",
+          "evidence": {
+            "inkOnTheDeliveredCanonicalPages": [
+              {
+                "page": 1,
+                "at": "36.0,672.0",
+                "value": "Wayne"
+              },
+              {
+                "page": 1,
+                "at": "410.4,698.0",
+                "value": "2019-004217-FY"
+              },
+              {
+                "page": 2,
+                "at": "472.5,714.2",
+                "value": "2019-004217-FY"
+              },
+              {
+                "page": 3,
+                "at": "472.5,714.2",
+                "value": "2019-004217-FY"
+              }
+            ],
+            "inkedWidgetsTotal": {
+              "canonical": 4,
+              "boundary": 4
+            },
+            "decisiveField": {
+              "acroFieldName": "dinfo",
+              "fieldId": "MC-227B/dinfo",
+              "page": 1,
+              "rect": {
+                "x": 320,
+                "y": 581.4,
+                "width": 253.3,
+                "height": 46.8
+              },
+              "printedLabel": "Defendant's name, address, and telephone no.",
+              "disposition": "REQUIRED_BEFORE_FILING",
+              "reasonAsWritten": "the participant supplies this before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs"
+            },
+            "contractClauseApplied": "REQUIRED_BEFORE_FILING_CONDITIONS, GENUINELY UNAVAILABLE — 'the platform holds no value for the fact'. POLICY_SHAPED_REASONS — 'A case fact does not stop being required because the build declines to write it.'",
+            "convictionTable": "all sixteen cells of the four-row item-1 conviction table are blank in both fixtures; the packet's own convictionTableNote says so",
+            "nexusStatement": "all five lines of item 2, the direct-result nexus that is the statutory ground for this application, are blank"
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two failures. First, the dinfo declaration does not meet the contract's GENUINELY UNAVAILABLE condition, so a required known fact is being carried as a participant item. Second, all fourteen checkbox fields on MC 227b are absent from the field map, so fourteen blanks on the delivered pages have no disposition from the closed vocabulary and unclassifiedBlanks reads 0 over a map that never saw them. Among the unmapped are the caption election THE PEOPLE OF (somcheck / peoplecheck), the item-3 and item-4 a/b declarations about earlier applications, the item-5 deferred-and-dismissed declaration, and the multiple-case-numbers box. participant-instructions.md does describe the item-3, item-4 and item-5 selections to the participant, so the gap is in the map and the counters rather than in what the participant is told. REPAIR: add a field-map row for each of the fourteen with a disposition from the closed vocabulary, and re-run the completeness verifier over the full 102.",
+          "evidence": {
+            "declaredItems": 69,
+            "allNamedInParticipantInstructions": true,
+            "failedCondition": "GENUINELY UNAVAILABLE, on MC-227B/dinfo, for the reason set out under KNOWN_PREFILLS",
+            "sourceFieldsAbsentFromTheFieldMapEntirely": [
+              "multcaseno (p1, 414.0,675.4)",
+              "somcheck (p1, 40.2,597.6)",
+              "peoplecheck (p1, 40.2,574.0)",
+              "noappcheck (p2, 50.4,673.8)",
+              "prevappcheck (p2, 50.4,661.3)",
+              "noappcheck2 (p2, 51.0,504.8)",
+              "prevappcheck2 (p2, 51.0,492.8)",
+              "anycheck (p2, 51.6,336.0)",
+              "defercheck (p2, 333.6,336.0)",
+              "actcountycheck (p2, 347.1,133.0)",
+              "electcheck (p2, 39.6,120.0)",
+              "posnoticecheck (p3, 367.7,503.3)",
+              "posofficialcheck (p3, 39.0,479.7)",
+              "posattygencheck (p3, 39.0,456.0)"
+            ],
+            "coverageMeasurement": "the bound binary carries 102 AcroForm fields read first-hand with pdf-lib; production-field-map.json carries 88 rows (2 writes and 86 refusals); the 14 missing are every checkbox on the form. For comparison, the Arizona family verified in the same read maps 71 of 71 and 41 of 41."
+          }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
@@ -43484,11 +43636,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf35",
-        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43518,18 +43672,52 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
-          "evidence": null
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Twenty AcroForm fields across the three bound source binaries have no row in production-field-map.json. Each renders as a blank control on a delivered page and carries no disposition from the closed vocabulary, so unclassifiedBlanks reads 0 over a map that never saw them. Two of the twenty matter beyond bookkeeping: the stipulation's consent-to-email election is left blank on a page where the packet has already written the email address, and the packet's own route-selection mark lands on a field the map does not carry while routeSelectionsMade is empty. The 46 declarations the map does carry are sound — each is named verbatim in participant-instructions.md with what the participant must supply, and the instructions also explain the three non-conviction endings in prose even though the checkboxes are unmapped. REPAIR: add a field-map row for each of the twenty with a disposition from the closed vocabulary, record the field-18 mark in routeSelectionsMade, and re-run the completeness verifier over the full 161.",
+          "evidence": {
+            "declaredItems": 46,
+            "allDeclaredItemsNamedInParticipantInstructions": true,
+            "sourceFieldsAbsentFromTheFieldMapEntirely": {
+              "200-00130": [
+                "10 (p1, 55.1,444.7)",
+                "12 (p1, 91.1,387.0)",
+                "14 (p1, 91.1,370.4)",
+                "15 (p1, 91.1,340.9)",
+                "16 (p1, 91.1,325.3)",
+                "17 (p1, 91.1,309.3)",
+                "18 (p1, 55.1,292.3)",
+                "19 (p1, 51.0,249.7)",
+                "20 (p1, 72.4,219.4)",
+                "21 (p1, 72.4,203.9)",
+                "36a (p2, 34.3,458.2)",
+                "36b (p2, 81.3,458.2)"
+              ],
+              "200-00132": [
+                "check box 1 (p1, 35.8,251.2)",
+                "chec box 2 (p1, 80.8,251.2)"
+              ],
+              "600-00228": [
+                "15 (131.3,438.4)",
+                "16 (173.6,438.4)",
+                "21 (212.9,335.1)",
+                "22 (249.2,335.1)",
+                "72 (152.0,731.1)",
+                "73 (194.3,731.1)"
+              ]
+            },
+            "coverageMeasurement": "the three bound binaries carry 48, 33 and 80 AcroForm fields read first-hand with pdf-lib; production-field-map.json carries 36, 31 and 74 rows. All 20 missing are checkboxes. For comparison, the Arizona family verified in the same read maps 71 of 71 and 41 of 41.",
+            "whatTheUnmappedOnesAre": "200-00130 fields 19, 20 and 21 are the three § 7603(a)(1) non-conviction endings on question 2 — cited or arrested but never charged, charge filed and no probable cause found, charge filed and later dismissed — none marked. 200-00132 'check box 1' and 'chec box 2' are the YES/NO consent to receive documents by email, unmarked on a page where the packet writes the email address immediately below the question. 200-00130 fields 10, 12, 14, 15, 16 and 17 are the conviction-branch controls the route does not use. Field 18 is the one the packet actually marks.",
+            "internalContradiction": "production-field-map.json routeSelectionsMade is [] while reports/actual-writes.json records a route-selection mark on field 18 in both fixtures, and field 18 has no field-map row at all — so the packet's single drawn mark is on a field the map does not carry."
+          }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",

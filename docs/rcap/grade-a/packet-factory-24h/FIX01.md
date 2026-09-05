@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `22774eeba6e692044d1d5df5b8db3aa29649404e` (or the newer dispatch base)
+**Minimum required ancestor:** `fba17f4724585696faeccbda301c3f5246b01612` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'az_marijuana_expungement_limited_jurisdiction-set' \
   --codex-cloud \
-  --minimum-captain-sha 22774eeba6e692044d1d5df5b8db3aa29649404e
+  --minimum-captain-sha fba17f4724585696faeccbda301c3f5246b01612
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,7 +43,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'co_motion_seal_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'co_petition_seal_arrest-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nv_seal_probation_family-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'la-987-set-aside-and-dismiss-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -67,7 +67,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `co_motion_seal_conviction-set`
 - `co_petition_seal_arrest-set`
 - `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`
-- `nv_seal_probation_family-set`
+- `la-987-set-aside-and-dismiss-set`
 
 ## What you receive
 
@@ -84,12 +84,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/**`
 - `scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs`
 - `scripts/build-census-v1-co_motion_seal_conviction-set.mjs`
 - `scripts/build-census-v1-co_petition_seal_arrest-set.mjs`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs`
-- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
+- `scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs`
 
 ## Never write here
 
