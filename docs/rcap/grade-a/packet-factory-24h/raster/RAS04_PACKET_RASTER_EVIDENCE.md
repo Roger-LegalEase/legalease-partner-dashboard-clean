@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `fd226f92a42ac00c9dde6df5c26406ee47ff385d`
+**Minimum required ancestor:** `90932c331f9b40c923d41266336b2e8c491069d1`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -247,7 +247,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `1a5aaac6c5405b418c314afd889912a2715a97ea26c4cd1c588e5286d789a642`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `7f3793591663be2984e77bb9de24094752f7bb416f7ecc7b60db0009bb1b7c49`
 - expected pages 14 · requested scale 2.5
-- built by VF05
+- built by VF03
 
 ### sc_17_22_950_summary-set
 
@@ -282,7 +282,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a`
 - expected pages 6 · requested scale 2.5
-- built by VF03
+- built by VF04
 
 ### wa_vac_cannabis-set
 

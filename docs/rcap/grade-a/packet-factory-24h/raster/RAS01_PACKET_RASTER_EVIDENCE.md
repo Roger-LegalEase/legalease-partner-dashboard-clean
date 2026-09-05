@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `fd226f92a42ac00c9dde6df5c26406ee47ff385d`
+**Minimum required ancestor:** `90932c331f9b40c923d41266336b2e8c491069d1`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -191,7 +191,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf` — `c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b`
 - boundary `data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf` — `ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99`
 - expected pages 2 · requested scale 2.5
-- built by VF01
+- built by VF05
 
 ### ms-fel-set
 
@@ -254,7 +254,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `4887cbead4a42a3baf7a622e74cbf4bacba7e4a98f1ae24136a02dba087a4db6`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `9a7211c9e517d11b10105a3bba27c08adf6dafec682baf5b3e0dfad2b75dd0fb`
 - expected pages 13 · requested scale 2.5
-- built by VF06
+- built by VF03
 
 ### tx_exp_acquittal-set
 
@@ -282,7 +282,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf` — `b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf` — `3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a`
 - expected pages 6 · requested scale 2.5
-- built by VF08
+- built by VF04
 
 ### vt_seal_pardon-set
 
