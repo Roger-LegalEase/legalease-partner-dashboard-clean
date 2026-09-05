@@ -7147,6 +7147,303 @@
    ],
    "whatDidNotFail": "The repair this read was sent to check succeeded on its own terms: both defects VF08 recorded are gone from the current bytes, and CLIPPING_AND_OVERLAP passes. The failure recorded here is a different one, found by measuring the component set against the specification the route binds rather than against the build's own report of itself.",
    "grantsNothing": "A FAIL is a verdict and a repair assignment. This lane edited no overlay directory, no build script and no shared record, and did not release the grant."
+  },
+  {
+   "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+   "lane": "VF06",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+   "verifier": "FABLE-VF06 Arizona limited-jurisdiction read (independent - built neither fixture, repaired nothing, and edited no overlay directory, build script or shared record)",
+   "verifiedAtBase": "369884e64",
+   "canonicalSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+   "boundarySha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "nineCountersNote": "Measured here by running node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_limited_jurisdiction-set (read-only) in this container: PASS_COMPLETE, 12/42 written, all nine zero. All nine are zero AND the packet carries the visible defect recorded under CLIPPING_AND_OVERLAP below. No counter looks at what the packet ERASES from the official form or at rule ink it adds inside a declared write box, so the counters cannot see this defect and their being green is not evidence against it.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_marijuana_expungement_limited_jurisdiction-set' --codex-cloud --minimum-captain-sha d8ef81d502619f48f57cbe0bf4a85b56711fbe4d, run once in this container at 369884e64 with MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT exported to the mounted Master Library: PACKET_BUILD_ENVIRONMENT_NOT_READY, 13/14 passed, 1 failed, 3 not applicable. The one failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled, the absent entry being 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which is another state's file and not reachable from this family. The custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here and were excluded from the sample; master_library and human_source_returns are mounted (500 files scanned by content hash). family_sources_bind passed 1/1 by exact SHA-256. Recorded as it printed rather than smoothed.",
+   "rasterState": "RASTER_PASS",
+   "rasterStateEvidence": {
+    "receiptCheckedFirst": true,
+    "queueRow": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json rows[] familyId az_marijuana_expungement_limited_jurisdiction-set",
+    "workflowRunId": "33923497915",
+    "boundToCanonicalSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+    "boundToBoundarySha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+    "digestsRecomputedFromDiskHere": true,
+    "receiptStillBinds": true,
+    "finding": "The receipt's two digests equal the fixture bytes on disk at this base, recomputed here with sha256sum. The repair at 5f11a4044 moved no fixture byte, so the earlier receipt still binds and no re-raster is owed on that account.",
+    "whatTheReceiptDoesNotCover": "The receipt binds the same canonical bytes this row fails. The central raster gate renders the page and checks its own criteria; it does not diff the delivered page against a zero-write baseline of the pinned source, which is the instrument that found the defect below. A standing RASTER_PASS is therefore not a rebuttal to it."
+   },
+   "historyReadFreshAndNotCopied": {
+    "vf07FailRow": "vf07/rows.json, SELF_HELP_STOP FAIL at 9e7582a9d: five of the registry's eight stop conditions did not reach the participant, including both eligibility boundaries and the immigration warning. Re-measured here against the current bytes and no longer true.",
+    "repairClustersRow": "repair-clusters/rows.json, lane commit be6202e31 / captain 5f11a4044: print all eight registry self-help stops; participant-instructions.md and the builder changed, no fixture byte moved. Confirmed here: the eight are present and the two fixture digests are unchanged.",
+    "fix48Row": "fix48/rows.json: 8/8 exact-string match against the track registry, two rebuilds byte-identical, and the remark that running the builder overwrites product-wiring.json with a binding-less template. Checked here on the COMMITTED file rather than on FIX48's report: the committed product-wiring.json carries its full binding block. FIX48's transient write was reverted and the committed record is intact.",
+    "registryRecords": "data/record-clearing/legal-design-track-registry.json track az_marijuana_expungement_limited_jurisdiction (A.R.S. 36-2862, limited-jurisdiction court petition) and its packetSet manifest az_marijuana_expungement_limited_jurisdiction-set."
+   },
+   "checkboxWidgetQuestionAsAssigned": {
+    "askedFor": "whether any checkbox widget of the official form is delivered with a border the pinned source does not paint for its /Off state (a widget whose /AS state has no /AP /N entry), as VF02 recorded for Vermont",
+    "result": "DOES_NOT_ARISE_ON_THIS_FORM",
+    "evidence": "The pinned source AOC CREM2F-071221 (sha256 4875e08b..., 72602 bytes, 3 pages) carries NO AcroForm at all: 0 form fields, 0 button widgets and /Annots empty on all three pages, read with pdf-lib 1.17.1. Both delivered fixtures are the same: 0 fields, 0 widgets, 0 annotations per page. The form's fourteen selection controls are printed page graphics, not widgets, so there is no /AS state, no /AP /N dictionary and nothing for a flattening step to synthesise. Confirmed against a zero-write baseline (source + stampDeterministic, no writes) rastered at 150 dpi: every checkbox on the baseline is pixel-identical to the same checkbox on both delivered fixtures.",
+    "notDecidedHere": "Nothing is decided about RI-OFF-APPEARANCE or any synthesised-border question; this family simply does not present one."
+   },
+   "openQuestionNamedNotDecided": "The track carries one unresolvedQuestion, also listed as a releaseBlocker: 'Appeal timing after denial was unresolved in the review' (affectedElement participant_instructions, from LegalEase-Arizona-Legal-Review.md). The packet makes no appeal-timing claim; it prints the registry's stop 'A denial the petitioner wants to appeal.' and routes the participant to a person, which is the correct disposal of an unresolved question. It is named here because it is a live release gate, not because it blocks any measurement in this row.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "routeKey": "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction",
+      "routeSelectionId": "az-marijuana-expungement-limited-jurisdiction-crem2f",
+      "agreesAcross": [
+       "production-field-map.json routeKeys",
+       "product-wiring.json routeKeys and binding.routeKeys",
+       "participant-instructions.md printed Route line",
+       "the committed track registry entry"
+      ],
+      "registryLegalName": "Petition to Expunge Marijuana Records, limited jurisdiction court, A.R.S. 36-2862",
+      "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "committedProductWiringCarriesBindings": true,
+      "bindingBlockFields": [
+       "family",
+       "jurisdiction",
+       "routeKeys",
+       "deliveryType",
+       "instrumentKinds",
+       "packetComponents",
+       "fieldMap",
+       "instructions",
+       "renderedArtifacts",
+       "sourceReceipt",
+       "sourceVersion",
+       "acceptanceReceipt",
+       "lastIndependentVerification",
+       "paymentEligible",
+       "sponsorshipEligible",
+       "whyPaymentIsClosed",
+       "maintenanceRelationship"
+      ]
+     },
+     "finding": "One route key, identical in every family record and matching the registry track, and the packet is built for the limited-jurisdiction (municipal/justice court) form AOC CREM2F, not the superior-court CREM3F. On the point the assignment names: the COMMITTED product-wiring.json is NOT the binding-less template FIX48 described. It carries the full binding block including sourceVersion (official-form:AOC-CREM2F-071221 at 4875e08b...), the acceptance receipt for run 33923497915, lastIndependentVerification (vf07 FAIL_REPAIR_REQUIRED at 9e7582a9d, correctly still standing at this base), and maintenanceRelationship. generationAllowed false, runtimeSelectable false, paymentEligible false, commercialRoutesOpened 0. FIX48's transient overwrite was reverted and left no trace in the tree. The builder/generator ownership conflict FIX48 named is a live hazard for the next lane that rebuilds this family, but it is not a defect in the committed bytes and is not scored as one here."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "sourceId": "official-form:AOC-CREM2F-071221 (and -CONT, the same binary)",
+      "declaredSha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+      "recomputedSha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+      "byteLength": 72602,
+      "resolvedBy": "content hash across every file of the two mounted custodies (500 files hashed), not by declared path",
+      "contentHashLandsOn": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+      "matchesDeclaredPathInArchive": true,
+      "preflightCheck": "family_sources_bind: 1/1 source(s) bind by exact SHA-256 (custody_reconciliation)"
+     },
+     "finding": "The one bound source rehashes exactly from the mounted bytes, and a content-hash sweep of all 500 mounted files finds it at precisely the path source-receipt.json declares, so the binding is proved from the bytes rather than from the path string. The corpus-index preflight failure is another state's file and does not touch this binding."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": {
+      "manifestComponents": [
+       "az_marijuana_expungement_limited_jurisdiction-primary-filing-1 (required, AOC-CREM2F-071221)",
+       "az_marijuana_expungement_limited_jurisdiction-continuation-2 (conditional, AOC-CREM2F-071221-CONT)"
+      ],
+      "renderedDocuments": [
+       "AOC-CREM2F-071221",
+       "AOC-CREM2F-071221-CONT"
+      ],
+      "pageCountInBytes": 3,
+      "measuredFrom": "registry packetSet.components compared against reports/rendered-artifacts.json and the page count parsed from the fixture bytes"
+     },
+     "finding": "Both components the packet-set manifest names appear in the rendered artifact record and both are carried by the one official three-page binary, whose page 3 is the continuation/petitioner-contact page. Nothing the route names is absent."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": {
+      "writesDeclared": 12,
+      "visibleInkMeasuredPerWrite": "12/12 in canonical and 12/12 in boundary, counted as pixels dark in the fixture and light in the zero-write baseline inside each declared box, at 150 dpi",
+      "smallestAddedInkCanonical": "p1-date-of-birth, 592 px",
+      "smallestAddedInkBoundary": "p1-date-of-birth, 598 px",
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0
+     },
+     "finding": "Every one of the twelve recorded writes is drawn and actually visible on the delivered page in both fixtures - measured as ink on the raster, not only as a string in the byte stream, so a value covered by a later fill would not have passed. The counters agree."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": {
+      "declaredRows": 7,
+      "namedInInstructions": 7,
+      "matchedBy": "effectiveLabel from each production-field-map.json refusal row carrying requiredBeforeFiling:true, matched as a bold '**<label>:**' item in participant-instructions.md",
+      "items": [
+       "Court name",
+       "County of court",
+       "Name of citing or arresting law enforcement agency",
+       "Date of arrest",
+       "Name of prosecuting agency",
+       "Date of conviction",
+       "Date of dismissal"
+      ]
+     },
+     "finding": "All seven declared items are named in the 'Before you file' list, each with the record to take the value from. Checked against the file, not against the builder's report."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": {
+      "routeDeterminedSelections": [],
+      "registryRouteDeterminedElections": "none - the track is a single statutory route and fixes no election",
+      "requiredOptionsMissing": 0,
+      "selectionControlsOnTheForm": "case facts (which of the three eligible-charge descriptions, the Yes/No record questions) and the petitioner's own hearing request"
+     },
+     "finding": "Vacuously satisfied and checked rather than assumed: the registry records no route-determined election, the field map declares none, and the form's selection controls are all case facts or the petitioner's own choice. The instructions say so in terms ('The route does not decide those case facts')."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": {
+      "incompleteRows": 0,
+      "repeatingTablesOnThisForm": "none - AOC CREM2F carries numbered paragraphs, not a row table",
+      "writesInAnyRowGroup": "no group holds a written cell beside a blank required cell"
+     },
+     "finding": "No repeating-row table exists on this form, so no row can carry written cells beside required cells left blank. The counter agrees at zero."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInk": {
+       "canonical": 0,
+       "boundary": 0
+      },
+      "protectedSurfacesRead": [
+       "Petitioner's Signature and (Date) on page 2",
+       "Attorney's name printed, signature and date, Bar Number, Mailing Address, Phone and Email on page 3",
+       "Attorney or LDP only block on page 1"
+      ],
+      "baselineDiff": "page 2 of both fixtures differs from the zero-write baseline by ZERO pixels, so the signature band is untouched byte-for-byte at appearance level; on pages 1 and 3 every changed pixel falls inside one of the twelve declared write boxes and none of those boxes is a protected field",
+      "theOneDateWritten": "Date of Birth, a held participant fact, not a signature date"
+     },
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. Page 2, which holds the perjury declaration and signature band, is pixel-identical to the unwritten source."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": {
+      "canonicalSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+      "canonicalByteLength": 91386,
+      "boundarySha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+      "boundaryByteLength": 91479,
+      "recomputedFromDisk": true,
+      "agreesWith": [
+       "reports/rendered-artifacts.json",
+       "RASTER_QUEUE.json row and its rasterReceipt",
+       "product-wiring.json binding.acceptanceReceipt",
+       "repair-clusters/rows.json artifacts",
+       "fix48/rows.json newSha256 pair"
+      ],
+      "committedProductWiringIsTheFullBinding": true
+     },
+     "finding": "Both fixtures hash exactly to what every record names and no digest has moved since the repair. The committed product-wiring.json is the full binding file, not the binding-less builder template FIX48 observed and reverted, so nothing is recorded against ARTIFACTS on that head either."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": {
+      "declaredPages": 3,
+      "renderedPages": 3,
+      "footerSequenceReadFromBytes": [
+       "Arizona Supreme Court / Page 1 of 3 / AOC CREM2F-071221",
+       "Page 2 of 3",
+       "Page 3 of 3"
+      ],
+      "orderInBytes": "petition page 1, petition page 2, continuation/petitioner-contact page 3"
+     },
+     "finding": "Three pages in the official binary's own order, each carrying the AOC's 'Page N of 3' footer in sequence, matching the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "evidence": {
+      "instrument": "zero-write baseline: the pinned source loaded with pdf-lib and stampDeterministic applied, saved with NO writes, then baseline and both fixtures rastered at 150 dpi with pdftoppm into /tmp and diffed pixel-for-pixel. Rasters deleted after measuring. Nothing in the family directory, no build script and no shared record was written.",
+      "whyThisInstrument": "pdftotext -bbox word boxes, which the earlier read used, can only see glyphs the packet ADDS. It cannot see official ink the packet ERASES, and it cannot see rule ink drawn inside a declared box. Both are what is wrong here.",
+      "theMeasurableHalfThatPasses": "Every changed pixel on every page of both fixtures lies inside one of the twelve declared write boxes (x-1..x+w+1, y-1..y+h+1). Zero pixels changed outside a declared box, on any page, in either fixture. Page 2 is unchanged entirely. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and visualDefects is 0.",
+      "whatTheBuilderDoesPerWrite": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs render(), the three statements after 'const { x, y, width, height } = row.rect': drawRectangle(x-1, y-1, width+2, height+2) filled rgb(1,1,1); drawLine from (x,y) to (x+width,y) at 0.6pt black; drawText at (x+2, y+2).",
+      "officialInkErasedByTheWhiteFill": {
+       "canonicalPixels": 9246,
+       "boundaryPixels": 8627,
+       "perBoxCanonical": "p1-person-filing 929, p1-mailing-address 864, p1-city-state-zip 812, p1-email 411, p1-phone 831, p1-caption-case 265, p1-defendant 747, p1-date-of-birth 1086, p1-item3-case 640, p3-mailing-address 894, p3-phone 894, p3-email 873"
+      },
+      "theFormsOwnRuleIsErasedAndRedrawnLower": "11 of the 12 boxes. Source rule y vs delivered line y, in points: person-filing 682.32 -> 678.96; mailing-address 666.96 -> 663.12; city-state-zip 651.12 -> 647.28; email 635.76 -> 630.96; phone 618.96 -> 615.12; defendant 458.16 -> 453.84; date-of-birth 418.32/416.40 -> 414.96; item3-case 101.52 -> 97.20; p3 mailing 708.72 -> 707.28; p3 phone 671.28 -> 669.84; p3 email 632.40 -> 630.96. The official rule survives OUTSIDE the white box at its original height, so each line is delivered as a short orphan stub, a white gap, then a step down of 1.4 to 4.5 pt.",
+      "addedRuleInkPastWhereTheOfficialRuleEnds": "p1-defendant: official rule x[78.2,239.5], delivered line x[79.2,378.7] - 139.2 pt of new rule. p1-caption-case: delivered line x[360.0,574.6] where the source paints no rule at that y at all. p1-item3-case: official dashed leader ends x 537.6, delivered solid line runs to x 569.8 - 32.2 pt beyond, and the dashes are replaced by a solid rule. p3 mailing/phone/email: official rule ends x 502.6, delivered line runs to x 569.8 - 67.2 pt beyond, on all three.",
+      "officialCellBordersCutThrough": "The white fill severs the caption table's vertical double rules where a write box crosses them, identically in both fixtures. p1-defendant cuts the two verticals at x 259.2-261.1 and 272.6-274.6 for 30 raster rows (~14.4 pt) each. p1-date-of-birth cuts the same two for 27 and 25 rows and additionally erases 289 px of printed cell-bottom border between x 179 and 253. p1-caption-case cuts three verticals - the CASE Number cell's right border at x 430.6/432.0-432.5, the title cell's left border at x 444.0-445.9, and its right border at x 574.6 - 30 rows each.",
+      "whatThatLooksLikeOnTheDeliveredPage": "Read as images at 150 dpi. Page 1 caption: the redrawn CASE-number rule leaves the CASE Number cell through the gap it made in that cell's right border, crosses the gutter, enters the 'Petition to Expunge' title cell through the gap it made in ITS left border, runs the full width of that cell clipping the top of the title text, and exits through its right border. Page 1 'Date of Birth:' cell: the cell's bottom border and right double border are broken and the new rule runs out of the cell into the empty cell beside it. Page 1 defendant line: the same two caption verticals are cut and the rule runs past them. Page 1 paragraph 3: the form's dashed leader and its sentence-ending period are covered and a longer solid rule is drawn instead. Page 3: all three petitioner-contact rules are erased and redrawn 67 pt longer than the form prints them.",
+      "bothFixtures": true,
+      "zeroWriteBaselineProvesAuthorship": "The baseline is the pinned source with no writes. Every one of these differences appears only in the fixtures, so this is a mark THIS family's own render loop makes. It is not shared flattening, not source-owned structure, and no widget appearance is involved - the form carries no AcroForm at all.",
+      "rastersWrittenTo": "/tmp/vf06/raster, deleted after measuring"
+     },
+     "finding": "FAIL, and repair-actionable inside this family. On a court form the delivered page shows the official caption table broken in three places, a rule crossing out of the cell it belongs to and through the printed title, and printed rules erased and replaced by longer ones the AOC does not print. None of it is legally ambiguous and none of it needs an owner determination: the packet is not delivering the official form as published. The nine counters are all zero over exactly these bytes, which is the point - no counter asks what the packet erased, and glyph-outside-box arithmetic passes because every mark is inside a declared write box. The repair is in the builder's render(), not in the field map: the opaque white drawRectangle(x-1,y-1,width+2,height+2) should not be painted at all on a form whose write boxes sit on printed rules and cross printed cell borders, and if a rule is wanted it must be drawn where the form prints one and no longer than the form prints it. Fixing it moves both fixture digests, so a fresh central raster is owed after the repair and the standing receipt for run 33923497915 will no longer bind."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": {
+      "registryDestination": "The municipal or justice court that concluded the case",
+      "registryFiling": "File in person, by mail, or by e-filing where the court accepts it.",
+      "instructionsSay": "File in the municipal or justice court that concluded the case, in person, by mail, or by e-filing where that court accepts it.",
+      "alsoCarried": "the 45-day cure the registry records for a filing that does not identify the records"
+     },
+     "finding": "The instructions name the court the route names, in the registry's own terms, and the packet is built on the limited-jurisdiction form that court takes."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": {
+      "registryFees": "none. Rule 36(a)(4) bars a filing fee.",
+      "registryFeeWaiver": "none. No fee waiver form is applicable because there is no filing fee.",
+      "instructionsSay": "Rule 36(a)(4) bars a filing fee, so no fee-waiver form applies."
+     },
+     "finding": "Both are stated and both match the record. The fee position is answered rather than deferred to the clerk."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": {
+      "registryService": "none. Rule 36(b)(2) puts transmittal to the prosecuting agency on the court.",
+      "registryNotice": "The court sends the petition to the prosecuting agency within 10 days of filing.",
+      "instructionsSay": "The court sends the petition to the prosecuting agency within 10 days."
+     },
+     "finding": "Who receives the petition, and that the court and not the petitioner sends it, are both stated. The participant is not left with an unperformed service step; the express words 'you serve no one' and the Rule 36(b)(2) citation are absent, which is a wording preference and not a gap in what the participant is told to do."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": {
+      "instrument": "each selfHelpStopCondition string read from data/record-clearing/legal-design-track-registry.json in this tree and searched for as an exact '- <condition>' line in participant-instructions.md, then the delivered pages checked for any stop text of their own",
+      "registryStopConditions": 8,
+      "presentVerbatimAsABullet": 8,
+      "conditions": [
+       "Prosecuting agency files a response opposing eligibility.",
+       "Court sets a hearing.",
+       "The record does not establish quantity, plant count, or paraphernalia character and the prosecutor disputes it.",
+       "Conduct date is on or after July 12, 2021.",
+       "The offense is a sale or any other non-listed marijuana offense.",
+       "The petitioner wants to challenge the underlying conviction rather than expunge it.",
+       "A denial the petitioner wants to appeal.",
+       "Immigration consequences are in play."
+      ],
+      "theFiveVF07NamedAsOmitted": "all five present, including both eligibility boundaries and the immigration warning",
+      "eligibilityBoundariesAlsoPrintedAsExclusions": "the instructions add, separately, that conduct on or after July 12, 2021 and a sale or other non-listed offence are also this track's registry exclusions and that A.R.S. 36-2862 does not reach the record at all outside them",
+      "postGenerationHandoffQuotedInFull": true,
+      "deliveredInstructionsPage": "participant-instructions.md is the delivered instructions surface for this family; the packet ships the AOC binary alone and prints no stop text onto it, which is correct - stop text on a court form would be a foreign mark. Confirmed from the bytes: pages 1-3 of both fixtures carry no added text other than the twelve participant values."
+     },
+     "finding": "The obligation VF07 failed at 9e7582a9d is discharged in the committed tree, measured here from the registry and the file rather than read from the repair report. All eight conditions reach the participant word for word, both eligibility boundaries are stated twice - once as a stop and once as an exclusion - and the immigration warning is present."
+    }
+   },
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "whatDidNotFail": "Fourteen of the fifteen obligations pass on the current bytes, including SELF_HELP_STOP, which is the obligation this family was repaired for. The single failure is an appearance defect on the delivered court form that no counter and no earlier instrument was looking for.",
+   "independence": "This lane built nothing, repaired nothing and edited no overlay directory, build script or shared record. The only file written is this one. The claim grant was asserted before any family artifact was read and is not released here.",
+   "grantsNothing": "An independent verdict approves no output and opens no commercial route. generationAllowed and runtimeSelectable stay false and commercialRoutesOpened is 0."
   }
  ],
  "vf06ReDispatchWave": {
@@ -7912,5 +8209,20 @@
   "productionTouched": "NO",
   "rastersWrittenTo": "/tmp, deleted after measuring",
   "whatThisAppends": "two rows; no earlier row was altered"
+ },
+ "vf06AzLimitedJurisdictionRead20260905": {
+  "worker": "FABLE-VF06 (independent read of az_marijuana_expungement_limited_jurisdiction-set)",
+  "base": "369884e64",
+  "appended": 1,
+  "earlierRowsAltered": 0,
+  "familiesRead": [
+   "az_marijuana_expungement_limited_jurisdiction-set"
+  ],
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "sharedRecordsModified": 0,
+  "claimReleased": false,
+  "rastersWrittenTo": "/tmp, deleted after measuring"
  }
 }
