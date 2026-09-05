@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e66c01b942277451e9a0fbcde1ad259f20db5695",
+  "minimumCaptainSha": "727842b066cfa3d3abf7630a26423e61f35d13eb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 20,
+    "activeFamiliesExcluded": 16,
     "guidanceOnly": 0,
-    "remaining": 326,
+    "remaining": 330,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 15,
@@ -78,7 +78,7 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 142,
-    "FAIL_REPAIR_REQUIRED": 62,
+    "FAIL_REPAIR_REQUIRED": 58,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,7 +87,8 @@
     "LEGAL_BLOCKED": 15,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "WRONG_DELIVERY_TYPE": 1
+    "WRONG_DELIVERY_TYPE": 1,
+    "BUILT_RASTER_PENDING": 4
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -119,10 +120,6 @@
       "nj_ordinance-set",
       "ut_pet_limitations-set",
       "va_exp_nonconviction-set",
-      "va_seal_ancillary_matter_only-set",
-      "va_seal_enumerated_seven_year-set",
-      "va_seal_petition_felony-set",
-      "va_seal_petition_misdemeanor-set",
       "vt_seal_18_to_21-set",
       "vt_seal_dui-set",
       "vt_seal_felony-set",
@@ -42096,9 +42093,7 @@
         "verifiedAtBase": "a8f99a33a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42145,9 +42140,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX73",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -42158,8 +42153,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "va_seal_enumerated_seven_year-set",
@@ -42228,9 +42222,7 @@
         "verifiedAtBase": "a8f99a33a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42283,9 +42275,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX73",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -42296,8 +42288,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "va_seal_petition_felony-set",
@@ -42366,9 +42357,7 @@
         "verifiedAtBase": "a8f99a33a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42421,9 +42410,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX73",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -42434,8 +42423,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "va_seal_petition_misdemeanor-set",
@@ -42504,9 +42492,7 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42553,9 +42539,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX73",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -42570,8 +42556,7 @@
         "va_seal_enumerated_seven_year-set",
         "va_seal_petition_felony-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "vt_exp_decriminalized-set",
