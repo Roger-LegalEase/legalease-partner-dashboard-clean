@@ -528,9 +528,10 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     "- **Form 4-222 NMRA**, _Application for Free Process and Affidavit of Indigency_ — file this only if you cannot pay the filing fee. **Read the section below about the court name printed on it.**", ""
   );
   out.push(
-    "The platform filled in what it holds about you and your case: your name, your other names, your date of birth, your "
-    + "address, the county, the judicial district, the case number and the arresting agency. Everything else is yours, and "
-    + "every one of those blanks is listed below by the form and the section it is in.", ""
+    "The platform filled in what it holds about you and your case: your name, your date of birth, your address, the "
+    + "county, the judicial district and the case number. **Everything else is yours** — including your other names, the "
+    + "agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed "
+    + "below by the form and the section it is in.", ""
   );
 
   out.push("## Nobody is served with this petition, and nobody objects to it", "");
