@@ -28,7 +28,8 @@ import {
 import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance-semantics.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, decodePDFRawStream } = require("pdf-lib");
+const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, PDFCheckBox, PDFRadioGroup,
+  decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
 
@@ -516,6 +517,100 @@ function stripWidgetBackground(pdfDoc, acroField) {
   return stripped;
 }
 
+
+/**
+ * SUPPLIES THE APPEARANCE THE SOURCE OMITTED, SO NOTHING IS SYNTHESIZED IN ITS
+ * PLACE.
+ *
+ * pdf-lib regenerates an appearance for any check box or radio widget whose
+ * CURRENT /AS state has no entry in /AP /N — `PDFCheckBox.needsAppearancesUpdate`
+ * returns true on exactly that condition — and its default provider paints a
+ * stroked square the size of the widget's own rectangle. flatten() then stamps
+ * that square onto the page as ordinary ink.
+ *
+ * Under ISO 32000-1 12.5.5 a viewer draws the stream named by /AS and nothing
+ * else, so a widget whose /AS state is absent from /AP /N is drawn as NOTHING.
+ * The square is therefore not the court's form and not a mark anybody made; it
+ * is produced by the normalization and it is on the page only because the
+ * normalization ran.
+ *
+ * Vermont's petition 200-00130 and stipulation 200-00132 are the measured case:
+ * 12 and 2 button widgets, every one of them /AS /Off with /Yes as the only
+ * state in /AP /N and no /BC in /MK. The official forms print one small box at
+ * each of those rectangles; the delivered packet printed a second, larger 14.4pt
+ * square around it, and a zero-write baseline over the pinned binaries proved
+ * the squares came from the shared step rather than from the family's writes.
+ *
+ * The remedy is to supply the missing state rather than to suppress a drawing:
+ * an EMPTY form XObject sized to the widget's own /Rect is installed for that
+ * state, which is what the source's own silence means. pdf-lib then reports no
+ * update is needed, generates nothing, and flattens a stream that paints
+ * nothing — the same page a conforming viewer shows.
+ *
+ * WHAT IS NEVER TOUCHED, and each for its own reason:
+ *
+ *   * a widget whose /AS state ALREADY has a stream. Vermont's fee-waiver form
+ *     600-00228 ships an /Off appearance that draws its own box, and that box is
+ *     the court's. Reproducing it is source fidelity, and RI-OFF-APPEARANCE
+ *     settles that it stays.
+ *   * a widget belonging to a field this run WROTE. A checked box must render
+ *     its mark, and the mark lives in the /Yes stream this never goes near.
+ *   * text fields, choosers, pushbuttons and every other field type.
+ *   * a widget with no /AS at all, and one whose /AP /N is a bare stream rather
+ *     than a state dictionary. Neither is the measured condition, and inventing
+ *     a state dictionary for them would be a structural rewrite rather than the
+ *     supply of a missing entry. They are counted and left exactly as they are.
+ *
+ * Nothing here reads a family, a form number, a field name or a caption: the
+ * condition is a structural fact about the widget, and it is the same fact in
+ * every jurisdiction.
+ */
+export function suppressSynthesizedSelectionAppearances(pdfDoc, form, writtenFields = new Set()) {
+  const report = { installed: [], skippedWritten: 0, skippedStateAlreadyDrawn: 0, skippedNoAppearanceState: 0,
+    skippedNonDictionaryAppearance: 0 };
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFCheckBox || field instanceof PDFRadioGroup)) continue;
+    const name = field.getName();
+    if (writtenFields.has(name)) { report.skippedWritten += 1; continue; }
+    for (const widget of field.acroField.getWidgets()) {
+      const state = widget.dict.lookup(PDFName.of("AS"));
+      if (!(state instanceof PDFName)) { report.skippedNoAppearanceState += 1; continue; }
+      let ap = widget.dict.lookup(PDFName.of("AP"));
+      if (ap !== undefined && !(ap instanceof PDFDict)) { report.skippedNonDictionaryAppearance += 1; continue; }
+      let normal = ap instanceof PDFDict ? pdfDoc.context.lookup(ap.get(PDFName.of("N"))) : undefined;
+      if (normal !== undefined && !(normal instanceof PDFDict)) { report.skippedNonDictionaryAppearance += 1; continue; }
+      if (normal instanceof PDFDict && normal.get(state) !== undefined) { report.skippedStateAlreadyDrawn += 1; continue; }
+
+      // The widget's own rectangle, normalized: /Rect corners may arrive in any
+      // order, and a BBox of negative extent would clip the stream to nothing on
+      // some viewers even though this one paints nothing anyway.
+      const rect = widget.getRectangle();
+      const width = Math.abs(rect.width);
+      const height = Math.abs(rect.height);
+      const empty = pdfDoc.context.formXObject([], {
+        BBox: pdfDoc.context.obj([0, 0, width, height]),
+        Matrix: pdfDoc.context.obj([1, 0, 0, 1, 0, 0]),
+        Resources: pdfDoc.context.obj({})
+      });
+      const emptyRef = pdfDoc.context.register(empty);
+
+      if (!(ap instanceof PDFDict)) {
+        ap = pdfDoc.context.obj({});
+        widget.dict.set(PDFName.of("AP"), ap);
+      }
+      if (!(normal instanceof PDFDict)) {
+        normal = pdfDoc.context.obj({});
+        ap.set(PDFName.of("N"), normal);
+      }
+      normal.set(state, emptyRef);
+      report.installed.push({ field: name, state: String(state.toString()),
+        rect: { x: +rect.x.toFixed(3), y: +rect.y.toFixed(3), width: +width.toFixed(3), height: +height.toFixed(3) } });
+    }
+  }
+  report.installedCount = report.installed.length;
+  return report;
+}
+
 /**
  * Decides, per field, what survives into the flattened page.
  *
@@ -582,7 +677,25 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    * the option changes nothing for it, and a family that has never been rebuilt
    * against this option keeps the bytes it has. See detachFromAcroForm.
    */
-  detachNestedControlFields = false } = {}) {
+  detachNestedControlFields = false,
+  /*
+   * Whether a check box or radio widget whose CURRENT /AS state has no stream in
+   * /AP /N is given an EMPTY appearance for that state before appearances are
+   * generated, so pdf-lib synthesizes no square there and flatten stamps none.
+   *
+   * Off by default and deliberately, on the same reasoning as
+   * detachNestedControlFields above and the finalizer's own opt-in flags: the
+   * families sharing this module are rebuilt by different workers at different
+   * times, and a repair lane holding one family does not get to decide what the
+   * others' next rebuild produces. Every caller that does not pass this keeps
+   * the bytes it has, to the byte. See suppressSynthesizedSelectionAppearances
+   * for what the option does and for the four cases it never touches.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. A border the official form does not
+   * print is ink the packet added, wherever it occurs.
+   */
+  suppressSynthesizedAppearances = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -605,6 +718,13 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
         { walkFieldTree: detachNestedControlFields });
+      // Before appearances are generated, for the same reason the background
+      // strip runs before them: a state supplied here is a state pdf-lib does
+      // not regenerate, whereas a stream replaced afterwards would be editing a
+      // square that had already been invented.
+      if (suppressSynthesizedAppearances) {
+        report.synthesizedSelectionAppearancesSuppressed = suppressSynthesizedSelectionAppearances(pdfDoc, form, writtenFields);
+      }
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.

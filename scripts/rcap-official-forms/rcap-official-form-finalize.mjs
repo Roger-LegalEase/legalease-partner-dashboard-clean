@@ -830,7 +830,38 @@ export async function finalizeOfficialForm({
    *
    * Opt-in; an empty map is byte-neutral, and no other caller passes one.
    */
-  wrapInCellFields = {}
+  wrapInCellFields = {},
+  /*
+   * A BORDER THE OFFICIAL FORM DOES NOT PRINT, AT AN UNTICKED BOX.
+   *
+   * The shared sanitizer calls form.updateFieldAppearances() before flatten,
+   * and pdf-lib regenerates an appearance for any check box or radio widget
+   * whose current /AS state has no entry in /AP /N -- with its default check-box
+   * provider, which paints a stroked square the size of the widget rectangle.
+   * A form that ships only a /Yes appearance and leaves the widget at /Off has
+   * no /Off stream, so every unticked box on it acquires a square that the
+   * paper does not carry. Under ISO 32000-1 12.5.5 a conforming viewer paints
+   * nothing at such a widget, which is why the square is added ink rather than
+   * reproduced ink.
+   *
+   * Vermont's non-conviction sealing set is the measured case: 14 widgets
+   * across the petition and the stipulation, delivered with a 14.4pt square at
+   * each, proved against a zero-write baseline over the pinned binaries to come
+   * from the shared step and not from the family. Passing true here installs an
+   * EMPTY appearance for the missing state instead, so nothing is synthesized
+   * and nothing is flattened. A widget that ships its own /Off appearance --
+   * the same packet's fee-waiver form does -- is untouched, and so is a box
+   * this run actually ticked.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields,
+   * clearSourceCarriedTextValues and printedDateOrderByField above: the
+   * families sharing this finalizer are rebuilt by different workers at
+   * different times, and a repair lane holding one family does not get to
+   * decide what the others' next rebuild produces. Every caller that does not
+   * pass this is byte-unaffected.
+   */
+  suppressSynthesizedAppearances = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1354,7 +1385,8 @@ export async function finalizeOfficialForm({
     // for the family it is rendering and hands over a plain field-name map, so
     // the finalizer never learns which family it is working on.
     appearanceDispositions,
-    detachNestedControlFields
+    detachNestedControlFields,
+    suppressSynthesizedAppearances
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
