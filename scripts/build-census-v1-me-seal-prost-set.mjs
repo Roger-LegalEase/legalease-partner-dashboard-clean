@@ -425,8 +425,26 @@ async function renderFixture(source, census, fixtureName) {
     });
   }
 
+  /* CLIPPING_AND_OVERLAP, measured by VF08 at 150 dpi and recorded in
+   * data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json: all 3 of its selection widgets
+   * carry an /AS state with no matching stream under /AP /N. The shared
+   * sanitizer calls updateFieldAppearances() before flatten(), pdf-lib
+   * regenerates an appearance for exactly that condition, and its default
+   * check-box provider paints a stroked square the size of the widget --
+   * so 6 widget readings across the two bound fixtures (3 per fixture, on delivered page 1)
+   * delivered a black-bordered box that CR-289 does not print and that no
+   * conforming viewer paints (ISO 32000-1 12.5.5). VF08's zero-write
+   * baseline over the same pinned bytes painted the identical pixels, so the
+   * ink is the shared step's and not this family's.
+   *
+   * Opting in supplies the missing state as an EMPTY appearance instead, so
+   * nothing is synthesized and nothing is flattened there. It reaches only
+   * unwritten selection widgets whose current state has no stream:
+   * no widget of this form ships its own state, so all three are reached. A ticked box still renders its
+   * mark from the stream the source ships for the state it is set to. */
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
+    suppressSynthesizedAppearances: true,
     expectedSha256: source.sha256,
     census: censusForFinalizer,
     facts,
