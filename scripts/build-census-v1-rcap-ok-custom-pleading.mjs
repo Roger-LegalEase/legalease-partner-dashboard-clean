@@ -4883,6 +4883,34 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
+/* ---- block-aware page breaking ---------------------------------------------- *
+ * Page breaking here is block-aware, and that is the whole point of it.
+ *
+ * A block is one logical source line together with every row it wraps to. A
+ * block is never divided by a page break it did not need, so a wrapped value can
+ * no longer be widowed away from the label that explains it: the reader never
+ * meets a bare postcode at the top of a page with its MAILING ADDRESS label on
+ * the page before.
+ *
+ * Long tokens break at their own separators rather than at whichever character
+ * happened to reach the margin. A route key is colon- and hyphen-delimited, so
+ * every row ends on a real boundary instead of producing "...-expung" / "ement".
+ *
+ * The route trailer is internal machine metadata rather than pleading text, so
+ * it is additionally never left as the sole occupant of a participant-facing
+ * page; when the body ends flush with a page boundary the last content block is
+ * pulled down to keep it company.
+ *
+ * Nothing is dropped to make any of this fit. Where a single block is genuinely
+ * taller than a page it continues onto the next one, which is continuation
+ * rather than truncation.
+ */
+const TRAILER_LINE = /^(Route: |Route:$|Routes this set serves \()/;
+/* The petitioner's own contact details are one block to a reader, not four
+ * independent lines: a telephone number under no name answers nothing. They are
+ * kept on one page together. */
+const CONTACT_LINE = /^(PRINTED NAME|MAILING ADDRESS|TELEPHONE|EMAIL):/;
+
 async function renderComposedPdf(fullText, title) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
@@ -4892,42 +4920,94 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
+  const rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1;
+  const fits = (s) => font.widthOfTextAtSize(s, fontSize) <= maxWidth;
+
+  /* A token with no spaces still has natural break points at its own
+   * separators. Breaking there keeps every row ending on a boundary a reader
+   * recognises. A run with no separator at all is hard-split only as a last
+   * resort, because dropping it is not an option. */
   const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
+    const chunks = [];
+    let current = "";
+    const flushOversized = () => {
+      while (!fits(current)) {
+        let cut = current.length - 1;
+        while (cut > 1 && !fits(current.slice(0, cut))) cut--;
+        chunks.push(current.slice(0, cut));
+        current = current.slice(cut);
+      }
+    };
+    for (const piece of token.split(/(?<=[:_/.-])/)) {
+      if (current && !fits(`${current}${piece}`)) { chunks.push(current); current = piece; }
+      else current += piece;
+      flushOversized();
     }
     if (current) chunks.push(current);
     return chunks;
   };
   const wrap = (line) => {
     if (!line) return [""];
-    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
+    const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
     for (const w of words) {
       const candidate = current ? `${current} ${w}` : w;
-      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      if (fits(candidate)) current = candidate;
       else { if (current) rows.push(current); current = w; }
     }
     if (current) rows.push(current);
     return rows;
   };
-  const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
-  const footerKeepStart = Math.max(0, rows.length - 4);
-  for (const [index, row] of rows.entries()) {
-    if (index === footerKeepStart && y - (rows.length - index) * lineHeight < margin) {
-      page = pdf.addPage([width, height]);
-      y = height - margin;
+
+  /* Lay every block out into pages before drawing anything, so that the trailer
+   * can be caught sitting alone while the layout is still only a plan. */
+  const source = sanitizePdfText(fullText).split("\n");
+  const blocks = [];
+  for (let i = 0; i < source.length; i++) {
+    const raw = source[i];
+    /* A run of consecutive contact lines is gathered into a single block, so the
+     * page break can only fall before the name or after the email. */
+    if (CONTACT_LINE.test(raw)) {
+      const run = [];
+      while (i < source.length && CONTACT_LINE.test(source[i])) run.push(...wrap(source[i++]));
+      i--;
+      blocks.push({ index: blocks.length, rows: run, trailer: false });
+      continue;
     }
-    draw(row);
+    blocks.push({ index: blocks.length, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) });
+  }
+  const pages = [[]];
+  for (const block of blocks) {
+    let page = pages[pages.length - 1];
+    if (block.rows.length <= rowsPerPage && page.length + block.rows.length > rowsPerPage) {
+      pages.push([]);
+      page = pages[pages.length - 1];
+    }
+    for (const text of block.rows) {
+      if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
+      page.push({ text, block: block.index, trailer: block.trailer });
+    }
+  }
+
+  const soleOccupant = (page) => page.length > 0 && page.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
+    const last = pages[pages.length - 1];
+    const previous = pages[pages.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    if (previous.length === 0) pages.splice(pages.length - 2, 1);
+  }
+
+  for (const rows of pages) {
+    const page = pdf.addPage([width, height]);
+    for (const [index, row] of rows.entries()) {
+      if (row.text) {
+        page.drawText(row.text, { x: margin, y: height - margin - index * lineHeight, size: fontSize, font, color: rgb(0, 0, 0) });
+      }
+    }
   }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
