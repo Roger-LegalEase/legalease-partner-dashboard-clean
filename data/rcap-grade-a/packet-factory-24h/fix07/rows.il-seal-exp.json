@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX07-IL-SEAL-EXP",
+  "assignmentId": "FIX07",
+  "assignedBase": "c57bc29ef",
+  "branch": "fix07-il-seal-exp",
+  "laneKind": "repair",
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 il-seal-2yr-set -> CLAIM_OK FIX07 il-seal-2yr-set (repair, grant set 5b596e552171bfce), exit 0. Asserted before any family artifact was read or written.",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 il-exp-qualprob-set -> CLAIM_OK FIX07 il-exp-qualprob-set (repair, grant set 5b596e552171bfce), exit 0. Asserted before any family artifact was read or written."
+  ],
+  "headline": "NEITHER PACKET WAS REBUILT AND NEITHER FAMILY IS DISCHARGED. One of the four pinned sources for both families, the EXP-AD Case List (sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, 744,328 bytes), lives in the nationwide_recovery_pool_2026_09_02 custody. That custody is mounted in no container reachable from this worktree and is carried by no release; its official publisher URL is refused by the egress policy. Both builders' resolveSources() therefore refuse, correctly and by name, and no byte of either packet was produced here. The delivered fixture digests are unchanged from the base and identical to the ones VF01 read. What this lane did instead is repair the remaining causes in the two builders, prove each repair non-vacuously without the corpus, and measure both delivered packets at appearance level so the next lane inherits a measured state rather than a claim.",
+  "scope": "The four obligations VF01 failed on the two granted families, repaired at the cause in each family's own builder. No route key, source pin, protected court field, appearance registry entry, fact registry entry, specification, legal record, RASTER_QUEUE.json or MASTER_QUEUE.json was touched, and no shared helper was changed.",
+  "preflight": {
+    "worktree": "/home/user/fix07b-worktree, branch fix07-il-seal-exp from c57bc29ef on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "private/ is a real directory in the worktree whose children are symlinks to /home/user/legalease-partner-dashboard-clean/private/*, read only. Nothing under the source was written. A bare symlink at private/ was tried first and rejected by private_is_git_ignored, because the .gitignore pattern 'private/' does not match a symlink; the directory-of-symlinks mount makes that gate pass honestly rather than be argued away.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, exported as scripts/verify-packet-build-environment.mjs resolves it",
+    "command": "node scripts/verify-packet-build-environment.mjs --family il-seal-2yr-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "theTwoFailures": [
+      "family_sources_bind: 1 of 4 sources do not bind. The EXP-AD Case List. This is not a nuisance failure and it was not worked around: it is the finding that governs this whole return. Three of the four sources bind byte-exact from the Master Library.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The same absent Case List entry, sampled from the other side."
+    ],
+    "whatWasNotDone": "The egress proxy refused CONNECT to ilcourtsaudio.blob.core.windows.net (403, organization policy), so the pinned bytes could not be re-acquired from the publisher URL the committed acquisition receipt records. No substitute source was used, no pin was relaxed, and no builder assertion was weakened to get past the gate.",
+    "sourcesThatDoBind": [
+      "EXP-AD Request 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853, 1,015,247 bytes",
+      "EXP-AD Order Granting 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305, 823,679 bytes",
+      "FW-CIV-APPLICATION b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes"
+    ]
+  },
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "familyId": "il-seal-2yr-set",
+      "jurisdiction": "IL",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "status": "STOPPED_BLOCKED_SOURCE",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+      "verdictRepaired": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "fbd22ae2c",
+        "failedObligationNames": ["KNOWN_PREFILLS", "REPEATING_ROWS", "CLIPPING_AND_OVERLAP", "SERVICE"]
+      },
+      "obligationsRepaired": [
+        "SERVICE, the half that was still open. The disclosure existed only in participant prose, so nothing but a prose reader could audit it. SERVICE_DISCLOSURE is added to scripts/build-census-v1-il-seal-2yr-set.mjs and emitted into production-field-map.json, naming who serves (the circuit court clerk, 20 ILCS 2630/5.2(d)(4)), who is served (the State's Attorney or prosecutor, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer of the unit of local government that effected the arrest), the 60-day objection window under 5.2(d)(5)(B), and participantServiceBurden NONE, each cited to data/record-clearing/legal-design-intake/IL.memo.json at sha256 fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106, which the build re-hashes and refuses on drift. The prose is re-cut into the record's own two questions and the chief-legal-officer recipient is restored to the conditional the record states it in; the previous prose asserted that recipient unconditionally, which the record does not. THIS REPAIR IS IN THE BUILDER ONLY: the delivered production-field-map.json and participant-instructions.md still carry the pre-repair text, because the packet could not be rebuilt."
+      ],
+      "obligationsAlreadyDischargedAtThisBaseAndMeasuredHere": [
+        "KNOWN_PREFILLS, REPEATING_ROWS and CLIPPING_AND_OVERLAP were repaired at commit a7ddb798f, before this lane, and the delivered bytes carry that repair. This lane did not take them on trust: it measured them from the delivered bytes with the repository's flattened-widget reader and a local 120 dpi raster of the Case List and Request pages 2 and 4. Result: Request page 2, the inactive expungement table, draws nothing at all in either fixture; Request page 4, the active sealing table, draws exactly five inked cells, all in row 1, one per column, in both fixtures; zero partially written rows in either fixture; zero ellipsized or truncated values anywhere in either packet; the Case List draws one complete case number in the first cell of the first row with rows 2-5 blank, no charge placeholder, and the clerk-reserved Case Number caption blank."
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster receipt is claimed and none is bound. This lane rendered pages locally into /tmp only, to measure them, and deleted them. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited.",
+        "INDEPENDENT VERIFICATION. This lane wrote this family's builder and verifies none of it. product-wiring.json acceptanceReceipt is null and no verdict was written. VF must re-read the delivered bytes.",
+        "LEGAL INPUT, two items. (a) The Illinois record states who serves, who is served and the objection window, but does not state the manner in which the clerk transmits notice; that one element is declared BLOCKED_LEGAL_INPUT in the field-map disclosure and in the prose rather than guessed, and it is not a participant step either way. (b) The Outcome cell of the active sealing row prints the shared Illinois fixture word 'Dismissed' while the same Request elects item 17, a misdemeanor conviction or ordinance violation sealed after two years; a conviction being sealed was not dismissed, so the packet asserts two dispositions. It is NOT repaired here because the route does not settle it: the Request's own Outcome Abbreviations for Sealing legend offers MC, FC, CE and QP, item 17 covers a misdemeanor conviction OR an ordinance violation, an ordinance violation has no abbreviation in that legend, and which of the two a record is, is a fact the platform does not hold. Writing either would be an invention. This is a new finding of this lane, outside the four obligations, and it needs a legal-input answer before the cell can be written or refused.",
+        "THE REBUILD ITSELF. The builder change above reaches no delivered byte until the EXP-AD Case List custody is mounted and the builder is run."
+      ],
+      "whatChanged": "One file: scripts/build-census-v1-il-seal-2yr-set.mjs.\n\n1. SERVICE_DISCLOSURE, a new const, emitted as production-field-map.json.serviceDisclosure. It follows the shape ut-pet-*-set already uses (serviceRecipientAndMethodStated plus citedAuthorities) and adds mannerOfTransmissionByClerk, which declares the one element the Illinois record does not settle as BLOCKED_LEGAL_INPUT instead of guessing it.\n\n2. build() re-hashes data/record-clearing/legal-design-intake/IL.memo.json against the pinned fc64a4b6.. before writing anything, so a drifted record refuses the build rather than shipping a stale citation.\n\n3. participant-instructions.md's 'Filing and notice' section is re-cut into the record's own two labelled questions, 'Who serves, and how.' and 'Who is served.', quoting the record instead of paraphrasing it, and restores 'for municipal ordinance violations' to the chief-legal-officer recipient.\n\n4. selfTest() gains six assertions over the field-map disclosure and a tightened phrase list over the prose.\n\n5. A header comment recording what was repaired before this lane, what this lane changed, the still-open Outcome contradiction and its reason, and that the file has not been run in this container.\n\nNo classifier, no fixture value, no fitting rule, no route election, no page count and no source pin changed. The classifier is byte-identical, so a run with the corpus mounted would reproduce the delivered PDF bytes exactly and change only production-field-map.json and participant-instructions.md.",
+      "howTheRepairWasProvenWithoutTheCorpus": {
+        "method": "selfTest() was loaded with OUT redirected to a scratch directory, fed the family's own delivered reports/actual-writes.json and production-field-map.json verbatim, plus the repaired prose and disclosure this builder now emits, and then run against six mutations.",
+        "results": [
+          "repaired prose + disclosure -> PASS",
+          "disclosure absent from the field map -> FAIL 'the field map must carry the service disclosure'",
+          "clerk manner invented ('By certified mail.') -> FAIL 'the one element the record does not settle must be declared, not guessed'",
+          "participant given a service burden -> FAIL 'the record puts no service burden on the participant'",
+          "authority hash drifts -> FAIL 'the service disclosure must cite the Illinois record by hash'",
+          "prose drops the conditional recipient -> FAIL on the chief-legal-officer phrase",
+          "prose reverts to the pre-repair paraphrase -> FAIL 'Who serves, and how.'"
+        ],
+        "whyThisIsEvidence": "Every added assertion fails its own negative case, and the whole self-test passes on the delivered write report, which means the addition is a real gate and not a no-op, and that it does not contradict the obligations already discharged in the delivered bytes."
+      },
+      "appearanceCheck": {
+        "reader": "scripts/rcap-official-forms/pdf-flattened-widgets.mjs over the delivered flattened bytes, plus pdftoppm -r 120 of Request pages 2 and 4 and the Case List page into /tmp (deleted after measuring)",
+        "canonical": {"flattenedAppearances": 453, "withInk": 50, "requestPage2InkedCells": 0, "requestPage4InkedCells": 5, "requestPage4CompleteRows": 1, "caseListInkedRowCells": 1, "caseListFirstCell": "2021-CF-004217", "ellipsizedOrTruncatedValues": 0},
+        "boundary": {"flattenedAppearances": 453, "withInk": 50, "requestPage2InkedCells": 0, "requestPage4InkedCells": 5, "requestPage4CompleteRows": 1, "caseListInkedRowCells": 1, "caseListFirstCell": "2024-CF-000001-99", "ellipsizedOrTruncatedValues": 0},
+        "longValuesFitByWrapping": "The boundary fixture's 'Springfield Police Department Records Division' and 'Acquitted or dismissed as certified' are wrapped into two lines inside their own cells by the builder's fit-or-refuse setComplete, and both reconstruct complete from the delivered text. No character is dropped and no ellipsis is drawn.",
+        "partiallyWrittenRowsBefore": 0,
+        "partiallyWrittenRowsAfter": 0,
+        "partialRowNote": "Zero at this base and zero after, in both fixtures. VF01 counted eighteen at fbd22ae2c; a7ddb798f removed them before this lane, and this lane measured that from the bytes rather than from the build's report."
+      },
+      "placementDiff": {
+        "method": "Not applicable in the direction a repair lane normally reports it: no new bytes exist to diff against the old ones, because the packet could not be rebuilt.",
+        "diffActuallyPerformed": "The delivered il-seal-2yr-set Case List page was diffed at 120 dpi against the delivered il-exp-qualprob-set Case List page, the same official form under the two builders. The seal page draws one value, the case number, in the first cell of the first row. The qualprob page draws five values down five successive rows of the same first column, the third of them the truncated placeholder 'Charge exactly as shown o...'. That is the placement defect VF01 named, present in one family and absent in the other, on identical form geometry.",
+        "pageCountBefore": 13,
+        "pageCountAfter": 13
+      },
+      "artifacts": {
+        "canonical": {"oldSha256": "de86008285eef38acaa78433628ec100d787dee69ee3a8faf5dcc19eff3acfa6", "newSha256": "de86008285eef38acaa78433628ec100d787dee69ee3a8faf5dcc19eff3acfa6", "oldByteLength": 1734439, "newByteLength": 1734439, "oldPageCount": 13, "newPageCount": 13, "unchanged": true},
+        "boundary": {"oldSha256": "b1a8aae419d5f40ae35a3e55fb51d968f38bab35cade43c553055d6ec199b58c", "newSha256": "b1a8aae419d5f40ae35a3e55fb51d968f38bab35cade43c553055d6ec199b58c", "oldByteLength": 1735004, "newByteLength": 1735004, "oldPageCount": 13, "newPageCount": 13, "unchanged": true},
+        "whyUnchanged": "No build ran. These are the base bytes, re-hashed here. They are NOT the bytes VF01 read at fbd22ae2c (canonical 3547e310f87cf63a59b8d700884bc5399555d630a1d681d54ca47a850446648b, boundary d469a794056a8b64c55ab7ee3c09df8f47860f17ce5573afe1d5b6732641b52b); a7ddb798f superseded those before this lane's base."
+      },
+      "deterministicRebuild": "NOT PERFORMED. The two byte-identical rebuilds this assignment requires could not be run: the build refuses at resolveSources() for want of the EXP-AD Case List custody. 'node scripts/build-census-v1-il-seal-2yr-set.mjs' exits non-zero with AssertionError 'source custody is not mounted: LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf'.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Identical before and after because no delivered byte changed. Both readings are PASS_COMPLETE 41/424 written. VF01 recorded the blind spot these nine share and it still applies: they trust the declared fact-to-field mapping, so they read zero on a packet with case numbers in charge columns just as readily as on a clean one. They are reported here because the assignment requires them, not as evidence that anything is discharged.",
+      "verifiersRun": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set -> PASS_COMPLETE, 41/424 written, all nine counters zero. Run before and after; identical.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family il-seal-2yr-set -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh. Run before and after; identical.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family il-seal-2yr-set -> BROKEN_DENOMINATOR: no census matched. This family has no field-census.census-v1.json, so the verifier has no denominator for it and correctly refuses to call an empty filter a pass. It is recorded as NOT EXAMINABLE for this family, not as a pass. The unfiltered run over all 96 families returns EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 29 of 29 dispositioned, 0 undispositioned. Independently of the verifier, this lane read the three mounted sources for source-authored values: the only one any of them carries is a whitespace-only default on the '1 - County' dropdown, which the Request build overwrites with the filing county; no source-authored text default reaches either packet from a mounted component. The EXP-AD Case List could not be read for the same reason the build could not run.",
+        "node scripts/verify-packet-build-environment.mjs --family il-seal-2yr-set -> PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/13, the two failures both being the absent Case List."
+      ],
+      "everythingElseHeldStill": "No shared helper was changed, so no other family could move: the only files this lane modified are the two family builders, and nothing outside them imports either one (verified by grep across scripts/ and data/). The three other Illinois families on the shared host scripts/build-census-v1-il-exp-pardon-set.mjs -- il-exp-pardon-set, il-exp-precompletion-set and il-seal-nonconv-set -- are untouched, as is scripts/build-census-v1-il-exp-supervision-set.mjs. No throwaway control rebuild was needed because no shared code path changed.",
+      "productWiring": {"acceptanceReceipt": null, "unchangedByThisLane": true},
+      "filesChanged": ["scripts/build-census-v1-il-seal-2yr-set.mjs"],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no route, promotes no state and authorizes no fulfillment. The family remains FAIL_REPAIR_REQUIRED until it is rebuilt with the Case List custody mounted and independently re-read.",
+      "whatWouldUnblockIt": "The exact 744,328 bytes hashing to b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, mounted in a custody this container can read. Then: node scripts/build-census-v1-il-seal-2yr-set.mjs && node scripts/build-census-v1-il-seal-2yr-set.mjs --self-test, twice for byte-identity, then the three verifiers and a fresh central raster."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "familyId": "il-exp-qualprob-set",
+      "jurisdiction": "IL",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "status": "STOPPED_BLOCKED_SOURCE",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
+      "verdictRepaired": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "fbd22ae2c",
+        "failedObligationNames": ["KNOWN_PREFILLS", "REPEATING_ROWS", "CLIPPING_AND_OVERLAP", "SERVICE"]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS, at the cause, in the builder. Three separate causes, all now closed. (a) The catch-all that gave every 'List all charges for each case number - N' cell the case number was already gone at this base; this lane confirmed that from the classifier rather than from the report. (b) The five row-1 predicates were not gated on a page, and the sealing table on Request page 4 spells its captions '4 - Arresting Agency - 1' and so on, every one of which still ends in the row-1 suffix the predicates matched. A complete five-cell row was therefore written into the SEALING table by a route that elects EXPUNGEMENT. Each predicate is now anchored and gated on page 2, the active table, and optionalUnusedSlot now classifies the WHOLE page 4 table, row 1 included, as an inactive-relief slot that stays wholly blank. (c) The Outcome cell printed the shared fixture word 'Dismissed' on a qualified-probation expungement, contradicting the item 8 election made on the same document. ROUTE_OUTCOME now derives the outcome from the route and writes QP, the abbreviation the Request's own printed 'Outcome Abbreviations for Expungement' legend gives for Qualified Probation Successfully Completed, and 'outcome' is removed from the fixtures so the contradiction cannot return through them.",
+        "REPEATING_ROWS, at the same cause. The eighteen partial rows per fixture were produced by the charge-column catch-all writing rows 2-10 of both tables while nothing wrote their four companion cells. With the catch-all gone and the page gating in place, exactly one row is written, it is complete in all five columns, and every other row of both tables is refused as an unused slot with nothing written in it. The self-test now also asserts the positive form of this: the active row carries five distinct facts, one per column, never a repeat of the case number.",
+        "CLIPPING_AND_OVERLAP, at the cause. setComplete is fit-or-refuse and carries no truncation path: it removes a maxLength that would clip, walks the font ladder from 8pt to 5.5pt, wraps into multiline where the widget is tall enough, and asserts rather than dropping a character when neither fits. The truncating safeSet that produced 'Charge exactly as shown o...' was replaced at this base; this lane confirmed there is no remaining slice, chop or ellipsis path in the file and that the self-test asserts no drawn value ends in an ellipsis.",
+        "SERVICE, both halves. The prose already quoted the record. SERVICE_DISCLOSURE is added and emitted as production-field-map.json.serviceDisclosure, naming who serves (the circuit court clerk, 20 ILCS 2630/5.2(d)(4)), who is served (the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer), the 60-day objection window under 5.2(d)(5)(B), and participantServiceBurden NONE, cited to data/record-clearing/legal-design-intake/IL.memo.json at sha256 fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106, which the build re-hashes and refuses on drift.",
+        "ALL FOUR OF THE ABOVE ARE IN THE BUILDER ONLY. Not one of them has reached a delivered byte, because the packet could not be rebuilt."
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster receipt is claimed and none is bound. This lane rendered pages locally into /tmp only, to measure them, and deleted them. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited.",
+        "INDEPENDENT VERIFICATION. This lane wrote this family's builder and verifies none of it. product-wiring.json acceptanceReceipt is null and no verdict was written.",
+        "LEGAL INPUT. The Illinois record states who serves, who is served and the objection window, but does not state the manner in which the clerk transmits notice. That one element is declared BLOCKED_LEGAL_INPUT in the field-map disclosure and in the prose rather than guessed, and it is not a participant step either way.",
+        "THE REBUILD ITSELF, and with it the delivered packet. The delivered fixtures still carry every defect VF01 read: eighteen partially written rows per fixture, the case number in twenty charge cells, a complete row in the inactive sealing table, the truncated placeholder on the Case List, and the clerk-reserved Case Number caption inked on three pages. None of that is fixed in any byte a participant would receive."
+      ],
+      "whatChanged": "One file: scripts/build-census-v1-il-exp-qualprob-set.mjs.\n\n1. knownValue takes a page and its five active-row predicates are anchored and gated on page 2, the expungement table this route elects. Previously unanchored and unpaged, they matched the sealing table's '4 - ' captions as well.\n\n2. optionalUnusedSlot takes a page and treats the entire Request page 4 table as an unused slot for this route, row 1 included, with a distinct inactive-relief refusal reason.\n\n3. ROUTE_OUTCOME replaces the fixture outcome word with QP, derived from the route and carrying derivedFrom, meaning and the printed legend it is read from onto the write row. 'outcome' is deleted from both fixtures.\n\n4. SERVICE_DISCLOSURE, emitted as production-field-map.json.serviceDisclosure, with mannerOfTransmissionByClerk declared BLOCKED_LEGAL_INPUT.\n\n5. build() re-hashes IL.memo.json against its pin before writing anything.\n\n6. selfTest() gains twelve assertions: the inactive sealing table is wholly blank and nothing at all is written on Request page 4; the active row is complete and carries five distinct facts; the outcome is QP and declares the route derived it; the word 'Dismissed' reaches no cell; and the five field-map service assertions.\n\n7. A header comment recording these three additional faults, the differential that measures them, and that the file has still not been run.\n\nNo route key, source pin, protected field, page count, fitting rule or fixture identity value changed.",
+      "howTheRepairWasProvenWithoutTheCorpus": {
+        "classifierDifferential": {
+          "method": "The HEAD builder and the repaired builder were both loaded and their protectedField / knownValue / optionalUnusedSlot run over this family's real 424-field inventory: 151 Request, 74 Order Granting and 121 FW-CIV fields enumerated from the three mounted sources with pdf-lib, plus the 78 Case List fields taken from the family's own committed field map because that source is not mounted. 424 is exactly the denominator VF01 measured.",
+          "canonical": "6 fields change, 418 unchanged. '4 - Arrest or Case Number - 1', '4 - Arresting Agency - 1', '4 - List all charges for each case number - 1', '4 - Date of Arrest - 1' and '4 - Outcome - 1' go from WRITE to UNUSED_SLOT; 'Outcome - For example RV S or P - 1' goes from WRITE matter.outcome=\"Dismissed\" to WRITE matter.outcome=\"QP\".",
+          "boundary": "The same 6 fields, with the boundary fixture's own values.",
+          "writes": "41 -> 36 per fixture. For orientation, the delivered defective field map records 71."
+        },
+        "selfTestMutations": {
+          "method": "selfTest() was loaded with OUT redirected to a scratch directory and fed a report synthesised from the repaired classifier over the same real 424-field inventory, then run against six mutations.",
+          "results": [
+            "repaired report -> PASS",
+            "sealing table row 1 written again -> FAIL 'the inactive sealing table must remain wholly blank, row 1 included'",
+            "charge cell gets the case number -> FAIL 'charge cells must never receive the case number'",
+            "outcome reverts to the fixed word -> FAIL 'the outcome must be the route's own disposition (QP), not a fixed word'",
+            "service disclosure absent -> FAIL 'the field map must carry the service disclosure'",
+            "clerk manner invented -> FAIL 'the one element the record does not settle must be declared, not guessed'",
+            "instructions drop the recipients -> FAIL on the who-is-served phrase list"
+          ]
+        },
+        "andAgainstTheRealBytes": "Run against the family's actual delivered artifacts, the self-test FAILS at its first assertion, 'charge cells must never receive the case number'. It is measuring the real defect, not a synthetic one, and it will keep failing until the packet is rebuilt.",
+        "whyThisIsEvidence": "The differential proves the change is neither a no-op nor broader than intended: exactly the six fields VF01's findings implicate move, and 418 do not. The mutations prove each new assertion fails its own negative case. Neither is a substitute for a rebuild, and neither is offered as one."
+      },
+      "appearanceCheck": {
+        "reader": "scripts/rcap-official-forms/pdf-flattened-widgets.mjs over the delivered flattened bytes, plus pdftoppm -r 120 of Request pages 2 and 4 and the Case List page into /tmp (deleted after measuring)",
+        "canonical": {"flattenedAppearances": 453, "withInk": 89, "requestPage2": "10 rows with ink, 1 complete, 9 partial", "requestPage4": "10 rows with ink, 1 complete, 9 partial", "caseListInkedRowCells": 5, "caseListTexts": ["2021-CF-004217", "Chicago Police Department", "Charge exactly as shown o", "03/12/2021", "Dismissed"], "clerkCaseNumberCaptionInked": "pages 2, 4 and 7"},
+        "boundary": {"flattenedAppearances": 453, "withInk": 89, "requestPage2": "10 rows with ink, 1 complete, 9 partial", "requestPage4": "10 rows with ink, 1 complete, 9 partial", "caseListInkedRowCells": 5, "caseListTexts": ["2024-CF-000001-99", "Springfield Police Departm", "Complete charge exactly a", "11/29/2023", "Acquitted or dismissed as c"], "clerkCaseNumberCaptionInked": "pages 2, 4 and 7"},
+        "partiallyWrittenRowsBefore": 18,
+        "partiallyWrittenRowsAfter": 18,
+        "partialRowNote": "Eighteen per fixture, before and after, because no byte changed. Nine on Request page 2 and nine on Request page 4, each a written charge-column cell beside four blank companions, measured by grouping inked appearances into rows by y and columns by x. The repaired classifier predicts zero, but a prediction is not a measurement and this row does not report it as one.",
+        "truncationStillDelivered": "The Case List draws the held charge truncated in both fixtures, and in the boundary fixture the agency and outcome are truncated too. Visible in the 120 dpi raster of page 7 as 'Charge exactly as shown o...'."
+      },
+      "placementDiff": {
+        "method": "Not applicable in the direction a repair lane normally reports it: no new bytes exist to diff against the old ones, because the packet could not be rebuilt.",
+        "diffActuallyPerformed": "The delivered il-exp-qualprob-set Case List page was diffed at 120 dpi against the delivered il-seal-2yr-set Case List page, the same official form under the two builders, with identical geometry. Seal draws one value in the first cell of the first row and nothing else; qualprob draws five values down five successive rows of that same first column, at x 53.13 and y 395.02 / 372.49 / 349.73 / 327.51 / 304.96, telling the court the participant has five eligible offences whose case numbers are the case number, the arresting agency, a truncated charge, the arrest date and the outcome. The grid is headed 'Arrest or Case Numbers of all Eligible Criminal Offenses on your Record in this County'; those cells are rows, not columns.",
+        "pageCountBefore": 13,
+        "pageCountAfter": 13
+      },
+      "caseListObligationNote": "The assignment states this obligation as 'the Case List carries the held charge, never a placeholder'. Measured on the form, the held value the Case List carries is the CASE NUMBER, not the charge: the grid is a single column of successive arrest-or-case-number rows, proven from the delivered bytes where all five values share xMin 53.13 at five different y. Writing a charge into it would be a new defect, so the repair is that the Case List carries the complete held case number in the first cell of the first row and nothing else, and emits no placeholder and no truncated value anywhere. That is what the seal family's delivered Case List already does and what this builder now classifies for. Reported rather than silently reinterpreted.",
+      "artifacts": {
+        "canonical": {"oldSha256": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3", "newSha256": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3", "oldByteLength": 1735035, "newByteLength": 1735035, "oldPageCount": 13, "newPageCount": 13, "unchanged": true},
+        "boundary": {"oldSha256": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e", "newSha256": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e", "oldByteLength": 1735665, "newByteLength": 1735665, "oldPageCount": 13, "newPageCount": 13, "unchanged": true},
+        "whyUnchanged": "No build ran. These are byte-for-byte the fixtures VF01 read at fbd22ae2c and they still carry every defect it named."
+      },
+      "deterministicRebuild": "NOT PERFORMED. 'node scripts/build-census-v1-il-exp-qualprob-set.mjs' exits non-zero with AssertionError 'source custody is not mounted: LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf'.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Identical before and after, PASS_COMPLETE 71/424 written, because no delivered byte changed. All nine read zero on a packet that draws eighteen partial rows per fixture, twenty charge cells filled with a case number and a truncated placeholder on the Case List. That is the blind spot VF01 recorded, demonstrated again here: these counters are not evidence for this family and are reported only because the assignment requires them.",
+      "verifiersRun": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set -> PASS_COMPLETE, 71/424 written, all nine counters zero. Run before and after; identical.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family il-exp-qualprob-set -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh. Run before and after; identical.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family il-exp-qualprob-set -> BROKEN_DENOMINATOR: no census matched. This family has no field-census.census-v1.json, so the verifier has no denominator and correctly refuses to call an empty filter a pass. Recorded as NOT EXAMINABLE for this family. The unfiltered run over all 96 families returns EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 29 of 29. The three mounted sources were read directly for source-authored values: only a whitespace-only '1 - County' dropdown default, which the Request build overwrites.",
+        "node scripts/verify-packet-build-environment.mjs --family il-exp-qualprob-set -> PACKET_BUILD_ENVIRONMENT_NOT_READY, the failures being the absent Case List.",
+        "node scripts/build-census-v1-il-exp-qualprob-set.mjs --self-test -> FAILS against the delivered bytes at 'charge cells must never receive the case number', as it should until the packet is rebuilt."
+      ],
+      "everythingElseHeldStill": "No shared helper was changed. The carve-out at 4a7311766 already removed this family from the shared host scripts/build-census-v1-il-exp-pardon-set.mjs, and that host is untouched here, so il-exp-pardon-set, il-exp-precompletion-set and il-seal-nonconv-set cannot have moved. Nothing outside this file imports it (verified by grep across scripts/ and data/). No throwaway control rebuild was needed because no shared code path changed.",
+      "productWiring": {"acceptanceReceipt": null, "unchangedByThisLane": true},
+      "filesChanged": ["scripts/build-census-v1-il-exp-qualprob-set.mjs"],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no route, promotes no state and authorizes no fulfillment. The family remains FAIL_REPAIR_REQUIRED, and its delivered packet is still the defective one.",
+      "whatWouldUnblockIt": "The exact 744,328 bytes hashing to b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, mounted in a custody this container can read. Then: node scripts/build-census-v1-il-exp-qualprob-set.mjs && node scripts/build-census-v1-il-exp-qualprob-set.mjs --self-test, twice for byte-identity, then the three verifiers and a fresh central raster."
+    }
+  ]
+}

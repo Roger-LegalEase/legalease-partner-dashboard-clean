@@ -15623,6 +15623,342 @@
    "claimsReleased": 0,
    "commercialRoutesOpened": 0,
    "productionTouched": false
+  },
+  {
+   "itemId": "ga-fugitive-j5-set",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading",
+   "verifier": "CLAUDE-VF01-GA-FUGITIVE-READ (independent - did not build, repair, raster or productize this family; edited no overlay directory, no build script and no shared record)",
+   "verifiedAtBase": "a71d69523",
+   "verifiedAt": "2026-09-05",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 ga-fugitive-j5-set returned CLAIM_OK VF01 ga-fugitive-j5-set (independent-verification, grant set efde5ab871cfd14c), exit 0, asserted before any family artifact was read. Not released by this lane and the claim ledger is not committed here.",
+   "canonicalSha256": "f5d5ed92060a864fd2f6c162e7941b2190862ac1329f36a25360e20192577759",
+   "boundarySha256": "b187407464de55069fc7185e9d721acef7c90f9f9830315d7ddad860d4533c8c",
+   "artifactBytes": {
+    "canonicalByteLength": 14449,
+    "boundaryByteLength": 14744,
+    "canonicalPageCount": 6,
+    "boundaryPageCount": 6,
+    "recomputedHere": "sha256sum over the fixture bytes on disk in this worktree at a71d69523, before any obligation was measured. Both equal the digests FIX08 returned (canonical f5d5ed92..., boundary b1874074...), so the repaired bytes are the bytes this row read."
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<private>/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ga-fugitive-j5-set",
+    "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "runOnceBeforeReading": true,
+    "theTwoFailures": [
+     "private_is_git_ignored: an artifact of this lane's own mount, recorded rather than argued away. private/ is a SYMLINK to /home/user/legalease-partner-dashboard-clean/private, so the check's `git check-ignore -q private/` exits 128 with 'fatal: pathspec private/ is beyond a symbolic link' instead of 0. .gitignore line 53 is 'private/', `git ls-files private/` is empty, git status never listed it, and nothing under it was written. FIX08 recorded the identical failure for the identical reason at 1b373f2ee.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is master_library 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', identified here by re-running the check's own sampler. No Georgia entry is absent or mismatched, and this family binds zero document binaries, so the gap does not reach it."
+    ],
+    "whatPassedThatMatters": "family_sources_bind: ga-fugitive-j5-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT) that binds committed legal records by hash inside its builder, not document bytes here. master_library_complete 499 files / 329 PDFs / 51 jurisdictions. stale_artifact_block_consulted: 0 artifacts under this family held. worktree_clean, clone_is_complete, 0 skip-worktree bits, core.sparseCheckout false.",
+    "mountedCustodies": [
+     "master_library",
+     "human_source_returns"
+    ],
+    "custodiesNotMounted": [
+     "d_source_packs",
+     "nationwide_recovery_pool_2026_09_02"
+    ]
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterBinding": "RASTER_QUEUE.json row ga-fugitive-j5-set carries currentRasterState RASTER_PASS with rasterReceipt workflowRunId 33975085036, jobId 101330622909, jobConclusion success, renderedCommitSha a23797cbb8ec532ab5635a5b93854f07cb530928, boundToCanonicalSha256 f5d5ed92... and boundToBoundarySha256 b1874074..., with the canary job 101330259900 passing in the same run. Both pins were recomputed here with sha256sum from the fixture bytes on disk BEFORE any obligation was measured and both are equal, so the live receipt is over exactly the bytes this row measured. It supersedes receipt 33547709781 / job 99990088611, which bound the pre-repair 98b8c3f6.../9480dd33... pair VF08 failed. The gate renders the canonical only (documentsCovered ['canonical.pdf']); the boundary was therefore read directly here, page by page.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fugitive-j5-set (read-only, no --write), run in this worktree at a71d69523: PASS_COMPLETE, 8/32 written, 1 family audited. git status was clean before and after the run."
+   },
+   "nineCountersAreNotTheEvidenceHere": "The counters were green at aefd46f7c too, and VF08 still failed this family on two defects visible on delivered pages. The counters are recorded because the lane requires them; the ruling below rests on the composed content stream of all six pages of both fixtures and on 110 dpi rasters read by eye.",
+   "instruments": [
+    "pdf-lib 1.17.1 load + decodePDFRawStream over the composed content stream of all 6 pages of BOTH fixtures (12 pages read), inspected for text render mode, colour operators, font operators, XObjects and annotations",
+    "pdftotext -bbox-layout word geometry for every word of both fixtures (1108 words each), for page-box escape and shared-baseline overlap",
+    "pdftoppm -r 110 -png of canonical pages 1-6 and boundary pages 3-5 into /tmp/vf01ga, read as images, deleted after measuring",
+    "sha256sum over 10,883 files across the two mounted custodies (Master Library + the repository's data tree) to resolve every declared source digest BY CONTENT rather than by declared path",
+    "pdftotext -bbox-layout over three passing Georgia siblings (ga-felony-j1-set, ga-misd-j4-set, ga-vacated-j2-set) as the comparison baseline for the shared host's own geometry"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "routeKeyPrintedOnThePage": "Route: obligation:track-only:GA:ga-fugitive-j5",
+      "printedOccurrences": "four whole keys per fixture, one at the foot of pages 2, 3, 5 and 6 - the last page of each of the four components - and 0 fragments; `grep -c 'Route: obligation:track-only:GA:ga-fugitive-j5$'` returns 4 on each fixture",
+      "recordsAgreeing": [
+       "MASTER_QUEUE.json families[112] routeKeys[1], routeCount 1, legalInputStatus SETTLED",
+       "product-wiring.json routeKey and routeKeys[1]",
+       "source-receipt.json routeKeys[1]",
+       "production-field-map.json routeKeys[1]",
+       "data/record-clearing/legal-design-intake/GA.memo.json trackId ga-fugitive-j5",
+       "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ga-fugitive-j5-set",
+       "participant-instructions.md footer"
+      ],
+      "outputStrategyReclassificationChecked": "The controlling Georgia legal review (Track J, GA-FUGITIVE-J5) states 'Output strategy: process_guidance for v1.' The adopted legal-design intake record sets outputStrategy 'custom_pleading' for the same trackId, and the packet-set manifest carries four custom_pleading components. The adopted record is the later, committed, hash-bound one and MASTER_QUEUE records legalInputStatus SETTLED, so the packet is built for the route the record names. approval-request.json already raises the reclassification as counsel question 3; that is a review-status item on an already-declared divergence, not a build defect, and it does not reach this obligation."
+     },
+     "finding": "One exact obligation route owns all four components and every record names the same key. The instrument is built for it and cites nothing wider: the petition's title, body and WHEREFORE plead O.C.G.A. Sec. 35-3-37(j)(5) referencing Sec. 17-13-4, with disclosure limited to what Sec. 35-3-37(t) and (v) permit, which is exactly the authority the adopted record and the controlling review state for this track."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "documentBinariesBound": 0,
+      "resolvedByContentHashNotByDeclaredPath": true,
+      "sweep": "10,883 files hashed across the two mounted custodies (the Master Library at MASTER_LIBRARY_SOURCE_DIR and the repository's own data tree). Each of the three digests this family binds matched exactly one file, and each match is the file the receipt declares.",
+      "digestsResolved": [
+       "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22 = master_library STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md, 81,432 bytes, the held codified-text source (not rendered into the packet)",
+       "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183 = data/record-clearing/legal-design-intake/GA.memo.json",
+       "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec = data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "noOfficialFormSubstituted": "MASTER_QUEUE gives officialFormFamily NONE, forms [], sourceIds [], sourceHashes [], boundCount 0. No statewide Georgia judiciary form exists for this filing, the controlling review says so in terms, and no form identity was invented on either page face or in any record.",
+      "faceAnchorsSpotChecked": "the receipt's face anchors 'fugitive from justice warrant', 'PART 3: CUSTOM-PLEADING SPECIFICATION', 'the arresting agency and the jail or detention center' and 'limit disclosure to what Sec. 35-3-37(t) and (v) permit' are present in the resolved legal-review bytes.",
+      "nothingLeftUnresolved": "No digest this family claims was absent from the mounted custodies, so no part of this obligation is NOT_MEASURABLE_HERE."
+     },
+     "finding": "Every source this family binds resolves by exact SHA-256, recomputed here from the bytes and located by content rather than by declared path. It binds zero document binaries, which is what a CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition is, and the three records it does bind are all present and exact."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "componentsTheRecordNames": [
+       "primary_filing (ga-fugitive-j5-primary-filing-1, order 1, required)",
+       "proposed_order (ga-fugitive-j5-proposed-order-2, order 2, required)",
+       "certificate_of_service (ga-fugitive-j5-certificate-of-service-3, order 3, required)",
+       "attachment (ga-fugitive-j5-attachment-4, order 4, required)"
+      ],
+      "componentsRendered": "all four, read off the delivered pages: the Petition (pages 1-2), the Proposed Order (page 3), the Certificate of Service (pages 4-5) and Exhibit A (page 6). The rendered role name for the fourth is exhibit_a_criminal_history_cycle; it is the manifest's 'attachment' component, and its page asks for exactly the two documents the manifest's participantActionRequired names - the Georgia criminal history report showing the fugitive warrant arrest cycle, and any Georgia court record of the fugitive warrant proceeding.",
+      "conditionalComponents": "none declared; componentConditions is empty",
+      "requiredComponentsMissing": 0
+     },
+     "finding": "Every component the route names is rendered and present on a delivered page, in the manifest's own order, and no component beyond the four is rendered."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "writesReadBackFromTheDeliveredPages": 8,
+      "canonical": "'Jordan Avery Reyes' in the caption and the body of page 1, in the printed-name block of page 2, in the proposed-order caption of page 3 (uppercase, JORDAN AVERY REYES), in the certifier line of page 4 and on Exhibit A page 6; '42 Peachtree Lane, Atlanta, GA 30303', '404-555-0142' and 'jordan.reyes@example.org' on page 2.",
+      "boundary": "the same eight places carry the stress values: 'Maria-Alejandra O'Shaughnessy-Whitfield', '1188 Upper Notch Crossing Road, Apartment 14B, Savannah, Georgia 31401-2214' (wrapped over two lines, nothing truncated), '(912) 555-0199 ext. 4417' and 'maria.alejandra.oshaughnessy.whitfield@longmailexample.org'.",
+      "everyValueOnThePageItBelongsTo": true,
+      "noKnownFactWithheld": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0, measured here. The remaining 15 blanks are case facts on court records the platform has not seen, each declared REQUIRED_BEFORE_FILING and each disclosed; none is a fact the platform holds."
+     },
+     "finding": "Every known required fact is written and visible on the page it belongs to, in both fixtures, read back from the delivered text rather than from the builder's report."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "declaredItems": 15,
+      "checkedAgainst": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/participant-instructions.md, matched on each item's own printedContext",
+      "matched": 15,
+      "unmatched": 0,
+      "byComponent": "primary_filing 7 (arrest date, caption court and county, case number, demanding jurisdiction, OTN, participant narrative, warrant-outcome account); proposed_order 5 (order arrest date, order caption court and county, order case number, and the OTN in both its caption and its decretal placement); certificate_of_service 3 (arresting-agency service address, prosecutor name and address, service method).",
+      "agencyFactNotHiddenBehindAProtectedClass": "the arresting law enforcement agency's name and service address is declared REQUIRED_BEFORE_FILING and disclosed, not classified court_prosecutor_clerk_or_agency_owned. That is the exact trap the completeness contract names, and this family does not fall into it.",
+      "theInstructionsAlsoSay": "'Each is printed on its page as a labelled dotted blank. Fill every one, from the records above.'"
+     },
+     "finding": "Every declared required-before-filing item is named in participant-instructions.md, checked item by item against the file rather than against the builder's own report of disclosure."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "electionControlsOnThePages": "none. No checkbox, bracket pair or selection glyph appears anywhere in either fixture's extracted text; every blank is a labelled dotted line.",
+      "routeSelectionsMade": "[] with the field map's stated reason that the statutory route is stated in the instrument's own title and body",
+      "whereTheRouteIsStatedInstead": "the petition's title '(FUGITIVE FROM JUSTICE WARRANT)' and '(O.C.G.A. Sec. 35-3-37(j)(5))', its numbered paragraph 1, its WHEREFORE, and the proposed order's own title and decretal paragraph.",
+      "hearingRequest": "the one election the route could have left open is made for the participant, in the alternative, on the face of the petition: 'and, in the alternative, that the petition be set for hearing within 90 days of filing.' The controlling review states 'Hearing within 90 days if requested.'",
+      "requiredOptionsMissing": 0
+     },
+     "finding": "Every route-determined election is selected. The packet states which statutory route it is rather than asking the participant, and it leaves no election control unmade because it carries none."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "repeatingRowStructuresRendered": 0,
+      "whatIsThereInstead": "the packet renders no offence table, count table or numbered row grid. Every participant blank is a single labelled dotted line beneath its own caption, and the two- and three-line address blanks are continuation rules for one field, not row cells.",
+      "incompleteRows": 0
+     },
+     "finding": "No row carries written cells beside required cells left blank, because the packet renders no repeating-row structure at all. Read off the delivered pages, not inferred from the counter."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "protectedBlanks": 9,
+      "eachConfirmedBlankOnTheDeliveredPage": [
+       "primary_filing.caption_judge - page 1 'JUDGE: ............................ (assigned by the court)', empty",
+       "primary_filing.defendant_signature and .signature_date - page 2 'DATE .............................. SIGNATURE OF DEFENDANT ......................................', both empty",
+       "proposed_order.order_caption_judge - page 3 caption JUDGE line, empty",
+       "proposed_order.order_date - page 3 'SO ORDERED, this ............ day of ........................, 20.......', empty",
+       "proposed_order.judge_signature - page 3 signature rule above JUDGE, SUPERIOR COURT, empty",
+       "certificate_of_service.clerk_office_address - page 4, empty",
+       "certificate_of_service.service_date and .certificate_signature - page 4 'DATE OF SERVICE ........................................' and 'SIGNATURE OF DEFENDANT ................................................', both empty"
+      ],
+      "certificateOfMailing": "the certificate of service carries no date and no signature, and page 5 states in the packet's own words that it 'is not proof of service and does not say that anything has been served. It is completed and signed when the copies actually go out. A date or a signature written before the copies go out would be false.'",
+      "refusedFieldsWithInk": 0,
+      "protectedWrites": 0,
+      "flattenedWidgetAppearances": "0. Both fixtures carry no /Annots, no widget, no AcroForm and no Form or Image XObject, so nothing could be written through a flattened appearance either."
+     },
+     "finding": "No signature, signature date, certificate-of-mailing field, court-only or prosecutor-only field carries ink, in either fixture, confirmed on the rendered page rather than from the field map."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "canonical": "f5d5ed92060a864fd2f6c162e7941b2190862ac1329f36a25360e20192577759, 14,449 bytes, 6 pages",
+      "boundary": "b187407464de55069fc7185e9d721acef7c90f9f9830315d7ddad860d4533c8c, 14,744 bytes, 6 pages",
+      "recordsThatNameThem": [
+       "reports/rendered-artifacts.json pdfs[] and artifacts[] - equal, with byteLength and pageCount equal",
+       "product-wiring.json proposedRepresentation.components[0].sha256 - equal",
+       "RASTER_QUEUE.json row canonicalPdfSha256 / boundaryPdfSha256 and the live receipt's boundTo pair - equal",
+       "fix08/rows.ga-fugitive.json artifacts.canonical.newSha256 / artifacts.boundary.newSha256 - equal"
+      ],
+      "deterministicRebuildNotAttemptedHere": "this lane runs no builder. FIX08 recorded a two-run deterministic rebuild; that is its evidence, not carried into this result, which rests only on the digests of the committed bytes."
+     },
+     "finding": "Canonical and boundary bytes hash to what every record naming them says, recomputed here from disk before anything else was measured."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "manifest": "reports/rendered-artifacts.json pageManifest: 1 primary_filing p1, 2 primary_filing p2, 3 proposed_order p1, 4 certificate_of_service p1, 5 certificate_of_service p2, 6 exhibit_a_criminal_history_cycle p1",
+      "renderedOrderReadOffThePages": "page 1 caption + PETITION TO RESTRICT ACCESS...; page 2 the petition's WHEREFORE, signature block and printed-name block; page 3 caption + PROPOSED ORDER RESTRICTING ACCESS...; page 4 caption + CERTIFICATE OF SERVICE; page 5 the certificate's closing warning; page 6 EXHIBIT A - GEORGIA CRIMINAL HISTORY REPORT... . Identical in both fixtures.",
+      "pageCount": "6 in both fixtures, matching the manifest and the raster queue's expectedPages 6",
+      "continuationPagesCarryNoSecondCaption": "pages 2 and 5 are continuations and correctly carry no caption of their own; the manifest declares both as sourcePage 2 of their component."
+     },
+     "finding": "The rendered page order matches the packet manifest exactly, page for page and component for component, in both fixtures."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "pagesReadCanonical": 6,
+      "pagesReadBoundary": 6,
+      "rasterInspected": [
+       "canonical p1",
+       "canonical p2",
+       "canonical p3",
+       "canonical p4",
+       "canonical p5",
+       "canonical p6",
+       "boundary p3",
+       "boundary p4",
+       "boundary p5"
+      ],
+      "wordGeometry": "1108 words per fixture. wordsOutsideThePageBox 0, sharedBaselineOverlaps 0, in both fixtures.",
+      "routeKeyOnlyPages": 0,
+      "emptyPages": 0,
+      "hardSplitTokens": 0,
+      "keysWhole": "4 whole route keys per fixture, 0 fragments and 0 hyphenated splits",
+      "textRenderModeOperators": 0,
+      "inkColoursUsed": [
+       "0 0 0"
+      ],
+      "fontsAndSizes": "Times-Roman 11pt only",
+      "xObjectsDrawn": 0,
+      "annotationsOrWidgets": 0,
+      "invisibleWrites": "none possible and none found: no Tr operator appears in any of the twelve content streams, every fill is '0 0 0 rg', there is no white ink, no zero-size Tf, no clipped text and no XObject or widget appearance to hide a write in.",
+      "page5Ruling": {
+       "question": "VF08 failed this family because page 5 of six carried one line of ink and nothing else - the route key alone, orphaned from the certificate of service on page 4.",
+       "measuredNow": "page 5 carries four drawn lines, verbatim and in this order: 'This page is not proof of service and does not say that anything has been served. It is completed and' / 'signed when the copies actually go out. A date or a signature written before the copies go out would be' / 'false.' / 'Route: obligation:track-only:GA:ga-fugitive-j5'. 43 words, ink from y=64.5 to y=132.4 from the page top. The 110 dpi raster shows the three prose lines and the trailer beneath them; page 4 now ends at 'SIGNATURE OF DEFENDANT ...............' and the three rows that stood at its foot are the three rows now at the head of page 5.",
+       "ruling": "The defect is gone. A page that tells a participant, in the packet's own words, that it is not proof of service and that a date or signature written before the copies go out would be false is a page that carries something a participant and a clerk both need. It is a declared continuation of the certificate of service (pageManifest packetPage 5, sourcePage 2), it carries the same page-foot trailer as every other component's last page, and it is no longer a page of a filing that says only a machine key.",
+       "oneThingARepairLaneCouldStillImprove": "Not a defect and not part of this verdict. The break now falls between 'DATE OF SERVICE' / 'SIGNATURE OF DEFENDANT' at the foot of page 4 and the caution about them at the head of page 5, so a participant looking only at the signature sheet does not see the caution on the same sheet. The caution is not false on its new page - page 5 is also not proof of service - and nothing was lost. A future pagination change that pulled the DATE and SIGNATURE rows down with their caution block would read better; this lane does not require it and did not make it."
+      },
+      "page3Ruling": {
+       "question": "VF08 failed page 3 for machine text in the court's signature block: the route key printing below 'JUDGE, SUPERIOR COURT'. VF07 passed three Georgia siblings on the identical three-line sequence. FIX08 refused to change it and returned it as the open question. This lane rules on it.",
+       "measuredHere": "page 3 ends, in this order and with nothing between them: the signature rule '........................................................' at y=630.0 from the page top, 'JUDGE, SUPERIOR COURT' at y=644.5, the preparer-voice line '(The judge's signature block is a third-party block. It is never prefilled, and the court dates its own order.)' at y=659.0, then one blank row, then 'Route: obligation:track-only:GA:ga-fugitive-j5' at y=688.0. Identical in canonical and boundary. The 110 dpi raster of canonical page 3 is sha256 84bc2e34997909fcaa49bfc183f94ce3b48b5bec20cc24538ed6ee4828c5a470, the same image FIX08 recorded before and after its repair, so this is unchanged from the shape VF08 read.",
+       "theDecidingMeasurement": "The trailer is not placed in the court's block; it is the page-foot trailer this composer draws on the last page of every component, at one fixed offset. Measured on the delivered pages, the gap from the component's last prose line to the trailer is 29.0pt - exactly two line heights, one blank row - on page 2 (354.5 to 383.5), page 3 (659.0 to 688.0), page 5 (93.5 to 122.5) and page 6 (311.0 to 340.0). Page 3 takes the identical offset from the identical position as three pages that carry no signature block at all, so nothing about the judge's block attracted it.",
+       "theRulingInThePagesOwnWords": "PASS. The page itself says what the block is and what the trailer is not: '(The judge's signature block is a third-party block. It is never prefilled, and the court dates its own order.)' stands between the caption and the key, and it is the last thing a reader passes before the trailer. It is parenthesised, sentence case, addressed to the reader, and it disclaims rather than orders. Above it every court-owned line is empty - the signature rule, the SO ORDERED day, month and year, and the caption's JUDGE line. Below it the trailer sits alone at the page foot, after a blank row, in the same place it sits on three pages that have no court block. Nothing in the block carries ink, and nothing outside it purports to be the court's. That is character for character the sequence VF07 passed on ga-felony-j1-set, ga-misd-j4-set and ga-vacated-j2-set, differing only in the caption word 'SUPERIOR' - a captionKind, not a placement - and this lane reads it the same way."
+      },
+      "sharedHostGeometryMeasuredAndNotReportedAsADefect": "Two words per fixture end past the 540pt nominal right text edge on a 612pt page: 'and' at xMax 540.6 on page 3, and 'AS' at xMax 544.6 on page 4 (boundary adds 'delivery.' at 540.0). The same 544.648pt word, on the same uppercase certificate-of-service heading, is present in ga-felony-j1-set, ga-misd-j4-set and ga-vacated-j2-set, the three siblings VF07 passed - it is the shared host's wrap arithmetic on an all-caps line, not a property of this family. It is a 4.6pt overshoot of the text column with 67pt of clear paper to its right, nothing is clipped, nothing overlaps, and actual-writes reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures. Measured, named, and not a defect.",
+      "lowestAndHighestInk": "all ink lies between y=64.5 and y=712.4 from the page top on a 792pt page; the 72pt bottom margin is never crossed and the top figure is the ascender of a baseline drawn at the top margin."
+     },
+     "finding": "PASS. Both defects VF08 found on delivered pages are measured here and both are gone or ruled on: page 5 is no longer a route-key-only page, and the page-3 key is not inside the court's block. No ink falls outside a measured write box, no two words share a baseline and overlap, no key is broken, no page is blank, no write is invisible, and both fixtures render identically clean at 110 dpi."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "whatTheRecordNames": "the adopted legal-design record's destination: 'Superior court in the county where the arrest occurred', with notice to the arresting law enforcement agency and the prosecuting attorney and a hearing within 90 days if requested. The controlling review's Track J venue line says the same.",
+      "whatTheInstructionsSay": "'File with the clerk of the Superior Court of the county where the arrest occurred, in the existing criminal case under the existing case number', and 'Confirm the filing method with the clerk before filing.'",
+      "whatThePagesSay": "the caption on pages 1, 3 and 4 reads 'IN THE SUPERIOR COURT OF ........ COUNTY (COUNTY NAMED IN THE CAPTION - THE COUNTY WHERE THE ARREST ON THE FUGITIVE WARRANT OCCURRED; THIS PETITION IS FILED IN THE SUPERIOR COURT OF THAT COUNTY) STATE OF GEORGIA'.",
+      "theSuperiorCourtDefaultIsNotADefectOnThisRoute": "the legal review's warning 'It must not default to Superior Court' governs the Georgia tracks that follow the accusing or convicting court. This route is the express exception: the adopted record states 'This route names the superior court expressly, unlike the routes that follow the accusing or convicting court', and Sec. 35-3-37(j)(5) sends the petition to the superior court of the county of arrest. Checked rather than assumed."
+     },
+     "finding": "The instructions and the page face both name the court the route names, and the one court the participant must still identify - which county - is a disclosed required-before-filing blank with its own instruction line."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "feeStated": "'No statutory filing fee is identified for this petition: it is a filing in an existing criminal case, not a new civil action, and the leading Georgia pro se practice does not budget one. Whether any Georgia clerk charges a fee for such a filing is unresolved and county-specific, so this packet quotes no figure - ask the clerk of the Superior Court of the county where the arrest occurred before filing.'",
+      "waiverRouteStated": "'Whether the O.C.G.A. Sec. 9-15-2 pauper's-affidavit practice reaches a filing in a criminal case is likewise unresolved; ask the same clerk.' The named waiver route is O.C.G.A. Sec. 9-15-2.",
+      "alsoStated": "'Local agency fees for obtaining a criminal history report vary by agency.'",
+      "noFigureInvented": "no dollar amount appears anywhere in either fixture or in participant-instructions.md.",
+      "whyUnresolvedIsAStatementAndNotAGap": "the controlling review holds both questions county-specific and unresolved, and the family's approval-request.json raises them as counsel question 1. The obligation is that the fee and any waiver route are stated; the packet states the position it is entitled to state, names the waiver route by section, and sends the participant to the one office that can answer. Inventing a figure is what this would fail for."
+     },
+     "finding": "The fee position and the named waiver route are both stated on the participant's own page, with no figure invented and the open county-specific question disclosed as open."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "whoMustBeServed": "three recipients, each with its own captioned block on page 4: the prosecuting attorney, 'IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL FOR THE COUNTY'; the 'OFFICE OF THE CLERK OF COURT SERVED'; and the 'NAME AND SERVICE ADDRESS OF THE ARRESTING LAW ENFORCEMENT AGENCY (this route requires notice to the arresting agency as well; confirm the service destination with that agency before serving)'.",
+      "how": "'by certified mail, e-filing or hand delivery', with 'Method used to serve each recipient (chosen from those listed above, as the clerk directs)' as a disclosed required-before-filing blank.",
+      "agreesWithTheRecord": "the adopted record and the controlling review both require notice to the arresting law enforcement agency and the prosecuting attorney on this route; the packet serves both and adds the clerk.",
+      "when": "the packet states the certificate is completed only when the copies actually go out, and step 6 of the instructions repeats it."
+     },
+     "finding": "Who must be served and how are stated on the certificate of service itself and again in the instructions, and they match the record, including this route's extra recipient - the arresting agency."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": {
+      "measuredHere": true,
+      "whereItIsStated": "participant-instructions.md 'When to stop and get help instead of filing', seven named conditions: the prosecuting attorney opposes; the court sets a contested hearing or takes evidence on disputed facts; any immigration consequence is in play; the underlying out-of-state matter is unresolved or the demanding state still seeks the participant; a pending extradition demand; the out-of-state record itself is the real concern; and attorney review recommended where the extradition posture is unresolved.",
+      "whereToGoInstead": "four named Georgia desks - the Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk and Middle Georgia Justice ('The Desk') - identified as the Judicial Council of Georgia's Access to Justice self-help resources.",
+      "alsoOnThePageFace": "the petition itself says 'If any numbered statement is not true of your case, do not file this petition; the instructions page tells you where to get help instead.'",
+      "matchesTheRecord": "the controlling review's own reservation for this track is the unresolved extradition posture, and that is the condition the packet names first among the out-of-state stops."
+     },
+     "finding": "The packet states where self-help ends, on the participant's page and on the filing's own face, and it names where to go instead."
+    }
+   },
+   "failedObligationNames": [],
+   "notMeasurableHere": [],
+   "blockedLegalInput": [],
+   "ownerDecisionChecked": {
+    "proposedOrderTreatment": "data/record-clearing/legal-decisions/ was read for an owner decision governing what may be printed on a proposed order and beneath a judge's signature caption. All nine files were searched; the four that touch proposed orders (2026-08-28-controlling-decisions.json, 2026-08-28-national-legal-decisions.json, 2026-08-30-lawrence-four-counsel-determinations.json and the crosswalk) settle which packets include a proposed order and what it must address, and none reaches the page-face convention. The only owner decision on proposed orders as such is OWN-RI-PROPOSED-ORDER-2026-09-05, which sits one directory over at data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json rather than under data/record-clearing/legal-decisions/.",
+    "whatThatDecisionSays": "It approves LegalEase composing a proposed order where the state publishes no template, lets the platform populate 'objective case and route facts', and requires that judicial findings, grant or denial, signature, entry date, certification, seal and any court-selected compliance terms stay blank.",
+    "itsScope": "Rhode Island. familiesMoved names five ri_ families, and whatThisDoesNotEstablish forecloses reading it as a general grant. It does not govern the Georgia page face.",
+    "whyThatIsNotABlock": "The page-3 question is answerable from the delivered page and from the corpus convention without it, and every item on that decision's whatStaysBlank list is in fact blank on Georgia page 3: no finding, no grant or denial, no signature, no entry date, no certification, no seal, no compliance term. The route key is an objective route fact printed as this composer's uniform page-foot trailer, at the same offset it takes on three pages carrying no court block. Nothing here needed an owner input this lane does not have, so no obligation is BLOCKED_LEGAL_INPUT.",
+    "georgiaProposedOrderAuthority": "The Georgia proposed order is required by the adopted legal-design record for this track, whose proposed_order component note specifies the GCIC naming, the OTN and arrest date, the county agencies by category and the Sec. 35-3-37(t)/(v) disclosure limit; the delivered page 3 carries all of them."
+   },
+   "historyReadFreshAndNotCopied": "Measured here on the committed bytes at a71d69523. Nothing in this row is carried from VF07, VF08, VF12 or FIX08; those returns were read for history and none of their results was copied.",
+   "historyRead": [
+    "vf08/rows.json row ga-fugitive-j5-set at this base: FAIL_REPAIR_REQUIRED, verifiedAtBase aefd46f7c, failedObligationNames ['CLIPPING_AND_OVERLAP'], against canonical 98b8c3f6.../boundary 9480dd33.... Its two findings were page 5 carrying the route key alone, and the key printing under JUDGE, SUPERIOR COURT on page 3. Every other obligation on that row was carried from VF12 rather than measured; nothing from it is carried here.",
+    "vf07/rows.json Georgia rows: eight PASS_COMPLETE_INDEPENDENT rows across ga-felony-j1-set, ga-fo-active-pre2026-set, ga-fo-discharged-pre2026-set, ga-misd-j4-set, ga-pardon-j7-set, ga-seal-m-set and ga-vacated-j2-set, measured geometrically (0 words outside the page box, 0 shared-baseline overlaps). Three of them carry the identical preparer line between the JUDGE caption and the trailer.",
+    "fix08/rows.ga-fugitive.json: the host pull-down in scripts/build-census-v1-ga-host.mjs, canonical f5d5ed92.../boundary b1874074..., eight siblings byte-identical under the repaired host, page 3 deliberately untouched and returned as the open question. Read for history; its measurements are not this row's evidence."
+   ],
+   "otherRecordDiscrepanciesNotedForARepairLane": [
+    "MASTER_QUEUE.json families[112] sourceReadiness.custodyClass reads SOURCE_IDENTITY_UNRESOLVED while the same row's sourceStatus reads CUSTOM_PLEADING_FROM_CODIFIED_TEXT with sourceBound true and boundCount 0, and source-receipt.json custodyClass reads CUSTOM_PLEADING_FROM_CODIFIED_TEXT. Internal queue bookkeeping, no effect on the bytes.",
+    "MASTER_QUEUE.json families[112] still carries selectedIndependentVerdict FAIL_REPAIR_REQUIRED / vf08 / aefd46f7c against the superseded 98b8c3f6.../9480dd33... pair, and build-status.json still reads rasterState BUILT_RASTER_PENDING and independentVerificationStatus PENDING although RASTER_QUEUE.json carries a live RASTER_PASS over the current bytes. This row supersedes the verdict on these bytes; moving those records is the Captain's, not this lane's.",
+    "source-receipt.json lists the GA legal-design intake memo and the packet-set manifest with pathInArchive values that are repository paths rather than archive paths. Both resolve by content hash, so nothing is wrong with the binding, but the field name invites a path-based reader to look inside the Master Library and report them absent."
+   ],
+   "independence": "This lane did not build, repair, raster or productize this family. It read the committed tree at a71d69523, rastered into /tmp and deleted the rasters, and edited nothing but this return file.",
+   "whatThisRowDoesNotDo": "An independent PASS proves the packet is complete as measured on these exact bytes. It approves no output, promotes no build status or review status, opens no commercial route, mints no Grade-A fulfilment record, does not discharge the owner re-review FIX08 recorded as owed on the bytes it moved under the pin OWN-ADOPT-2026-09-02-BATCH-53, does not answer the four counsel questions this family's approval-request.json raises, and releases no grant.",
+   "selfVerified": false,
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimsReleased": 0,
+   "subagentsCreated": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
   }
  ],
  "supersededLaneMembership": {
@@ -16495,5 +16831,22 @@
   "productionTouched": false,
   "subagentsCreated": 0,
   "grantsNothing": "Two independent PASSes prove two packets complete as measured. They approve no output, promote no build status and open no commercial route."
+ },
+ "vf01GaFugitiveIndependentRead20260905": {
+  "base": "a71d69523",
+  "branch": "vf01-ga-fugitive-read",
+  "familiesClaimed": [
+   "ga-fugitive-j5-set"
+  ],
+  "verdicts": {
+   "PASS_COMPLETE_INDEPENDENT": 1
+  },
+  "appendedRows": 1,
+  "earlierRowsAltered": 0,
+  "grantsReleased": 0,
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "sharedRecordsModified": 0,
+  "claimLedgerCommitted": false
  }
 }
