@@ -134,6 +134,14 @@ const FIXTURES = {
 
 const DOTS = (n = 84) => ".".repeat(n);
 
+/* The affiant's own signature line opens the closing execution unit; the two
+ * lines the notary or other authorized officer completes close it. Both are
+ * matched on the composed source line, and both are used by composedBody (to
+ * place the trailer above the unit) and by renderComposedPdf (to keep the unit
+ * whole on one page). */
+const EXECUTION_UNIT_OPENER = /^SIGNATURE OF /;
+const OFFICER_EXECUTION_LINE = /^(Taken, subscribed and sworn to before me|Officer authorized to administer oaths)\b/;
+
 function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
@@ -271,7 +279,27 @@ function composedBody(componentId, facts) {
     L.push("- You completed the program years ago but no order of dismissal was ever entered: whether the Sec. 17C-5-2b(c) motion is still the right vehicle for a stale file is an unresolved question this packet does not answer.");
     L.push("- Firearm rights, immigration, professional licensing, commercial driving, or federal, tribal, military or out-of-state records questions.");
   }
-  L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
+  /* WHERE THE ROUTE TRAILER GOES WHEN AN OFFICER'S BLOCK CLOSES THE PAGE.
+   *
+   * The trailer is internal machine metadata, and it closes every component.
+   * On the affidavit that put it under "Officer authorized to administer oaths"
+   * - inside a block the page's own words reserve to the notary or other
+   * officer, "completed by that officer, never by you and never by this
+   * packet". VF07 read it off the delivered bytes and named the limb: machine
+   * text inside another's block.
+   *
+   * So where a component closes on a third party's execution block, the trailer
+   * closes the preparer's own half of the page instead, immediately above that
+   * block. This is where the repaired Rhode Island order and the Mississippi
+   * families that pass place it. Nothing is added, removed or reworded: the
+   * same trailer, the same separator row, in front of the execution unit rather
+   * than behind it. Every other component keeps it at the foot, unchanged. */
+  const trailer = `Route: ${ROUTE.routeKeys.join(" ; ")}`;
+  const lastDrawn = L.reduce((last, line, index) => (line === "" ? last : index), -1);
+  const closesOnAnOfficersBlock = lastDrawn >= 0 && OFFICER_EXECUTION_LINE.test(L[lastDrawn]);
+  const unitStart = closesOnAnOfficersBlock ? L.findIndex((line) => EXECUTION_UNIT_OPENER.test(line)) : -1;
+  if (unitStart >= 0) L.splice(unitStart, 0, trailer, "");
+  else L.push("", trailer);
   return L.join("\n");
 }
 
@@ -662,12 +690,47 @@ async function renderComposedPdf(fullText, title) {
    * new scheme: where the rows fall is unchanged, blocks move whole or not at
    * all, and a move that would not fit is refused. */
   const TRAILER_LINE = /^Route: /;
+  /* THE CLOSING EXECUTION UNIT IS ONE BLOCK, AND IT IS NEVER SPLIT.
+   *
+   * The pull-down above moves whole blocks, and a block was one source line, so
+   * the notary's own execution line was a block of its own and the pull-down
+   * elected it as the trailer's companion. VF07 read the result off the
+   * delivered bytes: page 3 ended on "Taken, subscribed and sworn to before me
+   * this ...... day of .................., 20......" with three row slots still
+   * free, and page 4 was a bare sheet carrying the officer's signature rule and
+   * the route trailer under it - no caption, no case number, no affiant.
+   *
+   * A third party's execution line is never a companion now, because it is no
+   * longer a block that can be moved on its own: the affiant's signature line,
+   * the date line, the sentence saying the block below belongs to the officer,
+   * the jurat and the officer's rule are one block, and a block that fits on a
+   * page is not split across a page break. The unit moves whole or stays where
+   * it is. This is the block boundary the Oklahoma composer already keeps
+   * (Rule 1b there); the pagination underneath it is untouched - the same rows,
+   * wrapped by the same rule, on the same 45-row pages. */
   const source = sanitizePdfText(fullText).split("\n");
-  const blocks = source.map((raw, index) => ({ index, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) }));
+  const lastDrawn = source.reduce((last, line, index) => (line === "" ? last : index), -1);
+  const unitStart = lastDrawn >= 0 && OFFICER_EXECUTION_LINE.test(source[lastDrawn])
+    ? source.findIndex((line) => EXECUTION_UNIT_OPENER.test(line))
+    : -1;
+  const blocks = [];
+  for (let i = 0; i < source.length; i++) {
+    if (i === unitStart) {
+      const rows = [];
+      for (let j = unitStart; j <= lastDrawn; j++) rows.push(...wrap(source[j]));
+      blocks.push({ index: blocks.length, rows, trailer: false, execution: true });
+      i = lastDrawn;
+      continue;
+    }
+    blocks.push({ index: blocks.length, rows: wrap(source[i]), trailer: TRAILER_LINE.test(source[i]), execution: false });
+  }
   const pages = [[]];
   for (const block of blocks) {
+    let page = pages[pages.length - 1];
+    if (block.execution && block.rows.length <= rowsPerPage && page.length + block.rows.length > rowsPerPage) {
+      pages.push([]); page = pages[pages.length - 1];
+    }
     for (const text of block.rows) {
-      let page = pages[pages.length - 1];
       if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
       page.push({ text, block: block.index, trailer: block.trailer });
     }
@@ -685,6 +748,20 @@ async function renderComposedPdf(fullText, title) {
   }
   assert.equal(soleOccupant(pages[pages.length - 1]), false,
     `${title}: the delivered packet still ends on a page carrying only the route trailer`);
+  /* Proof, not intention, read off the settled layout: every drawn row of the
+   * closing execution unit landed on one page, and no machine text was drawn on
+   * that page at all. */
+  const executionBlock = blocks.find((block) => block.execution);
+  if (executionBlock && executionBlock.rows.length <= rowsPerPage) {
+    const onPages = pages.flatMap((rows, index) => rows
+      .filter((r) => r.block === executionBlock.index && r.text !== "").map(() => index));
+    for (const index of onPages) {
+      assert.equal(index, onPages[0],
+        `${title}: the closing execution unit was split across a page break`);
+    }
+    assert.equal(pages[onPages[0]].some((r) => r.trailer), false,
+      `${title}: the route trailer was drawn on the page that carries the officer's execution block`);
+  }
 
   for (const rows of pages) {
     const page = pdf.addPage([width, height]);
