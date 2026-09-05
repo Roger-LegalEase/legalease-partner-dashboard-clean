@@ -4,6 +4,7 @@
   "renderedFresh": true,
   "derivedFromBytes": true,
   "componentSet": [
+    "cover_and_contents",
     "primary_filing",
     "proposed_order",
     "certificate_of_service",
@@ -11,85 +12,247 @@
     "instructions"
   ],
   "componentConditions": {},
+  "specificationConformance": {
+    "specification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "specificationByteLength": 59843,
+    "specificationId": "ms-nonconviction-expungement-99-19-71-4",
+    "specificationVersion": "2.0.0",
+    "packetFamily": "ms-nonconv-set",
+    "measuredAgainst": "the specification the route binds, not this build's own componentSet",
+    "documentsTheSpecificationNames": 5,
+    "documentsRendered": 5,
+    "documentsDispositionedWithoutRendering": 0,
+    "everySpecificationDocumentRendersOrIsDispositioned": true,
+    "documents": [
+      {
+        "documentId": "ms-cover-and-contents",
+        "role": "cover_and_contents",
+        "order": 1,
+        "requirement": "required",
+        "title": "Your Mississippi Non-Conviction Expungement Packet",
+        "rendered": true,
+        "renderedByComponents": [
+          "cover_and_contents"
+        ],
+        "disposition": null,
+        "why": null,
+        "pages": {
+          "canonical": [
+            1,
+            2
+          ],
+          "boundary": [
+            1,
+            2
+          ]
+        }
+      },
+      {
+        "documentId": "ms-petition-for-expungement",
+        "role": "primary_filing",
+        "order": 2,
+        "requirement": "required",
+        "title": "Petition for Expunction of Record",
+        "rendered": true,
+        "renderedByComponents": [
+          "primary_filing"
+        ],
+        "disposition": null,
+        "why": null,
+        "pages": {
+          "canonical": [
+            3,
+            4
+          ],
+          "boundary": [
+            3,
+            4
+          ]
+        }
+      },
+      {
+        "documentId": "ms-proposed-order",
+        "role": "proposed_order",
+        "order": 3,
+        "requirement": "required",
+        "title": "Order Granting Expunction of Record",
+        "rendered": true,
+        "renderedByComponents": [
+          "proposed_order"
+        ],
+        "disposition": null,
+        "why": null,
+        "pages": {
+          "canonical": [
+            5,
+            6
+          ],
+          "boundary": [
+            5,
+            6
+          ]
+        }
+      },
+      {
+        "documentId": "ms-service-and-attachments",
+        "role": "certificate_of_service_and_attachment_checklist",
+        "order": 4,
+        "requirement": "required",
+        "title": "Certificate of Service and Attachment Checklist",
+        "rendered": true,
+        "renderedByComponents": [
+          "certificate_of_service",
+          "attachment"
+        ],
+        "disposition": null,
+        "why": null,
+        "pages": {
+          "canonical": [
+            7,
+            8
+          ],
+          "boundary": [
+            7,
+            8
+          ]
+        }
+      },
+      {
+        "documentId": "ms-filing-and-next-steps",
+        "role": "filing_and_next_steps",
+        "order": 5,
+        "requirement": "required",
+        "title": "Filing Instructions, Next Steps, and When to Get Legal Help",
+        "rendered": true,
+        "renderedByComponents": [
+          "instructions"
+        ],
+        "disposition": null,
+        "why": null,
+        "pages": {
+          "canonical": [
+            9,
+            10
+          ],
+          "boundary": [
+            9,
+            10
+          ]
+        }
+      }
+    ],
+    "manifestGaps": [
+      {
+        "specificationDocumentId": "ms-cover-and-contents",
+        "gap": "data/record-clearing/legal-design-packet-set-manifests.json declares five components for ms-nonconv-set and none of them is the specification's required order-1 cover_and_contents document, so product-wiring.json maps it to manifestComponentIds []. This build renders the document as the composed component cover_and_contents and does not edit the manifest, the specification or any legal-design record. Giving the document a manifest component id is owed to the productization lane.",
+        "thisBuildDidNotEditTheManifest": true
+      }
+    ],
+    "openLegalQuestions": [
+      {
+        "question": "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake memo, which records notarization as unresolved and prints a simple truth statement?",
+        "specificationSays": "finalVerificationRequirements: 'The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation.'",
+        "memoSays": "data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv: notarization is unresolved and the petition carries a simple truth statement rather than a notarized verification.",
+        "howThisBuildTreatsIt": "It does not resolve it. No verification block and no notarial certificate was added to the petition, the order or the certificate of service. The cover's signing-and-notarization page prints the SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, says on the page that it is printed from the specification, states that the composed petition carries a truth statement instead, and sends the participant to the records office of the court that heard the case - which is what the filing instructions already do.",
+        "unresolvedBy": "FIX01; counsel or the owner settles it"
+      }
+    ],
+    "grantsNothing": "Conformance to the specification's document set is a build assertion. It is not independent verification, not a raster acceptance and not an approval."
+  },
   "pdfs": [
     {
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "canonical",
-      "sha256": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
-      "byteLength": 22815,
-      "pageCount": 8
+      "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+      "byteLength": 29578,
+      "pageCount": 10
     },
     {
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "boundary",
-      "sha256": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
-      "byteLength": 23066,
-      "pageCount": 8
+      "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+      "byteLength": 29851,
+      "pageCount": 10
     }
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
-      "sha256": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
-      "byteLength": 22815,
-      "pageCount": 8,
+      "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+      "byteLength": 29578,
+      "pageCount": 10,
       "pageManifest": [
         {
           "packetPage": 1,
-          "component": "primary_filing",
-          "documentId": "primary_filing",
+          "component": "cover_and_contents",
+          "documentId": "cover_and_contents",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 2,
+          "component": "cover_and_contents",
+          "documentId": "cover_and_contents",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "primary_filing",
+          "documentId": "primary_filing",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
           "component": "primary_filing",
           "documentId": "primary_filing",
           "sourcePage": 2,
           "sourceSha256": null
         },
         {
-          "packetPage": 3,
+          "packetPage": 5,
           "component": "proposed_order",
           "documentId": "proposed_order",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 4,
+          "packetPage": 6,
           "component": "proposed_order",
           "documentId": "proposed_order",
           "sourcePage": 2,
           "sourceSha256": null
         },
         {
-          "packetPage": 5,
+          "packetPage": 7,
           "component": "certificate_of_service",
           "documentId": "certificate_of_service",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 6,
+          "packetPage": 8,
           "component": "attachment",
           "documentId": "attachment",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 7,
+          "packetPage": 9,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 8,
+          "packetPage": 10,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 2,
@@ -97,6 +260,7 @@
         }
       ],
       "documents": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",
@@ -104,6 +268,7 @@
         "instructions"
       ],
       "components": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",
@@ -114,61 +279,75 @@
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
-      "sha256": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
-      "byteLength": 23066,
-      "pageCount": 8,
+      "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+      "byteLength": 29851,
+      "pageCount": 10,
       "pageManifest": [
         {
           "packetPage": 1,
-          "component": "primary_filing",
-          "documentId": "primary_filing",
+          "component": "cover_and_contents",
+          "documentId": "cover_and_contents",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 2,
+          "component": "cover_and_contents",
+          "documentId": "cover_and_contents",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "primary_filing",
+          "documentId": "primary_filing",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
           "component": "primary_filing",
           "documentId": "primary_filing",
           "sourcePage": 2,
           "sourceSha256": null
         },
         {
-          "packetPage": 3,
+          "packetPage": 5,
           "component": "proposed_order",
           "documentId": "proposed_order",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 4,
+          "packetPage": 6,
           "component": "proposed_order",
           "documentId": "proposed_order",
           "sourcePage": 2,
           "sourceSha256": null
         },
         {
-          "packetPage": 5,
+          "packetPage": 7,
           "component": "certificate_of_service",
           "documentId": "certificate_of_service",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 6,
+          "packetPage": 8,
           "component": "attachment",
           "documentId": "attachment",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 7,
+          "packetPage": 9,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 8,
+          "packetPage": 10,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 2,
@@ -176,6 +355,7 @@
         }
       ],
       "documents": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",
@@ -183,6 +363,7 @@
         "instructions"
       ],
       "components": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",
@@ -195,6 +376,7 @@
     {
       "fixture": "canonical",
       "documents": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",
@@ -205,6 +387,7 @@
     {
       "fixture": "boundary",
       "documents": [
+        "cover_and_contents",
         "primary_filing",
         "proposed_order",
         "certificate_of_service",

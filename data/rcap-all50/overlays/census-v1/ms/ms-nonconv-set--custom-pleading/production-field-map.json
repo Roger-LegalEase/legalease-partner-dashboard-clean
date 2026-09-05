@@ -11,6 +11,7 @@
   "implementationStrategy": "custom_pleading",
   "officialForm": null,
   "componentSet": [
+    "cover_and_contents",
     "primary_filing",
     "proposed_order",
     "certificate_of_service",
@@ -209,6 +210,56 @@
     }
   ],
   "maps": [
+    {
+      "formNumber": "cover_and_contents",
+      "documentId": "cover_and_contents",
+      "documentRole": "cover_and_contents",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "the legal-design intake record (data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv, reading the enrolled text of 2026 Miss. HB 1546) and the packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json, ms-nonconv-set)",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "cover_and_contents.participant_full_name",
+          "fieldName": "cover_and_contents.participant_full_name",
+          "page": 1,
+          "printedLabel": "Full name of the person this packet was prepared for",
+          "printedLine": "Full name of the person this packet was prepared for",
+          "effectiveLabel": "Full name of the person this packet was prepared for",
+          "regionHeading": "Full name of the person this packet was prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "cover_and_contents"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "cover_and_contents.participant_full_name",
+          "fieldName": "cover_and_contents.participant_full_name",
+          "page": 1,
+          "printedLabel": "Full name of the person this packet was prepared for",
+          "printedLine": "Full name of the person this packet was prepared for",
+          "effectiveLabel": "Full name of the person this packet was prepared for",
+          "regionHeading": "Full name of the person this packet was prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "cover_and_contents"
+        }
+      ],
+      "boundaryRefusals": []
+    },
     {
       "formNumber": "primary_filing",
       "documentId": "primary_filing",
