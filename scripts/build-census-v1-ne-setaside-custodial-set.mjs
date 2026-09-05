@@ -1907,6 +1907,27 @@ async function renderOneDocument(source, config, fixture) {
       documentAcceptsFill: policy.documentAcceptsFill,
       documentTextLines: census.documentTextLines,
       maxFontSize: 10,
+      /* FIX68. DC-1-15 field Text60.0 ships an appearance whose /BBox is
+       * 313.129pt wide against a /Rect 221.09pt wide, so the rule of
+       * underscores it draws overhangs its own widget by 92.04pt and runs off
+       * the text column. ISO 32000-1 12.5.5 requires the transformed BBox to
+       * be fitted to the /Rect -- here 0.706 -- and pdf-lib's flatten() emits
+       * a translation only, so the fit never happened. VF08 measured 1520 dark
+       * pixels outside that rect per fixture at 300 dpi on packet page 5,
+       * where the form's own conforming placement carries none, and proved the
+       * ink is the shared step's rather than this family's by reproducing the
+       * identical pixel set from a zero-write flatten of the pinned source
+       * with the option OFF.
+       *
+       * Opting in pre-composes the 12.5.5 mapping into that appearance's own
+       * /Matrix. This is the shared step's defect, not Nebraska's; the option
+       * is default-off and no other family's bytes move because this family
+       * passes it. No synthesized square was recorded for this family, so
+       * FIX50's suppressSynthesizedAppearances is not passed. This file also
+       * hosts ne-setaside-noncustodial-set, whose action is STOP: that family
+       * is routed to buildStop and never reaches this call, so its directory
+       * is unaffected. */
+      fitAppearancesToRect: true,
       title: source.formNumber
     });
     const proof = await verifyAcroBytes(source, census, policyData, result.bytes, result.report, facts, fixture);
