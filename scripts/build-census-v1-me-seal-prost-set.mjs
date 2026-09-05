@@ -171,7 +171,7 @@ const FORM_FIELDS = {
     page: 1, caption: ". This crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and §2262-A.",
     label: "Date of the conviction for Engaging in Prostitution (mm/dd/yyyy)",
     captionAt: { page: 1, y: 498 },
-    ...SUPPLY("the date you were convicted of Engaging in Prostitution, from your court paperwork. The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A")
+    ...SUPPLY("the date you were convicted of Engaging in Prostitution, from your court paperwork. This blank sits inside numbered paragraph 1, whose printed sentence goes on to recite that the crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A — a requirement the statute no longer imposes, because PL 2025, c. 513 repealed the eligible-criminal-conviction prerequisite formerly in § 2262-A(1). Read _Paragraph 1 of this form is out of date_ in the instructions before you complete it")
   },
 
   /* ---- signature and contact ---- */
@@ -732,7 +732,7 @@ function countCompleteness(map, writeProofs, artifacts, instructionsText, receip
 function participantInstructions(map, source, rbf) {
   const elections = map.selectionControls;
   const out = [];
-  out.push(`# Filing instructions \u2014 ${ROUTE.publicLabel}`, "");
+  out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
   out.push(
     `This packet is Maine Judicial Branch form **${source.formNumber}**, _${FORM_TITLE}_, prepared under `
     + `${ROUTE.authority}.`, ""
@@ -746,8 +746,56 @@ function participantInstructions(map, source, rbf) {
   out.push("## What this motion asks", "");
   out.push(
     "It asks the court to seal a conviction for **Engaging in Prostitution**, a Class E crime under the former 17-A "
-    + "M.R.S.A. \u00a7 853-A, under 15 M.R.S.A. \u00a7\u00a7 2262-A and 2263. The motion states, in the court's own "
-    + "printed words, that the conviction is eligible for sealing under 15 M.R.S.A. \u00a7 2261(6) and \u00a7 2262-A.", ""
+    + "M.R.S.A. § 853-A, under 15 M.R.S.A. §§ 2262-A and 2263.", ""
+  );
+  out.push(
+    "**This route reaches that one named offence and nothing else.** 15 M.R.S.A. § 2262-A permits sealing of "
+    + "criminal history record information relating to a conviction for the former Class E crime of engaging in "
+    + "prostitution under 17-A M.R.S.A. former § 853-A, repealed in 2023. Any prostitution-adjacent offence other "
+    + "than 17-A M.R.S.A. former § 853-A is outside it: this is a named-offence route and it does not stretch. If "
+    + "the conviction you want sealed is some other offence, this is not the motion for it.", ""
+  );
+
+  out.push("## Before you go further: a broader route may fit better", "");
+  out.push(
+    "This is asked once, gently, and you do not need to give any detail:", ""
+  );
+  out.push(
+    "> Was this conviction connected to trafficking, coercion, exploitation, or someone pressuring you into the conduct "
+    + "behind the charge? You do not need to give any detail. A yes simply means a different and broader route may fit "
+    + "better.", ""
+  );
+  out.push(
+    "A yes routes you to the survivor track — a motion to seal a conviction for victims of sex trafficking or "
+    + "sexual exploitation under 15 M.R.S.A. § 2262-B — which reaches any conviction, has no waiting period, "
+    + "and may be filed at any time after the conviction is entered. Where your account suggests trafficking, coercion "
+    + "or survival circumstances, take the survivor-track screen before filing here.", ""
+  );
+
+  out.push("## The one-year wait", "");
+  out.push(
+    "One year must have passed since you fully satisfied **each** of the sentencing alternatives imposed under 17-A "
+    + "M.R.S.A. § 1502(2) for the conviction (15 M.R.S.A. § 2262-A). The year runs from full satisfaction of "
+    + "every sentencing alternative — including any incarceration, probation, administrative release, licence "
+    + "suspension, fine payments, restitution and community service — so it does not begin until the last of them "
+    + "is satisfied.", ""
+  );
+
+  out.push("## What does not apply here", "");
+  out.push(
+    "**The general sealing track's clean-record and pending-charge restrictions do NOT apply to this route.** 15 "
+    + "M.R.S.A. § 2262 opens \"Except as provided in sections 2262-A and 2262-B\", so the general track's "
+    + "clean-record conditions in § 2262(3) and (4) and its pending-charge restriction in § 2262(5) do not "
+    + "apply here, and they must not be imposed on this route.", ""
+  );
+  out.push(
+    "If you have read the general track's conditions and concluded that you are disqualified, **do not let that "
+    + "discourage you from filing here** — that conclusion does not carry over to this motion. What this route "
+    + "does turn on is the one-year wait above and the two statements printed on the form below.", ""
+  );
+  out.push(
+    "Relief on this route is mandatory: the information must be sealed if the conditions are met, and 15 M.R.S.A. "
+    + "§ 2264(5) requires the court to grant the motion on a preponderance showing.", ""
   );
 
   out.push("## Read the two statements you are asserting", "");
@@ -756,7 +804,7 @@ function participantInstructions(map, source, rbf) {
     + "the motion asserts both**, so read them and make sure each is true of you:", ""
   );
   out.push(
-    "1. **At least one year has passed since you fully satisfied every sentencing alternative** imposed \u2014 including "
+    "1. **At least one year has passed since you fully satisfied every sentencing alternative** imposed — including "
     + "any incarceration, probation, administrative release, licence suspension, fine payments, restitution and community "
     + "service."
   );
@@ -770,18 +818,75 @@ function participantInstructions(map, source, rbf) {
     + "form, and this packet does not decide whether either is true of you.", ""
   );
 
-  out.push("## Where you file this", "");
+  out.push("## Paragraph 1 of this form is out of date", "");
   out.push(
-    "**Tick the court the case is in** \u2014 the form gives Superior Court, District Court and the Unified Criminal "
-    + "Docket \u2014 and file the motion with that court's clerk, in the county already filled in for you.", ""
+    "CR-289 is Rev. 10/24 and predates PL 2025, c. 513. Its numbered paragraph 1 still recites that the crime \"is "
+    + "eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A\", but c. 513 repealed the "
+    + "eligible-criminal-conviction prerequisite formerly in § 2262-A(1). **The form asserts a requirement the "
+    + "statute no longer imposes.**", ""
   );
-  out.push("**Any filing fee is not stated here**, because no source this packet holds establishes one. Ask the clerk.", "");
+  out.push(
+    "What that means for you: the recital is harmless in most cases, because former § 853-A was a Class E crime "
+    + "outside Title 17-A chapter 11. It is left as a manual completion item and prints blank rather than being affirmed "
+    + "on your behalf, because this packet does not affirm a stale statutory recital for a participant. Paragraph 1 is "
+    + "yours to complete, and the blank inside it is the conviction date in the table below.", ""
+  );
+  out.push(
+    "Whether the Judicial Branch has issued a revised CR-289 since PL 2025, c. 513 is not confirmed by any source this "
+    + "packet holds.", ""
+  );
+
+  out.push("## Filing and hearing", "");
+  out.push(
+    "**Tick the court the case is in** — the form gives Superior Court, District Court and the Unified Criminal "
+    + "Docket — and file the completed and signed motion with that court's clerk, in the court in which the "
+    + "conviction was entered, in the underlying criminal proceeding (15 M.R.S.A. § 2264(1)), in the county already "
+    + "filled in for you. Nothing else is required by statute or by the form.", ""
+  );
+  out.push(
+    "**Any filing fee is not stated here**, because no source this packet holds establishes one. No fee is expected, on "
+    + "the same analysis as the general sealing track. Confirm with the clerk; no refund is promised.", ""
+  );
+  out.push(
+    "**A hearing is required and there is no consent path on this section.** A hearing is mandatory on this track and "
+    + "there is no consent or default path. The clerk sets it after the motion is filed (15 M.R.S.A. § 2264(1)), "
+    + "the court holds it, the Maine Rules of Evidence do not apply, and you bear a preponderance burden on each "
+    + "prerequisite.", ""
+  );
+  out.push(
+    "**The hearing date, time and courtroom** are set by the clerk after you file. This packet never assigns a hearing "
+    + "date, so write them here when the clerk gives them to you:", ""
+  );
+  out.push("- Hearing date: ______________________");
+  out.push("- Time: ______________________");
+  out.push("- Courtroom: ______________________", "");
+  out.push(
+    "**Notice to the prosecutorial office** is not your job. 15 M.R.S.A. § 2264(3) directs notice to the "
+    + "prosecutorial office that represented the State and places it on the court, not on you. Neither the statute nor "
+    + "CR-289 imposes a service obligation on you, and the form carries no certificate-of-service block. Confirm with the "
+    + "clerk when you file, and deliver a courtesy copy if the clerk asks. There is no written objection procedure and no "
+    + "fixed response period; the State appears at the hearing.", ""
+  );
+
+  out.push("## After a sealing order: no self-reporting duty", "");
+  out.push(
+    "**There is no self-reporting duty on this track, and a later conviction does not unseal a § 2262-A record.** "
+    + "PL 2025, c. 513 amended 15 M.R.S.A. § 2264(7) to add \"This subsection does not apply to records sealed "
+    + "pursuant to section 2262-A or 2262-B.\" That is a real advantage over the general sealing track, and it is "
+    + "surfaced here rather than left for you to find.", ""
+  );
+  out.push(
+    "What sealing reaches: it restricts what criminal justice agencies may disseminate and what appears on a State "
+    + "Bureau of Identification background check (15 M.R.S.A. § 2265). Maine seals; it does not expunge, and the "
+    + "record is not completely erased. Do not read this as the court case disappearing.", ""
+  );
 
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in the items in the table below.**");
   out.push("2. **Tick the court**, from the three choices listed under _The choices that are yours_.");
   out.push("3. **Read the two marked statements above.**");
-  out.push("4. **Sign and date the motion yourself.** Both lines are left blank on purpose.");
+  out.push("4. **Decide paragraph 1 for yourself**, after reading _Paragraph 1 of this form is out of date_ above.");
+  out.push("5. **Sign and date the motion yourself.** Both lines are left blank on purpose.");
   out.push("");
 
   out.push("## The items you must supply", "");
@@ -797,6 +902,26 @@ function participantInstructions(map, source, rbf) {
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and its date.**");
   out.push("- **The attorney and Maine Bar number block.** The form marks it 'if applicable'; you are filing this yourself, and no attorney-representation fact is held for you.");
+  out.push(
+    "- **CR-289 paragraph 1's recital that the crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and "
+    + "§ 2262-A.** Left as a manual completion item rather than affirmed on your behalf, for the reason set out "
+    + "above."
+  );
+  out.push(
+    "- **CR-289 paragraph 3's certification about disqualifying convictions.** Whether any prior or later conviction is "
+    + "\"substantially similar conduct in another jurisdiction\" to §§ 852, 853, 853-B or 855 is a legal "
+    + "conclusion you own."
+  );
+  out.push(
+    "- **The hearing date, time and courtroom.** The clerk sets the hearing after the motion is filed under 15 M.R.S.A. "
+    + "§ 2264(1). This packet never assigns a hearing date; there is a place for it under _Filing and hearing_ "
+    + "above."
+  );
+  out.push(
+    "- **Every finding, ruling, date and signature of the court.** 15 M.R.S.A. § 2264(5) requires the court to "
+    + "issue a written order with findings of fact. No proposed-order form is published by the Judicial Branch for any "
+    + "chapter 310-A motion, so this packet contains none."
+  );
   out.push("");
 
   out.push("## What this packet is not", "");
@@ -805,7 +930,7 @@ function participantInstructions(map, source, rbf) {
     + "and it does not decide whether your conviction is eligible to be sealed."
   );
   out.push("");
-  out.push(`_Route: ${ROUTE.routeKey} \u2014 ${ROUTE.authority}_`);
+  out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
   return `${out.join("\n")}\n`;
 }
 
