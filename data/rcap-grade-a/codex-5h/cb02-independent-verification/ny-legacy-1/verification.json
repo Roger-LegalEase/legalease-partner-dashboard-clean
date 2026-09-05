@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "cb02-independent-verification/v1",
+  "assignment": "CB02V-NY1",
+  "candidate": "cb02-ny-160-55-legacy-1",
+  "verdict": "CANDIDATE_BLOCKED_MISSING_EVIDENCE",
+  "baseShaObserved": "e6fb360f41f621abcc904419e8f750afa404a84e",
+  "requiredMinimumAncestor": "34ca308af92db091f0e702aff43f7b69de47652a",
+  "minimumAncestorResult": "FAIL_COMMIT_NOT_PRESENT",
+  "commercialAuthority": false,
+  "candidateFilesModified": 0,
+  "pdfFilesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "evidenceBlocker": {
+    "missingPaths": [
+      "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json",
+      "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-1/"
+    ],
+    "smallestRepairRequired": "Publish or select a checkout containing required ancestor 34ca308af92db091f0e702aff43f7b69de47652a and the complete committed cb02-custom-pleadings candidate tree, then rerun this independent verification."
+  },
+  "obligations": [
+    "exactRouteAndBranchIdentity",
+    "controllingDecisionAndStatus",
+    "qualifyingCohort",
+    "participantFilingActor",
+    "destination",
+    "trigger",
+    "deadlineAndNoticeRequirements",
+    "pleadingTheory",
+    "requiredAllegations",
+    "requiredAttachments",
+    "serviceOrNotice",
+    "feeOrWaiverTreatment",
+    "packetComponents",
+    "selfHelpStop",
+    "protectedFields",
+    "participantCompletedLaterFields",
+    "platformDoesNotWriteReservedFields",
+    "noPlaceholderLegalConclusion",
+    "noUnsupportedStatewideFormClaim",
+    "canonicalGeneratorInput",
+    "boundaryGeneratorInput",
+    "nonvisualNineCounterReport",
+    "commercialAuthorityFalse",
+    "cpl160_55_3MotionBranch",
+    "terminatingCourtDestination",
+    "districtAttorneyTwentyDayNotice",
+    "pre1980CohortNotCollapsedInto1980To1991Branch",
+    "canonicalBinaryManifestMatch",
+    "boundaryBinaryManifestMatch",
+    "twoRunDeterminism"
+  ],
+  "results": {
+    "commercialAuthorityFalse": {
+      "status": "PASS",
+      "citations": ["docs/PRODUCT_CONTRACT.md", "AGENTS.md"],
+      "evidence": "This verification creates no fulfillment record and opens no route."
+    },
+    "allOtherObligations": {
+      "status": "FAIL",
+      "appliesTo": "every obligations entry except commercialAuthorityFalse",
+      "citations": [
+        "data/rcap-grade-a/launch-control/next-waves/CB02_CANDIDATE_VERIFICATION_WAVE.json",
+        "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json (missing)",
+        "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-1/ (missing)"
+      ],
+      "smallestRepairRequired": "Provide the committed candidate directory and binary-artifact manifest on a checkout containing the required minimum ancestor; no candidate repair can be identified without the evidence under test."
+    }
+  }
+}
