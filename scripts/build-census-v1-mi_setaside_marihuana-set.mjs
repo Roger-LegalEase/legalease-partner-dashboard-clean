@@ -678,6 +678,22 @@ function participantInstructions(maps, rbf) {
   out.push("- **The attorney block.** You are applying yourself; no attorney-representation fact is held for you.");
   out.push("");
 
+  out.push("## What a set-aside does not reach", "");
+  out.push(
+    "An order setting aside a conviction is not a clean slate everywhere. The adopted record requires this packet to "
+    + "state plainly what the relief does not reach:", ""
+  );
+  out.push("- **Your Secretary of State driving record survives.** A set-aside does not clear it.");
+  out.push("- **SORA registration and reporting obligations continue** for a listed offence, per the note on MC 228.");
+  out.push("- **Firearm rights are not restored.**");
+  out.push("- **Restitution obligations survive.**");
+  out.push("- **No fine, costs or other money paid is returned.** You are not entitled to get any of it back.", "");
+  out.push(
+    "> Not affected: The Secretary of State driving record. ... SORA registration and reporting obligations continue "
+    + "for a listed offense, per the note on MC 228. Firearm rights are not restored. Restitution obligations "
+    + "survive. The applicant is not entitled to return of any fine, costs or other money paid.", ""
+  );
+
   out.push("## What happens after you file", "");
   out.push(
     "The court's instruction sheet says: if the prosecuting agency files a response opposing your application, the court "
@@ -693,6 +709,13 @@ function participantInstructions(maps, rbf) {
   );
   out.push("");
   out.push(`_Route: ${ROUTE.routeKey} \u2014 ${ROUTE.authority}_`);
+  out.push("");
+  out.push(
+    "_The scope-of-relief statement under \u201cWhat a set-aside does not reach\u201d is the adopted "
+    + "packet_instruction of data/record-clearing/legal-design-intake/MI.memo.json, track mi_setaside_marihuana, "
+    + "classificationBasis explicit_state_addendum, source LegalEase-Michigan-Record-Clearing-Legal-Review.md "
+    + "\u2014 \u201cTRACK 1 / FILING AND POST-FILING PROCESS\u201d._"
+  );
   return `${out.join("\n")}\n`;
 }
 

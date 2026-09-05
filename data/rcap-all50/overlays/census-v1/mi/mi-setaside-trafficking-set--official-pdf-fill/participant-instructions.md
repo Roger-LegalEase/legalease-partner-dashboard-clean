@@ -145,6 +145,28 @@ MC 227b carries 14 boxes. None of them is ticked in this packet, and none is a c
 - **The hearing date, location, and judge.** The court supplies them.
 - **The attorney block.** You are applying yourself; no attorney-representation fact is held for you.
 
+## Have your item 2 statement reviewed before you file
+
+**The trafficking-related factual narrative in item 2 should be reviewed by an attorney or qualified advocate before filing.** That is the adopted legal-design instruction for this track, and it exists because item 2 is the sworn statement of facts MCL 780.621d(7)(g) requires and the platform may not write it, judge it, or decide whether it is enough.
+
+Read what that instruction does and does not mean, exactly as the record states it:
+
+> The packet carries a participant-facing instruction that the trafficking-related factual narrative should be reviewed by an attorney or qualified advocate before filing. That instruction creates no document-upload requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation blocker.
+
+So: nothing is uploaded, nobody at LegalEase reads your statement, there is no box to prove a review happened, no approval status waits on one, and your packet was not held back for one. The review is yours to arrange, and you may file without it. If you want one, ask for it before you sign, because the application is sworn and item 2 is the part that carries the burden of proof.
+
+## What a set-aside does not reach
+
+An order setting aside a conviction is not a clean slate everywhere. The adopted record requires this packet to state plainly what the relief does not reach:
+
+- **Your Secretary of State driving record survives.** A set-aside does not clear it.
+- **SORA registration and reporting obligations continue** for a listed offence, per the note on MC 228.
+- **Firearm rights are not restored.**
+- **Restitution obligations survive.**
+- **No fine, costs or other money paid is returned.** You are not entitled to get any of it back.
+
+> Not affected: The Secretary of State driving record. ... SORA registration and reporting obligations continue for a listed offense, per the note on MC 228. Firearm rights are not restored. Restitution obligations survive. The applicant is not entitled to return of any fine, costs or other money paid.
+
 ## What happens after you file
 
 Page 3 states that the hearing cannot be held until the court receives the Michigan State Police report. The court completes the notice-of-hearing fields. Opposition, disputed victim status, an evidentiary or contested hearing, or a request for individualized advocacy requires a post-generation handoff.
@@ -154,3 +176,5 @@ Page 3 states that the hearing cannot be held until the court receives the Michi
 This is a prepared copy of an official SCAO form. It is not legal advice, it is not filed for you, and it does not decide whether your conviction is eligible to be set aside.
 
 _Route: obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application — MCL 780.621(3), MCL 780.621b, MCL 780.621d, MCL 780.622, MCL 780.623; SCAO form MC 227b (Rev. 7/24)_
+
+_The review instruction under “Have your item 2 statement reviewed before you file” is the adopted packet_instruction of data/record-clearing/legal-design-intake/MI.memo.json, track mi_setaside_trafficking, classificationBasis batch_decision_matrix, source LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md — “Priority issue resolution matrix / 6. Michigan”. The scope-of-relief statement under “What a set-aside does not reach” is the adopted packet_instruction of the same record, classificationBasis explicit_state_addendum, source LegalEase-Michigan-Record-Clearing-Legal-Review.md — “TRACK 1 / FILING AND POST-FILING PROCESS”._

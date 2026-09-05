@@ -81,6 +81,18 @@ The certificate is a declaration under the penalties of perjury that you have al
 - **The judge's name.** The court assigns it.
 - **The attorney block.** You are applying yourself; no attorney-representation fact is held for you.
 
+## What a set-aside does not reach
+
+An order setting aside a conviction is not a clean slate everywhere. The adopted record requires this packet to state plainly what the relief does not reach:
+
+- **Your Secretary of State driving record survives.** A set-aside does not clear it.
+- **SORA registration and reporting obligations continue** for a listed offence, per the note on MC 228.
+- **Firearm rights are not restored.**
+- **Restitution obligations survive.**
+- **No fine, costs or other money paid is returned.** You are not entitled to get any of it back.
+
+> Not affected: The Secretary of State driving record. ... SORA registration and reporting obligations continue for a listed offense, per the note on MC 228. Firearm rights are not restored. Restitution obligations survive. The applicant is not entitled to return of any fine, costs or other money paid.
+
 ## What happens after you file
 
 The court's instruction sheet says: if the prosecuting agency files a response opposing your application, the court must set a hearing within 30 days and mail you notice of it, and you should appear. If no answer is filed within 60 days of service, the court enters an order and mails a copy to you, the arresting agency, the prosecuting agency and the Michigan State Police.
@@ -90,3 +102,5 @@ The court's instruction sheet says: if the prosecuting agency files a response o
 This is a prepared copy of an official SCAO form. It is not legal advice, it is not filed for you, and it does not decide whether your conviction is eligible to be set aside.
 
 _Route: track:MI:mi_setaside_marihuana — MCL 780.621e; MCL 780.621b, MCL 780.621f, MCL 780.622, MCL 780.623; SCAO form MC 227a (Rev. 7/24)_
+
+_The scope-of-relief statement under “What a set-aside does not reach” is the adopted packet_instruction of data/record-clearing/legal-design-intake/MI.memo.json, track mi_setaside_marihuana, classificationBasis explicit_state_addendum, source LegalEase-Michigan-Record-Clearing-Legal-Review.md — “TRACK 1 / FILING AND POST-FILING PROCESS”._
