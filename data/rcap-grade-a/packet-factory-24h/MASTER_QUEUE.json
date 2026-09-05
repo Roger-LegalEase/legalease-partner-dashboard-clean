@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "942cab9b57bf1dcc27209443f4f0e1dac630aceb",
+  "minimumCaptainSha": "646e8b762c1180f2887ba19df01a52fd46328378",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,13 +72,13 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 6,
-    "repairRequired": 46,
+    "verifyPending": 7,
+    "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 153,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 7,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -108,9 +108,9 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "az_marijuana_expungement_limited_jurisdiction-set",
       "il-seal-edu-set",
-      "ut_pet_limitations-set",
-      "wv_dui_deferral_expungement-set"
+      "ut_pet_limitations-set"
     ],
     "staleRosterFamilies": [
       {
@@ -4626,8 +4626,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX53",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4638,7 +4638,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "az_marijuana_expungement_superior_court-set",
@@ -46136,9 +46137,7 @@
         "verifiedAtBase": "30a8b3b71",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46179,9 +46178,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX52",
-      "activeOwnerLane": "rapid-repair",
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46192,8 +46191,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "wv_nc_acquittal_dismissal-set",
