@@ -7755,6 +7755,123 @@
    },
    "failedObligationNames": [],
    "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+   "lane": "VF05",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading",
+   "verifier": "VF05 independent-verification (built none of these families; edited no overlay directory, build script or shared record)",
+   "verifiedAtBase": "b3467e894",
+   "canonicalSha256": "496f5fd95292a763931d1f1593dd825e1956b250ec229081034ba2e1ffda62b5",
+   "boundarySha256": "b154f8b9bb739dcfb24ebfdfcb9450215a85a25862e65b31954028109bfb3bbb",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family '<this family>' run read-only in this worktree at b3467e894; result PASS_COMPLETE"
+   },
+   "rasterState": {
+    "currentRasterState": "RASTER_PASS",
+    "workflowRunId": "33973718354",
+    "renderedCommitSha": "d974bcdd801b9c130ac34b959a8541c773dbc171",
+    "receiptDigestsEqualFixtureBytesOnDisk": true,
+    "confirmedHere": "canonical 496f5fd95292a763931d1f1593dd825e1956b250ec229081034ba2e1ffda62b5 and boundary b154f8b9bb739dcfb24ebfdfcb9450215a85a25862e65b31954028109bfb3bbb were recomputed from the committed fixture bytes in this worktree and equal the receipt's boundToCanonicalSha256 and boundToBoundarySha256 exactly, so the live RASTER_PASS binds these bytes and not a superseded pair",
+    "expectedPages": 4
+   },
+   "preflight": "node scripts/verify-packet-build-environment.mjs, run once in this worktree with MASTER_LIBRARY_SOURCE_DIR exported: PACKET_BUILD_ENVIRONMENT_NOT_READY, 10/12 passed, 2 failed, 5 not applicable. FAIL 1 private_is_git_ignored: an artefact of the mount shape this assignment prescribes - private/ is a read-only symlink, so `git check-ignore -q private/` exits 128 ('pathspec beyond a symbolic link') and the check reads that as not-ignored; the fact the check protects holds, since `git ls-files private/` is empty and `git check-ignore private` exits 0. FAIL 2 corpus_matches_committed_index: 1 absent of 24 sampled, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; no source of any of these five families is an Alabama file, and every declared digest for all five resolved by content here. Custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted; private/Nationwide Record Clearing does not exist on this mount.",
+   "priorHistoryReadFresh": {
+    "vf08FailAtAefd46f7c": "FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, read fresh from data/rcap-grade-a/packet-factory-24h/vf08/rows.json in the tree at b3467e894 (the rows carry verifiedAtBase aefd46f7c but were committed later; the file at aefd46f7c itself does not yet contain them)",
+    "fix03Return": "data/rcap-grade-a/packet-factory-24h/fix03/rows.splitter-cohort-composed.json - the per-builder splitToken was replaced by createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; FIX03's claim that only the break points moved is confirmed here: every break is now on the key's own underscore and the page and line counts are unchanged",
+    "measuredIndependently": "every obligation above was measured on the current bytes by this lane; no prior row was copied"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "routeKey agrees across product-wiring.json, production-field-map.json, source-receipt.json and MASTER_QUEUE.json: 'obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition'. The printed route trailer appears on canonical pages [2, 4] and boundary pages [2, 4].",
+     "finding": "Built for the route the record names. Every printed trailer reassembles character-for-character to the declared route key, with no fragment left over and no extra character introduced."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "3 committed source record(s), resolved by content hash, never by declared path: I sha256'd 12,146 files across the mounted custodies (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 via the read-only private mount, plus the committed data/ and src/ trees) and matched declared digests against that index. 6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8 resolved by content to src/lib/legal-authority/routes/single-routes.json; 6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801 resolved by content to src/lib/rcap-engine/compiled/profiles/DE-delaware.json; 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f resolved by content to data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json.",
+     "finding": "Every declared source binds by exact SHA-256 recomputed here from the bytes, and each digest resolved to exactly one file by content. custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with no source binary committed, which the queue and the receipt agree on; no digest for this family lives in an unmounted custody, so nothing here is NOT_MEASURABLE_HERE."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "componentSet ['de-1018-discretionary-petition-primary-filing-1', 'de-1018-discretionary-petition-filing-instructions-2']; page-manifest component blocks in canonical ['de-1018-discretionary-petition-primary-filing-1', 'de-1018-discretionary-petition-filing-instructions-2'] and boundary ['de-1018-discretionary-petition-primary-filing-1', 'de-1018-discretionary-petition-filing-instructions-2']",
+     "finding": "Every component the route names is rendered and present in both fixtures, and no component appears that the route does not name."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "12 written values across both fixtures, each re-read by me from the extracted text of the fixture bytes rather than from the builder's report; knownRequiredFieldsMissing 0 from verify-packet-completeness.mjs run here",
+     "finding": "Every known required fact is written and visible on the page it belongs to; no expected value was missing from the delivered text."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "requiredBeforeFilingCount 7, 7 items listed, 7 of 7 disclosure labels found in participant-instructions.md by string match",
+     "finding": "Every declared required-before-filing item is named in participant-instructions.md, checked against the file rather than against the count."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "zero selection controls found on any page of either fixture (scanned for '[ ]', box glyphs, 'check one', 'yes/no'); field-map selectionControls 0; requiredOptionsMissing 0",
+     "finding": "No route-determined election is left for the participant: the packet carries no election control at all, and states its statutory ground in its own title and body."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows 0, measured here; every repeated item on the delivered pages renders as an empty dot leader",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every DATE / SIGNATURE / DATED line in both fixtures listed and read: each carries only dot leaders. protectedWrites 0; actual-writes refusedFieldsWithInk [] and flattened widget appearances 0 in both fixtures",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "canonical.pdf recomputed 496f5fd95292a763931d1f1593dd825e1956b250ec229081034ba2e1ffda62b5 = rendered-artifacts.json = RASTER_QUEUE receipt; boundary.pdf recomputed b154f8b9bb739dcfb24ebfdfcb9450215a85a25862e65b31954028109bfb3bbb = rendered-artifacts.json = RASTER_QUEUE receipt",
+     "finding": "Canonical and boundary bytes hash to what the record names, recomputed here from the committed bytes."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "page manifest packetPage values are 1..4 contiguous in both fixtures; component blocks are contiguous and in componentSet order; fixture page count 4 = manifest length = receipt expectedPages 4",
+     "finding": "The rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "read at appearance level from the composed content stream of both fixtures (word bounding boxes via pdftotext -bbox-layout) and confirmed on a local raster of the previously-failing page(s) into /tmp at 130dpi, deleted after measuring. Zero line-box intersections on any page of either fixture; zero markdown delimiters; no route-key-only page, no fragment page, no thin page. Page box 612x792 with the 72pt left margin held exactly on every line.",
+     "finding": "REPAIRED AND CLEAN. VF08 failed this family at aefd46f7c because the key broke inside the section number as '...:section_1' / '018_discretionary_petition' on canonical and boundary pages 2 and 4. On the current bytes both pages break as '...-1017-1019-1017a:section_' / '1018_discretionary_petition' - on the key's own underscore, separator retained, no orphan, section number whole. Confirmed on a raster of canonical page 2, where the trailer sits four lines below the petitioner's contact block and clear of the empty 'DATE ...... SIGNATURE OF PETITIONER ......' line. No line on any page of either fixture reaches past the 540pt column."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. The petition caption reads 'IN THE ...... COURT (the Delaware Family Court for the county in which the adjudication was entered)', the guidance page states 'Who runs it: The participant petitions, and the Family Court decides', the instruction step is 'Sign and date the petition personally, then file it with the Family Court', and the office named for open questions is the Clerk of the Delaware Family Court for that county."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. 'WHAT IT COSTS, AND WHETHER A WAIVER EXISTS - No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the Clerk of the Delaware Family Court for the county in which the adjudication was entered. Ask before you go, because a filing you cannot pay for is a filing you cannot make.' The absence is disclosed rather than papered over, and a checkable authority is named."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures, from participant-instructions.md, and from the bound legal-design record under data/record-clearing/",
+     "finding": "PASS. 'WHO MUST BE SERVED, AND WHO IS NOTIFIED' states what the contract does record - an ATTORNEY GENERAL 120-DAY RESPONSE WINDOW, correctly characterised as a post-filing procedure under Sec. 1017 and NEVER a participant waiting period - then states plainly 'What the contract does not establish is who the petitioner must serve, or how', and names the Clerk of the Family Court for that county as the office that answers. Disclosing the open point with a named authority discharges the obligation without inventing a service rule."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures",
+     "finding": "PASS. 'WHEN TO STOP AND GET HELP INSTEAD' prints five stop conditions on the delivered page, three of which are the neighbouring statutory branches (Sec. 1017 favorable-termination, Sec. 1017A automatic) that are different routes with different first steps, plus the category uncertainty that would cause filing too early, and any immigration question."
+    }
+   },
+   "failedObligationNames": [],
+   "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -8896,13 +9013,15 @@
    "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
    "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
    "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
-   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction"
+   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"
   ],
   "verdicts": {
    "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request": "PASS_COMPLETE_INDEPENDENT",
    "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days": "PASS_COMPLETE_INDEPENDENT",
    "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request": "PASS_COMPLETE_INDEPENDENT",
-   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction": "PASS_COMPLETE_INDEPENDENT"
+   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction": "PASS_COMPLETE_INDEPENDENT",
+   "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition": "PASS_COMPLETE_INDEPENDENT"
   },
   "whyThisReaderIsIndependent": "This lane built none of these five families and repaired none of them; FIX03 wrote the splitter change and VF08 wrote the failing verdict it answers. No overlay directory, build script or shared record was edited.",
   "overlayDirectoriesModified": 0,
