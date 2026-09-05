@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1bf7118ba43892e0ed9cd5bf5df2b9ce8b263d97` (or the newer dispatch base)
+**Minimum required ancestor:** `065aab4fc10b9007339df214387389c0e7aa4784` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-drug-court-set' \
   --codex-cloud \
-  --minimum-captain-sha 1bf7118ba43892e0ed9cd5bf5df2b9ce8b263d97
+  --minimum-captain-sha 065aab4fc10b9007339df214387389c0e7aa4784
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,17 +38,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 12 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ar-drug-court-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'az_wrongful_arrest_clearance-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ga-fugitive-j5-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-3yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ms-fel-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ms-misd-addl-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nc_146_acquittal_petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'tx_nd_conviction_no_supervision-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
@@ -68,18 +64,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 12 families
+## The 8 families
 
 - `ar-drug-court-set`
-- `az_wrongful_arrest_clearance-set`
 - `ga-fugitive-j5-set`
 - `il-exp-precompletion-set`
 - `il-seal-3yr-set`
-- `ms-fel-set`
-- `ms-misd-addl-set`
 - `nc_146_acquittal_petition-set`
 - `sd_arrest_expungement-set`
-- `tx_nd_conviction_no_supervision-set`
 - `vt_exp_decriminalized-set`
 - `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
 
@@ -95,27 +87,19 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
-- `scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs`
 - `scripts/build-census-v1-ga-fugitive-j5-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-ms-fel-set.mjs`
-- `scripts/build-census-v1-ms-misd-addl-set.mjs`
 - `scripts/build-census-v1-nc_146_acquittal_petition-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
-- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
 
