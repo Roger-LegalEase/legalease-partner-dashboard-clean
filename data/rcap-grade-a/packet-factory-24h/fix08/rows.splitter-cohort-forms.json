@@ -1,0 +1,264 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "workerId": "CLAUDE-FIX08-SPLITTER-COHORT-FORMS",
+ "assignmentId": "FIX08",
+ "assignedBase": "a9b0662de",
+ "branch": "fix08-splitter-cohort-forms",
+ "laneKind": "repair",
+ "scope": "CLIPPING_AND_OVERLAP only, on the four granted families az_wrongful_arrest_clearance-set, tx_nd_conviction_no_supervision-set, ms-fel-set and ms-misd-addl-set. ga-fugitive-j5-set was NOT touched. No wrap rule, component, field map, source pin, route key, appearance entry, decretal block, court term or instruction line was changed beyond what the placement needed.",
+ "grantsConfirmed": [
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 az_wrongful_arrest_clearance-set -> CLAIM_OK (repair, grant set a4b7c94e0a521e6a), exit 0",
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 tx_nd_conviction_no_supervision-set -> CLAIM_OK (repair, grant set a4b7c94e0a521e6a), exit 0",
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 ms-fel-set -> CLAIM_OK (repair, grant set a4b7c94e0a521e6a), exit 0",
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 ms-misd-addl-set -> CLAIM_OK (repair, grant set a4b7c94e0a521e6a), exit 0"
+ ],
+ "preflight": {
+  "worktree": "/home/user/fix08-worktree, branch fix08-splitter-cohort-forms from a9b0662de on claude/legalease-sprint-captain-utucnw",
+  "coreSparseCheckout": "false",
+  "skipWorktreeBits": 0,
+  "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+  "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+  "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+  "command": "node scripts/verify-packet-build-environment.mjs --family az_wrongful_arrest_clearance-set --codex-cloud --minimum-captain-sha a9b0662de",
+  "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable",
+  "theTwoFailures": [
+   "private_is_git_ignored: private/ is mounted as a SYMLINK, which the .gitignore 'private/' pattern does not match the way the checker tests it. Nothing under it was staged or committed; recorded as failing rather than argued away.",
+   "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf). Alabama, not any family here, and the same pre-existing corpus gap FIX41 recorded."
+  ],
+  "throwawayCheckout": "/home/user/fix08-throwaway, detached at a9b0662de. Every family was rebuilt there with its builder UNMODIFIED before any edit; all four reproduced their committed bytes exactly (git status clean), so every digest movement below is attributable to the edit and not to build noise. Deleted at the end of the lane.",
+  "rasters": "/tmp/fix08-raster, deleted after measuring.",
+  "otherWorktreesTouched": 0,
+  "subagentsCreated": 0
+ },
+ "corpusWideConfirmation": "scripts/rcap-scan01-composed-pdf-text-integrity.mjs was run over all 249 family directories at the base in the throwaway and again here after each rebuild. Only the granted families' defect counts moved; every other family is unchanged defect-for-defect. Its raw-sweep.json output was NOT committed.",
+ "rows": [
+  {
+   "itemId": "az_wrongful_arrest_clearance-set",
+   "familyId": "az_wrongful_arrest_clearance-set",
+   "jurisdiction": "AZ",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+   "verdictRepaired": {
+    "lane": "vf08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aefd46f7c",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ]
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The RASTER_PASS receipt for workflow run 33960054973 was bound to canonical 276e1ab9.., a digest this repair supersedes. It stops binding and a central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane; product-wiring.json acceptanceReceipt is null.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. No verdict was written."
+   ],
+   "whatChanged": "One change, in one function, in one file. THE SPLITTER. renderComposedPdf in scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs defined its own splitToken that accumulated CHARACTERS and cut at whichever glyph first reached the 468pt margin. It is deleted and replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) imported from scripts/rcap-custom-pleading/split-token.mjs, built from this builder's own Times-Roman 11pt metrics and its own 612 - 2*72 = 468pt column. The call site inside wrap() is untouched; the same local name is now bound to the shared splitter. THE ASSERTION. assert.equal(splitToken.hardSplits, 0, ...) runs after every composed document is laid out, so a future route key with no separator to break on FAILS THE BUILD instead of shipping chopped. BEFORE, on pages 2 and 4 of both fixtures: line one ended '...notation-of-clearance-after-a-wrongful-arrest' on a complete word and line two opened on an orphan hyphen, '-under-13-4051'. AFTER: '...notation-of-clearance-after-a-wrongful-' / 'arrest-under-13-4051' -- the separator ends the line and announces the token as continuing, which is the shape this lane already passed for Washington. Nothing else on either page moved.",
+   "placementDiff": {
+    "method": "pdftotext -layout, old bytes from the throwaway checkout at the base against the new bytes here, whole-document diff.",
+    "canonicalPagesWhosePrintedTextChanged": {
+     "2": "only the break point inside the route trailer moved; the same two printed lines, same line count",
+     "4": "the same one break point"
+    },
+    "boundaryPagesWhosePrintedTextChanged": {
+     "2": "the same break point",
+     "4": "the same break point"
+    },
+    "pagesUnchanged": "1 and 3 of both fixtures, character-identical",
+    "pageCountBefore": 4,
+    "pageCountAfter": 4,
+    "noPageAddedOrRemoved": true,
+    "appearanceCheck": "Composed content stream plus a local raster of canonical page 2 at 110dpi into /tmp/fix08-raster (deleted after measuring). The trailer reads as one token across the break; no orphan hyphen, no mid-word split, no ink outside the column."
+   },
+   "artifacts": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+     "oldSha256": "276e1ab9531edc0641eb222d43e0a2b1a9d69b1d3adad9215eb264cce48be0ec",
+     "oldByteLength": 9504,
+     "newSha256": "cd20be1831add85c2dd2ab0d4e8090c43c427e3ff47c1d9200dd5963e94da569",
+     "newByteLength": 9505,
+     "pagesBefore": 4,
+     "pagesAfter": 4
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+     "oldSha256": "fcfc45c3ecd4bbce73222854cc63cdf9dc55bba4702ccf6857d48203eb4ef7af",
+     "oldByteLength": 9726,
+     "newSha256": "2d57e14bab951b4f5eb443d6bfb633f8cf0c08a4cd27ca553c16f21269e633f8",
+     "newByteLength": 9725,
+     "pagesBefore": 4,
+     "pagesAfter": 4
+    },
+    "digestsMovedInThisLane": true
+   },
+   "deterministicRebuild": "Built with --no-raster, then built again with no other change: the SHA-256 of both fixtures and the md5 of every JSON under the family directory are identical across the two runs.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set: PASS_COMPLETE, 6/13 written, exit 0. They are the starting condition, not the evidence: no counter can see a chopped token, because every character is present and the ink is inside its column.",
+   "scan01": {
+    "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, before in the throwaway and after here.",
+    "thisFamilyBefore": {
+     "hard_split_token": 4,
+     "route_key_only_page": 0,
+     "fragment_page": 0
+    },
+    "thisFamilyAfter": {
+     "hard_split_token": 0,
+     "route_key_only_page": 0,
+     "fragment_page": 0
+    },
+    "corpusWide": "Exactly the granted families moved; the other 242 compared are unchanged defect-for-defect."
+   },
+   "verifiers": {
+    "verify-packet-completeness.mjs": "PASS_COMPLETE, nine counters zero, exit 0 (before and after)",
+    "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+    "rcap-scan01-composed-pdf-text-integrity.mjs": "this family 4 defects -> 0; corpus-wide nothing else moved"
+   },
+   "hostScope": "SINGLE-FAMILY HOST. No file in scripts/ imports it (grep -rln returns only itself); it declares one output root, SPEC.outDir, and every write goes under it; SCAN01 records ownsItsComposer true with no imported composer host. No other family can move.",
+   "productWiring": {
+    "acceptanceReceipt": null,
+    "note": "nulled here because it bound the superseded canonical digest 276e1ab9..; a central raster is owed."
+   },
+   "ownerPinned": false,
+   "ownerRereviewOwed": false,
+   "grantReleased": "node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX08 az_wrongful_arrest_clearance-set -> RELEASED"
+  },
+  {
+   "itemId": "tx_nd_conviction_no_supervision-set",
+   "familyId": "tx_nd_conviction_no_supervision-set",
+   "jurisdiction": "TX",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+   "verdictRepaired": {
+    "lane": "vf08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aefd46f7c",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ]
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The RASTER_PASS receipt for workflow run 33943027165 was bound to canonical 0ae0d995.., a digest this repair supersedes. It stops binding and a central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane; product-wiring.json acceptanceReceipt is null.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. No verdict was written."
+   ],
+   "whatChanged": "One change, in one function, in one file. THE SPLITTER. renderComposedPdf in scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs carried the same private character-accumulating splitToken; it is deleted and replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from scripts/rcap-custom-pleading/split-token.mjs, over this builder's own Times-Roman 11pt metrics and 468pt column. The wrap() call site is untouched. THE ASSERTION. assert.equal(splitToken.hardSplits, 0, ...) runs after every composed document is laid out. BEFORE, on the proof-of-delivery-to-prosecutor page (9) and the filing-and-after-order instructions (24) of both fixtures, the key broke INSIDE the word 'conviction': '...petitioned-nondisclosure-for-an-eligible-c' / 'onviction-411-0735'. AFTER: '...petitioned-nondisclosure-for-an-eligible-' / 'conviction-411-0735'. On page 9 that trailer is the last ink under the participant's own signature and the delivery parenthetical, and both are character-identical before and after; only the break point moved. The pinned official OCA form pages are untouched.",
+   "placementDiff": {
+    "method": "pdftotext -layout, old bytes from the throwaway checkout at the base against the new bytes here, whole-document diff.",
+    "canonicalPagesWhosePrintedTextChanged": {
+     "9": "only the break point inside the route trailer moved",
+     "24": "the same one break point"
+    },
+    "boundaryPagesWhosePrintedTextChanged": {
+     "9": "the same break point",
+     "24": "the same break point"
+    },
+    "pagesUnchanged": "every other page of both 24-page fixtures, character-identical, including the whole pinned official-form slice",
+    "pageCountBefore": 24,
+    "pageCountAfter": 24,
+    "noPageAddedOrRemoved": true,
+    "appearanceCheck": "Composed content stream plus a local raster of canonical page 9 at 110dpi into /tmp/fix08-raster (deleted after measuring). The trailer reads as one token across the break, the signature block above it is unchanged, and nothing sits outside the column."
+   },
+   "artifacts": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "0ae0d995fe3e9a0be3076111882758d7f55a14707d9c9adb69457dd4883fafa1",
+     "oldByteLength": 664451,
+     "newSha256": "ad11ac354908509d7a39f784d68287729cfb032ac2a8ee4d91fde3becd6095f9",
+     "newByteLength": 664450,
+     "pagesBefore": 24,
+     "pagesAfter": 24
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "5c9bbb5d9293206b4aa1c9a0d546453bc634a6489e76eabd57101ce5ab056b66",
+     "oldByteLength": 664827,
+     "newSha256": "47e64f8a04e09e5afdc83e558614de4411d9ca700c2087d482a357413b0afdc7",
+     "newByteLength": 664825,
+     "pagesBefore": 24,
+     "pagesAfter": 24
+    },
+    "digestsMovedInThisLane": true
+   },
+   "deterministicRebuild": "Built with --no-raster, then built again with no other change: the SHA-256 of both fixtures and the md5 of every JSON under the family directory are identical across the two runs.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set: PASS_COMPLETE, exit 0.",
+   "scan01": {
+    "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, before in the throwaway and after here.",
+    "thisFamilyBefore": {
+     "hard_split_token": 4,
+     "route_key_only_page": 0,
+     "fragment_page": 0
+    },
+    "thisFamilyAfter": {
+     "hard_split_token": 0,
+     "route_key_only_page": 0,
+     "fragment_page": 0
+    },
+    "corpusWide": "Exactly the granted families moved; the other 242 compared are unchanged defect-for-defect."
+   },
+   "verifiers": {
+    "verify-packet-completeness.mjs": "PASS_COMPLETE, nine counters zero, exit 0 (before and after)",
+    "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, exit 0",
+    "rcap-scan01-composed-pdf-text-integrity.mjs": "this family 4 defects -> 0; corpus-wide nothing else moved"
+   },
+   "hostScope": "SINGLE-FAMILY HOST. grep -rln over scripts/ returns only itself; FAMILY_ID 'tx_nd_conviction_no_supervision-set' and OUT 'data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill' are the only ones declared, and every write goes under OUT.",
+   "productWiring": {
+    "acceptanceReceipt": null,
+    "note": "nulled here because it bound the superseded canonical digest 0ae0d995..; a central raster is owed."
+   },
+   "ownerPinned": false,
+   "ownerRereviewOwed": false,
+   "grantReleased": "node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX08 tx_nd_conviction_no_supervision-set -> RELEASED"
+  }
+ ]
+}
