@@ -8320,10 +8320,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX43",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T12:15:13.758Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13207,7 +13207,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f72017e8266a3983c71d7c39814d2740a1f31bc4a985bdc2c7dcc75ccd8c1549",
+  "claimsDigest": "1ce0313a10fb6b410eb853e0bae9ebbe75997e7bdd7b208bedb492c740e9f7d0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39445,6 +39445,17 @@
       "previouslyReleasedAt": "2026-09-05T14:54:27.231Z",
       "transferredAt": "2026-09-05T14:54:27.314Z",
       "reason": "Fresh independent read of FIX33's rebuild (acb9bf49/08551383, live raster run 33972312142); VF02 neither built nor repaired it; the prior FAIL was VF01's."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX43",
+      "previouslyReleasedAt": "2026-09-05T12:15:13.758Z",
+      "transferredAt": "2026-09-05T15:02:08.445Z",
+      "reason": "VF03 at 4dd482867 (b7af2b573) fails COMPONENT_SET: the manifest names five components, the packet declares four; vt_seal_nonconviction-interests-of-justice-prompts-4, conditional on the section 7603(g) route the packet carries, is neither rendered nor dispositioned. FIX43 renders or dispositions it at the cause; FIX08 is busy with the splitter cohort."
     }
   ],
   "withdrawals": [
