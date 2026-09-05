@@ -7,7 +7,7 @@
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:track-only:NC:nc_146_acquittal_petition
+ *   obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146
  *
  * WHAT KIND OF FAMILY THIS IS
  *
@@ -92,7 +92,26 @@ const SPEC = {
   legalName: "Petition and Order of Expunction Under G.S. 15A-146(a2) (Not Guilty or Not Responsible)",
   routeName: "expunging a North Carolina charge that was disposed of by a finding of not guilty or not responsible, under G.S. 15A-146(a2)",
   statutes: ["G.S. 15A-146", "G.S. 15A-146(a2)", "G.S. 15A-146(a6)", "G.S. 15A-146(c)", "G.S. 15A-150", "G.S. 15A-153"],
-  routes: [{ routeKey: "obligation:track-only:NC:nc_146_acquittal_petition" }],
+  /*
+   * The route this family serves, named as the canonical route universe names
+   * it.
+   *
+   * This declared `obligation:track-only:NC:nc_146_acquittal_petition`, which
+   * is not a route: the canonical universe carries no such key. A track-only
+   * obligation is the shape a legal track takes when it has NO mapped runtime
+   * pathway -- the sibling dismissal track really does have
+   * `obligation:track-only:NC:nc_146_dismissal_petition` for that reason -- but
+   * `track:NC:nc_146_acquittal_petition` maps to the runtime pathway
+   * `pathway:NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146`, so its
+   * one canonical obligation is the track-pathway edge between them. That is
+   * the key every record outside this builder already used, including this
+   * family's own product-wiring, so the family was contradicting itself.
+   *
+   * Nothing about the packet changes. The route is the same route, under the
+   * same statutes, for the same participant; only the key that names it was
+   * wrong, and no route was opened, closed or re-scoped by correcting it.
+   */
+  routes: [{ routeKey: "obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146" }],
 
   records: [
     {
@@ -330,6 +349,26 @@ const SPEC = {
   ],
 
   buildFindings: [
+    {
+      finding:
+        "ROUTE IDENTITY CORRECTED. This family built and stamped its outputs with "
+        + "obligation:track-only:NC:nc_146_acquittal_petition, which names no route: the canonical route "
+        + "universe at data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json "
+        + "carries no such key. A track-only obligation is what a legal track gets when it has no mapped "
+        + "runtime pathway, and the sibling dismissal track legitimately has one for that reason; "
+        + "track:NC:nc_146_acquittal_petition maps to pathway:NC:dismissal-and-not-guilty-expunction-under-"
+        + "g-s-15a-146, so its single canonical obligation is the track-pathway edge "
+        + "obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-"
+        + "g-s-15a-146. Every record outside this builder already used that key, this family's own "
+        + "product-wiring.json included, so the family contradicted itself. The declared key is now the "
+        + "canonical one and the wrong key appears nowhere in the family. Both fixture PDFs are byte-identical: "
+        + "the route key was never drawn into their bytes, so this correction moved no packet page and no "
+        + "raster receipt.",
+      whatThisIsNot:
+        "This is not a route change. The same route, the same statutes and the same participant are served; "
+        + "only the key that names the route was wrong. No route was opened, closed, re-scoped or promoted, "
+        + "and no commercial authority follows from it."
+    },
     {
       finding:
         "PROTECTED MIS-WRITE REFUSED BY NAME. AOC-CR-288's identifier strip prints Date Of Birth, Full Social "

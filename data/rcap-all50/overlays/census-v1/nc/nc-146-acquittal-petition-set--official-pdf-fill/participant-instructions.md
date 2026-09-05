@@ -140,4 +140,4 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 
 This is a prepared set of official North Carolina Administrative Office of the Courts forms, delivered as the AOC publishes them. It is not legal advice, it is not filed for you, and it does not decide whether your charge can be expunged under G.S. 15A-146(a2). It is not AOC-CR-287, the petition for a dismissed charge; it is not AOC-CR-296, the district attorney's petition on this subsection; and it is not AOC-CR-285, the continuation sheet for extra agencies or charges.
 
-_Route(s): obligation:track-only:NC:nc_146_acquittal_petition_
+_Route(s): obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146_
