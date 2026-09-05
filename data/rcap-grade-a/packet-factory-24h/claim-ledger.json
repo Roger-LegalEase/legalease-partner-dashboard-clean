@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1a7a85dce0d51c5631b9493c921c268c8cf5efd2",
+  "generatedAtCommit": "8dd3890017939690c3a523ebf8b258203f212ee0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6380,6 +6380,21 @@
         "nv_seal_probation_family-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "familyId": "nv_seal_probation_family-set",
+      "itemId": null,
+      "familyIds": [
+        "nv_seal_probation_family-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF09",
       "laneKind": "packet-build",
@@ -6533,7 +6548,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6714,7 +6729,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6955,7 +6970,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7228,7 +7243,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -13592,7 +13607,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3522d19c663f1cafa741eb060092c4e13793afcc8b30d9e0bbdaeca8ac107036",
+  "claimsDigest": "bb9bd21de1b505eb1ae080a05ef5617fa32413e2a8ab1e9bde84dcf1fb0be755",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
