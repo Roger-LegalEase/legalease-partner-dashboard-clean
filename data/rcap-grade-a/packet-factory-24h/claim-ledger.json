@@ -6592,8 +6592,8 @@
       "operation": "rapid-repair",
       "lane": "FIX23",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T06:48:41.410Z"
     },
     {
       "subjectType": "packet-family",
@@ -6741,8 +6741,8 @@
       "operation": "rapid-repair",
       "lane": "FIX23",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T06:48:50.410Z"
     },
     {
       "subjectType": "packet-family",
@@ -12779,7 +12779,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0cc81da03ae09d175cd05821f42201133be946540b38611da16fb459a63cca78",
+  "claimsDigest": "00e7b12beb0f85e72b9815e6ebebcb6291f4c32213dec2f177d8be563044233d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26906,6 +26906,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T06:34:27.117Z",
       "reason": "Repair complete and committed at f2c9f4ed1: the two source-carried zeros on the sworn Statement of Inability are classified render_participant_value_only_when_written and no longer reach either fixture. Fixtures moved (canonical cdc69309ffb7.., boundary 19467b262ffa..), no standing receipt is claimed, acceptanceReceipt is null and a fresh central raster is owed. Independent verification of the repaired bytes is still required and this lane did not perform it."
+    },
+    {
+      "lane": "FIX23",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T06:48:41.410Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired and rebuilt. Eight orphaned execution blocks on canonical and boundary pages 15, 27, 39 and 51 - each opening on PRINTED NAME with its signature line on the page before - are gone: SCAN01 C_block_integrity/orphaned_execution_block 8 -> 0, family defects 12 -> 4 (four D_census thin pages, untouched). FIX17's Rule 1b ported into this composer and made conditional; it fires on 8 of 106 composed renders and nowhere else. Whitespace-stripped character stream byte-identical in both fixtures, 80/80 pages, only 8 of 160 pages moved. Two consecutive --no-raster builds identical over the whole family directory; identityRefresh annotations restored verbatim from HEAD after the documented rebuild erasure. Fixtures moved to cf302fc33576f54a (canonical) and c7340a2555e44e01 (boundary); still BUILT_RASTER_PENDING, fresh raster owed, no receipt claimed."
+    },
+    {
+      "lane": "FIX23",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T06:48:50.410Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired and rebuilt. Both orphaned execution blocks - page 12 of each fixture, opening on PRINTED NAME with SIGNATURE OF REQUESTER on page 11 - are gone: SCAN01 C_block_integrity/orphaned_execution_block 2 -> 0, family defects 5 -> 2. Rule 1b ported with predicate widened to /SIGNATURE OF/ because this family's WSP deletion route signs as requester, not petitioner; it fires on 2 of 16 composed renders. Whitespace-stripped character stream byte-identical in both fixtures, 17/17 pages, only 2 of 34 pages moved. The two remaining B_page_content fragment pages at page 9 are a bulleted component-list tail, not an execution block, outside this grant, unchanged and stated in the return row. Two consecutive --no-raster builds identical over the whole family directory; identityRefresh annotations restored verbatim from HEAD. Fixtures moved to 78910c462040fbed (canonical) and 587838be98adfff4 (boundary); still BUILT_RASTER_PENDING, fresh raster owed, no receipt claimed."
     }
   ],
   "reissues": [
