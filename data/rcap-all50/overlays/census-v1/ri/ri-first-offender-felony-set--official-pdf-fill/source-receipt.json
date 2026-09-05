@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ri_first_offender_felony-set",
+  "worklistGroupId": "ri_first_offender_felony-set",
+  "jurisdiction": "RI",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the source is found BY CONTENT and never by a declared path. Every mounted custody is walked once and indexed by SHA-256, this family's pinned digest is looked up in that index, and the committed corpus index is then read for what it records about the same digest. An index with no entries is refused as a broken denominator rather than reported as a missing source.",
+  "contentIndex": {
+    "filesIndexed": 500,
+    "custodiesMounted": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "custodiesNotMounted": [],
+    "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+  },
+  "routeKeys": [
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-1-bci-and-docket",
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+    "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies"
+  ],
+  "routeSelectionId": "ri_first_offender_felony-set-superior-court-part-two",
+  "statutoryAuthority": "R.I. Gen. Laws Sec. 12-1.3-2, Sec. 12-1.3-1 and Sec. 12-1.3-3",
+  "legalName": "Motion to Expunge a Single Felony Conviction as a First Offender (R.I. Gen. Laws § 12-1.3-2)",
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "documentId": "ri_first_offender_felony-primary-filing-1",
+      "formNumber": "Superior-55",
+      "title": "Superior Court Motion, Affidavit and Instructions to Expunge or Seal Record - Felony",
+      "instrumentKind": "motion_affidavit_and_instructions",
+      "sourceId": "official-form:Superior-55",
+      "custody": "master_library",
+      "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+      "revision": "REV-2025-02",
+      "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+      "sha256Exact": true,
+      "byteLength": 301833,
+      "pageCount": 4,
+      "acroFieldCount": 74,
+      "structuralClassObserved": "acroform",
+      "committedIndexAgrees": true,
+      "acroFieldCountRecordedInCommittedIndex": 74,
+      "pageCountRecordedInCommittedIndex": 4,
+      "componentsCarvedFromThisBinary": [
+        "ri_first_offender_felony-primary-filing-1"
+      ],
+      "generatedParticipantArtifact": true
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "ri_first_offender_felony-proposed-order-2",
+    "ri_first_offender_felony-notice-package-3",
+    "ri_first_offender_felony-filing-instructions-4",
+    "ri_first_offender_felony-certified-copy-delivery-checklist-5"
+  ],
+  "retiredSourceIdentitiesThisFamilyDoesNotBind": [
+    "official-form:DC-33-ORDER",
+    "official-form:Superior-55-ORDER"
+  ],
+  "whyTheOrderBindsNoSource": "The owner's decision of 2026-09-05, record OWN-RI-PROPOSED-ORDER-2026-09-05, retired both order identities: they named published forms that do not exist. The proposed order in this packet is a custom participant-prepared document, it binds no source binary, and the parent motion-and-affidavit packet is never rebound under an order identity.",
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-track-registry.json",
+      "track": "ri_first_offender_felony",
+      "read": "the legal name, the authority, the venue, the mechanism, the rules block, the exclusions, the waiting periods, the documents the participant must obtain and the self-help stop conditions, reproduced word for word"
+    },
+    {
+      "record": "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+      "recordId": "OWN-RI-PROPOSED-ORDER-2026-09-05",
+      "read": "the approval to compose the proposed order, the list of what stays blank on it, and the requirement that it never be presented as an official Rhode Island form"
+    },
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "read": "the route keys, the destination and the component set this family owes"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "R.I. Gen. Laws § 12-1.3-2, Motion for expungement (official statute text; History: P.L. 1983 ch. 224 § 3 through P.L. 2018 ch. 247 § 1)",
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm",
+      "retrievedOn": "2026-08-05",
+      "sha256": null
+    },
+    {
+      "title": "R.I. Gen. Laws § 12-1.3-1, Definitions (official statute text; § 12-1.3-1(5) reclassification definition added by P.L. 2024 ch. 386 § 1 and ch. 387 § 1, effective June 26, 2024)",
+      "url": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-1.htm",
+      "retrievedOn": "2026-08-05",
+      "sha256": null
+    },
+    {
+      "title": "Rhode Island Judiciary expungement forms and instructions",
+      "url": "https://www.courts.ri.gov/Pages/forms.aspx",
+      "retrievedOn": "2026-07-31",
+      "sha256": null
+    }
+  ],
+  "formIdentityNote": "One official binary, used as published: Superior Court Motion, Affidavit and Instructions to Expunge or Seal Record - Felony, Superior-55 (revised February 2025). Rhode Island publishes one motion-and-affidavit form per court and carries every statutory branch as a numbered Part of one affidavit, so this family binds Superior-55 and builds on Part Two: Single Conviction. No form number is invented and no order identity is acquired.",
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that the revision held here is the revision the Rhode Island Judiciary publishes today",
+    "what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee",
+    "which relief bullet a particular Rhode Island division expects on a deferred-sentence motion",
+    "whether the Part Two wording on Superior-55 that reads 'misdemeanor' where page 1 of the same form reads 'felony' is a drafting error, which is a question of Rhode Island practice this build does not answer",
+    "whether the participant is eligible on this route"
+  ]
+}

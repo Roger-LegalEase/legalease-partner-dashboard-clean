@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ri_first_offender_felony-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The one bound binary was found BY CONTENT: 500 files across the mounted custodies [master_library, human_source_returns] were indexed by SHA-256 and this family's pin was looked up in that index. Custodies not mounted here: [none].",
+      "consequence": "No BLOCKED_SOURCE in this family can come from a wrong declared path, and a scan that resolved nothing would be refused as a broken denominator rather than reported as a missing source."
+    },
+    {
+      "finding": "The shared field semantics resolve this form's defendant-name blank - named, by the form's own author, \"State of Rhode Island v Defendant\" - to participant.state. Left to the shared descriptor channel, the finalizer would have printed the participant's state of residence on the line that holds the defendant's name, on both the motion and the sworn affidavit. An explicit mapping cannot correct it: decideBinding refuses an explicit mapping that disagrees with the name channel.",
+      "consequence": "Every field on the binary is classified unwritable by role, so the shared finalizer writes nothing and only sanitizes and flattens. The two held facts are then placed as Form XObject appearances inside the widget rectangles measured off the pinned binary - the same construction flatten emits - and each is required to pass protectCategoryOf before it is placed, so the protection channel still governs. This is a defect in the shared vocabulary as applied to this form, and it is reported rather than patched: the vocabulary is shared with families outside this lane's grant."
+    },
+    {
+      "finding": "Rhode Island publishes no template for the Order for Expungement or Sealing of Record that instruction 7 on page 1 of its own motion tells the participant to bring to the hearing. official-form:DC-33-ORDER and official-form:Superior-55-ORDER named published forms that do not exist and are retired.",
+      "consequence": "The proposed order is composed under owner decision OWN-RI-PROPOSED-ORDER-2026-09-05, binds no source binary, states on its own face that it is not an official Rhode Island form, and carries objective case and route facts only. Its whole decretal block - findings, grant, denial, relief marked, further terms, signature, date of entry, certification - is printed as an empty block the court completes. The parent motion-and-affidavit packet is not rebound under an order identity."
+    },
+    {
+      "finding": "The owner's decision requires three court-specific variants: District Court; Superior Court felony and deferred-sentence; Superior Court misdemeanor. Two are composed. NO FAMILY ON THIS ROSTER TAKES THE SUPERIOR COURT MISDEMEANOR VARIANT: Rhode Island's Superior Court misdemeanor route runs on form Superior-27, which none of the five families binds.",
+      "consequence": "The third variant is not composed. An order nothing uses would sit in the tree with no route to check it against and no packet to review it in."
+    },
+    {
+      "finding": "Not one of the 34 selection controls on the affidavit is marked by this build. Instruction 5 on page 1 asks the person filing to mark each statement that is TRUE under the Part applicable to their motion, and every one of those statements is sworn under oath about the participant's own criminal history, unpaid balances, pending proceedings or moral character.",
+      "consequence": "The packet states which Part the route uses, declares the other Parts' boxes as outside the route, and leaves every box in the applicable Part for the participant. The platform holds no Rhode Island criminal history record and no court docket for anyone, and 'I have exhibited good moral character' is not a fact any platform can hold."
+    },
+    {
+      "finding": "Two controls on the motion ARE marked, because the route determines them: EXPUNGED rather than SEALED, and the second relief bullet - expungement of the records of the case under G.L. 1956 Sec. 12-1.3-3(c) or (e) - rather than the first, which is the Sec. 12-1-12 and Sec. 12-1-12.1 destruction-and-sealing branch for a case that did not end in a conviction.",
+      "consequence": "Each mark is two diagonal strokes struck strictly inside the control's own measured rectangle by the shared selection finalizer, which draws no box and never touches the court's own stroke, and each is proved against the artifact's own vector paths rather than against the finalizer's report."
+    },
+    {
+      "finding": "The whole certification of notice on the motion - the date and the name of the charging police - is left for the participant, and so is the notarial certificate at the foot of the affidavit.",
+      "consequence": "Notice cannot be given until the Clerk's Office has set the hearing date, so at generation time the fact does not exist; a certification completed in advance would be false. The notarial certificate is completed by the notary or the clerk who administers the oath, and no date is written on a document sworn under oath."
+    },
+    {
+      "finding": "The completeness contract's declared NOT_APPLICABLE_ON_THIS_ROUTE channel cannot be reached from a packet. classifyBlank enters that gate only when dec.routeConditionThatMakesItInapplicable is present, and normalizeRow in scripts/rcap-packet-completeness/verify-packet-completeness.mjs builds dec from eight keys that do not include it.",
+      "consequence": "Every off-route row here carries the declaration AND the named route condition, so it starts working the day the reader forwards the key, and it also carries the trusted refusal class for what the control is - a legal election on a document the participant signs. This lane may not write in scripts/rcap-packet-completeness/**, so the gap is reported rather than patched."
+    },
+    {
+      "finding": "A discrepancy on Rhode Island's own published form, carried to the participant rather than resolved by this build.",
+      "consequence": "PART TWO OF THIS FORM DISAGREES WITH THE FORM'S OWN INSTRUCTION PAGE, AND YOU MUST NOT SWEAR PAST IT. Page 1 of Superior-55 says: \"Part Two: If you were convicted of a single FELONY offense and have not been previously convicted of or placed on probation for a felony or a misdemeanor.\" The fourth box of Part Two, on page 3 of the same form, reads: \"That I was convicted of a single MISDEMEANOR offense, and I have not been previously convicted of or placed on probation for a felony or a misdemeanor.\" Those two texts cannot both describe your case. The rest of Part Two carries the TEN-year period, which is the felony period, and Rhode Island publishes a separate Superior Court misdemeanor form, so the box reads like a drafting error carried over from the District Court form. LegalEase does not decide that and has marked nothing. Do not mark a box that says something untrue of your case: ask the clerk of the Superior Court division you are filing in, or a lawyer, which text that court applies, before you swear to this affidavit."
+    },
+    {
+      "finding": "A discrepancy on Rhode Island's own published form, carried to the participant rather than resolved by this build.",
+      "consequence": "ONE MORE NUMBER THAT DOES NOT AGREE WITH ITSELF. The committed record's exclusion list for this route carries the sentence \"Any felony or misdemeanor arrest or conviction during the five-year lookback\", while the same record's waiting-period entry for this route says TEN years from completion of sentence and a TEN-year clean lookback - and the Part Two boxes on the court's own form say ten years in both places. The exclusion sentence reads like a copy from the misdemeanor route. Ten years is what the form asks you to swear to. Do not rely on five."
+    }
+  ]
+}
