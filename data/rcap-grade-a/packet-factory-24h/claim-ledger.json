@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "67c754cca8d7a70b7d134a557b18c9d539afaa53",
+  "generatedAtCommit": "a498a8b03f73af89c03be9cc51d465cacadb1a58",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7254,6 +7254,22 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "itemId": null,
+      "familyId": "tx_nd_dwi_probation-set",
+      "familyIds": [
+        "tx_nd_dwi_probation-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX22",
+      "laneKind": "repair",
+      "released": true,
+      "releasedAt": "2026-09-05T06:34:27.117Z",
+      "releaseReason": "Repair complete and committed at f2c9f4ed1: the two source-carried zeros on the sworn Statement of Inability are classified render_participant_value_only_when_written and no longer reach either fixture. Fixtures moved (canonical cdc69309ffb7.., boundary 19467b262ffa..), no standing receipt is claimed, acceptanceReceipt is null and a fresh central raster is owed. Independent verification of the repaired bytes is still required and this lane did not perform it."
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "tx_nd_probation_misdemeanor-set",
       "familyId": "tx_nd_probation_misdemeanor-set",
       "itemId": null,
@@ -12761,25 +12777,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_dwi_probation-set",
-      "itemId": null,
-      "familyId": "tx_nd_dwi_probation-set",
-      "familyIds": [
-        "tx_nd_dwi_probation-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX22",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T06:34:27.117Z",
-      "releaseReason": "Repair complete and committed at f2c9f4ed1: the two source-carried zeros on the sworn Statement of Inability are classified render_participant_value_only_when_written and no longer reach either fixture. Fixtures moved (canonical cdc69309ffb7.., boundary 19467b262ffa..), no standing receipt is claimed, acceptanceReceipt is null and a fresh central raster is owed. Independent verification of the repaired bytes is still required and this lane did not perform it."
     }
   ],
-  "claimsDigest": "c9b8c07854699503aad192b92687bfc0f0b1052aff398e3fcbd991d1ef04b3e6",
+  "claimsDigest": "0cc81da03ae09d175cd05821f42201133be946540b38611da16fb459a63cca78",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
