@@ -213,6 +213,7 @@ import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -974,6 +975,24 @@ function proposedOrderBody(route, facts) {
   }
   L.push("");
   L.push("Date of the hearing on the motion, as the Clerk's Office set it: " + DOTS(24), "");
+  /*
+   * The page's own disclaimer and the machine route trailer CLOSE THE MOVING
+   * PARTY'S HALF OF THE ORDER, above the rule, and are never printed below it.
+   *
+   * They used to be the last two lines of this document, which put them under
+   * "Certification or attestation by the Clerk" - so a Rhode Island justice was
+   * handed internal identifiers beneath the clerk's certification line, inside
+   * the block ORDER_COURT_BLOCK_NOTICE says on its face is the court's and is
+   * left blank on purpose. Everything below the rule is the court's; the
+   * trailer belongs to the party's section, so it stays in it. Nothing in the
+   * decretal block moves, gains or loses a character: findings, grant, denial,
+   * relief marks, further terms, signature, date of entry, certification and
+   * seal are the same empty lines OWN-RI-PROPOSED-ORDER-2026-09-05 requires.
+   */
+  L.push(`Composed by LegalEase for ${name}, as the moving party's own proposed order. It is not an official `
+    + "Rhode Island form, and no part of it is a finding, a grant, a denial, a signature, an entry, a "
+    + "certification or a seal.", "");
+  L.push(`Route: ${route.routeKeys.join(" ; ")}`, "");
   L.push(DOTS(96), "");
   L.push(ORDER_COURT_BLOCK_NOTICE, "");
   L.push("The Court's findings:");
@@ -990,11 +1009,7 @@ function proposedOrderBody(route, facts) {
   L.push("Entered as an order of the Court:", "");
   L.push(DOTS(52) + "        Date of entry: " + DOTS(22));
   L.push("Justice / Judge", "");
-  L.push("Certification or attestation by the Clerk: " + DOTS(44), "");
-  L.push(`Route: ${route.routeKeys.join(" ; ")}`);
-  L.push(`Composed by LegalEase for ${name}, as the moving party's own proposed order. It is not an official `
-    + "Rhode Island form, and no part of it is a finding, a grant, a denial, a signature, an entry, a "
-    + "certification or a seal.");
+  L.push("Certification or attestation by the Clerk: " + DOTS(44));
   return L.join("\n");
 }
 
@@ -1761,15 +1776,28 @@ async function renderComposedPdf(fullText, title) {
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
 
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /*
+   * THE SHARED SEPARATOR-AWARE SPLITTER, IMPORTED RATHER THAN COPIED.
+   *
+   * The private copy that stood here accumulated one CHARACTER at a time and
+   * cut at whichever character first reached the margin. Rhode Island's unit
+   * route keys are longer than the 468pt column, so it broke them mid-word on
+   * the delivered pages: "...-stage-2-court-motion-and-affidav" measured at
+   * 467.3pt with "it" alone on the next line, and
+   * "...-stage-3-notice-hearing-and-certif" at 466.2pt with "ied-copies" after
+   * it. A participant cannot read that key off the page, type it, or recognise
+   * it as one identifier, and no completeness counter and no raster gate can
+   * see it, because every character is present and every glyph is inside the
+   * column.
+   *
+   * scripts/rcap-custom-pleading/split-token.mjs breaks at the token's OWN
+   * separators - after a colon, underscore, slash, dot or hyphen - so the same
+   * keys break as "...-court-motion-and-" / "affidavit" and
+   * "...-notice-hearing-and-" / "certified-copies", and hard-splits only a run
+   * that carries no separator at all. It takes a fits() predicate rather than a
+   * font handle, which is why it serves this host unchanged.
+   */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
@@ -1783,19 +1811,31 @@ async function renderComposedPdf(fullText, title) {
     return out;
   };
 
+  /*
+   * Rows carry which SOURCE LINE they came from and whether that line is the
+   * machine route trailer, so the pull-down below can recognise a page that
+   * holds nothing else and so a whole block can be moved as one. Nothing about
+   * how rows are wrapped or how blocks are formed changes: a block is still a
+   * run of consecutive non-blank rows, and a blank line is still its own block.
+   */
+  const TRAILER_LINE = /^Route: /;
   const rows = [];
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) rows.push(row);
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    const trailer = TRAILER_LINE.test(raw);
+    for (const row of wrap(raw)) rows.push({ text: row, trailer });
+  }
   let capacity = 0;
   for (let y = height - margin; y >= margin; y -= lineHeight) capacity += 1;
 
   const blocks = [];
   for (const row of rows) {
-    const blank = row === "";
+    const blank = row.text === "";
     const last = blocks[blocks.length - 1];
-    if (blank) blocks.push({ blank: true, rows: [""] });
+    if (blank) blocks.push({ blank: true, rows: [row] });
     else if (last && !last.blank) last.rows.push(row);
     else blocks.push({ blank: false, rows: [row] });
   }
+  blocks.forEach((block, index) => { block.index = index; for (const row of block.rows) row.block = index; });
 
   const pages = [[]];
   const room = () => capacity - pages[pages.length - 1].length;
@@ -1804,7 +1844,7 @@ async function renderComposedPdf(fullText, title) {
     if (block.blank) {
       if (pages[pages.length - 1].length === 0) continue;
       if (room() <= 0) { newPage(); continue; }
-      pages[pages.length - 1].push("");
+      pages[pages.length - 1].push({ text: "", trailer: false, block: block.index });
       continue;
     }
     if (block.rows.length <= room()) { pages[pages.length - 1].push(...block.rows); continue; }
@@ -1823,16 +1863,50 @@ async function renderComposedPdf(fullText, title) {
     }
   }
 
-  const laid = pages
-    .map((rowsOnPage) => { const copy = [...rowsOnPage]; while (copy.length && copy[copy.length - 1] === "") copy.pop(); return copy; })
-    .filter((rowsOnPage) => rowsOnPage.some((r) => r !== ""));
+  const trim = (rowsOnPage) => { const copy = [...rowsOnPage]; while (copy.length && copy[copy.length - 1].text === "") copy.pop(); return copy; };
+  const laid = pages.map(trim).filter((rowsOnPage) => rowsOnPage.some((r) => r.text !== ""));
+
+  /*
+   * THE TRAILER PULL-DOWN. A page whose every drawn row is the machine route
+   * trailer is not a page a participant can be handed: page 8 of the notice
+   * package shipped five lines of "obligation:unit:RI:..." at x=72 with no
+   * heading, no route name in words and no prose to say what it was. The block
+   * that ended the page before is pulled down onto it, so the trailer arrives
+   * under the text it closes.
+   *
+   * This is the sole-occupant pull-down the Oklahoma and Washington composers
+   * already carry (scripts/build-census-v1-rcap-ok-custom-pleading.mjs), moved
+   * onto this host's own block pagination rather than a new scheme: it runs
+   * AFTER the layout above has settled, moves whole blocks only, and refuses to
+   * move one that would not fit - so it fires only where the defect is and is
+   * inert everywhere else.
+   */
+  const soleOccupant = (rowsOnPage) => rowsOnPage.length > 0 && rowsOnPage.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && laid.length > 1 && soleOccupant(laid[laid.length - 1]); guard++) {
+    const last = laid[laid.length - 1];
+    const previous = laid[laid.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > capacity) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    const kept = trim(previous);
+    if (kept.length === 0) { laid.splice(laid.length - 2, 1); break; }
+    laid[laid.length - 2] = kept;
+  }
+
   for (const rowsOnPage of laid) {
     const page = pdf.addPage([width, height]);
     let y = height - margin;
-    for (const row of rowsOnPage) { if (row) page.drawText(row, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) }); y -= lineHeight; }
+    for (const row of rowsOnPage) { if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) }); y -= lineHeight; }
   }
   if (!laid.length) pdf.addPage([width, height]);
-  const drawnPerPage = laid.map((rowsOnPage) => rowsOnPage.filter((r) => r !== "").length);
+  const drawnPerPage = laid.map((rowsOnPage) => rowsOnPage.filter((r) => r.text !== "").length);
+  /* A key long enough to need a hard split would be one a reader cannot follow
+   * across the break. There is none in Rhode Island once the separators are
+   * used; this fails the build loudly rather than shipping one. */
+  assert.equal(splitToken.hardSplits, 0,
+    `renderComposedPdf hard-split a token with no separator to break on in "${title}"`);
   return { bytes: Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false })), drawnPerPage };
 }
 

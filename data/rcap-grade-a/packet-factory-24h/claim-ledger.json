@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8b377c517f60a6d0c8798a21e163ee9e0142e727",
+  "generatedAtCommit": "1c64819aa81abd0a5d8a804f87a4555571676bf9",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5883,7 +5883,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T10:08:55.685Z"
@@ -6172,7 +6172,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6307,7 +6307,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6472,7 +6472,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6984,7 +6984,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7152,11 +7152,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX35",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Dealt and never launched; moving to FIX35."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7199,11 +7197,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX35",
+      "lane": "FIX08",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Dealt and never launched; moving to FIX35."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7261,11 +7257,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX35",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Dealt and never launched; moving to FIX35."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13113,7 +13107,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "09b654de1179595cbe514ecf6417064ffa1d20f0d53f89ae5ac83be062565233",
+  "claimsDigest": "c4e3e28b8b4552e22a21121cd7d13de8468e995c9d676f336f8cd9b86dff54f0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27771,6 +27765,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T11:45:39.699Z",
       "reason": "PROTECTED_FIELDS and SELF_HELP_STOP repaired and committed at dacfc9f61; fixtures canonical efb8c5486ce5 / boundary 749404b0b40c; central raster and independent re-verification owed (Replayed by Captain from FIX31 commit 2d6effcac.)"
+    },
+    {
+      "lane": "FIX35",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:49:56.475Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired at the shared host on fix35-ri-host-splitter; rebuilt twice byte-identical; raster owed; independent verification owed (Replayed by Captain from FIX35 commit 05151bc8c.)"
+    },
+    {
+      "lane": "FIX35",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:49:56.605Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired at the shared host on fix35-ri-host-splitter; rebuilt twice byte-identical; raster owed; independent verification owed (Replayed by Captain from FIX35 commit 05151bc8c.)"
+    },
+    {
+      "lane": "FIX35",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:49:56.732Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired at the shared host on fix35-ri-host-splitter; rebuilt twice byte-identical; raster owed; independent verification owed (Replayed by Captain from FIX35 commit 05151bc8c.)"
     }
   ],
   "reissues": [
@@ -34369,6 +34390,36 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T11:24:59Z",
       "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T11:51:56Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T11:51:56Z",
+      "reason": "the current dispatch names FIX07 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "dispatchNames": "FIX08",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T11:51:56Z",
+      "reason": "the current dispatch names FIX08 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

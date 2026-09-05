@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "8b377c517f60a6d0c8798a21e163ee9e0142e727",
+  "minimumCaptainSha": "1c64819aa81abd0a5d8a804f87a4555571676bf9",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,26 +66,26 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 10,
+    "activeFamiliesExcluded": 7,
     "guidanceOnly": 0,
-    "remaining": 336,
+    "remaining": 339,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
     "verifyPending": 1,
-    "repairRequired": 50,
+    "repairRequired": 52,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 151,
-    "FAIL_REPAIR_REQUIRED": 60,
+    "FAIL_REPAIR_REQUIRED": 59,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 3,
     "GUIDANCE_READY": 9,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFY_PENDING": 1
@@ -113,9 +113,6 @@
       "mi_setaside_trafficking-set",
       "ms-misd-1st-set",
       "nh_petition_vacated-set",
-      "ri_first_offender_felony-set",
-      "ri_first_offender_misdemeanor-set",
-      "ri_multiple_misdemeanors-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set",
       "vt_seal_nonconviction-set"
@@ -31048,9 +31045,7 @@
         "verifiedAtBase": "c9bbb6ecd",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31177,7 +31172,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -37475,8 +37470,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX35",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37487,8 +37482,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -37626,8 +37620,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX35",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37638,8 +37632,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ri_marijuana-set",
@@ -37889,8 +37882,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX35",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37901,8 +37894,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ri_nonconviction_sealing-set",
