@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 831,
+    "rows": 836,
     "independentVerdicts": 240,
-    "failRepairRequired": 72,
-    "passIndependent": 154
+    "failRepairRequired": 67,
+    "passIndependent": 155
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -90,11 +90,6 @@
     "rcap-nv-custom-pleading",
     "rcap-wi-custom-pleading",
     "rcap-wv-custom-pleading",
-    "ri_decriminalized-set",
-    "ri_deferred_sentence-set",
-    "ri_first_offender_felony-set",
-    "ri_first_offender_misdemeanor-set",
-    "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "ut_pet_dismissed_with_prejudice-set",
@@ -17728,6 +17723,20 @@
     },
     {
       "familyId": "ri_decriminalized-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5727d573f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_decriminalized-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
       "isIndependentVerification": true,
@@ -17834,7 +17843,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -17857,6 +17866,42 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
       "superseded": true
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5727d573f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+          "evidence": {
+            "measuredHere": true,
+            "theUnsettledInput": "the filing fee for a Chapter 12-1.3 motion",
+            "whereTheRecordLeavesItUnsettled": "data/record-clearing/legal-design-track-registry.json, track ri_deferred_sentence, unresolvedQuestions[]: { impact: \"release_blocker\", affectedElement: \"filing_process\", question: \"What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.\" }",
+            "whatThePacketDoes": "\"WHAT IT COSTS. THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. ... So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.\"",
+            "theWaiverHalf": "stated, and correctly separated from the filing fee: the packet states that court-imposed fines, fees, costs, assessments and restitution on the underlying case must be satisfied and that those obligations may be waived or reduced by court order, and that a waiver or reduction satisfies the eligibility condition.",
+            "whyThisIsNotAFail": "the packet is not defective. It states exactly what the held record holds and refuses to quote a price the record does not carry, which is the right behaviour. The obligation cannot be discharged because the input is missing, not because the build is wrong.",
+            "whyThisIsNotAPass": "the obligation is that the fee IS stated. No figure exists to state, and the record itself classes the gap as a release blocker. Scoring it PASS would record a fee as stated when no fee is known.",
+            "whoCanClearIt": "counsel or the Rhode Island Judiciary: confirm the filing fee, or confirm that there is none, for a Chapter 12-1.3 motion in the division this route files in.",
+            "carry": "Re-measured on the current bytes at 5727d573f. The bytes are NOT the bytes the standing vf04 PASS row read: FIX59's opt-in rebuilt them (canonical bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8 -> dc91e5dce2448db8d95354f2c0f58e84bdf0490a596bc079b69752309b6d3f9d, boundary aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4 -> 9cbeb6adeb7e138a393beed18ad9008323f566d28b6db743bbb16abf2c88e16a). Measured here against the standing bytes recovered from git at 4dd482867: pages 2, 3, 4 changed and pages 1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 are PIXEL-IDENTICAL in both fixtures, and pdftotext -layout over every page of both fixtures is character-identical to the standing bytes. Where this obligation rests on a page in that unchanged set, the carry is stated as a fact about the pixels and the result is still asserted freshly here."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": false
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -17938,6 +17983,42 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5727d573f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+          "evidence": {
+            "measuredHere": true,
+            "theUnsettledInput": "the filing fee for a Chapter 12-1.3 motion",
+            "whereTheRecordLeavesItUnsettled": "data/record-clearing/legal-design-track-registry.json, track ri_first_offender_felony, unresolvedQuestions[]: { impact: \"release_blocker\", affectedElement: \"filing_process\", question: \"What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.\" }",
+            "whatThePacketDoes": "\"WHAT IT COSTS. THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. ... So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.\"",
+            "theWaiverHalf": "stated, and correctly separated from the filing fee: the packet states that court-imposed fines, fees, costs, assessments and restitution on the underlying case must be satisfied and that those obligations may be waived or reduced by court order, and that a waiver or reduction satisfies the eligibility condition.",
+            "whyThisIsNotAFail": "the packet is not defective. It states exactly what the held record holds and refuses to quote a price the record does not carry, which is the right behaviour. The obligation cannot be discharged because the input is missing, not because the build is wrong.",
+            "whyThisIsNotAPass": "the obligation is that the fee IS stated. No figure exists to state, and the record itself classes the gap as a release blocker. Scoring it PASS would record a fee as stated when no fee is known.",
+            "whoCanClearIt": "counsel or the Rhode Island Judiciary: confirm the filing fee, or confirm that there is none, for a Chapter 12-1.3 motion in the division this route files in.",
+            "carry": "Re-measured on the current bytes at 5727d573f. The bytes are NOT the bytes the standing vf04 PASS row read: FIX59's opt-in rebuilt them (canonical 1398e09eb826f164e45476f7c9b18f7cf20a6c5c1a603ad3f53df9b0d363f5b7 -> 1a5aaac6c5405b418c314afd889912a2715a97ea26c4cd1c588e5286d789a642, boundary f0039f280f282d242f4f709de26a7b2f730ab9af44cafc9aad17da4c12745db1 -> 7f3793591663be2984e77bb9de24094752f7bb416f7ecc7b60db0009bb1b7c49). Measured here against the standing bytes recovered from git at 4dd482867: pages 2, 3, 4 changed and pages 1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 are PIXEL-IDENTICAL in both fixtures, and pdftotext -layout over every page of both fixtures is character-identical to the standing bytes. Where this obligation rests on a page in that unchanged set, the carry is stated as a fact about the pixels and the result is still asserted freshly here."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
       "superseded": false
     },
     {
@@ -18058,6 +18139,42 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5727d573f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+          "evidence": {
+            "measuredHere": true,
+            "theUnsettledInput": "the filing fee for a Chapter 12-1.3 motion",
+            "whereTheRecordLeavesItUnsettled": "data/record-clearing/legal-design-track-registry.json, track ri_first_offender_misdemeanor, unresolvedQuestions[]: { impact: \"release_blocker\", affectedElement: \"filing_process\", question: \"What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.\" }",
+            "whatThePacketDoes": "\"WHAT IT COSTS. THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. ... So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.\"",
+            "theWaiverHalf": "stated, and correctly separated from the filing fee: the packet states that court-imposed fines, fees, costs, assessments and restitution on the underlying case must be satisfied and that those obligations may be waived or reduced by court order, and that a waiver or reduction satisfies the eligibility condition.",
+            "whyThisIsNotAFail": "the packet is not defective. It states exactly what the held record holds and refuses to quote a price the record does not carry, which is the right behaviour. The obligation cannot be discharged because the input is missing, not because the build is wrong.",
+            "whyThisIsNotAPass": "the obligation is that the fee IS stated. No figure exists to state, and the record itself classes the gap as a release blocker. Scoring it PASS would record a fee as stated when no fee is known.",
+            "whoCanClearIt": "counsel or the Rhode Island Judiciary: confirm the filing fee, or confirm that there is none, for a Chapter 12-1.3 motion in the division this route files in.",
+            "carry": "Re-measured on the current bytes at 5727d573f. The bytes are NOT the bytes the standing vf04 PASS row read: FIX59's opt-in rebuilt them (canonical 1eda948c4de65da61c5e73c55c84eea42bee65a1a42ee509f553b81888c75351 -> 4887cbead4a42a3baf7a622e74cbf4bacba7e4a98f1ae24136a02dba087a4db6, boundary ced50ad491c5b40f052a162f16cad02a433ec54125f2aa0099bf32eb51c03afc -> 9a7211c9e517d11b10105a3bba27c08adf6dafec682baf5b3e0dfad2b75dd0fb). Measured here against the standing bytes recovered from git at 4dd482867: pages 2, 3, 4 changed and pages 1, 5, 6, 7, 8, 9, 10, 11, 12, 13 are PIXEL-IDENTICAL in both fixtures, and pdftotext -layout over every page of both fixtures is character-identical to the standing bytes. Where this obligation rests on a page in that unchanged set, the carry is stated as a fact about the pixels and the result is still asserted freshly here."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
       "superseded": false
     },
     {
@@ -18173,7 +18290,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_marijuana-set",
@@ -18187,6 +18304,42 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_marijuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5727d573f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+          "evidence": {
+            "measuredHere": true,
+            "theUnsettledInput": "the filing fee for a Chapter 12-1.3 motion",
+            "whereTheRecordLeavesItUnsettled": "data/record-clearing/legal-design-track-registry.json, track ri_multiple_misdemeanors, unresolvedQuestions[]: { impact: \"release_blocker\", affectedElement: \"filing_process\", question: \"What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.\" }",
+            "whatThePacketDoes": "\"WHAT IT COSTS. THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. ... So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.\"",
+            "theWaiverHalf": "stated, and correctly separated from the filing fee: the packet states that court-imposed fines, fees, costs, assessments and restitution on the underlying case must be satisfied and that those obligations may be waived or reduced by court order, and that a waiver or reduction satisfies the eligibility condition.",
+            "whyThisIsNotAFail": "the packet is not defective. It states exactly what the held record holds and refuses to quote a price the record does not carry, which is the right behaviour. The obligation cannot be discharged because the input is missing, not because the build is wrong.",
+            "whyThisIsNotAPass": "the obligation is that the fee IS stated. No figure exists to state, and the record itself classes the gap as a release blocker. Scoring it PASS would record a fee as stated when no fee is known.",
+            "whoCanClearIt": "counsel or the Rhode Island Judiciary: confirm the filing fee, or confirm that there is none, for a Chapter 12-1.3 motion in the division this route files in.",
+            "carry": "Re-measured on the current bytes at 5727d573f. The bytes are NOT the bytes the standing vf04 PASS row read: FIX59's opt-in rebuilt them (canonical 6670d92fc8eb8b61ea95d10f9cb5f8b5c901273f743ddf02952ec2922ff2e46b -> 626459e1e8c041254ff4540ef939f5bdb7bdf25ed10c4e5b91968fb78b601708, boundary aaccc906b4703f13e98d4049059c1b5ad849f23f27ca33a2badfd20e283f2c87 -> 8b1c4fb17096980cdaeaf7b5ca36c55be96b0266e0217afb9bdf07fe24c16998). Measured here against the standing bytes recovered from git at 4dd482867: pages 2, 3, 4 changed and pages 1, 5, 6, 7, 8, 9, 10, 11, 12, 13 are PIXEL-IDENTICAL in both fixtures, and pdftotext -layout over every page of both fixtures is character-identical to the standing bytes. Where this obligation rests on a page in that unchanged set, the carry is stated as a fact about the pixels and the result is still asserted freshly here."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
       "superseded": false
     },
     {
@@ -18324,7 +18477,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_nonconviction_sealing-set",

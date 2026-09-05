@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `a94634c787de2f604eb90a795558f1253e340014`
+**Minimum required ancestor:** `c6ffb92517e5a6764171b9d74eb004e308d40cba`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -16,7 +16,7 @@ There is no browser in this container and there is no way to get one: the Playwr
 
 The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped GitHub runner, against the exact PDF bytes named below. Your job is to read what it produced and decide whether it binds.
 
-## Your families (44)
+## Your families (43)
 
 ### agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission
 
@@ -256,19 +256,12 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - expected pages 75 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ri_deferred_sentence-set
+### ri_marijuana-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf` — `dc91e5dce2448db8d95354f2c0f58e84bdf0490a596bc079b69752309b6d3f9d`
-- boundary `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf` — `9cbeb6adeb7e138a393beed18ad9008323f566d28b6db743bbb16abf2c88e16a`
-- expected pages 14 · requested scale 2.5
-- built by VF03
-
-### ri_multiple_misdemeanors-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `626459e1e8c041254ff4540ef939f5bdb7bdf25ed10c4e5b91968fb78b601708`
-- boundary `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `8b1c4fb17096980cdaeaf7b5ca36c55be96b0266e0217afb9bdf07fe24c16998`
-- expected pages 13 · requested scale 2.5
-- built by VF03
+- canonical `data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/fixtures/canonical.pdf` — `79bcf52eb9014313303adc20c37ec9d20d127de1dd28e5b738f2c823f0eba8f0`
+- boundary `data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/fixtures/boundary.pdf` — `fc9c6c8ae3934798ba7dd5eff9bf58629da65a390ba9cf0318032f8b37945312`
+- expected pages 6 · requested scale 2.5
+- built by (no builder lane recorded)
 
 ### tx_nd_dwi_deferred-set
 
@@ -358,7 +351,7 @@ The diff is the return.
 
 ```text
 LANE: RAS03
-FAMILIES ASSIGNED: 44
+FAMILIES ASSIGNED: 43
 RASTER_PASS:
 RASTER_FAIL:
 RASTER_BLOCKED_ENVIRONMENT:

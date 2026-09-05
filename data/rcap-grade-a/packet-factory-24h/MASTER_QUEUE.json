@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a94634c787de2f604eb90a795558f1253e340014",
+  "minimumCaptainSha": "c6ffb92517e5a6764171b9d74eb004e308d40cba",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -71,23 +71,23 @@
     "remaining": 338,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 12,
-    "verifyPending": 14,
+    "legalBlocked": 16,
+    "verifyPending": 9,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 134,
+    "COMPLETE_PACKET_PROVEN": 135,
     "FAIL_REPAIR_REQUIRED": 53,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 8,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 12,
+    "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 14,
+    "VERIFY_PENDING": 9,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -169,7 +169,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 18 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -37165,10 +37165,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37199,65 +37199,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 74 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that DC-33 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "DC-33": 2270
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 74,
-            "widgetsDeliveringASynthesizedBorder": 74,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 2,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
@@ -37364,21 +37310,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ri_deferred_sentence-set",
+        "foundBy": [
+          "vf03 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -37398,65 +37353,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 66 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that Superior-55 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "Superior-55": 2059
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 66,
-            "widgetsDeliveringASynthesizedBorder": 66,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 33,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 33,
-                "forms": [
-                  "Superior-55"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 33,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 33,
-                "forms": [
-                  "Superior-55"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 2,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
@@ -37547,21 +37448,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ri_first_offender_felony-set",
+        "foundBy": [
+          "vf03 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -37581,65 +37491,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 66 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that Superior-55 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "Superior-55": 2059
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 66,
-            "widgetsDeliveringASynthesizedBorder": 66,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 33,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 33,
-                "forms": [
-                  "Superior-55"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 33,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 33,
-                "forms": [
-                  "Superior-55"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 2,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -37730,21 +37586,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ri_first_offender_misdemeanor-set",
+        "foundBy": [
+          "vf03 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -37764,65 +37629,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 74 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that DC-33 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "DC-33": 2270
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 74,
-            "widgetsDeliveringASynthesizedBorder": 74,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 2,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -38003,21 +37814,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ri_multiple_misdemeanors-set",
+        "foundBy": [
+          "vf03 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: BLOCKED_LEGAL_INPUT: the filing fee for a Chapter 12-1.3 motion. The waiver route is stated in full; the fee is not, and cannot be, because the committed record classes it as an open release-blocking question. The packet states the gap honestly rather than inventing a figure.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -38037,65 +37857,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 74 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that DC-33 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "DC-33": 2270
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 74,
-            "widgetsDeliveringASynthesizedBorder": 74,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  2,
-                  3,
-                  4
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "DC-33"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 2,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",

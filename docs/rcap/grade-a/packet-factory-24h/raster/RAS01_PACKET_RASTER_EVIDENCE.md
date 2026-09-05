@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `a94634c787de2f604eb90a795558f1253e340014`
+**Minimum required ancestor:** `c6ffb92517e5a6764171b9d74eb004e308d40cba`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -16,7 +16,7 @@ There is no browser in this container and there is no way to get one: the Playwr
 
 The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped GitHub runner, against the exact PDF bytes named below. Your job is to read what it produced and decide whether it binds.
 
-## Your families (45)
+## Your families (44)
 
 ### agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge
 
@@ -263,13 +263,6 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - expected pages 17 · requested scale 2.5
 - built by (no builder lane recorded)
 
-### ri_first_offender_misdemeanor-set
-
-- canonical `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `4887cbead4a42a3baf7a622e74cbf4bacba7e4a98f1ae24136a02dba087a4db6`
-- boundary `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `9a7211c9e517d11b10105a3bba27c08adf6dafec682baf5b3e0dfad2b75dd0fb`
-- expected pages 13 · requested scale 2.5
-- built by VF03
-
 ### tx_exp_acquittal-set
 
 - canonical `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf` — `cc6f681a67a26edb02c90e1a32380c707ae001a094c672639c3e05e667f7a8ae`
@@ -365,7 +358,7 @@ The diff is the return.
 
 ```text
 LANE: RAS01
-FAMILIES ASSIGNED: 45
+FAMILIES ASSIGNED: 44
 RASTER_PASS:
 RASTER_FAIL:
 RASTER_BLOCKED_ENVIRONMENT:
