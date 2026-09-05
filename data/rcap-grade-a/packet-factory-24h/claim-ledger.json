@@ -6383,8 +6383,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T22:39:11.462Z",
+      "releaseReason": "Consolidated onto VF09 so the Nevada and Virginia expungement post-repair reads sit on one lane with one worker; VF02 is reading Colorado, Nebraska, Michigan and Maine; no work was done here."
     },
     {
       "subjectType": "packet-family",
@@ -8205,10 +8206,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T16:58:42.633Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at c708dff4d: FEE_AND_WAIVER — the track registry states three times that Va. Code 19.2-392.2(A) requires no court fees or costs and carries it as a packetInstruction, while page 6 and participant-instructions.md say the fee is unestablished and to ask the clerk, naming no waiver route; thirteen others pass on the FIX46 bytes (canonical be8bd437, boundary de2b0b59, RASTER_PASS run 33977742636) except CLIPPING_AND_OVERLAP, BLOCKED_LEGAL_INPUT on the shared-flattening synthesized checkbox square (FIX50 in flight). Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 2a17e1cd3)."
     },
     {
@@ -13607,7 +13608,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "bb9bd21de1b505eb1ae080a05ef5617fa32413e2a8ab1e9bde84dcf1fb0be755",
+  "claimsDigest": "15cbb4543f5eb4a8ab48b3c3008ac98dc5cf4652657233c39cd5ecaecb9a9d37",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30461,6 +30462,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T22:37:22.970Z",
       "reason": "FEE_AND_WAIVER repaired: the filing-instructions page and participant-instructions.md now state, in the track registry's own words with its citation, that no court fees or costs are payable under Va. Code 19.2-392.2(A) and there is nothing to waive, with the CCRE own-copy fee note carried verbatim; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix74/rows.json (Replayed by Captain from FIX74 commit 599920223.)"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T22:39:11.462Z",
+      "reason": "Consolidated onto VF09 so the Nevada and Virginia expungement post-repair reads sit on one lane with one worker; VF02 is reading Colorado, Nebraska, Michigan and Maine; no work was done here."
     }
   ],
   "reissues": [
@@ -43863,6 +43873,17 @@
       "previouslyReleasedAt": "2026-09-05T20:52:22.648Z",
       "transferredAt": "2026-09-05T22:35:24.364Z",
       "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (the certificate of service rendered nowhere and not recorded in componentsNotGenerated) and KNOWN_PREFILLS (arrest date, citation date, arresting agency and charge description declared required-before-filing while the same packet prints them on its other component; write them into order item 10 and the petition's first statute description cell or reclassify honestly); repair both together; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF09",
+      "previouslyReleasedAt": "2026-09-05T16:58:42.633Z",
+      "transferredAt": "2026-09-05T22:39:11.666Z",
+      "reason": "Independent read owed after FIX74 (the record's own no-fee answer under Va. Code 19.2-392.2(A) on page 6 and in the instructions) and the central raster receipt dispatched on 35a889af7; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF03's pre-repair read."
     }
   ],
   "grants": [
