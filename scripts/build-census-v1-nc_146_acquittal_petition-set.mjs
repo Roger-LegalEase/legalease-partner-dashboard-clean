@@ -1624,6 +1624,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
             documentTextLines: census.documentTextLines,
             evaluateDeclaredMinimumSize: true,
             alignWidgetFontSizeToFit: true,
+            /* All 14 checkbox widgets of AOC-CR-288 carry /AS /Off with /Yes as
+             * the only state under /AP /N, so a conforming viewer paints
+             * nothing there (ISO 32000-1 12.5.5). pdf-lib's default appearance
+             * provider synthesizes a stroked square for exactly that condition
+             * and flatten() stamps it, so VF07 measured all 14 unticked boxes
+             * delivered inside a border the court's paper does not print, each
+             * region gaining 27-136 dark pixels at 200 dpi. VF07's zero-write
+             * baseline proved the square comes from the shared normalization
+             * and not from this family. Opting in supplies the missing /Off
+             * state as an EMPTY appearance, so nothing is synthesized and
+             * nothing is flattened there. A widget of a field this run writes,
+             * and any widget whose /AS state ships its own appearance, are
+             * untouched by this. */
+            suppressSynthesizedAppearances: true,
             title: `${SPEC.jurisdiction} ${b.doc.documentId}`
           });
           bytes = result.bytes;
