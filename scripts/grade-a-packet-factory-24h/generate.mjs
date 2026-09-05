@@ -1305,6 +1305,32 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
      * unanswered question must not release the family from FAIL. */
     if (r.status === 1) moved = true;
     else if (r.status !== 0) moved = false;
+    /*
+     * A BUILD SCRIPT IS THE MEANS. THE BYTES ARE THE DELIVERABLE.
+     *
+     * This asked one question of the overlay directory and the build script
+     * together, so editing the script unterminalized the family even when every
+     * byte it produces is identical. ne-setaside-custodial-set hit exactly
+     * that: a repair elsewhere had to touch a sourceId living inside a config
+     * key in this family's build script, which is the shared host for both
+     * families. The repairing lane rebuilt every other family on that host with
+     * and without the change and found every output byte identical, and this
+     * family's canonical and boundary fixtures are byte-identical to the tree
+     * the verdict was read at -- and it still went back to VERIFY_PENDING,
+     * asking a lane to re-read a packet nobody had changed.
+     *
+     * So the two are asked separately. A verdict is about the bytes a
+     * participant receives; when those are identical the verdict still
+     * describes them, and a script edit is not a reason to spend a second read.
+     * The directory still decides on its own, so a moved fixture moves the
+     * family exactly as before, and determinism of the edited script remains
+     * the rebuild gate's question rather than this one's.
+     */
+    if (moved) {
+      const dirOnly = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--",
+        directory, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT });
+      if (dirOnly.status === 0) moved = false;
+    }
   } catch { moved = false; }
   movedSinceCache.set(key, moved);
   return moved;
@@ -1337,16 +1363,23 @@ try {
 /* A released repair claim is not proof that it answered the selected FAIL.
  * Bind the transition to a completed repair row that names every failed
  * obligation and whose exact row did not exist at the verdict base. */
+/*
+ * The same filename assumption held here, and cost the same thing.
+ *
+ * FIX-C repaired eight families and wrote its return as fix-c-repair-return.json
+ * because rows.json in each of fix01, fix02 and fix03 already held an earlier
+ * lane's completed return -- the same correct refusal to overwrite that the
+ * packet cohorts made. All eight stayed FAIL_REPAIR_REQUIRED, because the only
+ * repair record this reader could see was the older one, and a repair that
+ * predates a verdict cannot answer it.
+ *
+ * Reading by shape rather than by name is not a loosening: the ordering proof
+ * below is unchanged and still has to be satisfied per candidate, and a lane
+ * with more than one return simply offers more than one candidate.
+ */
 const repairCompletionsByFamily = new Map();
 for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
-  const absoluteRoot = path.join(ROOT, root);
-  if (!fs.existsSync(absoluteRoot)) continue;
-  for (const entry of fs.readdirSync(absoluteRoot, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    const evidencePath = `${root}/${entry.name}/rows.json`;
-    if (!fs.existsSync(path.join(ROOT, evidencePath))) continue;
-    let doc = null;
-    try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); } catch { continue; }
+  for (const { evidencePath, doc } of laneReturnDocuments(root, () => true)) {
     for (const row of doc.rows ?? []) {
       if (row.status !== "COMPLETED" || row.repairedByThisLane !== true) continue;
       if (row.laneKind && row.laneKind !== "repair" && row.laneKind !== "shared-host-repair") continue;
@@ -1367,6 +1400,35 @@ for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
  * whether the assigned build actually completed. */
 const stoppedPacketBuildByFamily = new Map();
 const completedPacketBuildFamilies = new Set();
+/**
+ * Every lane return under `root`, found by SHAPE rather than by filename.
+ *
+ * A return is any JSON in a lane directory whose `rows` is a non-empty array of
+ * objects that each name a family and a status. That admits every file a lane
+ * writes and excludes checkpoints, gate stops, collision notes and assignment
+ * records, none of which carry a rows array at all.
+ */
+function laneReturnDocuments(root, dirMatches) {
+  const found = [];
+  const absoluteRoot = path.join(ROOT, root);
+  if (!fs.existsSync(absoluteRoot)) return found;
+  for (const entry of fs.readdirSync(absoluteRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory() || !dirMatches(entry.name)) continue;
+    for (const file of fs.readdirSync(path.join(absoluteRoot, entry.name))) {
+      if (!file.endsWith(".json")) continue;
+      const evidencePath = `${root}/${entry.name}/${file}`;
+      let doc;
+      try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); }
+      catch { continue; }
+      const rows = doc?.rows;
+      if (!Array.isArray(rows) || rows.length === 0) continue;
+      if (!rows.every((r) => (r?.itemId ?? r?.familyId) && r?.status)) continue;
+      found.push({ evidencePath, doc });
+    }
+  }
+  return found;
+}
+
 /*
  * A LANE RETURN IS NOT ALWAYS CALLED rows.json.
  *
@@ -1392,21 +1454,7 @@ const completedPacketBuildFamilies = new Set();
  * union, so a later completed build answers an earlier stop whichever file
  * each arrived in.
  */
-const laneReturnFiles = [];
-for (const entry of fs.readdirSync(path.join(ROOT, OUT_DIR), { withFileTypes: true })) {
-  if (!entry.isDirectory() || !/^pf\d+$/i.test(entry.name)) continue;
-  for (const file of fs.readdirSync(path.join(ROOT, OUT_DIR, entry.name))) {
-    if (!file.endsWith(".json")) continue;
-    const evidencePath = `${OUT_DIR}/${entry.name}/${file}`;
-    let doc;
-    try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); }
-    catch { continue; }
-    const rows = doc?.rows;
-    if (!Array.isArray(rows) || rows.length === 0) continue;
-    if (!rows.every((r) => (r?.itemId ?? r?.familyId) && r?.status)) continue;
-    laneReturnFiles.push({ evidencePath, doc });
-  }
-}
+const laneReturnFiles = laneReturnDocuments(OUT_DIR, (name) => /^pf\d+$/i.test(name));
 for (const { evidencePath, doc } of laneReturnFiles) {
   for (const row of doc.rows ?? []) {
     const familyId = row.itemId ?? row.familyId;

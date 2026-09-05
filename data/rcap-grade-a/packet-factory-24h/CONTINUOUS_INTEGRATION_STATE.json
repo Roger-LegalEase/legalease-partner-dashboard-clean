@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-05T00:05:21.561Z",
-  "captainHead": "34fbef423163d287903d3a3908a3c6a4c901d990",
+  "generatedAt": "2026-09-05T00:15:48.369Z",
+  "captainHead": "5f0fadf57e1245c76aac00c07716f00200d87da2",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-05T00:25:21.561Z",
-    "nextSourceReleaseDeadline": "2026-09-05T00:35:21.561Z",
+    "nextIntegrationDeadline": "2026-09-05T00:35:48.369Z",
+    "nextSourceReleaseDeadline": "2026-09-05T00:45:48.369Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 30,
+        "measured": 17,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 49,
+        "measured": 55,
         "threshold": 20,
         "triggered": true
       },
@@ -81,12 +81,12 @@
     "sourceReady": 93,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 30,
-    "repairRequired": 49,
+    "verifyPending": 17,
+    "repairRequired": 55,
     "byState": {
-      "VERIFY_PENDING": 30,
-      "COMPLETE_PACKET_PROVEN": 114,
-      "FAIL_REPAIR_REQUIRED": 49,
+      "VERIFY_PENDING": 17,
+      "COMPLETE_PACKET_PROVEN": 121,
+      "FAIL_REPAIR_REQUIRED": 55,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
       "SOURCE_READY": 93,

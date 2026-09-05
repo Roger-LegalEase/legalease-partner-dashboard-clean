@@ -15,7 +15,7 @@
   "sourceBinariesRequired": 0,
   "sourceBinaryCommitted": false,
   "sourceBinarySha256": null,
-  "allSourcesExact": true,
+  "allSourcesExact": false,
   "allSourcesExactNote": "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed.",
   "bindingMethod": "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time",
   "authorityDecision": {
@@ -74,8 +74,19 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
-      "byteLength": 3677644
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-05",
+        "was": {
+          "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
+          "byteLength": 3677644
+        },
+        "why": "The shared record was rewritten around this receipt's anchors by unrelated work. Every entry this family binds was recovered from the historical blob carrying the previous pin and is byte-identical on disk, so the bound content is unchanged and only the containing file's identity moved.",
+        "anchorsCompared": 2,
+        "anchorsIdentical": 2,
+        "previousPinLastSeenAtCommit": "0be1fee76"
+      }
     },
     {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",

@@ -171,11 +171,45 @@ const fixtureCoverage = new Map();
  * partial row is not promotable no matter how green its receipt is; the gate
  * that consumes this queue reads `coverage.complete`, not the state alone.
  */
-const coverageOf = (pdfs, fixture, rendered) => {
+/*
+ * WHAT THIS GATE RENDERS, SAID PLAINLY.
+ *
+ * `complete` is asked of the CANONICAL documents, because those are what the
+ * gate renders and what a participant receives. That was always what it
+ * measured; what it did not do was say so. Every row declares a boundary
+ * fixture, and on all 171 of them this returned notRastered: [] and
+ * complete: true, so each receipt read as though the whole declared document
+ * set had been through the gate. It had not: the boundary fixtures, and the
+ * route-level fixtures on families that ship them, are hash-bound and never
+ * rendered.
+ *
+ * That overclaim is how two real pagination defects survived a green gate --
+ * an orphan page in an Oklahoma boundary fixture and a contact block splitting
+ * across a page break in eleven of North Dakota's twelve PDFs. Both live in
+ * bytes this gate never looked at, while the receipt said it had covered the
+ * whole family.
+ *
+ * The boundary fixture is a stress artifact rather than a participant
+ * deliverable, so this does not mean the canonical packets are unverified and
+ * `complete` keeps the meaning the promotion path already depends on. What
+ * changes is that the row now NAMES what went unrendered instead of implying
+ * nothing did, so a reader can see the edge of the gate rather than having to
+ * find it the way a verification lane just did.
+ */
+const coverageOf = (pdfs, fixture, rendered, allDeclared = []) => {
+  const outsideThisGate = allDeclared
+    .filter((d) => d.role !== "canonical")
+    .map((d) => d.name)
+    .filter((name) => !rendered.includes(name));
+  const edge = {
+    notRenderedByThisGate: outsideThisGate,
+    whatCompleteMeansHere: "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+  };
   if (pdfs.includes(`${fixture}.pdf`)) {
     return { documents: [`${fixture}.pdf`], rastered: rendered, notRastered: [],
       complete: rendered.includes(`${fixture}.pdf`),
-      basis: "the family ships one assembled packet, so rendering it covers the family" };
+      basis: "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      ...edge };
   }
   const docs = pdfs.filter((x) => x.includes(fixture));
   const missed = docs.filter((x) => !rendered.includes(x));
@@ -185,6 +219,7 @@ const coverageOf = (pdfs, fixture, rendered) => {
     basis: missed.length === 0
       ? `the family ships ${docs.length} canonical document(s) with no assembled packet, and the row renders all of them`
       : `the family ships ${docs.length} canonical documents and this row renders ${rendered.length}`,
+    ...edge,
   };
 };
 
@@ -468,7 +503,7 @@ for (const f of master.families) {
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
   const pdfsHere = found.pdfs;
-  const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name));
+  const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   if (!primaryCanonical) {
     notEligible.push({
