@@ -1075,10 +1075,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF27",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T04:22:37.566Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1988,10 +1988,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX17",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:15:57.624Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3976,10 +3976,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX18",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:22.547Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4080,10 +4080,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX18",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:41.123Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4318,10 +4318,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF27",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T04:22:37.692Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6438,10 +6438,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX17",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:15:57.747Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7185,10 +7185,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX19",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:22.792Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7260,10 +7260,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX19",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:22.914Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12746,7 +12746,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0781db6ffb2452388d696f831cb2cf389b9c2cd8f3ca40f8a96a45eca50664a6",
+  "claimsDigest": "530f44cc15708984855a99e74a723fa453c1a45b9d5e3af99e4388955d8d3482",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37195,6 +37195,94 @@
       "previouslyReleasedAt": "2026-09-04T19:02:07.993Z",
       "transferredAt": "2026-09-05T04:18:55.340Z",
       "reason": "Captain moves these two released repair grants to FIX16 before dispatch. VF09 proved the clipping defect still reproduces on both, and the fix already exists: Nevada had the same defect, was failed for it and was repaired at a120d8bd5, and the patch was never applied to the two families sharing that composer. Moved centrally because a lane that stalls on an unassertable grant does no work at all."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX17",
+      "previouslyReleasedAt": "2026-09-05T01:15:57.624Z",
+      "transferredAt": "2026-09-05T04:57:48.911Z",
+      "reason": "Captain moves this released grant to FIX17 before dispatch. The composer clipping class, with a repair now proven on two families: splitToken breaking mid-token, row-by-row page breaking blind to logical lines, and a trailer able to own a page alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nd-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX17",
+      "previouslyReleasedAt": "2026-09-05T01:15:57.747Z",
+      "transferredAt": "2026-09-05T04:57:49.047Z",
+      "reason": "Captain moves this released grant to FIX17 before dispatch. The composer clipping class, with a repair now proven on two families: splitToken breaking mid-token, row-by-row page breaking blind to logical lines, and a trailer able to own a page alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_arrest_no_charges-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX18",
+      "previouslyReleasedAt": "2026-09-04T23:59:22.547Z",
+      "transferredAt": "2026-09-05T04:57:49.177Z",
+      "reason": "Captain moves this released grant to FIX18 before dispatch. The Indiana guides contradict their own bytes. Fully diagnosed by an earlier lane that could not claim either family; this dispatch exists so the diagnosis gets acted on."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_section1_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX18",
+      "previouslyReleasedAt": "2026-09-04T23:59:41.123Z",
+      "transferredAt": "2026-09-05T04:57:49.313Z",
+      "reason": "Captain moves this released grant to FIX18 before dispatch. The Indiana guides contradict their own bytes. Fully diagnosed by an earlier lane that could not claim either family; this dispatch exists so the diagnosis gets acted on."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX19",
+      "previouslyReleasedAt": "2026-09-04T23:59:22.792Z",
+      "transferredAt": "2026-09-05T04:57:49.458Z",
+      "reason": "Captain moves this released grant to FIX19 before dispatch. Two Texas families with identical failed-obligation sets, a shared-root candidate."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_probation_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX19",
+      "previouslyReleasedAt": "2026-09-04T23:59:22.914Z",
+      "transferredAt": "2026-09-05T04:57:49.589Z",
+      "reason": "Captain moves this released grant to FIX19 before dispatch. Two Texas families with identical failed-obligation sets, a shared-root candidate."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_record_sealing_conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF06",
+      "toLane": "PF27",
+      "previouslyReleasedAt": "2026-09-05T04:22:37.566Z",
+      "transferredAt": "2026-09-05T04:57:49.731Z",
+      "reason": "Captain moves this released grant to PF27 before dispatch. Two SOURCE_READY families with no live claim, freed when PF02 exited."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF18",
+      "toLane": "PF27",
+      "previouslyReleasedAt": "2026-09-05T04:22:37.692Z",
+      "transferredAt": "2026-09-05T04:57:49.941Z",
+      "reason": "Captain moves this released grant to PF27 before dispatch. Two SOURCE_READY families with no live claim, freed when PF02 exited."
     }
   ],
   "withdrawals": [
