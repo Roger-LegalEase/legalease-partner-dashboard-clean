@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 704,
-    "independentVerdicts": 231,
-    "failRepairRequired": 60,
-    "passIndependent": 162
+    "rows": 709,
+    "independentVerdicts": 233,
+    "failRepairRequired": 59,
+    "passIndependent": 165
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -70,7 +70,6 @@
     "il-seal-3yr-set",
     "il-seal-edu-set",
     "il-seal-nonconv-set",
-    "in_arrest_no_charges-set",
     "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
     "la-987-set-aside-and-dismiss-set",
@@ -4674,6 +4673,66 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c9bbb6ecd",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "RAW MARKDOWN EMPHASIS DELIMITERS ARE PRINTED AS BODY TEXT ON A DELIVERED PAGE, IN BOTH FIXTURES. Re-ruled at the Captain's direction under the factory standard that CLIPPING_AND_OVERLAP owns the visual appearance of the delivered page and visualDefects is its counterpart counter. My first row recorded this defect but scored it against no named obligation, on VF09's precedent for the identical defect in the WV sibling; that precedent decided only that it is not a SELF_HELP_STOP failure, which I still think is right, and it did not reach the obligation that actually owns delivered-page appearance. Under the standard as the Captain states it this is a visible defect on a delivered page and it fails here. WHAT IS ON THE PAGE: packet page 4 of 4 (612 x 792), component ok-trafficking-survivor-19c-filing-instructions-2, its own source page 2, under the heading 'WHEN TO STOP AND GET HELP INSTEAD'. The first stop-condition bullet is drawn as a single Tj at x=72.0, baseline y=517.0, Times-Roman 11pt, black, and reads in full: '- **this is the first thing the committed record says about this route:** Oklahoma has a special'. The two delimiter pairs occupy x 78.41-89.41 and x 369.99-380.99 on that baseline. Rasterised here at 150 dpi they are plainly legible black asterisks at full body size, not faint and not marginal: the line reads '- **this is the first thing the committed record says about this route:** Oklahoma has a special'. Byte-identical in the boundary fixture at the same page, coordinates and size. pdftotext -layout returns exactly one line containing '**' in each fixture, canonical line 148 and boundary line 149. WHERE IT COMES FROM: the same string carries the same delimiters in production-field-map.json, participantFacingObligations, the SELF_HELP_STOP answer, and in participant-instructions.md, where it IS markdown and renders as emphasis correctly. The composer that writes those answers onto a composed PDF page carried the markdown source string through unrendered. WHAT THE GEOMETRY STILL PROVES, and should survive the repair: the page geometry itself is clean. Rasterised at 100 dpi, all four pages are 850x1100 px with zero dark pixels in the 18-point edge band in BOTH fixtures, ink confined to x 100-746 and y 90-985 of 850x1100, no line broken mid-token and no value overrunning its dotted rule. Nothing is clipped and nothing overlaps; what fails is that ink which should not be on the page is on it.",
+          "evidence": {
+            "defectClass": "source markup rendered literally onto a delivered page",
+            "page": 4,
+            "pageOf": 4,
+            "pageSize": "612 x 792",
+            "component": "ok-trafficking-survivor-19c-filing-instructions-2",
+            "componentSourcePage": 2,
+            "sectionHeading": "WHEN TO STOP AND GET HELP INSTEAD",
+            "textOnThePage": "- **this is the first thing the committed record says about this route:** Oklahoma has a special",
+            "lineOrigin": {
+              "x": 72,
+              "y": 517
+            },
+            "font": "Times-Roman",
+            "sizePt": 11,
+            "fill": "black",
+            "openingDelimiterX": [
+              78.41,
+              89.41
+            ],
+            "closingDelimiterX": [
+              369.99,
+              380.99
+            ],
+            "fixturesAffected": [
+              "canonical",
+              "boundary"
+            ],
+            "canonicalSha256": "afff7ed0744c57b2473d17378d0dcf601d33b82ad98a0ae0fe7d6380bc7dc328",
+            "boundarySha256": "325d43e40884a0c55b1e25efa63cb29d5e8c1d9cfe0e8cf2bd265304c1aca97b",
+            "pdftotextLine": {
+              "canonical": 148,
+              "boundary": 149
+            },
+            "edgeInkPixels": 0,
+            "clippedWrites": 0,
+            "glyphsOutsideAMeasuredWriteBox": 0,
+            "howMeasured": "content stream of page 4 decoded from the delivered bytes and the Tj recovered with its text matrix; delimiter offsets computed from Times-Roman metrics at 11pt from the line origin; page 4 rasterised here at 150 dpi and the crop read; 100 dpi edge-band raster over every page of both fixtures"
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -4777,7 +4836,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
@@ -7035,6 +7094,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c9bbb6ecd",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
       "superseded": false
     },
     {
@@ -8742,6 +8815,114 @@
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c9bbb6ecd",
+      "failedObligations": [
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "THE SIGNATURE BOX OF THE FEE-WAIVER MOTION CARRIES VISIBLE INK IN BOTH FIXTURES. Packet page 4 is NHJB-2311 page 1, the Motion for Waiver of Filing Fee. Its Signature of Filer box — AcroForm field sig.8, widget /Rect [322.444, 303.983, 189.297 x 15.84], reaching the page as flattened appearance /FlatWidget-735569487 — carries the string 'Enter /s/ before name', set in /TiBo 12pt at fill 0.75 g. Rasterised here at 150 dpi it is plainly legible grey text sitting on the signature rule, directly above the printed label 'Signature of Filer'. The packet did not write it: it is the source form's own placeholder appearance, whose /TU reads '(If filing electronically, please type /s/ then your name to sign this document. Ex. /s/ John Doe)'. The field map refuses sig.8 with refusalClass signature_or_date_participant_completion and the reason 'you sign this yourself'; refusing to WRITE a field does not clear the appearance the source ships in it, and this family has no entry in data/rcap-all50/shared/field-appearance-semantics.json, so the structural default preserve_source_appearance carried it through. Under that registry's own vocabulary the correct disposition is render_participant_value_only_when_written — a placeholder is a participant input, and 'unwritten, it contributes nothing, so the source placeholder or default never reaches the filing'. This packet ships flattened, so the participant cannot make it disappear by typing: they will sign, or write /s/, over grey text that is already there. participant-instructions.md step 7 discloses it ('The signature line on NHJB-2311 already reads \"Enter /s/ before name\". That is the form's own instruction') and reads it as court text; the tooltip and the render-on-type behaviour say it is a placeholder, not printed form text. SECOND, INVISIBLE INSTANCE OF THE SAME CLASS, on the sworn financial affidavit: NHJB-2328 fields 12.total, money.total and monthly.total each ship /V '0' and an appearance stream '(0.00) Tj' at fill 1 g — WHITE. The build preserved all three. On the page they are invisible: rasterised at 150 dpi the three Total lines are blank. In the delivered text layer they are not: pdftotext -layout of fixtures/canonical.pdf returns 'Total $ 0.00' three times — on the weekly take-home total (page 6, item 12), the money-presently-available total (page 6, item 13) and the monthly household expense total (page 7, item 14) — while every line feeding each total is blank. That is a sworn zero for income, for available money and for monthly expenses, extractable by any e-filing system, reader or indexer that reads the text layer of what was filed. participant-instructions.md step 6 tells the participant 'The form prints Total $ 0.00 under each column... Cross the 0.00 out and write the real total' — an instruction to strike through something that does not appear on the paper. THE REPAIR: add tx-style entries to data/rcap-all50/shared/field-appearance-semantics.json for this family — nh_petition_nonconviction_pre2019-set:NHJB-2311 field sig.8 and nh_petition_nonconviction_pre2019-set:NHJB-2328 fields 12.total, money.total, monthly.total — all four disposition render_participant_value_only_when_written, with sourceAppearanceWhenUnwritten 'Enter /s/ before name', '0', '0', '0' and the widget rects above; then correct step 6 and step 7 of participant-instructions.md, which describe an artifact that will no longer exist. This is the identical defect the TX Statement of Inability entry already documents and suppresses: 'two sworn zeroes on financial lines the participant never answered, and a date on the Option 1 declaration page beside a signature line the packet deliberately leaves blank.'",
+          "evidence": {
+            "visibleSourceInkOnAProtectedField": [
+              {
+                "page": 4,
+                "component": "NHJB-2311",
+                "sourcePage": 1,
+                "field": "sig.8",
+                "printedLabel": "Signature of Filer",
+                "rect": [
+                  322.444,
+                  303.983,
+                  189.297,
+                  15.84
+                ],
+                "flattenedAppearance": "/FlatWidget-735569487",
+                "text": "Enter /s/ before name",
+                "font": "/TiBo 12",
+                "fill": "0.75 g (grey, legible)",
+                "inBothFixtures": true,
+                "origin": "source placeholder appearance, /V empty"
+              }
+            ],
+            "invisibleSourceInkOnSwornFinancialTotals": [
+              {
+                "page": 6,
+                "component": "NHJB-2328",
+                "sourcePage": 1,
+                "field": "12.total",
+                "printedLabel": "Total (weekly take-home)",
+                "sourceV": "0",
+                "appearance": "(0.00) Tj at 1 g",
+                "visibleOnPage": false,
+                "inTextLayer": true
+              },
+              {
+                "page": 6,
+                "component": "NHJB-2328",
+                "sourcePage": 1,
+                "field": "money.total",
+                "printedLabel": "Total (money presently available)",
+                "sourceV": "0",
+                "appearance": "(0.00) Tj at 1 g",
+                "visibleOnPage": false,
+                "inTextLayer": true
+              },
+              {
+                "page": 7,
+                "component": "NHJB-2328",
+                "sourcePage": 2,
+                "field": "monthly.total",
+                "printedLabel": "Total (monthly household expenses)",
+                "sourceV": "0",
+                "appearance": "(0.00) Tj at 1 g",
+                "visibleOnPage": false,
+                "inTextLayer": true
+              }
+            ],
+            "familyInAppearanceSemanticsRegistry": false,
+            "howMeasured": "each flattened appearance stream decoded from the delivered bytes and read for its fill operator and text; the same fields read first-hand from the pinned sources at master_library; pages 4, 6 and 7 rasterised here at 150 dpi; pdftotext -layout run over the delivered canonical."
+          }
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "THE PACKET DOES NOT STATE WHERE SELF-HELP ENDS, AND THE COMMITTED RECORD THAT SAYS WHERE IT ENDS IS FULLY POPULATED. data/record-clearing/legal-design-track-registry.json holds a track nh_petition_nonconviction_pre2019 carrying eight selfHelpStopConditions (nine selfHelpBoundaries). NOT ONE OF THE EIGHT REACHES THE PARTICIPANT. Searched, by exact string and then by topic word, across every .md and .json in the family directory and across pdftotext of the delivered canonical: 0 of 8 present; the words firearm, immigration, background-check, opposition, tribal and '3 years' appear nowhere in participant-instructions.md. The instructions file has no stop section at all — its headings run 'One offence, one petition', 'Where you file this', 'What it costs', 'What you must do before you file', four per-form item tables, 'The choices that are yours', 'What the platform deliberately left blank', 'What annulment does, and what it does not do' — and the nine delivered pages are the four official forms, with no composed instructions page on which a stop could live. The nearest sentence, 'this packet does not decide whether you are eligible for one', is a disclaimer of what the packet is; it names no condition, no lawyer and no legal-aid resource. FOUR OF THE EIGHT ARE SUBSTANTIVE WARNINGS A PARTICIPANT CAN BE HARMED BY NOT HAVING: RSA 651:5, IV bars a further petition more often than every three years, so a participant who was denied within the last three years is about to spend $125 on a petition the statute bars; the annulment will not be recognised federally or for immigration; RSA 651:5, XVII says a private background-check database need not remove the record; and annulment does not restore firearm rights. THE MEASUREMENT IS COMPARATIVE, not a standard invented here: the same registry diff run against the other three official-pdf-fill families this lane holds returns in_arrest_no_charges 13 of 13 carried, ri_decriminalized 5 of 5, tx_nd_veterans_court 7 of 7. Only New Hampshire returns zero. THE REPAIR: add a 'Where self-help ends' section to participant-instructions.md carrying the eight registry conditions in the registry's own words, with a named New Hampshire legal-aid or lawyer-referral resource, in the shape the Indiana, Rhode Island and Texas families already use.",
+          "evidence": {
+            "registryTrack": "data/record-clearing/legal-design-track-registry.json#nh_petition_nonconviction_pre2019",
+            "registryStopConditions": 8,
+            "carriedIntoThePacket": 0,
+            "missing": 8,
+            "missingConditions": [
+              "Prosecutor opposition.",
+              "The participant requests a hearing.",
+              "Multiple charges across multiple courts, which means multiple petitions and multiple filing fees.",
+              "Federal, military, tribal or out-of-state records.",
+              "A prior annulment petition denied within the last 3 years, because RSA 651:5, IV bars a further petition more frequently than every 3 years.",
+              "The participant needs the annulment recognized federally or for immigration. It will not be.",
+              "The participant expects a private background-check database to remove the record. RSA 651:5, XVII says it need not.",
+              "The participant expects annulment to restore firearm rights. It does not."
+            ],
+            "comparativeControl": {
+              "in_arrest_no_charges": "13/13",
+              "ri_decriminalized": "5/5",
+              "tx_nd_veterans_court": "7/7",
+              "nh_petition_nonconviction_pre2019": "0/8"
+            }
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
       "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
@@ -8759,7 +8940,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_vacated-set",
@@ -14488,6 +14669,20 @@
       "superseded": true
     },
     {
+      "familyId": "ri_decriminalized-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c9bbb6ecd",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
+      "superseded": false
+    },
+    {
       "familyId": "ri_marijuana-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf12",
@@ -15264,6 +15459,20 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "tx_nd_veterans_court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c9bbb6ecd",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set",
       "superseded": false
     },
     {
