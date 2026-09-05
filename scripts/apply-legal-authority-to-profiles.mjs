@@ -160,7 +160,27 @@ const MAY_CREATE_PATHWAY = new Set([
   // has an existing pathway to attach to and mapping one onto a 21-6614 pathway
   // would be a false identity rather than a translation.
   "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
-  "KS:municipal-arrest-record-expungement-under-12-4516a"
+  "KS:municipal-arrest-record-expungement-under-12-4516a",
+  // Five proven packet families whose obligation resolved to no runtime route
+  // at all. In each one the registry track's operative citation is unique in
+  // its jurisdiction and no compiled pathway carries it, so there is no
+  // existing route to attach to and attaching one would be a false identity:
+  //   A.R.S. Sec 13-4051 is a notation of clearance, distinct from the Sec 13-911
+  //   sealing, the Sec 13-905 set-aside and the Sec 36-2862 marijuana expungement;
+  //   Cal. Penal Code Sec 1203.4a is the no-probation branch, distinct from the
+  //   Sec 1203.4 probation branch the legacy "Tool 1" pathway carries;
+  //   C.G.S. Sec 54-142v is the cannabis petition branch, which the E4-R2
+  //   crosswalk resolution adjudication holds is NOT represented by the
+  //   automatic Sec 54-142u pathway CT:cannabis-conviction-erasure;
+  //   KRS 218A.276 void-and-seal is once in a lifetime and offence-limited,
+  //   distinct from the KRS 431.078 and KRS 431.073 expungements;
+  //   NRS 179A.160 is an agency repository removal, distinct from the NRS
+  //   179.245 and NRS 179.255 court sealing petitions.
+  "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+  "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+  "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+  "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+  "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
 ]);
 
 function newPathway(contract) {

@@ -9,13 +9,13 @@ The registry and the compiled profiles share no identifier space, and no committ
 | Figure | Count |
 | --- | ---: |
 | Registry tracks | 497 |
-| Compiled pathways | 339 |
-| Registry tracks with an exact compiled pathway | 261 |
+| Compiled pathways | 344 |
+| Registry tracks with an exact compiled pathway | 266 |
 | Registry tracks represented by compiled variants | 26 |
 | Registry tracks represented only by superseded runtime text | 1 |
-| Registry tracks with no compiled pathway | 208 |
+| Registry tracks with no compiled pathway | 203 |
 | Registry tracks unresolved (ambiguous candidates) | 1 |
-| Compiled pathways mapped to a registry track | 287 |
+| Compiled pathways mapped to a registry track | 292 |
 | Compiled pathways terminally classified (scoped-out, routing, registry gap) | 43 |
 | Compiled pathways unresolved | 9 |
 
@@ -103,10 +103,10 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | AK | 8 | 5 | -3 | 4 | 4 | 0 | 0 |
 | AL | 9 | 4 | -5 | 4 | 4 | 0 | 0 |
 | AR | 12 | 3 | -9 | 3 | 3 | 0 | 0 |
-| AZ | 9 | 3 | -6 | 3 | 3 | 0 | 0 |
-| CA | 12 | 7 | -5 | 4 | 6 | 1 | 0 |
+| AZ | 9 | 4 | -5 | 4 | 4 | 0 | 0 |
+| CA | 12 | 8 | -4 | 5 | 7 | 1 | 0 |
 | CO | 10 | 4 | -6 | 3 | 3 | 0 | 0 |
-| CT | 14 | 5 | -9 | 6 | 5 | 0 | 0 |
+| CT | 14 | 6 | -8 | 7 | 6 | 0 | 0 |
 | DC | 8 | 7 | -1 | 5 | 6 | 0 | 0 |
 | DE | 6 | 4 | -2 | 4 | 3 | 0 | 0 |
 | FL | 9 | 8 | -1 | 8 | 8 | 0 | 0 |
@@ -117,7 +117,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | IL | 17 | 9 | -8 | 10 | 6 | 0 | 0 |
 | IN | 10 | 4 | -6 | 6 | 4 | 0 | 0 |
 | KS | 8 | 6 | -2 | 6 | 6 | 0 | 0 |
-| KY | 12 | 5 | -7 | 5 | 5 | 0 | 0 |
+| KY | 12 | 6 | -6 | 6 | 6 | 0 | 0 |
 | LA | 10 | 12 | +2 | 8 | 12 | 0 | 0 |
 | MA | 8 | 7 | -1 | 6 | 7 | 0 | 0 |
 | MD | 11 | 8 | -3 | 8 | 7 | 0 | 0 |
@@ -133,7 +133,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | NH | 8 | 6 | -2 | 4 | 5 | 0 | 0 |
 | NJ | 6 | 4 | -2 | 3 | 3 | 0 | 0 |
 | NM | 5 | 5 | 0 | 4 | 4 | 0 | 0 |
-| NV | 9 | 7 | -2 | 5 | 5 | 0 | 0 |
+| NV | 9 | 8 | -1 | 6 | 6 | 0 | 0 |
 | NY | 6 | 5 | -1 | 4 | 4 | 0 | 0 |
 | OH | 8 | 7 | -1 | 6 | 6 | 0 | 0 |
 | OK | 10 | 18 | +8 | 8 | 16 | 0 | 0 |
@@ -151,9 +151,9 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
 | WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **339** | **-158** | **287** | **287** | **4** | **9** |
+| **Total** | **497** | **344** | **-153** | **292** | **292** | **4** | **9** |
 
 ## What this does not claim
 
-A mapping is a statement about identity, not about readiness. 287 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
+A mapping is a statement about identity, not about readiness. 292 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
 

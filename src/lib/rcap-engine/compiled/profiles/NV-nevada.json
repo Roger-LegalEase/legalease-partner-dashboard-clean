@@ -962,8 +962,8 @@
         "dismissed"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "special",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements",
@@ -989,8 +989,8 @@
         "mechanism": "Trafficking-victim vacatur and sealing",
         "statute": "Nev. Rev. Stat. § 179.247",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorText": "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
@@ -1018,13 +1018,8 @@
           "Exact Nevada route",
           "Valid deferred-judgment order or covered trafficking-caused offense with required nexus and diligence facts"
         ],
-        "packetFamily": "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
-        "packetComponents": [
-          "Petition to vacate and seal",
-          "Victimization nexus evidence",
-          "Due-diligence and safety showing"
-        ],
-        "notes": "Its own nexus and safety conditions; never inherits the deferred-judgment rule."
+        "packetFamily": null,
+        "notes": "Its own nexus and safety conditions; never inherits the deferred-judgment rule. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:NV:trafficking-vi (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247\", packetComponents [\"Petition to vacate and seal\",\"Victimization nexus evidence\",\"Due-diligence and safety showing\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     },
     {
@@ -1155,6 +1150,126 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      }
+    },
+    {
+      "id": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "label": "Removal of a record from the Central Repository after a favourable disposition",
+      "summary": "Removal of a record from the Central Repository after a favourable disposition under Nev. Rev. Stat. § 179A.160. available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-06-NV-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-08-06-NV-01",
+        "statute:Nev. Rev. Stat. § 179A.160"
+      ],
+      "ruleClauses": [
+        "available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "disposition_date",
+        "criminal_history",
+        "pending_cases"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "administrative",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies",
+        "This rule governs filings on or after 2026-08-01."
+      ],
+      "exclusionRules": [
+        "NRS 179A.160(2)(a): the person is a fugitive.",
+        "NRS 179A.160(2)(b): the case is under active prosecution according to a current certificate of a prosecuting attorney.",
+        "NRS 179A.160(2)(c): the disposition of the case was a deferred prosecution, plea bargain or other similar disposition. A participant whose case was resolved by a deferral of judgment belongs on the NRS 176.211 track and not here.",
+        "NRS 179A.160(2)(d): the person has a prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, not merely in Nevada.",
+        "NRS 179A.160(2)(e): the person has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant which the person seeks to have removed.",
+        "The court's own record, which this application does not reach. Sealing the court record is a separate petition under NRS 179.245 or NRS 179.255 on a different track.",
+        "Federal, tribal, military and out-of-state records, which no Nevada application reaches."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-06-NV-01",
+        "ruleId": "NV-179A-160-CENTRAL-REPOSITORY-RECORD-REMOVAL-AFTER-A-FAVOURABLE-DISPOSITION",
+        "mechanism": "Removal of a record from the Central Repository after a favourable disposition",
+        "statute": "Nev. Rev. Stat. § 179A.160",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies"
+        },
+        "requiredFacts": [
+          "How did the case end?",
+          "On what date did that outcome become final?",
+          "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+          "Does the arrest still show on your Nevada criminal history from the repository?",
+          "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright or ending in acquittal?",
+          "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States?",
+          "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation?",
+          "What other names have you used, including any former legal names?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "disposition_date",
+          "criminal_history",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "NRS 179A.160(2)(a): the person is a fugitive.",
+          "NRS 179A.160(2)(b): the case is under active prosecution according to a current certificate of a prosecuting attorney.",
+          "NRS 179A.160(2)(c): the disposition of the case was a deferred prosecution, plea bargain or other similar disposition. A participant whose case was resolved by a deferral of judgment belongs on the NRS 176.211 track and not here.",
+          "NRS 179A.160(2)(d): the person has a prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, not merely in Nevada.",
+          "NRS 179A.160(2)(e): the person has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant which the person seeks to have removed.",
+          "The court's own record, which this application does not reach. Sealing the court record is a separate petition under NRS 179.245 or NRS 179.255 on a different track.",
+          "Federal, tribal, military and out-of-state records, which no Nevada application reaches."
+        ],
+        "packetFamily": "Nevada NRS 179A.160 written application for removal from the Central Repository",
+        "packetComponents": [
+          "Written application to the Central Repository for Nevada Records of Criminal History, identifying the arrest, citation or warrant, the favourable disposition and the date it became final",
+          "A duplicate of the same application addressed to the agency which maintains the record, ordinarily the arresting agency, because NRS 179A.160(1) directs the application to two recipients and not one",
+          "Participant instructions covering the NRS 179A.160(2) exclusion screen, the parallel court-sealing screen, and a delivery method that produces proof of delivery"
+        ],
+        "effectiveFrom": "2026-08-01",
+        "deliveryGates": [
+          {
+            "id": "nv_179a_160_agency_submission_configuration",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the current Central Repository submission address and any intake channel the Nevada State Police Records, Communications and Compliance Division prefers",
+              "how the arresting agency of record is identified for the second recipient, which varies by agency",
+              "confirmation that no fee attaches, which NRS 179A.160 neither imposes nor authorises"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no Nevada agency submission configuration record exists for this section",
+            "note": "NRS 179A.160 prescribes no form and no manner of delivery, so the submission channel is a configuration fact rather than a legal requirement. The fees the Division does charge are for obtaining a copy of a criminal history record, a different service, and must not be presented as a fee for this application."
+          },
+          {
+            "id": "nv_179a_160_artifact_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered candidate scoped to this route alone, reviewed and hashed",
+              "confirmation that the packet describes the result as removal from the files that are available and generally searched, and never as destruction, expungement or a court sealing order",
+              "confirmation that the packet states that this application does not reach the court's own record and that a separate court petition may be needed",
+              "confirmation that the packet makes no claim about firearm rights or immigration effect"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+            "note": "Recorded, not repaired here."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. An agency application carries no consumer checkout in any event, and nothing here grants technical, runtime, sponsorship or commercial authority."
+        },
+        "notes": "A repository remedy, not a court order: the participant applies in writing, no order issues, and NRS 179A.160(3) preserves a court's separate authority to order deletion or modification of a record. It sits alongside the NRS 179.245 and NRS 179.255 court petitions rather than replacing them, which is why the parallel court-record screen is part of the packet. Whether a disposition is favourable to the person is the threshold characterisation on which the whole route turns and the section does not define it; where that is arguable on the record the route stops. Nevada calls this record sealing and never expungement, because it does not authorise destruction of the records."
       }
     }
   ],
@@ -1985,7 +2100,7 @@
         "sourceConditionText": "no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -2093,6 +2208,39 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+        "fieldsReferenced": [
+          "case_outcome",
+          "criminal_history",
+          "pending_cases"
+        ],
+        "sourceConditionText": "available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies",
+        "requiredFields": [
+          "case_outcome",
+          "criminal_history",
+          "pending_cases"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-06-NV-01",
+      "candidatePathwayIds": [
+        "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-06-NV-01",
+        "ruleId": "NV-179A-160-CENTRAL-REPOSITORY-RECORD-REMOVAL-AFTER-A-FAVOURABLE-DISPOSITION",
+        "statute": "Nev. Rev. Stat. § 179A.160",
+        "mechanism": "Removal of a record from the Central Repository after a favourable disposition"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -2448,7 +2596,7 @@
       {
         "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
         "pathwayLabel": "Trafficking-victim vacatur and sealing under NRS 179.247",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
@@ -2514,6 +2662,32 @@
           "corpus-unit:83",
           "decision_tree:205-246",
           "pathways:11-24"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+        "pathwayLabel": "Removal of a record from the Central Repository after a favourable disposition",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-08-06-NV-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

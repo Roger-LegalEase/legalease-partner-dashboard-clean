@@ -702,8 +702,8 @@
         "juvenile"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
@@ -750,8 +750,8 @@
         "mechanism": "Clean-slate expungement",
         "statute": "N.J.S.A. 2C:52-5.3",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "elapsed_eligibility_clock",
           "value": 10,
@@ -788,13 +788,8 @@
           "Statutory exclusions",
           "Automatic marijuana status"
         ],
-        "packetFamily": "New Jersey Clean Slate Petition under 2C:52-5.3",
-        "packetComponents": [
-          "Verified petition",
-          "Complete case history",
-          "Service on the required agencies"
-        ],
-        "notes": "Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law."
+        "packetFamily": null,
+        "notes": "Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-nj_clean_slate-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"New Jersey Clean Slate Petition under 2C:52-5.3\", packetComponents [\"Verified petition\",\"Complete case history\",\"Service on the required agencies\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     },
     {
@@ -1444,8 +1439,8 @@
         "sourceConditionText": "Path 2 — Clean Slate petition (2C:52-5.3)"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:74-129",
       "candidatePathwayIds": [
@@ -2210,8 +2205,8 @@
         "sourceConditionText": "Conviction waits run from the latest of: completion of the sentence, release from incarceration, completion of"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:130-171",
       "candidatePathwayIds": [
@@ -2375,8 +2370,8 @@
         "sourceConditionText": "Marijuana — simple offenses None Payment/completion/release"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:130-171",
       "candidatePathwayIds": [
@@ -2401,8 +2396,8 @@
         "sourceConditionText": "Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:130-171",
       "candidatePathwayIds": [
@@ -2420,8 +2415,8 @@
         "sourceConditionText": "paid). Second, the eligibility-despite-failure-to-pay rule: if the 10-year Clean Slate period has passed but a"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:130-171",
       "candidatePathwayIds": [
@@ -2504,8 +2499,8 @@
         "sourceConditionText": "If a user is blocked only by unpaid court-ordered financial assessments after the Clean Slate period, flag"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:130-171",
       "candidatePathwayIds": [
@@ -2558,8 +2553,8 @@
         "sourceConditionText": "these also block the Clean Slate petition."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "exclusions:172-216",
       "candidatePathwayIds": [
@@ -2711,8 +2706,8 @@
         "sourceConditionText": "Unpaid fines/fees (other than the Clean Slate failure-to-pay exception) must be satisfied first."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "exclusions:172-216",
       "candidatePathwayIds": [
@@ -2878,8 +2873,8 @@
         "sourceConditionText": "Remember the Clean Slate exception to the prior-expungement bar: a person previously expunged can"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "exclusions:172-216",
       "candidatePathwayIds": [
@@ -2973,7 +2968,7 @@
         ]
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -3631,7 +3626,7 @@
       {
         "pathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
         "pathwayLabel": "Clean Slate petition under N.J.S.A. 2C:52-5.3",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "marijuana-expungement.html",

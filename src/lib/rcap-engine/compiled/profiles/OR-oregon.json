@@ -501,7 +501,7 @@
         "convicted_misdemeanor"
       ],
       "automatic": false,
-      "filingRequired": true,
+      "filingRequired": false,
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
@@ -549,8 +549,8 @@
         "mechanism": "Set-aside of arrests or charges without conviction",
         "statute": "ORS 137.225(1)(c)-(d)",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "unsupported",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "elapsed_eligibility_clock",
           "value": 60,
@@ -575,12 +575,8 @@
           "Correct no-instrument versus acquittal/dismissal branch",
           "Statutory exclusions absent"
         ],
-        "packetFamily": "Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
-        "packetComponents": [
-          "Motion to set aside",
-          "Disposition or nonprosecution record"
-        ],
-        "notes": "The sixty-day clock is limited to the no-accusatory-instrument branch. Ordinary dismissal and acquittal are available at any time after disposition. Statutory exclusions and multi-count effects must still be screened."
+        "packetFamily": null,
+        "notes": "RETIRED. The decision owner found it legally overbroad: it was labelled for arrests or charges without conviction under (1)(c) and delivered the acquittal packet, so a participant who was never charged and one who was acquitted resolved to the same configuration under the wrong subsection for one of them. The three disposition-bound replacements are governed by data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json and are not built; none is commercially open. The sixty-day clock is limited to the no-accusatory-instrument branch. Ordinary dismissal and acquittal are available at any time after disposition. Statutory exclusions and multi-count effects must still be screened."
       }
     },
     {
@@ -754,8 +750,8 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "may be set aside at any time after judgment once the person has fully complied with and performed the sentence",
@@ -803,8 +799,8 @@
         "mechanism": "Marijuana-specific set-aside and redesignation",
         "statute": "ORS 475C.397",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorFactId": "sentence_completion_actual_date",
@@ -828,16 +824,11 @@
         "exclusions": [
           "Exact marijuana statute, conduct, date, quantity, current classification, and whether the conviction meets the special § 475C.397 definition"
         ],
-        "packetFamily": "Oregon Marijuana Set-Aside Motion under ORS 475C.397",
-        "packetComponents": [
-          "Motion under § 475C.397",
-          "Judgment",
-          "Sentence compliance proof"
-        ],
+        "packetFamily": null,
         "supersedes": {
           "note": "the ORS 137.225 one-, three-, five- and seven-year class waits, none of which applies to this special motion"
         },
-        "notes": "Marijuana convictions outside § 475C.397 use the current § 137.225 class map: one year for Class B/C misdemeanors or violations, three years for Class A misdemeanors, five years for Class C felonies, seven years for Class B felonies. Offense class and date are mandatory intake facts for that fallback."
+        "notes": "Marijuana convictions outside § 475C.397 use the current § 137.225 class map: one year for Class B/C misdemeanors or violations, three years for Class A misdemeanors, five years for Class C felonies, seven years for Class B felonies. Offense class and date are mandatory intake facts for that fallback. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Oregon Marijuana Set-Aside Motion under ORS 475C.397\", packetComponents [\"Motion under § 475C.397\",\"Judgment\",\"Sentence compliance proof\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"null\". The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     }
   ],
@@ -2019,8 +2010,8 @@
         "sourceConditionText": "Dismissed charge Little / none Dismissal (verify the serious-charge quirk)"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:108-143",
       "candidatePathwayIds": [
@@ -2048,8 +2039,8 @@
         "sourceConditionText": "Arrest, no charges filed 60 days DA's notice declining to prosecute"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:108-143",
       "candidatePathwayIds": [
@@ -2291,8 +2282,8 @@
         "sourceConditionText": "Don't let a same-episode second conviction scare a user off — SB 397 says it doesn't count as a"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:108-143",
       "candidatePathwayIds": [
@@ -2494,7 +2485,7 @@
         "timingAnchorFactId": "disposition_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -2574,7 +2565,7 @@
         "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -3128,7 +3119,7 @@
       {
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
         "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "or-setaside-motion.html",
@@ -3218,7 +3209,7 @@
       {
         "pathwayId": "marijuana-specific-set-aside-redesignation",
         "pathwayLabel": "Marijuana-specific set-aside / redesignation",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "or-setaside-motion.html",

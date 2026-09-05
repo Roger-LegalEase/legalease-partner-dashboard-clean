@@ -896,6 +896,16 @@
             "note": "The statewide rule is settled; what is missing is per-circuit administrative detail. This gate holds the guidance content, not the legal answer."
           }
         ],
+        "serviceBranches": [
+          {
+            "id": "retained-counsel-handoff-on-denial",
+            "when": "the matter's disposition selects the RETAINED-COUNSEL HANDOFF ON DENIAL treatment named by NATIONAL-2026-08-28-LA-IMM-04",
+            "outcomeMode": "referral",
+            "packetFamily": null,
+            "stage": "enforcement",
+            "note": "NATIONAL-2026-08-28-LA-IMM-04 states this route's output treatment as \"SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL\". Both branches are owed on the same matter. Serving one does not discharge the other. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+          }
+        ],
         "failureDisposition": [
           {
             "id": "sc_pti_solicitor_denied",
@@ -1255,6 +1265,16 @@
         "packetComponents": [
           "Application under § 63-19-2050",
           "Completion proof"
+        ],
+        "serviceBranches": [
+          {
+            "id": "pardon-guidance-only",
+            "when": "the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+            "outcomeMode": "guidance_status",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "note": "LD-SC-01 states this route's output treatment as \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+          }
         ]
       }
     },

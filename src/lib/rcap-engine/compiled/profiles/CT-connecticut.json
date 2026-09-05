@@ -926,6 +926,16 @@
           "Conviction record",
           "Quantity or conduct evidence"
         ],
+        "serviceBranches": [
+          {
+            "id": "automatic-status-correction-guidance",
+            "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-CT-02",
+            "outcomeMode": "automatic_relief",
+            "packetFamily": null,
+            "stage": "automatic",
+            "note": "LD-CT-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+          }
+        ],
         "notes": "Automatic erasure covers § 21a-279(c) convictions entered from 2000-01-01 through 2015-09-30; that cohort files nothing and must never share this checkout path. Ask whether the record should already have been erased before offering this petition."
       }
     },
@@ -1045,6 +1055,118 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      }
+    },
+    {
+      "id": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "label": "Petition for erasure of cannabis conviction records",
+      "summary": "Petition for erasure of cannabis conviction records under Conn. Gen. Stat. § 54-142v. available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-CT-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-07-30-CT-01",
+        "statute:Conn. Gen. Stat. § 54-142v"
+      ],
+      "ruleClauses": [
+        "available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order",
+        "This rule governs filings on or after 2023-01-01."
+      ],
+      "exclusionRules": [
+        "A record referencing more than one count, unless every count is entitled to erasure. § 54-142v(b).",
+        "A criminal case that is still pending; the petition does not apply while the case is pending.",
+        "A conviction outside the three subsections § 54-142v(a)(1) lists.",
+        "The automatic cannabis erasure branch, which runs under § 54-142u for § 21a-279(c) possession convictions inside its own window and is a separate mechanism with no petition."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-CT-01",
+        "ruleId": "CT-54-142V-PETITION-FOR-ERASURE-OF-CANNABIS-CONVICTION-RECORDS",
+        "mechanism": "Petition for erasure of cannabis conviction records",
+        "statute": "Conn. Gen. Stat. § 54-142v",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order",
+          "anchorAlternates": []
+        },
+        "requiredFacts": [
+          "What is your full name and date of birth?",
+          "Which court, docket number and date of conviction?",
+          "Which statute were you convicted under — § 21a-279, § 21a-267(a) or § 21a-277(b)?",
+          "What quantity was involved, or how many plants were grown in your own primary residence for personal use?",
+          "If this was a paraphernalia conviction, what was the paraphernalia used or intended to be used for?",
+          "Is the criminal case still pending?",
+          "How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?",
+          "Do you have a copy of the arrest record, or will you swear to the quantity in an affidavit?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "exclusions": [
+          "A record referencing more than one count, unless every count is entitled to erasure. § 54-142v(b).",
+          "A criminal case that is still pending; the petition does not apply while the case is pending.",
+          "A conviction outside the three subsections § 54-142v(a)(1) lists.",
+          "The automatic cannabis erasure branch, which runs under § 54-142u for § 21a-279(c) possession convictions inside its own window and is a separate mechanism with no petition."
+        ],
+        "packetFamily": "Connecticut § 54-142v petition for erasure of cannabis conviction records",
+        "packetComponents": [
+          "Petition for erasure under § 54-142v, pleading the conviction, the docket and the § 54-142v(a)(1) category relied on",
+          "The § 54-142v(a)(2) required content: a copy of the arrest record, or a supporting affidavit sworn by the petitioner where the arrest record is not held",
+          "Participant instructions covering the § 54-142v(a)(4) no-fee rule, the filing locations § 54-142v allows, and the direction to call the clerk before filing because there is no statewide form"
+        ],
+        "effectiveFrom": "2023-01-01",
+        "deliveryGates": [
+          {
+            "id": "ct_54_142v_local_filing_configuration",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the caption and format the Geographical Area clerks accept, which the adopted memorandum records as a local expectation because no statewide form exists",
+              "whether a service requirement attaches, which the memorandum records as unresolved because none was found in § 54-142v",
+              "whether the clerks accept a short proposed order, which the memorandum recommends but records as unconfirmed"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#CT:ct-cannabis-petition records service and clerk caption practice as unresolved",
+            "note": "The Clean Slate portal states that a petition must be filed under § 54-142v or § 54-142d and that no official form exists, so the pleading is composed rather than filled. That is why local clerk practice is a filing configuration and not a form acquisition."
+          },
+          {
+            "id": "ct_54_142v_artifact_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered candidate scoped to this route alone, reviewed and hashed",
+              "confirmation that the packet says erasure and never expungement or sealing",
+              "confirmation that the packet asserts no quantity, no characterisation of what paraphernalia was used for, and no claim that every count on the docket is erasable unless the participant has confirmed the count list from the record"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+            "note": "Recorded, not repaired here."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+        },
+        "notes": "The petition branch, and the petition branch only. The crosswalk resolution adjudication for compiled_pathway:CT:cannabis-conviction-erasure (lane E4-R2) holds that the existing compiled pathway is the automatic § 54-142u branch bound to track ct-cannabis-auto, and states the re-checkable rule that a Connecticut cannabis pathway requiring a filing, or reaching convictions outside the § 54-142u window, is § 54-142v and track ct-cannabis-petition. That adjudication is the authority for this route existing separately. The LD-CT-02 contract on CT:cannabis-conviction-erasure still describes itself as the petition branch; that text conflicts with the later adjudication and is recorded here rather than edited, because it belongs to another decision. Connecticut says erasure, never expungement and never sealing. The § 54-142d decriminalised-conduct question is a different mechanism carrying case law and is not served here."
       }
     }
   ],
@@ -2837,6 +2959,39 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ],
+        "sourceConditionText": "available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "charge"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-CT-01",
+      "candidatePathwayIds": [
+        "petition-for-erasure-of-cannabis-conviction-records-under-54-142v"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-CT-01",
+        "ruleId": "CT-54-142V-PETITION-FOR-ERASURE-OF-CANNABIS-CONVICTION-RECORDS",
+        "statute": "Conn. Gen. Stat. § 54-142v",
+        "mechanism": "Petition for erasure of cannabis conviction records"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -3318,6 +3473,32 @@
         "noPacketWhen": [
           "Connecticut Absolute Pardon route selected",
           "Board of Pardons and Paroles ePardon portal application required",
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+        "pathwayLabel": "Petition for erasure of cannabis conviction records",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-07-30-CT-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
           "automatic or no-filing route",
           "needs_more_info",
           "not_yet",

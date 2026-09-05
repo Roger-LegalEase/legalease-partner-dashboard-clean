@@ -1083,6 +1083,16 @@
           "Written request to the law-enforcement agency",
           "Arrest or detention record"
         ],
+        "serviceBranches": [
+          {
+            "id": "automatic-status-correction-guidance",
+            "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
+            "outcomeMode": "automatic_relief",
+            "packetFamily": null,
+            "stage": "automatic",
+            "note": "LD-MD-03 states this route's output treatment as \"AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+          }
+        ],
         "notes": "For an arrest or detention on or after October 1, 2007 with no charge filed, § 10-103.1 requires automatic expungement within the statutory agency period; if the automatic action did not occur, give agency correction and escalation guidance rather than a court packet unless the statute's review mechanism is invoked."
       },
       "frontendBranch": {

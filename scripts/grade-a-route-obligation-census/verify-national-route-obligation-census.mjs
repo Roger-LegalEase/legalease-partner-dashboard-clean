@@ -959,7 +959,7 @@ export function collectFailures(context) {
   if (unique(outputFingerprints).length !== 1) failures.push("source fingerprint agreement failure across the six generated JSON outputs");
   if (!independent || independent.sourceFingerprint !== context.expected.inputs.sourceFingerprint) failures.push("independent source fingerprint mismatch; generator input coverage is incomplete or stale");
   if (!independent || !sameSet(independent.sourceFiles, context.expected.inputs.inputFiles)) failures.push("independent source file inventory mismatch; required raw input is omitted or invented");
-  if ((independent?.runtimeAuthority?.decisions ?? []).length !== 69) failures.push("runtime authority decision registry count drift; expected 69 current decisions");
+  if ((independent?.runtimeAuthority?.decisions ?? []).length !== 74) failures.push("runtime authority decision registry count drift; expected 74 current decisions");
   if (!sameSet(
     (independent?.runtimeAuthority?.decisions ?? []).map((decision) => decision.id),
     (independent?.effectiveContractRows ?? []).map(({ contract }) => contract.decisionId),
@@ -987,7 +987,7 @@ export function collectFailures(context) {
     || unique(reportedAuthorityAssociations.map((row) => row.contractRouteKey)).length !== reportedAuthorityAssociations.length
     || !sameSet(emittedAuthorityAssociations.map(stable), expectedAuthorityAssociations.map(stable))
     || !sameSet(reportedAuthorityAssociations.map(stable), expectedAuthorityAssociations.map(stable))) {
-    failures.push("runtime authority decision association set disagrees with the 69-record registry and 143 effective contracts");
+    failures.push("runtime authority decision association set disagrees with the 74-record registry and 148 effective contracts");
   }
   const emittedAuthorityCandidateGaps = context.canonical?.runtimeAuthorityContractCandidateGaps ?? [];
   const reportedAuthorityCandidateGaps = context.duplicateReport?.runtimeAuthorityContractCandidateGaps ?? [];
@@ -2897,8 +2897,8 @@ export function collectFailures(context) {
   if (context.duplicateReport?.supersededRouteContracts?.length !== 3) failures.push("superseded route-contract count drift; expected three last-file-wins replacements");
   if (context.duplicateReport?.supersededRuntimeTextRows?.length !== 1) failures.push("superseded-runtime-text integrity drift; expected one crosswalk finding");
   if (context.duplicateReport?.counts?.totalSupersessionFindings !== 4) failures.push("supersession integrity drift; expected three contract replacements plus one superseded-runtime-text finding");
-  if (context.canonical?.counts?.rawRouteContracts !== 146 || context.canonical?.counts?.effectiveRouteContracts !== 143) failures.push("route-contract precedence counters are stale; expected 146 raw and 143 effective");
-  if (independent?.rawRouteContracts !== 146 || independent?.effectiveRouteContracts !== 143) failures.push("independent route-contract import found count drift from 146 raw / 143 effective");
+  if (context.canonical?.counts?.rawRouteContracts !== 151 || context.canonical?.counts?.effectiveRouteContracts !== 148) failures.push("route-contract precedence counters are stale; expected 151 raw and 148 effective");
+  if (independent?.rawRouteContracts !== 151 || independent?.effectiveRouteContracts !== 148) failures.push("independent route-contract import found count drift from 151 raw / 148 effective");
   const actualContractSupersessions = (context.duplicateReport?.supersededRouteContracts ?? []).map((row) => `${row.routeKey}|${row.supersededSourceFile}|${row.effectiveSourceFile}`);
   const independentContractSupersessions = (independent?.supersededContracts ?? []).map((row) => `${row.routeKey}|${row.supersededSourceFile}|${row.effectiveSourceFile}`);
   if (!sameSet(actualContractSupersessions, independentContractSupersessions)) failures.push("route-contract supersession integrity drift from independent last-file-wins import");

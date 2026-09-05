@@ -1296,6 +1296,424 @@
         "note": "Runtime representation only. The 2026-08-19 owner approval on this track is recorded in the census as legal-only, with no technical, runtime or commercial authority, and nothing here grants any."
       },
       "notes": "Municipal court only, and arrest-record only. K.S.A. 22-2410 governs state law arrests in the district court and no district-court 21-6614 pathway may serve this route. The choice among the five statutory grounds is the participant's own; a disputed factual showing or a contested hearing is a post-generation handoff rather than a generation blocker."
+    },
+    {
+      "routeKey": "AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "jurisdiction": "AZ",
+      "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "decisionId": "LEGAL-DESIGN-2026-07-30-AZ-01",
+      "ruleId": "AZ-13-4051-NOTATION-OF-CLEARANCE-AFTER-A-WRONGFUL-ARREST",
+      "mechanism": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "statute": "Ariz. Rev. Stat. § 13-4051",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served"
+      },
+      "requiredFacts": [
+        "What was the arrest, indictment or charge, and which agency and court were involved?",
+        "In the petitioner's own words, why was the arrest or charge wrongful?",
+        "Which court, police or agency records is the notation to be entered on?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "charge"
+      ],
+      "exclusions": [
+        "A.R.S. § 13-4051 states no exclusion category, and the adopted Arizona memorandum records none. The controlling limit is the statutory condition itself: the arrest, indictment or charge must have been wrongful, and that showing is the petitioner's own burden on the merits.",
+        "A set-aside of a conviction, which runs under A.R.S. § 13-905, and a record sealing, which runs under A.R.S. § 13-911. Neither may be served by this section and this section reaches neither.",
+        "A marijuana expungement, which runs under A.R.S. § 36-2862."
+      ],
+      "packetFamily": "Arizona Petition for Notation of Clearance under § 13-4051",
+      "packetComponents": [
+        "Petition to the superior court for an order entering a notation of clearance on all court, police and agency records, stating the petitioner's own account of why the arrest, indictment or charge was wrongful and identifying the records the notation is to reach",
+        "Request, within the same petition, for the accompanying order that the agencies not release copies of the records except on court order"
+      ],
+      "effectiveFrom": "2025-01-01",
+      "deliveryGates": [
+        {
+          "id": "az_13_4051_product_scope_classification",
+          "kind": "artifact_legal_review",
+          "items": [
+            "the open counsel classification the adopted Arizona memorandum records for this track: whether product scope should enable it at all, which the memorandum leaves open subject to legal-output approval",
+            "confirmation that the generated petition states the participant's own account of wrongfulness and asserts no conclusion that the arrest or charge was wrongful",
+            "a rendered candidate scoped to this route alone, reviewed and hashed"
+          ],
+          "owner": "Completed-output legal review",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#AZ:az_wrongful_arrest_clearance carries unresolvedQuestions[0] impact=counsel_classification_required affectedElement=output_strategy",
+          "note": "Recorded, not resolved here. The memorandum is explicit that the earlier process_guidance label was a product-scope choice rather than an output-identity problem, so the route has a knowable packet identity while the scope decision stays open. Compiling the runtime identity decides nothing about scope."
+        },
+        {
+          "id": "az_13_4051_superior_court_filing_configuration",
+          "kind": "local_filing_configuration",
+          "items": [
+            "what the superior court charges to file a § 13-4051 petition, which the source review does not state",
+            "whether any service requirement attaches, which the source review does not state",
+            "how the court sets the hearing the statute contemplates"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no Arizona superior court filing configuration record exists for this section",
+          "note": "The adopted memorandum records the charge to file, service and notarization as not stated by the source review. No amount may be quoted until this closes."
+        }
+      ],
+      "artifactApprovalRequired": true,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority, and the open counsel classification on product scope is unaffected by it."
+      },
+      "notes": "Superior court only, and a notation of clearance rather than a sealing, set-aside or expungement: the order marks the record cleared and restricts release, it does not remove the record. Any evidentiary dispute or contested hearing is a post-generation handoff. The merits burden about wrongfulness is on the petitioner and is not a checklist; LegalEase formats the petitioner's own account and asserts no conclusion."
+    },
+    {
+      "routeKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "jurisdiction": "CA",
+      "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "decisionId": "LEGAL-DESIGN-2026-07-30-CA-01",
+      "ruleId": "CA-PC-1203-4A-DISMISSAL-AND-SET-ASIDE-WITHOUT-PROBATION",
+      "mechanism": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "statute": "Cal. Penal Code § 1203.4a",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_date",
+        "anchorText": "more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice"
+      },
+      "requiredFacts": [
+        "Were you placed on probation in this case?",
+        "Was this a misdemeanor or an infraction?",
+        "On what date were you convicted?",
+        "In which California county were you convicted?",
+        "What is the case number?",
+        "Have you complied with the sentence?",
+        "Are you currently serving a sentence or charged with any crime?",
+        "Which route applies: you have lived an honest and upright life and obeyed the law, or you are asking in the interests of justice?",
+        "Are you a United States citizen?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "A petitioner who is serving a sentence for any offense, or who is charged with the commission of any crime.",
+        "A conviction for which probation was granted, which runs under Cal. Penal Code § 1203.4 and not under this section.",
+        "A felony conviction, which this section does not reach."
+      ],
+      "packetFamily": "California CR-180 box 3 petition for dismissal under § 1203.4a",
+      "packetComponents": [
+        "CR-180 Petition for Dismissal, with box 3 elected for the § 1203.4a route and the elected relief ground stated",
+        "CR-181 proposed Order, left for the court's findings and signature",
+        "CR-106 proof of service, where notice to the prosecuting attorney is required",
+        "MC-031 attached declaration where the interests-of-justice ground is used",
+        "Participant instructions covering the § 1203.4a(f) infraction rule that dismissal is by written declaration except on a showing of compelling need, the § 1203.4a(f) fifteen-day prosecutor notice for an infraction, and the § 1203.4a(e) reimbursement position"
+      ],
+      "effectiveFrom": "2023-01-01",
+      "processingDeadlines": [
+        {
+          "label": "Fifteen days' notice to the prosecuting attorney on an infraction, Cal. Penal Code § 1203.4a(f)",
+          "note": "A notice period the court requires before it may grant an infraction dismissal. It is not a participant eligibility clock and must never be added to the one-year period."
+        }
+      ],
+      "deliveryGates": [
+        {
+          "id": "ca_1203_4a_official_form_acquisition",
+          "kind": "source_acquisition",
+          "items": [
+            "the current official Judicial Council CR-180, CR-181 and CR-106 PDFs, which the adopted memorandum records as not pulled",
+            "the current MC-031 attached-declaration form",
+            "the revision date of each form at the time of acquisition"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#CA:ca-1203-4a records the CR-180, CR-181 and CR-106 PDFs as not acquired",
+          "note": "This route is official_pdf_fill on Judicial Council forms. No overlay may be built or shipped before the current revisions are held."
+        },
+        {
+          "id": "ca_1203_4a_county_filing_configuration",
+          "kind": "local_filing_configuration",
+          "items": [
+            "whether the Superior Court charges anything to file CR-180 and whether the amount varies by county, which the adopted memorandum records as unresolved and county-specific",
+            "the county's own local requirements for filing a petition for dismissal in the county of conviction"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no California per-county filing configuration record exists for this section",
+          "note": "The § 1203.4a(e) reimbursement of up to $60 to the county and $60 to the city is a separate statutory charge rather than a court cost of filing. It is subject to an ability-to-pay determination on the PC 987.8(g)(2) standard and is expressly not a prerequisite to eligibility, so the two must never be conflated in participant copy and no amount may be quoted for either until this gate closes."
+        },
+        {
+          "id": "ca_1203_4a_artifact_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered candidate scoped to this route alone, reviewed and hashed",
+            "confirmation that the packet states California relief as a dismissal and set-aside and never as a sealing or an expungement",
+            "confirmation that the packet states that inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility"
+          ],
+          "owner": "Completed-output legal review",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+          "note": "Recorded, not repaired here."
+        }
+      ],
+      "artifactApprovalRequired": true,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+      },
+      "notes": "Section 1203.4a is the no-probation branch and § 1203.4 is the probation branch; they are separate mechanisms and neither may be served by the other's pathway. The relief is a dismissal and set-aside, not a sealing and not an expungement, and the packet must say so. A non-citizen petitioner is a self-help stop condition, because a dismissal under this section does not undo a conviction for immigration purposes. Whether probation was granted is the branch-selecting fact; where it cannot be established from the participant's answer or their record the route stops rather than guessing."
+    },
+    {
+      "routeKey": "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "jurisdiction": "CT",
+      "pathwayId": "petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+      "decisionId": "LEGAL-DESIGN-2026-07-30-CT-01",
+      "ruleId": "CT-54-142V-PETITION-FOR-ERASURE-OF-CANNABIS-CONVICTION-RECORDS",
+      "mechanism": "Petition for erasure of cannabis conviction records",
+      "statute": "Conn. Gen. Stat. § 54-142v",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available on a conviction falling within one of the three categories § 54-142v(a)(1) states — a § 21a-279 conviction for possession of a cannabis-type substance of four ounces or less entered on or after 1 October 2015 and before 1 July 2021, or before 1 January 2000; a § 21a-267(a) conviction before 1 July 2021 for use or possession with intent to use drug paraphernalia for cannabis; or a § 21a-277(b) conviction before 1 July 2021 for a cannabis-type substance of four ounces or less or six plants grown inside the person's own primary residence for personal use — and § 54-142v states no elapsed waiting period of any kind; the court shall direct erasure under § 54-142v(a)(3) if the petition is in order",
+        "anchorAlternates": []
+      },
+      "requiredFacts": [
+        "What is your full name and date of birth?",
+        "Which court, docket number and date of conviction?",
+        "Which statute were you convicted under — § 21a-279, § 21a-267(a) or § 21a-277(b)?",
+        "What quantity was involved, or how many plants were grown in your own primary residence for personal use?",
+        "If this was a paraphernalia conviction, what was the paraphernalia used or intended to be used for?",
+        "Is the criminal case still pending?",
+        "How many counts are on this docket, and have you confirmed from the record that every one of them is erasable?",
+        "Do you have a copy of the arrest record, or will you swear to the quantity in an affidavit?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "charge"
+      ],
+      "exclusions": [
+        "A record referencing more than one count, unless every count is entitled to erasure. § 54-142v(b).",
+        "A criminal case that is still pending; the petition does not apply while the case is pending.",
+        "A conviction outside the three subsections § 54-142v(a)(1) lists.",
+        "The automatic cannabis erasure branch, which runs under § 54-142u for § 21a-279(c) possession convictions inside its own window and is a separate mechanism with no petition."
+      ],
+      "packetFamily": "Connecticut § 54-142v petition for erasure of cannabis conviction records",
+      "packetComponents": [
+        "Petition for erasure under § 54-142v, pleading the conviction, the docket and the § 54-142v(a)(1) category relied on",
+        "The § 54-142v(a)(2) required content: a copy of the arrest record, or a supporting affidavit sworn by the petitioner where the arrest record is not held",
+        "Participant instructions covering the § 54-142v(a)(4) no-fee rule, the filing locations § 54-142v allows, and the direction to call the clerk before filing because there is no statewide form"
+      ],
+      "effectiveFrom": "2023-01-01",
+      "deliveryGates": [
+        {
+          "id": "ct_54_142v_local_filing_configuration",
+          "kind": "local_filing_configuration",
+          "items": [
+            "the caption and format the Geographical Area clerks accept, which the adopted memorandum records as a local expectation because no statewide form exists",
+            "whether a service requirement attaches, which the memorandum records as unresolved because none was found in § 54-142v",
+            "whether the clerks accept a short proposed order, which the memorandum recommends but records as unconfirmed"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#CT:ct-cannabis-petition records service and clerk caption practice as unresolved",
+          "note": "The Clean Slate portal states that a petition must be filed under § 54-142v or § 54-142d and that no official form exists, so the pleading is composed rather than filled. That is why local clerk practice is a filing configuration and not a form acquisition."
+        },
+        {
+          "id": "ct_54_142v_artifact_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered candidate scoped to this route alone, reviewed and hashed",
+            "confirmation that the packet says erasure and never expungement or sealing",
+            "confirmation that the packet asserts no quantity, no characterisation of what paraphernalia was used for, and no claim that every count on the docket is erasable unless the participant has confirmed the count list from the record"
+          ],
+          "owner": "Completed-output legal review",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+          "note": "Recorded, not repaired here."
+        }
+      ],
+      "artifactApprovalRequired": true,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+      },
+      "notes": "The petition branch, and the petition branch only. The crosswalk resolution adjudication for compiled_pathway:CT:cannabis-conviction-erasure (lane E4-R2) holds that the existing compiled pathway is the automatic § 54-142u branch bound to track ct-cannabis-auto, and states the re-checkable rule that a Connecticut cannabis pathway requiring a filing, or reaching convictions outside the § 54-142u window, is § 54-142v and track ct-cannabis-petition. That adjudication is the authority for this route existing separately. The LD-CT-02 contract on CT:cannabis-conviction-erasure still describes itself as the petition branch; that text conflicts with the later adjudication and is recorded here rather than edited, because it belongs to another decision. Connecticut says erasure, never expungement and never sealing. The § 54-142d decriminalised-conduct question is a different mechanism carrying case law and is not served here."
+    },
+    {
+      "routeKey": "KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "jurisdiction": "KY",
+      "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "decisionId": "LEGAL-DESIGN-2026-08-06-KY-01",
+      "ruleId": "KY-218A-276-VOID-AND-SEAL-FIRST-MARIJUANA-SYNTHETIC-OR-SALVIA-POSSESSION-CONVICTION",
+      "mechanism": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "statute": "Ky. Rev. Stat. § 218A.276",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed"
+      },
+      "requiredFacts": [
+        "In which Kentucky county were you convicted?",
+        "Was the case in district court or circuit court?",
+        "What is the case number?",
+        "Was the conviction for possession of marijuana, of a synthetic drug, or of salvia?",
+        "On what date were you convicted?",
+        "What did you complete — treatment, probation, or the sentence itself?",
+        "On what date did you complete it?",
+        "Was this your first conviction for this kind of possession?",
+        "Have you ever had a conviction voided under this statute before?",
+        "Which agencies are likely to hold records of this case?",
+        "Which office prosecuted the case — the county attorney or the Commonwealth's attorney?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date"
+      ],
+      "exclusions": [
+        "An offence outside the KRS 218A.276(1) list, which is fixed at possession of marijuana, of a synthetic drug and of salvia.",
+        "Anything other than a first conviction for that kind of possession.",
+        "Any person who has already had a conviction voided under this section, which may occur only once."
+      ],
+      "packetFamily": "Kentucky KRS 218A.276 motion to void and seal, with AOC-334 tendered as the proposed order",
+      "packetComponents": [
+        "Motion to void the conviction and seal the records under KRS 218A.276, filed in the original criminal case",
+        "AOC-334 tendered as the proposed order, left for the court's findings and signature",
+        "Certificate of service on the county attorney or Commonwealth's attorney that prosecuted the case"
+      ],
+      "effectiveFrom": "2012-04-11",
+      "deliveryGates": [
+        {
+          "id": "ky_218a_276_legal_effect_ratification",
+          "kind": "artifact_legal_review",
+          "items": [
+            "counsel ratification of the static legal propositions the generated motion asserts about the effect of voiding and of sealing, which the adopted Kentucky memorandum records as unratified",
+            "the scope of the KRS 27A.099 exception, which keeps some records outside the sealing order and which the memorandum carries as a research note",
+            "a rendered candidate scoped to this route alone, reviewed and hashed"
+          ],
+          "owner": "Completed-output legal review",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#KY:ky_void_seal_marijuana_synthetic_salvia carries a release_blocker on legal_effect_or_warning",
+          "note": "The eligibility rule is settled at the statute; what is unratified is the packet's own statements about what voiding and sealing then do. That is an output-review gate and not an eligibility question."
+        },
+        {
+          "id": "ky_218a_276_clerk_filing_configuration",
+          "kind": "local_filing_configuration",
+          "items": [
+            "confirmation that the circuit court clerk accepts the filing as motion type SA with no summons issued, per the Clerks' Manual",
+            "confirmation that no filing fee is charged for this proceeding, which the Clerks' Manual records"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no Kentucky per-clerk filing configuration record exists for this section",
+          "note": "A clerk who demands a filing fee is a recorded self-help stop condition, which is why the fee position is a configuration item rather than a copy line."
+        }
+      ],
+      "artifactApprovalRequired": true,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+      },
+      "notes": "Void-and-seal under KRS 218A.276 is a different mechanism from expungement under KRS 431.078 or KRS 431.073 and must never be served by either of those pathways: it is available once in a lifetime, it is limited to the three possession offences KRS 218A.276(1) lists, and it turns on completion rather than on an elapsed period. KRS 218A.276(8) to (10) provide that the proceedings may not be used against the defendant except to determine eligibility and that the participant need not disclose them. A participant choosing between void-and-seal and expungement is making a lifetime-consequence strategy decision and is a recorded self-help stop condition, as is any participant who is not a United States citizen, because a voided conviction may still be a conviction for immigration purposes."
+    },
+    {
+      "routeKey": "NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "jurisdiction": "NV",
+      "pathwayId": "removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+      "decisionId": "LEGAL-DESIGN-2026-08-06-NV-01",
+      "ruleId": "NV-179A-160-CENTRAL-REPOSITORY-RECORD-REMOVAL-AFTER-A-FAVOURABLE-DISPOSITION",
+      "mechanism": "Removal of a record from the Central Repository after a favourable disposition",
+      "statute": "Nev. Rev. Stat. § 179A.160",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favour of the person is final; NRS 179A.160(1) states no elapsed waiting period and the only temporal condition is that the favourable disposition be final, after which the Central Repository and the agency shall remove the record unless one of the five conditions in NRS 179A.160(2) applies"
+      },
+      "requiredFacts": [
+        "How did the case end?",
+        "On what date did that outcome become final?",
+        "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+        "Does the arrest still show on your Nevada criminal history from the repository?",
+        "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright or ending in acquittal?",
+        "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States?",
+        "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation?",
+        "What other names have you used, including any former legal names?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "disposition_date",
+        "criminal_history",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "NRS 179A.160(2)(a): the person is a fugitive.",
+        "NRS 179A.160(2)(b): the case is under active prosecution according to a current certificate of a prosecuting attorney.",
+        "NRS 179A.160(2)(c): the disposition of the case was a deferred prosecution, plea bargain or other similar disposition. A participant whose case was resolved by a deferral of judgment belongs on the NRS 176.211 track and not here.",
+        "NRS 179A.160(2)(d): the person has a prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, not merely in Nevada.",
+        "NRS 179A.160(2)(e): the person has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant which the person seeks to have removed.",
+        "The court's own record, which this application does not reach. Sealing the court record is a separate petition under NRS 179.245 or NRS 179.255 on a different track.",
+        "Federal, tribal, military and out-of-state records, which no Nevada application reaches."
+      ],
+      "packetFamily": "Nevada NRS 179A.160 written application for removal from the Central Repository",
+      "packetComponents": [
+        "Written application to the Central Repository for Nevada Records of Criminal History, identifying the arrest, citation or warrant, the favourable disposition and the date it became final",
+        "A duplicate of the same application addressed to the agency which maintains the record, ordinarily the arresting agency, because NRS 179A.160(1) directs the application to two recipients and not one",
+        "Participant instructions covering the NRS 179A.160(2) exclusion screen, the parallel court-sealing screen, and a delivery method that produces proof of delivery"
+      ],
+      "effectiveFrom": "2026-08-01",
+      "deliveryGates": [
+        {
+          "id": "nv_179a_160_agency_submission_configuration",
+          "kind": "local_filing_configuration",
+          "items": [
+            "the current Central Repository submission address and any intake channel the Nevada State Police Records, Communications and Compliance Division prefers",
+            "how the arresting agency of record is identified for the second recipient, which varies by agency",
+            "confirmation that no fee attaches, which NRS 179A.160 neither imposes nor authorises"
+          ],
+          "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no Nevada agency submission configuration record exists for this section",
+          "note": "NRS 179A.160 prescribes no form and no manner of delivery, so the submission channel is a configuration fact rather than a legal requirement. The fees the Division does charge are for obtaining a copy of a criminal history record, a different service, and must not be presented as a fee for this application."
+        },
+        {
+          "id": "nv_179a_160_artifact_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered candidate scoped to this route alone, reviewed and hashed",
+            "confirmation that the packet describes the result as removal from the files that are available and generally searched, and never as destruction, expungement or a court sealing order",
+            "confirmation that the packet states that this application does not reach the court's own record and that a separate court petition may be needed",
+            "confirmation that the packet makes no claim about firearm rights or immigration effect"
+          ],
+          "owner": "Completed-output legal review",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+          "note": "Recorded, not repaired here."
+        }
+      ],
+      "artifactApprovalRequired": true,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Runtime representation only. An agency application carries no consumer checkout in any event, and nothing here grants technical, runtime, sponsorship or commercial authority."
+      },
+      "notes": "A repository remedy, not a court order: the participant applies in writing, no order issues, and NRS 179A.160(3) preserves a court's separate authority to order deletion or modification of a record. It sits alongside the NRS 179.245 and NRS 179.255 court petitions rather than replacing them, which is why the parallel court-record screen is part of the packet. Whether a disposition is favourable to the person is the threshold characterisation on which the whole route turns and the section does not define it; where that is arguable on the record the route stops. Nevada calls this record sealing and never expungement, because it does not authorise destruction of the records."
     }
   ]
 }

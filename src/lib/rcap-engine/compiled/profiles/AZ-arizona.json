@@ -549,6 +549,107 @@
       "sourceEvidenceRefs": [
         "pathways:76-118"
       ]
+    },
+    {
+      "id": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "label": "Notation of clearance after a wrongful arrest, indictment or charge",
+      "summary": "Notation of clearance after a wrongful arrest, indictment or charge under Ariz. Rev. Stat. § 13-4051. available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-AZ-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-07-30-AZ-01",
+        "statute:Ariz. Rev. Stat. § 13-4051"
+      ],
+      "ruleClauses": [
+        "available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "charge"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served",
+        "This rule governs filings on or after 2025-01-01."
+      ],
+      "exclusionRules": [
+        "A.R.S. § 13-4051 states no exclusion category, and the adopted Arizona memorandum records none. The controlling limit is the statutory condition itself: the arrest, indictment or charge must have been wrongful, and that showing is the petitioner's own burden on the merits.",
+        "A set-aside of a conviction, which runs under A.R.S. § 13-905, and a record sealing, which runs under A.R.S. § 13-911. Neither may be served by this section and this section reaches neither.",
+        "A marijuana expungement, which runs under A.R.S. § 36-2862."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-AZ-01",
+        "ruleId": "AZ-13-4051-NOTATION-OF-CLEARANCE-AFTER-A-WRONGFUL-ARREST",
+        "mechanism": "Notation of clearance after a wrongful arrest, indictment or charge",
+        "statute": "Ariz. Rev. Stat. § 13-4051",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served"
+        },
+        "requiredFacts": [
+          "What was the arrest, indictment or charge, and which agency and court were involved?",
+          "In the petitioner's own words, why was the arrest or charge wrongful?",
+          "Which court, police or agency records is the notation to be entered on?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "charge"
+        ],
+        "exclusions": [
+          "A.R.S. § 13-4051 states no exclusion category, and the adopted Arizona memorandum records none. The controlling limit is the statutory condition itself: the arrest, indictment or charge must have been wrongful, and that showing is the petitioner's own burden on the merits.",
+          "A set-aside of a conviction, which runs under A.R.S. § 13-905, and a record sealing, which runs under A.R.S. § 13-911. Neither may be served by this section and this section reaches neither.",
+          "A marijuana expungement, which runs under A.R.S. § 36-2862."
+        ],
+        "packetFamily": "Arizona Petition for Notation of Clearance under § 13-4051",
+        "packetComponents": [
+          "Petition to the superior court for an order entering a notation of clearance on all court, police and agency records, stating the petitioner's own account of why the arrest, indictment or charge was wrongful and identifying the records the notation is to reach",
+          "Request, within the same petition, for the accompanying order that the agencies not release copies of the records except on court order"
+        ],
+        "effectiveFrom": "2025-01-01",
+        "deliveryGates": [
+          {
+            "id": "az_13_4051_product_scope_classification",
+            "kind": "artifact_legal_review",
+            "items": [
+              "the open counsel classification the adopted Arizona memorandum records for this track: whether product scope should enable it at all, which the memorandum leaves open subject to legal-output approval",
+              "confirmation that the generated petition states the participant's own account of wrongfulness and asserts no conclusion that the arrest or charge was wrongful",
+              "a rendered candidate scoped to this route alone, reviewed and hashed"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#AZ:az_wrongful_arrest_clearance carries unresolvedQuestions[0] impact=counsel_classification_required affectedElement=output_strategy",
+            "note": "Recorded, not resolved here. The memorandum is explicit that the earlier process_guidance label was a product-scope choice rather than an output-identity problem, so the route has a knowable packet identity while the scope decision stays open. Compiling the runtime identity decides nothing about scope."
+          },
+          {
+            "id": "az_13_4051_superior_court_filing_configuration",
+            "kind": "local_filing_configuration",
+            "items": [
+              "what the superior court charges to file a § 13-4051 petition, which the source review does not state",
+              "whether any service requirement attaches, which the source review does not state",
+              "how the court sets the hearing the statute contemplates"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no Arizona superior court filing configuration record exists for this section",
+            "note": "The adopted memorandum records the charge to file, service and notarization as not stated by the source review. No amount may be quoted until this closes."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority, and the open counsel classification on product scope is unaffected by it."
+        },
+        "notes": "Superior court only, and a notation of clearance rather than a sealing, set-aside or expungement: the order marks the record cleared and restricts release, it does not remove the record. Any evidentiary dispute or contested hearing is a post-generation handoff. The merits burden about wrongfulness is on the petitioner and is not a checklist; LegalEase formats the petitioner's own account and asserts no conclusion."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -2134,6 +2235,37 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+        "fieldsReferenced": [
+          "case_outcome",
+          "charge"
+        ],
+        "sourceConditionText": "available to any person wrongfully arrested, indicted or otherwise charged, who may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, together with an order that the agencies not release copies except on court order; A.R.S. § 13-4051 states no elapsed waiting period and no filing deadline of any kind, and the judge issues the order if the judge believes justice will be served",
+        "requiredFields": [
+          "case_outcome",
+          "charge"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-AZ-01",
+      "candidatePathwayIds": [
+        "notation-of-clearance-after-a-wrongful-arrest-under-13-4051"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-AZ-01",
+        "ruleId": "AZ-13-4051-NOTATION-OF-CLEARANCE-AFTER-A-WRONGFUL-ARREST",
+        "statute": "Ariz. Rev. Stat. § 13-4051",
+        "mechanism": "Notation of clearance after a wrongful arrest, indictment or charge"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -2649,6 +2781,32 @@
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
           "pathways:76-118"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+        "pathwayLabel": "Notation of clearance after a wrongful arrest, indictment or charge",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-07-30-AZ-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

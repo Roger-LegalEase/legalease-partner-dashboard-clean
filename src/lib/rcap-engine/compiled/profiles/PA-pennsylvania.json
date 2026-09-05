@@ -1932,8 +1932,8 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "special",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
@@ -1972,8 +1972,8 @@
         "mechanism": "Human-trafficking vacatur and expungement",
         "statute": "18 Pa.C.S. § 3019",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorText": "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
@@ -1997,12 +1997,8 @@
           "§ 6308 only for underage branch",
           "§ 3019 trafficking predicate"
         ],
-        "packetFamily": "Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet",
-        "packetComponents": [
-          "Petition to vacate or expunge",
-          "Trafficking nexus evidence",
-          "Diversion completion record where applicable"
-        ]
+        "packetFamily": null,
+        "notes": "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-composed-treatment:obligation:runtime-only:PA:path-k-human-traff (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is approved_release_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet\", packetComponents [\"Petition to vacate or expunge\",\"Trafficking nexus evidence\",\"Diversion completion record where applicable\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     }
   ],
@@ -3474,8 +3470,8 @@
         "sourceConditionText": "Path K - Human trafficking vacatur / expungement"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:15-128",
       "candidatePathwayIds": [
@@ -3543,8 +3539,8 @@
         "sourceConditionText": "Do not force disclosure. Offer referral language."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:15-128",
       "candidatePathwayIds": [
@@ -3791,8 +3787,8 @@
         "sourceConditionText": "Possible vacatur and expungement. Escalate to attorney or trafficking-survivor legal services."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "decision_tree:224-284",
       "candidatePathwayIds": [
@@ -4069,8 +4065,8 @@
         "sourceConditionText": "Human trafficking / coercion / commercial sexual exploitation."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:285-340",
       "candidatePathwayIds": [
@@ -4661,7 +4657,7 @@
         "sourceConditionText": "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -5315,7 +5311,7 @@
       {
         "pathwayId": "path-k-human-trafficking-vacatur-expungement",
         "pathwayLabel": "Path K — Human-trafficking vacatur / expungement",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

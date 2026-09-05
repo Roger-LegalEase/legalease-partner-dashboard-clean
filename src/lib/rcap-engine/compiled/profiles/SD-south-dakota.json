@@ -1282,8 +1282,8 @@
         "diversion_or_deferred"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "juvenile_special",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
@@ -1307,8 +1307,8 @@
         "mechanism": "Juvenile trafficking and sexual-exploitation victim expungement",
         "statute": "S.D. Codified Laws § 26-7A-115.1",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorText": "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
@@ -1330,12 +1330,8 @@
           "Exact juvenile victim-relief statute or valid suspended-imposition order",
           "Statutory nexus, offense, once-only, and completion limitations"
         ],
-        "packetFamily": "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1",
-        "packetComponents": [
-          "Petition under § 26-7A-115.1",
-          "Victimization nexus evidence"
-        ],
-        "notes": "Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake."
+        "packetFamily": null,
+        "notes": "Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:SD:juvenile-traff (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1\", packetComponents [\"Petition under § 26-7A-115.1\",\"Victimization nexus evidence\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     }
   ],
@@ -2439,7 +2435,7 @@
         "sourceConditionText": "an eligible victim who is over eighteen may petition upon establishing the statutory victimization nexus; no additional elapsed wait is stated"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -2940,7 +2936,7 @@
       {
         "pathwayId": "juvenile-trafficking-expungement",
         "pathwayLabel": "Juvenile-trafficking expungement",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

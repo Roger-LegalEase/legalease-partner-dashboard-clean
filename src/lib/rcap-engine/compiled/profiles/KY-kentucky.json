@@ -824,7 +824,128 @@
           "Petition under § 610.330",
           "Jurisdiction termination or release proof"
         ],
+        "serviceBranches": [
+          {
+            "id": "automatic-status-correction-guidance",
+            "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+            "outcomeMode": "automatic_relief",
+            "packetFamily": null,
+            "stage": "automatic",
+            "note": "LD-KY-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+          }
+        ],
         "notes": "The statutory waiver for extraordinary circumstances is available; the no-pending-case and offense exclusions must be satisfied."
+      }
+    },
+    {
+      "id": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "label": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+      "summary": "Void and seal a first qualifying possession conviction under KRS 218A.276 under Ky. Rev. Stat. § 218A.276. available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-06-KY-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-08-06-KY-01",
+        "statute:Ky. Rev. Stat. § 218A.276"
+      ],
+      "ruleClauses": [
+        "available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed",
+        "This rule governs filings on or after 2012-04-11."
+      ],
+      "exclusionRules": [
+        "An offence outside the KRS 218A.276(1) list, which is fixed at possession of marijuana, of a synthetic drug and of salvia.",
+        "Anything other than a first conviction for that kind of possession.",
+        "Any person who has already had a conviction voided under this section, which may occur only once."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-06-KY-01",
+        "ruleId": "KY-218A-276-VOID-AND-SEAL-FIRST-MARIJUANA-SYNTHETIC-OR-SALVIA-POSSESSION-CONVICTION",
+        "mechanism": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+        "statute": "Ky. Rev. Stat. § 218A.276",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed"
+        },
+        "requiredFacts": [
+          "In which Kentucky county were you convicted?",
+          "Was the case in district court or circuit court?",
+          "What is the case number?",
+          "Was the conviction for possession of marijuana, of a synthetic drug, or of salvia?",
+          "On what date were you convicted?",
+          "What did you complete — treatment, probation, or the sentence itself?",
+          "On what date did you complete it?",
+          "Was this your first conviction for this kind of possession?",
+          "Have you ever had a conviction voided under this statute before?",
+          "Which agencies are likely to hold records of this case?",
+          "Which office prosecuted the case — the county attorney or the Commonwealth's attorney?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date"
+        ],
+        "exclusions": [
+          "An offence outside the KRS 218A.276(1) list, which is fixed at possession of marijuana, of a synthetic drug and of salvia.",
+          "Anything other than a first conviction for that kind of possession.",
+          "Any person who has already had a conviction voided under this section, which may occur only once."
+        ],
+        "packetFamily": "Kentucky KRS 218A.276 motion to void and seal, with AOC-334 tendered as the proposed order",
+        "packetComponents": [
+          "Motion to void the conviction and seal the records under KRS 218A.276, filed in the original criminal case",
+          "AOC-334 tendered as the proposed order, left for the court's findings and signature",
+          "Certificate of service on the county attorney or Commonwealth's attorney that prosecuted the case"
+        ],
+        "effectiveFrom": "2012-04-11",
+        "deliveryGates": [
+          {
+            "id": "ky_218a_276_legal_effect_ratification",
+            "kind": "artifact_legal_review",
+            "items": [
+              "counsel ratification of the static legal propositions the generated motion asserts about the effect of voiding and of sealing, which the adopted Kentucky memorandum records as unratified",
+              "the scope of the KRS 27A.099 exception, which keeps some records outside the sealing order and which the memorandum carries as a research note",
+              "a rendered candidate scoped to this route alone, reviewed and hashed"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#KY:ky_void_seal_marijuana_synthetic_salvia carries a release_blocker on legal_effect_or_warning",
+            "note": "The eligibility rule is settled at the statute; what is unratified is the packet's own statements about what voiding and sealing then do. That is an output-review gate and not an eligibility question."
+          },
+          {
+            "id": "ky_218a_276_clerk_filing_configuration",
+            "kind": "local_filing_configuration",
+            "items": [
+              "confirmation that the circuit court clerk accepts the filing as motion type SA with no summons issued, per the Clerks' Manual",
+              "confirmation that no filing fee is charged for this proceeding, which the Clerks' Manual records"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no Kentucky per-clerk filing configuration record exists for this section",
+            "note": "A clerk who demands a filing fee is a recorded self-help stop condition, which is why the fee position is a configuration item rather than a copy line."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+        },
+        "notes": "Void-and-seal under KRS 218A.276 is a different mechanism from expungement under KRS 431.078 or KRS 431.073 and must never be served by either of those pathways: it is available once in a lifetime, it is limited to the three possession offences KRS 218A.276(1) lists, and it turns on completion rather than on an elapsed period. KRS 218A.276(8) to (10) provide that the proceedings may not be used against the defendant except to determine eligibility and that the participant need not disclose them. A participant choosing between void-and-seal and expungement is making a lifetime-consequence strategy decision and is a recorded self-help stop condition, as is any participant who is not a United States citizen, because a voided conviction may still be a conviction for immigration purposes."
       }
     }
   ],
@@ -1518,6 +1639,39 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date"
+        ],
+        "sourceConditionText": "available after satisfactory completion of treatment, probation or the other sentence imposed on a first conviction for possession of marijuana under KRS 218A.1422, of a synthetic drug under KRS 218A.1430 or of salvia under KRS 218A.1451; KRS 218A.276 states no elapsed period independent of that completion, and on the motion the court may void the conviction and shall then order the records sealed",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-06-KY-01",
+      "candidatePathwayIds": [
+        "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-06-KY-01",
+        "ruleId": "KY-218A-276-VOID-AND-SEAL-FIRST-MARIJUANA-SYNTHETIC-OR-SALVIA-POSSESSION-CONVICTION",
+        "statute": "Ky. Rev. Stat. § 218A.276",
+        "mechanism": "Void and seal a first qualifying possession conviction under KRS 218A.276"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -1776,6 +1930,32 @@
         "formMappingStatus": "not_required",
         "sourceRuleRefs": [
           "manual_source_conversion:KY"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+        "pathwayLabel": "Void and seal a first qualifying possession conviction under KRS 218A.276",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-08-06-KY-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

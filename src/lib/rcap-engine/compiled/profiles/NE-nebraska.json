@@ -818,13 +818,13 @@
       ],
       "caseOutcomes": [],
       "automatic": false,
-      "filingRequired": true,
+      "filingRequired": false,
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
         "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
       ],
       "exclusionRules": [],
-      "routeType": "court_filing",
+      "routeType": "automatic_guidance",
       "frontendBranch": {
         "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
         "missingFactsResult": "needs_more_info",
@@ -850,8 +850,8 @@
         "mechanism": "Expungement for a law-enforcement error",
         "statute": "Neb. Rev. Stat. § 29-3523(6)",
         "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
           "anchorText": "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
@@ -872,12 +872,8 @@
           "Exact Nebraska correction or set-aside mechanism",
           "Evidentiary and discretionary standards satisfied"
         ],
-        "packetFamily": "Nebraska § 29-3523(6) Error Petition",
-        "packetComponents": [
-          "Petition under § 29-3523(6)",
-          "Clear-and-convincing proof of the error"
-        ],
-        "notes": "The clear-and-convincing proof standard must be collected before the packet is offered."
+        "packetFamily": null,
+        "notes": "The clear-and-convincing proof standard must be collected before the packet is offered. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-ne-expunge-le-error-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Nebraska § 29-3523(6) Error Petition\", packetComponents [\"Petition under § 29-3523(6)\",\"Clear-and-convincing proof of the error\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery."
       }
     },
     {
@@ -1659,8 +1655,8 @@
         "sourceConditionText": "This is the narrow true-expungement route in Nebraska."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "manual_source_conversion:NE:law-enforcement-error-expungement",
       "candidatePathwayIds": [
@@ -1891,8 +1887,8 @@
         "sourceConditionText": "**Arrest from law enforcement error:** true expungement path under § 29-3523(6), clear and convincing standard, district court."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "summary:176-192",
       "candidatePathwayIds": [
@@ -2121,7 +2117,7 @@
         "sourceConditionText": "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
@@ -2660,7 +2656,7 @@
       {
         "pathwayId": "law-enforcement-error-expungement",
         "pathwayLabel": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

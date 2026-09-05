@@ -817,6 +817,142 @@
         "lawrence_review": "ratified_deployable",
         "projectedFrom": "route-ratification-registry"
       }
+    },
+    {
+      "id": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "label": "Dismissal and set-aside of a conviction for which probation was not granted",
+      "summary": "Dismissal and set-aside of a conviction for which probation was not granted under Cal. Penal Code § 1203.4a. more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-CA-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-07-30-CA-01",
+        "statute:Cal. Penal Code § 1203.4a"
+      ],
+      "ruleClauses": [
+        "more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice",
+        "This rule governs filings on or after 2023-01-01.",
+        "Fifteen days' notice to the prosecuting attorney on an infraction, Cal. Penal Code § 1203.4a(f) — A notice period the court requires before it may grant an infraction dismissal. It is not a participant eligibility clock and must never be added to the one-year period.."
+      ],
+      "exclusionRules": [
+        "A petitioner who is serving a sentence for any offense, or who is charged with the commission of any crime.",
+        "A conviction for which probation was granted, which runs under Cal. Penal Code § 1203.4 and not under this section.",
+        "A felony conviction, which this section does not reach."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-CA-01",
+        "ruleId": "CA-PC-1203-4A-DISMISSAL-AND-SET-ASIDE-WITHOUT-PROBATION",
+        "mechanism": "Dismissal and set-aside of a conviction for which probation was not granted",
+        "statute": "Cal. Penal Code § 1203.4a",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_date",
+          "anchorText": "more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Fifteen days' notice to the prosecuting attorney on an infraction, Cal. Penal Code § 1203.4a(f)",
+            "note": "A notice period the court requires before it may grant an infraction dismissal. It is not a participant eligibility clock and must never be added to the one-year period."
+          }
+        ],
+        "requiredFacts": [
+          "Were you placed on probation in this case?",
+          "Was this a misdemeanor or an infraction?",
+          "On what date were you convicted?",
+          "In which California county were you convicted?",
+          "What is the case number?",
+          "Have you complied with the sentence?",
+          "Are you currently serving a sentence or charged with any crime?",
+          "Which route applies: you have lived an honest and upright life and obeyed the law, or you are asking in the interests of justice?",
+          "Are you a United States citizen?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "A petitioner who is serving a sentence for any offense, or who is charged with the commission of any crime.",
+          "A conviction for which probation was granted, which runs under Cal. Penal Code § 1203.4 and not under this section.",
+          "A felony conviction, which this section does not reach."
+        ],
+        "packetFamily": "California CR-180 box 3 petition for dismissal under § 1203.4a",
+        "packetComponents": [
+          "CR-180 Petition for Dismissal, with box 3 elected for the § 1203.4a route and the elected relief ground stated",
+          "CR-181 proposed Order, left for the court's findings and signature",
+          "CR-106 proof of service, where notice to the prosecuting attorney is required",
+          "MC-031 attached declaration where the interests-of-justice ground is used",
+          "Participant instructions covering the § 1203.4a(f) infraction rule that dismissal is by written declaration except on a showing of compelling need, the § 1203.4a(f) fifteen-day prosecutor notice for an infraction, and the § 1203.4a(e) reimbursement position"
+        ],
+        "effectiveFrom": "2023-01-01",
+        "deliveryGates": [
+          {
+            "id": "ca_1203_4a_official_form_acquisition",
+            "kind": "source_acquisition",
+            "items": [
+              "the current official Judicial Council CR-180, CR-181 and CR-106 PDFs, which the adopted memorandum records as not pulled",
+              "the current MC-031 attached-declaration form",
+              "the revision date of each form at the time of acquisition"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: data/record-clearing/legal-design-track-registry.json#CA:ca-1203-4a records the CR-180, CR-181 and CR-106 PDFs as not acquired",
+            "note": "This route is official_pdf_fill on Judicial Council forms. No overlay may be built or shipped before the current revisions are held."
+          },
+          {
+            "id": "ca_1203_4a_county_filing_configuration",
+            "kind": "local_filing_configuration",
+            "items": [
+              "whether the Superior Court charges anything to file CR-180 and whether the amount varies by county, which the adopted memorandum records as unresolved and county-specific",
+              "the county's own local requirements for filing a petition for dismissal in the county of conviction"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no California per-county filing configuration record exists for this section",
+            "note": "The § 1203.4a(e) reimbursement of up to $60 to the county and $60 to the city is a separate statutory charge rather than a court cost of filing. It is subject to an ability-to-pay determination on the PC 987.8(g)(2) standard and is expressly not a prerequisite to eligibility, so the two must never be conflated in participant copy and no amount may be quoted for either until this gate closes."
+          },
+          {
+            "id": "ca_1203_4a_artifact_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered candidate scoped to this route alone, reviewed and hashed",
+              "confirmation that the packet states California relief as a dismissal and set-aside and never as a sealing or an expungement",
+              "confirmation that the packet states that inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: no route-scoped rendered candidate exists for this route",
+            "note": "Recorded, not repaired here."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. Nothing here grants technical, runtime, sponsorship or commercial authority."
+        },
+        "notes": "Section 1203.4a is the no-probation branch and § 1203.4 is the probation branch; they are separate mechanisms and neither may be served by the other's pathway. The relief is a dismissal and set-aside, not a sealing and not an expungement, and the packet must say so. A non-citizen petitioner is a self-help stop condition, because a dismissal under this section does not undo a conviction for immigration purposes. Whether probation was granted is the branch-selecting fact; where it cannot be established from the participant's answer or their record the route stops rather than guessing."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -2923,6 +3059,47 @@
       "candidatePathwayIds": [
         "prop-64-completed-sentence-application-11361-8"
       ]
+    },
+    {
+      "id": "route-dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases"
+        ],
+        "sourceConditionText": "more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "sentence_completion_date",
+          "pending_cases"
+        ],
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "sentence_completion_date"
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-07-30-CA-01",
+      "candidatePathwayIds": [
+        "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-07-30-CA-01",
+        "ruleId": "CA-PC-1203-4A-DISMISSAL-AND-SET-ASIDE-WITHOUT-PROBATION",
+        "statute": "Cal. Penal Code § 1203.4a",
+        "mechanism": "Dismissal and set-aside of a conviction for which probation was not granted"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -3091,6 +3268,22 @@
       },
       "anchor": null,
       "fieldsReferenced": []
+    },
+    {
+      "id": "authority-dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "ruleText": "Cal. Penal Code § 1203.4a — more than one year has elapsed since the date of the conviction of a misdemeanor or infraction for which probation was not granted, and the petitioner is not serving a sentence for any offense and is not charged with any crime; relief runs on either of the two routes the Judicial Council form states — that the petitioner has lived an honest and upright life and has obeyed the laws of the land, or that relief is in the interests of justice",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "sentence_completion_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "sentence_completion_date",
+        "pending_cases"
+      ]
     }
   ],
   "exclusionRules": [
@@ -3511,6 +3704,32 @@
           "offense would not be no offense or lesser under Prop 64",
           "branch not confirmed",
           "needs_more_info",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+        "pathwayLabel": "Dismissal and set-aside of a conviction for which probation was not granted",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-07-30-CA-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
           "needs_review",
           "likely_not_eligible",
           "hard_stop"

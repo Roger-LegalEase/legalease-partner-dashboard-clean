@@ -158,6 +158,39 @@ const DECISION_BASELINE = {
       decisionId: "LEGAL-DESIGN-2026-08-02-KS-02",
       routeKeys: 1,
       reason: "K.S.A. 12-4516a municipal arrest-record expungement, from the same memorandum. A separate route rather than a branch of § 12-4516: a different statute, a different record type and five statutory grounds of its own."
+    },
+    // ---- Route productization, first pathway cohort ----
+    // Five COMPLETE_PACKET_PROVEN families whose single obligation resolved to
+    // no runtime route id at all, so nothing downstream of the first link of
+    // the productization chain could be attempted for them. Each track's
+    // operative citation is unique in its jurisdiction and no compiled pathway
+    // carries it. Each contract adds representation and nothing else: every one
+    // declares a closed commercial posture, requires artifact approval, and
+    // holds at least one open delivery gate.
+    {
+      decisionId: "LEGAL-DESIGN-2026-07-30-AZ-01",
+      routeKeys: 1,
+      reason: "A.R.S. § 13-4051 notation of clearance after a wrongful arrest, indictment or charge, from the adopted Arizona legal-design memorandum reviewed 2026-07-30. Arizona carried no route contract of any kind before this, and the three compiled Arizona pathways are the § 13-911 sealing, the § 13-905 set-aside and the § 36-2862 marijuana expungement."
+    },
+    {
+      decisionId: "LEGAL-DESIGN-2026-07-30-CA-01",
+      routeKeys: 1,
+      reason: "Cal. Penal Code § 1203.4a dismissal and set-aside where probation was not granted, from the adopted California memorandum reviewed 2026-07-30. A new route: the legacy \"Tool 1\" pathway carries § 1203.4, the probation branch, and serving the no-probation branch from it would state the wrong eligibility clock."
+    },
+    {
+      decisionId: "LEGAL-DESIGN-2026-07-30-CT-01",
+      routeKeys: 1,
+      reason: "C.G.S. § 54-142v petition for erasure of cannabis conviction records, from the adopted Connecticut memorandum reviewed 2026-07-30. A new route on the authority of the E4-R2 crosswalk resolution adjudication, which holds that the compiled CT:cannabis-conviction-erasure pathway is the automatic § 54-142u branch bound to ct-cannabis-auto and that ct-cannabis-petition is not co-mapped."
+    },
+    {
+      decisionId: "LEGAL-DESIGN-2026-08-06-KY-01",
+      routeKeys: 1,
+      reason: "KRS 218A.276 void-and-seal of a first marijuana, synthetic drug or salvia possession conviction, from the adopted Kentucky memorandum reviewed 2026-08-06. A new route: it is once in a lifetime, limited to three possession offences and keyed to completion rather than to an elapsed period, so neither the KRS 431.078 nor the KRS 431.073 expungement pathway may serve it."
+    },
+    {
+      decisionId: "LEGAL-DESIGN-2026-08-06-NV-01",
+      routeKeys: 1,
+      reason: "NRS 179A.160 removal of a record from the Central Repository after a favourable disposition, from the adopted Nevada memorandum reviewed 2026-08-06. A new route: it is an agency application to two recipients with five statutory exclusions of its own, and the NRS 179.245 and NRS 179.255 court sealing pathways reach the court record it does not."
     }
   ]
 };
