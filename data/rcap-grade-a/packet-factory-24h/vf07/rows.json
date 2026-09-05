@@ -6981,12 +6981,42 @@
           "result": "PASS",
           "finding": "All six declared PDFs exist and independently rehash to reports/rendered-artifacts.json with matching byte lengths and parsed page counts. The central receipt binds the current family canonical and boundary hashes at the exact review base; the receipt's visual-coverage limitation is scored under CLIPPING_AND_OVERLAP.",
           "evidence": [
-            {"artifact":"family canonical","sha256":"006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24","byteLength":34362,"pageCount":12},
-            {"artifact":"family boundary","sha256":"3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2","byteLength":35191,"pageCount":13},
-            {"artifact":"municipal canonical route","sha256":"7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8","byteLength":20219,"pageCount":8},
-            {"artifact":"municipal boundary route","sha256":"61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f","byteLength":20427,"pageCount":8},
-            {"artifact":"arrest canonical route","sha256":"3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275","byteLength":18274,"pageCount":6},
-            {"artifact":"arrest boundary route","sha256":"dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2","byteLength":18476,"pageCount":6}
+            {
+              "artifact": "family canonical",
+              "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+              "byteLength": 34362,
+              "pageCount": 12
+            },
+            {
+              "artifact": "family boundary",
+              "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+              "byteLength": 35191,
+              "pageCount": 13
+            },
+            {
+              "artifact": "municipal canonical route",
+              "sha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
+              "byteLength": 20219,
+              "pageCount": 8
+            },
+            {
+              "artifact": "municipal boundary route",
+              "sha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+              "byteLength": 20427,
+              "pageCount": 8
+            },
+            {
+              "artifact": "arrest canonical route",
+              "sha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
+              "byteLength": 18274,
+              "pageCount": 6
+            },
+            {
+              "artifact": "arrest boundary route",
+              "sha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
+              "byteLength": 18476,
+              "pageCount": 6
+            }
           ]
         },
         "PAGE_ORDER": {
@@ -6994,8 +7024,16 @@
           "result": "PASS",
           "finding": "Within each route, the bytes follow the authoritative ordinal role order: primary filing, proposed order, then guidance/instructions. Every pageManifest is contiguous from 1 through the parsed page count and each component occupies one continuous page run. The order passes even though the exact third-component identity fails COMPONENT_SET.",
           "evidence": {
-            "authoritativeRoleOrder": ["primary_filing","proposed_order","process_guidance"],
-            "renderedRoleOrder": ["primary_filing","proposed_order","filing_instructions"],
+            "authoritativeRoleOrder": [
+              "primary_filing",
+              "proposed_order",
+              "process_guidance"
+            ],
+            "renderedRoleOrder": [
+              "primary_filing",
+              "proposed_order",
+              "filing_instructions"
+            ],
             "ordinalSequenceMatches": true,
             "manifestPageNumbersContiguous": true
           }
@@ -7006,9 +7044,27 @@
           "finding": "Independent rendering found three orphaned route-footer-only pages. Family boundary.pdf page 4 contains only 'Route: Municipal conviction or diversion expungement - K.S.A. 12-4516' (9 words, 69 characters); family canonical has no corresponding page. Both route-specific municipal canonical.pdf and boundary.pdf page 8 contain that same footer and nothing else. A technically nonblank page is still a pagination/overflow defect, and the two-document central raster's 0-problem result did not detect it.",
           "evidence": {
             "defectivePages": [
-              {"artifact":"fixtures/boundary.pdf","page":4,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"},
-              {"artifact":"fixtures/routes/ks-12-4516-municipal/canonical.pdf","page":8,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"},
-              {"artifact":"fixtures/routes/ks-12-4516-municipal/boundary.pdf","page":8,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"}
+              {
+                "artifact": "fixtures/boundary.pdf",
+                "page": 4,
+                "words": 9,
+                "characters": 69,
+                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
+              },
+              {
+                "artifact": "fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+                "page": 8,
+                "words": 9,
+                "characters": 69,
+                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
+              },
+              {
+                "artifact": "fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+                "page": 8,
+                "words": 9,
+                "characters": 69,
+                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
+              }
             ],
             "familyPageCountDivergence": "canonical 12 pages; boundary 13 pages; the additional boundary page is the footer-only page 4",
             "geometryAcrossAllSixPdfs": "13,572 extracted words; 0 off-page words; 0 same-line overlap pairs",
@@ -7019,25 +7075,38 @@
           "measured": true,
           "result": "PASS",
           "finding": "Each route's delivered instruction pages name its own registry destination: the convicting Kansas municipal court for K.S.A. 12-4516, and the Kansas municipal court where the ordinance charge was brought for K.S.A. 12-4516a. Both identify the municipal court clerk and the local-form/charter-ordinance check.",
-          "evidence": {"registryDestinationsFoundInBothCanonicalRoutePdfs":2}
+          "evidence": {
+            "registryDestinationsFoundInBothCanonicalRoutePdfs": 2
+          }
         },
         "FEE_AND_WAIVER": {
           "measured": true,
           "result": "PASS",
           "finding": "Each route carries its own fee subsection and the no-statewide-amount statement. The conviction/diversion set states no statutory waiver and local practice; the arrest set states the identity-theft no-fee exemption and that it is not a discretionary waiver. No sibling exemption is read across.",
-          "evidence": {"routeFeeRulesFound":2,"routeWaiverRulesFound":2,"inventedDollarFigures":0}
+          "evidence": {
+            "routeFeeRulesFound": 2,
+            "routeWaiverRulesFound": 2,
+            "inventedDollarFigures": 0
+          }
         },
         "SERVICE": {
           "measured": true,
           "result": "PASS",
           "finding": "Both route instruction components state that the court causes notice and the participant does not serve, and identify notice to the prosecuting attorney and arresting law-enforcement agency under the correct route-specific subsection.",
-          "evidence": {"routeServiceRulesFound":2,"routeNoticeRulesFound":2}
+          "evidence": {
+            "routeServiceRulesFound": 2,
+            "routeNoticeRulesFound": 2
+          }
         },
         "SELF_HELP_STOP": {
           "measured": true,
           "result": "PASS",
           "finding": "All six route-specific selfHelpStopConditions are present in each route PDF, and each also carries the committed generation/self-help handoff boundary. The municipal route includes prosecutor opposition, contested hearing, charter-ordinance variation, disputed state-equivalent offense, KORA registration and immigration; the arrest route includes its disputed grounds and wrong-route stop.",
-          "evidence": {"municipalStopConditionsFound":"6/6","arrestStopConditionsFound":"6/6","generationBoundaryFoundOnBoth":true}
+          "evidence": {
+            "municipalStopConditionsFound": "6/6",
+            "arrestStopConditionsFound": "6/6",
+            "generationBoundaryFoundOnBoth": true
+          }
         }
       },
       "failedProofObligations": [
@@ -7106,10 +7175,30 @@
           "result": "PASS",
           "finding": "All four official source PDFs were independently rehashed from governed custody. Their SHA-256 values and byte lengths match source-receipt.json exactly.",
           "evidence": [
-            {"documentId":"EXP-AD Request","sha256":"44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853","byteLength":1015247,"match":true},
-            {"documentId":"EXP-AD Case List","sha256":"b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c","byteLength":744328,"match":true},
-            {"documentId":"EXP-AD Order Granting","sha256":"52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305","byteLength":823679,"match":true},
-            {"documentId":"FW-CIV-APPLICATION","sha256":"b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5","byteLength":1051549,"match":true}
+            {
+              "documentId": "EXP-AD Request",
+              "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+              "byteLength": 1015247,
+              "match": true
+            },
+            {
+              "documentId": "EXP-AD Case List",
+              "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+              "byteLength": 744328,
+              "match": true
+            },
+            {
+              "documentId": "EXP-AD Order Granting",
+              "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+              "byteLength": 823679,
+              "match": true
+            },
+            {
+              "documentId": "FW-CIV-APPLICATION",
+              "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+              "byteLength": 1051549,
+              "match": true
+            }
           ]
         },
         "COMPONENT_SET": {
@@ -7147,8 +7236,16 @@
           "result": "PASS",
           "finding": "Canonical and boundary PDFs rehash exactly to rendered-artifacts.json and the current hash-bound raster receipt.",
           "evidence": {
-            "canonical":{"sha256":"8e7db8e17eab613b11ae25dfe08c526bf34d82d17673e58e7447a4903beaf697","byteLength":1734982,"pageCount":13},
-            "boundary":{"sha256":"48dfd074c86cf4c590f8291d8ea52c184ed21a9af169d72e3da180a634102677","byteLength":1735612,"pageCount":13}
+            "canonical": {
+              "sha256": "8e7db8e17eab613b11ae25dfe08c526bf34d82d17673e58e7447a4903beaf697",
+              "byteLength": 1734982,
+              "pageCount": 13
+            },
+            "boundary": {
+              "sha256": "48dfd074c86cf4c590f8291d8ea52c184ed21a9af169d72e3da180a634102677",
+              "byteLength": 1735612,
+              "pageCount": 13
+            }
           }
         },
         "PAGE_ORDER": {
@@ -7182,7 +7279,14 @@
           "finding": "The packet tells the participant to stop for an objection by the State's Attorney, ISP, arresting agency or chief legal officer, a contested hearing, mismatched eligibility facts, or immigration consequences, while the route section separately requires confirmation that the pardon expressly authorizes expungement."
         }
       },
-      "failedProofObligations": ["KNOWN_PREFILLS","ROUTE_OPTIONS","REPEATING_ROWS","CLIPPING_AND_OVERLAP","FILING_DESTINATION","SERVICE"],
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
       "unmeasuredObligations": [],
       "evidenceRead": {
         "focusedVerifier": "PASS_COMPLETE 70/424 written; all nine shipped mechanical counters zero",
@@ -7241,9 +7345,24 @@
           "result": "PASS",
           "finding": "All three committed authority records were independently rehashed and match source-receipt.json exactly.",
           "evidence": [
-            {"path":"data/record-clearing/legal-design-track-registry.json","sha256":"0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6","byteLength":16555956,"match":true},
-            {"path":"data/record-clearing/legal-design-specifications.json","sha256":"cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5","byteLength":16829383,"match":true},
-            {"path":"data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json","sha256":"0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f","byteLength":2599752,"match":true}
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+              "byteLength": 16555956,
+              "match": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383,
+              "match": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "byteLength": 2599752,
+              "match": true
+            }
           ]
         },
         "COMPONENT_SET": {
@@ -7281,10 +7400,18 @@
           "result": "FAIL",
           "finding": "The current PDFs match rendered-artifacts.json and RASTER_QUEUE.json, but family-local product-wiring.json still identifies the superseded packet. proposedRepresentation.components[0].sha256 is 8536db61... while the current canonical is e94f1370..., and binding.acceptanceReceipt points to the old canonical 8536db61... / boundary ce3a0a84... receipt. Thus the family contains contradictory artifact identity records and its declared product binding does not describe the repaired bytes.",
           "evidence": {
-            "canonical":{"sha256":"e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0","byteLength":46140,"pageCount":17},
-            "boundary":{"sha256":"bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756","byteLength":46647,"pageCount":17},
-            "staleProductWiringCanonical":"8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
-            "staleAcceptanceBoundary":"ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d"
+            "canonical": {
+              "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+              "byteLength": 46140,
+              "pageCount": 17
+            },
+            "boundary": {
+              "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+              "byteLength": 46647,
+              "pageCount": 17
+            },
+            "staleProductWiringCanonical": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+            "staleAcceptanceBoundary": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d"
           }
         },
         "PAGE_ORDER": {
@@ -7318,7 +7445,9 @@
           "finding": "The instructions carry route-specific stops for contested eligibility, prosecutor opposition, hearing, immigration, missing non-conviction predicates, identity mismatch and agency-record accuracy disputes, with the deletion accuracy-remedy component providing the handoff."
         }
       },
-      "failedProofObligations": ["ARTIFACTS"],
+      "failedProofObligations": [
+        "ARTIFACTS"
+      ],
       "unmeasuredObligations": [],
       "evidenceRead": {
         "focusedVerifier": "PASS_COMPLETE 20/48 written; all nine mechanical counters zero",
@@ -7332,6 +7461,541 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "This failure is a completeness verdict and repair assignment only. It approves no output, promotes no route and opens no commercial route."
+    },
+    {
+      "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "lane": "VF07",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33923497915",
+        "boundToCanonicalSha256": true,
+        "boundToBoundarySha256": false
+      },
+      "fixturesMoved": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "instrument": "route key compared across production-field-map.json, source-receipt.json, product-wiring.json and the committed track registry entry",
+          "result": "PASS",
+          "finding": "One route key, identical in all three family records and matching the registry track az_marijuana_expungement_limited_jurisdiction (legalName 'Petition to Expunge Marijuana Records, limited jurisdiction court, A.R.S. § 36-2862'). No printed route-key footer, which is correct for official_pdf_fill: the overlay writes onto the official AOC binary and adding a route key would be a foreign mark on a court form. Checked against the norm rather than assumed — al-diversion-set, another official_pdf_fill family, likewise carries none, while every custom_pleading family in this cohort does.",
+          "evidence": {
+            "routeKey": "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction",
+            "routeSelectionId": "az-marijuana-expungement-limited-jurisdiction-crem2f",
+            "printedRouteKeyFooter": "absent on all 3 pages, which is the official_pdf_fill convention",
+            "footerCheckWhitespaceNormalised": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "instrument": "sha256 recomputed from the mounted Master Library bytes, then resolved by content hash across all 500 files of the two mounted custodies rather than by declared path",
+          "result": "PASS",
+          "finding": "The single bound source rehashes exactly, and a content-hash lookup across the mounted corpus lands on precisely the declared archive path — the binding is confirmed from the bytes, not from the path string.",
+          "evidence": {
+            "sourceId": "official-form:AOC-CREM2F-071221",
+            "declaredSha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+            "recomputedSha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+            "byteLength": 72602,
+            "contentHashResolvedTo": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+            "preflightCheck": "family_sources_bind: 1/1 source(s) bind by exact SHA-256 (custody_reconciliation)"
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "instrument": "registry packetSet.components (the packet-set manifest) compared against reports/rendered-artifacts.json documents and the rendered page count — NOT read from the field map",
+          "result": "PASS",
+          "finding": "The packet-set manifest names two components: primary-filing-1 (required, AOC-CREM2F-071221) and continuation-2 (conditional, AOC-CREM2F-071221-CONT). Both document ids appear in the rendered artifact record, and both are carried by the one official three-page binary, whose page 3 is the continuation/contact page. Nothing the route names is absent.",
+          "evidence": {
+            "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",
+            "manifestComponents": [
+              "az_marijuana_expungement_limited_jurisdiction-primary-filing-1",
+              "az_marijuana_expungement_limited_jurisdiction-continuation-2"
+            ],
+            "renderedDocuments": [
+              "AOC-CREM2F-071221",
+              "AOC-CREM2F-071221-CONT"
+            ],
+            "pageCount": 3
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "instrument": "each of the 12 recorded writes searched for in text extracted from the fixture bytes, then located by word geometry (pdftotext -bbox) inside its own declared write box",
+          "result": "PASS",
+          "finding": "All 12 writes are present in the output bytes of both fixtures, each on the page the map declares, and every one falls inside its own measured rect. Duplicate values (the name appears twice, the case number twice) were matched against every occurrence rather than the first, which is what turns a false OUT_OF_BOX into a real one.",
+          "evidence": {
+            "canonical": {
+              "writes": 12,
+              "presentInBytes": 12,
+              "onDeclaredPage": 12,
+              "insideDeclaredRect": 12,
+              "addedGlyphs": 193
+            },
+            "boundary": {
+              "writes": 12,
+              "presentInBytes": 12,
+              "onDeclaredPage": 12,
+              "insideDeclaredRect": 12,
+              "addedGlyphs": 311
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "instrument": "the 7 field-map rows carrying requiredBeforeFiling:true matched by printed label against participant-instructions.md",
+          "result": "PASS",
+          "finding": "All seven are named in the 'Before you file' list, each with the record to take the value from.",
+          "evidence": {
+            "declared": 7,
+            "namedInInstructions": 7,
+            "items": [
+              "Court name",
+              "County of court",
+              "Name of citing or arresting law enforcement agency",
+              "Date of arrest",
+              "Name of prosecuting agency",
+              "Date of conviction",
+              "Date of dismissal"
+            ]
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "instrument": "field map routeDeterminedSelections, cross-read against the registry track for any election the route fixes",
+          "result": "PASS",
+          "finding": "Vacuously satisfied: no route-determined election exists. All 14 selection controls on the AOC form are case facts (which of the three eligible-charge descriptions; six Yes/No record questions) or the petitioner's own choice (hearing request). The route is a single track that fixes none of them, and the registry records no route-determined selection.",
+          "evidence": {
+            "routeDeterminedSelections": 0,
+            "selectionControlsRefusedAsParticipantElections": 14,
+            "refusalClass": "participant_sworn_narrative_or_legal_election"
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "instrument": "the repository's own rowKeyOf/classifyField over every field, with the resulting groups printed and inspected rather than counted",
+          "result": "PASS",
+          "finding": "No repeating-row table exists on this form. One pseudo-group appears — 'item3::item3-case' — because the field name p1-item3-case matches rowKeyOf's Item<digits> pattern; 'item 3' is the AOC form's numbered paragraph 3 ('3. Court case number'), not a row group. This is the invented-group trap in a benign form: the group holds a single written cell and no blank required cell, so it produces no finding in either direction.",
+          "evidence": {
+            "fields": 42,
+            "rowGroups": 1,
+            "groupsAreReal": false,
+            "invented": "item3::item3-case (statutory/paragraph numeral parsed as a row-group marker)",
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "instrument": "text extracted from both fixtures, every signature/date/attorney/court/prosecutor line read and checked for ink, cross-read against the map's refusal classes and actual-writes refusedFieldsWithInk",
+          "result": "PASS",
+          "finding": "Petitioner's signature and signature date, and all five attorney-only fields, carry printed captions and blank rules only. No write targets a protected field; refusedFieldsWithInk is empty in both fixtures. The one date that is written is Date of Birth, a held participant fact and not a signature date.",
+          "evidence": {
+            "protectedRowsRefused": 7,
+            "refusedFieldsWithInk": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "protectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "instrument": "sha256 recomputed from fixtures/canonical.pdf and fixtures/boundary.pdf on disk, compared against reports/rendered-artifacts.json, RASTER_QUEUE.json and the product-wiring acceptance receipt",
+          "result": "PASS",
+          "finding": "Both fixtures hash exactly to what every record names, and byte lengths agree. The RASTER_PASS receipt from run 33923497915 binds the canonical hash that is on disk now.",
+          "evidence": {
+            "canonical": {
+              "sha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+              "byteLength": 91386,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": true
+            },
+            "boundary": {
+              "sha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+              "byteLength": 91479,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": false
+            },
+            "fixturesMoved": false
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "instrument": "page count and per-page content read from the PDF bytes, compared against the declared document list and the source binary's own pagination",
+          "result": "PASS",
+          "finding": "Three pages in the declared order of the official binary: petition page 1, petition page 2, continuation/contact page 3. Each page carries the AOC's own 'Page N of 3' footer in sequence.",
+          "evidence": {
+            "declaredPages": 3,
+            "renderedPages": 3,
+            "footerSequence": [
+              "Page 1 of 3",
+              "Page 2 of 3",
+              "Page 3 of 3"
+            ]
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "instrument": "word bounding boxes from pdftotext -bbox compared against each declared write rect, plus the byte-derived nonWhitespaceGlyphsOutsideMeasuredWriteBoxes counter",
+          "result": "PASS",
+          "finding": "Every drawn value sits inside its own measured write box in both fixtures, including the boundary fixture's longer values. No glyph lands outside a measured box.",
+          "evidence": {
+            "canonical": {
+              "outsideMeasuredBoxes": 0,
+              "writesGeometricallyInBox": "12/12"
+            },
+            "boundary": {
+              "outsideMeasuredBoxes": 0,
+              "writesGeometricallyInBox": "12/12"
+            }
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "instrument": "registry destination.name and rules.filing compared against participant-instructions.md",
+          "result": "PASS",
+          "finding": "The instructions name the municipal or justice court that concluded the case, and repeat the registry's filing modes.",
+          "evidence": {
+            "registryDestination": "The municipal or justice court that concluded the case",
+            "instructionsSay": "File in the municipal or justice court that concluded the case, in person, by mail, or by e-filing where that court accepts it."
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "instrument": "registry rules.fees and rules.feeWaiver compared against participant-instructions.md",
+          "result": "PASS",
+          "finding": "Both are stated and both match the record: Rule 36(a)(4) bars a filing fee, and because there is none no waiver form applies.",
+          "evidence": {
+            "registryFees": "none. Rule 36(a)(4) bars a filing fee.",
+            "registryFeeWaiver": "none. No fee waiver form is applicable because there is no filing fee.",
+            "instructionsSay": "Rule 36(a)(4) bars a filing fee, so no fee-waiver form applies."
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "instrument": "registry rules.service and rules.notice compared against participant-instructions.md",
+          "result": "PASS",
+          "finding": "The packet states who receives the petition and that the court transmits it within 10 days, which is the registry's rule. It conveys the substance without the express words 'you serve no one' or the Rule 36(b)(2) citation; the participant is not left to guess at a service step they must perform, because the packet tells them the court performs it.",
+          "evidence": {
+            "registryService": "none. Rule 36(b)(2) puts transmittal to the prosecuting agency on the court.",
+            "registryNotice": "The court sends the petition to the prosecuting agency within 10 days of filing.",
+            "instructionsSay": "The court sends the petition to the prosecuting agency within 10 days."
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "instrument": "the registry track's 8 selfHelpStopConditions and 3 exclusions searched for, condition by condition, across participant-instructions.md and both fixture PDFs",
+          "result": "FAIL",
+          "finding": "The packet states one narrow handoff sentence and omits five of the eight recorded stop conditions. Two of the five are hard eligibility boundaries the registry also records as exclusions — conduct on or after 12 July 2021, and a sale or any other non-listed marijuana offence — which a self-represented petitioner cannot be expected to know and which decide whether the petition is eligible at all. A third is the immigration warning that every other family in this cohort carries. Searched the whole family directory, not just the instructions: no file in it contains 'July 12', 'immigration', 'sale', 'appeal' or 'challenge the underlying', and the family carries no self-help-stop structure of any kind, while all four composed-pleading families in this cohort carry a SELF_HELP_STOP participant-facing obligation plus a full stop list.",
+          "evidence": {
+            "registryStopConditionsRecorded": 8,
+            "carriedByPacket": 3,
+            "omitted": 5,
+            "omittedConditions": [
+              "Conduct date is on or after July 12, 2021.",
+              "The offense is a sale or any other non-listed marijuana offense.",
+              "The petitioner wants to challenge the underlying conviction rather than expunge it.",
+              "A denial the petitioner wants to appeal.",
+              "Immigration consequences are in play."
+            ],
+            "alsoRecordedAsRegistryExclusions": [
+              "Any conduct occurring on or after July 12, 2021.",
+              "Any marijuana offense outside the three statutory descriptions, including sale."
+            ],
+            "theOnlyStopSentenceInThePacket": "Opposition, disputed evidence, or a contested hearing requires a post-generation handoff.",
+            "wholeFamilyGrep": {
+              "July 12": 0,
+              "immigration": 0,
+              "sale": 0,
+              "appeal": 0,
+              "challenge the underlying": 0
+            },
+            "selfHelpStopStructureInFamily": "none — no file in the family directory carries selfHelpStop, stopCondition or SELF_HELP"
+          }
+        }
+      },
+      "failedProofObligations": [
+        "SELF_HELP_STOP"
+      ],
+      "notMeasurableHere": []
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "lane": "VF07",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33923497915",
+        "boundToCanonicalSha256": true,
+        "boundToBoundarySha256": false
+      },
+      "fixturesMoved": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "instrument": "three declared route keys compared across field map, source receipt and product wiring, then checked against the printed footer of every rendered page (whitespace-normalised)",
+          "result": "PASS",
+          "finding": "All three records declare the same three route keys, they match the registry tracks ms-drug-cd, ms-dui and ms-mip, and every one of the 25 assembled pages carries its own route's key in its footer. Each of the three route fixtures likewise carries its key on every page.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+              "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+              "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
+            ],
+            "assembledPagesCarryingTheirRouteKey": "25/25",
+            "routeFixturePagesMissingFooter": "none in any of the 6 route fixtures",
+            "footerCheckWhitespaceNormalised": true
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "instrument": "each committed record rehashed from the bytes in the tree at this base",
+          "result": "PASS",
+          "finding": "All three committed records rehash exactly, with byte lengths agreeing. This family binds repository records rather than a Master Library binary (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT), which the receipt states on its face.",
+          "evidence": {
+            "records": [
+              {
+                "path": "data/record-clearing/legal-design-track-registry.json",
+                "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+                "recomputed": "match",
+                "byteLength": 16586150
+              },
+              {
+                "path": "data/record-clearing/legal-design-specifications.json",
+                "sha256": "f66ce335d73a879352e4...",
+                "recomputed": "match",
+                "byteLength": 16829391
+              },
+              {
+                "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+                "sha256": "9816a479e532017f630e...",
+                "recomputed": "match",
+                "byteLength": 2607149
+              }
+            ],
+            "allSourcesExactClaim": true,
+            "allSourcesExactVerified": true
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "instrument": "registry packetSet.components for all three tracks (the packet-set manifest) compared against rendered componentSet, the per-route pageManifest and the headings read from the PDF bytes",
+          "result": "PASS",
+          "finding": "The packet-set manifest names five required components per track — primary filing, proposed order, certificate of service, attachment and instructions — 15 in all. All 15 are rendered and all 15 appear in the participant instructions' component table. Read from the manifest rather than from the field map: customPleadingSpecs lists only three per track because it covers only the custom_pleading-strategy components, and reading that instead would have understated the required set by six.",
+          "evidence": {
+            "manifestComponentsPerTrack": 5,
+            "manifestComponentsTotal": 15,
+            "renderedComponents": 15,
+            "missing": 0,
+            "note": "customPleadingSpecs names 3/track (the custom_pleading components only); registry packetSet names 5/track and is the packet-set manifest"
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "instrument": "all 36 recorded writes searched for in text extracted from both fixtures and checked against the declared page",
+          "result": "PASS",
+          "finding": "All 36 writes are present in the output bytes on their declared pages in both fixtures. The held facts — name, date of birth, mailing address, telephone, email — are written on every route's petition, certificate of service and instructions page.",
+          "evidence": {
+            "canonical": {
+              "writes": 36,
+              "presentInBytes": 36,
+              "onDeclaredPage": 36,
+              "addedGlyphs": 660
+            },
+            "boundary": {
+              "writes": 36,
+              "presentInBytes": 36,
+              "onDeclaredPage": 36,
+              "addedGlyphs": 1536
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "instrument": "all 59 declared requiredBeforeFiling items matched against participant-instructions.md by disclosure label, printed context and participant-must-supply text",
+          "result": "PASS",
+          "finding": "All 59 are named in the file — in the 'Documents you must obtain before filing' table and the per-component 'items you must supply' tables.",
+          "evidence": {
+            "declared": 59,
+            "namedInInstructions": 59,
+            "missing": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "instrument": "field map routeSelectionsMade and selectionControls across all 15 maps",
+          "result": "PASS",
+          "finding": "Vacuously satisfied: no election control is printed on any page. The route is chosen by which set of pages the participant uses, and the instructions carry a which-pages-are-yours table plus a per-page footer. routeSelectionsMade records one selection per route, each stated on that route's own pages.",
+          "evidence": {
+            "selectionControls": 0,
+            "routeSelectionsMade": 3,
+            "requiredOptionsMissing": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "instrument": "the repository's own rowKeyOf/classifyField over all 125 fields, groups printed and inspected",
+          "result": "PASS",
+          "finding": "No row group at all across 125 fields — these are composed pleadings with labelled dotted blanks, not tabular forms. No statutory numeral was parsed as a group marker here.",
+          "evidence": {
+            "fields": 125,
+            "rowGroups": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "instrument": "every signature, date, judge and prosecutor line read from the rendered bytes of all pages, plus refusedFieldsWithInk",
+          "result": "PASS",
+          "finding": "Every proposed order carries 'ORDERS that ....', 'DATED ....' and the judge's signature rule blank, under a printed statement that every decision on the page is the court's. Every certificate of service carries 'DATE .... SIGNATURE OF PETITIONER ....' blank under an instruction not to sign before delivery. No refused field carries ink in either fixture.",
+          "evidence": {
+            "refusedFieldsWithInk": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "protectedWrites": 0,
+            "proposedOrdersChecked": 3,
+            "certificatesOfServiceChecked": 3
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "instrument": "sha256 recomputed from fixtures/canonical.pdf and fixtures/boundary.pdf on disk, compared against reports/rendered-artifacts.json, RASTER_QUEUE.json and the product-wiring acceptance receipt, plus the six per-route fixtures rehashed against their routeArtifacts entries",
+          "result": "PASS",
+          "finding": "The two assembled fixtures and all six per-route fixtures hash exactly to what the records name, with byte lengths and page counts agreeing.",
+          "evidence": {
+            "canonical": {
+              "sha256": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+              "byteLength": 74867,
+              "pages": 25,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": true
+            },
+            "boundary": {
+              "sha256": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+              "byteLength": 76118,
+              "pages": 25,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": false
+            },
+            "routeFixtures": "6/6 hash-exact (ms-drug-cd 8pp, ms-dui 9pp, ms-mip 8pp; canonical and boundary each)",
+            "fixturesMoved": false
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "instrument": "each route fixture's pageManifest compared page by page against the heading read from that page of the PDF bytes, and the assembled 25-page packet compared against the concatenation of the three route manifests",
+          "result": "PASS",
+          "finding": "Every component's first page carries the heading the manifest names for it, in every one of the six route fixtures. The assembled packet is exactly drug-cd pages 1-8, dui pages 9-17, mip pages 18-25, which is the three manifests in their declared order.",
+          "evidence": {
+            "routeFixturesChecked": 6,
+            "componentFirstPagesMatchingManifestHeading": "all",
+            "assembledOrder": {
+              "ms-drug-cd": "1-8",
+              "ms-dui": "9-17",
+              "ms-mip": "18-25",
+              "total": 25
+            }
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "instrument": "byte-derived nonWhitespaceGlyphsOutsideMeasuredWriteBoxes for both fixtures, plus a read of the rendered text for collided or truncated values",
+          "result": "PASS",
+          "finding": "No ink outside a measured write box in either fixture, including the boundary fixture whose longer values add 876 glyphs over canonical.",
+          "evidence": {
+            "canonical": {
+              "outsideMeasuredBoxes": 0
+            },
+            "boundary": {
+              "outsideMeasuredBoxes": 0
+            }
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "instrument": "registry destination.name, venue and rules.filing for all three tracks compared against participant-instructions.md",
+          "result": "PASS",
+          "finding": "All three destinations are named per route, including the DUI venue trap — the petition goes to the circuit court of the county of conviction and not to the municipal or justice court that entered the conviction, which the instructions state expressly with the Attorney General's reason.",
+          "evidence": {
+            "ms-drug-cd": "Clerk of the court that granted the conditional discharge",
+            "ms-dui": "Circuit clerk of the county of conviction (venue trap stated expressly)",
+            "ms-mip": "Clerk of the court that disposed of the charge"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "instrument": "registry rules.fees and rules.feeWaiver for all three tracks compared against participant-instructions.md",
+          "result": "PASS",
+          "finding": "Stated per route, in the record's own words: no amount is published, § 99-19-72's fee does not reach these sections by its terms, the participant confirms with the clerk, and no fee waiver is established.",
+          "evidence": {
+            "tracksWithFeeStated": 3,
+            "tracksWithWaiverStated": 3
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "instrument": "registry rules.service and rules.notice for all three tracks compared against participant-instructions.md and the rendered certificate-of-service pages",
+          "result": "PASS",
+          "finding": "Stated per route — United States mail or hand delivery evidenced by the certificate of service, with the prosecuting authority or district attorney receiving a copy — and each route carries its own certificate of service page.",
+          "evidence": {
+            "tracksWithServiceStated": 3,
+            "tracksWithNoticeStated": 3,
+            "certificateOfServicePages": 3
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "instrument": "every selfHelpStopCondition on all three registry tracks matched against participant-instructions.md",
+          "result": "PASS",
+          "finding": "All 15 recorded stop conditions across the three tracks are carried, each as its own 'Stop and get help if' clause, including the standing DUI condition that every DUI packet carries mandatory attorney review before filing.",
+          "evidence": {
+            "ms-drug-cd": "5/5",
+            "ms-dui": "6/6",
+            "ms-mip": "4/4",
+            "total": "15/15"
+          }
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": []
     }
   ],
   "obligationSet": [
@@ -7403,6 +8067,38 @@
       "rowsAfter": 9,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "readAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "familiesRead": [
+        "az_marijuana_expungement_limited_jurisdiction-set",
+        "rcap-ms-custom-pleading"
+      ],
+      "claimAsserted": "CLAIM_OK for every family before any family artifact was read; grant set d2e6225fe9f84828",
+      "claimsReleased": 0,
+      "claimReleaseNote": "Releasing is Captain's, not a worker's: this lane's prompt says the Captain releases centrally after integrating the bounded return.",
+      "preflight": "12/13 registered applicable checks pass. The one failure is corpus_matches_committed_index: 14 of 350 mounted master_library entries are absent from this container (AL_ABPP-3, CA CR-432, MO CR310/CR143/CR370/CR311, NC AOC-CR-293 x2 and AOC-G-260, UT 1501CR/1501CR-C/1502CR/1001EX/1021EX), 0 mismatched. None is an AZ, MS, IN or NY source, so no family in this read is affected, and family_sources_bind passes. This is an environment fact about this container, recorded as such and not as a packet defect.",
+      "custodiesMounted": [
+        "master_library",
+        "human_source_returns"
+      ],
+      "custodiesNotMounted": [
+        "d_source_packs",
+        "nationwide_recovery_pool_2026_09_02"
+      ],
+      "sourceResolution": "by content hash across all 500 files of the two mounted custodies, not by declared path",
+      "instrumentsUsed": [
+        "sha256 recomputed from every fixture and every bound source in the tree",
+        "pdftotext -layout and -bbox for page text and word geometry; pdfinfo for page counts",
+        "the repository's own rowKeyOf and classifyField, with every resulting row group printed and inspected rather than counted",
+        "the registry packetSet (the packet-set manifest) for COMPONENT_SET, deliberately NOT the field map",
+        "whitespace-normalised route-key footer matching, because the key wraps across lines in three of these five families"
+      ],
+      "trapsChecked": {
+        "wrappedRouteKeyFooter": "found wrapped in in_infraction_nondisclosure-set and the NY 160.55 family; a single-string match would have reported it absent on every page",
+        "statutoryNumeralAsRowGroup": "one invented group in az_marijuana (item3::item3-case, from the AOC form's numbered paragraph 3). It is benign — one written cell, no blank required cell — and no 199-group explosion occurred in any family"
+      }
     }
   ],
   "vt15Read": {

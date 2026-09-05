@@ -5366,6 +5366,269 @@
       "productionTouched": false,
       "repairedNothing": true,
       "grantsNothing": "This independent failure is a repair verdict only. It promotes nothing, opens no commercial route and approves no participant output."
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "lane": "VF09",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading",
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33923497915",
+        "boundToCanonicalSha256": true,
+        "boundToBoundarySha256": false
+      },
+      "fixturesMoved": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "instrument": "route keys compared across field map, source receipt and product wiring, then checked against the printed footer of every rendered page with whitespace normalised",
+          "result": "PASS",
+          "finding": "All three records declare the same route key(s). The printed footer is present — it appears on the last page of each component, and in this family it WRAPS ACROSS TWO LINES, which reads as absent to any check that matches the key as a single unbroken string. Normalising whitespace before matching found it. This is the wrapped-footer trap in its live form: the key breaks mid-token as '...transmission_correction_r' / 'equest'. A single-string match reports it absent on every page.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+            ],
+            "footerPresentOnPages": [
+              2,
+              4
+            ],
+            "footerWrapsAcrossLines": true,
+            "footerCheckWhitespaceNormalised": true,
+            "footerConvention": "one footer per component, on that component's last page"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "instrument": "each committed/grounding record rehashed from the bytes in the tree at this base",
+          "result": "PASS",
+          "finding": "Both committed records rehash exactly, with byte lengths agreeing.",
+          "evidence": {
+            "records": [
+              {
+                "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+                "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+                "recomputed": "match",
+                "byteLength": 184365,
+                "anchorStatementsVerified": 8
+              },
+              {
+                "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+                "recomputed": "match",
+                "byteLength": 2607149,
+                "anchorStatementsVerified": 3
+              }
+            ],
+            "allSourcesExactClaim": true,
+            "allSourcesExactVerified": true,
+            "note": "The route record's missingImplementationWork names 'acquire and verify exact official-source custody for this decision-only route'. That is outstanding product work on the route, not a defect in this packet's binding: the packet binds what it says it binds, exactly, and states on its face that it composes from committed records rather than an official form."
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "instrument": "the route's own packet-set record (registry packetSet where the route has a track; the committed route-obligation census and legal decision where it does not) compared against rendered componentSet and the headings read from the PDF bytes",
+          "result": "PASS",
+          "finding": "This route has no registry track and no packetSet, so the component set is measured against what the route record and the controlling legal decision name: a written request to the sentencing court, with the decision's product disposition recorded as GUIDANCE + CORRECTION REQUEST and INITIAL PETITION: NONE FOR ORDINARY MODERN CASE. The packet composes exactly those two components and composes no petition, which is what the record requires.",
+          "evidence": {
+            "routeRecordInstrument": "written request asking the sentencing court to transmit or correct the § 160.55 sealing notice",
+            "decisionProductDisposition": "GUIDANCE + CORRECTION REQUEST; INITIAL PETITION: NONE FOR ORDINARY MODERN CASE",
+            "renderedComponents": [
+              "ny-160-55-sentencing-court-correction-request-1",
+              "ny-160-55-process-guidance-2"
+            ],
+            "packetSetIdInRouteRecord": null,
+            "missing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "instrument": "every recorded write searched for in text extracted from both fixtures and checked against its declared page",
+          "result": "PASS",
+          "finding": "All 6 writes are present in the output bytes on their declared pages in both fixtures. The facts the platform holds for this route are the ones written; every case fact the route requires is a labelled dotted blank.",
+          "evidence": {
+            "canonical": {
+              "writes": 6,
+              "presentInBytes": 6,
+              "onDeclaredPage": 6,
+              "addedGlyphs": 107
+            },
+            "boundary": {
+              "writes": 6,
+              "presentInBytes": 6,
+              "onDeclaredPage": 6,
+              "addedGlyphs": 242
+            }
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "instrument": "every declared requiredBeforeFiling item matched against participant-instructions.md by disclosure label, printed context and participant-must-supply text",
+          "result": "PASS",
+          "finding": "All 4 declared items are named in the file.",
+          "evidence": {
+            "declared": 4,
+            "namedInInstructions": 4,
+            "missing": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "instrument": "field map routeSelectionsMade and selectionControls",
+          "result": "PASS",
+          "finding": "Vacuously satisfied: no election control is printed on any page and the route determines none. routeSelectionNote records one route and one instrument set, with no election control on any composed page.",
+          "evidence": {
+            "selectionControls": 0,
+            "requiredOptionsMissing": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "instrument": "the repository's own rowKeyOf/classifyField over every field, groups printed and inspected",
+          "result": "PASS",
+          "finding": "No row group at all across 12 fields — composed pleadings with labelled dotted blanks, not tabular forms. No statutory numeral was parsed as a group marker here.",
+          "evidence": {
+            "fields": 12,
+            "rowGroups": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "instrument": "every signature, date, judge, court-only and prosecutor line read from the rendered bytes, plus refusedFieldsWithInk",
+          "result": "PASS",
+          "finding": "'DATE .... SIGNATURE ....' on page 2 is blank under a printed statement that nothing on the page is signed or dated for the person named. No refused field carries ink in either fixture.",
+          "evidence": {
+            "refusedFieldsWithInk": {
+              "canonical": 0,
+              "boundary": 0
+            },
+            "protectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "instrument": "sha256 recomputed from fixtures/canonical.pdf and fixtures/boundary.pdf on disk, compared against reports/rendered-artifacts.json, RASTER_QUEUE.json and the product-wiring acceptance receipt",
+          "result": "PASS",
+          "finding": "Both fixtures hash exactly to what every record names, with byte lengths and page counts agreeing. The RASTER_PASS receipt from run 33923497915 binds the canonical hash that is on disk now.",
+          "evidence": {
+            "canonical": {
+              "sha256": "33b7a79fa4e548efce7fa838619cb75512cf83dce3345e291baa28277d84566f",
+              "byteLength": 12695,
+              "pages": 4,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": true
+            },
+            "boundary": {
+              "sha256": "852ac343783cda7d51a7f4c7850d5402d2663806c6a308138b51caf8737e3991",
+              "byteLength": 12854,
+              "pages": 4,
+              "matchesRenderedArtifacts": true,
+              "matchesRasterQueue": true,
+              "boundByAcceptanceReceipt": false
+            },
+            "fixturesMoved": false
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "instrument": "page count and per-page content read from the PDF bytes, compared against the declared component order",
+          "result": "PASS",
+          "finding": "Correction request pages 1-2 then process guidance pages 3-4, which is the declared component order.",
+          "evidence": {
+            "declaredPages": 4,
+            "renderedPages": 4,
+            "order": [
+              "ny-160-55-sentencing-court-correction-request-1 (pp1-2)",
+              "ny-160-55-process-guidance-2 (pp3-4)"
+            ]
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "instrument": "byte-derived nonWhitespaceGlyphsOutsideMeasuredWriteBoxes for both fixtures, plus a read of the rendered text for collided or truncated values",
+          "result": "PASS",
+          "finding": "No ink outside a measured write box in either fixture, including the boundary fixture's longer values.",
+          "evidence": {
+            "canonical": {
+              "outsideMeasuredBoxes": 0
+            },
+            "boundary": {
+              "outsideMeasuredBoxes": 0
+            }
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "instrument": "the route record's destination compared against participant-instructions.md and the rendered pages",
+          "result": "PASS",
+          "finding": "The request page is addressed 'TO: The clerk of the New York court that sentenced you in this case', and the instructions record the same destination the census records in one word: sentencing court.",
+          "evidence": {
+            "recordedDestination": "sentencing court"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "instrument": "the route record's fee and fee-waiver rules compared against participant-instructions.md and the rendered pages",
+          "result": "PASS",
+          "finding": "Stated: no participant filing arises in the ordinary case so no filing fee does either, and the two costs that may arise — the certificate of disposition and the criminal-history result — are named as not being filing fees, with the office that answers each. A recorded non-statement delegated to a named office rather than an invented amount.",
+          "evidence": {
+            "recordSays": "no committed record states what either costs",
+            "officesNamed": [
+              "clerk of the sentencing court",
+              "New York State Division of Criminal Justice Services"
+            ]
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "instrument": "the route record's service and notice rules compared against participant-instructions.md and the rendered pages",
+          "result": "PASS",
+          "finding": "Stated, and stated correctly for this route: nothing is served because in the ordinary case nothing is filed; the clerk notifies DCJS and the appropriate law-enforcement agencies, and the request page is a letter to the court rather than a pleading served on an opposing party.",
+          "evidence": {
+            "recordSays": "the clerk notifies DCJS and appropriate law-enforcement agencies",
+            "participantServesNoOne": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "instrument": "every recorded stop condition matched against participant-instructions.md and the rendered pages",
+          "result": "PASS",
+          "finding": "All five recorded stop conditions are carried, on the guidance page and in the instructions file, including the interests-of-justice nonsealing order that turns the route into a motion or counsel, and the immigration condition.",
+          "evidence": {
+            "recorded": 5,
+            "carried": 5,
+            "conditions": [
+              "a prior interests-of-justice nonsealing order",
+              "a pre-November 1, 1991 qualifying case",
+              "a DWAI, which engages CPL § 160.57(1)(a)",
+              "needing the courthouse file closed, which § 160.55 does not do",
+              "any immigration question"
+            ]
+          }
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "nonBlockingFindings": [
+        "Non-blocking finding, reported to Captain as shared tooling rather than scored as a failure: one blank that the packet actually renders is absent from production-field-map.json, so it is invisible to all nine counters and is the one rendered blank not itemised in the instructions' 'items you must supply' table. It does not fail any of the fifteen — it is not a fact the platform holds, and every DECLARED required-before-filing item is named — but the declared blank set understates the rendered one, and IN and MS map the same caption shape that this family leaves unmapped. Here the unmapped blank is the addressee block 'Exact office and postal address, confirmed with that office:' at the head of the request page — the line that says where the letter is sent. The instructions do tell the participant to send it to the clerk of the sentencing court at step 3, so the participant is not left without direction."
+      ]
     }
   ],
   "obligationSet": [
@@ -5444,6 +5707,37 @@
         "scripts/rcap-packet-completeness/completeness-contract.mjs rowKeyOf, imported directly, to find named repeating-row structures"
       ],
       "residualLimit": "Text geometry cannot see raster ink, vector rules, field borders, background images, or any glyph without extractable text. Where a defect would only be visible as pixels, this lane says so and leans on the central raster receipt, whose bytes it did not inspect."
+    },
+    {
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "readAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "familiesRead": [
+        "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+      ],
+      "claimAsserted": "CLAIM_OK for every family before any family artifact was read; grant set d2e6225fe9f84828",
+      "claimsReleased": 0,
+      "claimReleaseNote": "Releasing is Captain's, not a worker's: this lane's prompt says the Captain releases centrally after integrating the bounded return.",
+      "preflight": "12/13 registered applicable checks pass. The one failure is corpus_matches_committed_index: 14 of 350 mounted master_library entries are absent from this container (AL_ABPP-3, CA CR-432, MO CR310/CR143/CR370/CR311, NC AOC-CR-293 x2 and AOC-G-260, UT 1501CR/1501CR-C/1502CR/1001EX/1021EX), 0 mismatched. None is an AZ, MS, IN or NY source, so no family in this read is affected, and family_sources_bind passes. This is an environment fact about this container, recorded as such and not as a packet defect.",
+      "custodiesMounted": [
+        "master_library",
+        "human_source_returns"
+      ],
+      "custodiesNotMounted": [
+        "d_source_packs",
+        "nationwide_recovery_pool_2026_09_02"
+      ],
+      "sourceResolution": "by content hash across all 500 files of the two mounted custodies, not by declared path",
+      "instrumentsUsed": [
+        "sha256 recomputed from every fixture and every bound source in the tree",
+        "pdftotext -layout and -bbox for page text and word geometry; pdfinfo for page counts",
+        "the repository's own rowKeyOf and classifyField, with every resulting row group printed and inspected rather than counted",
+        "the registry packetSet (the packet-set manifest) for COMPONENT_SET, deliberately NOT the field map",
+        "whitespace-normalised route-key footer matching, because the key wraps across lines in three of these five families"
+      ],
+      "trapsChecked": {
+        "wrappedRouteKeyFooter": "found wrapped in in_infraction_nondisclosure-set and the NY 160.55 family; a single-string match would have reported it absent on every page",
+        "statutoryNumeralAsRowGroup": "one invented group in az_marijuana (item3::item3-case, from the AOC form's numbered paragraph 3). It is benign — one written cell, no blank required cell — and no 199-group explosion occurred in any family"
+      }
     }
   ],
   "assignmentId": "VF09",

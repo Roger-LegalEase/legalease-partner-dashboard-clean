@@ -137,6 +137,44 @@
       ],
       "everyOtherObligationMeasuredAndPassing": true,
       "doNotRepairHere": "VF08 verifies and never repairs. This is an assignment, not an edit."
+    },
+    {
+      "itemId": "in_infraction_nondisclosure-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "decisiveDefect": "One of the three records this family binds as a source no longer hashes to what source-receipt.json declares, so the receipt's own allSourcesExact:true is a false statement about the tree at this base. Declared: 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3,677,637 bytes. Recomputed from the bytes: 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3,683,419 bytes.",
+      "failedProofObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "data/record-clearing/legal-design-packet-set-manifests.json does not bind. The other two grounding records do bind exactly (IN.memo.json 176,778 bytes and the stage-2 dependency.json 8,069 bytes both rehash to their declared digests). The digest was correct when this family was built on 2026-09-02; the shared manifest has since been rewritten four times on 2026-09-04 by unrelated route-productization commits — 1061539c4 'Productize first Grade-A route cohort', 07804aa68 'Productize Illinois felony prostitution packet route', 7580cc750 'Productize Connecticut Clean Slate petition route' and d798dc66b 'Productize DC misattributed-arrest route' — which added a top-level factoryV2RouteMigrations key and other routes' entries. THIS FAMILY'S OWN ENTRY IN THAT MANIFEST IS BYTE-IDENTICAL before and after the drift, compared directly at 1061539c4~1 against HEAD, so the packet's contents are unaffected and no PDF rebuild is implied."
+        }
+      ],
+      "whyNoCounterCaughtIt": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs resolves source currentness from the receipt's own allSourcesExact boolean whenever that key is present, and never recomputes a digest. This family's receipt sets it true and its documents[] is empty, so the boolean decided currentness=EXACT and the visualDefects counter stayed 0. Independently measured here, visualDefects is 1.",
+      "repair": {
+        "narrow": "Re-anchor this family's source-receipt.json entry for legal-design-packet-set-manifests.json to the current bytes (sha256 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec, byteLength 3683419), or re-derive the receipt. The packet PDFs do not change.",
+        "structural": "Decide whether a mutable repository record that other lanes routinely rewrite should be bound as a 'source' at all. Binding a file whose digest changes whenever an unrelated route is productized makes every family that binds it fail SOURCE_IDENTITY on someone else's commit. If it stays bound, the binding wants to be to this family's own entry rather than to the whole file.",
+        "tooling": "verify-packet-completeness.mjs should recompute the digest rather than trusting allSourcesExact, otherwise this class of drift is undetectable by the nine counters for any family whose receipt sets the boolean and carries no documents[]."
+      },
+      "fleetScope": {
+        "familiesBindingThisFile": 12,
+        "familiesNoLongerBindingExact": 7,
+        "othersAffected": [
+          "ct-pardon-erasure-set",
+          "ky_criminal_record_segregation-set",
+          "la-987-set-aside-and-dismiss-set",
+          "ne-expunge-le-error-set",
+          "ri_marijuana-set",
+          "vt_exp_deferred_sentence-set"
+        ],
+        "note": "Only in_infraction_nondisclosure-set is claimed by this lane; the other six are named so a repair lane can scope the fix once rather than six times. This lane asserts no claim over them and read none of their artifacts."
+      },
+      "whatIsNotWrong": [
+        "The other fourteen obligations pass, measured here: both fixtures hash to what every record names and have not moved; both writes are present in the bytes on their declared pages; the signature, date, court-order and judge blocks are all blank; both unit route keys are printed in the footer (wrapped across two lines, found by whitespace-normalised matching); both manifest components are rendered in the manifest's declared order; and filing destination, fee, service and all four stop conditions are stated.",
+        "The earlier VF07 row for this family, PASS_COMPLETE_INDEPENDENT at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666, described a different packet: at that base the stage-2 petition was deliberately absent and the family was scored as a guidance-only deliverable. The petition is present at this base under the Q7 owner correction."
+      ],
+      "suggestedRepairScope": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/source-receipt.json, and the binding discipline for data/record-clearing/legal-design-packet-set-manifests.json. This lane verifies and does not repair; no file in the family was edited."
     }
   ],
   "fableVtaAssignments": {
@@ -173,5 +211,18 @@
         "reVerificationRequired": true
       }
     ]
+  },
+  "vfcAppend": {
+    "verifier": "VF-C (independent verification cohort; built none of these packets)",
+    "readAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+    "appended": [
+      "in_infraction_nondisclosure-set"
+    ],
+    "familiesReadInThisLane": [
+      "az_wrongful_arrest_clearance-set",
+      "in_infraction_nondisclosure-set"
+    ],
+    "noFailuresInThisLane": false,
+    "grantsNothing": "A repair assignment is a verdict and a specification. It opens no commercial route, approves no output, and authorises no edit by this lane."
   }
 }

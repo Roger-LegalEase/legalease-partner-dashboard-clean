@@ -379,7 +379,17 @@
         "Inspect all 26 regenerated pages, including the pardon control, both request tables and the complete charge value.",
         "Obtain a new hash-bound RASTER_PASS if either fixture byte changes, then perform a new independent fifteen-obligation read."
       ],
-      "obligationsThatPassAndMustSurviveRepair": ["ROUTE_IDENTITY","SOURCE_IDENTITY","COMPONENT_SET","REQUIRED_BEFORE_FILING","PROTECTED_FIELDS","ARTIFACTS","PAGE_ORDER","FEE_AND_WAIVER","SELF_HELP_STOP"],
+      "obligationsThatPassAndMustSurviveRepair": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
       "scopeLimit": "Repair the exact family and its own builder under a repair grant. This verification lane edits neither and opens no commercial route."
     },
     {
@@ -402,8 +412,65 @@
         "Confirm all eight current component ids remain present and ordered in both seventeen-page fixtures.",
         "Admit only a fresh complete-coverage raster receipt bound to e94f1370... and bca669c0..., then perform a new independent fifteen-obligation read."
       ],
-      "obligationsThatPassAndMustSurviveRepair": ["ROUTE_IDENTITY","SOURCE_IDENTITY","COMPONENT_SET","KNOWN_PREFILLS","REQUIRED_BEFORE_FILING","ROUTE_OPTIONS","REPEATING_ROWS","PROTECTED_FIELDS","PAGE_ORDER","CLIPPING_AND_OVERLAP","FILING_DESTINATION","FEE_AND_WAIVER","SERVICE","SELF_HELP_STOP"],
+      "obligationsThatPassAndMustSurviveRepair": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
       "scopeLimit": "Refresh artifact identity under a repair grant without changing packet content unless a separately measured defect requires it. This lane opens no route and approves no output."
+    },
+    {
+      "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "verifier": "VF-C (independent verification cohort; built none of these packets)",
+      "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+      "decisiveDefect": "The packet never tells the participant where self-help ends. The committed track registry records eight selfHelpStopConditions for az_marijuana_expungement_limited_jurisdiction and the packet carries one paraphrased sentence covering three of them. Five are absent from the entire family directory, and two of those five are hard eligibility boundaries the registry ALSO records as exclusions: conduct on or after 12 July 2021, and a sale or any other non-listed marijuana offence. A petitioner outside either boundary is not eligible under A.R.S. § 36-2862 at all, and nothing in this packet tells them so before they file. The immigration condition, which every other family in this cohort carries, is also absent.",
+      "failedProofObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Registry track az_marijuana_expungement_limited_jurisdiction records 8 selfHelpStopConditions (and 9 selfHelpBoundaries, and 3 exclusions). participant-instructions.md carries exactly one stop-adjacent sentence: 'Opposition, disputed evidence, or a contested hearing requires a post-generation handoff.' — a paraphrase of the single postGenerationHandoffs entry. It covers conditions 1-3. Conditions 4-8 appear nowhere. This was measured by searching the WHOLE family directory, not only the instructions: grep -ril over all 14 files for 'July 12', 'immigration', 'sale', 'appeal' and 'challenge the underlying' returns nothing, and no file in the family carries selfHelpStop, stopCondition or SELF_HELP in any form. The '2021' hits in the canonical PDF are the fixture case number M-2021-004217 and are unrelated. By contrast, all four composed-pleading families read in this same cohort carry a SELF_HELP_STOP entry in the field map's participantFacingObligations AND a 'When to stop and get help instead of filing' section enumerating every recorded condition (az_wrongful 4/4, in_infraction 4/4, ms 15/15 across three tracks, ny 5/5). The gap tracks the builder, not the state: this is the official_pdf_fill path, which emits neither structure."
+        }
+      ],
+      "omittedStopConditionsVerbatim": [
+        "Conduct date is on or after July 12, 2021.",
+        "The offense is a sale or any other non-listed marijuana offense.",
+        "The petitioner wants to challenge the underlying conviction rather than expunge it.",
+        "A denial the petitioner wants to appeal.",
+        "Immigration consequences are in play."
+      ],
+      "alsoRecordedAsRegistryExclusions": [
+        "Any conduct occurring on or after July 12, 2021.",
+        "Any marijuana offense outside the three statutory descriptions, including sale."
+      ],
+      "whereTheContentIs": {
+        "record": "data/record-clearing/legal-design-track-registry.json",
+        "trackId": "az_marijuana_expungement_limited_jurisdiction",
+        "fields": [
+          "selfHelpStopConditions (8)",
+          "selfHelpBoundaries (9)",
+          "exclusions (3)",
+          "scopeRestrictions (2)"
+        ],
+        "note": "The content already exists in the bound record and is carried verbatim by the composed-pleading builder for other families. Nothing new needs to be researched or drafted; it needs to reach participant-instructions.md."
+      },
+      "whatIsNotWrong": [
+        "All nine completeness counters are independently zero. This defect is invisible to every one of them, which is why the family has stood at PASS_COMPLETE through the builder's own count and through the visual gate.",
+        "The other fourteen obligations pass, measured here: the single Master Library source rehashes exactly and resolves by content hash to its declared archive path; both fixtures hash to what every record names; all 12 writes land inside their own measured write boxes in both fixtures; no protected field carries ink; all 7 declared required-before-filing items are named; filing destination, fee and waiver are stated and match the registry.",
+        "The fixtures have not moved. No rebuild of the PDFs is implied — the repair is to participant-facing prose."
+      ],
+      "suggestedRepairScope": "participant-instructions.md for this family, and the official_pdf_fill builder path that generates it. This lane verifies and does not repair; no file in the family was edited."
     }
   ],
   "fableVcAppend": {
@@ -489,5 +556,18 @@
     "appendedBy": "FABLE-RVC",
     "appendedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
     "added": 1
+  },
+  "vfcAppend": {
+    "verifier": "VF-C (independent verification cohort; built none of these packets)",
+    "readAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+    "appended": [
+      "az_marijuana_expungement_limited_jurisdiction-set"
+    ],
+    "familiesReadInThisLane": [
+      "az_marijuana_expungement_limited_jurisdiction-set",
+      "rcap-ms-custom-pleading"
+    ],
+    "noFailuresInThisLane": false,
+    "grantsNothing": "A repair assignment is a verdict and a specification. It opens no commercial route, approves no output, and authorises no edit by this lane."
   }
 }
