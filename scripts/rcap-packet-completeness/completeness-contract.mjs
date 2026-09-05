@@ -50,6 +50,31 @@ export const REQUIRED_BEFORE_FILING_CONDITIONS = [
   "DISCLOSED: the item is named in the packet's participant-instructions.md. Without the disclosure the blank is a required fact nobody was asked for, which is what requiredFactsNotCollected counts."
 ];
 
+/**
+ * The conditions a declared NOT_APPLICABLE_ON_THIS_ROUTE must meet.
+ *
+ * BLANK_DISPOSITIONS has always said this disposition "requires a named route
+ * condition, not a general statement that the build does not fill it", and
+ * until now nothing could supply one: classifyBlank accepted the name as in
+ * vocabulary and then fell through to class inference and the APPROVED_REASONS
+ * prose table, whose only routes to this disposition are the attorney-only and
+ * viewer-control patterns. So a packet whose route genuinely does not reach a
+ * blank had two options, and both were wrong: word a refusal until it matched
+ * one of those regexes, or leave the blank unclassified and carry the counter.
+ *
+ * Three New Mexico families measured it first hand -- Form 4-960.1 NMRA carries
+ * four service blocks, twenty blanks, and on the identity-theft track Rule
+ * 1-077.1(E) serves nobody -- and a Maryland builder had already written the
+ * same finding into a comment. The gate below is the declared channel those
+ * families needed, on the terms the disposition already stated.
+ */
+export const NOT_APPLICABLE_CONDITIONS = [
+  "DECLARED: the field-map row states the disposition. Prose is never read for it.",
+  "NAMED: the row carries routeConditionThatMakesItInapplicable, naming the branch of the form, the rule, or the route fact that puts this blank outside the route. A statement that the build does not fill it is not a route condition.",
+  "GENUINELY UNREACHED: the packet holds no value for the fact and writes none elsewhere. A fact the packet writes on another component is reached by this route.",
+  "NOT ROUTE-DETERMINED-AND-UNMADE: a route election this route DOES use may never be inapplicable. Declaring both routeDetermined and this disposition is a contradiction and refuses."
+];
+
 /** Field requirements a participant may complete themselves. */
 export const PARTICIPANT_COMPLETABLE_REQUIREMENTS = new Set([
   "REQUIRED_KNOWN", "OPTIONAL_OR_REQUIRED_BEFORE_FILING", "UNKNOWN"
@@ -70,7 +95,9 @@ export const BLANK_DISPOSITIONS = {
   NOT_APPLICABLE_ON_THIS_ROUTE: {
     allowed: true,
     meaning: "The field belongs to a branch of the form this route does not use.",
-    requires: "A named route condition, not a general statement that the build does not fill it."
+    requires: "A named route condition, not a general statement that the build does not fill it.",
+    declaredOnly: true,
+    conditions: NOT_APPLICABLE_CONDITIONS
   },
   REQUIRED_BEFORE_FILING: {
     allowed: true,
@@ -301,6 +328,64 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
   if (cls.requirement === "ATTORNEY" && /attorney|representation/i.test(text)) {
     return { disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", fieldClass: cls.id, basis: "no attorney-representation fact is held for this participant" };
   }
+  // ---- the declared not-applicable-on-this-route gate ---------------------------
+  //
+  // Reachable only from an explicit declaration carrying a NAMED route
+  // condition, which is what BLANK_DISPOSITIONS has required of this
+  // disposition all along. Before this gate existed the name was in the closed
+  // vocabulary but nothing honoured it, so a family whose route genuinely does
+  // not reach a blank had to word its refusal until it matched the attorney-only
+  // or viewer-control regex, or carry the blank as unclassified. Wording a
+  // refusal to match a regex is the thing these counters exist to prevent.
+  //
+  // Every failure below returns the defect the declaration was standing in
+  // front of, so a family reading its own report can tell which condition it
+  // missed.
+  //
+  // The gate is entered only when a condition is actually NAMED. A row that
+  // declares the disposition without one falls through to every path that
+  // existed before, so this gate can only ADD a way to reach the disposition
+  // and never takes one away. Three California MC-025 page-chrome refusals and
+  // a Hawaii route refusal are the measured reason for that shape: they declare
+  // the disposition and reach it through the approved prose table, and a gate
+  // that intercepted them would have turned two passing families red to close a
+  // gap neither of them has.
+  const namedRouteCondition = String(dec.routeConditionThatMakesItInapplicable ?? "").trim();
+  if (String(dec.disposition) === "NOT_APPLICABLE_ON_THIS_ROUTE" && namedRouteCondition) {
+    const condition = namedRouteCondition;
+    /* The same shape the policy-shaped table refuses in prose is refused here,
+     * so moving the sentence into a typed field does not launder it. */
+    const policyShaped = POLICY_SHAPED_REASONS.find((p) => p.re.test(condition));
+    if (policyShaped) {
+      return {
+        disposition: cls.requirement === "ROUTE_DETERMINED" ? "ROUTE_OPTION_NOT_SELECTED" : "KNOWN_FACT_NOT_WRITTEN",
+        fieldClass: cls.id,
+        basis: `declared not-applicable-on-this-route, but the named condition is a statement of build policy: ${policyShaped.why}`,
+        declaredNotApplicable: true, policyShapedReason: condition
+      };
+    }
+    if (dec.routeDetermined === true) {
+      return {
+        disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+        basis: "declared both route-determined and not-applicable-on-this-route; an election this route makes is an election this route reaches, and the refusal stands rather than the more permissive half winning",
+        declaredNotApplicable: true
+      };
+    }
+    if (dec.factAvailable === true) {
+      return {
+        disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id,
+        basis: `declared not-applicable-on-this-route, but the packet holds a value for ${dec.factId ?? "this fact"} and writes it elsewhere; a fact this packet writes is a fact this route reaches`,
+        declaredNotApplicable: true, factId: dec.factId ?? null
+      };
+    }
+    return {
+      disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", fieldClass: cls.id,
+      basis: `the field map names the route condition that puts this blank outside the route: ${condition}`,
+      declaredNotApplicable: true,
+      routeCondition: condition
+    };
+  }
+
   // ---- the declared required-before-filing gate ---------------------------------
   //
   // Reachable only from an explicit declaration, and only when every condition in
