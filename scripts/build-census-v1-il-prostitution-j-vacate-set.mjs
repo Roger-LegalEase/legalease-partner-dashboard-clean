@@ -158,6 +158,7 @@ function composedBody(componentId, facts) {
     L.push("ENTERED this ...... day of .................., 20......", "");
     L.push("...................................................");
     L.push("JUDGE");
+    L.push("", "(The date of entry and the judge's signature are the Court's. They are left blank.)");
   }
   L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
   return L.join("\n");
