@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3fa7a6dc4ffda4bb9dc646edd9649493f8b3fd2e",
+  "minimumCaptainSha": "d8ef81d502619f48f57cbe0bf4a85b56711fbe4d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -27695,9 +27695,7 @@
         "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27744,7 +27742,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -41914,11 +41912,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "a0fbceb30",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "lane": "vf03",
+        "verifiedAtBase": "c708dff4d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -41948,56 +41948,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "FEE_AND_WAIVER"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL, in canonical and in boundary. Answering the question this lane was sent to answer: the three-line last page is NOT a defect for being three lines — the prose above the trailer is exactly what the previous route-key-only page lacked, and this lane passes short closing pages elsewhere. The defect is what the pull-down left behind. It moved the closing PARAGRAPH down onto page 7 and left the paragraph's own HEADING on page 6, where four row slots still stood free and the block needed three. So page 6 now ends on a heading with an empty two inches under it, and page 7 — the last sheet the participant is handed — opens on two unattributed sentences. In the page's own words: page 6's final line promises 'WHAT THIS PACKET IS NOT' and says nothing; page 7 answers a question it does not ask. No machine text sits inside any court's or prosecuting authority's block anywhere in this packet: the clerk's certification band on page 1 carries no ink at all, and the trailers on pages 3 and 4 each stand below a page-authored sentence in the preparer's voice. REPAIR: pull the heading block down with its body — keep-with-next on the heading, one block — so page 7 reads WHAT THIS PACKET IS NOT, the two rows, then the trailer. The machinery is already on this host; it moved the wrong half of the unit.",
-          "evidence": {
-            "measuredHere": true,
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "pagesReadPerFixture": 7,
-            "citedPages": [
-              6,
-              7
-            ],
-            "component": "filing_instructions",
-            "page6LastDrawnLineVerbatim": "WHAT THIS PACKET IS NOT",
-            "page7EveryDrawnLineVerbatim": [
-              "This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice,",
-              "it is not filed for you, and it does not decide whether the court will grant expungement.",
-              "Route: obligation:track-only:VA:va_exp_nonconviction"
-            ],
-            "geometry": {
-              "page6LastRowYMax": 654.39,
-              "lastAvailableRowYMax": 712.39,
-              "freeRowSlotsRemainingOnPage6": 4,
-              "rowSlotsTheMovedBlockNeeded": 3,
-              "note": "two prose rows plus the one blank spacer row that precedes them"
-            },
-            "rasterInspected": [
-              "canonical p6",
-              "canonical p7"
-            ],
-            "whatTheRasterShows": "Page 6 ends on the heading WHAT THIS PACKET IS NOT with roughly two inches of clear sheet beneath it and nothing under the heading. Page 7 opens on the two rows of prose that belong under that heading, with no heading above them, then the trailer.",
-            "ruleLimb": "(c) SPLIT BLOCK WITH ROOM LEFT BEHIND",
-            "limbsNotTriggered": {
-              "routeKeyOnlyPages": 0,
-              "emptyPages": 0,
-              "machineTextInsideACourtOrProsecutorBlock": false,
-              "brokenRouteKeys": 0,
-              "markdownDelimiters": 0,
-              "overlappingRows": 0,
-              "inkOutsideThe468ptColumn": 0
-            }
-          }
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL, in canonical and in boundary. The obligation is that the fee and any waiver route are STATED, and the record states both: none, by statute, with no waiver needed. The packet states neither. It tells the participant the fee is not established and sends them to the clerk - which is the very resolution the record rejects in terms, 'against the statute itself rather than against one clerk's guidance' - and it says nothing at all about a waiver route beyond repeating the question. A participant reading this page is left expecting a fee they do not owe on a petition the statute makes free, and the packet's own reason for the blank ('none is established by the petition') is a statement about the scope of the SOURCE FORM, not about the route; the route record is where the fee lives and it was not consulted. VF07 passed this obligation at a0fbceb30 by measuring the sentence against the packet's own internal logic; measured against the record it does not pass, and FIX46 changed nothing here. REPAIR: print the record's own answer on the filing-instructions page and in participant-instructions.md - Va. Code 19.2-392.2(A) requires no court fees or costs for filing this petition, so there is no filing fee to waive, and the only fee in the route is the CCRE's own charge for the participant's copy of their record - sourced to the track record rather than to a clerk. Nothing else on the page needs to move: the second bullet, about the deadline and the service mechanics, is correct and stays.",
+          "evidence": "The record settles the fee and the packet contradicts it. data/record-clearing/legal-design-track-registry.json, track va_exp_nonconviction, says three separate times that no court fee is payable: mechanism, read at source on 2026-08-06, 'section 19.2-392.2(A) allows a person charged ... to petition for expungement of the police and court records relating to the charge, and provides that no court fees or costs are payable'; fees, 'none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, which resolves the controlling review's open question about expungement fees against the statute itself rather than against one clerk's guidance'; feeWaiver, 'none - no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record.' The same two sentences are the pay_fee and apply_fee_waiver entries of this packet set in data/record-clearing/legal-design-packet-set-manifests.json, and the track carries the no-fee sentence as a packetInstruction - an instruction the record directs INTO the packet - alongside the note that there is no fingerprint requirement on a subsection (A) petition. What the packet delivers instead, on page 6 of both fixtures under TWO THINGS THIS PACKET DOES NOT TELL YOU, verbatim: 'The filing fee, and whether it can be waived. Ask the circuit court clerk. No amount is stated here because none is established by the petition, and an unsourced figure in a filing instruction is worse than no figure.' participant-instructions.md line 15 says the same in one line: 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.' Neither sentence carries the record's fee, its waiver answer or its packetInstruction; the whole packet has no other mention of a fee or a waiver (grep over participant-instructions.md returns that one line, and over the composed pages that one paragraph)."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
