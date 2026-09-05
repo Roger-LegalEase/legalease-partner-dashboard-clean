@@ -466,10 +466,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX25",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:57.151Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -511,10 +511,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX25",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:31:49.883Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1090,10 +1090,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T00:14:05.265Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4349,10 +4349,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF28",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T05:55:51.150Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5795,10 +5795,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX25",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:57.388Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5930,10 +5930,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF28",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-04T22:35:46.396Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6694,10 +6694,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX24",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "FIX05 exited long ago and this grant was left live, holding the family against reassignment. Released by Captain."
     },
     {
       "subjectType": "packet-family",
@@ -7472,10 +7473,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX26",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T22:42:07.392Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7907,10 +7908,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX26",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:23.032Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12779,7 +12780,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "00e7b12beb0f85e72b9815e6ebebcb6291f4c32213dec2f177d8be563044233d",
+  "claimsDigest": "024f8d9cb00aa3019eb4ed62d1674b5b6b92cfd5e1124b8ef372b248e2c6e135",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26924,6 +26925,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T06:48:50.410Z",
       "reason": "CLIPPING_AND_OVERLAP repaired and rebuilt. Both orphaned execution blocks - page 12 of each fixture, opening on PRINTED NAME with SIGNATURE OF REQUESTER on page 11 - are gone: SCAN01 C_block_integrity/orphaned_execution_block 2 -> 0, family defects 5 -> 2. Rule 1b ported with predicate widened to /SIGNATURE OF/ because this family's WSP deletion route signs as requester, not petitioner; it fires on 2 of 16 composed renders. Whitespace-stripped character stream byte-identical in both fixtures, 17/17 pages, only 2 of 34 pages moved. The two remaining B_page_content fragment pages at page 9 are a bulleted component-list tail, not an execution block, outside this grant, unchanged and stated in the return row. Two consecutive --no-raster builds identical over the whole family directory; identityRefresh annotations restored verbatim from HEAD. Fixtures moved to 78910c462040fbed (canonical) and 587838be98adfff4 (boundary); still BUILT_RASTER_PENDING, fresh raster owed, no receipt claimed."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T09:12:57.402Z",
+      "reason": "FIX05 exited long ago and this grant was left live, holding the family against reassignment. Released by Captain."
     }
   ],
   "reissues": [
@@ -37512,6 +37522,105 @@
       "previouslyReleasedAt": "2026-09-05T04:52:39.096Z",
       "transferredAt": "2026-09-05T06:26:52.557Z",
       "reason": "Captain moves this released grant to FIX23 before dispatch. FIX21 established both families still ship orphaned execution blocks -- Oklahoma 8, Washington 2 -- because Rule 1b went to North Dakota only, and correctly refused both to transfer onto itself and to edit a builder it could not rebuild."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-dwop-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX25",
+      "previouslyReleasedAt": "2026-09-04T23:59:57.151Z",
+      "transferredAt": "2026-09-05T09:12:29.411Z",
+      "reason": "Captain assigns before dispatch. Three families failing REQUIRED_BEFORE_FILING alone; the two Alabama ones share a measured root, New Jersey is tested for the same shape."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-felony-nonconviction-90-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX25",
+      "previouslyReleasedAt": "2026-09-04T22:31:49.883Z",
+      "transferredAt": "2026-09-05T09:12:29.843Z",
+      "reason": "Captain assigns before dispatch. Three families failing REQUIRED_BEFORE_FILING alone; the two Alabama ones share a measured root, New Jersey is tested for the same shape."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX25",
+      "previouslyReleasedAt": "2026-09-04T23:59:57.388Z",
+      "transferredAt": "2026-09-05T09:12:30.281Z",
+      "reason": "Captain assigns before dispatch. Three families failing REQUIRED_BEFORE_FILING alone; the two Alabama ones share a measured root, New Jersey is tested for the same shape."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX26",
+      "previouslyReleasedAt": "2026-09-04T23:59:23.032Z",
+      "transferredAt": "2026-09-05T09:12:30.530Z",
+      "reason": "Captain assigns before dispatch. Two families with small bounded obligation sets and no shared path with any other live lane."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX26",
+      "previouslyReleasedAt": "2026-09-04T22:42:07.392Z",
+      "transferredAt": "2026-09-05T09:12:30.670Z",
+      "reason": "Captain assigns before dispatch. Two families with small bounded obligation sets and no shared path with any other live lane."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF02",
+      "toLane": "PF28",
+      "previouslyReleasedAt": "2026-09-05T05:55:51.150Z",
+      "transferredAt": "2026-09-05T09:12:30.825Z",
+      "reason": "Captain assigns before dispatch. Two SOURCE_READY families previously stopped on named source questions; re-attempted with the questions stated."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF02",
+      "toLane": "PF28",
+      "previouslyReleasedAt": "2026-09-04T22:35:46.396Z",
+      "transferredAt": "2026-09-05T09:12:31.040Z",
+      "reason": "Captain assigns before dispatch. Two SOURCE_READY families previously stopped on named source questions; re-attempted with the questions stated."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-05T00:14:05.265Z",
+      "transferredAt": "2026-09-05T09:12:31.205Z",
+      "reason": "Captain assigns before dispatch. The one family whose verification lapsed on a route row that was removed and re-created under a new key."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX24",
+      "previouslyReleasedAt": "2026-09-05T09:12:57.402Z",
+      "transferredAt": "2026-09-05T09:12:57.540Z",
+      "reason": "Captain assigns before dispatch. The last family shipping the Texas source-default zeros: confirmed on both fixtures at page 7 (313,131) and page 8 (318,91), the same rectangles already repaired on two siblings."
     }
   ],
   "withdrawals": [
