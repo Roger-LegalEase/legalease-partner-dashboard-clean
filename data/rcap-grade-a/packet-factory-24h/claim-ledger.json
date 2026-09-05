@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0537e16d750fcd5f6eb02184046c3363eb4cdc41",
+  "generatedAtCommit": "952c32390d7a73c0352477352a74a4e101bca9d3",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1439,6 +1439,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "co_decriminalized_conduct_seal-set",
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "itemId": null,
+      "familyIds": [
+        "co_decriminalized_conduct_seal-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "co_motion_seal_conviction-set",
       "itemId": null,
       "familyId": "co_motion_seal_conviction-set",
@@ -1557,6 +1572,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T08:35:05.454Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "familyId": "co_multiple_conviction_seal-set",
+      "itemId": null,
+      "familyIds": [
+        "co_multiple_conviction_seal-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5889,10 +5919,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T05:46:17.359Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13564,7 +13593,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "bb62ae0dd39a3ccb1932887425af8ace42beb577393207345225e45ecbb56621",
+  "claimsDigest": "6319958122455681eeca2342cc9eb62d009d51bb20a80664cad053983daa5ea5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -36935,6 +36964,16 @@
       "previouslyReleasedAt": "2026-09-05T18:13:03.625Z",
       "reissuedAt": "2026-09-05T20:46:25.992Z",
       "reason": "Vermont non-conviction sealing third re-read on the FIX61 bytes (canonical 1f510c61, boundary 8374cf99; RASTER_PASS run 33985056691 job 101357282367): field 15 now stamps at its 14.4pt Rect and the sweep reads 161 of 161."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T21:17:11Z",
+      "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 842,
+    "rows": 846,
     "independentVerdicts": 240,
-    "failRepairRequired": 67,
-    "passIndependent": 155
+    "failRepairRequired": 69,
+    "passIndependent": 153
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -55,8 +55,10 @@
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
+    "co_decriminalized_conduct_seal-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
+    "co_multiple_conviction_seal-set",
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
@@ -75,6 +77,7 @@
     "nc_145_5_felony-set",
     "nc_146_dismissal_petition-set",
     "nd-nonconviction-close-petition-set",
+    "ne-setaside-custodial-set",
     "nh_petition_nonconviction_pre2019-set",
     "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
@@ -106,7 +109,6 @@
     "vt_seal_dui-set",
     "vt_seal_felony-set",
     "vt_seal_misdemeanor-set",
-    "vt_seal_nonconviction-set",
     "vt_seal_pardon-set"
   ],
   "refusedAtTheClaimGate": {
@@ -3715,6 +3717,263 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_decriminalized_conduct_seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7b3214102",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 4 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 10634 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 8 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 4 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
+          "evidence": {
+            "measuredHere": true,
+            "dpi": 300,
+            "verifiedAtBase": "7b3214102",
+            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
+            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
+            "placementsSwept": 162,
+            "placementsUnmatched": 0,
+            "mismatchedPlacementReadings": 8,
+            "mismatchedPaintingNothing": 0,
+            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 4,
+            "mismatchedRastered": 4,
+            "mismatchedDeliveringInkOutsideTheirRect": 4,
+            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
+            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
+            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
+            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
+            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
+            "perPlacement": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 2,
+                "sourcePage": 2,
+                "form": "JDF-2371",
+                "field": "3J.1",
+                "widgetRect": {
+                  "x0": 268.393,
+                  "y0": 437.888,
+                  "x1": 448.393,
+                  "y1": 453.008
+                },
+                "placedExtent": {
+                  "x0": 268.393,
+                  "y0": 437.888,
+                  "x1": 491.183,
+                  "y1": 453.008
+                },
+                "maxCornerDisplacementPt": 42.79,
+                "scaleProduct": {
+                  "x": 0.807936,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 42.79,
+                "appearanceContent": "0 G\n0 0.5 m\n222.79 0.5 l\ns\n",
+                "outsideRectDarkPixelsDelivered": 716,
+                "outsideRectDarkPixelsBaselineOptionOn": 4,
+                "outsideRectDarkPixelsBaselineOptionOff": 716,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 4,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 712,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 712
+              },
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 2,
+                "sourcePage": 2,
+                "form": "JDF-2371",
+                "field": "3J.2",
+                "widgetRect": {
+                  "x0": 173.811,
+                  "y0": 420.594,
+                  "x1": 317.811,
+                  "y1": 435.714
+                },
+                "placedExtent": {
+                  "x0": 173.811,
+                  "y0": 420.594,
+                  "x1": 538.77,
+                  "y1": 435.714
+                },
+                "maxCornerDisplacementPt": 220.959,
+                "scaleProduct": {
+                  "x": 0.394565,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 220.959,
+                "appearanceContent": "0 G\n0 0.5 m\n364.9594 0.5 l\ns\n",
+                "outsideRectDarkPixelsDelivered": 4605,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 4605,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 4605,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 4605
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 2,
+                "sourcePage": 2,
+                "form": "JDF-2371",
+                "field": "3J.1",
+                "widgetRect": {
+                  "x0": 268.393,
+                  "y0": 437.888,
+                  "x1": 448.393,
+                  "y1": 453.008
+                },
+                "placedExtent": {
+                  "x0": 268.393,
+                  "y0": 437.888,
+                  "x1": 491.183,
+                  "y1": 453.008
+                },
+                "maxCornerDisplacementPt": 42.79,
+                "scaleProduct": {
+                  "x": 0.807936,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 42.79,
+                "appearanceContent": "0 G\n0 0.5 m\n222.79 0.5 l\ns\n",
+                "outsideRectDarkPixelsDelivered": 716,
+                "outsideRectDarkPixelsBaselineOptionOn": 4,
+                "outsideRectDarkPixelsBaselineOptionOff": 716,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 4,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 712,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 712
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 2,
+                "sourcePage": 2,
+                "form": "JDF-2371",
+                "field": "3J.2",
+                "widgetRect": {
+                  "x0": 173.811,
+                  "y0": 420.594,
+                  "x1": 317.811,
+                  "y1": 435.714
+                },
+                "placedExtent": {
+                  "x0": 173.811,
+                  "y0": 420.594,
+                  "x1": 538.77,
+                  "y1": 435.714
+                },
+                "maxCornerDisplacementPt": 220.959,
+                "scaleProduct": {
+                  "x": 0.394565,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 220.959,
+                "appearanceContent": "0 G\n0 0.5 m\n364.9594 0.5 l\ns\n",
+                "outsideRectDarkPixelsDelivered": 4605,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 4605,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 4605,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 4605
+              }
+            ],
+            "totalOutsideRectDarkPixelsDelivered": 10642,
+            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 8,
+            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 10634,
+            "mismatchedPlacementsMeasuredCleanAndWhy": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 3,
+                "field": "CoS_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 5,
+                "field": "4D.1",
+                "maxCornerDisplacementPt": 18,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 3,
+                "field": "CoS_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 5,
+                "field": "4D.1",
+                "maxCornerDisplacementPt": 18,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              }
+            ],
+            "participantWriteEffect": {
+              "measured": true,
+              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
+              "perPlacement": [
+                {
+                  "fixture": "canonical.pdf",
+                  "deliveredPage": 2,
+                  "field": "3J.1",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                },
+                {
+                  "fixture": "canonical.pdf",
+                  "deliveredPage": 2,
+                  "field": "3J.2",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                },
+                {
+                  "fixture": "boundary.pdf",
+                  "deliveredPage": 2,
+                  "field": "3J.1",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                },
+                {
+                  "fixture": "boundary.pdf",
+                  "deliveredPage": 2,
+                  "field": "3J.2",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                }
+              ],
+              "writesMovedOrClipped": 0,
+              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
+            },
+            "rastersDeletedAfterMeasuring": true,
+            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_decriminalized_conduct_seal-set",
       "superseded": false
     },
     {
@@ -3909,6 +4168,245 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7b3214102",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 2 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 2358 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 0 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 6 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
+          "evidence": {
+            "measuredHere": true,
+            "dpi": 300,
+            "verifiedAtBase": "7b3214102",
+            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
+            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
+            "placementsSwept": 282,
+            "placementsUnmatched": 0,
+            "mismatchedPlacementReadings": 8,
+            "mismatchedPaintingNothing": 0,
+            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 6,
+            "mismatchedRastered": 2,
+            "mismatchedDeliveringInkOutsideTheirRect": 2,
+            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
+            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
+            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
+            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
+            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
+            "perPlacement": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 5,
+                "sourcePage": 5,
+                "form": "JDF-641",
+                "field": "11.1",
+                "widgetRect": {
+                  "x0": 147.6,
+                  "y0": 488.654,
+                  "x1": 540,
+                  "y1": 553.334
+                },
+                "placedExtent": {
+                  "x0": 147.6,
+                  "y0": 488.654,
+                  "x1": 543.6,
+                  "y1": 553.3334
+                },
+                "maxCornerDisplacementPt": 3.6,
+                "scaleProduct": {
+                  "x": 0.990909,
+                  "y": 1.000009
+                },
+                "overhangBeyondItsRectPt": 3.6,
+                "appearanceContent": "q\n0 G\n0.5 0.5 395 63.6794 re\ns\nQ\n",
+                "outsideRectDarkPixelsDelivered": 1179,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 1179,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1179,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1179
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 5,
+                "sourcePage": 5,
+                "form": "JDF-641",
+                "field": "11.1",
+                "widgetRect": {
+                  "x0": 147.6,
+                  "y0": 488.654,
+                  "x1": 540,
+                  "y1": 553.334
+                },
+                "placedExtent": {
+                  "x0": 147.6,
+                  "y0": 488.654,
+                  "x1": 543.6,
+                  "y1": 553.3334
+                },
+                "maxCornerDisplacementPt": 3.6,
+                "scaleProduct": {
+                  "x": 0.990909,
+                  "y": 1.000009
+                },
+                "overhangBeyondItsRectPt": 3.6,
+                "appearanceContent": "q\n0 G\n0.5 0.5 395 63.6794 re\ns\nQ\n",
+                "outsideRectDarkPixelsDelivered": 1179,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 1179,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1179,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1179
+              }
+            ],
+            "totalOutsideRectDarkPixelsDelivered": 2358,
+            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 0,
+            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 2358,
+            "mismatchedPlacementsMeasuredCleanAndWhy": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 2,
+                "field": "3J.1",
+                "maxCornerDisplacementPt": 47.587,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 5,
+                "field": "CoS_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 5,
+                "field": "Sig_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 2,
+                "field": "3J.1",
+                "maxCornerDisplacementPt": 47.587,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 5,
+                "field": "CoS_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 5,
+                "field": "Sig_Date",
+                "maxCornerDisplacementPt": 6.628,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              }
+            ],
+            "participantWriteEffect": {
+              "measured": true,
+              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
+              "perPlacement": [
+                {
+                  "fixture": "canonical.pdf",
+                  "deliveredPage": 5,
+                  "field": "11.1",
+                  "participantWritesOnThatSourcePage": 2,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [
+                    {
+                      "field": "∆",
+                      "rect": {
+                        "x": 186.16,
+                        "y": 289.74,
+                        "width": 252.33,
+                        "height": 15.12
+                      },
+                      "drawnText": [
+                        "Jordan Avery Reyes"
+                      ]
+                    },
+                    {
+                      "field": "∆",
+                      "rect": {
+                        "x": 186.16,
+                        "y": 289.74,
+                        "width": 252.33,
+                        "height": 15.12
+                      },
+                      "drawnText": [
+                        "Maria-Alejandra OShaughnessy-Whitfield"
+                      ]
+                    }
+                  ],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                },
+                {
+                  "fixture": "boundary.pdf",
+                  "deliveredPage": 5,
+                  "field": "11.1",
+                  "participantWritesOnThatSourcePage": 2,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [
+                    {
+                      "field": "∆",
+                      "rect": {
+                        "x": 186.16,
+                        "y": 289.74,
+                        "width": 252.33,
+                        "height": 15.12
+                      },
+                      "drawnText": [
+                        "Jordan Avery Reyes"
+                      ]
+                    },
+                    {
+                      "field": "∆",
+                      "rect": {
+                        "x": 186.16,
+                        "y": 289.74,
+                        "width": 252.33,
+                        "height": 15.12
+                      },
+                      "drawnText": [
+                        "Maria-Alejandra OShaughnessy-Whitfield"
+                      ]
+                    }
+                  ],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                }
+              ],
+              "writesMovedOrClipped": 0,
+              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
+            },
+            "rastersDeletedAfterMeasuring": true,
+            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
       "superseded": false
     },
@@ -11044,7 +11542,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ne-setaside-custodial-set",
@@ -11145,6 +11643,163 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7b3214102",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 2 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 3040 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 0 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 2 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
+          "evidence": {
+            "measuredHere": true,
+            "dpi": 300,
+            "verifiedAtBase": "7b3214102",
+            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
+            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
+            "placementsSwept": 158,
+            "placementsUnmatched": 0,
+            "mismatchedPlacementReadings": 4,
+            "mismatchedPaintingNothing": 0,
+            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 2,
+            "mismatchedRastered": 2,
+            "mismatchedDeliveringInkOutsideTheirRect": 2,
+            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
+            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
+            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
+            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
+            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
+            "perPlacement": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 5,
+                "sourcePage": 2,
+                "form": "DC-1-15",
+                "field": "Text60.0",
+                "widgetRect": {
+                  "x0": 282.907,
+                  "y0": 504.099,
+                  "x1": 504,
+                  "y1": 523.356
+                },
+                "placedExtent": {
+                  "x0": 282.907,
+                  "y0": 504.099,
+                  "x1": 596.0360000000001,
+                  "y1": 523.356
+                },
+                "maxCornerDisplacementPt": 92.036,
+                "scaleProduct": {
+                  "x": 0.706076,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 92.036,
+                "appearanceContent": "/Tx BMC \nq\n1 1 311.129 17.257 re\nW\nn\nBT\n/Arial 10 Tf\n0 g\n2 6.054 Td\n(______________________________________________________________________) Tj\nET\nQ\nEMC\n",
+                "outsideRectDarkPixelsDelivered": 1520,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 1520,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1520,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1520
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 5,
+                "sourcePage": 2,
+                "form": "DC-1-15",
+                "field": "Text60.0",
+                "widgetRect": {
+                  "x0": 282.907,
+                  "y0": 504.099,
+                  "x1": 504,
+                  "y1": 523.356
+                },
+                "placedExtent": {
+                  "x0": 282.907,
+                  "y0": 504.099,
+                  "x1": 596.0360000000001,
+                  "y1": 523.356
+                },
+                "maxCornerDisplacementPt": 92.036,
+                "scaleProduct": {
+                  "x": 0.706076,
+                  "y": 1
+                },
+                "overhangBeyondItsRectPt": 92.036,
+                "appearanceContent": "/Tx BMC \nq\n1 1 311.129 17.257 re\nW\nn\nBT\n/Arial 10 Tf\n0 g\n2 6.054 Td\n(______________________________________________________________________) Tj\nET\nQ\nEMC\n",
+                "outsideRectDarkPixelsDelivered": 1520,
+                "outsideRectDarkPixelsBaselineOptionOn": 0,
+                "outsideRectDarkPixelsBaselineOptionOff": 1520,
+                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
+                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1520,
+                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1520
+              }
+            ],
+            "totalOutsideRectDarkPixelsDelivered": 3040,
+            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 0,
+            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 3040,
+            "mismatchedPlacementsMeasuredCleanAndWhy": [
+              {
+                "fixture": "canonical.pdf",
+                "deliveredPage": 1,
+                "field": "Check Box7",
+                "maxCornerDisplacementPt": 7.92,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              },
+              {
+                "fixture": "boundary.pdf",
+                "deliveredPage": 1,
+                "field": "Check Box7",
+                "maxCornerDisplacementPt": 7.92,
+                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
+                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
+              }
+            ],
+            "participantWriteEffect": {
+              "measured": true,
+              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
+              "perPlacement": [
+                {
+                  "fixture": "canonical.pdf",
+                  "deliveredPage": 5,
+                  "field": "Text60.0",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                },
+                {
+                  "fixture": "boundary.pdf",
+                  "deliveredPage": 5,
+                  "field": "Text60.0",
+                  "participantWritesOnThatSourcePage": 0,
+                  "writeBoxesIntersectingThePlacedAppearance": 0,
+                  "writeBoxes": [],
+                  "appearancePaintsAnOpaqueFill": false,
+                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
+                }
+              ],
+              "writesMovedOrClipped": 0,
+              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
+            },
+            "rastersDeletedAfterMeasuring": true,
+            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": false
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -23310,6 +23965,20 @@
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aed273b29",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
