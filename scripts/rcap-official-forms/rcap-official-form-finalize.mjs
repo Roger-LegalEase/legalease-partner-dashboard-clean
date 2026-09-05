@@ -861,7 +861,47 @@ export async function finalizeOfficialForm({
    * decide what the others' next rebuild produces. Every caller that does not
    * pass this is byte-unaffected.
    */
-  suppressSynthesizedAppearances = false
+  suppressSynthesizedAppearances = false,
+  /*
+   * AN APPEARANCE STAMPED AT A SIZE THE OFFICIAL FORM DOES NOT DRAW IT.
+   *
+   * ISO 32000-1 12.5.5 places a widget's appearance by transforming its /BBox
+   * by its /Matrix and fitting the result to the widget's /Rect. pdf-lib's
+   * PDFForm.flatten emits the translation and nothing else, so the fit is never
+   * applied: where a source widget ships an appearance whose transformed BBox
+   * is not its /Rect, the stream is flattened at the wrong size, the wrong
+   * place, or both, and the packet disagrees with what every conforming viewer
+   * draws from the same binary.
+   *
+   * Vermont's fee-waiver form 600-00228 field 15 is the measured case, and VF02
+   * measured it: BBox [0 0 18 18] against a /Rect of 14.4 by 14.4, a required
+   * scale of 0.8 that is never applied, a 17pt stroked square stamped where the
+   * court's form draws a 13.6pt one, about 3.4pt of stroke outside the widget
+   * box on packet page 5, and 670 dark pixels at 300 dpi that the official form
+   * carries neither in its page content nor in its own /Off stream. Its sweep
+   * over all 161 flattened placements in that packet found 160 correct and this
+   * one wrong, which is the shape of the defect: rare, invisible to every field
+   * counter, and owned by the shared step rather than by any family.
+   *
+   * Passing true pre-composes the 12.5.5 mapping into each affected appearance
+   * stream's own /Matrix, so pdf-lib's translation-only placement lands it
+   * correctly. A placement whose mapping is already the identity is not touched
+   * and stays byte-identical.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields,
+   * clearSourceCarriedTextValues, printedDateOrderByField and
+   * suppressSynthesizedAppearances above: the families sharing this finalizer
+   * are rebuilt by different workers at different times, and a repair lane
+   * holding one family does not get to decide what the others' next rebuild
+   * produces. Every caller that does not pass this is byte-unaffected.
+   *
+   * CAPTAIN DECISION: this is the eighth flag carrying that paragraph, and the
+   * only one of them that implements a clause of the specification rather than
+   * a judgement about ink. It should not stay opt-in a day longer than the
+   * corpus needs to be rebuilt together.
+   */
+  fitAppearancesToRect = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1386,7 +1426,8 @@ export async function finalizeOfficialForm({
     // the finalizer never learns which family it is working on.
     appearanceDispositions,
     detachNestedControlFields,
-    suppressSynthesizedAppearances
+    suppressSynthesizedAppearances,
+    fitAppearancesToRect
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
