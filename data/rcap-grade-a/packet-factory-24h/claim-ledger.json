@@ -6556,10 +6556,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX16",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T19:05:25.069Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6705,10 +6705,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX16",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T19:02:07.993Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12669,7 +12669,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "20ed84c336b3fb8d4dfe98741c8e118facd6ad84ab65175e108250af3c3ae192",
+  "claimsDigest": "d0fca492ffdac9255edaed057049ecc05629ceba4619a09dcb74183892c523f7",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -36916,6 +36916,28 @@
       "previouslyReleasedAt": "2026-09-04T15:13:18.324Z",
       "transferredAt": "2026-09-05T04:15:38.174Z",
       "reason": "Captain transfers the verification grant to VF09 after the fact. VF09 performed the independent read and, holding no grant, deliberately recorded PASS rather than PASS_COMPLETE_INDEPENDENT so nothing would be promoted on an unclaimed read -- which was right. The missing grant was my dispatch error, not a second reader: no other lane read this family. Transferring makes the ledger describe what happened."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX16",
+      "previouslyReleasedAt": "2026-09-04T19:05:25.069Z",
+      "transferredAt": "2026-09-05T04:18:55.117Z",
+      "reason": "Captain moves these two released repair grants to FIX16 before dispatch. VF09 proved the clipping defect still reproduces on both, and the fix already exists: Nevada had the same defect, was failed for it and was repaired at a120d8bd5, and the patch was never applied to the two families sharing that composer. Moved centrally because a lane that stalls on an unassertable grant does no work at all."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX16",
+      "previouslyReleasedAt": "2026-09-04T19:02:07.993Z",
+      "transferredAt": "2026-09-05T04:18:55.340Z",
+      "reason": "Captain moves these two released repair grants to FIX16 before dispatch. VF09 proved the clipping defect still reproduces on both, and the fix already exists: Nevada had the same defect, was failed for it and was repaired at a120d8bd5, and the patch was never applied to the two families sharing that composer. Moved centrally because a lane that stalls on an unassertable grant does no work at all."
     }
   ],
   "withdrawals": [
