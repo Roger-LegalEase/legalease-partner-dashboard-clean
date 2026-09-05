@@ -20,6 +20,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import {
   BLANK_DISPOSITIONS,
   PASS_COUNTERS,
@@ -136,8 +137,6 @@ const FACTS = Object.freeze({
     "case.parish": "Tangipahoa Parish",
     "case.docket_number": "TEST-2026-000001",
     "case.division": "Division A",
-    "case.conviction_offense": "Offense wording from the canonical fixture court record",
-    "case.conviction_statute": "Statute citation from the canonical fixture court record",
     "case.conviction_level": "Misdemeanor - Article 894(B)",
     "case.conviction_date": "2021-04-17",
     "case.deferred_sentence_date": "2021-06-01",
@@ -152,12 +151,10 @@ const FACTS = Object.freeze({
     "case.parish": "Saint John the Baptist Parish",
     "case.docket_number": "TEST-BOUNDARY-2026-0000000000000001",
     "case.division": "Division Z-Long",
-    "case.conviction_offense": "Offense wording exactly as it appears on the boundary fixture court record, including the full court-record description",
-    "case.conviction_statute": "Statutory citation exactly as it appears on the boundary fixture court record",
     "case.conviction_level": "Felony - Article 893(E)",
     "case.conviction_date": "2018-12-31",
     "case.deferred_sentence_date": "2019-02-28",
-    "case.deferral_period": "Five years and the full period stated in the boundary fixture court record",
+    "case.deferral_period": "Five years",
     "case.probation_completion_date": "2024-02-28",
     "case.represented_by_counsel": "No - use the unrepresented mover block"
   }
@@ -382,8 +379,6 @@ function primaryMap() {
     written(FORM_ID, "parish", "Parish of conviction", "case.parish"),
     written(FORM_ID, "docket_number", "Docket or case number", "case.docket_number"),
     written(FORM_ID, "division", "Court division", "case.division"),
-    written(FORM_ID, "conviction_offense", "Conviction offense wording", "case.conviction_offense"),
-    written(FORM_ID, "conviction_statute", "Conviction statute", "case.conviction_statute"),
     written(FORM_ID, "conviction_level", "Misdemeanor or felony and selected Article", "case.conviction_level"),
     written(FORM_ID, "conviction_date", "Conviction or plea date", "case.conviction_date"),
     written(FORM_ID, "deferred_sentence_date", "Deferred sentence and probation date", "case.deferred_sentence_date"),
@@ -392,6 +387,20 @@ function primaryMap() {
     written(FORM_ID, "representation", "Whether the mover is represented by an attorney", "case.represented_by_counsel")
   ];
   const refusals = [
+    required(
+      FORM_ID,
+      "conviction_offense",
+      "Conviction offense wording",
+      "write the offense exactly as it is worded on your court record, taken from the minute entry or sentencing order for this docket that the clerk of the sentencing court holds",
+      "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none"
+    ),
+    required(
+      FORM_ID,
+      "conviction_statute",
+      "Conviction statute",
+      "write the statutory citation exactly as it appears on your court record, taken from the same minute entry or sentencing order",
+      "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none"
+    ),
     required(
       FORM_ID,
       "deferred_period_run_assertion",
@@ -493,8 +502,8 @@ function primaryBody(facts) {
   lines.push("MOTION TO SET ASIDE CONVICTION AND DISMISS PROSECUTION", "");
   lines.push(`Mover full legal name: ${facts["participant.full_legal_name"]}`);
   lines.push(`Mover date of birth: ${facts["participant.date_of_birth"]}`);
-  lines.push(`Conviction offense wording: ${facts["case.conviction_offense"]}`);
-  lines.push(`Conviction statute: ${facts["case.conviction_statute"]}`);
+  lines.push(`Conviction offense wording: ${DOTS(41)}`);
+  lines.push(`Conviction statute: ${DOTS(57)}`);
   lines.push(`Conviction or plea date: ${facts["case.conviction_date"]}`);
   lines.push(`Misdemeanor or felony and selected Article: ${facts["case.conviction_level"]}`);
   lines.push(`Deferred sentence and probation date: ${facts["case.deferred_sentence_date"]}`);
@@ -578,7 +587,7 @@ function participantInstructions(requiredBeforeFiling, name) {
     "",
     "## Required before filing",
     "",
-    "Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. The two assertions below remain yours alone and are intentionally blank.",
+    "Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. Every item below remains yours alone and is intentionally left blank on the instrument.",
     "",
     "| Document | Blank on the document | What you must supply |",
     "| --- | --- | --- |"
@@ -847,7 +856,15 @@ function countCompleteness(maps, proofs, instructionsText) {
 function writeJson(relative, value) {
   const target = path.join(ROOT, relative);
   fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`);
+  /*
+   * A hand-written identityRefresh on a grounding pin this build did not move
+   * has to survive the rebuild that regenerates the receipt around it. The
+   * annotation is carried forward only while the rebuild re-measures the exact
+   * sha256 it was written against; when the record moves again it is dropped
+   * rather than laundered onto bytes nobody compared. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs.
+   */
+  fs.writeFileSync(target, `${JSON.stringify(preserveIdentityRefresh(fs, target, value), null, 2)}\n`);
 }
 
 export async function runFamily(argv = process.argv.slice(2)) {
