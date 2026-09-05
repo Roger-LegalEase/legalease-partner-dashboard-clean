@@ -7610,10 +7610,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T23:59:41.004Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13312,7 +13312,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9804c8396487b34c5149bbc3c46a3276366ab018102d70b5c9b4cbb37a1d286e",
+  "claimsDigest": "a4b7c94e0a521e6a48d5c2b2b2dc280fab0a8f4dbd3aef0b0e966ed45e01e268",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39469,6 +39469,17 @@
       "previouslyReleasedAt": "2026-09-05T14:45:19.444Z",
       "transferredAt": "2026-09-05T14:45:19.524Z",
       "reason": "SCAN02 splitter cohort: FIX08 repairs this family's private builder onto the shared separator-aware splitter (VF08 FAIL at aefd46f7c)."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX08",
+      "previouslyReleasedAt": "2026-09-04T23:59:41.004Z",
+      "transferredAt": "2026-09-05T14:45:39.680Z",
+      "reason": "SCAN02 splitter cohort: VF08 FAIL at aefd46f7c (eligible-c / onviction-411-0735 on the prosecutor-delivery page); FIX08 repairs the private builder onto the shared splitter."
     }
   ],
   "withdrawals": [
