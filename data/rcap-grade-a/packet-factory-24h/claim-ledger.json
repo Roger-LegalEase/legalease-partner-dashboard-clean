@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a3dc426e4877e9f41652950d0eb50abfbd97a5c7",
+  "generatedAtCommit": "f4821c427275b38c80d3ecaf77bb26b84d60c276",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -93,8 +93,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T04:51:30.842Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1065,8 +1065,7 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:05:30.281Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2893,10 +2892,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:05:30.542Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3222,6 +3220,21 @@
         "ga-fugitive-j5-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF12",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-02T00:05:25.824Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-fugitive-j5-set",
+      "familyId": "ga-fugitive-j5-set",
+      "itemId": null,
+      "familyIds": [
+        "ga-fugitive-j5-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
@@ -3257,6 +3270,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:49:46.261Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-misd-j4-set",
+      "familyId": "ga-misd-j4-set",
+      "itemId": null,
+      "familyIds": [
+        "ga-misd-j4-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:59:30.110Z"
     },
     {
       "subjectType": "packet-family",
@@ -3327,11 +3355,41 @@
         "ga-pardon-j7-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:59:37.502Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-pardon-j7-set",
+      "familyId": "ga-pardon-j7-set",
+      "itemId": null,
+      "familyIds": [
+        "ga-pardon-j7-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T18:55:49.827Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-seal-m-set",
+      "familyId": "ga-seal-m-set",
+      "itemId": null,
+      "familyIds": [
+        "ga-seal-m-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:59:40.264Z"
     },
     {
       "subjectType": "packet-family",
@@ -4163,7 +4221,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.547Z"
@@ -4282,7 +4340,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:41.123Z"
@@ -4847,6 +4905,21 @@
         "me-nonconv-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF09",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:57:48.846Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-nonconv-set",
+      "familyId": "me-nonconv-set",
+      "itemId": null,
+      "familyIds": [
+        "me-nonconv-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF03",
       "laneKind": "packet-build",
@@ -5237,6 +5310,21 @@
         "ms-misd-1st-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:59:37.663Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-1st-set",
+      "familyId": "ms-misd-1st-set",
+      "itemId": null,
+      "familyIds": [
+        "ms-misd-1st-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF16",
       "laneKind": "packet-build",
@@ -5302,6 +5390,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:44:21.627Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "familyId": "ms-nonconv-set",
+      "itemId": null,
+      "familyIds": [
+        "ms-nonconv-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-01T23:59:40.337Z"
     },
     {
       "subjectType": "packet-family",
@@ -5403,10 +5506,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:05:30.417Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6078,10 +6180,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T01:05:30.665Z"
+      "releasedAt": "2026-09-05T01:09:26.533Z"
     },
     {
       "subjectType": "packet-family",
@@ -6213,7 +6315,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6378,7 +6480,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6707,7 +6809,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T19:05:25.069Z"
@@ -6871,7 +6973,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T19:02:07.993Z"
@@ -6901,7 +7003,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7081,7 +7183,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.671Z"
@@ -7140,7 +7242,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:41.004Z"
@@ -7199,7 +7301,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.792Z"
@@ -7274,7 +7376,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.914Z"
@@ -7333,7 +7435,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:56.902Z"
@@ -7453,7 +7555,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.392Z"
@@ -7888,7 +7990,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:23.032Z"
@@ -8338,10 +8440,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T19:49:51.031Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8353,7 +8455,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:41.254Z"
@@ -8398,7 +8500,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:57.024Z"
@@ -12860,7 +12962,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "978e44efc66c4df3cb7f01b7423e7eee3b16f50f8566b8bb8605b106951fbeb9",
+  "claimsDigest": "0ad5d0a424b651edf12c2de054902006c8aed600ca9c6ae82af2a4a6eed7a13d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26294,12 +26396,20 @@
       "releasedAt": "2026-09-05T00:23:09.885Z"
     },
     {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T01:09:26.153Z"
+    },
+    {
       "lane": "FIX01",
       "subjectType": "packet-family",
       "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
       "operation": "rapid-repair",
       "laneKind": "repair",
-      "releasedAt": "2026-09-05T01:05:30.281Z"
+      "releasedAt": "2026-09-05T01:09:26.272Z"
     },
     {
       "lane": "FIX01",
@@ -26307,15 +26417,7 @@
       "subjectId": "nc_145_5_felony-set",
       "operation": "rapid-repair",
       "laneKind": "repair",
-      "releasedAt": "2026-09-05T01:05:30.417Z"
-    },
-    {
-      "lane": "FIX03",
-      "subjectType": "packet-family",
-      "subjectId": "de_mandatory_expungement-set",
-      "operation": "rapid-repair",
-      "laneKind": "repair",
-      "releasedAt": "2026-09-05T01:05:30.542Z"
+      "releasedAt": "2026-09-05T01:09:26.393Z"
     },
     {
       "lane": "FIX08",
@@ -26323,7 +26425,7 @@
       "subjectId": "nv_seal_probation_family-set",
       "operation": "rapid-repair",
       "laneKind": "repair",
-      "releasedAt": "2026-09-05T01:05:30.665Z"
+      "releasedAt": "2026-09-05T01:09:26.533Z"
     }
   ],
   "reissues": [
@@ -32554,74 +32656,44 @@
       "reason": "VF-D failed this family on CLIPPING_AND_OVERLAP at base 21d53521f: the contact block splits across a page break in three of five routes, leaving twelve orphan pages across the family's twelve PDFs, and in the boundary fixture the mailing address breaks mid-value. An earlier repair fixed only the pardoned-conviction instance. The prior grant was released before that read, so the remaining work has not been done."
     },
     {
-      "subjectType": "packet-family",
-      "subjectId": "ga-fugitive-j5-set",
-      "operation": "independent-verification",
       "lane": "VF01",
-      "dispatchNames": "VF01",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-04T04:51:30.842Z",
+      "reissuedAt": "2026-09-05T01:12:05.277Z",
+      "reason": "The family was repaired after the independent read that failed it, so the standing verdict describes a packet that no longer exists and the repaired one has never been read. This lane neither built nor repaired it: builds are PF lanes and repairs FIX lanes, so the read is independent of everything it is reading."
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-misd-j4-set",
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "dispatchNames": "VF02",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T01:12:19Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-pardon-j7-set",
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "dispatchNames": "VF03",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "dispatchNames": "FIX02",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T01:12:19Z",
+      "reason": "the current dispatch names FIX02 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-seal-m-set",
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "dispatchNames": "VF04",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-nonconv-set",
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "dispatchNames": "VF05",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF05 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-misd-1st-set",
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "dispatchNames": "VF06",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF06 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-nonconv-set",
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "dispatchNames": "VF07",
-      "familyState": "VERIFY_PENDING",
-      "reissuedAt": "2026-09-05T00:39:50Z",
-      "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "dispatchNames": "FIX05",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T01:12:19Z",
+      "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -36199,6 +36271,17 @@
       "previouslyReleasedAt": "2026-09-03T19:01:59.288Z",
       "transferredAt": "2026-09-04T22:46:51.727Z",
       "reason": "The family was repaired after the independent read that failed it, and run 33923497915 rendered it on pinned commit d6f430105 with a green job, so it now holds a hash-bound RASTER_PASS covering the bytes on disk. That is what a post-repair re-read is for. This lane neither built nor repaired this family: the build was a PF lane and the repair a FIX lane, so the read is independent of everything it is reading."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-03T19:49:51.031Z",
+      "transferredAt": "2026-09-05T01:11:16.809Z",
+      "reason": "FIX-C repaired this family after VF06's read: the filing destination now carries the one-petition-per-circuit-court rule that decision NATIONAL-2026-08-28-C-WV-02 settled, and the records-to-obtain section is read from the registry. A repaired packet owes a fresh read, and VF02 neither built nor repaired it, so the read is independent of everything it is reading."
     }
   ],
   "withdrawals": [
@@ -39292,66 +39375,10 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-fugitive-j5-set",
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ga-misd-j4-set",
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ga-pardon-j7-set",
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ga-seal-m-set",
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-nonconv-set",
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-misd-1st-set",
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-nonconv-set",
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
-      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ri_marijuana-set",
       "operation": "independent-verification",
       "lane": "VF06",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
+      "withdrawnAt": "2026-09-05T01:12:19Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     },
     {
@@ -39359,7 +39386,7 @@
       "subjectId": "vt_exp_deferred_sentence-set",
       "operation": "independent-verification",
       "lane": "VF07",
-      "withdrawnAt": "2026-09-05T00:41:01Z",
+      "withdrawnAt": "2026-09-05T01:12:19Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
