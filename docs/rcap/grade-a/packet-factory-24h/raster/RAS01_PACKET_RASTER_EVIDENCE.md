@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `cdeb32d88c212b1e63ae987c4be2dd2da62538fe`
+**Minimum required ancestor:** `9dcc20c3a9529763b73ed04b166acf87e97b382c`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -296,14 +296,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf` — `e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11`
 - boundary `data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf` — `fbca34b30fb77841c8a1f3f2f0a01cd62002062a866f06670d7934a37281fdcf`
 - expected pages 11 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### vt_seal_18_to_21-set
 
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf` — `c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf` — `21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a`
 - expected pages 6 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF05
 
 ### vt_seal_nonconviction-set
 
