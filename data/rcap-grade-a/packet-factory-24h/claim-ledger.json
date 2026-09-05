@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3850ccdb182d6808caaf70e265960b933afb3ae3",
+  "generatedAtCommit": "844719474b04640a26a7034d90fb321e73972939",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2171,10 +2171,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX30",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Dealt by the generator and never launched; moving to FIX30, the one writer for the shared composer defect."
     },
     {
       "subjectType": "packet-family",
@@ -12957,7 +12958,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8e37f0ee26c4b9c1bec8b22bc2bd9a96be8266449e1943b92a3829c6721a15ca",
+  "claimsDigest": "d85e38666cdf6f79662ef4f76b74fa12d9ba015f2eee4265446ef0859e045d58",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27345,6 +27346,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T10:59:57.851Z",
       "reason": "KNOWN_PREFILLS and REQUIRED_BEFORE_FILING repaired and rebuilt --no-raster twice byte-identical; SELF_HELP_STOP verified already carried at base by FIX01 and not claimed. Independent verification and central raster owed on canonical a2f87783.. / boundary a037710f.. (Replayed by Captain from FIX29 commit d214579b3.)"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:05:11.394Z",
+      "reason": "Dealt by the generator and never launched; moving to FIX30, the one writer for the shared composer defect."
     }
   ],
   "reissues": [
@@ -38181,6 +38191,17 @@
       "previouslyReleasedAt": "2026-09-05T10:39:21.234Z",
       "transferredAt": "2026-09-05T10:39:21.371Z",
       "reason": "Aligning the live grant with the generator's current verification deal (VF04) so the dispatch is assertable."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX30",
+      "previouslyReleasedAt": "2026-09-05T11:05:11.394Z",
+      "transferredAt": "2026-09-05T11:05:11.527Z",
+      "reason": "CLIPPING_AND_OVERLAP: the composer writes participantFacingObligations with literal markdown delimiters onto a delivered page (OK page 4 baseline y=517; WV sibling per vf03/vf09). One repair at the composer, one writer for both families."
     }
   ],
   "withdrawals": [
