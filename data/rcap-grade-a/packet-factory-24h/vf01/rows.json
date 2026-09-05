@@ -14097,6 +14097,405 @@
     "The family ships eight extra per-document fixtures beside the two assembled packets (canonical--200-00130.pdf and so on). They are consistent with the assembled bytes and no record pins them, so nothing binds to them."
    ],
    "grantsNothing": "A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory and no build script."
+  },
+  {
+   "itemId": "az_wrongful_arrest_clearance-set",
+   "lane": "VF01",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+   "verifier": "VF01 (independent-verification; this lane built, repaired, rendered and rastered none of these three families)",
+   "verifiedAtBase": "d7e293f81",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 az_wrongful_arrest_clearance-set -> CLAIM_OK VF01 az_wrongful_arrest_clearance-set (independent-verification, grant set 322805812600aacc), exit 0, before any family content was read.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family az_wrongful_arrest_clearance-set --codex-cloud --minimum-captain-sha e9ce0c44b10f1109469af9c0784b936951396f28 -> PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable. The one failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'; the sampler was re-run outside the preflight and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (sha256 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327), an index entry filed under the master_library custody with a Nationwide-style path; every PDF on this host between 150 KB and 200 KB was hashed and no copy exists here. It touches no AZ, NJ or NM entry: all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and every source digest of these three families resolves by content hash and re-hashes from the mounted bytes.",
+   "custodies": {
+    "mounted": [
+     "master_library",
+     "human_source_returns"
+    ],
+    "notMounted": [
+     "d_source_packs",
+     "nationwide_recovery_pool_2026_09_02"
+    ],
+    "howResolved": "by content hash across the two mounted custodies, never by declared path; every declared path in these families points at rcap-d-source-packs-2026-08-12, which is not mounted"
+   },
+   "canonicalSha256": "276e1ab9531edc0641eb222d43e0a2b1a9d69b1d3adad9215eb264cce48be0ec",
+   "boundarySha256": "fcfc45c3ecd4bbce73222854cc63cdf9dc55bba4702ccf6857d48203eb4ef7af",
+   "receiptBindsTheseBytes": "Both digests were recomputed from the fixture bytes on disk before anything else and equal the record: fixtures/canonical.pdf 276e1ab9... 9,504 B and fixtures/boundary.pdf fcfc45c3... 9,726 B. product-wiring.json binding.acceptanceReceipt is RASTER_PASS, workflow run 33960054973, job 101290612568, boundToCanonicalSha256 276e1ab9..., which is the canonical this family ships. This receipt is over these bytes.",
+   "rasterState": "RASTER_PASS",
+   "repairRead": "data/rcap-grade-a/packet-factory-24h/fix28/rows.json (FIX28: route key on the pages, census re-pin, declared caption court blank). All fifteen obligations were measured fresh on the current bytes; nothing was carried over from FIX28's report.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> (read-only; no --write, no --mutations; git status clean after all three runs)",
+    "measuredResult": "PASS_COMPLETE, 6/13 written"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The census at this base (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, the single AZ route whose trackId is az_wrongful_arrest_clearance) carries exactly one key: obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051. The same key and only that key appears in production-field-map.json routeKeys, componentRoutes for both components, both documentPolicy.routeKey and routeSelectionsMade[0]; in source-receipt.json routeKeys; in product-wiring.json routeKey, routeKeys and binding.routeKeys; in the closing Route(s) line of participant-instructions.md; and in the printed Route footer on pages 2 and 4 of both fixtures, read from the inflated content streams and from a 110 dpi local raster. The retired key obligation:track-only:AZ:az_wrongful_arrest_clearance occurs zero times in the family directory and zero times in either fixture's content stream.",
+     "finding": "The route the packet carries is the route the census names, on the page and in every record."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "This is a zero-binary composition (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT); it binds three committed repository records rather than document bytes. All three were re-hashed from disk here and equal the receipt: legal-design-track-registry.json 232466b6... / 16,586,150 B; legal-design-specifications.json f66ce335... / 16,829,391 B; route-obligation-candidate.json 4d0eb74b... / 2,625,273 B, which is FIX28's re-pin and is the census that carries the current route key.",
+     "finding": "Every bound source binds by exact SHA-256 recomputed from the bytes on this host."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "legal-design-specifications.json customPleadingSpecs names one component for this track, az_wrongful_arrest_clearance-primary-filing-1, and MASTER_QUEUE.json carries packetComponents []. The build composes that component plus its own filing-instructions-2. reports/rendered-artifacts.json componentSet lists both and the delivered 4 pages carry both: pages 1-2 the petition, pages 3-4 the filing instructions, confirmed page by page from the bytes.",
+     "finding": "Every component the route names is rendered and present."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Six writes across the two components. All six read back visibly from the delivered pages: petitioner name (page 1 caption 'IN RE: Jordan Avery Reyes', page 2 'PRINTED NAME:', page 3 'This page is for'), date of birth 1991-04-17, mailing address, telephone and email in the page-2 contact block. Every text operator on all four pages is '0 0 0 rg' black at 11 pt Times-Roman, x=72; no Tr mode and no white fill anywhere, so nothing is written invisibly. knownRequiredFieldsMissing 0 measured here.",
+     "finding": "Every known fact is written and visible on the page it belongs to."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Four declared items; each carries a printed caption and each appears in participant-instructions.md, checked against the file. caption_court declares printedLabel 'IN THE ............................................................ COURT', which is character-for-character the line delivered at the top of page 1, and its disclosure row states the recorded venue verbatim ('Statewide Arizona law; petition in superior court.'), says no committed record states a county rule, and sends the participant to a superior court clerk. C1, C2 and C3 print as labelled dotted blanks and are listed in the order they are met down page 1. Every other printed blank on the delivered pages is accounted for: the case-number line is disclosed as deliberately left blank, and DATE / SIGNATURE OF PETITIONER carry label and dot leaders only.",
+     "finding": "Every declared item is named in participant-instructions.md and every printed participant blank on the delivered pages is declared."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "routeSelectionsMade names the one route and its instrument; selectionControls is empty on both composed documents and no election control is printed on any of the four pages. requiredOptionsMissing 0 measured here.",
+     "finding": "There is one route, it is stated in each page's own title and body, and no election is left to the participant."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "No repeating table is printed on any of the four pages; C1, C2 and C3 are three independent narrative blanks, all blank. incompleteRows 0 measured here.",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read from the delivered bytes, not from the field map: page 2 prints 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with dot leaders and no glyphs on either, on both fixtures, and the page-1 case-number line the same. No certificate of mailing, court-only or prosecutor-only field exists in this packet. protectedWrites 0 measured here.",
+     "finding": "No protected field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over the two committed fixtures returns 276e1ab9... and fcfc45c3..., equal to reports/rendered-artifacts.json, to product-wiring.json's acceptance receipt and to the digests this assignment names. Neither digest appears in data/rcap-grade-a/stale-artifact-block.json.",
+     "finding": "Canonical and boundary bytes hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The page manifest reads primary-filing-1 pages 1-2 then filing-instructions-2 pages 3-4. Reading the delivered bytes page by page gives the petition on 1-2 and the filing instructions on 3-4, in that order, on both fixtures.",
+     "finding": "Rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "All four pages of both fixtures were rastered locally at 110 dpi into /tmp and read. No glyph falls outside the text column, no raw markdown, no stray delimiter, no route-key-only or fragment page, no orphaned signature page: page 2 carries paragraph D and the contact block beside the signature line, and page 4 carries the tail of the stop list, THE PAGES IN THIS SET and the footer. The one wrap worth naming is the page-2 and page-4 Route footer: the 116-character key breaks across two lines as '...-after-a-wrongful-arrest' / '-under-13-4051'. The break falls on a hyphen the key itself contains, the two printed rows concatenate to the key exactly (checked against the decoded hex of both Tj strings), no character is added or lost, and the continuation hyphen leads the second row so it reads as a continuation. On the boundary fixture the long address, telephone and email wrap inside the column without collision. visualDefects 0 measured here.",
+     "finding": "No ink outside a measured write box and no visible rendering artefact on any delivered page."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "Delivered page 3 prints 'WHERE IT GOES / Superior court' with the recorded venue, and the instructions repeat it under FILING_DESTINATION. The committed track registry records the destination as superior court, which is what the pages say.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Delivered page 3 states that no committed record binds a filing fee for this route, quotes the record verbatim, names the office that answers it (the clerk of the superior court, with the recorded venue), states that no committed record sets out a fee-waiver procedure, quotes that record too, and tells the participant to ask that clerk for its own fee-waiver application.",
+     "finding": "The fee position and the waiver route are stated, and the absence is stated as an absence with the office that answers it."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Delivered page 3 has its own WHO MUST BE SERVED section: it states that no committed record binds a service requirement, quotes the record, names the clerk's office of the superior court as the office that answers who must be served and how, and carries the recorded notice position ('A hearing is contemplated by the statute.'). This is the opposite of the AK failure mode recorded earlier in this file, where the packet never mentioned service at all.",
+     "finding": "Who must be served, and how, is addressed on the page with the office that answers it."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "Delivered pages 3-4 carry 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' with five conditions, repeated in the instructions. One condition ('Any evidentiary dispute or contested hearing') is printed twice, once as the first bullet and once as the last with the words 'triggers handoff' appended; both come from the committed record and the duplication narrows nothing and misstates nothing.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [],
+   "notMeasurableHere": [],
+   "observationsThatAreNotDefects": [
+    "The Route footer wraps mid-key on pages 2 and 4. It is a machine key in a footer, not participant-facing legal text, the break falls on a hyphen the key contains and nothing is lost; recorded rather than failed.",
+    "production-field-map.json records page 1 for petition_signature and petition_signature_date, which are delivered on physical page 2 of the assembled packet. The field-map page number is component-relative and both fields are refusals carrying no ink, so nothing on the page is wrong; a reader using the field map to find the signature line will look on the wrong sheet.",
+    "The instructions table lists both components, while the delivered page-4 'THE PAGES IN THIS SET' names only primary-filing-1 and omits the instructions page it is printed on."
+   ],
+   "grantsNothing": "This row is a reading. A PASS proves a packet is complete as measured here; it approves no output, promotes nothing and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record."
+  },
+  {
+   "itemId": "nj_arrest_no_conviction-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+   "verifier": "VF01 (independent-verification; this lane built, repaired, rendered and rastered none of these three families)",
+   "verifiedAtBase": "d7e293f81",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 nj_arrest_no_conviction-set -> CLAIM_OK VF01 nj_arrest_no_conviction-set (independent-verification, grant set 322805812600aacc), exit 0, before any family content was read.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family az_wrongful_arrest_clearance-set --codex-cloud --minimum-captain-sha e9ce0c44b10f1109469af9c0784b936951396f28 -> PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable. The one failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'; the sampler was re-run outside the preflight and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (sha256 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327), an index entry filed under the master_library custody with a Nationwide-style path; every PDF on this host between 150 KB and 200 KB was hashed and no copy exists here. It touches no AZ, NJ or NM entry: all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and every source digest of these three families resolves by content hash and re-hashes from the mounted bytes.",
+   "custodies": {
+    "mounted": [
+     "master_library",
+     "human_source_returns"
+    ],
+    "notMounted": [
+     "d_source_packs",
+     "nationwide_recovery_pool_2026_09_02"
+    ],
+    "howResolved": "by content hash across the two mounted custodies, never by declared path; every declared path in these families points at rcap-d-source-packs-2026-08-12, which is not mounted"
+   },
+   "canonicalSha256": "912a2ada6ef04dd680aec20ef6c8c232d9af030a8d54695ba3b65d279d601e71",
+   "boundarySha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+   "receiptBindsTheseBytes": "Recomputed first from the bytes on disk: fixtures/cn-10557-canonical.pdf 912a2ada... and fixtures/cn-10557-boundary.pdf de3224b0..., equal to the record. product-wiring.json binding.acceptanceReceipt is RASTER_PASS, run 33791677725, job 100770326899, artifact 9908296762, boundToCanonicalSha256 912a2ada..., so the standing receipt is over these bytes. FIX25 moved no participant-facing PDF byte, which this confirms independently.",
+   "rasterState": "RASTER_PASS",
+   "repairRead": "data/rcap-grade-a/packet-factory-24h/fix25/fix25-required-before-filing-two-plus-one.json (FIX25: required-before-filing list 69 -> 50, printed captions, fixtures unchanged). Measured fresh on the current bytes.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> (read-only; no --write, no --mutations; git status clean after all three runs)",
+    "measuredResult": "PASS_COMPLETE, 18/179 written"
+   },
+   "whyNineZerosDoNotClearThisFamily": "All nine were zero before FIX25 and are zero now. Every defect below is invisible to them by construction: the completeness contract reads the field map as its classification authority, the delivered field map records effectiveLabel null for all 179 fields (labelBasis 'no_printed_caption_within_reach'), so no written value is ever compared against the caption printed beside it; and rowKeyOf() needs a named Item/Row/Line marker in the field name, which arrest1Dt / arrest1Statute / arrest1CaseNum do not carry, so the arrest table on delivered page 31 is never grouped into rows at all. FIX25's assertPrintedCaptionInvariants closes this for surfaced blanks and does not reach writes.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The census carries one NJ key for trackId nj_arrest_no_conviction: obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6. production-field-map.json familyId, source-receipt.json, product-wiring.json routeKeys and binding.routeKeys and the Route scope line of participant-instructions.md all carry that key and no other.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "One source, official-form:CN-10557, pinned at c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Its declared path is under rcap-d-source-packs-2026-08-12, which is not mounted; resolved by content hash instead and re-hashed from the mounted bytes at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf. Exactly one file on this host carries that digest.",
+     "finding": "The bound source binds by exact SHA-256 recomputed from the bytes."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "MASTER_QUEUE names four components: primary-filing-1, statements-accompanying-petition-2, order-for-hearing-3 and proposed-order-4. The delivered 43 pages carry Form A at 18-24, Form B the Order for Hearing at 27-28, Form C the Expungement Order at 30-33, and Forms D to G, all read from the bytes.",
+     "finding": "Every component the route names is rendered and present."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "evidence": "Three writes land on a box whose printed caption is not what was written, and one held fact is written on one page and left blank on the page that swears to it. (1) DefAddr2 = participant.city_state_zip is written into the widget captioned '(city)' and DefAddr3 = participant.phone into the widget captioned '(state, zip code)', on delivered pages 18, 27, 30, 35, 38, 40 and 43. Delivered page 18 reads '(city) Newark, NJ 07102' and '(state, zip code) 973-555-0142', with the same telephone correctly repeated on the '(your telephone number)' line below it; the participant's state and ZIP never reach the box printed for them. Widget rectangles page 18: DefAddr2 x 70.982 y 677.053 w 264.088, DefAddr3 x 125.275 y 658.850 w 209.969. The same three-line block repeats at page 27 (Order for Hearing), page 30 (proposed Expungement Order) and the Form D/E/F/G letters at 35, 38, 40 and 43. (2) The arrest date is held - matter.arrest_date is written as 2019-03-08 on delivered page 31 - and the sworn petition's own paragraph 1 on page 18, 'I was arrested/taken into custody on (date) ____', is delivered blank; CN-10557 carries no AcroForm widget over that blank (every page-18 widget was listed from the census and none sits on that baseline), so nothing was written and nothing was declared.",
+     "finding": "A write must match the printed label of the box it lands in, and a fact the packet holds must appear on the page that asserts it."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "FAIL",
+     "evidence": "The 50 declared items are correct as far as they go: all 50 were checked against participant-instructions.md and all 50 are listed there, every one by the caption the form prints, none by an internal field name, and nothing the court completes is demanded of the participant - jdgmntDocket1-4 and jdgmntAmt1-4, the page-32 monies-owed section that NJ.memo.json manualCompletionItems records as the court's, are absent from the list and delivered blank, as are sigHearJdg, sigFinalJdg and expungDocketNum. The failure is a blank the list does not contain: the arrest date in paragraph 1 of the Petition, delivered page 18, printed 'I was arrested/taken into custody on (date)'. It is a participant blank on a verified petition, it is delivered empty, and it appears nowhere in the 50. The list carries the same printed caption only for the Addendum page (contArrestDt, page 20). The plea-bargain pair on the same page ('Was the dismissal a result of a plea bargain? [ ] Yes [ ] No') is likewise delivered unmarked and undisclosed, through the PARTICIPANT_ELECTION_GENUINE path that carries no disclosure condition - the same contract gap FIX25 recorded on Alabama and did not repair here.",
+     "finding": "Every participant blank on a delivered page must be listed by its printed caption; the petition's own arrest date is not."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "One route, one election: the item-a dismissal control on delivered page 18 is marked and renders as a visible X at 120 dpi. No other route-determined election exists on this kit. requiredOptionsMissing 0 measured here.",
+     "finding": "The route-determined election is selected."
+    },
+    "REPEATING_ROWS": {
+     "result": "FAIL",
+     "evidence": "Delivered page 31, Expungement Order (Form C - Continued), arrest row (1) reads '(date) 2019-03-08 arrest/custody on the charge of violating N.J.S.A. (statute) ______ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) 24-CR-001234'. Two cells of the row are written and the third, arrest1Statute, is blank and declared requiredBeforeFiling. Rows (2) to (5) are wholly blank, which is correct. The builder's own row-integrity rule covers only part of the row: scripts/build-census-v1-nj_arrest_no_conviction-set.mjs declares repeatingRowGroups [{row: 'Expungement Order (Form C), arrest table row 1, delivered page 31', fields: ['arrest1Dt','arrest1CaseNum']}] and omits arrest1Statute. The counter reads 0 because rowKeyOf() requires a named Item/Row/Line marker in the field name and these three carry none.",
+     "finding": "A row is completed or left untouched; a row with a date and a docket number and no statute looks finished and is not."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read from the delivered bytes: page 24 prints 'Signed: (your signature before a Notary)' and the whole jurat blank; page 33 prints the 'Judge, Superior Court of New Jersey' line blank; pages 35, 38, 40 and 43 print '(your signature)' blank; page 30 leaves 'IT IS ORDERED this ___ day of ___' and the Expungement Docket Number blank; page 32's monies-owed section carries no ink. No Tr mode and no white fill in any content stream, so nothing is written invisibly. protectedWrites 0 and invisibleWrites 0 measured here.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over the two committed fixtures returns 912a2ada... and de3224b0..., equal to the record and to the digests this assignment names; neither appears in stale-artifact-block.json.",
+     "finding": "Canonical and boundary bytes hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "43 pages in both fixtures. The delivered order runs kit front matter, Form A at 18-24, the Form A addendum at 20, Form B at 27-28, Form C at 30-33, Form D at 35, Form E at 37-38, Form F at 40 and Form G at 42-43, which is the order the field map's per-page widget pages and the instructions both describe.",
+     "finding": "Rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "evidence": "Two defects visible on delivered pages, neither of them clipping. (1) Delivered page 19, Petition item c - the branch for a dismissal 'after conditional discharge, conditional dismissal, Pretrial Intervention Program (PTI), Veterans Diversion Program, Juvenile Conference Committee, Intake Service Conference, or deferred disposition' - carries the ink 'Example Court' in '(name of Court)', while item c's own checkbox is unmarked and its date and offence blanks are empty. The cause is a catch-all field match: dismissCrt is ONE AcroForm field with TWO widgets, index 0 on page 18 at x 315.144 y 179.395 in item a and index 1 on page 19 at x 314.515 y 674.833 in item c, and the build writes matter.court to the field rather than to the item-a widget. The packet therefore prints, on a petition verified under N.J.S.A. 2C:52-7, a court name inside a diversion branch that its own self-help stop list tells the participant to stop on. Present on both fixtures. (2) The caption-block mis-fill described under KNOWN_PREFILLS is visible on seven delivered pages, including the sworn petition at 18 and the proposed Expungement Order at 30: the line printed '(state, zip code)' carries a telephone number. Boundary values fit their boxes at reduced size with no overlap, so nothing is clipped; the ink is in the wrong box.",
+     "finding": "A defect visible on a delivered page fails this obligation even when the counters are green."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md 'Where to file' names the county where the participant was arrested or prosecuted, the Criminal Case Management Office of that county as the office that receives it, and the Superior Court, Criminal Division, of the vicinage as the destination NJ.memo.json records; it also carries the kit's own multi-county instruction and refuses to invent a statewide address.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "'What it costs to file' states there is no court filing fee, cites the kit's own running footer ('Kit updated 06/2020 to remove the filing fee, CN 10557') and the committed record, states that there is nothing to waive and therefore no waiver form, and separates the two costs that are not the filing fee (the State Police SBI charge and the notary).",
+     "finding": "The fee and the waiver position are stated."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "'Who must be served' states that nobody is served until filed copies come back, names the recipients the kit names at pages 10 and 11, requires certified mail return receipt requested within five days of the signed Order for Hearing, and points at Form E and Form F.",
+     "finding": "Who must be served, and how, is stated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "'Where self-help ends' carries the route's selfHelpStopConditions from the committed track registry word for word and states plainly that no lawyer has reviewed the case.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "notMeasurableHere": [],
+   "repairActions": [
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs - write matter.court to dismissCrt widget index 0 only (page 18, x 315.144 y 179.395) and leave widget index 1 (page 19, x 314.515 y 674.833) empty; if the host cannot write per widget, refuse dismissCrt and surface item a's '(name of Court)' as a required-before-filing blank with its printed caption.",
+    "Split the caption block by printed caption: DefAddr2 (page 18 x 70.982 y 677.053; same field on pages 27, 30, 35, 38, 40, 43) is captioned '(city)' and must carry the city alone; DefAddr3 (page 18 x 125.275 y 658.850; same pages) is captioned '(state, zip code)' and must carry state and ZIP, not participant.phone. The telephone already has its own captioned box, DefPhone at page 18 x 176.418 y 641.588.",
+    "Declare and disclose the Petition paragraph-1 arrest date (delivered page 18, printed 'I was arrested/taken into custody on (date)'). It has no AcroForm widget, so it cannot be written; the packet holds matter.arrest_date and prints it on page 31, so it is a known fact and the participant must be told in terms to copy it onto that line.",
+    "Extend repeatingRowGroups for the Form C arrest table row 1 to ['arrest1Dt','arrest1CaseNum','arrest1Statute'], so the row is completed or left untouched rather than delivered with a date and a docket number and no statute."
+   ],
+   "notThisLanesFinding": "The left/right split of the pages 37 and 42 recipient blocks, which FIX25 named and deliberately left alone, was re-read and is unchanged; no view is offered on it here.",
+   "grantsNothing": "This row is a reading. A PASS proves a packet is complete as measured here; it approves no output, promotes nothing and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record."
+  },
+  {
+   "itemId": "nm_release_without_conviction-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+   "verifier": "VF01 (independent-verification; this lane built, repaired, rendered and rastered none of these three families)",
+   "verifiedAtBase": "d7e293f81",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 nm_release_without_conviction-set -> CLAIM_OK VF01 nm_release_without_conviction-set (independent-verification, grant set 322805812600aacc), exit 0, before any family content was read.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family az_wrongful_arrest_clearance-set --codex-cloud --minimum-captain-sha e9ce0c44b10f1109469af9c0784b936951396f28 -> PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable. The one failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'; the sampler was re-run outside the preflight and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (sha256 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327), an index entry filed under the master_library custody with a Nationwide-style path; every PDF on this host between 150 KB and 200 KB was hashed and no copy exists here. It touches no AZ, NJ or NM entry: all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and every source digest of these three families resolves by content hash and re-hashes from the mounted bytes.",
+   "custodies": {
+    "mounted": [
+     "master_library",
+     "human_source_returns"
+    ],
+    "notMounted": [
+     "d_source_packs",
+     "nationwide_recovery_pool_2026_09_02"
+    ],
+    "howResolved": "by content hash across the two mounted custodies, never by declared path; every declared path in these families points at rcap-d-source-packs-2026-08-12, which is not mounted"
+   },
+   "canonicalSha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+   "boundarySha256": "ae38969cccd6defd1d87ecb308f9338bc5557f811bfa42914c31f0bbfac177a4",
+   "receiptBindsTheseBytes": "Recomputed first from the bytes on disk: fixtures/canonical.pdf 318378ba... 1,419,956 B, 21 pages, and fixtures/boundary.pdf ae38969c... 1,420,209 B, 21 pages, equal to the record. product-wiring.json binding.acceptanceReceipt is RASTER_PASS, run 33959453003, job 101289018959, boundToCanonicalSha256 318378ba..., so the receipt is over these bytes.",
+   "rasterState": "RASTER_PASS",
+   "buildReturnRead": "data/rcap-grade-a/packet-factory-24h/pf28/rows.json. Both of PF28's two named choices were tested against the controlling committed records rather than accepted; see thePf28Questions below.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> (read-only; no --write, no --mutations; git status clean after all three runs)",
+    "measuredResult": "PASS_COMPLETE, 35/392 written"
+   },
+   "thePf28Questions": {
+    "theHeldCaseNumber": "KNOWN_PREFILLS FAILURE, with one half of PF28's reasoning upheld. Refusing to write the number on the District Court line unconditionally is right: on the boundary fixture it would be false. But the packet holds the number and holds what decides the line. scripts/build-census-v1-nm_release_without_conviction-set.mjs sets matter.case_number to 'D-202-CR-2021-01532' on the canonical fixture - itself a Second Judicial District DISTRICT court number, so the District Court line of paragraph 4 is the true line and is delivered blank - and to 'M-51-MR-2019-00417' on the boundary, a magistrate number whose true line is the Metropolitan/Magistrate/Municipal line, also delivered blank. The controlling specification (legal-design-specifications.json, officialFormAssignments, this track) names rwcOriginatingCourt a REQUIRED generation input: 'Where was the case originally handled - district, metropolitan, magistrate or municipal court, and in what location?'. So the fact is held and the routing is determined by an answer the intake is required to collect; what is missing is a fact-conditional write, which build-findings.json itself proposes. Decisively, the two delivered field-map rows (NM-4-952/p2-y63444-x23856 and NM-4-952/p2-y60684-x9000) each carry why: 'the platform holds no value for this and the participant supplies it before filing', which the family's own build-findings.json contradicts in terms - 'THE CASE NUMBER IS HELD AND NOT WRITTEN'. Under REQUIRED_BEFORE_FILING_CONDITIONS the GENUINELY UNAVAILABLE condition fails and the correct disposition is KNOWN_FACT_NOT_WRITTEN; the counter reads 0 only because factAvailable is left null on both rows.",
+    "theSanJuanComponent": "COMPONENT_SET IS COMPLETE FOR THE ROUTE AS THE CENSUS DEFINES IT. The condition is not the builder's: data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-packet-set-manifests.json and data/record-clearing/legal-design-intake/NM.memo.json all carry nm_release_without_conviction-proposed-order-6 with requirement 'conditional' and the same named conditionDescription: 'Where the participant files in San Juan County, whose non-conviction packet is the retained local order. Every other district supplies its own order form and the participant obtains it from that district's expungement packet.' The canonical fixture files in Bernalillo (Second) and the boundary in Sierra (Seventh), so the condition is not met by either; the component is reconciled in the manifest, its binary is bound by hash in source-receipt.json and not rendered, and the required component that does discharge the gap - local-order-form-instructions-7 - is delivered as the '## Which district's order form you need' section, which names the held copy as the Eleventh Judicial District's 2022 San Juan packet, says it is not a form for any other county, says it cites the pre-2021 statute, and tells the participant to take the order from their own district's current packet. Refusing to render 31 county-captioned pre-amendment pages statewide is the right refusal and it is the census's own condition, not an excuse invented to cover an unbuilt component."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "The census carries one NM key for trackId nm_release_without_conviction: obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction. production-field-map.json routeKeys, source-receipt.json, product-wiring.json routeKey/routeKeys/binding.routeKeys and MASTER_QUEUE all carry that key and no other. No route key is printed on any delivered page, so there is no printed key the census no longer carries.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Seven declared sources, all pinned to paths under rcap-d-source-packs-2026-08-12, which is not mounted. All seven were resolved by content hash and re-hashed from the mounted Master Library bytes, one file per digest: 4-952 951e5b81..., 4-955 99482e16..., 4-959 1ec4057e..., 4-960.2 fc22cdcb..., 4-960.1 3cbc2e6e..., 4-222 809c66a7..., NM-SAN-JUAN-NONCONVICTION-PACKET d804959b.... Six are rendered and the seventh is bound by hash and deliberately not rendered.",
+     "finding": "Every source binds by exact SHA-256 recomputed from the bytes on this host."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Ten components. Six rendered as official PDF fill and confirmed page by page in the delivered bytes: 4-952 pages 1-4, 4-955 pages 5-6, 4-959 pages 7-9, 4-960.2 pages 10-11, 4-960.1 pages 12-14, 4-222 with 4-223 pages 15-21. Three are process guidance and are delivered as named sections of participant-instructions.md. The tenth, proposed-order-6, is conditional in the committed track registry, the packet-set manifests and NM.memo.json on filing in San Juan County; neither fixture does, and the gap is disclosed. See thePf28Questions.theSanJuanComponent. requiredComponentsMissing 0 measured here.",
+     "finding": "Every component the route names is rendered and present, or is a conditional component whose named condition is not met and is disclosed."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "evidence": "Two failures on Form 4-952. (1) The held case number is written on neither line of paragraph 4, delivered page 2, while the packet holds it and holds the required intake answer that decides the line; the field-map rows justify the blanks with 'the platform holds no value for this', which the family's own build-findings.json contradicts. See thePf28Questions.theHeldCaseNumber. (2) The judicial district is written into the District Court branch of the paragraph [11.] 12 election, delivered page 3, field NM-4-952/p3-y39984-x20340 at x 205.4 y 401.84, whose own printedLine the field map records as '[ ] District Court in the ____________ Judicial District' under 'The charges sought to be expunged were originally disposed of or originated in (select one)'. The canonical page 3 prints 'Second' there and the boundary prints 'Seventh' - on a fixture whose case number is M-51-MR-2019-00417 and which PF28 and the build script both describe as a magistrate-court case. The three lower-court location lines beside it are blank, no box is ticked, and the write is on the one branch the case does not use. It is the same assertion PF28 refused to make with the case number, made one paragraph later with a different fact. Every one of the 35 writes is otherwise visible above or beside its own printed caption, checked page by page rather than by field name, including all five Form 4-222 writes on delivered pages 15 and 18.",
+     "finding": "A known fact must be written on the page and the line it belongs to, and no fact may be written onto a branch the case does not use."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "FAIL",
+     "evidence": "The disclosure limb passes completely: all 175 declared items were matched against participant-instructions.md by their disclosure labels and 0 are missing, and the guide carries a section of its own for the case-number line and another for the fee-waiver caption. The declaration limb fails on the two paragraph-4 case-number rows, which claim the disposition on a GENUINELY UNAVAILABLE ground that the family's own findings record contradicts. A declared required-before-filing item whose fact the platform holds is a known fact not written, not a permitted blank.",
+     "finding": "REQUIRED_BEFORE_FILING is available only where the platform holds no value for the fact."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "routeDeterminedSelections is empty and the field map's routeSelectionNote explains why: Section 29-3A-4 is one section and Rule 1-077.1 one procedure, and the six paragraph-6 disposition boxes are decided by the case rather than by the route. The one election the route does decide - whether Form 4-960.1's page-2 service blocks are reached - is decided as reached, because two parties are served on this track, and the twenty blanks are surfaced rather than marked NOT_APPLICABLE_ON_THIS_ROUTE as the identity-theft family does. No selection control anywhere in the packet is marked, which is correct for a host whose forms draw tick boxes as printed '[ ]' characters with no widget to set, and all 113 hand-marked controls are disclosed. requiredOptionsMissing 0 measured here.",
+     "finding": "Every route-determined election is made; nothing the case determines is asserted."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "The one repeating structure is Form 4-952 paragraph 6, the per-charge block on delivered page 2: date of arrest, name of offence and statute, final disposition, degree, date of final disposition. Every cell is delivered blank on both fixtures, so no row carries written cells beside required cells left blank. incompleteRows 0 measured here.",
+     "finding": "No partially written row on any delivered page."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read from the delivered bytes. Form 4-952 page 4 prints the petitioner's name above 'Printed name of Petitioner' and leaves Date, Signature of Petitioner, Mailing Address, Telephone, Email and the whole attorney block blank. Form 4-955's certificate of service below the caption is entirely blank, as is Form 4-959's certificate; Form 4-960.1's hearing details, judge's name and TCAA block are blank; Form 4-222 page 4's notary jurat and Form 4-223's judge line are blank. Both fixtures carry no /AcroForm, no annotations and no hidden-flagged widgets - every widget appearance is flattened - and no content stream contains a '3 Tr' invisible text mode. protectedWrites 0 and invisibleWrites 0 measured here.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink, and nothing is written invisibly."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum over the two committed fixtures returns 318378ba... and ae38969c..., equal to reports/rendered-artifacts.json, to the acceptance receipt and to the digests this assignment names; neither appears in stale-artifact-block.json.",
+     "finding": "Canonical and boundary bytes hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The 21-entry page manifest reads 4-952 1-4, 4-955 5-6, 4-959 7-9, 4-960.2 10-11, 4-960.1 12-14, 4-222 15-21, each entry naming its source digest. Reading the delivered bytes page by page returns exactly that order on both fixtures.",
+     "finding": "Rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "evidence": "Source-shipped ink naming the wrong court on a delivered sworn page. Delivered page 15 (Form 4-222, Application for Free Process and Affidavit of Indigency, 'I request that the court enter an order ... and give upon my oath or affirmation the following statement') prints 'SIXTH JUDICIAL DISTRICT COURT' as page content, and the build writes the county into the blank immediately above it, so the canonical caption reads 'COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT' and the boundary 'COUNTY OF Sierra / SIXTH JUDICIAL DISTRICT COURT'. Bernalillo is the Second Judicial District and Sierra the Seventh; the Sixth is Grant, Hidalgo and Luna. Delivered page 20 (Form 4-223, Order on Application for Free Process) prints the same line with the county blank. No widget covers those coordinates in the pinned binary, so the district cannot be set or cleared by filling the form, and the build's own write of the county sharpens the contradiction rather than causing it. The build records this as blocking_for_release and the instructions tell the participant to strike the line by hand or get their district's copy, which is honest mitigation and not a cure: the page as delivered still names a court that is not the participant's. Second, the undisclosed paragraph-12 write recorded under KNOWN_PREFILLS is visible ink on a branch of a printed '(select one)' that the case does not use, and the instructions - which do tell the participant to strike the Sixth District line - say nothing about it. Otherwise clean: 21 pages of both fixtures were read; no glyph outside a measured write box, no raw markdown, no stray delimiter, no fragment or route-key-only page, no orphaned signature page, and the four struck-through amendment rules on Form 4-959 page 1 are correctly carried as printed rules that are not blanks with nothing written on them.",
+     "finding": "A defect visible on a delivered page fails this obligation even when the counters are green."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "'Stage one: file under seal, then mail to two parties' names the district court of the county where the charges originated, the arrest occurred or a conviction was entered, matching the committed record, and the caption of every rendered form carries the county and judicial district.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "The filing fee is stated as $132.00 with the tender most courts want, and the waiver route is Form 4-222 NMRA, which is rendered into the packet at pages 15-21 with its own instruction section. The caption defect on that form is disclosed in terms.",
+     "finding": "The fee and the waiver route are stated."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Two parties, named: the district attorney for the judicial district where the charge originated, and the New Mexico Department of Public Safety at P.O. Box 1628, Santa Fe, New Mexico 87504-1628, by first-class mail after the endorsed copy comes back, with the sixty-day objection window plus Rule 1-006(C)'s three days for mail stated as sixty-three. The instructions say in terms that the arresting agency is not served on this track and that Form 4-955 prints exactly those two lines, which the delivered page 5 confirms.",
+     "finding": "Who must be served, and how, is stated and matches the form."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "The instructions carry 'Keep this petition separate from any conviction', 'The hearing, if there is one' and 'What this packet is not', and state where the packet stops and a lawyer is needed.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "notMeasurableHere": [],
+   "repairActions": [
+    "scripts/build-census-v1-nm_release_without_conviction-set.mjs / the shared host scripts/rcap-nm-flat-forms/nm-packet-host.mjs - make the paragraph-4 case-number write fact-conditional on the originating court the intake already collects (rwcOriginatingCourt): write matter.case_number to NM-4-952/p2-y63444-x23856 where the originating court is the district court and to NM-4-952/p2-y60684-x9000 where it is a metropolitan, magistrate or municipal court, and leave the other line empty. Until that exists, correct the two rows' why: the platform holds the number and the host cannot route it; a build limitation is not an unavailable fact, and the row as written misstates the ground.",
+    "Condition the paragraph-12 write the same way. NM-4-952/p3-y39984-x20340 (delivered page 3, x 205.4 y 401.84, printed line '[ ] District Court in the ____________ Judicial District') must carry the judicial district only where the originating court is the district court; on a metropolitan, magistrate or municipal case it must be left blank and the location written on the matching line instead. If the host cannot route it, leave all four branch blanks empty and surface the whole election, and disclose it in participant-instructions.md the way the Sixth District line is disclosed.",
+    "Form 4-222 / 4-223, delivered pages 15 and 20: the printed 'SIXTH JUDICIAL DISTRICT COURT' caption is a legal-design question rather than a build defect and is recorded below as an open input. Whichever way it is settled, the build should not write a county into the blank directly above a printed district that contradicts it without the two being reconciled on the page."
+   ],
+   "openLegalInput": {
+    "question": "May the fee-waiver component ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, whose caption prints SIXTH JUDICIAL DISTRICT COURT as uncorrectable page content on a document sworn on oath, or must it be conditioned on the Sixth Judicial District the way proposed-order-6 is conditioned on San Juan County?",
+    "whyItIsOpen": "No record under data/record-clearing/ settles it. legal-design-packet-set-manifests.json, the track registry and NM.memo.json all carry fee-waiver-application-8 as conditional on inability to pay and attach no district condition, and none of them addresses a printed district on the binary. The family's own build-findings.json records it as blocking_for_release and refers it to counsel.",
+    "whyThisRowIsNotBlockedOnIt": "The verdict does not turn on it: KNOWN_PREFILLS and REQUIRED_BEFORE_FILING fail on the case number and paragraph 12 independently, and those are repair-actionable now."
+   },
+   "grantsNothing": "This row is a reading. A PASS proves a packet is complete as measured here; it approves no output, promotes nothing and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record."
   }
  ],
  "supersededLaneMembership": {
@@ -14914,5 +15313,32 @@
   },
   "residualLimit": "Text and appearance geometry cannot see raster-only ink, and a local raster at these resolutions cannot resolve hairline rules or sub-pixel border overlap. Where a defect would only be visible as pixels at print resolution this lane leans on the central raster receipt, whose own artifact bytes it did not download.",
   "grantsNothing": "These rows are readings. A PASS proves a packet is complete as measured; it approves no output, promotes nothing and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit."
+ },
+ "vf01WaveThreeAppend": {
+  "appendedAtBase": "d7e293f81",
+  "lane": "VF01 wave three, independent-verification",
+  "families": [
+   "az_wrongful_arrest_clearance-set",
+   "nj_arrest_no_conviction-set",
+   "nm_release_without_conviction-set"
+  ],
+  "verdicts": {
+   "az_wrongful_arrest_clearance-set": "PASS_COMPLETE_INDEPENDENT",
+   "nj_arrest_no_conviction-set": "FAIL_REPAIR_REQUIRED",
+   "nm_release_without_conviction-set": "FAIL_REPAIR_REQUIRED"
+  },
+  "rowsAppended": 3,
+  "earlierRowsAltered": 0,
+  "summaryBlockNotRewritten": "The file's existing summary block records an earlier lane's tally and was left byte-identical; these three rows are counted here instead.",
+  "preflight": "node scripts/verify-packet-build-environment.mjs --family az_wrongful_arrest_clearance-set --codex-cloud --minimum-captain-sha e9ce0c44b10f1109469af9c0784b936951396f28 -> PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable. The one failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'; the sampler was re-run outside the preflight and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (sha256 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327), an index entry filed under the master_library custody with a Nationwide-style path; every PDF on this host between 150 KB and 200 KB was hashed and no copy exists here. It touches no AZ, NJ or NM entry: all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and every source digest of these three families resolves by content hash and re-hashes from the mounted bytes.",
+  "howEachReceiptWasTested": "Each family's canonical and boundary SHA-256 was recomputed from the fixture bytes on disk BEFORE anything else was read, and compared with the record and with the digests the assignment names. All six matched, so every acceptance receipt in this append is over the bytes this lane measured, and no rasterState is pending for that reason.",
+  "howSourcesWereResolved": "By content hash across the two mounted custodies (master_library, human_source_returns), never by declared path. 8 of 8 declared document digests across the two official-form families resolved and re-hashed from the mounted bytes; 0 were absent by hash, so no SOURCE_IDENTITY is NOT_MEASURABLE_HERE in this append. Arizona binds three committed repository records instead of binaries; all three re-hashed byte-exact.",
+  "appearanceLevelMethod": "Flattened widget appearances and composed content streams inflated and decoded; delivered pages read as text and as local rasters at 110-120 dpi into /tmp only. Nothing was rastered into any delivered tree and no rasterState was set by it.",
+  "independence": "This lane built, repaired, rendered and rastered none of these three families, edited no overlay directory, no build script and no shared record, released no grant, wrote no claim ledger, and created no subagent.",
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "An independent PASS proves a packet is complete as measured. It approves no output, promotes nothing and opens no commercial route."
  }
 }
