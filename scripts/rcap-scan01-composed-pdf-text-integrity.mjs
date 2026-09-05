@@ -148,6 +148,9 @@ function readModule(rel) {
   MODULE_CACHE.set(rel, src);
   return src;
 }
+/* The one shared splitter module, imported rather than copied. */
+const SHARED_SPLITTER = /(^|\/)rcap-custom-pleading\/split-token\.mjs$/;
+
 function resolveComposerSources(info) {
   // The builder's own source, plus any locally imported module that defines a
   // splitToken -- that module is the copy the family's text actually goes through.
@@ -156,7 +159,16 @@ function resolveComposerSources(info) {
   for (const m of info.src.match(/from "\.\/[A-Za-z0-9_./:-]+\.mjs"/g) || []) {
     const rel = m.replace(/^from "/, "").replace(/"$/, "").replace(/^\.\//, "");
     const src = readModule(rel);
-    if (src && /splitToken/.test(src)) { out.push({ module: rel, src }); hosts.push(rel); }
+    if (!src || !/splitToken/.test(src)) continue;
+    out.push({ module: rel, src });
+    /* The shared splitter is a splitter, not a composer host: a builder that
+     * imports it still owns its own renderComposedPdf. Counting it as a host
+     * would report every migrated family as having handed its composer to
+     * split-token.mjs, and would grow a phantom eighth host as the remaining
+     * private copies migrate. Its source is still read, so the variant below
+     * is classified from the code that actually runs. */
+    if (SHARED_SPLITTER.test(rel)) continue;
+    hosts.push(rel);
   }
   return { sources: out, importedComposerHosts: hosts };
 }
@@ -176,7 +188,14 @@ function classifyBuilder(infos) {
   if (/settled layout|simulateLayout|collapse blank|collapseBlank/i.test(s)) markers.push("simulate-and-collapse");
   if (/componentId === "proposed_order"/.test(s)) markers.push("nevada-component-suppression");
 
-  const separatorAware = /\.split\(\/\(\?<=\[[:\\/._\-]+\]\)\//.test(s);
+  /* Separator-aware either inline -- .split(/(?<=[:_/.-])/) written out in the
+   * copy -- or by importing the shared splitter, which is the same algorithm
+   * moved out of the copies rather than a different one. FIX21 moved the first
+   * hosts onto it; without this test a migrated family reads as
+   * "unclassified", which would look like a regression in the very families
+   * that had just been repaired. */
+  const separatorAware = /\.split\(\/\(\?<=\[[:\\/._\-]+\]\)\//.test(s)
+    || /createTokenSplitter/.test(s);
   const charByChar = /for \(const (ch|char) of (tok|token)\)/.test(s);
   const hasSplitToken = /splitToken/.test(s);
   const splitTokenVariant = !hasSplitToken ? "none"

@@ -67,6 +67,7 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -461,15 +462,12 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* The shared separator-aware splitter, replacing the private char-by-char
+   * copy that cut an over-long token at whichever character first reached the
+   * margin. Inert for both Kentucky families -- SCAN01 measured the widest
+   * delivered token in the pair at 297.97pt against a 468pt column -- and the
+   * assertion below proves that on every build. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -483,6 +481,11 @@ async function renderComposedPdf(fullText, title) {
     return out;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /* No Kentucky token reaches the column, so the splitter must never have had
+   * to chop one. A future edit that lengthens a route key past 468pt fails
+   * here instead of shipping an unreadable line. */
+  assert.equal(splitToken.hardSplits, 0,
+    `renderComposedPdf hard-split a token with no separator to break on in "${title}"`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 

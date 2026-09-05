@@ -89,6 +89,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -1155,15 +1156,14 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* The shared separator-aware splitter. The private char-by-char copy that
+   * stood here cut an over-long token at whichever character first reached the
+   * margin; this one breaks at the token's own separators and chops only a run
+   * that has none. It is inert for all nine Georgia families -- SCAN01 measured
+   * the widest delivered token in the cohort at 428.05pt against a 468pt
+   * column, so no token here is ever long enough to be split -- and the
+   * assertion below proves that on every build rather than asserting it here. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -1177,6 +1177,11 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /* No Georgia token reaches the column, so the splitter must never have run.
+   * If a future edit lengthens a route key past 468pt this fails loudly here
+   * instead of shipping a page whose text a participant cannot read. */
+  assert.equal(splitToken.hardSplits, 0,
+    `renderComposedPdf hard-split a token with no separator to break on in "${title}"`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
