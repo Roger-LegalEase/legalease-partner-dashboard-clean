@@ -17,7 +17,37 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 
 | Source field | The fact | Why it is not printed | Measured on |
 | --- | --- | --- | --- |
-| `arrest1CaseNum` | `matter.case_number` | the value does not fit this box at a size a court could read | boundary |
+| `arrest1CaseNum` | `matter.case_number` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
+
+## Records to gather before you file
+
+Every line below is carried word for word from this route's own committed record — `data/record-clearing/legal-design-track-registry.json`, track `nj_disorderly_persons`, `participantFilingRequirements`. None of them is a statutory attachment to the petition; they are what the petition's own facts are checked against, and the agency list the signed order is later served on comes out of the first one.
+
+- **New Jersey State Police State Bureau of Identification criminal history record** — obtained from New Jersey State Police. Required. Request the fingerprint-based SBI criminal history and pay the State Police fee. It produces the offence count that decides the route, the case identifiers the petition needs, and the agency list the signed order must later be served on.
+- **Court records and dispositions for any matter the SBI record does not show** — obtained from The Superior Court or Municipal Court that handled the matter. Conditional — Where the SBI history is incomplete or a disposition is missing. Ask the clerk of the court that handled the matter for the disposition and the complaint, indictment or docket number.
+
+The State Police fee named above is a charge for the record. It is not the court's filing fee: the enclosed kit states the court's own position in a running footer on four of its delivered pages — *Kit updated 06/2020 to remove the filing fee, CN 10557*.
+
+## After the order is signed
+
+- **Serving a certified copy of the signed order on every record-holding agency** — The service checklist built from the SBI history. An agency that is not served keeps its copy.
+- **Use the letter the kit provides for that mailing.** Cover Letter — Notice Expungement Granted (Form G) is bound into this packet at delivered pages 41 to 43, and the Proof of Notice (Form F) at pages 39 and 40 is where the kit puts proof of the earlier mailing.
+- **Leave the docket number and the signature to their owners.** The kit captions the Expungement Docket Number "(leave blank - clerk will fill in)", and the judge signs the order.
+
+This route's own recorded notes on what follows, carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `nj_disorderly_persons`, `packetInstructions`:
+
+- Serving the signed order on every record-holding agency
+- Six to twelve month timeline expectation
+- SBI criminal history is the practical prerequisite
+
+The first item is carried from `data/record-clearing/legal-design-track-registry.json`, track `nj_disorderly_persons`, `manualCompletionItems`.
+
+## Transcripts you are not required to produce
+
+The statute expressly provides that a person shall not be required to provide plea or sentencing transcripts or presentence reports with the application or any other filing. That is a useful, concrete thing to tell participants who fear a document hunt.
+
+Carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `nj_disorderly_persons`, `packetInstructions`. Nothing is added to it here: if a court or an office asks you for something this statement covers, that is a question to raise rather than a document to go and buy.
 
 ## What it costs to file
 
