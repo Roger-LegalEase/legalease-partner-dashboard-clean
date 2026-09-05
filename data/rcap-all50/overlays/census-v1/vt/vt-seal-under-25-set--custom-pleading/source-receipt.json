@@ -27,8 +27,19 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
-      "byteLength": 3677637
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-05",
+        "was": {
+          "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+          "byteLength": 3677637
+        },
+        "why": "The shared record was rewritten around this receipt's anchors by unrelated work. Every entry this family binds was recovered from the historical blob carrying the previous pin and is byte-identical on disk, so the bound content is unchanged and only the containing file's identity moved.",
+        "anchorsCompared": 1,
+        "anchorsIdentical": 1,
+        "previousPinLastSeenAtCommit": "77f24687c"
+      }
     }
   ],
   "formIdentityNote": "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02: no mandatory official form is located for a 33 V.S.A. § 5119(g) application, tested against the held forms rather than against a form list. All nine Vermont Judiciary PDFs in the mounted Master Library (200-00129, 200-00130, 200-00130A, 200-00131, 200-00132, 200-00132A, 200-00631, 200-00331, 600-00228) were text-extracted on this build and none contains the string '5119'. The nearest candidate, 200-00130 'Petition to Seal Criminal History' (rev. 07/2025), carries no statutory citation on its face, and the instructions published with it (200-00130A) define its grounds exclusively by 13 V.S.A. § 7602 — the chapter 230 scheme — with none of this route's elements: no under-25 test, no two-year clock from final discharge, no ten-year listed-crime lookback, no § 5119(m) restitution bar and no affirmative rehabilitation burden. The official-source registry's nine Vermont entries are the same nine forms. Outbound fetching was refused at CONNECT in the build container, so the Judiciary site was not re-read live. The Vermont Judiciary publishes no form for a 33 V.S.A. § 5119(g) application — none appears in the expungement page's form list and none was located in the forms library on 2026-08-06 — and the legal-design record resolves the strategy to custom_pleading in terms: the statute supplies the court, the vehicle, the findings and the relief, and the absence of a form is the express condition for drafting a controlled pleading. The route is § 5119(g), not 13 V.S.A. § 7609 (an 18-to-21 provision) and not chapter 230; the record documents that source correction with provenance.",

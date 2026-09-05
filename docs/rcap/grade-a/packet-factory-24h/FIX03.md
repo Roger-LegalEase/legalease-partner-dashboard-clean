@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9b64960d8897c869da72a27c8ba928add52d03e8` (or the newer dispatch base)
+**Minimum required ancestor:** `c85258a6db0d19ddde1b96a89355f679edde7a84` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'de_mandatory_expungement-set' \
+  --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' \
   --codex-cloud \
-  --minimum-captain-sha 9b64960d8897c869da72a27c8ba928add52d03e8
+  --minimum-captain-sha c85258a6db0d19ddde1b96a89355f679edde7a84
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ar-felony-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'de_mandatory_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-diversion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-exp-qualprob-set'`
@@ -61,8 +63,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 7 families
 
+- `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`
+- `ar-felony-seal-set` — failing: visualDefects
 - `de_mandatory_expungement-set`
 - `al-diversion-set`
 - `il-exp-qualprob-set`
@@ -80,11 +84,15 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
+- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
+- `scripts/build-census-v1-ar-felony-seal-set.mjs`
 - `scripts/build-census-v1-de_mandatory_expungement-set.mjs`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
 - `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9b64960d8897c869da72a27c8ba928add52d03e8` (or the newer dispatch base)
+**Minimum required ancestor:** `c85258a6db0d19ddde1b96a89355f679edde7a84` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-exp-precompletion-set' \
   --codex-cloud \
-  --minimum-captain-sha 9b64960d8897c869da72a27c8ba928add52d03e8
+  --minimum-captain-sha c85258a6db0d19ddde1b96a89355f679edde7a84
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,10 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 9 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-3yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'la-987-set-aside-and-dismiss-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nv_seal_probation_family-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
@@ -65,11 +64,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 9 families
+## The 8 families
 
 - `il-exp-precompletion-set`
 - `il-seal-3yr-set`
-- `la-987-set-aside-and-dismiss-set` — failing: visualDefects
 - `nv_seal_probation_family-set`
 - `sd_arrest_expungement-set`
 - `vt_exp_decriminalized-set`
@@ -90,7 +88,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
@@ -99,7 +96,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs`
 - `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`

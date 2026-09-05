@@ -35,20 +35,23 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 664,
-    "independentVerdicts": 214,
-    "failRepairRequired": 56,
-    "passIndependent": 147
+    "rows": 670,
+    "independentVerdicts": 219,
+    "failRepairRequired": 59,
+    "passIndependent": 149
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "al-diversion-set",
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
     "al-misd-conviction-set",
     "al-misd-dwop-set",
     "al-pardoned-felony-set",
+    "ar-drug-court-set",
+    "ar-felony-seal-set",
     "ar-nonconviction-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
@@ -56,7 +59,7 @@
     "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "de_mandatory_expungement-set",
-    "fl-trafficking-set",
+    "fl-early-juvenile-set",
     "il-cannabis-vacate-set",
     "il-exp-nonconv-set",
     "il-exp-pardon-set",
@@ -371,6 +374,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "superseded": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "3 of 4 recompute equal (CT.memo.json 90d96d9d..., guidance-packets/ct.json 0acfc6fe..., route-obligation-candidate.json 9816a479...). data/rcap-ledger/completed-output-counsel-manifest.json is pinned at 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161 bytes and recomputes to fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 / 321306 bytes. The pin corresponds to commit eab70f926; the file has since been amended by cb6cbf45e, whose only delta is the addition of a Kansas route entry. The CT substance the receipt relies on is unchanged; the whole-file binding no longer verifies.",
+          "evidence": "sha256sum recomputed here for each of the four compositionSources named in source-receipt.json"
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "superseded": false
     },
     {
@@ -1172,6 +1197,56 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-cs-possession-seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-drug-court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All 66 items appear in the file, so a presence test passes. Reading them defeats it. ACIC-PETITION-DRUG-COURT-POST:Sex carries effectiveLabel 'Race', so the instructions print two consecutive rows both named 'Race' for that document, no row named 'Sex', and the sentence 'supply Race from the court, ACIC, program-completion, or case record' against the Sex field. A participant following it writes race into the sex box of a filed petition. Beyond that decisive one, 43 further required items are named by a mis-derived fragment of adjacent printed text rather than the field's caption - among them '1', '2', 'A', 'prays', 'IN TH', '_______ DI', '4.On', '____________________________' and 'A Class _____ [_] felony [_] misdemeanor in violationof A.C.' - which name nothing a participant can act on. 57 of the 66 have an effectiveLabel that differs from the field name.",
+          "evidence": "all 66 requiredBeforeFiling refusals in production-field-map.json checked one by one against participant-instructions.md, comparing each item's printed name to the field it actually addresses"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Eight writes across the two boundary assemblies exceed their measured write box: pre-adjudication boundary overflows by 3.3, 34.0, 26.4 and 18.6 points and post-adjudication boundary by 15.2, 8.5, 43.5 and 37.6 points. The values that overflow are the ones that matter on a court filing - the case number '0123-45-2026-CR-900123.00-AB-CDE/2201' (118.05pt of text in a 104.85pt box) and the petitioner's full legal name (195.64pt in boxes of 154 to 189pt). Because an AcroForm appearance is clipped at its BBox, the rendered page shows a silently truncated case number and name; the text layer still carries the whole string, so a text-only check reports them present. Corroborating collisions with printed body text appear at pre-adjudication boundary p4 ('Fitzwilliam' and 'III' over the printed word 'prays') and p8 ('III' over 'to'), and post-adjudication boundary p4 and p8 ('Fitzwilliam' and 'III' over 'to' and 'Dismiss'). Both canonical assemblies are clean, which is why the canonical-only raster receipt did not catch this.",
+          "evidence": "every flattened widget appearance in all four fixtures decoded, its drawn string and font size read from the appearance stream, and the string width computed against the widget BBox; corroborated by pdftotext -bbox pairwise word overlap with printed rules excluded"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ar-felony-seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The two official sources are exact: ACIC-UNIFORM-PETITION-TO-SEAL 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b and ACIC-UNIFORM-ORDER-TO-SEAL dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc both recompute from files under STATES/AR/05_SOURCE_GATED/ whose names state the same instruments and revisions. The compiled profile src/lib/rcap-engine/compiled/profiles/AR-arkansas.json also recomputes equal at 640152c67534.... The failure is the other committed legal record: data/record-clearing/legal-design-packet-set-manifests.json is pinned at 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3677637 bytes and recomputes to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The pin corresponds to commit 77f24687c; the file has been amended six times since. The ar-drug-court and ar-felony-seal entries in it are byte-identical between the pinned commit and this base - I compared them - so the four anchorStatementsVerified still hold and the legal substance has not moved. The binding, which is what this obligation measures, no longer verifies.",
+          "evidence": "both official PDFs resolved by content hash across the mounted master_library corpus, and both committedLegalRecords recomputed with sha256sum against the working tree at this base"
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-felony-seal-set",
       "superseded": false
     },
     {
@@ -5408,6 +5483,30 @@
       "superseded": false
     },
     {
+      "familyId": "fl-early-juvenile-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "On page 1 the drawn telephone value spans x 359.00-411.92 while the form's printed closing parenthesis of the area-code '( )' sits at x 379.89-384.22. The write overprints that glyph by 4.3 x 7.7 points and runs 27.7 points past it. Present in canonical ('850-555-0142') and in boundary ('850-555-0199'). The area-code parenthetical is only 21.7 points wide, so the whole number is being drawn into a box sized for three digits. This is the only text-on-text collision anywhere in the family. The builder's own nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0, which is consistent only if the measured write box wrongly includes the printed parenthesis - for a flat overlay the builder measures its own box, so that counter cannot detect this.",
+          "evidence": "pdftotext -bbox word boxes on every page of both fixtures, pairwise overlap with printed rule runs excluded, then the exact x-extents read off the page-1 bbox output"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+      "superseded": false
+    },
+    {
       "familyId": "fl-trafficking-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
@@ -5432,6 +5531,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
+      "superseded": true
+    },
+    {
+      "familyId": "fl-trafficking-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
       "superseded": false
     },
@@ -7036,6 +7149,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set",
       "superseded": true
+    },
+    {
+      "familyId": "la-987-set-aside-and-dismiss-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "superseded": false
     },
     {
       "familyId": "ma-bmc-multi-set",
