@@ -5019,10 +5019,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX44",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T14:34:26.472Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13167,7 +13167,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "09bb239c59bcfda86c21d0232f079557893716b846b249b05b67922f56c8a00a",
+  "claimsDigest": "fb082c1ffc562966e2bba5276e6b88a994a403feafac6cd793066867f002a351",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39855,6 +39855,17 @@
       "previouslyReleasedAt": "2026-09-03T19:00:40.745Z",
       "transferredAt": "2026-09-05T15:28:16.464Z",
       "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX44",
+      "previouslyReleasedAt": "2026-09-05T14:34:26.472Z",
+      "transferredAt": "2026-09-05T15:32:12.095Z",
+      "reason": "VF02 at 321938c38 (a616f3989) fails KNOWN_PREFILLS and REQUIRED_BEFORE_FILING: the production field map's boundaryWrites and boundaryRefusals are byte-identical to the canonical side, so the delivered boundary fixture leaves item 1 row a blank while the platform holds that conviction; the repair generates the boundary side from the boundary render. FIX44 takes it; FIX03's grant was released after its earlier repair."
     }
   ],
   "withdrawals": [
