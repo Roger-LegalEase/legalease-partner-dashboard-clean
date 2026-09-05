@@ -786,12 +786,46 @@ async function renderComposedPdf(fullText, title) {
    * where the rows fall is unchanged, blocks move whole or not at all, and a
    * move that would not fit is refused. */
   const TRAILER_LINE = /^Route: /;
+  /* A HEADING AND THE PARAGRAPH IT INTRODUCES ARE ONE BLOCK.
+   *
+   * The pull-down above moves whole blocks, and a block was one source line, so
+   * a heading and the paragraph under it were two blocks and only the lower one
+   * moved. VF07 read the result off the delivered bytes: page 6 ended on the
+   * heading "WHAT THIS PACKET IS NOT" with two inches of clear sheet under it
+   * and nothing else, and page 7 - the last sheet the participant is handed -
+   * opened on the two sentences that answer it with no heading above them. Four
+   * row slots still stood free on page 6 and the moved block needed three. The
+   * pull-down was right to fire; it moved the wrong half of the unit.
+   *
+   * A heading now carries the blank separator and the paragraph it introduces
+   * with it, as one block, so the pair moves together or not at all. This is a
+   * block boundary, not a pagination scheme: the rows are the same rows, wrapped
+   * by the same rule, laid out by the same row-by-row loop onto the same 45-row
+   * pages. Only what counts as one unit changed. */
+  const HEADING_LINE = /^[A-Z][A-Z ,'()-]*$/;
   const source = sanitizePdfText(fullText).split("\n");
-  const blocks = source.map((raw, index) => ({ index, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) }));
+  const blocks = [];
+  for (let i = 0; i < source.length; i++) {
+    if (HEADING_LINE.test(source[i])) {
+      const rows = wrap(source[i]);
+      let j = i + 1;
+      while (j < source.length && source[j] === "") rows.push(...wrap(source[j++]));
+      if (j < source.length && !HEADING_LINE.test(source[j]) && !TRAILER_LINE.test(source[j])) rows.push(...wrap(source[j++]));
+      blocks.push({ index: blocks.length, rows, trailer: false, heading: true });
+      i = j - 1;
+      continue;
+    }
+    blocks.push({ index: blocks.length, rows: wrap(source[i]), trailer: TRAILER_LINE.test(source[i]), heading: false });
+  }
   const pages = [[]];
   for (const block of blocks) {
+    let page = pages[pages.length - 1];
+    /* A heading block that fits on a page is never split across a page break:
+     * it moves whole to the next page or stays where it is. */
+    if (block.heading && block.rows.length <= rowsPerPage && page.length + block.rows.length > rowsPerPage) {
+      pages.push([]); page = pages[pages.length - 1];
+    }
     for (const text of block.rows) {
-      let page = pages[pages.length - 1];
       if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
       page.push({ text, block: block.index, trailer: block.trailer });
     }
@@ -809,6 +843,17 @@ async function renderComposedPdf(fullText, title) {
   }
   assert.equal(soleOccupant(pages[pages.length - 1]), false,
     `${title}: the delivered packet still ends on a page carrying only the route trailer`);
+  /* Proof, not intention: every heading block that fits on a page was drawn on
+   * one page, so no page can end on a heading whose paragraph opens the next. */
+  for (const block of blocks) {
+    if (!block.heading || block.rows.length > rowsPerPage) continue;
+    const drawn = pages.flatMap((rows, index) => rows
+      .filter((r) => r.block === block.index && r.text !== "").map(() => index));
+    for (const index of drawn) {
+      assert.equal(index, drawn[0],
+        `${title}: a heading was split from the paragraph it introduces across a page break at ${JSON.stringify(block.rows[0].slice(0, 60))}`);
+    }
+  }
 
   for (const rows of pages) {
     const page = pdf.addPage([width, height]);
