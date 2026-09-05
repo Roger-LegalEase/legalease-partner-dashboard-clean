@@ -7792,10 +7792,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Lane label VF01 is occupied by the Louisiana read; the Virginia read moves to VF03 so one worker holds one lane label."
     },
     {
       "subjectType": "packet-family",
@@ -8620,10 +8621,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Lane label VF02 is occupied by the Michigan read; the West Virginia read moves to VF04 so one worker holds one lane label."
     },
     {
       "subjectType": "packet-family",
@@ -13013,7 +13015,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b53494a0422a61200d9f66c8400781750b46d8863e32d6bc146c61f2eae9421c",
+  "claimsDigest": "4cef474a67f3abf509c406653cf14e4cf21f8aa7cce9c6597dd08514e69f5b19",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28283,6 +28285,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T16:33:18.050Z",
       "reason": "COMPONENT_SET repaired: specification document ms-cover-and-contents renders as composed component cover_and_contents at order 1 on packet pages 1-2 of both fixtures; component set now measured against the specification. Manifest gap and jurat contradiction recorded, not resolved. Raster, independent verification and owner re-review owed. (Replayed by Captain from FIX01 commit f5e9f3d2a.)"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:36:09.735Z",
+      "reason": "Lane label VF01 is occupied by the Louisiana read; the Virginia read moves to VF03 so one worker holds one lane label."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:36:09.915Z",
+      "reason": "Lane label VF02 is occupied by the Michigan read; the West Virginia read moves to VF04 so one worker holds one lane label."
     }
   ],
   "reissues": [
@@ -40026,6 +40046,28 @@
       "previouslyReleasedAt": "2026-09-05T16:17:15.946Z",
       "transferredAt": "2026-09-05T16:17:16.027Z",
       "reason": "CLIPPING_AND_OVERLAP and REQUIRED_BEFORE_FILING FAIL (vf05); FIX49 repairs at the builder."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-05T16:36:09.735Z",
+      "transferredAt": "2026-09-05T16:36:09.827Z",
+      "reason": "Virginia non-conviction read dealt to VF03 (VF01 busy on Louisiana); RASTER_PASS run 33977742636 job 101337729610."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-05T16:36:09.915Z",
+      "transferredAt": "2026-09-05T16:36:09.996Z",
+      "reason": "West Virginia DUI deferral read dealt to VF04 (VF02 busy on Michigan); RASTER_PASS run 33977742636 job 101337729588."
     }
   ],
   "withdrawals": [
