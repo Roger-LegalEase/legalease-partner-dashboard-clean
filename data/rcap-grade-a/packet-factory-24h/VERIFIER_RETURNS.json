@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 773,
+    "rows": 774,
     "independentVerdicts": 240,
-    "failRepairRequired": 69,
+    "failRepairRequired": 68,
     "passIndependent": 161
   },
   "failRepairRequiredFamilies": [
@@ -86,7 +86,6 @@
     "ms-nonconv-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
-    "nh_petition_vacated-set",
     "nj_arrest_no_conviction-set",
     "nm_conviction-set",
     "nm_identity_theft-set",
@@ -10103,6 +10102,32 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nh_petition_vacated-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d974bcdd8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SERVICE"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "Who must be served with the NHJB-2328 fee-waiver papers on an RSA 651:5 annulment petition, and how, is not settled by any legal-design record, so the packet cannot state it and this lane cannot measure it satisfied. Open question for legal design, not a build defect.",
+          "evidence": "The committed legal-design records answer service only for the petition: data/record-clearing/legal-design-track-registry.json nh_petition_vacated rules.service is 'None by the participant.' and rules.notice puts the prosecutor copy on the court under RSA 651:5, IX; data/record-clearing/legal-design-intake/NH.memo.json tracks[3] holds the identical pair. The packet quotes both on delivered page 10 ('You do not serve anybody.'). But delivered page 8 is NHJB-2328's own sworn block: 'I state that on this date I am sending a copy of this document as required by the rules of the Circuit Court. I am electronically sending this document through the court's electronic filing system to all attorneys and to all other parties who have entered electronic service contacts (email addresses) in this case. I am mailing or hand-delivering copies to all other interested parties.' No record under data/record-clearing/ names those parties on an RSA 651:5 annulment or states how the participant serves them, and participant-instructions.md leaves it open in terms (line 186, 'the certificate states what you did on the day you signed', and line 194) without naming a recipient or a method. This is the same open question VF03 recorded at d7e293f81; FIX40 states in its own return that it did not close it."
+        }
+      ],
+      "blockedLegalObligationNames": [
         "SERVICE"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",

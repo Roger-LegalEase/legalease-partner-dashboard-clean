@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a5aa71ffbb0cbf3a49f68d9cd21bed5be8fc466f",
+  "generatedAtCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5938,22 +5938,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T11:45:39.699Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nh_petition_vacated-set",
-      "familyId": "nh_petition_vacated-set",
-      "itemId": null,
-      "familyIds": [
-        "nh_petition_vacated-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain: VF02 is reading Michigan and Texas concurrently; the New Hampshire vacated read moves to VF03. No lane asserted this grant."
     },
     {
       "subjectType": "packet-family",
@@ -13183,7 +13167,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "69903be8e09576274acc7abacca01e06a8488cba2f303c9f74496074f1642edb",
+  "claimsDigest": "09bb239c59bcfda86c21d0232f079557893716b846b249b05b67922f56c8a00a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43512,6 +43496,14 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "withdrawnAt": "2026-09-05T15:28:35Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-05T15:31:16Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
