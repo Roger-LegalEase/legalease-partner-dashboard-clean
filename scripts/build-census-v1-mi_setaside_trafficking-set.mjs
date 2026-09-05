@@ -1881,6 +1881,43 @@ function participantInstructions(maps, rbf) {
   out.push("- **The attorney block.** You are applying yourself; no attorney-representation fact is held for you.");
   out.push("");
 
+  out.push("## Have your item 2 statement reviewed before you file", "");
+  out.push(
+    "**The trafficking-related factual narrative in item 2 should be reviewed by an attorney or qualified advocate "
+    + "before filing.** That is the adopted legal-design instruction for this track, and it exists because item 2 is "
+    + "the sworn statement of facts MCL 780.621d(7)(g) requires and the platform may not write it, judge it, or "
+    + "decide whether it is enough.", ""
+  );
+  out.push("Read what that instruction does and does not mean, exactly as the record states it:", "");
+  out.push(
+    "> The packet carries a participant-facing instruction that the trafficking-related factual narrative should be "
+    + "reviewed by an attorney or qualified advocate before filing. That instruction creates no document-upload "
+    + "requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation "
+    + "blocker.", ""
+  );
+  out.push(
+    "So: nothing is uploaded, nobody at LegalEase reads your statement, there is no box to prove a review happened, "
+    + "no approval status waits on one, and your packet was not held back for one. The review is yours to arrange, "
+    + "and you may file without it. If you want one, ask for it before you sign, because the application is sworn "
+    + "and item 2 is the part that carries the burden of proof.", ""
+  );
+
+  out.push("## What a set-aside does not reach", "");
+  out.push(
+    "An order setting aside a conviction is not a clean slate everywhere. The adopted record requires this packet to "
+    + "state plainly what the relief does not reach:", ""
+  );
+  out.push("- **Your Secretary of State driving record survives.** A set-aside does not clear it.");
+  out.push("- **SORA registration and reporting obligations continue** for a listed offence, per the note on MC 228.");
+  out.push("- **Firearm rights are not restored.**");
+  out.push("- **Restitution obligations survive.**");
+  out.push("- **No fine, costs or other money paid is returned.** You are not entitled to get any of it back.", "");
+  out.push(
+    "> Not affected: The Secretary of State driving record. ... SORA registration and reporting obligations continue "
+    + "for a listed offense, per the note on MC 228. Firearm rights are not restored. Restitution obligations "
+    + "survive. The applicant is not entitled to return of any fine, costs or other money paid.", ""
+  );
+
   out.push("## What happens after you file", "");
   out.push(
     "Page 3 states that the hearing cannot be held until the court receives the Michigan State Police report. The court "
@@ -1895,6 +1932,16 @@ function participantInstructions(maps, rbf) {
   );
   out.push("");
   out.push(`_Route: ${ROUTE.routeKey} \u2014 ${ROUTE.authority}_`);
+  out.push("");
+  out.push(
+    "_The review instruction under \u201cHave your item 2 statement reviewed before you file\u201d is the adopted "
+    + "packet_instruction of data/record-clearing/legal-design-intake/MI.memo.json, track mi_setaside_trafficking, "
+    + "classificationBasis batch_decision_matrix, source LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md "
+    + "\u2014 \u201cPriority issue resolution matrix / 6. Michigan\u201d. The scope-of-relief statement under "
+    + "\u201cWhat a set-aside does not reach\u201d is the adopted packet_instruction of the same record, "
+    + "classificationBasis explicit_state_addendum, source LegalEase-Michigan-Record-Clearing-Legal-Review.md "
+    + "\u2014 \u201cTRACK 1 / FILING AND POST-FILING PROCESS\u201d._"
+  );
   return `${out.join("\n")}\n`;
 }
 
@@ -2116,6 +2163,13 @@ function selfTest() {
     "Mail the required packet, fingerprint card, and $50 payment to Michigan State Police",
     "Only after those mailings are true, complete and sign the Proof of Service",
     "requires a post-generation handoff",
+    "reviewed by an attorney or qualified advocate before filing",
+    "creates no document-upload requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation blocker",
+    "Your Secretary of State driving record survives",
+    "SORA registration and reporting obligations continue",
+    "Firearm rights are not restored",
+    "Restitution obligations survive",
+    "No fine, costs or other money paid is returned",
     ROUTE.routeKey
   ]) assert.ok(instructionsText.includes(phrase), `participant instructions dropped: ${phrase}`);
 
