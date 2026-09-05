@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `311c6be14f1d6a309ba9765112920ae6f1129028` (or the newer dispatch base)
+**Minimum required ancestor:** `4879ced1762fa8ae9942ba16759b5604357affb8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-exp-pardon-set' \
   --codex-cloud \
-  --minimum-captain-sha 311c6be14f1d6a309ba9765112920ae6f1129028
+  --minimum-captain-sha 4879ced1762fa8ae9942ba16759b5604357affb8
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-pardon-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'me-seal-prost-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ri_nonconviction_sealing-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'va_seal_petition_misdemeanor-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nv_seal_probation_family-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-nv-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,14 +61,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 5 families
 
 - `il-exp-pardon-set`
-- `me-seal-prost-set`
 - `ri_nonconviction_sealing-set`
 - `va_seal_petition_misdemeanor-set`
 - `al-pardoned-felony-set`
-- `nv_seal_probation_family-set`
+- `rcap-nv-custom-pleading`
 
 ## What you receive
 
@@ -83,15 +81,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
-- `scripts/build-census-v1-me-seal-prost-set.mjs`
+- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
 - `scripts/build-census-v1-al-pardoned-felony-set.mjs`
-- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
+- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
 
 ## Never write here
 
