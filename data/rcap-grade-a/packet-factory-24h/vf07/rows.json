@@ -8104,6 +8104,530 @@
       "notMeasurableHere": [
         "ROUTE_OPTIONS"
       ]
+    },
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "familyId": "co_motion_seal_conviction-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF07 stale-verdict re-read (2026-09-05)",
+      "worker": "VF07 stale-verdict re-read (independent: built, repaired, rendered and rastered none of these packets, and has never returned a row on any of them)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534 (356,307 bytes, 8 pp) and boundary 1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556 (356,600 bytes, 8 pp), each re-hashed here and equal to reports/rendered-artifacts.json, page counts agreeing between pdfinfo and the pageManifest.",
+      "standingVerdictReRead": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf02",
+        "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
+      },
+      "whatChangedAgainstTheStandingVerdict": "The BLOCKED_SOURCE half is superseded: JDF-612 and JDF-615 both bind byte-exact by content hash in the mounted Master Library, and byteLength agrees. vf02's COMPONENT_SET failure survives, unrepaired in substance: the disclosure a repair lane added is accurate and prominent, but the packet still ships 2 of the 4 components its own packet-set manifest marks required. A new failure is recorded that no prior reader raised: the packet, the source receipt and the packet-set manifest all state that the two missing components' form numbers cannot be established, and the held JDF-611 guide names them in extractable text.",
+      "rasterState": {
+        "currentRasterState": "RASTER_PASS",
+        "currentGateAuthority": false,
+        "receiptStillDescribesTheBytesOnDisk": true,
+        "receiptBinds": "canonical cea9d35a…, boundary 1f8232b8…, workflowRunId 33931424370, renderedCommitSha 7814ede52916a26acc84e80337a1fda498dba90e",
+        "note": "the receipt is marked historicalOnly with currentGateAuthority false; its coverage block excludes boundary.pdf from what the gate rendered."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 2,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true,
+        "whereMyCountDiffersFromTheSharedInstrument": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs reports requiredComponentsMissing 0 for this family, and reported 0 both before and after the repair. That is structural, not a disagreement about the bytes: at lines 371-375 it derives its component denominator from the field map's own documents plus the source receipt's own documents, and asks only whether each appears in a rendered artifact. It never opens data/record-clearing/legal-design-packet-set-manifests.json, so a component the ROUTE requires and the BUILD never declared is invisible to it. My count of 2 comes from the manifest's components[] array. Nine counters at zero is necessary and not sufficient, and this family is the demonstration."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "routeKey": "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
+            "agreesAcross": [
+              "production-field-map.routeKeys",
+              "source-receipt.routeKey",
+              "both maps' documentPolicy.routeKey",
+              "the participant-instructions.md footer",
+              "MASTER_QUEUE routeKeys",
+              "the packet-set manifest trackId co_motion_seal_conviction"
+            ],
+            "statutoryAuthority": "C.R.S. § 24-72-706; JDF 612 and JDF 615",
+            "familyIdAgreesAcross": [
+              "production-field-map",
+              "source-receipt",
+              "build-status"
+            ],
+            "pageImage": "the rendered page 1 header reads 'JDF 612 — Motion to Seal Conviction Records (District or County Court Conviction)' and the footer 'JDF 612 - Motion to Seal Conviction Records (County/District Convictions), R: August 7, 2024, Page 1 of 5'"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "instrument": "each declared sha256 recomputed with sha256sum from the mounted bytes, and each resolved by CONTENT HASH against a 500-file index of both mounted custodies rather than by declared path",
+            "JDF-612": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e, 682,994 bytes — equal to receipt and to the committed corpus index",
+            "JDF-615": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647, 565,158 bytes — equal to receipt and to the committed corpus index",
+            "groundingRecord": "data/record-clearing/legal-design-packet-set-manifests.json re-hashed here to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec at 3,683,419 bytes, equal to the pin the receipt carries",
+            "declaredPathNote": "the receipt's pathInArchive values are Master-Library-relative and correct. It is MASTER_QUEUE.sourceReadiness.boundSources that points at d_source_packs; the builder recorded that discrepancy itself in build-findings.json and bound from the Master Library."
+          }
+        },
+        "COMPONENT_SET": {
+          "result": "FAIL",
+          "evidence": {
+            "manifestRequires": 4,
+            "packetDelivers": 2,
+            "delivered": [
+              "co_motion_seal_conviction-primary-filing-1 → JDF-612, packet pages 1-5",
+              "co_motion_seal_conviction-proposed-order-2 → JDF-615, packet pages 6-8"
+            ],
+            "notDelivered": [
+              "co_motion_seal_conviction-notice-3, role required_filing, requirement required",
+              "co_motion_seal_conviction-second-order-4, role proposed_order, requirement required"
+            ],
+            "manifestOwnWords": "packetSetCompleteness.state 'incomplete'; basis 'The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.' (recordedBy Captain A, 2026-08-29)",
+            "disclosureIsNowPresentAndAccurate": "participant-instructions.md carries a section headed 'This packet is not the whole filing — read this before you file' which quotes the manifest basis verbatim, names both missing documents and tells the participant to obtain them from Colorado. vf02's disclosure finding at base 5b74dd31b is repaired. The gap it discloses is not.",
+            "whyDisclosureDoesNotSatisfyTheObligation": "the obligation is that every component the route names is rendered and present. A truthful account of an absent component is honesty, not delivery."
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "34 declared writes across both fixtures (17 each). Every one recovered inside its declared /Rect on the packet page the pageManifest maps it to, at >=60% word-area containment, with the recovered string equal to `expected`. Page 1 read as an image confirms Denver, 2019CR004217, Jordan Avery Reyes, 1991-04-17, 412 Cherry Creek Way Denver CO 80202, 303-555-0142 and jordan.reyes@example.org all sitting on their ruled lines."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "52 rows declared requiredBeforeFiling across the two maps; all 52 printed effectiveLabels found in the normalised text of participant-instructions.md. 0 missing."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "production-field-map.routeDeterminedSelections is empty and no selectionControl carries routeDetermined true. The § 24-72-706 branch election in section 8 is declared a participant election, and build-findings.json states why: it turns on the offence class and on this district attorney's position, neither of which the route settles."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Cells grouped into y-bands per page, and a band treated as a row only where its column x-signature recurs on that page — one band with a given layout is a caption, not a row. No repeating row on either form carries a written cell beside a required blank. Section 6's agency rows are uniformly blank and uniformly declared REQUIRED_BEFORE_FILING."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "29 protected rects (signature, signature date, certificate of service, Division/Courtroom court-use boxes, and all five 'The Court finds' boxes plus sections 4 and 5 of JDF-615) tested by DIFFERENCE: glyphs inside the rect on the packet page minus glyphs inside the same rect on the pinned source page. Zero added ink in any of them, in either fixture. The one tick that does appear — the Colorado Bureau of Investigation box in section 6 — is the SOURCE form's own authored value: JDF-612 field 6D.0 carries V=/Yes and AS=/Yes in the pinned binary. The packet wrote no tick there."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "both fixtures re-hashed, byte lengths re-measured and page counts read by pdfinfo; all three agree with reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "16 manifest rows (8 pages x 2 fixtures) proved by text overlap against the pinned source page each row names, sources resolved by content hash: every packet page shares >=70% of its source page's distinct tokens. Pages 1-5 are JDF-612 pages 1-5; pages 6-8 are JDF-615 pages 1-3."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "For every declared write, the ink the packet added (source glyphs subtracted) was tested against the declared /Rect with 1pt horizontal and 2pt vertical tolerance and against the MediaBox. Zero overflows in either fixture. The boundary fixture's longest value, an 84-character address, sits inside a 278.4pt box."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "'File both forms with the clerk of the Colorado court that entered the conviction — the District Court or the County Court named in section A of the motion, in the county already filled in for you.' CO.memo rules.filing: 'File JDF 612 in the existing criminal case in the court where the conviction records are located.' destination.name: 'The court where the conviction records are located, in the existing criminal case'. The guide's refusal to print a courthouse address, on the ground that the platform holds no court directory, is honest — no held record carries one."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "evidence": {
+            "whatThePacketSays": "participant-instructions.md, 'Where you file this': “**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a conviction record is not established in any source this packet holds, so it is not stated here.”",
+            "whatTheRepositoryHolds": "The official JDF-611 guide — the same document the packet cites by name three paragraphs earlier as the authority for its component-set disclosure — states the waiver route in plain, extractable text: “③ Filing Fees. The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”",
+            "whereThoseBytesAre": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages. The committed corpus index carries it at that digest in all three declared custodies.",
+            "reproduce": "pdftotext \"$MASTER_LIBRARY_SOURCE_DIR/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf\" - | sed -n '120,135p'  →  lines 126 and 132 are 'JDF 205' and 'JDF 206'",
+            "whichHalfIsTrue": "the fee AMOUNT genuinely is not established — JDF-611 itself says only that the clerk will tell you. The WAIVER half is established and the packet denies it, and then sends the participant to the clerk for the very thing the held source names.",
+            "theDefectIsAlsoUpstream": "CO.memo.json track co_motion_seal_conviction rules.feeWaiver reads 'The source review does not address a fee waiver.' and participantActionRequired carries the same sentence under kind apply_fee_waiver. The memo is contradicted by the held JDF-611 too, so the repair is needed at both the memo and the packet.",
+            "whatToWrite": "state that JDF-611 directs a participant who cannot afford the fee to file JDF 205 (Motion to Waive Fees) with JDF 206 (Order, §§ A-C), and that neither form is in this packet because neither is in the corpus — JDF 205 and JDF 206 appear nowhere in data/rcap-all50/local-source-corpus-index.json. Do not invent their content; name them and send the participant to the Colorado Judicial Department for them, exactly as the packet already does for the notice and the second order."
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Step 4 of 'What you must do before you file': 'Serve a copy on the prosecuting attorney, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.' CO.memo rules.service records no separate service requirement beyond the court's process; the held JDF-611 step ④ says 'Mail a copy of your motion to the Prosecuting Attorney's office.' The packet agrees with both."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "'What this packet is not' states the boundary: not legal advice, not filed for you, does not decide eligibility, and directs the participant to JDF 612 section 8's own exclusion list before swearing to it. See withdrawnFindings[1] for the stricter reading this reader tested and withdrew."
+        }
+      },
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "exactDefects": [
+        {
+          "obligation": "COMPONENT_SET",
+          "defectClass": "component",
+          "components": [
+            "co_motion_seal_conviction-notice-3",
+            "co_motion_seal_conviction-second-order-4"
+          ],
+          "route": "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
+          "defect": "Two components the packet-set manifest marks requirement 'required' are not rendered. The packet ships 2 of 4.",
+          "repair": "Either render both, or take the route's required component set down to what this packet can deliver on an owner decision — not on a builder's or a verifier's. Do not close this by improving the disclosure again; the disclosure is already accurate."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "defectClass": "source identity stated as unresolvable when it is held",
+          "components": [
+            "co_motion_seal_conviction-notice-3",
+            "co_motion_seal_conviction-second-order-4"
+          ],
+          "defect": "The packet tells the participant, in bold, that no form number exists for either missing document and that 'none should be inferred from this packet', on the stated ground that 'the guide renders those digits as vector glyphs'. That is false against the bytes the repository holds. `pdftotext` on the held JDF-611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e) recovers, as plain text under the heading '③ File the Request — File these forms into your criminal case': 'JDF 612 Motion', 'JDF 613 Order (just do §§ A-C)', 'JDF 614 Notice (Just do §§ A-C)', 'JDF 615 Order (just do §§ A-C)'. The notice is JDF 614. The second order is JDF 613. Both identities are established by the very guide the manifest cites, and neither had to be inferred.",
+          "andTheBytesAreIndexedToo": "data/rcap-all50/local-source-corpus-index.json already carries both documents, in custody nationwide_recovery_pool_2026_09_02: 'LegalEase Colorado/JDF614.pdf', sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555,787 bytes, 1 page, AcroForm with 16 fields; and 'LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf', sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545,525 bytes, 1 page, AcroForm with 13 fields.",
+          "whatThisReaderCouldNotDo": "nationwide_recovery_pool_2026_09_02 is not mounted in this container, so neither digest could be recomputed from bytes here. The identity claim above rests on the held JDF-611's own text, which was read from mounted bytes; the byte claim rests on the committed index, which is a record and not a re-hash.",
+          "noteForTheRepairLane": "the recovery pool's filename calls JDF-613 the 'order denying request to seal conviction records'. That is consistent with Colorado practice of tendering both a grant order and a denial order, and it means the 'second order' is the DENIAL order rather than a second grant. Do not describe it to a participant as a second grant order without confirming it against the JDF-613 bytes.",
+          "repair": "correct participant-instructions.md and source-receipt.json componentSetDelivery and the manifest's two sourceStatusBasis strings to name JDF 613 and JDF 614, quoting JDF-611 as the authority; and raise a source obligation to mount or promote the two recovery-pool binaries rather than a research task, because their identities are no longer unknown."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "defectClass": "fee",
+          "document": "participant-instructions.md, section 'Where you file this'",
+          "defect": "The packet states that the fee position is 'not established in any source this packet holds' and defers 'what to do if you cannot pay it' to the clerk. The held JDF-611 establishes the waiver route by form number: JDF 205 Motion to Waive Fees, with JDF 206 Order (§§ A-C).",
+          "repair": "as set out in proofObligations.FEE_AND_WAIVER.evidence.whatToWrite. Fix CO.memo.json rules.feeWaiver in the same pass, or the packet will regenerate the denial."
+        }
+      ],
+      "observationsNotAffectingTheVerdict": [
+        "The held JDF-611 states 'Start Step 3 within 20 days of that report' about the CBI criminal-history report. That 20-day window is filing-critical, is held, and appears nowhere in the packet or in CO.memo. It is not inside any of the fifteen obligations, so it is recorded rather than failed.",
+        "The held JDF-611 states 'Your case can't be sealed if you still owe restitution.' The packet's choices table asks the participant to tick whether restitution is paid but never says that unpaid restitution defeats the motion.",
+        "CO.memo track components names 2 required components (JDF-612, JDF-615); the packet-set manifest names 4. The manifest is the later record and the one the packet quotes, but the two disagree and one of them is wrong."
+      ],
+      "whyNotBlockedSource": "Both bound sources bind. The two undelivered components are named by a source the repository holds and mounts, and their binaries are named with digests in the committed corpus index. MASTER_QUEUE.executionReclassification for this family records the owner decision in terms: 'SOURCE_BOUND_BY_HELD_BYTES is executable. Do not research or reacquire this family… treat any notice implementation issue as a measured packet or product-path defect, not external source acquisition.' This verdict follows that decision.",
+      "sourcesResolvedByContentHash": [
+        {
+          "familyId": "co_motion_seal_conviction-set",
+          "sourceId": "official-form:JDF-612",
+          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+          "byteLength": 682994,
+          "declaredPathCustody": "d_source_packs (NOT MOUNTED)",
+          "foundByContentHashIn": "master_library STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        },
+        {
+          "familyId": "co_motion_seal_conviction-set",
+          "sourceId": "official-form:JDF-615",
+          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "byteLength": 565158,
+          "declaredPathCustody": "d_source_packs (NOT MOUNTED)",
+          "foundByContentHashIn": "master_library STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        }
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json",
+      "fullReturnLivesIn": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
+    },
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "familyId": "tx_exp_acquittal-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF07 stale-verdict re-read (2026-09-05)",
+      "worker": "VF07 stale-verdict re-read (independent: built, repaired, rendered and rastered none of these packets, and has never returned a row on any of them)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical cc6f681a67a26edb02c90e1a32380c707ae001a094c672639c3e05e667f7a8ae and boundary a6095ba89ee340ebcb23ec1f8354bd7972dae3ee4b2e60820793e5fe6407e8ed, 23 pp each, re-hashed here and equal to reports/rendered-artifacts.json, page counts agreeing with pdfinfo and the pageManifest.",
+      "standingVerdictReRead": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf01",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "whatChangedAgainstTheStandingVerdict": "SUPERSEDED. The family's single document source — the Supreme Court of Texas Statement of Inability, Misc. Docket 22-9090 — binds byte-exact at bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6,667,524 bytes, in custody human_source_returns, which IS mounted here and which a worker container at base 88d688b8b did not resolve by declared path. Nothing about this family is source-blocked.",
+      "rasterState": {
+        "currentRasterState": "RASTER_PASS",
+        "currentGateAuthority": false,
+        "receiptStillDescribesTheBytesOnDisk": false,
+        "theStaleness": "the RASTER_PASS receipt (workflowRunId 33791677725, renderedCommitSha 88d688b8b, 2 documents, 46 pages, 0 problems) is bound to canonical d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd and boundary 0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15. Neither digest is on disk any more: FIX06/FIX01 repaired this family after that raster. The visual gate has NOT been read at the bytes this verdict describes.",
+        "whatThisVerdictThereforeDoesNotCarry": "a central visual gate. Every appearance statement below was measured by this reader from the delivered bytes, plus a local pdftoppm page read that is not the gate. Re-enrol this family in the raster matrix at cc6f681a…/a6095ba8… before any promotion."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "componentDenominatorUsed": "the packet-set manifest's components[] — 6 declared, all 6 rendered and named in reports/rendered-artifacts.json documents[]. This is the check that catches co_motion_seal_conviction-set; it passes here."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "two routeKeys, obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request and obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition, agreeing across production-field-map.routeKeys, source-receipt, every documentPolicy, MASTER_QUEUE and the packet-set manifest, and both printed in the participant-instructions.md footer and on the proposed order's own last page. statutoryAuthority 'Tex. Code Crim. Proc. arts. 55A.002, 55A.201, 55A.251, 55A.253, 55A.254, 55A.301 and 102.0061' matches the memo's controllingAuthority citations."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "one document source. bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d recomputed from private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, 6,667,524 bytes, resolved by content hash rather than declared path. allSourcesExact true. The other five components are custom_pleading or process_guidance and bind no official form, which the memo's own components[] confirms."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "manifest names 6 components — request-to-trial-court-1, information-package-2, petition-3, proposed-order-4, fee-waiver-statement-5, filing-and-expectation-instructions-6. All 6 appear in reports/rendered-artifacts.json documents[] and occupy declared page ranges of the 23-page packet. Five are requirement 'conditional' (branch-dependent) and the sixth is 'required'; the guide's component table states each condition."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "34 declared writes across both fixtures. The 16 with a rect (all on the Statement of Inability) were recovered inside their declared /Rect at >=60% containment with the value equal to `expected`; the 18 without a rect are custom-pleading writes proved by presence in the assembled packet's extracted text on the component's own pages. Page images of packet pages 5 and 7 confirm 'Jordan Avery Reyes', '1994-04-17' and '42 Live Oak Street, Austin, TX 78702' rendering on the page. See withdrawnFindings[2]."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "252 rows declared requiredBeforeFiling across the six maps; all 252 printed effectiveLabels found in participant-instructions.md. 0 missing."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "routeDeterminedSelections empty and no selectionControl carries routeDetermined true. The in-window / out-of-window branch is not a form election at all: it is decided by the date of acquittal, the packet ships both branches' components marked conditional, and the guide's first substantive paragraph tells the participant which set to use."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "No repeating row carries written cells beside required blanks. The Statement of Inability's dependant table and its property/debt tables are uniformly blank — the packet writes no financial fact anywhere, which the guide states and page 11 of the sibling packet confirms visually."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "16 protected rects tested by difference against the pinned source page; zero added ink in either fixture. Read as page images, the proposed order's findings lines, 'SIGNED on', the judge-presiding rule and the notarial jurat are all empty, and the order carries the sentence '(The findings, the date and the judge's signature are the Court's and are left blank.)'."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "both fixtures re-hashed and re-measured; sha256, byte length and pdfinfo page count all equal to reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "46 manifest rows checked. The 24 rows naming the Statement of Inability were proved by token overlap against its pinned source pages 1-12, source resolved by content hash; overlap >=0.7 on every one, and pages 8-19 carry Statement pages 1-12 in order. The remaining 22 rows are generated components with no source digest, and their order was read from the page images: pages 1-2 request, 3-4 information package, 5-6 petition, 7 proposed order, 20-23 filing instructions. See withdrawnFindings[0]."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "For every declared write with a rect, the ink the packet added (source glyphs subtracted) was tested against the declared box and the MediaBox: zero overflows in either fixture. Page images of pages 5 and 7 show no ink outside a line and no overlap. Not a central-gate pixel read — see rasterState."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "'Within 30 days … art. 55A.201 … request to the trial court'; 'More than 30 days, or the court did not act … filed with the district clerk of the county of arrest or of the alleged offence, which may not be the court that acquitted you.' TX.memo rules.filing and destination.name say exactly that, including the warning that the out-of-window venue is not the acquitting court."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "The filing-instructions component states: art. 102.006 repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 with a built-in expiry, permanently replaced by art. 102.0061 effective 2026-01-01; under (a) a district court charges the ordinary county civil ex parte fee with no flat amount, under (b) a justice or municipal court of record charges a flat $100; under (c) the fee MUST be waived in-window where art. 55A.151 does not apply, and under (d) where entitlement arises under art. 55A.053(a)(2)(A) or (B); art. 55A.254(e) forbids a charge for electronic transmission and (f) requires $25 per listed entity unable to receive one, repeating at the order stage under art. 55A.351(b-2) and (b-3); the Statement of Inability under Rule 145 is in the packet and the clerk must supply it free. Every clause is in TX.memo rules.fees and rules.feeWaiver. The packet also refuses the repealed $250-to-$500 range and says why. Nothing is denied that the repository holds."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "'YOU DO NOT SERVE ANYONE. THE CLERK DOES. The clerk sends the petition and the notice of hearing by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. A state or local agency with a listed e-mail address MUST accept electronic service.' Verbatim against TX.memo rules.service. Notice is stated too: hearing no earlier than the 30th day, copies to each listed official/agency/entity other than central federal depositories, and DPS notifies the federal depositories so the filer does not chase the FBI. See observationsNotAffectingTheVerdict[0]."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "A section headed 'When to stop and get help instead' carries all TWELVE selfHelpStopConditions from data/record-clearing/legal-design-track-registry.json track tx_exp_acquittal. Tested character-for-character: all 12 are present verbatim in participant-instructions.md, and the guide's claim that they are 'carried word for word' from that file is true. It adds three more of its own, marked as additions, and names who may answer what where self-help stops."
+        }
+      },
+      "failedObligationNames": [],
+      "exactDefects": [],
+      "observationsNotAffectingTheVerdict": [
+        "participant-instructions.md and the filing-instructions component both say 'A certificate of service is included only where local practice requires you to serve the prosecutor directly - ask the clerk.' No certificate of service is in this packet: the manifest names six components and none is one, and TX.memo's own components[] names none either. The sentence is a carry of the memo's rules.service prose into a document that is describing its own contents, and a participant in such a county will look for a page that is not there. It is not failed here because no required component is missing, the substantive service rule is stated correctly, and the packet's authoritative self-description — its component table — does not list one. The sibling family tx_nd_conviction_no_supervision-set handles the identical situation properly by shipping a conditional proof-of-delivery component and saying so. Cheapest repair: reword to 'this packet does not include a certificate of service; ask the clerk whether that county requires you to serve the prosecutor directly and to prepare one.'",
+        "The verified ex parte petition and the proposed order both open with instructional prose addressed to the filer — 'USE THIS PAGE IF THE 30-DAY WINDOW HAS CLOSED', 'NOTE WHERE THIS ONE GOES', 'USE THIS PAGE ON THE OUT-OF-WINDOW BRANCH ONLY' — and the proposed order carries the two route keys as a printed footer. These are documents that get filed with a district clerk. This is the factory's established custom-pleading house style rather than a defect of this family, and it is recorded so that whoever owns that style decides it once rather than per family."
+      ],
+      "whyNotBlockedSource": "every source this family declares binds byte-exact by content hash in a mounted custody",
+      "sourcesResolvedByContentHash": [
+        {
+          "familyId": "tx_exp_acquittal-set",
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "byteLength": 6667524,
+          "declaredPathCustody": "human_source_returns",
+          "foundByContentHashIn": "human_source_returns private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        }
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json",
+      "fullReturnLivesIn": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF07 stale-verdict re-read (2026-09-05)",
+      "worker": "VF07 stale-verdict re-read (independent: built, repaired, rendered and rastered none of these packets, and has never returned a row on any of them)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical 0ae0d995fe3e9a0be3076111882758d7f55a14707d9c9adb69457dd4883fafa1 and boundary 5c9bbb5d9293206b4aa1c9a0d546453bc634a6489e76eabd57101ce5ab056b66, 24 pp each, re-hashed here and equal to reports/rendered-artifacts.json, page counts agreeing with pdfinfo and the pageManifest.",
+      "standingVerdictReRead": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf05",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "whatChangedAgainstTheStandingVerdict": "SUPERSEDED. All three document sources bind byte-exact by content hash. Two of them declare paths into d_source_packs, which no worker container mounts, and the identical bytes sit in the mounted Master Library — the exact shape of the path-resolution artefact 6793b1fc8 fixed. The third is the human source return, also mounted. Nothing about this family is source-blocked.",
+      "rasterState": {
+        "currentRasterState": "RASTER_PASS",
+        "currentGateAuthority": false,
+        "receiptStillDescribesTheBytesOnDisk": false,
+        "theStaleness": "the RASTER_PASS receipt (workflowRunId 33791677725, renderedCommitSha 88d688b8b, 2 documents, 48 pages, 0 problems) binds canonical 52821ee02b5528ed73235b359d7d40bd27389792d41ba9d9b799b45515b444a6 and boundary 614e65dca4a894127c9cfa87c6f6629458a96bff5ad2ec4bdc70eb4573fdf28c. Neither is on disk: FIX07/FIX02 repaired this family after that raster.",
+        "whatThisVerdictThereforeDoesNotCarry": "a central visual gate. Re-enrol at 0ae0d995…/5c9bbb5d… before any promotion."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "componentDenominatorUsed": "the packet-set manifest's components[] — 5 declared, all 5 rendered."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735 is the single routeKey throughout, printed in the guide footer and on the filing-instructions component's last page. statutoryAuthority 'Tex. Gov't Code §§ 411.0735, 411.0745 and 411.074'. The delivered petition's own title page reads 'Petition for Order of Nondisclosure Under Section 411.0735' with the OCA footer 'REVISED FEBRUARY 2022', which matches the bound source's revision."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "three sources, all recomputed from mounted bytes and all resolved by content hash: OCA petition da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13 (215,067 B), OCA order 6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680 (110,504 B), Statement of Inability bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d (6,667,524 B). allSourcesExact true. The order form is the combined §§ 411.0725/411.073/411.0735 model, which the guide states explicitly rather than implying a section-specific order."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "manifest names 5 — petition-1, proposed-order-2, proof-of-delivery-to-prosecutor-3 (conditional), fee-waiver-statement-4 (conditional), filing-and-after-order-instructions-5. All 5 in reports/rendered-artifacts.json documents[]: petition pages 1-5, order 6-8, proof of delivery 9, Statement 10-21, instructions 22-24. Both conditional components are labelled Conditional in the guide's component table with the condition stated."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "30 declared writes across both fixtures. The 26 with a rect recovered inside their declared /Rect at >=60% containment with the value equal to `expected`; the 4 without a rect are custom-component writes proved by text presence on the component's own pages. Page images of packet pages 1 and 11 confirm 'Jordan Avery Reyes' twice on the petition caption and body, and name/DOB/address/phone/email on the Statement, each on its ruled line. See withdrawnFindings[2]."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "234 rows declared requiredBeforeFiling across the five maps; all 234 printed effectiveLabels found in participant-instructions.md. 0 missing."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "routeDeterminedSelections empty and no selectionControl carries routeDetermined true. The three section boxes on the order's page 2 are the one place a route election could have been asserted, and the packet leaves all three blank with the reason printed in the guide and in the filing-instructions component: the sentence above them records the COURT's finding, so marking one would assert a finding no court has made. Leaving a court finding blank is a protected refusal, not a missing route option."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "No repeating row carries a written cell beside a required blank. See withdrawnFindings[3] for the caption bands this reader first mis-grouped as rows."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "36 protected rects tested by difference against the pinned source pages: the petitioner signature blocks, the judge-presiding block, the court/county block beneath it, the two State-hearing boxes, the two court-hearing boxes, the date the court considered the petition, the date of hearing, the three section boxes and the Statement's clerk-filled cause number. Zero added ink in any of them, in either fixture. The page image of the Statement's page 2 shows the cause-number line untouched."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "both fixtures re-hashed and re-measured; sha256, byte length and pdfinfo page count all equal to reports/rendered-artifacts.json."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "48 manifest rows checked. The 40 rows naming an official form were proved by token overlap against the pinned source page each names, source resolved by content hash: overlap >=0.7 on every row. Petition pages 1-5, order pages 6-8, Statement pages 10-21 all in source order. The 8 generated-component rows (page 9 proof of delivery, pages 22-24 instructions) carry no source digest and were read from page images. See withdrawnFindings[0]."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "For every declared write with a rect, the packet's added ink (source glyphs subtracted) was tested against the declared box and the MediaBox: zero overflows in either fixture, including the boundary fixture's 'Maria-Alejandra O'Shaughnessy-Whitfield'. Page images of pages 1 and 11 show every value inside its rule and none colliding with the form's own text. Not a central-gate pixel read — see rasterState. See withdrawnFindings[1]."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "'File the petition with the CLERK OF THE COURT THAT SENTENCED YOU. That clerk forwards it to the court. Under Government Code Sec. 411.0745(a) you may file it in person, electronically or by mail. OCA instructions say that in most courts a proposed order must be submitted with the petition.' TX.memo rules.filing and destination.name say exactly that, including the one-order-per-offence rule, which the packet also carries."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "'Sec. 411.0745(b) … sets the TYPE of fee, not an amount … your county's civil filing fee schedule governs. OCA instructions describe the total as TYPICALLY ABOUT $280, VARYING BY COUNTY, and tell you to call the clerk.' And on the number that is not theirs: 'NOW THE NUMBER TO IGNORE: $28 … It belongs only to the no-petition route under Government Code Sec. 411.072(c), and the committed record states in terms that it is not a filing fee at all … Do not arrive at the clerk's window with $28.' TX.memo rules.fees states precisely this, including the $28 disclaimer. Waiver: Rule 145 Statement of Inability on the Misc. Docket 22-9090 statewide form, in the packet, with the clerk's duty to supply it free and unasked. Nothing denied that the repository holds."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "'WHO GIVES NOTICE TO THE STATE - AND IT IS NOT YOU. Under Sec. 411.0745(e), on receipt of your petition THE COURT provides notice to the State and an opportunity for a hearing … OCA instructions do direct a petitioner to show proof that the district attorney received a copy, and some counties expect it, which is why this packet includes a proof-of-delivery page marked CONDITIONAL. Ask the clerk whether that county wants it.' Matches TX.memo rules.notice and rules.service, and unlike the sibling family the conditional document it describes is actually in the packet, at page 9."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "A section headed 'When to stop and get help instead' in participant-instructions.md, repeated in the filing-instructions component. All seven selfHelpStopConditions in TX.memo track tx_nd_conviction_no_supervision are covered in substance: community supervision (wrong section), violent-or-sexual characterisation under § 411.0735(c-1) with the Penal Code § 22.01 carve-out named, incomplete or uncertain sentence completion, any other conviction or deferred adjudication beyond a fine-only traffic offence, prosecutor opposition or hearing request, family violence finding OR allegation, and immigration ('you are not a United States citizen'). It then names who answers what where self-help stops."
+        }
+      },
+      "failedObligationNames": [],
+      "exactDefects": [],
+      "observationsNotAffectingTheVerdict": [
+        "The packet says the sealed information 'is still disclosed to the individuals and agencies listed in Government Code Sec. 411.076(a)'. TX.memo's own participant-facing limitation names Gov't Code § 411.0765 and lists the categories concretely — school districts, charter and private schools, education service centres, commercial transportation companies — and adds that the person may not deny the matter in those contexts. § 411.076(a) does carry the list by reference to § 411.0765, so the citation is not wrong, but the concrete categories the memo wanted the participant to see are not in the packet. Not failed: nothing held is denied.",
+        "The post-order mechanics the packet states — clerk to DPS by the 15th business day, DPS onward within 10 business days to the § 411.075(b) recipients, those recipients sealing within 30 business days — are all in TX.memo. Checked because a filing-critical number that is not in a held record is how a packet invents one. Every one of them is held."
+      ],
+      "whyNotBlockedSource": "every source this family declares binds byte-exact by content hash in a mounted custody",
+      "sourcesResolvedByContentHash": [
+        {
+          "familyId": "tx_nd_conviction_no_supervision-set",
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
+          "sha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+          "byteLength": 215067,
+          "declaredPathCustody": "d_source_packs (NOT MOUNTED)",
+          "foundByContentHashIn": "master_library STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        },
+        {
+          "familyId": "tx_nd_conviction_no_supervision-set",
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0735",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+          "byteLength": 110504,
+          "declaredPathCustody": "d_source_packs (NOT MOUNTED)",
+          "foundByContentHashIn": "master_library STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        },
+        {
+          "familyId": "tx_nd_conviction_no_supervision-set",
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "byteLength": 6667524,
+          "declaredPathCustody": "human_source_returns",
+          "foundByContentHashIn": "human_source_returns private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "rehashedEqual": true,
+          "byteLengthEqual": true
+        }
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json",
+      "fullReturnLivesIn": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
+    },
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "familyId": "mi_setaside_trafficking-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF07 stale-verdict re-read (2026-09-05)",
+      "worker": "VF07 stale-verdict re-read (independent: built, repaired, rendered and rastered none of these packets, and has never returned a row on any of them)",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdictNote": "Not a PASS and not a FAIL. It says nothing about the packet, because no artifact of this family was opened at any commit.",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused. No artifact of this family was opened at it or at any other commit.",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 mi_setaside_trafficking-set",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: mi_setaside_trafficking-set is granted to VF01, not VF07"
+      },
+      "grantState": "LIVE on VF01, released false. The grant was minted by the dispatch packer in the Captain's own tip commit 453ecee9c, which moved this family BUILT_RASTER_PENDING -> VERIFY_PENDING and, in the same commit, added to ACTIVE_ASSIGNMENTS.json the line `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 'mi_setaside_trafficking-set'`. VF01 is launchNow true with six families including this one.",
+      "whyThisLaneDidNotTakeIt": "--transfer refuses a grant that is not released, and the only way to reach it would be to release another launched lane's live claim. The ledger exists precisely so that two verifiers cannot read one family and report it as independent proof. The brief anticipated a PF or FIX grant, which is a different kind and no conflict; a LIVE independent-verification grant on another launched lane is the conflict the mechanism is for.",
+      "whatCaptainMustDoToGiveItToThisLane": "have VF01 release it, then `--transfer VF01 VF07 mi_setaside_trafficking-set --reason \"…\"`. Or leave it with VF01, which the current dispatch already names.",
+      "whatCouldNotBeTested": "the family is FAIL_REPAIR_REQUIRED-derived: vf03 returned FAIL_REPAIR_REQUIRED at base 5b74dd31b, FIX05 held the repair grant and released it at 2026-09-05T02:10:18.916Z, and the raster receipt in RASTER_QUEUE.rows binds canonical 5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65 and boundary 8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd at 4 expected pages, pinned commit 9f98bcfb5. None of those bytes were opened here.",
+      "alsoNotVerified": null,
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
+    },
+    {
+      "itemId": "tx_nd_veterans_court-set",
+      "familyId": "tx_nd_veterans_court-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF07 stale-verdict re-read (2026-09-05)",
+      "worker": "VF07 stale-verdict re-read (independent: built, repaired, rendered and rastered none of these packets, and has never returned a row on any of them)",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "verdictNote": "Not a PASS and not a FAIL. No artifact of this family was opened at any commit, and in particular neither counsel question the brief names was examined.",
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "verifiedAtBaseMeans": "the commit this lane stood at when the claim was refused. No artifact of this family was opened at it or at any other commit.",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 tx_nd_veterans_court-set",
+        "exitCode": 8,
+        "refusal": "GRANTED_ELSEWHERE: tx_nd_veterans_court-set is granted to VF02, not VF07"
+      },
+      "grantState": "LIVE on VF02, released false, minted in the same tip commit 453ecee9c, which added `--assert VF02 'tx_nd_veterans_court-set'` to VF02's claimRule. VF02 is launchNow true with five families including this one.",
+      "whyThisLaneDidNotTakeIt": "as above.",
+      "whatCaptainMustDoToGiveItToThisLane": "have VF02 release it, then `--transfer VF02 VF07 tx_nd_veterans_court-set --reason \"…\"`.",
+      "whatCouldNotBeTested": "The two counsel questions the builder recorded rather than answered — the held record contradicting itself on a $28 charge, and a stop condition citing Gov't Code § 411.0735 where the route is § 411.0727 — were not examined, because examining them means reading the packet. One thing bearing on the first is visible without opening the family and is offered as a lead, not a finding: TX.memo.json track tx_nd_conviction_no_supervision states in terms that 'The $28 figure belongs only to the no-petition route under Gov't Code 411.072(c) and is not a filing fee', and the sibling family verified above states the same to its participant. Whoever reads tx_nd_veterans_court-set should check its guide against that sentence and against its own track's rules.fees before treating the contradiction as unresolved.",
+      "alsoNotVerified": "the second build recorded at data/rcap-grade-a/packet-factory-24h/pf25/build-c-cohort-return.json. Two builders reaching the same counters is evidence about the build, not a verdict about the packet, and this lane read neither.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
     }
   ],
   "obligationSet": [
@@ -8623,5 +9147,37 @@
       "Instruction-content obligations were initially scanned in participant-instructions.md only, which produced false gaps on LA whose filing, fee, waiver and service statements are delivered on the packet's own instructions pages."
     ],
     "baseIsDeclaredForSupersession": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
+  },
+  "vf07StaleVerdictReRead20260905": {
+    "whatThisIs": "VF07 re-read three families carrying a standing BLOCKED_SOURCE taken before 6793b1fc8 replaced declared-path source resolution with content-hash lookup, and was refused at the claim gate on two more that the tip commit had already dealt to VF01 and VF02.",
+    "appendedRows": 5,
+    "appendedNotReplaced": "the 35 rows and 2 claimGateRefusals already in this file were read, counted and left exactly as they were. Nothing here overwrites an earlier reader.",
+    "fullReturn": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json",
+    "verdicts": {
+      "co_motion_seal_conviction-set": "FAIL_REPAIR_REQUIRED — COMPONENT_SET (2 of 4 required components) and FEE_AND_WAIVER (the held JDF-611 states the waiver route the packet says is not established). The standing BLOCKED_SOURCE is superseded: both sources bind by content hash.",
+      "tx_exp_acquittal-set": "PASS_COMPLETE_INDEPENDENT — standing BLOCKED_SOURCE superseded; its one source binds in human_source_returns. Carries no live visual gate: the RASTER_PASS receipt binds bytes FIX06 superseded.",
+      "tx_nd_conviction_no_supervision-set": "PASS_COMPLETE_INDEPENDENT — standing BLOCKED_SOURCE superseded; all three sources bind by content hash. Carries no live visual gate: the RASTER_PASS receipt binds bytes FIX07 superseded.",
+      "mi_setaside_trafficking-set": "BLOCKED_BEFORE_CLAIM — live independent-verification grant on VF01, minted in the tip commit itself.",
+      "tx_nd_veterans_court-set": "BLOCKED_BEFORE_CLAIM — live independent-verification grant on VF02, minted in the tip commit itself."
+    },
+    "eightFindingsWithdrawnBeforeReporting": [
+      "0: PAGE_ORDER FAIL on 24 rows of tx_exp_acquittal-set and 40 rows of tx_nd_conviction_no_supervision-set: 'the rendered pag… — The instrument searched each packet page for the manifest's formNumber as a printed string. Those values — TX-…",
+      "1: CLIPPING_AND_OVERLAP FAIL on 16 writes in tx_exp_acquittal-set and 18 in tx_nd_conviction_no_supervision-set, each repor… — The overflowing glyphs are the SOURCE FORM's own printed rule lines, which naturally run the full width of the…",
+      "2: KNOWN_PREFILLS FAIL on 18 writes in tx_exp_acquittal-set and 4 in tx_nd_conviction_no_supervision-set, each 'declared wr… — Every one is a custom-pleading or process-guidance write that carries neither a rect nor a page — reports/actu…",
+      "3: REPEATING_ROWS FAIL, incompleteRows 2, on tx_nd_conviction_no_supervision-set: the petition caption row at y 592.56 and … — Those are the two halves of a Texas caption — 'In the Matter of <name> § In the <court> of <county> County, Te…",
+      "4: SELF_HELP_STOP FAIL on co_motion_seal_conviction-set: CO.memo names five selfHelpStopConditions — the district attorney … — Not reproducible as a defect of THIS family under the standard the cohort is actually held to. The sibling co_…",
+      "5: PROTECTED_FIELDS or ROUTE_OPTIONS FAIL on co_motion_seal_conviction-set: the delivered page 1 shows the Colorado Bureau … — The tick is the source form's own value, not the packet's. JDF-612 field 6D.0 carries V=/Yes and AS=/Yes in th…",
+      "6: A usability defect on co_motion_seal_conviction-set: 23 of JDF-612's 77 widgets carry the Hidden flag (F=6), including e… — Read the page image. The ruled lines and labels for every section 6 agency row are static page content and pri…",
+      "7: unclassifiedBlanks of 34, 34 and 48 across the three families, from refusals whose disposition string is outside product… — A wrong reading of the contract. UNCLASSIFIED_BLANK in scripts/rcap-packet-completeness/completeness-contract.…"
+    ],
+    "thingsThatOutliveTheseFive": [
+      "HIGH: requiredComponentsMissing cannot see the packet-set manifest",
+      "HIGH: Colorado's notice and second order are identified, and the record says they are not",
+      "MEDIUM: CO.memo.json rules.feeWaiver is contradicted by the held JDF-611",
+      "MEDIUM: Two repaired families carry a RASTER_PASS receipt bound to bytes that no longer exist",
+      "MEDIUM: SELF_HELP_STOP is read two different ways across the cohort",
+      "MEDIUM: A worktree can inherit a sparse-checkout cone and measure a tree that is not there",
+      "LOW: AL_ABPP-3 is missing from the mounted Master Library"
+    ]
   }
 }

@@ -35,12 +35,13 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 687,
-    "independentVerdicts": 230,
-    "failRepairRequired": 60,
-    "passIndependent": 158
+    "rows": 684,
+    "independentVerdicts": 227,
+    "failRepairRequired": 64,
+    "passIndependent": 154
   },
   "failRepairRequiredFamilies": [
+    "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "al-diversion-set",
@@ -55,7 +56,7 @@
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_marijuana_expungement_limited_jurisdiction-set",
-    "co_petition_seal_arrest-set",
+    "co_motion_seal_conviction-set",
     "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "de_mandatory_expungement-set",
@@ -94,13 +95,16 @@
     "sd_arrest_expungement-set",
     "tx_nd_dwi_deferred-set",
     "tx_nd_probation_misdemeanor-set",
+    "ut_pet_acquittal-set",
     "ut_pet_dismissed_with_prejudice-set",
     "ut_pet_dismissed_without_prejudice-set",
     "ut_pet_limitations-set",
     "ut_pet_no_charges-set",
     "va_seal_petition_misdemeanor-set",
     "vt_exp_decriminalized-set",
-    "vt_seal_nonconviction-set"
+    "vt_seal_nonconviction-set",
+    "wv_conv_multiple_misdemeanors-set",
+    "wv_conv_single_misdemeanor-set"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -123,7 +127,9 @@
       "vf04/tx_nd_conviction_no_supervision-set",
       "vf06/composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "vf06/wv_conv_multiple_misdemeanors-set",
+      "vf07/mi_setaside_trafficking-set",
       "vf07/rcap-sc-custom-pleading",
+      "vf07/tx_nd_veterans_court-set",
       "vf07/wv_conv_single_misdemeanor-set",
       "vf09/ny_160_59_petition-set",
       "vf12/oh_marijuana_expungement-set",
@@ -249,20 +255,6 @@
         "ARTIFACTS",
         "ROUTE_IDENTITY"
       ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-      "superseded": true
-    },
-    {
-      "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf01",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
@@ -3169,6 +3161,56 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "evidence": {
+            "manifestRequires": 4,
+            "packetDelivers": 2,
+            "delivered": [
+              "co_motion_seal_conviction-primary-filing-1 → JDF-612, packet pages 1-5",
+              "co_motion_seal_conviction-proposed-order-2 → JDF-615, packet pages 6-8"
+            ],
+            "notDelivered": [
+              "co_motion_seal_conviction-notice-3, role required_filing, requirement required",
+              "co_motion_seal_conviction-second-order-4, role proposed_order, requirement required"
+            ],
+            "manifestOwnWords": "packetSetCompleteness.state 'incomplete'; basis 'The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.' (recordedBy Captain A, 2026-08-29)",
+            "disclosureIsNowPresentAndAccurate": "participant-instructions.md carries a section headed 'This packet is not the whole filing — read this before you file' which quotes the manifest basis verbatim, names both missing documents and tells the participant to obtain them from Colorado. vf02's disclosure finding at base 5b74dd31b is repaired. The gap it discloses is not.",
+            "whyDisclosureDoesNotSatisfyTheObligation": "the obligation is that every component the route names is rendered and present. A truthful account of an absent component is honesty, not delivery."
+          }
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": {
+            "whatThePacketSays": "participant-instructions.md, 'Where you file this': “**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a conviction record is not established in any source this packet holds, so it is not stated here.”",
+            "whatTheRepositoryHolds": "The official JDF-611 guide — the same document the packet cites by name three paragraphs earlier as the authority for its component-set disclosure — states the waiver route in plain, extractable text: “③ Filing Fees. The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”",
+            "whereThoseBytesAre": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages. The committed corpus index carries it at that digest in all three declared custodies.",
+            "reproduce": "pdftotext \"$MASTER_LIBRARY_SOURCE_DIR/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf\" - | sed -n '120,135p'  →  lines 126 and 132 are 'JDF 205' and 'JDF 206'",
+            "whichHalfIsTrue": "the fee AMOUNT genuinely is not established — JDF-611 itself says only that the clerk will tell you. The WAIVER half is established and the packet denies it, and then sends the participant to the clerk for the very thing the held source names.",
+            "theDefectIsAlsoUpstream": "CO.memo.json track co_motion_seal_conviction rules.feeWaiver reads 'The source review does not address a fee waiver.' and participantActionRequired carries the same sentence under kind apply_fee_waiver. The memo is contradicted by the held JDF-611 too, so the repair is needed at both the memo and the packet.",
+            "whatToWrite": "state that JDF-611 directs a participant who cannot afford the fee to file JDF 205 (Motion to Waive Fees) with JDF 206 (Order, §§ A-C), and that neither form is in this packet because neither is in the corpus — JDF 205 and JDF 206 appear nowhere in data/rcap-all50/local-source-corpus-index.json. Do not invent their content; name them and send the participant to the Colorado Judicial Department for them, exactly as the packet already does for the notice and the second order."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
       "superseded": false
     },
     {
@@ -3235,34 +3277,6 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_pardoned_conviction_seal-set",
-      "superseded": false
-    },
-    {
-      "familyId": "co_petition_seal_arrest-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf01",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": "production-field-map.json routeDeterminedSelections declares JDF-417/Title, printedQuestion \"Document title - Petition or Motion\", statedByThePacket \"Petition\", basis \"the packet writes it explicitly so the artifact states the route rather than inheriting it from a default\". No such write exists: canonicalWrites carries 9 entries and none is Title, and the delivered page-1 title reads \"to Seal Arrest and Criminal Records\" in both fixtures. The same array declares JDF-417/4B.0 statedByThePacket \"No.\" and routeSelectionNote says \"Section 4(b) is answered because the route answers it\"; page 3 of both fixtures shows \"b) Were charges ever filed in court? (yes or no)\" with nothing after it."
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": null,
-          "evidence": "Both route-determined elections are unmarked in both fixtures. Measured by isolating added glyphs (built page diffed against its own source page, resolved by content hash) and testing each election box: JDF-417/Title, census rect page 1 x181.1 y696.25 w61.98 h18 - 0 added glyphs; JDF-417/4B.0, census rect page 3 x355.88 y706.51 w84.11 h15.12 - 0 added glyphs. The same instrument scores ut_pet_acquittal-set 8 of 8 selections marked, so the zero is a real zero."
-        }
-      ],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "ROUTE_OPTIONS"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_petition_seal_arrest-set",
       "superseded": false
     },
     {
@@ -6710,28 +6724,6 @@
     {
       "familyId": "in_arrest_no_charges-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "vf02",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": "participant-instructions.md misdescribes the delivered artifact in three specific places, and one of them tells the participant to write over text the packet has already printed. (1) \"Of its fifteen pages, only the Appearance on pages 1-2 carries form boxes for the participant's own details\" and \"this packet filled in, on the Appearance only\" - false. cap-PetitionerFullName has 14 widgets on pages 1,3,5,7,8,9,13, cap-COUNTY has 8 on pages 1,3,7,9, and Address has 2 on pages 1 and 13; the field census records all of them and reports/participant-name-placement.json records 16 name placements. (2) \"Copy the caption across every document ... The petition, Form ACR, the Confidential Information Form and the proposed order all carry the same caption and none of them has boxes for it\" - false and actively harmful: the county and the petitioner name are already painted in those captions, at page 3 (295.4,48.4) and (38.9,196.8), page 7 (294.4,102.1) and (37.2,212.9), page 8 (197.9,162.8) and page 9 (293.9,74.6) and (36.9,193.0). A participant following the instruction hand-writes over printed text on four filed documents. (3) \"This family writes nothing below the proposed order's caption anywhere\" and the entry \"The whole of the proposed order below its caption, which belongs to the court\" in the deliberately-left-blank list - false: page 13, deep inside the proposed order, carries \"Jordan Avery Reyes\" on the distribution rule at (52.5,481.3)-(151.5,491.5) and \"118 Maple Street\" at (37.0,505.4). Nothing in build-findings.json discloses any of this; findingCount is 0 and blocking is empty. Recorded against REQUIRED_BEFORE_FILING because participant-instructions.md is the file this obligation is measured against; the underlying fault is that the instructions and production-field-map.json writeBoxes describe a five-write, one-page fill while the bytes carry a five-field, seven-page fill."
-        }
-      ],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
-      "superseded": false
-    },
-    {
-      "familyId": "in_arrest_no_charges-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
       "isIndependentVerification": true,
       "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
@@ -6749,7 +6741,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "in_arrest_no_charges-set",
@@ -6904,34 +6896,6 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
       "superseded": true
-    },
-    {
-      "familyId": "in_conviction_d6-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf02",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
-      "superseded": false
-    },
-    {
-      "familyId": "in_conviction_felony-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf03",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_felony-set",
-      "superseded": false
     },
     {
       "familyId": "in_conviction_misd-set",
@@ -7660,6 +7624,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
       "superseded": false
     },
@@ -14230,7 +14208,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -14259,6 +14237,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
       "superseded": true
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
+      "superseded": false
     },
     {
       "familyId": "tx_exp_acquittal-set",
@@ -14345,6 +14337,20 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
       "superseded": false
     },
@@ -14568,6 +14574,20 @@
       "superseded": false
     },
     {
+      "familyId": "tx_nd_veterans_court-set",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set",
+      "superseded": false
+    },
+    {
       "familyId": "ut_pet_acquittal-set",
       "verdict": "PASS",
       "lane": "s2-continuation-verify-01",
@@ -14598,20 +14618,6 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
       "superseded": true
-    },
-    {
-      "familyId": "ut_pet_acquittal-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf01",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
-      "superseded": false
     },
     {
       "familyId": "ut_pet_acquittal-set",
@@ -14694,7 +14700,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "ut_pet_acquittal-set",
@@ -18947,20 +18953,6 @@
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf02",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
-      "superseded": false
-    },
-    {
-      "familyId": "wv_conv_multiple_misdemeanors-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
@@ -19026,7 +19018,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_multiple_misdemeanors-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "wv_conv_multiple_misdemeanors-set",
@@ -19231,20 +19223,6 @@
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf01",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-      "failedObligations": [],
-      "failedObligationNames": [],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
-      "superseded": false
-    },
-    {
-      "familyId": "wv_conv_single_misdemeanor-set",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -19376,7 +19354,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
