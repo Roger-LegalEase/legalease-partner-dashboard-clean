@@ -2837,15 +2837,17 @@ const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
 const PARDONED_PRIMARY = "nd-seal-pardoned-conviction-primary-filing-1";
 const PARDONED_ROUTE = "obligation:track-only:ND:nd-seal-pardoned-conviction";
 
-/* Only the pardoned-conviction petition needs the denser profile. At the
- * boundary fixture's longest identity values, the standard 14.5-point leading
- * leaves its route identity on a page by itself. Fourteen-point leading keeps
- * the complete identity block, the intentionally blank spacer and the route
- * footer on substantive source page 3, without changing any participant text
- * or the geometry of any sibling route. */
-const COMPONENT_LAYOUT = {
-  [PARDONED_PRIMARY]: { lineHeight: 14 }
-};
+/* The pardoned-conviction petition used to be set at 14-point leading while
+ * every sibling route was set at 14.5, because at the boundary fixture's
+ * longest identity values the standard leading left its route footer on a page
+ * by itself, and squeezing that one component was the quickest way to stop it.
+ * That was a compensating measure for a pagination defect rather than a
+ * typographic decision, and it covered exactly one of five routes while the
+ * same defect went on stranding twelve pages across the family. The renderer
+ * below paginates correctly for every route, so the family is set uniformly
+ * again and this map holds nothing; it stays as the seam a genuine
+ * per-component layout would use. */
+const COMPONENT_LAYOUT = {};
 
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its authority is a set of
@@ -2887,6 +2889,19 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
+/*
+ * Per-page drawn-run census, read from finished packet bytes.
+ *
+ * This is what the stranded-page defect is measured on. A page carrying the
+ * tail of a split contact block reads as three or four runs while its
+ * neighbours read as thirty-odd; counting components, or trusting the page
+ * total, says nothing about it.
+ */
+async function drawnRunsPerPage(packetBytes) {
+  const doc = await PDFDocument.load(packetBytes, { updateMetadata: false });
+  return doc.getPages().map((pg) => extractTextItems(pg).filter((it) => /\S/.test(it.text)).length);
+}
+
 async function renderComposedPdf(fullText, title, layout = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
@@ -2896,13 +2911,6 @@ async function renderComposedPdf(fullText, title, layout = {}) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = layout.lineHeight ?? 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
   const splitToken = (token) => {
     const chunks = []; let current = "";
     for (const ch of token) {
@@ -2924,7 +2932,111 @@ async function renderComposedPdf(fullText, title, layout = {}) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /*
+   * A block that fits on a page is never split across a page break.
+   *
+   * The renderer decided its page break one line at a time, before drawing,
+   * with no knowledge of what came next, so a break fell wherever the line
+   * counter happened to land. It landed inside the closing signature and
+   * contact block of three of this family's five routes, leaving twelve pages
+   * across the family's twelve PDFs carrying nothing but the tail of that
+   * block: on the felony route "PRINTED NAME" and "MAILING ADDRESS" stayed on
+   * page 3 while "TELEPHONE", "EMAIL" and the route footer went to page 4. On
+   * the boundary fixture the mailing address itself broke mid-value -- page 3
+   * ended "...Fort Saint Clairsvi" and page 4 opened "39501-2214" -- so a
+   * single postal address was printed as two unrelated fragments on two pages.
+   *
+   * A block is a run of consecutive non-empty lines. If the block will not fit
+   * in what is left of the page and would fit on a page of its own, it starts
+   * the next page whole. Blank separators still consume a slot exactly as
+   * before, and every break that did not fall inside a block is left where it
+   * was: this changes only the routes that were actually splitting one. A block
+   * taller than a whole page still flows, because that is a long block and not
+   * a split one.
+   */
+  const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
+  const pageTop = height - margin;
+  const linesPerPage = Math.floor((pageTop - margin) / lineHeight) + 1;
+
+  const layoutPlan = (collapsed) => {
+    const placement = [];
+    const drawnPerPage = [];
+    let pageIndex = 0, cursor = pageTop;
+    const nextPage = () => { pageIndex += 1; cursor = pageTop; };
+    const slotsLeft = () => (cursor < margin - 1e-9 ? 0 : Math.floor((cursor - margin + 1e-9) / lineHeight) + 1);
+    let index = 0;
+    while (index < rows.length) {
+      if (rows[index] === "") {
+        if (!collapsed.has(index)) {
+          if (cursor < margin - 1e-9) nextPage();
+          cursor -= lineHeight;
+        }
+        index += 1;
+        continue;
+      }
+      let end = index;
+      while (end < rows.length && rows[end] !== "") end += 1;
+      const blockLength = end - index;
+      if (cursor < margin - 1e-9) nextPage();
+      // Rule 1: a block that fits on a page of its own is never split.
+      if (blockLength > slotsLeft() && blockLength <= linesPerPage) nextPage();
+      for (; index < end; index += 1) {
+        if (cursor < margin - 1e-9) nextPage();
+        placement.push({ row: index, page: pageIndex, y: cursor });
+        drawnPerPage[pageIndex] = (drawnPerPage[pageIndex] ?? 0) + 1;
+        cursor -= lineHeight;
+      }
+    }
+    return { placement, drawnPerPage };
+  };
+
+  // Rule 2: no page carries a single drawn line. A blank separator spending the
+  // last slot of a page and pushing one following line onto a page of its own is
+  // the other shape of the same defect, and it is what the per-component
+  // 14-point leading was hiding on the pardoned-conviction route.
+  const collapsed = new Set();
+  let plan = layoutPlan(collapsed);
+  for (let pass = 0; pass < 8; pass += 1) {
+    const lonely = plan.drawnPerPage.findIndex((count, index) => index > 0 && count === 1);
+    if (lonely < 0) break;
+    const first = plan.placement.find((entry) => entry.page === lonely);
+    let before = first.row - 1;
+    let collapsedAny = false;
+    while (before >= 0 && rows[before] === "") {
+      if (!collapsed.has(before)) { collapsed.add(before); collapsedAny = true; }
+      before -= 1;
+    }
+    if (!collapsedAny) break;   // the line genuinely does not fit; that is not a stranded line
+    plan = layoutPlan(collapsed);
+  }
+
+  /*
+   * Proof, not intention: every block that fits on a page landed on one page.
+   *
+   * This is the assertion that a wrapped value can no longer break across a
+   * page, because a wrapped value is a run of consecutive non-empty rows and so
+   * is a block. A block taller than a whole page is exempt and still flows.
+   */
+  const pageOfRow = new Map(plan.placement.map((entry) => [entry.row, entry.page]));
+  for (let index = 0; index < rows.length;) {
+    if (rows[index] === "") { index += 1; continue; }
+    let end = index;
+    while (end < rows.length && rows[end] !== "") end += 1;
+    if (end - index <= linesPerPage) {
+      const first = pageOfRow.get(index);
+      for (let k = index; k < end; k += 1) {
+        assert.equal(pageOfRow.get(k), first,
+          `${title}: a block that fits on a page was split across a page break at ${JSON.stringify(rows[k].slice(0, 60))}`);
+      }
+    }
+    index = end;
+  }
+
+  const pages = [pdf.addPage([width, height])];
+  for (const entry of plan.placement) {
+    while (pages.length <= entry.page) pages.push(pdf.addPage([width, height]));
+    pages[entry.page].drawText(rows[entry.row], { x: margin, y: entry.y, size: fontSize, font, color: rgb(0, 0, 0) });
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -3381,9 +3493,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     });
 
     const sha256 = crypto.createHash("sha256").update(packetBytes).digest("hex");
+    const runsPerPage = await drawnRunsPerPage(packetBytes);
+    assert.ok(runsPerPage.every((count) => count > 1),
+      `${fixtureName}: page(s) ${runsPerPage.map((c, i) => (c > 1 ? null : i + 1)).filter(Boolean).join(", ")} carry a single drawn line`);
     artifacts.push({
       fixture: fixtureName, file, sha256,
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      drawnRunsPerPage: runsPerPage,
       documents, components: COMPONENT_IDS,
       role: "family_assembly_of_every_route",
       deliveryRole: "build_and_review_evidence_only_not_a_participant_deliverable"
@@ -3465,10 +3581,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const routeMaps = maps.filter((map) => routeComponentIds.includes(map.formNumber));
       const proof = await byteProof(packetBytes, pageManifest, routeMaps, facts, `${fixtureName}/${slug}`);
 
+      const routeRunsPerPage = await drawnRunsPerPage(packetBytes);
+      assert.ok(routeRunsPerPage.every((count) => count > 1),
+        `${fixtureName}/${slug}: page(s) ${routeRunsPerPage.map((c, i) => (c > 1 ? null : i + 1)).filter(Boolean).join(", ")} carry a single drawn line`);
       routeArtifacts.push({
         routeKey: route.routeKey, route: slug, fixture: fixtureName, file,
         sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
         byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+        drawnRunsPerPage: routeRunsPerPage,
         documents: routeComponentIds, components: routeComponentIds,
         role: "route_packet_of_composed_pleadings",
         deliveryRole: "participant_deliverable_for_this_route_only",
@@ -3603,9 +3723,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
     grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
   });
 
+  const everyArtifact = [...artifacts, ...routeArtifacts];
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId: SPEC.familyId, blocking: [],
-    findings: SPEC.buildFindings
+    findings: [...SPEC.buildFindings,
+      "The closing signature and contact block was being split across a page break in three of the five routes, leaving twelve pages across the family's twelve PDFs carrying nothing but its tail: on the felony route PRINTED NAME and MAILING ADDRESS stayed on page 3 while TELEPHONE, EMAIL and the route footer went to page 4, and on the boundary fixture the mailing address itself broke mid-value across the two pages. The renderer now keeps any block that fits on a page on one page, and lets no page carry a single drawn line. No block that fits on a page is split in any fixture, which the build asserts; every fixture carries exactly the same drawn lines in the same order as before, and every page count is unchanged.",
+      "Those twelve pages still exist and still carry only the closing block: the content of these routes runs past the last full page, so the final page is unavoidable. What changed is what it carries -- the complete printed name, mailing address, telephone, email and route footer, instead of a fragment of that block and half of a postal address. Read with a per-page drawn-run census, they moved from 3-5 runs of a split block to 5-6 runs of a whole one.",
+      "The per-component 14-point leading the pardoned-conviction petition carried is retired. It was a squeeze applied to one route to hide one instance of this same defect; the family is set uniformly at 14.5 again and the pardoned route still renders in seven pages.",
+      "Every fixture in this family moved in this repair, so the family's RASTER_PASS receipt no longer covers it and a fresh whole-family raster is required before any further read."],
+    drawnRunsPerPage: Object.fromEntries(everyArtifact.map((artifact) =>
+      [artifact.route ? `${artifact.route}/${artifact.fixture}` : artifact.fixture, artifact.drawnRunsPerPage])),
+    pagesCarryingASingleDrawnLine: everyArtifact
+      .reduce((n, artifact) => n + artifact.drawnRunsPerPage.filter((count) => count <= 1).length, 0)
   });
 
   writeJson(`${OUT}/approval-request.json`, {
