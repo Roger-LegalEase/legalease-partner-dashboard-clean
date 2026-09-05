@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a51bae947f80be14294946e26c8010b618ce44cb",
+  "minimumCaptainSha": "c4af131a54a39251d09bc07da26cf2f0eecf62b1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,23 +66,23 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 4,
+    "activeFamiliesExcluded": 3,
     "guidanceOnly": 0,
-    "remaining": 342,
+    "remaining": 343,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 6,
+    "verifyPending": 7,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 153,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 7,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
@@ -109,7 +109,6 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "mi_setaside_trafficking-set",
       "ut_pet_limitations-set",
       "wv_dui_deferral_expungement-set"
     ],
@@ -24623,7 +24622,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -24653,7 +24655,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
@@ -24748,9 +24750,7 @@
         "verifiedAtBase": "c62b49a9b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -24791,9 +24791,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX51",
-      "activeOwnerLane": "rapid-repair",
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24804,8 +24804,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "mn_petition_15218-set",
@@ -38134,10 +38133,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf04",
-        "verifiedAtBase": "a0fbceb30",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "30a8b3b71",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -38168,19 +38167,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "A known required fact -- the participant's date of birth, which the platform holds and this same packet prints -- is not written on the page it belongs to, and the blank is excused by a protected-field refusal class describing a field it is not. This is exactly the shape the completeness contract names in REQUIRED_BEFORE_FILING_CONDITIONS: 'a fact written anywhere else in the same packet is available, and refusing it here is a missing known fact', and the shape REFUSAL_CLASSES warns of where a protected class lets a required fact hide inside it. REPAIR, and it is narrow: in scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs, relabel those three fields from 'Date part of the sworn declaration' to the caption the form actually prints, and either write the held date of birth into Month / Day / Year as it is already written on source page 2, or -- if the build declines to split a date it holds whole -- declare them REQUIRED_BEFORE_FILING with a named reason and disclose them in participant-instructions.md, where they are named nowhere today. The signing-date field 'Today' and the notary's 'Year' on source page 12 must stay refused; nothing else on either page moves.",
-          "evidence": "DELIVERED PAGE 20 of 24 (Statement of Inability, source page 11 of 12, Option 1 / Opcion 1, the sworn Declaration). The page prints three captions in this order and this lane read them off the delivered bytes: 'My name is / Mi nombre es', then 'My date of birth is / Mi fecha de nacimiento es' above three rules, then 'My address is / Mi domicilio es'. The packet writes the FIRST and the THIRD -- 'Jordan Avery Reyes' and '42 Live Oak Street, Austin, TX 78702' in canonical, the stress values in boundary -- and leaves the SECOND entirely blank. The same fact is held and written nine pages earlier: delivered page 11 (source page 2) carries '1994-04-17' in the field the source form names 'My date of birth / Mi fecha de nacimiento es' (boundary: '1972-12-31'). So one official document writes the participant's date of birth on one of its pages and refuses it on another. The refusal is recorded in production-field-map.json maps[3].canonicalRefusals for the three fields 'Month / Mes' (rect 79.73,495.56), 'Day / Dia' (134.54,495.51) and 'Year / Ano' (193.40,495.61) on page 11 of that document, all three carrying printedLabel 'Date part of the sworn declaration (...)', category signature_or_date_participant_completion, requiredBeforeFiling false, and why 'a date written before the Statement is actually sworn would be false'. That reason is true of a different field: the signing date on this same page is the separate widget 'Today' at (97.75,302.31) under the printed caption 'Date (month, day, year) / Fecha (mes, dia, ano)', and it is correctly refused. Confirmed by eye on a local raster of canonical page 20 at 100 dpi: a half-completed sworn declaration with name and address filled and the date-of-birth rules empty."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
