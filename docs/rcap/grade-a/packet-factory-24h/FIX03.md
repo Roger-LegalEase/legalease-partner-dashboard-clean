@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `6b2dd8fe4fca41cee344b4187b43b939fbcdbb47` (or the newer dispatch base)
+**Minimum required ancestor:** `61a898123fcfdcebf31885b09d3aa5ad922714fc` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' \
   --codex-cloud \
-  --minimum-captain-sha 6b2dd8fe4fca41cee344b4187b43b939fbcdbb47
+  --minimum-captain-sha 61a898123fcfdcebf31885b09d3aa5ad922714fc
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ar-felony-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'fl-early-juvenile-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nm_identity_theft-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-felony-dwop-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-seal-2yr-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'wv_dui_deferral_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,7 +63,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 7 families
 
 - `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`
 - `ar-felony-seal-set`
@@ -70,6 +71,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `nm_identity_theft-set`
 - `al-felony-dwop-set`
 - `il-seal-2yr-set`
+- `wv_dui_deferral_expungement-set`
 
 ## What you receive
 
@@ -88,12 +90,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
 - `scripts/build-census-v1-ar-felony-seal-set.mjs`
 - `scripts/build-census-v1-fl-early-juvenile-set.mjs`
 - `scripts/build-census-v1-nm_identity_theft-set.mjs`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
+- `scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs`
 
 ## Never write here
 

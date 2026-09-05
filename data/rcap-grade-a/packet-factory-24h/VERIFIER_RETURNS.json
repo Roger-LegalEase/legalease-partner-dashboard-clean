@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 794,
+    "rows": 795,
     "independentVerdicts": 240,
     "failRepairRequired": 54,
     "passIndependent": 172
@@ -22889,6 +22889,28 @@
     {
       "familyId": "wv_dui_deferral_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "30a8b3b71",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL. Canonical and boundary bytes hash to what the record names; the family's page images do not, and they are two repairs out of date. This is repair-actionable and narrow: either re-render raster/** from the current fixtures, or delete raster/** and let rendered-artifacts.json's rasterSkipped true stand as the truth of what this family owns. It matters more than housekeeping here for two reasons. First, this family is ownerPinned with an owner re-review owed on bytes that have now moved twice, and the images that re-review would open are the pre-repair layout. Second, the stale page-04 image is a picture of the defect class VF08 and VF07 raised -- a sheet whose only content is a route key -- so a reader who opens the directory rather than the PDF sees the repaired defect still apparently present. Nothing here is caught by the existing instruments: the nine counters read the two PDFs, stale_artifact_block_consulted hashes PDFs only, and SCAN01 reads composed PDF text. No instrument opens a PNG.",
+          "evidence": "The two fixtures hash to what the record names: fixtures/canonical.pdf = d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e (25,304 bytes, 11 pages) and fixtures/boundary.pdf = 776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782 (25,786 bytes, 11 pages), equal in reports/rendered-artifacts.json, product-wiring.json's acceptanceReceipt, the RASTER_QUEUE row and its live receipt for run 33977742636 / job 101337729588. The family's OTHER committed artifacts do not. reports/rendered-artifacts.json declares rasterSkipped true, rasterPages [], everyPageRastered false and rasterEngine null -- the record says this family owns no page images -- and the directory nevertheless ships 22 of them: raster/canonical/page-01..11/page.png and raster/boundary/page-01..11/page.png, all 22 tracked, all last written at commit e0a02788b ('build to state_built'), while fixtures/ moved twice after that, at 049b6d615 (FIX07) and 484718a33 (FIX46). Two of the stale images were opened and read here. raster/canonical/page-03/page.png shows the ORIGINAL page 3, carrying the whole affidavit including SIGNATURE OF AFFIANT, DATE, the officer-reserving sentence, the jurat, the officer's rule AND a trailer line beneath all of it. raster/canonical/page-04/page.png -- byte-identical to raster/boundary/page-04/page.png -- is a sheet whose only ink is the bare unlabelled second route key 'obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge'. Neither page exists in the bytes this family now ships."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_dui_deferral_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
       "isIndependentVerification": true,
       "verifiedAtBase": "a0fbceb30",
@@ -22951,7 +22973,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wv_dui_deferral_expungement-set",
