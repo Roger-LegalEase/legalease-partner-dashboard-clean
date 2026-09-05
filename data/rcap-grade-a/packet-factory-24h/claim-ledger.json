@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "21ddabcb37d365310f786bfa305c8f2fdf6e0d0f",
+  "generatedAtCommit": "d0582f91fe9188edb99cf47f3fc52b982aa5e609",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1586,11 +1586,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX68",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:51:28.699Z",
-      "releaseReason": "Opted this family's builder into the shared fitAppearancesToRect option and rebuilt it twice byte-identically, so the ISO 32000-1 12.5.5 overhang VF08 measured is gone and the outside-rect dark pixel count at the named fields now equals the pinned form's own; a central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix68/rows.json (Replayed by Captain from FIX68 commit 982239af1.)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5927,11 +5925,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX68",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T21:51:28.804Z",
-      "releaseReason": "Opted this family's builder into the shared fitAppearancesToRect option and rebuilt it twice byte-identically, so the ISO 32000-1 12.5.5 overhang VF08 measured is gone and the outside-rect dark pixel count at the named fields now equals the pinned form's own; a central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix68/rows.json (Replayed by Captain from FIX68 commit 982239af1.)"
+      "releasedAt": "2026-09-05T21:51:28.804Z"
     },
     {
       "subjectType": "packet-family",
@@ -6555,7 +6552,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6737,7 +6734,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6978,7 +6975,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7251,7 +7248,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -8244,11 +8241,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX74",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T22:37:22.970Z",
-      "releaseReason": "FEE_AND_WAIVER repaired: the filing-instructions page and participant-instructions.md now state, in the track registry's own words with its citation, that no court fees or costs are payable under Va. Code 19.2-392.2(A) and there is nothing to waive, with the CCRE own-copy fee note carried verbatim; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix74/rows.json (Replayed by Captain from FIX74 commit 599920223.)"
+      "releasedAt": "2026-09-05T22:37:22.970Z"
     },
     {
       "subjectType": "packet-family",
@@ -13615,7 +13611,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9dc623d07a7592857e7de8dd367a12b02ee9ce1f122d75f457af384ce106faf7",
+  "claimsDigest": "2c5b83da350c632d5aef23e1b8bd62adbc2b6e3f77f7f9a882099d8b6ef6ecc8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37725,6 +37721,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T22:32:12Z",
       "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T23:20:22Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

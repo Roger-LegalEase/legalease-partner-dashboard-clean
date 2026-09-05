@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 868,
+    "rows": 874,
     "independentVerdicts": 240,
-    "failRepairRequired": 65,
-    "passIndependent": 157
+    "failRepairRequired": 62,
+    "passIndependent": 160
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -53,7 +53,6 @@
     "ar-felony-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
-    "co_decriminalized_conduct_seal-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
     "co_multiple_conviction_seal-set",
@@ -70,8 +69,6 @@
     "il-seal-edu-set",
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
-    "me-seal-prost-set",
-    "mi_setaside_marihuana-set",
     "nc_146_dismissal_petition-set",
     "ne-setaside-custodial-set",
     "nh_petition_nonconviction_pre2019-set",
@@ -3745,6 +3742,20 @@
     },
     {
       "familyId": "co_decriminalized_conduct_seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ebe931e4e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_decriminalized_conduct_seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -3998,7 +4009,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_decriminalized_conduct_seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "co_motion_seal_conviction-set",
@@ -4202,6 +4213,28 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
       "superseded": true
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ebe931e4e",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL. Packet page 4 of both fixtures delivers 8,344 dark pixels of black rectangle that JDF-641 does not print, at three widgets the field map itself dispositions as participant elections and leaves unmade, outside every declared write box, and it deletes the form's own rule underneath. REPAIR: the three appearances are regenerated because their widgets carry /MK /BC and no usable /FT-specific appearance of their own, so pdf-lib synthesises a bordered text/choice appearance in place of the form's rule; the fix belongs with the shared finalizer -- either preserving a source /AP that already exists, or neutralising /MK /BC for a field the packet does not write, in the same family as FIX50's suppressSynthesizedAppearances -- and then a rebuild and a fresh central raster, because the fixture bytes will move. DISCLOSED AND NOT SCORED, so the repairer sees the whole shape: (1) the same regeneration boxes all sixteen WRITTEN values on pages 1, 5 and 6, but those borders land inside their own declared write boxes and so are not ink outside one; co_decriminalized_conduct_seal-set carries that half of the behaviour and passes on it. (2) INNER-BOX DOUBLING at nine selection rects on pages 1, 2 and 7, 3,382 dark pixels per fixture, all of it the form's own printed checkbox becoming visible when the shared background neutralization strips the /Off appearance's opaque white fill -- the same divergence VF02 measured on Vermont's 600-00228, adding no ink of the packet's own.",
+          "evidence": "THE PLACEMENT SWEEP, RUN HERE, NOT CARRIED. For every flattened widget appearance in each fixture the page-content cm chain was composed through q/Q, the placed XObject's /BBox and /Matrix read, the BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it translates to, and cmScale x requiredScale required to equal 1, judged as |transformedSize x cmScale - rectSize| <= 0.05pt on each axis. Result: 141 of 141 pass in canonical and 141 of 141 in boundary, 0 fail, 0 unmatched, every matched placement at origin distance 0.00pt. 141 matches FIX68's count, and the same script returns 6 failures per fixture on the superseded pre-repair bytes (11.1 product 0.990909 overhang 3.6pt, plus five sub-0.2pt), so the 12.5.5 repair itself is discharged at the appearance level. THE DEFECT IS SOMEWHERE ELSE, AND IT IS IN THE INK. Every page of both fixtures was rendered greyscale at 300 dpi and compared pixel for pixel with the pinned source page the manifest names, rendered by the same rasterizer. On PACKET PAGE 4 (JDF-641 source page 4) the delivered page carries 8,344 dark pixels that the pinned form does not, in BOTH fixtures, and every one of them lies OUTSIDE every declared write box. They are not the form's own ink: rendering the pinned JDF-641 with its /Annots and /AcroForm removed shows 0 of the 8,344 in the form's page content. They fall in exactly three clusters -- 4,082 px at x[254.40,472.08] y[142.32,155.04]; 2,154 px at x[404.88,506.88] y[205.20,217.92]; 2,108 px at x[322.32,424.08] y[72.24,85.20] -- which are the /Rects of widgets 9B.2 (Appellate Court), 9B.0 (Did you appeal any of these cases) and 9C.0 (Do you still owe restitution). READ FROM THE BYTES, NOT FROM A PICTURE: each of the three flattened appearances in the delivered fixture is a REGENERATED stream that strokes a full rectangle, e.g. FlatWidget-7759683746 (9B.2) is '1 0 0 1 0 0 cm ... 0 0 0 RG / 1 w / [] 0 d / 1 0 0 1 0.5 0.5 cm ... 0 0 m / 0 13.109 l / 216.896 13.109 l / 216.896 0 l / h / S ... /Helvetica 10 Tf ... <> Tj', while the PINNED widget's own /AP /N for the same field is 29 bytes and draws a single rule, '0 G / 0 0.5 m / 217.8954 0.5 l / s'. The border colour is /MK /BC [0 0 0] on the source widget, which the form's own appearance suppresses and pdf-lib's updateFieldAppearances does not. The three fields carry no value, so what the participant is handed is three empty black boxes the Colorado Judicial Department's own form does not print, where the form prints a rule -- and the form's rule is gone, which is the 9 lost pixels recorded under SOURCE_IDENTITY. The other four pages are clean: outside-write-box added ink is 1606 on page 1, 1563 on page 2, 0 on pages 3, 5 and 6 and 213 on page 7, and every one of those pixels IS the form's own page content (the inner-box doubling described below). NO SYNTHESIZED SELECTION SQUARE: the twenty-one selection widgets were compared with the pinned form at their own rects and the packet stamps no square of its own at any of them."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": false
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
@@ -4454,7 +4487,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "co_pardoned_conviction_seal-set",
@@ -9725,6 +9758,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
+      "superseded": true
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ebe931e4e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
       "superseded": false
     },
     {
@@ -9837,6 +9884,20 @@
     },
     {
       "familyId": "mi_setaside_marihuana-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ebe931e4e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -9855,7 +9916,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mi_setaside_marihuana-set",
@@ -11686,6 +11747,34 @@
     },
     {
       "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ebe931e4e",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "A component the route names as REQUIRED is not present. The packet never tells the Nebraska participant that local practice varies and to confirm what that court requires before filing, which is the whole of what the component is for and which the memo records the judiciary warning about twice. REPAIR: the builder owns participant-instructions.md and should carry the local-rules check from NE.memo.json components[5].notes, and then have the component re-read independently. No counter sees this, because no counter reads the packet-set manifest or the memo.",
+          "evidence": "THE ROUTE NAMES SIX COMPONENTS, FOUR ARE DELIVERED, ONE IS CONDITIONAL AND EXPLAINED, AND ONE IS REQUIRED AND ABSENT. data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ne-setaside-custodial-set, and data/record-clearing/legal-design-track-registry.json name: primary-filing-1 (CC-6-11, required) -> packet page 1; proposed-order-2 (CC-6-11.2, required) -> page 2; notice-and-certificate-of-service-3 (DC-1-15, conditional, district court only) -> pages 4-5; instructions-4 (CC-6-11a, required) -> page 3; fee-waiver-5 (conditional, custom_pleading); and local-rules-check-6, role local_rules_check, requirement REQUIRED, outputStrategy process_guidance. The four form components reach a page and each page was token-compared against the source page it names with 0 missing printed tokens. The fee waiver is conditional and its absence is stated in terms in participant-instructions.md, with the reason ('the official DC 6:7.1 form does not fit this filing, and that mismatch is recorded as a release blocker'), which is what a conditional component owes. THE SIXTH IS NOT DELIVERED ANYWHERE. NE.memo.json, track ne-setaside-custodial, components[5].notes defines its contents in one sentence: 'The judiciary warns twice that local practice varies. The packet tells the participant to confirm with the clerk what that court requires before filing.' Measured against the delivered surfaces: participant-instructions.md contains 0 occurrences of 'local', 'varies', 'vary' or 'practice'; its only two directions to the clerk are about COST ('Ask the clerk of the sentencing court what this filing costs, before you file') and about the WAIVER ('Ask the clerk how to apply for the waiver on this petition'). Neither is a statement that local practice varies or a direction to confirm what that court requires. The delivered CC-6-11A page (packet page 3) was read in full with pdftotext and carries no local-practice warning either -- it lists the eligible sentences, the facts to have to hand, the record sources and a set of pointer captions, and nothing else. The family directory holds approval-request.json, build-findings.json, build-status.json, field-census.census-v1.json, fixtures/, participant-instructions.md, product-wiring.json, production-field-map.json, raster/, reports/ and source-receipt.json, and no other guidance surface exists."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Held facts a delivered field asks for are left blank on three of the four documents, excused by reasons that state build policy rather than unavailability. This is the same defect VF05 raised on Michigan's dinfo box and FIX69 repaired, in a family that holds the values just as plainly. REPAIR: write matter.case_number into the three Case No. fields and the caption court and county where the widget will take them, or -- if a dropdown genuinely cannot be written -- say THAT, with the measurement, rather than that the platform does not write it here; and complete the DC-1-15 certificate-of-service identity block from the same facts it already half-fills. Nothing here asks for a guess: every value named is in the builder's own fixtures.",
+          "evidence": "FACTS THE PLATFORM HOLDS ARE LEFT BLANK ON THE FILING, ON REASONS THAT DESCRIBE THE BUILD. The builder's own factsFor() in scripts/build-census-v1-ne-setaside-custodial-set.mjs holds, for both personas, matter.case_number ('24-CR-001234' canonical), matter.county ('Example County'), matter.court ('District Court'), participant.full_legal_name, participant.street_address, participant.city_state_zip, participant.phone, participant.email and participant.date_of_birth. The packet writes FIVE of them, at seven widgets: printedname, citystatezip and telephone number on CC-6-11 page 1, and printedname and emailaddress on both pages of DC-1-15. Read off the delivered page at 300 dpi and with pdftotext: (1) THE CASE NUMBER IS BLANK ON ALL THREE CASE-NUMBERED DOCUMENTS. production-field-map.json refuses CC-6-11 field Text2 (printed context ',  CasNe o' -- the form's scrambled 'Case No.'), CC-6-11.2 field Text2 and DC-1-15 field Text38 ('Case'), every one under buildPolicyReason `no_allowlisted_fact_matches`, and prints to the participant 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. That reason states what this build's allowlist offers and what this build does; this builder's own header comment says so in terms -- 'no_allowlisted_fact_matches and binding_not_approved_by_exact_caption_gate state what this build's allowlist offers. Neither says anything about whether the filing needs the value, and a statement of build policy is not a reason for a blank on a court filing.' A petition filed into an existing criminal case with no case number on it is the case-identifying fact missing from the filing. (2) THE CAPTION IS EMPTY. The delivered page 1 reads 'IN THE ______ COURT OF ______ COUNTY, NEBRASKA' with both blanks unwritten, while the platform holds matter.court and matter.county; the widgets (TYPEOFCOURTDROPDOWN, TYPEOFCOURTRESULTS, 'enter the type of court', 'enter the county', DROPDOWNCOUNTY2, fullcountystatementRIGHT) are refused under `classified_unwritable_by_role` or `no_allowlisted_fact_matches`, and the same six recur on CC-6-11.2. (3) A FACT THE PACKET WRITES ELSEWHERE IS REFUSED HERE. CC-6-11 field 'defendant' (printed label 'vs', the caption defendant line) is blank while participant.full_legal_name is written at printedname lower on the SAME page; CC-6-11 'streetaddress' is blank while participant.city_state_zip is written eight lines below it; and on the DC-1-15 certificate-of-service block on packet page 5 the delivered page prints 'Printed Name: Jordan Avery Reyes' and 'Email address: jordan.reyes@example.com' with 'Street Address/P.O. Box', 'City/State/ZIP Code' and 'Telephone Number' left blank, all three of which the platform holds and two of which it writes on page 1. The completeness contract's REQUIRED_BEFORE_FILING conditions are explicit on this: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The writes that ARE made are correct: all seven were located by pdftotext on their own packet page in both fixtures and each sits inside its own /Rect at 300 dpi with positive margins on all four sides (tightest 0.72pt left on emailaddress, 1.68pt bottom on printedname)."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -11953,7 +12042,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -22670,6 +22759,28 @@
       "unmeasuredObligations": [
         "CLIPPING_AND_OVERLAP"
       ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e80c4a759",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL, in canonical and in boundary, on 2299 added dark pixels per fixture standing outside every declared write box at thirteen checkbox rects, plus a fourteenth-through-seventeenth instance inside the four route-mark boxes. The placement sweep passes 41/41 in each fixture with every product exactly 1, VF07's split heading and VF08's route-only closing page are both repaired and confirmed on the bytes, no ink lies outside the composed column, no row overlaps, no page is empty, every participant write is present, legible and unclipped, and FIX74's new fee block sits wholly inside its write box - and the packet still delivers a square the Commonwealth's own form does not print around every unmarked checkbox on the petition, the clerk's certification box among them. REPAIR: rebuild this family with suppressSynthesizedAppearances passed to finalizeOfficialForm, which is proved here to restore the pinned form's own pixels exactly at all seventeen rects, then re-raster, since the acceptance receipt binds exact hashes. This lane repairs nothing and did not edit the builder.",
+          "evidence": "THE THREE THINGS THIS RE-READ WAS ASKED TO CONFIRM, AND THE ONE THAT DOES NOT HOLD. (1) THE PLACEMENT SWEEP PASSES. For every flattened widget appearance in each fixture the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, the transformed BBox computed per ISO 32000-1 12.5.5, matched to the source widget whose /Rect origin it lands on, and cmScale x requiredScale required to equal 1 (judged as |transformedSize x cmScale - rectSize| <= 0.05pt). Result: 41 of 41 pass in canonical and 41 of 41 in boundary, 0 fail, 0 unmatched, every appearance matched to a source widget on the SAME source page (38 on page 1, 3 on page 2), every product exactly 1x1 and the maximum placement error 0.0000pt. The sweep's sensitivity was proved with a live negative control, recorded in howTheSweepWasProvedSensitive. 41 is also the appearance count the family's own reports/actual-writes.json gives. (2) VF07's AND VF08's DEFECTS ARE DISCHARGED. Page 7 of both fixtures carries exactly four drawn lines - the heading 'WHAT THIS PACKET IS NOT', the two rows of the closing paragraph, and the route trailer - and the 300 dpi raster shows the heading with its own paragraph beneath it. It is not a bare route line (VF08's defect at aefd46f7c) and its heading is not orphaned on the previous page (VF07's defect at a0fbceb30). Page 6 ends on the complete second bullet, not on a heading. All eleven composed headings per fixture sit with the paragraph they introduce and not one is the last drawn line on its page. SCAN01, run here over all 249 family directories with its output redirected to /tmp, still classes page 7 of each fixture as fragment_page at 4 composed lines against its thinnest-legitimate-page benchmark of 8, and reports no other defect in this family; that threshold is describing the page VF07 asked for and is not a defect this lane re-issues. (3) THE FEE BLOCK SITS INSIDE ITS WRITE BOX. FIX74's new page-6 block occupies, in both fixtures identically, the heading at x[72.00,431.89] and the four wrapped sentence rows at x[72.00,527.18], x[72.00,518.33], x[72.00,528.46] and x[72.00,322.34], all inside the composer's 468pt column between the 72pt margins, with the page's bottom-most ink 152.40pt above the sheet's foot. The fee-block region of canonical page 6 and boundary page 6 are pixel-identical to each other at 300 dpi. Every composed page of both fixtures holds ink in x[72.00,540.48] on a 612pt sheet, 0 words outside the MediaBox (1855 words per fixture by pdftotext -bbox-layout), and 0 overlapping line pairs on pages 3, 4, 5, 6 and 7. THE DEFECT. Both fixtures deliver a black stroked square at SEVENTEEN checkbox widgets that the official form does not print - fourteen on page 1 and the three page-2 checklist boxes. Read from the pinned binary 6176c2f5...: each of the seventeen has /AS /Off, an /AP /N dictionary whose only entry is the on-state (/1 or /2, with no /Off), and /MK << /CA >> with no /BC, so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there - and poppler, rendering the pinned source at 300 dpi, paints nothing there. In the delivered bytes each of those rects carries a flattened appearance whose content is a stroked rectangle. MEASURED AT 300 dpi, ADDED INK ONLY (dark in the delivered page, not dark in the pinned source), against the family's own declared write boxes (the six value rects and the four route-mark boxes): 1717 added dark pixels on page 1 and 582 on page 2 lie OUTSIDE every declared write box, in canonical and identically in boundary - 2299 per fixture - and every cluster sits at one of the thirteen unmarked checkbox rects (Check0 x2 255 and 257 px, Check5 x2 196 and 194, Check7 194, the four ATTORNEY boxes 164/116/111/158, the clerk's CBCertify 194, and CB1/CB2/CB3 194 each). Outside those rects, 0 added pixels lie anywhere on either page. On the page this means every unmarked checkbox on the petition and on its own page-2 checklist is delivered with a square drawn around the form's printed '[ ]', including the clerk's own certification box, and the four route marks are delivered inside a square the court's form does not draw. WHOSE INK IT IS, PROVED THREE WAYS RATHER THAN ARGUED. A ZERO-WRITE BASELINE was built here: the pinned CC-1473 run through the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten with writtenFields empty and no dispositions, saved to /tmp and rendered at 300 dpi. (a) Delivered page 1 differs from that baseline by 0 pixels at all ten unmarked checkbox rects and at CBCertify, and by 345/372/344/348 pixels at the four petitioner boxes, which is the route mark and nothing else; delivered page 2 differs from it by 0 pixels. So the square is not a mark this family makes. (b) The baseline differs from the PINNED SOURCE by 156 to 269 pixels at every one of the seventeen. So the shared flattening step is what adds it. (c) The same baseline rebuilt with the shared module's own opt-in suppressSynthesizedAppearances (which installs an empty appearance for a widget whose current /AS state has no stream; it reported 17 installed) is PIXEL-IDENTICAL to the pinned source at all seventeen rects - 0 differing pixels - so an exact, in-repository remedy exists and is proved exact here. scripts/build-census-v1-va_exp_nonconviction-set.mjs passes neither suppressSynthesizedAppearances nor fitAppearancesToRect to finalizeOfficialForm; fourteen other build-census-v1 builders in this tree do pass the first. WHY THIS IS A FAIL AND NOT BLOCKED_LEGAL_INPUT, WHICH IS WHERE THIS LANE LEFT IT AT c708dff4d. RI-OFF-APPEARANCE (data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json) protects 'a protected widget's UNCHANGED /Off appearance ... where a zero-write normalized baseline proves it unchanged'. Nothing here is unchanged: the source ships no appearance for the /Off state at all and the normalization synthesizes a border the official form never prints, which the zero-write baseline proves against the source rather than for it. And the shared module itself already records the owner's position on exactly this ink, in the option's own contract: 'CAPTAIN DECISION: like those flags, this default should flip to true once every family can be rebuilt together. A border the official form does not print is ink the packet added, wherever it occurs.' The only reason the default has not flipped is rebuild coordination, which is a scheduling fact and not an open legal question. A named remedy that exists, is proved exact on these bytes, and is already carried by other families is a repair, so this is recorded as a repair and not as a blockage. No counter sees it: the border is painted PATHS, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 and visualDefects reads 0 over it."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",

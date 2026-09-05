@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "21ddabcb37d365310f786bfa305c8f2fdf6e0d0f",
+  "minimumCaptainSha": "d0582f91fe9188edb99cf47f3fc52b982aa5e609",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,18 +72,18 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 8,
-    "repairRequired": 41,
+    "verifyPending": 2,
+    "repairRequired": 44,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 138,
-    "FAIL_REPAIR_REQUIRED": 58,
+    "COMPLETE_PACKET_PROVEN": 141,
+    "FAIL_REPAIR_REQUIRED": 61,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 8,
+    "VERIFY_PENDING": 2,
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -7346,10 +7346,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "7b3214102",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "ebe931e4e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -7429,254 +7429,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 4 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 10634 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 8 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 4 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
-          "evidence": {
-            "measuredHere": true,
-            "dpi": 300,
-            "verifiedAtBase": "7b3214102",
-            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
-            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
-            "placementsSwept": 162,
-            "placementsUnmatched": 0,
-            "mismatchedPlacementReadings": 8,
-            "mismatchedPaintingNothing": 0,
-            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 4,
-            "mismatchedRastered": 4,
-            "mismatchedDeliveringInkOutsideTheirRect": 4,
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
-            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
-            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
-            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "perPlacement": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 2,
-                "sourcePage": 2,
-                "form": "JDF-2371",
-                "field": "3J.1",
-                "widgetRect": {
-                  "x0": 268.393,
-                  "y0": 437.888,
-                  "x1": 448.393,
-                  "y1": 453.008
-                },
-                "placedExtent": {
-                  "x0": 268.393,
-                  "y0": 437.888,
-                  "x1": 491.183,
-                  "y1": 453.008
-                },
-                "maxCornerDisplacementPt": 42.79,
-                "scaleProduct": {
-                  "x": 0.807936,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 42.79,
-                "appearanceContent": "0 G\n0 0.5 m\n222.79 0.5 l\ns\n",
-                "outsideRectDarkPixelsDelivered": 716,
-                "outsideRectDarkPixelsBaselineOptionOn": 4,
-                "outsideRectDarkPixelsBaselineOptionOff": 716,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 4,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 712,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 712
-              },
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 2,
-                "sourcePage": 2,
-                "form": "JDF-2371",
-                "field": "3J.2",
-                "widgetRect": {
-                  "x0": 173.811,
-                  "y0": 420.594,
-                  "x1": 317.811,
-                  "y1": 435.714
-                },
-                "placedExtent": {
-                  "x0": 173.811,
-                  "y0": 420.594,
-                  "x1": 538.77,
-                  "y1": 435.714
-                },
-                "maxCornerDisplacementPt": 220.959,
-                "scaleProduct": {
-                  "x": 0.394565,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 220.959,
-                "appearanceContent": "0 G\n0 0.5 m\n364.9594 0.5 l\ns\n",
-                "outsideRectDarkPixelsDelivered": 4605,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 4605,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 4605,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 4605
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 2,
-                "sourcePage": 2,
-                "form": "JDF-2371",
-                "field": "3J.1",
-                "widgetRect": {
-                  "x0": 268.393,
-                  "y0": 437.888,
-                  "x1": 448.393,
-                  "y1": 453.008
-                },
-                "placedExtent": {
-                  "x0": 268.393,
-                  "y0": 437.888,
-                  "x1": 491.183,
-                  "y1": 453.008
-                },
-                "maxCornerDisplacementPt": 42.79,
-                "scaleProduct": {
-                  "x": 0.807936,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 42.79,
-                "appearanceContent": "0 G\n0 0.5 m\n222.79 0.5 l\ns\n",
-                "outsideRectDarkPixelsDelivered": 716,
-                "outsideRectDarkPixelsBaselineOptionOn": 4,
-                "outsideRectDarkPixelsBaselineOptionOff": 716,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 4,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 712,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 712
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 2,
-                "sourcePage": 2,
-                "form": "JDF-2371",
-                "field": "3J.2",
-                "widgetRect": {
-                  "x0": 173.811,
-                  "y0": 420.594,
-                  "x1": 317.811,
-                  "y1": 435.714
-                },
-                "placedExtent": {
-                  "x0": 173.811,
-                  "y0": 420.594,
-                  "x1": 538.77,
-                  "y1": 435.714
-                },
-                "maxCornerDisplacementPt": 220.959,
-                "scaleProduct": {
-                  "x": 0.394565,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 220.959,
-                "appearanceContent": "0 G\n0 0.5 m\n364.9594 0.5 l\ns\n",
-                "outsideRectDarkPixelsDelivered": 4605,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 4605,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 4605,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 4605
-              }
-            ],
-            "totalOutsideRectDarkPixelsDelivered": 10642,
-            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 8,
-            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 10634,
-            "mismatchedPlacementsMeasuredCleanAndWhy": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 3,
-                "field": "CoS_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 5,
-                "field": "4D.1",
-                "maxCornerDisplacementPt": 18,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 3,
-                "field": "CoS_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 5,
-                "field": "4D.1",
-                "maxCornerDisplacementPt": 18,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              }
-            ],
-            "participantWriteEffect": {
-              "measured": true,
-              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
-              "perPlacement": [
-                {
-                  "fixture": "canonical.pdf",
-                  "deliveredPage": 2,
-                  "field": "3J.1",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                },
-                {
-                  "fixture": "canonical.pdf",
-                  "deliveredPage": 2,
-                  "field": "3J.2",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                },
-                {
-                  "fixture": "boundary.pdf",
-                  "deliveredPage": 2,
-                  "field": "3J.1",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                },
-                {
-                  "fixture": "boundary.pdf",
-                  "deliveredPage": 2,
-                  "field": "3J.2",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                }
-              ],
-              "writesMovedOrClipped": 0,
-              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
-            },
-            "rastersDeletedAfterMeasuring": true,
-            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
@@ -8085,11 +7842,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "7b3214102",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "ebe931e4e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8124,230 +7883,13 @@
       "failedObligations": [
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 2 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 2358 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 0 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 6 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
-          "evidence": {
-            "measuredHere": true,
-            "dpi": 300,
-            "verifiedAtBase": "7b3214102",
-            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
-            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
-            "placementsSwept": 282,
-            "placementsUnmatched": 0,
-            "mismatchedPlacementReadings": 8,
-            "mismatchedPaintingNothing": 0,
-            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 6,
-            "mismatchedRastered": 2,
-            "mismatchedDeliveringInkOutsideTheirRect": 2,
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
-            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
-            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
-            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "perPlacement": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 5,
-                "sourcePage": 5,
-                "form": "JDF-641",
-                "field": "11.1",
-                "widgetRect": {
-                  "x0": 147.6,
-                  "y0": 488.654,
-                  "x1": 540,
-                  "y1": 553.334
-                },
-                "placedExtent": {
-                  "x0": 147.6,
-                  "y0": 488.654,
-                  "x1": 543.6,
-                  "y1": 553.3334
-                },
-                "maxCornerDisplacementPt": 3.6,
-                "scaleProduct": {
-                  "x": 0.990909,
-                  "y": 1.000009
-                },
-                "overhangBeyondItsRectPt": 3.6,
-                "appearanceContent": "q\n0 G\n0.5 0.5 395 63.6794 re\ns\nQ\n",
-                "outsideRectDarkPixelsDelivered": 1179,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 1179,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1179,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1179
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 5,
-                "sourcePage": 5,
-                "form": "JDF-641",
-                "field": "11.1",
-                "widgetRect": {
-                  "x0": 147.6,
-                  "y0": 488.654,
-                  "x1": 540,
-                  "y1": 553.334
-                },
-                "placedExtent": {
-                  "x0": 147.6,
-                  "y0": 488.654,
-                  "x1": 543.6,
-                  "y1": 553.3334
-                },
-                "maxCornerDisplacementPt": 3.6,
-                "scaleProduct": {
-                  "x": 0.990909,
-                  "y": 1.000009
-                },
-                "overhangBeyondItsRectPt": 3.6,
-                "appearanceContent": "q\n0 G\n0.5 0.5 395 63.6794 re\ns\nQ\n",
-                "outsideRectDarkPixelsDelivered": 1179,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 1179,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1179,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1179
-              }
-            ],
-            "totalOutsideRectDarkPixelsDelivered": 2358,
-            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 0,
-            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 2358,
-            "mismatchedPlacementsMeasuredCleanAndWhy": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 2,
-                "field": "3J.1",
-                "maxCornerDisplacementPt": 47.587,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 5,
-                "field": "CoS_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 5,
-                "field": "Sig_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 2,
-                "field": "3J.1",
-                "maxCornerDisplacementPt": 47.587,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 5,
-                "field": "CoS_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 5,
-                "field": "Sig_Date",
-                "maxCornerDisplacementPt": 6.628,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              }
-            ],
-            "participantWriteEffect": {
-              "measured": true,
-              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
-              "perPlacement": [
-                {
-                  "fixture": "canonical.pdf",
-                  "deliveredPage": 5,
-                  "field": "11.1",
-                  "participantWritesOnThatSourcePage": 2,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [
-                    {
-                      "field": "∆",
-                      "rect": {
-                        "x": 186.16,
-                        "y": 289.74,
-                        "width": 252.33,
-                        "height": 15.12
-                      },
-                      "drawnText": [
-                        "Jordan Avery Reyes"
-                      ]
-                    },
-                    {
-                      "field": "∆",
-                      "rect": {
-                        "x": 186.16,
-                        "y": 289.74,
-                        "width": 252.33,
-                        "height": 15.12
-                      },
-                      "drawnText": [
-                        "Maria-Alejandra OShaughnessy-Whitfield"
-                      ]
-                    }
-                  ],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                },
-                {
-                  "fixture": "boundary.pdf",
-                  "deliveredPage": 5,
-                  "field": "11.1",
-                  "participantWritesOnThatSourcePage": 2,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [
-                    {
-                      "field": "∆",
-                      "rect": {
-                        "x": 186.16,
-                        "y": 289.74,
-                        "width": 252.33,
-                        "height": 15.12
-                      },
-                      "drawnText": [
-                        "Jordan Avery Reyes"
-                      ]
-                    },
-                    {
-                      "field": "∆",
-                      "rect": {
-                        "x": 186.16,
-                        "y": 289.74,
-                        "width": 252.33,
-                        "height": 15.12
-                      },
-                      "drawnText": [
-                        "Maria-Alejandra OShaughnessy-Whitfield"
-                      ]
-                    }
-                  ],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                }
-              ],
-              "writesMovedOrClipped": 0,
-              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
-            },
-            "rastersDeletedAfterMeasuring": true,
-            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
-          }
+          "finding": "FAIL. Packet page 4 of both fixtures delivers 8,344 dark pixels of black rectangle that JDF-641 does not print, at three widgets the field map itself dispositions as participant elections and leaves unmade, outside every declared write box, and it deletes the form's own rule underneath. REPAIR: the three appearances are regenerated because their widgets carry /MK /BC and no usable /FT-specific appearance of their own, so pdf-lib synthesises a bordered text/choice appearance in place of the form's rule; the fix belongs with the shared finalizer -- either preserving a source /AP that already exists, or neutralising /MK /BC for a field the packet does not write, in the same family as FIX50's suppressSynthesizedAppearances -- and then a rebuild and a fresh central raster, because the fixture bytes will move. DISCLOSED AND NOT SCORED, so the repairer sees the whole shape: (1) the same regeneration boxes all sixteen WRITTEN values on pages 1, 5 and 6, but those borders land inside their own declared write boxes and so are not ink outside one; co_decriminalized_conduct_seal-set carries that half of the behaviour and passes on it. (2) INNER-BOX DOUBLING at nine selection rects on pages 1, 2 and 7, 3,382 dark pixels per fixture, all of it the form's own printed checkbox becoming visible when the shared background neutralization strips the /Off appearance's opaque white fill -- the same divergence VF02 measured on Vermont's 600-00228, adding no ink of the packet's own.",
+          "evidence": "THE PLACEMENT SWEEP, RUN HERE, NOT CARRIED. For every flattened widget appearance in each fixture the page-content cm chain was composed through q/Q, the placed XObject's /BBox and /Matrix read, the BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it translates to, and cmScale x requiredScale required to equal 1, judged as |transformedSize x cmScale - rectSize| <= 0.05pt on each axis. Result: 141 of 141 pass in canonical and 141 of 141 in boundary, 0 fail, 0 unmatched, every matched placement at origin distance 0.00pt. 141 matches FIX68's count, and the same script returns 6 failures per fixture on the superseded pre-repair bytes (11.1 product 0.990909 overhang 3.6pt, plus five sub-0.2pt), so the 12.5.5 repair itself is discharged at the appearance level. THE DEFECT IS SOMEWHERE ELSE, AND IT IS IN THE INK. Every page of both fixtures was rendered greyscale at 300 dpi and compared pixel for pixel with the pinned source page the manifest names, rendered by the same rasterizer. On PACKET PAGE 4 (JDF-641 source page 4) the delivered page carries 8,344 dark pixels that the pinned form does not, in BOTH fixtures, and every one of them lies OUTSIDE every declared write box. They are not the form's own ink: rendering the pinned JDF-641 with its /Annots and /AcroForm removed shows 0 of the 8,344 in the form's page content. They fall in exactly three clusters -- 4,082 px at x[254.40,472.08] y[142.32,155.04]; 2,154 px at x[404.88,506.88] y[205.20,217.92]; 2,108 px at x[322.32,424.08] y[72.24,85.20] -- which are the /Rects of widgets 9B.2 (Appellate Court), 9B.0 (Did you appeal any of these cases) and 9C.0 (Do you still owe restitution). READ FROM THE BYTES, NOT FROM A PICTURE: each of the three flattened appearances in the delivered fixture is a REGENERATED stream that strokes a full rectangle, e.g. FlatWidget-7759683746 (9B.2) is '1 0 0 1 0 0 cm ... 0 0 0 RG / 1 w / [] 0 d / 1 0 0 1 0.5 0.5 cm ... 0 0 m / 0 13.109 l / 216.896 13.109 l / 216.896 0 l / h / S ... /Helvetica 10 Tf ... <> Tj', while the PINNED widget's own /AP /N for the same field is 29 bytes and draws a single rule, '0 G / 0 0.5 m / 217.8954 0.5 l / s'. The border colour is /MK /BC [0 0 0] on the source widget, which the form's own appearance suppresses and pdf-lib's updateFieldAppearances does not. The three fields carry no value, so what the participant is handed is three empty black boxes the Colorado Judicial Department's own form does not print, where the form prints a rule -- and the form's rule is gone, which is the 9 lost pixels recorded under SOURCE_IDENTITY. The other four pages are clean: outside-write-box added ink is 1606 on page 1, 1563 on page 2, 0 on pages 3, 5 and 6 and 213 on page 7, and every one of those pixels IS the form's own page content (the inner-box doubling described below). NO SYNTHESIZED SELECTION SQUARE: the twenty-one selection widgets were compared with the pinned form at their own rects and the packet stamps no square of its own at any of them."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
@@ -24553,9 +24095,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "ab018b86a",
+        "verifiedAtBase": "ebe931e4e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -24587,19 +24129,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The instructions component the route names as required is present as a file and thin as a document: five of the seven contents the route specifies for it are absent, and the sixth -- the out-of-date paragraph 1 recital -- is affirmed where the record says it should be explained and left blank. No counter sees this, because no counter reads the packet-set manifest or the memo.",
-          "evidence": "THE ROUTE NAMES TWO COMPONENTS AND ONE OF THEM IS NOT DELIVERED AS THE ROUTE DEFINES IT. data/record-clearing/legal-design-packet-set-manifests.json, packetSetId me-seal-prost-set, names me-seal-prost-primary-filing-1 (CR-289, official_pdf_fill, required, order 1) and me-seal-prost-instructions-2 (role instructions, outputStrategy process_guidance, REQUIREMENT REQUIRED, order 2). The primary filing is delivered: the one-page fixture is CR-289 and every token of the pinned page is present. The instructions component is delivered as data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/participant-instructions.md, which product-wiring.json binds at binding.instructions, and that file exists -- but the route does not merely name the component, it defines its contents. data/record-clearing/legal-design-intake/ME.memo.json, track me-seal-prost, components[1] notes: 'Participant instructions covering: this is a named-offence route reaching 17-A M.R.S. former § 853-A only; the one-year clock runs from full satisfaction of every sentencing alternative; the general track's clean-record and pending-charge restrictions do NOT apply here and the participant should not be discouraged by them; a hearing is required and there is no consent path on this section; there is no self-reporting duty and a later conviction does not unseal a § 2262-A record, which is a real advantage over the general track and is surfaced; and the CR-289 paragraph 1 recital is out of date, what that means, and why it is left blank. The instructions also carry the survivor-route screen described below.' Measured against the delivered file, item by item, by reading it and by grep: (1) NAMED-OFFENCE SCOPE -- PRESENT, 'a Class E crime under the former 17-A M.R.S.A. § 853-A'. (2) THE ONE-YEAR CLOCK -- PRESENT, 'At least one year has passed since you fully satisfied every sentencing alternative imposed'. (3) THE GENERAL TRACK'S CLEAN-RECORD AND PENDING-CHARGE RESTRICTIONS DO NOT APPLY -- ABSENT. 0 occurrences of 'pending', 'clean', 'restrict' or 'discourag'; §§ 2262(3), (4) and (5) are named nowhere. A participant who reads the general track's conditions and believes they are disqualified is not told otherwise, which is the exact harm the memo names. (4) A HEARING IS REQUIRED AND THERE IS NO CONSENT PATH -- ABSENT. 0 occurrences of 'hearing' or 'consent', and the packet-set manifest separately assigns 'The hearing date, time and courtroom' to 'Participant instructions, filing and hearing section', a section that does not exist in the file. (5) NO SELF-REPORTING DUTY AND A LATER CONVICTION DOES NOT UNSEAL A § 2262-A RECORD -- ABSENT. 0 occurrences of 'self-report' or 'unseal'. (6) THE PARAGRAPH 1 RECITAL IS OUT OF DATE -- ABSENT, AND CONTRADICTED. 0 occurrences of '2025', 'c. 513', 'amend', 'repeal', 'no longer' or 'out of date'. The memo records that PL 2025 c. 513 repealed the § 2262-A(1) eligible-criminal-conviction prerequisite, so 'the form asserts a requirement the statute no longer imposes', and that the recital is left as a manual completion item rather than affirmed on the participant's behalf. The delivered instructions instead affirm it twice, at line 9 -- 'The motion states, in the court's own printed words, that the conviction is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A' -- and at line 37, with no note that the recital is superseded. (7) THE SURVIVOR-ROUTE SCREEN -- ABSENT. 0 occurrences of 'survivor', 'screen' or 'coerc'. ME.memo.json's selfHelpStopConditions independently require it: 'The participant's account suggests trafficking, coercion or survival circumstances. Route to the survivor-track screen before filing here, gently and without pressing for detail.' Five of the seven contents the route specifies for this required component are absent from the delivered file and one of the five is contradicted by it. Nothing else in the family directory carries them: the directory holds approval-request.json, build-findings.json, build-status.json, field-census.census-v1.json, fixtures/, participant-instructions.md, product-wiring.json, production-field-map.json, raster/, reports/ and source-receipt.json, and no other guidance surface exists. product-wiring.json itself records the shape of the gap: binding.instrumentKinds is ['instructions','primary_filing'] while binding.packetComponents lists only 'component:me-seal-prost-primary-filing-1', and proposedRepresentation.components carries the primary filing alone. REPAIR: the builder owns participant-instructions.md and should carry the five absent contents from ME.memo.json components[1], correct the paragraph 1 treatment so the recital is explained as superseded by PL 2025 c. 513 rather than affirmed, and then have the component re-read independently."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
@@ -25073,10 +24607,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "d3312169e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "ebe931e4e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -25107,19 +24641,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "A court receiving this application reads a party block with no applicant name, no address and no telephone number, on a filing whose whole purpose is to identify the applicant, while the packet's own instructions tell that applicant the platform holds all three. The capability exists in this repository at this base and is not a shared-registry gap: the sibling family scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes exactly these three facts into the identically captioned box on MC 227b through the SHARED finalizer channel composedFieldValues (scripts/rcap-official-forms/rcap-official-form-finalize.mjs), one fact per line at a measured 9pt ceiling, and its header comment records the ruling verbatim: 'This family shipped it BLANK, on the reason that the build has no way to compose them into a single block for this form. That is a sentence about the build, and the completeness contract classes a blank excused that way as a missing known fact rather than an unavailable one.' REPAIR: compose dinfo from participant.full_legal_name, street_address and phone through composedFieldValues, sized against this widget's own 48pt of clear height, and correct the dinfo row's reason and its disclosure line; if a size measurement shows the block genuinely cannot be fitted, the row must say THAT, with the measurement, rather than that the platform holds no value. No other field on this form is affected: the conviction table is genuinely unheld (the fixtures carry no matter.charges) and the conviction-date column is unreachable through the shared protect rule /\\bconvict(ed|ion)\\b/ in any case.",
-          "evidence": "Measured from the bytes: the whole packet adds TWO words of ink to each fixture - the county (Wayne / Kent) and the caption case number - and nothing else on either page. The box captioned 'Defendant's name, address, and telephone no.' (field dinfo, page 1, rect 318.6,580.66 257.4x48) is delivered EMPTY, and the platform holds all three facts it asks for: the builder's own FIXTURES table in scripts/build-census-v1-mi_setaside_marihuana-set.mjs carries participant.full_legal_name, participant.street_address and participant.phone for both the canonical and the boundary persona (the same two personas the trafficking family uses). The family says so itself in three places: build-findings.json - 'The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block'; production-field-map.json's dinfo row, whose `why` reads 'the platform holds no value for this ... The platform holds all three but has no way to compose them into a single block for this form' in one sentence; and participant-instructions.md line 49, which prints that same sentence to the participant. The completeness contract classes the operative half of that reason - a statement of what the build can do - as KNOWN_FACT_NOT_WRITTEN, and the disposition it is filed under, REQUIRED_BEFORE_FILING, requires GENUINELY UNAVAILABLE: 'the platform holds no value for the fact'."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
@@ -30163,11 +29689,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "7b3214102",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "ebe931e4e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -30197,153 +29725,24 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in every bound fixture. 2 flattened widget placement(s) fail the ISO 32000-1 12.5.5 test in a way that reaches ink: the appearance's transformed /BBox is never mapped onto the widget's /Rect, so the form's own stroked rule or box is stamped outside the control it belongs to and the delivered pages carry 3040 dark pixels at 300 dpi outside those widgets' own /Rects that a zero-write baseline built with fitAppearancesToRect ON does not carry. The ink is not this family's: the same zero-write baseline over the same pinned bytes with the option OFF carries exactly the same pixel set, count for count, and the pinned source rendered directly by poppler carries 0 there — so it comes from the shared flattening step (pdf-lib PDFForm.flatten emitting a translation only), exactly as FIX61 described it. No participant write is moved, overlapped or clipped: the streams stroke only and no declared write box on the affected source page intersects the placed appearance. 2 further mis-mapped placement(s) in this family are UNDERSIZED rather than oversized and are measured clean, because their ink is clipped to a transformed /BBox lying inside their own /Rect. REPAIR: opt this family's builder (or the host it calls) into fitAppearancesToRect at its finalizeOfficialForm / sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf.",
-          "evidence": {
-            "measuredHere": true,
-            "dpi": 300,
-            "verifiedAtBase": "7b3214102",
-            "question": "does this family DELIVER, on a page a participant is handed, the ISO 32000-1 12.5.5 placement defect FIX61 named?",
-            "sweep": "VF02's sweep, generalised to the whole of 12.5.5. For every flattened widget placement in every bound fixture: compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require the transformed BBox, carried through the placement, to land on that /Rect. cmScale x requiredScale is reported per placement exactly as VF02 stated it. The generalisation is necessary and not optional: a translation-only placement of a BBox written in ABSOLUTE page coordinates has a scale product of exactly 1 and is displaced by hundreds of points, so the scale test alone would read the West Virginia case as clean for the wrong reason.",
-            "placementsSwept": 158,
-            "placementsUnmatched": 0,
-            "mismatchedPlacementReadings": 4,
-            "mismatchedPaintingNothing": 0,
-            "mismatchedWhoseInkIsConfinedToTheirOwnRect": 2,
-            "mismatchedRastered": 2,
-            "mismatchedDeliveringInkOutsideTheirRect": 2,
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the PINNED source bytes, writtenFields empty, fitAppearancesToRect TRUE — what a conforming viewer shows. The same zero-write flatten with the option FALSE is the attribution control, and the pinned source rendered directly by poppler is the corroboration.",
-            "attributionControl": "the same zero-write flatten with the option OFF. Where the delivered outside-rect dark set equals the option-OFF set, pixel for pixel, the ink is the shared flattening step's and not this family's writes.",
-            "corroboration": "the pinned source rendered directly by poppler pdftoppm at 300 dpi, which applies 12.5.5.",
-            "alignmentProof": "the delivered page is matched to its source page through the widget's own /P, and the match is then PROVED rather than assumed: at every measured placement the delivered outside-rect dark set is EQUAL to the option-OFF baseline's outside-rect dark set, pixel for pixel and count for count. A misaligned page could not produce that equality.",
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "perPlacement": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 5,
-                "sourcePage": 2,
-                "form": "DC-1-15",
-                "field": "Text60.0",
-                "widgetRect": {
-                  "x0": 282.907,
-                  "y0": 504.099,
-                  "x1": 504,
-                  "y1": 523.356
-                },
-                "placedExtent": {
-                  "x0": 282.907,
-                  "y0": 504.099,
-                  "x1": 596.0360000000001,
-                  "y1": 523.356
-                },
-                "maxCornerDisplacementPt": 92.036,
-                "scaleProduct": {
-                  "x": 0.706076,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 92.036,
-                "appearanceContent": "/Tx BMC \nq\n1 1 311.129 17.257 re\nW\nn\nBT\n/Arial 10 Tf\n0 g\n2 6.054 Td\n(______________________________________________________________________) Tj\nET\nQ\nEMC\n",
-                "outsideRectDarkPixelsDelivered": 1520,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 1520,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1520,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1520
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 5,
-                "sourcePage": 2,
-                "form": "DC-1-15",
-                "field": "Text60.0",
-                "widgetRect": {
-                  "x0": 282.907,
-                  "y0": 504.099,
-                  "x1": 504,
-                  "y1": 523.356
-                },
-                "placedExtent": {
-                  "x0": 282.907,
-                  "y0": 504.099,
-                  "x1": 596.0360000000001,
-                  "y1": 523.356
-                },
-                "maxCornerDisplacementPt": 92.036,
-                "scaleProduct": {
-                  "x": 0.706076,
-                  "y": 1
-                },
-                "overhangBeyondItsRectPt": 92.036,
-                "appearanceContent": "/Tx BMC \nq\n1 1 311.129 17.257 re\nW\nn\nBT\n/Arial 10 Tf\n0 g\n2 6.054 Td\n(______________________________________________________________________) Tj\nET\nQ\nEMC\n",
-                "outsideRectDarkPixelsDelivered": 1520,
-                "outsideRectDarkPixelsBaselineOptionOn": 0,
-                "outsideRectDarkPixelsBaselineOptionOff": 1520,
-                "outsideRectDarkPixelsPinnedSourceRenderedDirectly": 0,
-                "inkTheDeliveredPageCarriesThatTheConformingBaselineDoesNot": 1520,
-                "alsoCarriedByTheZeroWriteBaselineWithTheOptionOff": 1520
-              }
-            ],
-            "totalOutsideRectDarkPixelsDelivered": 3040,
-            "totalOutsideRectDarkPixelsAConformingBaselineCarries": 0,
-            "totalInkTheDeliveredPagesCarryThatAConformingBaselineDoesNot": 3040,
-            "mismatchedPlacementsMeasuredCleanAndWhy": [
-              {
-                "fixture": "canonical.pdf",
-                "deliveredPage": 1,
-                "field": "Check Box7",
-                "maxCornerDisplacementPt": 7.92,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              },
-              {
-                "fixture": "boundary.pdf",
-                "deliveredPage": 1,
-                "field": "Check Box7",
-                "maxCornerDisplacementPt": 7.92,
-                "classification": "INK_CONFINED_TO_ITS_OWN_RECT",
-                "why": "the appearance is clipped to its transformed /BBox, and that box lies inside the widget's own /Rect, so no ink can reach the page outside the rect"
-              }
-            ],
-            "participantWriteEffect": {
-              "measured": true,
-              "evidence": "reports/actual-writes.json of this family, write boxes compared against the transformed /BBox each mis-mapped appearance is actually clipped to",
-              "perPlacement": [
-                {
-                  "fixture": "canonical.pdf",
-                  "deliveredPage": 5,
-                  "field": "Text60.0",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                },
-                {
-                  "fixture": "boundary.pdf",
-                  "deliveredPage": 5,
-                  "field": "Text60.0",
-                  "participantWritesOnThatSourcePage": 0,
-                  "writeBoxesIntersectingThePlacedAppearance": 0,
-                  "writeBoxes": [],
-                  "appearancePaintsAnOpaqueFill": false,
-                  "whyNoWriteIsOccluded": "the placed appearance strokes only — its stream carries no fill operator — so it can add ink over a write but can never erase one; and no declared write box on the affected source page intersects the placed appearance's transformed /BBox."
-                }
-              ],
-              "writesMovedOrClipped": 0,
-              "finding": "No participant write is moved, overlapped or clipped. The defect here is ink the packet adds outside a widget's own /Rect, and it falls on the form's own white space rather than on a write."
-            },
-            "rastersDeletedAfterMeasuring": true,
-            "nineCountersDoNotSeeThis": "all nine counters are zero here, measured read-only at this base. The field map never declares this ink as a write, so no counter could see it. That is why it needs an appearance read."
-          }
+          "obligation": "COMPONENT_SET",
+          "finding": "A component the route names as REQUIRED is not present. The packet never tells the Nebraska participant that local practice varies and to confirm what that court requires before filing, which is the whole of what the component is for and which the memo records the judiciary warning about twice. REPAIR: the builder owns participant-instructions.md and should carry the local-rules check from NE.memo.json components[5].notes, and then have the component re-read independently. No counter sees this, because no counter reads the packet-set manifest or the memo.",
+          "evidence": "THE ROUTE NAMES SIX COMPONENTS, FOUR ARE DELIVERED, ONE IS CONDITIONAL AND EXPLAINED, AND ONE IS REQUIRED AND ABSENT. data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ne-setaside-custodial-set, and data/record-clearing/legal-design-track-registry.json name: primary-filing-1 (CC-6-11, required) -> packet page 1; proposed-order-2 (CC-6-11.2, required) -> page 2; notice-and-certificate-of-service-3 (DC-1-15, conditional, district court only) -> pages 4-5; instructions-4 (CC-6-11a, required) -> page 3; fee-waiver-5 (conditional, custom_pleading); and local-rules-check-6, role local_rules_check, requirement REQUIRED, outputStrategy process_guidance. The four form components reach a page and each page was token-compared against the source page it names with 0 missing printed tokens. The fee waiver is conditional and its absence is stated in terms in participant-instructions.md, with the reason ('the official DC 6:7.1 form does not fit this filing, and that mismatch is recorded as a release blocker'), which is what a conditional component owes. THE SIXTH IS NOT DELIVERED ANYWHERE. NE.memo.json, track ne-setaside-custodial, components[5].notes defines its contents in one sentence: 'The judiciary warns twice that local practice varies. The packet tells the participant to confirm with the clerk what that court requires before filing.' Measured against the delivered surfaces: participant-instructions.md contains 0 occurrences of 'local', 'varies', 'vary' or 'practice'; its only two directions to the clerk are about COST ('Ask the clerk of the sentencing court what this filing costs, before you file') and about the WAIVER ('Ask the clerk how to apply for the waiver on this petition'). Neither is a statement that local practice varies or a direction to confirm what that court requires. The delivered CC-6-11A page (packet page 3) was read in full with pdftotext and carries no local-practice warning either -- it lists the eligible sentences, the facts to have to hand, the record sources and a set of pointer captions, and nothing else. The family directory holds approval-request.json, build-findings.json, build-status.json, field-census.census-v1.json, fixtures/, participant-instructions.md, product-wiring.json, production-field-map.json, raster/, reports/ and source-receipt.json, and no other guidance surface exists."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Held facts a delivered field asks for are left blank on three of the four documents, excused by reasons that state build policy rather than unavailability. This is the same defect VF05 raised on Michigan's dinfo box and FIX69 repaired, in a family that holds the values just as plainly. REPAIR: write matter.case_number into the three Case No. fields and the caption court and county where the widget will take them, or -- if a dropdown genuinely cannot be written -- say THAT, with the measurement, rather than that the platform does not write it here; and complete the DC-1-15 certificate-of-service identity block from the same facts it already half-fills. Nothing here asks for a guess: every value named is in the builder's own fixtures.",
+          "evidence": "FACTS THE PLATFORM HOLDS ARE LEFT BLANK ON THE FILING, ON REASONS THAT DESCRIBE THE BUILD. The builder's own factsFor() in scripts/build-census-v1-ne-setaside-custodial-set.mjs holds, for both personas, matter.case_number ('24-CR-001234' canonical), matter.county ('Example County'), matter.court ('District Court'), participant.full_legal_name, participant.street_address, participant.city_state_zip, participant.phone, participant.email and participant.date_of_birth. The packet writes FIVE of them, at seven widgets: printedname, citystatezip and telephone number on CC-6-11 page 1, and printedname and emailaddress on both pages of DC-1-15. Read off the delivered page at 300 dpi and with pdftotext: (1) THE CASE NUMBER IS BLANK ON ALL THREE CASE-NUMBERED DOCUMENTS. production-field-map.json refuses CC-6-11 field Text2 (printed context ',  CasNe o' -- the form's scrambled 'Case No.'), CC-6-11.2 field Text2 and DC-1-15 field Text38 ('Case'), every one under buildPolicyReason `no_allowlisted_fact_matches`, and prints to the participant 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. That reason states what this build's allowlist offers and what this build does; this builder's own header comment says so in terms -- 'no_allowlisted_fact_matches and binding_not_approved_by_exact_caption_gate state what this build's allowlist offers. Neither says anything about whether the filing needs the value, and a statement of build policy is not a reason for a blank on a court filing.' A petition filed into an existing criminal case with no case number on it is the case-identifying fact missing from the filing. (2) THE CAPTION IS EMPTY. The delivered page 1 reads 'IN THE ______ COURT OF ______ COUNTY, NEBRASKA' with both blanks unwritten, while the platform holds matter.court and matter.county; the widgets (TYPEOFCOURTDROPDOWN, TYPEOFCOURTRESULTS, 'enter the type of court', 'enter the county', DROPDOWNCOUNTY2, fullcountystatementRIGHT) are refused under `classified_unwritable_by_role` or `no_allowlisted_fact_matches`, and the same six recur on CC-6-11.2. (3) A FACT THE PACKET WRITES ELSEWHERE IS REFUSED HERE. CC-6-11 field 'defendant' (printed label 'vs', the caption defendant line) is blank while participant.full_legal_name is written at printedname lower on the SAME page; CC-6-11 'streetaddress' is blank while participant.city_state_zip is written eight lines below it; and on the DC-1-15 certificate-of-service block on packet page 5 the delivered page prints 'Printed Name: Jordan Avery Reyes' and 'Email address: jordan.reyes@example.com' with 'Street Address/P.O. Box', 'City/State/ZIP Code' and 'Telephone Number' left blank, all three of which the platform holds and two of which it writes on page 1. The completeness contract's REQUIRED_BEFORE_FILING conditions are explicit on this: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The writes that ARE made are correct: all seven were located by pdftotext on their own packet page in both fixtures and each sits inside its own /Rect at 300 dpi with positive margins on all four sides (tightest 0.72pt left on emailaddress, 1.68pt bottom on printedname)."
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -42570,10 +41969,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "c708dff4d",
+        "verifiedAtBase": "e80c4a759",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42603,18 +42004,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "FAIL, in canonical and in boundary. The obligation is that the fee and any waiver route are STATED, and the record states both: none, by statute, with no waiver needed. The packet states neither. It tells the participant the fee is not established and sends them to the clerk - which is the very resolution the record rejects in terms, 'against the statute itself rather than against one clerk's guidance' - and it says nothing at all about a waiver route beyond repeating the question. A participant reading this page is left expecting a fee they do not owe on a petition the statute makes free, and the packet's own reason for the blank ('none is established by the petition') is a statement about the scope of the SOURCE FORM, not about the route; the route record is where the fee lives and it was not consulted. VF07 passed this obligation at a0fbceb30 by measuring the sentence against the packet's own internal logic; measured against the record it does not pass, and FIX46 changed nothing here. REPAIR: print the record's own answer on the filing-instructions page and in participant-instructions.md - Va. Code 19.2-392.2(A) requires no court fees or costs for filing this petition, so there is no filing fee to waive, and the only fee in the route is the CCRE's own charge for the participant's copy of their record - sourced to the track record rather than to a clerk. Nothing else on the page needs to move: the second bullet, about the deadline and the service mechanics, is correct and stays.",
-          "evidence": "The record settles the fee and the packet contradicts it. data/record-clearing/legal-design-track-registry.json, track va_exp_nonconviction, says three separate times that no court fee is payable: mechanism, read at source on 2026-08-06, 'section 19.2-392.2(A) allows a person charged ... to petition for expungement of the police and court records relating to the charge, and provides that no court fees or costs are payable'; fees, 'none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, which resolves the controlling review's open question about expungement fees against the statute itself rather than against one clerk's guidance'; feeWaiver, 'none - no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record.' The same two sentences are the pay_fee and apply_fee_waiver entries of this packet set in data/record-clearing/legal-design-packet-set-manifests.json, and the track carries the no-fee sentence as a packetInstruction - an instruction the record directs INTO the packet - alongside the note that there is no fingerprint requirement on a subsection (A) petition. What the packet delivers instead, on page 6 of both fixtures under TWO THINGS THIS PACKET DOES NOT TELL YOU, verbatim: 'The filing fee, and whether it can be waived. Ask the circuit court clerk. No amount is stated here because none is established by the petition, and an unsourced figure in a filing instruction is worse than no figure.' participant-instructions.md line 15 says the same in one line: 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.' Neither sentence carries the record's fee, its waiver answer or its packetInstruction; the whole packet has no other mention of a fee or a waiver (grep over participant-instructions.md returns that one line, and over the composed pages that one paragraph)."
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL, in canonical and in boundary, on 2299 added dark pixels per fixture standing outside every declared write box at thirteen checkbox rects, plus a fourteenth-through-seventeenth instance inside the four route-mark boxes. The placement sweep passes 41/41 in each fixture with every product exactly 1, VF07's split heading and VF08's route-only closing page are both repaired and confirmed on the bytes, no ink lies outside the composed column, no row overlaps, no page is empty, every participant write is present, legible and unclipped, and FIX74's new fee block sits wholly inside its write box - and the packet still delivers a square the Commonwealth's own form does not print around every unmarked checkbox on the petition, the clerk's certification box among them. REPAIR: rebuild this family with suppressSynthesizedAppearances passed to finalizeOfficialForm, which is proved here to restore the pinned form's own pixels exactly at all seventeen rects, then re-raster, since the acceptance receipt binds exact hashes. This lane repairs nothing and did not edit the builder.",
+          "evidence": "THE THREE THINGS THIS RE-READ WAS ASKED TO CONFIRM, AND THE ONE THAT DOES NOT HOLD. (1) THE PLACEMENT SWEEP PASSES. For every flattened widget appearance in each fixture the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, the transformed BBox computed per ISO 32000-1 12.5.5, matched to the source widget whose /Rect origin it lands on, and cmScale x requiredScale required to equal 1 (judged as |transformedSize x cmScale - rectSize| <= 0.05pt). Result: 41 of 41 pass in canonical and 41 of 41 in boundary, 0 fail, 0 unmatched, every appearance matched to a source widget on the SAME source page (38 on page 1, 3 on page 2), every product exactly 1x1 and the maximum placement error 0.0000pt. The sweep's sensitivity was proved with a live negative control, recorded in howTheSweepWasProvedSensitive. 41 is also the appearance count the family's own reports/actual-writes.json gives. (2) VF07's AND VF08's DEFECTS ARE DISCHARGED. Page 7 of both fixtures carries exactly four drawn lines - the heading 'WHAT THIS PACKET IS NOT', the two rows of the closing paragraph, and the route trailer - and the 300 dpi raster shows the heading with its own paragraph beneath it. It is not a bare route line (VF08's defect at aefd46f7c) and its heading is not orphaned on the previous page (VF07's defect at a0fbceb30). Page 6 ends on the complete second bullet, not on a heading. All eleven composed headings per fixture sit with the paragraph they introduce and not one is the last drawn line on its page. SCAN01, run here over all 249 family directories with its output redirected to /tmp, still classes page 7 of each fixture as fragment_page at 4 composed lines against its thinnest-legitimate-page benchmark of 8, and reports no other defect in this family; that threshold is describing the page VF07 asked for and is not a defect this lane re-issues. (3) THE FEE BLOCK SITS INSIDE ITS WRITE BOX. FIX74's new page-6 block occupies, in both fixtures identically, the heading at x[72.00,431.89] and the four wrapped sentence rows at x[72.00,527.18], x[72.00,518.33], x[72.00,528.46] and x[72.00,322.34], all inside the composer's 468pt column between the 72pt margins, with the page's bottom-most ink 152.40pt above the sheet's foot. The fee-block region of canonical page 6 and boundary page 6 are pixel-identical to each other at 300 dpi. Every composed page of both fixtures holds ink in x[72.00,540.48] on a 612pt sheet, 0 words outside the MediaBox (1855 words per fixture by pdftotext -bbox-layout), and 0 overlapping line pairs on pages 3, 4, 5, 6 and 7. THE DEFECT. Both fixtures deliver a black stroked square at SEVENTEEN checkbox widgets that the official form does not print - fourteen on page 1 and the three page-2 checklist boxes. Read from the pinned binary 6176c2f5...: each of the seventeen has /AS /Off, an /AP /N dictionary whose only entry is the on-state (/1 or /2, with no /Off), and /MK << /CA >> with no /BC, so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there - and poppler, rendering the pinned source at 300 dpi, paints nothing there. In the delivered bytes each of those rects carries a flattened appearance whose content is a stroked rectangle. MEASURED AT 300 dpi, ADDED INK ONLY (dark in the delivered page, not dark in the pinned source), against the family's own declared write boxes (the six value rects and the four route-mark boxes): 1717 added dark pixels on page 1 and 582 on page 2 lie OUTSIDE every declared write box, in canonical and identically in boundary - 2299 per fixture - and every cluster sits at one of the thirteen unmarked checkbox rects (Check0 x2 255 and 257 px, Check5 x2 196 and 194, Check7 194, the four ATTORNEY boxes 164/116/111/158, the clerk's CBCertify 194, and CB1/CB2/CB3 194 each). Outside those rects, 0 added pixels lie anywhere on either page. On the page this means every unmarked checkbox on the petition and on its own page-2 checklist is delivered with a square drawn around the form's printed '[ ]', including the clerk's own certification box, and the four route marks are delivered inside a square the court's form does not draw. WHOSE INK IT IS, PROVED THREE WAYS RATHER THAN ARGUED. A ZERO-WRITE BASELINE was built here: the pinned CC-1473 run through the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten with writtenFields empty and no dispositions, saved to /tmp and rendered at 300 dpi. (a) Delivered page 1 differs from that baseline by 0 pixels at all ten unmarked checkbox rects and at CBCertify, and by 345/372/344/348 pixels at the four petitioner boxes, which is the route mark and nothing else; delivered page 2 differs from it by 0 pixels. So the square is not a mark this family makes. (b) The baseline differs from the PINNED SOURCE by 156 to 269 pixels at every one of the seventeen. So the shared flattening step is what adds it. (c) The same baseline rebuilt with the shared module's own opt-in suppressSynthesizedAppearances (which installs an empty appearance for a widget whose current /AS state has no stream; it reported 17 installed) is PIXEL-IDENTICAL to the pinned source at all seventeen rects - 0 differing pixels - so an exact, in-repository remedy exists and is proved exact here. scripts/build-census-v1-va_exp_nonconviction-set.mjs passes neither suppressSynthesizedAppearances nor fitAppearancesToRect to finalizeOfficialForm; fourteen other build-census-v1 builders in this tree do pass the first. WHY THIS IS A FAIL AND NOT BLOCKED_LEGAL_INPUT, WHICH IS WHERE THIS LANE LEFT IT AT c708dff4d. RI-OFF-APPEARANCE (data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json) protects 'a protected widget's UNCHANGED /Off appearance ... where a zero-write normalized baseline proves it unchanged'. Nothing here is unchanged: the source ships no appearance for the /Off state at all and the normalization synthesizes a border the official form never prints, which the zero-write baseline proves against the source rather than for it. And the shared module itself already records the owner's position on exactly this ink, in the option's own contract: 'CAPTAIN DECISION: like those flags, this default should flip to true once every family can be rebuilt together. A border the official form does not print is ink the packet added, wherever it occurs.' The only reason the default has not flipped is rebuild coordination, which is a scheduling fact and not an open legal question. A named remedy that exists, is proved exact on these bytes, and is already carried by other families is a repair, so this is recorded as a repair and not as a blockage. No counter sees it: the border is painted PATHS, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 and visualDefects reads 0 over it."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
