@@ -11,7 +11,23 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "completedCaptionFields": [
+          "TYPEOFCOURTDROPDOWN",
+          "enter the type of court"
+        ],
+        "sourceChoiceCaption": {
+          "choiceField": "TYPEOFCOURTDROPDOWN",
+          "displayField": "TYPEOFCOURTRESULTS",
+          "factId": "matter.court",
+          "heldValue": "District Court",
+          "selectedDisplayOption": "DISTRICT",
+          "exportedCaption": "IN THE DISTRICT COURT OF",
+          "calculation": "event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;",
+          "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "method": "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed"
+        },
+        "nonFilingSourceControls": []
       },
       "structuralClass": "acroform",
       "pageGeometry": [
@@ -660,7 +676,23 @@
         "mode": "caption_only",
         "captionOnly": true,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "completedCaptionFields": [
+          "TYPEOFCOURTDROPDOWN",
+          "enter the type of court"
+        ],
+        "sourceChoiceCaption": {
+          "choiceField": "TYPEOFCOURTDROPDOWN",
+          "displayField": "TYPEOFCOURTRESULTS",
+          "factId": "matter.court",
+          "heldValue": "District Court",
+          "selectedDisplayOption": "DISTRICT",
+          "exportedCaption": "IN THE DISTRICT COURT OF",
+          "calculation": "event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;",
+          "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "method": "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed"
+        },
+        "nonFilingSourceControls": []
       },
       "structuralClass": "acroform",
       "pageGeometry": [
@@ -996,7 +1028,8 @@
         "reason": "official instructions, not a participant-completed filing",
         "captionOnly": false,
         "documentAcceptsFill": false,
-        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "referenceOnly": true
       },
       "structuralClass": "flat_pdf",
       "pageGeometry": [
@@ -2036,7 +2069,167 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+        "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "nonprintingSourceControls": [
+          "Text20",
+          "Text24",
+          "divorce",
+          "Group27",
+          "Text4",
+          "Text12",
+          "emancipation",
+          "Text2",
+          "Text19"
+        ],
+        "completedCaptionFields": [
+          "TYPEOFCOURTDROPDOWN",
+          "enter the type of court"
+        ],
+        "sourceChoiceCaption": {
+          "choiceField": "TYPEOFCOURTDROPDOWN",
+          "displayField": "TYPEOFCOURTRESULTS",
+          "factId": "matter.court",
+          "heldValue": "District Court",
+          "selectedDisplayOption": "DISTRICT",
+          "exportedCaption": "IN THE DISTRICT COURT OF",
+          "calculation": "event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;",
+          "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "method": "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed"
+        },
+        "nonFilingSourceControls": [
+          {
+            "field": "adoptionof",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "plaintiffdefendant",
+            "why": "source caption template; the defendant name is filled at the separate writable caption field"
+          },
+          {
+            "field": "emancipationof",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "namechange",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "adultnamechangeof",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "probateof",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "firstkid",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "secondkid",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "thirdkid",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "emancipationpetitioner",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "fourthkid",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "parent",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Button4",
+            "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          },
+          {
+            "field": "Button63.3",
+            "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          },
+          {
+            "field": "Button63.2",
+            "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          },
+          {
+            "field": "Button63.1",
+            "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          },
+          {
+            "field": "Button63.0",
+            "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          },
+          {
+            "field": "Text59.1",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text59.2",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text59.3",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text59.4",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text60.1",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text60.2",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text60.3",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text60.4",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text66",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text67",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text68",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text69",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text70",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text71",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text72",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          },
+          {
+            "field": "Text73",
+            "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          }
+        ]
       },
       "structuralClass": "acroform",
       "pageGeometry": [

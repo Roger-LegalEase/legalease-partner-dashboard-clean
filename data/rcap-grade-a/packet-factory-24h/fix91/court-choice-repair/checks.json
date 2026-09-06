@@ -1,0 +1,66 @@
+[
+  {
+    "name": "court-current",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "prior-five-prefills",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "completeness",
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "result": "FAIL_MISSING_REQUIRED_FACTS",
+    "commandSucceededButAuditFailed": true,
+    "detail": "5 knownRequiredFieldsMissing; 71 unclassifiedBlanks. Exit 0 is not a pass."
+  },
+  {
+    "name": "self-test",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "baseline-negative-control",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs /tmp/fix91-court-repair/baseline-family",
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "result": "PASS"
+  },
+  {
+    "name": "deterministic-builds",
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-ne-setaside-custodial-set.mjs (twice)",
+    "exitCodes": [
+      0,
+      0
+    ],
+    "result": "PASS",
+    "logs": [
+      "build-final-7.log",
+      "build-final-8.log"
+    ]
+  },
+  {
+    "name": "builder-check",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+    "exitCode": 0,
+    "result": "PASS",
+    "detail": "10 raster pages"
+  },
+  {
+    "name": "environment-preflight",
+    "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set --branch fix91-ne-court-choices --require-rasterizer --json /tmp/fix91-court-repair/environment-final.json",
+    "exitCode": 1,
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "detail": "12/17 pass. Exact 4/4 family sources, Poppler and real Chromium render pass. Full corpus, environment declaration, unpublished branch and dirty checkout fail."
+  }
+]

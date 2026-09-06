@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-lane-rows/v1",
   "lane": "FIX91",
   "laneKind": "repair",
-  "status": "COMPLETED",
+  "status": "IN_PROGRESS",
   "baseSha": "b9de3cca5562d168aa43d83ce724bac954db19f7",
   "completedAt": "2026-09-06T04:24:57.219687+00:00",
   "rows": [
@@ -231,6 +231,16 @@
         "productionTouched": "NO"
       },
       "nextAction": "Captain integrates the completed repair, regenerates current central records, obtains a new raster bound to these exact fixtures, and assigns an independent reread. No old receipt or WIP commit is treated as acceptance."
+    }
+  ],
+  "continuations": [
+    {
+      "status": "CHECKPOINT_DEPENDENCIES_PENDING",
+      "branch": "fix91-ne-court-choices",
+      "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+      "familyId": "ne-setaside-custodial-set",
+      "return": "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/RETURN.json",
+      "historicalRowsPreserved": true
     }
   ]
 }
