@@ -13801,9 +13801,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "itemId": null,
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "familyIds": [
+        "composed-treatment:nd-nonconviction-auto-close-verify"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX112",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "5f6971c3c95388f30e79bd1383107bb1b408e833eb9e3017d47607214c3a9bf6",
+  "claimsDigest": "306a18f43c55712c110307398cbd3eecce341dd377bdfa27d5ca9bccf7dc394e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -48200,6 +48215,17 @@
       "grantedAt": "2026-09-06T11:37:01.115Z",
       "grantedBy": "Captain",
       "reason": "Integrated VF01 findings 797192734: stale source pin and undeclared court-caption blank, separate repairer with family-only scope",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "FIX112",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-06T21:11:42.871Z",
+      "grantedBy": "Captain",
+      "reason": "FIX112 carries the 2026-09-06 batch-03 research record into the packet as a bounded repair (Rule 45 computation from the entry date, the appeal-history exclusion, the enforcement packet's notice, brief and proof of service); the owner correction stays live until counsel reconfirms",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
