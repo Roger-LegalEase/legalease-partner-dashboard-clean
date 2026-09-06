@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 895,
+    "rows": 896,
     "independentVerdicts": 240,
     "failRepairRequired": 57,
     "passIndependent": 164
@@ -15098,6 +15098,28 @@
     {
       "familyId": "pa_790_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7307b0e34",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The order regenerates the source widget's /MK /BC border as a full rectangle on two written caption fields where Pa.R.Crim.P. 790's own form specifies /BS /S /U and draws only an underline, adding 9504 packet-owned dark pixels across the two order fixtures. It is the single failing obligation on these bytes, it is invisible to all nine counters, and the same East host carries it on PA 490's order.",
+          "evidence": "ALL EIGHT PAGES OF ALL SIX DOCUMENTS RENDERED AT 300 DPI GRAYSCALE AND DIFFERENCED TWICE -- once against the pinned form as published and once against the pinned form with its /Annots and /AcroForm removed -- so every added pixel is attributed to the packet or to the form rather than guessed at. THE FAILURE: THE ORDER DRAWS A CLOSED BOX AROUND TWO WRITTEN FIELDS WHERE THE OFFICIAL FORM DRAWS A SINGLE UNDERLINE. The pinned PA-RCRIM-P-790-ORDER declares those two widgets with /MK << /BC [0 0 0] >> and /BS << /S /U /W 1 >> -- border style U, an UNDERLINE -- and the form's own appearance stream draws exactly that: '0 G / 0 0.5 m / 164.4496 0.5 l / s' for Defendant and the same for DocketNumber. The delivered appearance regenerated over the write draws a rectangle instead: /FlatWidget-578830786 opens '0 0 0 RG / 1 w / [] 0 d / 1 0 0 1 0.5 0.5 cm' and strokes '0 0 m / 0 14.043 l / 163.45 14.043 l / 163.45 0 l / h / S'. IN INK, AND ATTRIBUTED: on rule-790-order-canonical page 1 the Defendant /Rect carries 2764 packet-only dark pixels along its top edge, 240 along its left and 244 along its right -- three sides the form does not draw -- 3172 in the 2pt perimeter ring in total; DocketNumber carries 2707, 298 and 244, 3166 in the ring. On rule-790-order-boundary the same DocketNumber box is present, 3166; its Defendant box is absent only because that value was refused as unfittable and no appearance was regenerated. 9504 packet-only dark pixels across the two order fixtures, none of which appears in the pinned form as published or in its page content with annotations removed. The two boxed fields are the petitioner's NAME and the DOCKET NUMBER in the caption of the proposed order the packet tells the participant to hand up to a judge, and on the boundary fixture the docket text sits 0.5pt from the drawn left rule. THIS IS THE SHARED-HOST DEFECT THE ASSIGNMENT NAMED, AND I CHECKED THE SIBLING RATHER THAN ASSUMING IT: rule-490-order-canonical.pdf in data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures carries the identical '0 0 0 RG ... 1 0 0 1 0.5 0.5 cm ... 0 0 m' signature on its own written fields. PA 790's order shows it. The petition does not and cannot: its own /MK dictionaries are empty, with no /BC, so no border is regenerated there, and the pixel measurement agrees. WHAT IS SOUND, MEASURED AND NOT SCORED AGAINST THE PACKET. (1) Zero source pixels are missing on any of the six official pages, so nothing is overpainted. (2) The five synthesized squares the prior read scored are gone: petition Checkbox2 in both states and order Checkbox1, Checkbox2 and Checkbox3 each add 0 dark pixels in every fixture. (3) Packet-owned added ink lying OUTSIDE every declared write rectangle is 0 on all six official pages -- measured as delivered AND NOT published AND NOT the stripped page content, with each declared write rectangle padded 1pt. (4) The two petition 'Check Box1' widgets add 298 and 384 pixels against the pinned form as published, and 100 per cent of that is the SOURCE'S OWN: in those two windows the delivered ink is EXACTLY the union of the published form's ink and the form's own page content, zero pixels either way, in both fixtures -- the widget's /Off appearance opens with an opaque white fill that hides part of the form's printed box, the shared background neutralization strips it, and the form's own box shows through. Nothing there is the packet's. (5) Every one of the 32 declared writes was isolated (its own added ink, with every other declared rectangle masked out) and measured against its own /Rect: no glyph overflows, the tightest margin that is not the border stroke is -0.136pt on the petition boundary's Addr2, which is the antialiased descender edge at just over half a pixel. (6) The composed certificates carry ink only between 72.24pt and 527.52pt horizontally and 64.80pt and 396.24pt from the top of a 612 x 792pt page, so nothing is clipped and nothing reaches a margin, in either fixture."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
       "verifiedAtBase": "3a2f1cf3d",
@@ -15163,7 +15185,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_790_nonconviction-set",
