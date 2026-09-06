@@ -1062,6 +1062,30 @@ function certifiedCopySection() {
   return L;
 }
 
+/*
+ * THE FOUR CHAPTER 12-1.3 MOTION ROUTES WHOSE FILING-FEE QUESTION IS ANSWERED.
+ *
+ * The Rhode Island Superior Court's own expungement FAQ, "Is there a fee
+ * associated with my expungement?", says the process requires no fee. That
+ * answer reached this repository through the research handoff of 2026-09-06
+ * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad),
+ * relayed by the owner and recorded as
+ * data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json.
+ *
+ * It is named here as a SET OF ROUTES rather than as "not ri_decriminalized",
+ * because the answer is route-conditional and court-specific: it belongs to the
+ * four Chapter 12-1.3 motion routes the record names and to nothing else. A
+ * family later added to this host keeps the honest no-figure text until the
+ * record says otherwise about that route. It is research relayed by the owner,
+ * not counsel approval, and it opens nothing.
+ */
+const FEE_ANSWER_CARRIED_TRACKS = new Set([
+  "ri_first_offender_misdemeanor",
+  "ri_first_offender_felony",
+  "ri_multiple_misdemeanors",
+  "ri_deferred_sentence"
+]);
+
 function feeSection(route) {
   const L = [];
   L.push("WHAT IT COSTS.", "");
@@ -1074,11 +1098,25 @@ function feeSection(route) {
       + "does not clear an outstanding balance. Ask the clerk for a record showing the balance is zero before you "
       + "file.", "");
   } else {
-    L.push("THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. The committed record "
-      + "for this route says, in terms: \"Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the "
-      + "controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.\"", "");
-    L.push("So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it "
-      + "costs, before you go.", "");
+    if (FEE_ANSWER_CARRIED_TRACKS.has(route.trackId)) {
+      L.push("The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from "
+        + "fines, costs, restitution, or other obligations already ordered in your case. Follow the requirements "
+        + "for your particular expungement route concerning any remaining obligations. A no-fee filing does not "
+        + "cancel an unpaid court obligation.", "");
+      L.push("WHERE THAT ANSWER COMES FROM, AND WHICH COURT GAVE IT. It is the Rhode Island Superior Court's own "
+        + "expungement FAQ, \"Is there a fee associated with my expungement?\", published at "
+        + "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx. That is the SUPERIOR COURT's answer. "
+        + "If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it "
+        + "applies to your filing before you go. No dollar figure appears on the court's motion form, and none "
+        + "is printed here.", "");
+    } else {
+      L.push("THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION. The committed record "
+        + "for this route says, in terms: \"Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in "
+        + "the controlling review or located in the Judiciary materials. Do not quote a price until it is "
+        + "confirmed.\"", "");
+      L.push("So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it "
+        + "costs, before you go.", "");
+    }
     L.push("A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE. Court-imposed and court-related fines, fees, "
       + "costs, assessments and charges on the underlying case must be satisfied in full - the affidavit asks you "
       + "to swear to that. The committed record adds that those obligations may be waived or reduced by court "
@@ -2786,7 +2824,26 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
         read: "the approval to compose the proposed order, the list of what stays blank on it, and the "
           + "requirement that it never be presented as an official Rhode Island form" },
       { record: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-        read: "the route keys, the destination and the component set this family owes" }
+        read: "the route keys, the destination and the component set this family owes" },
+      ...(FEE_ANSWER_CARRIED_TRACKS.has(route.trackId) ? [{
+        record: "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        recordId: "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        boundAs: "the fee source for this packet, as a recorded authority statement",
+        read: "the Rhode Island entry: the Rhode Island Superior Court's expungement FAQ, \"Is there a fee "
+          + "associated with my expungement?\", says the Superior Court charges no expungement filing fee. That "
+          + "exact FAQ answer is what the packet's fee section states, and it is the only fee authority this "
+          + "family binds",
+        supportUrl: "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        researchHandoffSha256: "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        pageBytesHeld: false,
+        provenanceLimit: "courts.ri.gov is blocked by this container's egress proxy. The FAQ page was not "
+          + "fetched, hashed or held by this build; the answer is carried from the committed decision record, "
+          + "which carries it from the research handoff that inspected the page on 2026-09-06. It is research "
+          + "relayed by the owner, not counsel approval, and it is the Superior Court's answer: a District Court "
+          + "or Family Court filing needs that court's clerk to confirm it applies.",
+        doesNotApplyTo: "the fines, costs, restitution and other obligations already ordered in the underlying "
+          + "case, which remain the participant's and remain this route's own eligibility condition"
+      }] : [])
     ],
     officialSourcesRecordedInIntake: route.track.officialSources,
     formIdentityNote:
@@ -2798,7 +2855,12 @@ function finishFamily({ route, resolved, census, index, maps, artifacts, writePr
     whatThisReceiptDoesNotEstablish: [
       "that any output is approved for participant delivery",
       "that the revision held here is the revision the Rhode Island Judiciary publishes today",
-      "what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee",
+      ...(FEE_ANSWER_CARRIED_TRACKS.has(route.trackId)
+        ? ["that the Rhode Island Superior Court's expungement FAQ was fetched, hashed or held by this build - "
+            + "the no-fee answer is carried from the committed decision record and no bytes of that page are held",
+           "that a Rhode Island District Court or Family Court clerk has confirmed that the Superior Court's "
+            + "no-fee answer applies to a filing in that court"]
+        : ["what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee"]),
       "which relief bullet a particular Rhode Island division expects on a deferred-sentence motion",
       "whether the Part Two wording on Superior-55 that reads 'misdemeanor' where page 1 of the same form reads "
         + "'felony' is a drafting error, which is a question of Rhode Island practice this build does not answer",
@@ -3109,7 +3171,15 @@ function counselQuestions(route) {
     + "number and every count, charge and disposition as required-before-filing, is the right division for a "
     + "Rhode Island packet."
   ];
-  if (route.trackId !== "ri_decriminalized") {
+  if (FEE_ANSWER_CARRIED_TRACKS.has(route.trackId)) {
+    q.push("Confirm the fee statement this packet prints. It carries the Rhode Island Superior Court's own "
+      + "expungement FAQ answer - that the Superior Court charges no expungement filing fee - from the committed "
+      + "record OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS, which is research relayed by the owner and is not "
+      + "counsel approval. Confirm that answer for this route, and confirm the packet's treatment of a District "
+      + "Court or Family Court filing, where the participant is told to ask that court's clerk whether the "
+      + "Superior Court's answer applies. The underlying case's fines, costs, restitution and other obligations "
+      + "are stated separately and are unchanged.");
+  } else if (route.trackId !== "ri_decriminalized") {
     q.push("Confirm that publishing no filing-fee figure is right. The committed record says no filing fee for a "
       + "Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials, and "
       + "instructs that no price be quoted until it is confirmed.");
