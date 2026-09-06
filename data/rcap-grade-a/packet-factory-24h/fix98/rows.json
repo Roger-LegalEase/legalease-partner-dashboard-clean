@@ -1,0 +1,293 @@
+{
+  "schemaVersion": "packet-factory-24h/lane-rows/v1",
+  "lane": "FIX98",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "worker": "FIX98 custom-pleading repair lane (NV, WI, WV); this lane verified none of its own packets and issues no verdict on them",
+  "branch": "fix98-custom-pleading-three",
+  "base": "383e78a4d",
+  "worktree": "/home/user/fix98-worktree",
+  "claims": {
+    "assertedBeforeAnyFamilyContentWasRead": true,
+    "releasedByThisLane": false,
+    "assertions": [
+      "CLAIM_OK FIX98 rcap-nv-custom-pleading (repair, grant set 88e4cb60da8a6856)",
+      "CLAIM_OK FIX98 rcap-wi-custom-pleading (repair, grant set 88e4cb60da8a6856)",
+      "CLAIM_OK FIX98 rcap-wv-custom-pleading (repair, grant set 88e4cb60da8a6856)"
+    ],
+    "claimLedgerCommittedByThisLane": false
+  },
+  "packetBuildEnvironment": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id> [--require-rasterizer]",
+    "result": "13/16 passed, 3 failed, 1 not applicable, for each of the three families",
+    "familySourcesBind": "PASS for all three. Each is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by SHA-256 inside its own builder rather than document bytes. No source failed to bind, so no family is STOPPED on custody.",
+    "failuresRecordedNotBypassed": [
+      "private_is_git_ignored: private/ IS ignored (git check-ignore private exits 0) and tracks nothing; the check runs `git check-ignore -q private/` which git refuses with 'pathspec private/ is beyond a symbolic link' because the assignment requires private to be a read-only symlink into /home/user/legalease-partner-dashboard-clean/private. Artifact of the required mount, not a custody defect.",
+      "corpus_matches_committed_index: 1 absent of 24 sampled — master_library entry 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. An Alabama pardon form; none of the three families binds any Master Library binary, so nothing measured here depends on it. Custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted in this container and were not compared.",
+      "browser_environment_exported: RCAP_CHROMIUM_PATH is not exported by private/source-corpus-environment.txt. Chromium was nevertheless found and rendered a page (page_rasterizer_available ok, /opt/pw-browsers/chromium-1223/chrome-linux/chrome), and this lane exported RCAP_CHROMIUM_PATH for its own calibrated spot checks."
+    ]
+  },
+  "recordConsulted": {
+    "ownerDecisionPackage": "docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md",
+    "itsWords": "\"Assembled by the Captain from committed records ... It decides nothing, approves nothing, opens no route and touches no Production state. Each item names the exact question, the record that carries it, a recommended answer with its basis, and what engineering does once the owner answers. A recommendation is the Captain's reading of the records; it is not counsel's answer and never substitutes for one.\" and \"Every family named below stays fail-closed until the owner's own decision is recorded through the existing legal-decisions mechanism (data/rcap-grade-a/legal-decisions/). Work that does not depend on an answer continues.\"",
+    "whetherAnyOfTheseThreeFamiliesIsNamedThere": "No. rcap-nv-custom-pleading, rcap-wi-custom-pleading and rcap-wv-custom-pleading appear nowhere in that package; the words NV, WI, WV, Nevada, Wisconsin and West Virginia do not occur in it. legalInputStatus is SETTLED for all three in MASTER_QUEUE.json.",
+    "counselQuestionDecidedByThisLane": "None. This lane decided no counsel question and recorded none. On the West Virginia affidavit it followed the reading the same package already records for the Mississippi verification limb — \"the specification's mandatory jurat, rendered as a notarisation block the participant signs before a notary ... a petition verified on oath is never wrong for want of a jurat\" — and, independently of it, the committed West Virginia track registry's own two lines: notarization \"Required on the supporting affidavit\" and the completion item \"Affidavit signature, date and jurat — Supporting affidavit, foot of the document.\" No new legal position was taken."
+  },
+  "siblingIdentity": {
+    "measure": "sha256 over every tracked file under data/rcap-all50/overlays, path-then-bytes in sorted path order, excluding only the three family directories this lane owns",
+    "filesHashed": 7790,
+    "atBase383e78a4d": "2a647547af7c56fec3775c59d10871b77f90d7560885f5cd63ded959889cce1d",
+    "inThisWorktree": "2a647547af7c56fec3775c59d10871b77f90d7560885f5cd63ded959889cce1d",
+    "verdict": "IDENTICAL — every other family directory is byte-identical to base"
+  },
+  "sharedModules": {
+    "scriptsRcapOfficialFormsTouched": false,
+    "scriptsLibTouched": false,
+    "provenCustomPleadingFamiliesTouched": "none — rcap-ms, rcap-nd, rcap-ok, rcap-tn, rcap-tx, rcap-ks, rcap-sc, rcap-oh and rcap-wa are unchanged. The only script this lane edited is scripts/build-census-v1-rcap-wv-custom-pleading.mjs, which MASTER_QUEUE records as exclusiveScript true, importedBy [] and sharedBuildHost null. Each of these builders carries its own copy of the composed-pleading core rather than importing one, by the design note in the file itself, so the West Virginia renderer change moves no other family's bytes; the sibling digest above proves it."
+  },
+  "rasterPolicy": "Every page of every fixture was rastered at 300 dpi into /tmp/fix98 and deleted after measuring. No family here tracks raster PNGs (nv, wi and wv each track only fixtures/*.pdf), so none was committed, and reports/rendered-artifacts.json keeps rasterSkipped true and rasterPages [] exactly as the proven rcap-tn, rcap-tx and rcap-wa families do.",
+  "rasterInspection": {
+    "pagesRasteredAndInspected": 137,
+    "method": "pdftoppm -r 300 over all six fixtures (2550x3300 px per US Letter page), per-page ink measurement, plus the repository's own calibrated Chromium renderer (scripts/raster/pdf-page-raster.mjs, calibration residual 0.0 px) on the ten widest pages as a cross-check, plus pdftotext -bbox word-box geometry over every word of every page",
+    "blankPages": 0,
+    "minimumInkFraction": 0.005708,
+    "pagesWithInkTouchingAnyPaperEdge": 0,
+    "overlappingWordPairs": 0,
+    "widestInkOnAnyPage": "545.7 pt of a 612 pt page (nv boundary page 40), leaving 66.3 pt of clear right margin; the widest West Virginia page after repair is 541.2 pt",
+    "note": "Words whose poppler/Chromium bounding box passes the 540 pt column edge by 0.6-5.7 pt are a substituted-Times metric difference against the pdf-lib AFM advance widths the composer wraps by. It is present in proven families at larger magnitudes (rcap-wa canonical carries a word box out to 555.3 pt), it is nowhere near the paper edge, and it is not clipping. One newly authored West Virginia all-caps line did reach 547.5 pt on the first rebuild and was reworded so that no repaired page exceeds 541.2 pt."
+  },
+  "rows": [
+    {
+      "lane": "FIX98",
+      "familyId": "rcap-nv-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "NV",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+      "buildScript": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
+      "verdictRepairedAgainst": {
+        "lane": "vf29",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
+        "failedObligationNames": ["CLIPPING_AND_OVERLAP"]
+      },
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP"],
+      "howEachWasRepaired": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "findingRepairedAgainst": "Content-stream geometry found no off-page or overlapping text runs among 1,405 canonical and 1,418 boundary draws. There are nevertheless no current rasters: the report records rasterSkipped=true and zero raster pages, no raster directory exists, and the queue is RASTER_PENDING with no receipt. The geometry result is not promoted to a visual approval.",
+          "whatThisLaneDid": "No page byte was moved, and this row says so plainly rather than claiming a layout fix it did not make. The finding named an evidence gap, not a geometry defect, and the gap was closed by doing the measurement: all 100 pages of both fixtures were rastered at 300 dpi and inspected. Result: 0 blank pages, 0 pages with ink touching any paper edge, 0 overlapping word pairs among 13,632 canonical and 13,680 boundary words, minimum ink fraction 0.0107, widest ink 545.7 pt of 612 pt (page 40). The repository's own calibrated Chromium renderer was run on pages 1, 9 and 40 and agreed, at calibration residual 0.0 px. Pages read as images: page 1 (petition caption and route), page 9, page 40 (the prosecuting attorney's stipulation, whose every line is refused to that office and is blank). Composed text sits inside its column on every page; there is no clipping and no overlap at 300 dpi.",
+          "whatIsStillOwedAndByWhom": "A governed central raster receipt binding these exact digests. That is RAS02's to issue through .github/workflows/rcap-packet-raster-acceptance-batch.yml, not a repair lane's, and MASTER_QUEUE recorded the enrolment refusal as \"the current failed obligations have not been repaired\" — the condition this row exists to clear."
+        }
+      ],
+      "otherChangesInThisFamily": "source-receipt.json only. The rebuild re-pinned data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json from 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 (2,607,149 bytes) to its bytes at this base, f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2,629,290 bytes), and the identity-refresh annotation written against the older digest was dropped rather than carried onto bytes nobody has compared. That is the documented behaviour of scripts/rcap-packet-completeness/identity-refresh.mjs: \"When the rebuild computes a DIFFERENT sha256, the record moved again ... So it is dropped, loudly, and the receipt lapses honestly.\"",
+      "rebuild": {
+        "invocation": "node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --no-raster",
+        "rebuiltTwice": true,
+        "byteIdenticalAcrossRebuilds": true,
+        "fixtureBytesUnchangedFromBase": true
+      },
+      "determinism": "Two consecutive rebuilds produced a byte-identical family directory (all 13 files). Both fixtures also hash to their base-383e78a4d values, so this repair moved no packet byte.",
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
+        "result": "PASS_COMPLETE, 78/268 written"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "newDigests": {
+        "canonicalPdf": {"sha256": "0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e", "byteLength": 139080, "pages": 50, "movedFromBase": false},
+        "boundaryPdf": {"sha256": "6dc6ddc9242f0818237154075c5b0a2074ec60081d43f38eb259c5b4c7775048", "byteLength": 141433, "pages": 50, "movedFromBase": false},
+        "sourceReceipt": {"sha256": "484995dd43a5bb616238c20ac3fdd3c5d170e6e2fcf49cfb3ee1a89b62b6750f", "movedFromBase": true},
+        "familyDirectory": "9ec05e5ad5e290c9827d50594e69bff639607c105820d7c0cce3ac664d225f54"
+      },
+      "whatWasInspected": "All 100 rendered pages at 300 dpi. Route and caption: every page footer carries one of the six Nevada route keys and the caption names the court line the route requires. Required components: all 30 manifest components appear in both 50-page manifests. Known facts visible: 78 written values read back from the saved bytes on both fixtures. Protected areas clean: the prosecuting attorney's stipulation, the proposed orders, and every signature and date line are blank — page 40 was read as an image and states on its face that it is not the petitioner's to complete. Readable pages: no blank page, no clipped or overlapping text. Filing, fee, service and stop instructions: prosecutor-first submission then the appropriate clerk, the county-dependent and repository costs with the NRS 179.245(9) waiver, service of the signed order on every named agency and the Central Repository under NRS 179.275, and the registry's route-specific stops — all in the record's own words.",
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS", "ARTIFACTS", "PAGE_ORDER",
+        "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"
+      ],
+      "alsoNotDischargedByThisRow": [
+        "the governed central raster receipt binding these digests (RAS02)",
+        "independent verification of any obligation, including the one repaired here — this lane built and repaired this family and issues no verdict on it",
+        "any route promotion, price, entitlement or commercial authority"
+      ]
+    },
+    {
+      "lane": "FIX98",
+      "familyId": "rcap-wi-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "WI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading",
+      "buildScript": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
+      "verdictRepairedAgainst": {
+        "lane": "vf12",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+        "failedObligationNames": ["COMPONENT_SET", "FILING_DESTINATION", "REQUIRED_BEFORE_FILING"]
+      },
+      "obligationsRepaired": ["COMPONENT_SET", "FILING_DESTINATION", "REQUIRED_BEFORE_FILING"],
+      "howEachWasRepaired": [
+        {
+          "obligation": "COMPONENT_SET",
+          "findingRepairedAgainst": "componentConditions was an empty object in both production-field-map.json and reports/rendered-artifacts.json; the participant component table omitted the status-request's only-if condition; and the generic steps directed the participant to fill every page for the route and file the pages together.",
+          "whatThisLaneDid": "Measured against the bytes at this base, not against the snapshot the verdict read. Commit d74ffe8c7 (FIX03) had already carried this repair into the tree between base 88d688b8b and 383e78a4d, and this lane confirmed each limb on the delivered output rather than on that commit message. componentConditions now carries \"Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.\" in both records; the participant component table prints it as \"**Only use this component when:**\"; the rendered filing-instructions page prints \"Use it only where the participant wants to know whether the certificate has issued, rather than to ask that it be issued\"; and the steps now read \"Choose the request that matches what you want\", \"Fill every labelled dotted blank on the request you choose\" and \"Send the request you choose\". Two mutually distinct requests are no longer directed at every participant. All three manifest components are rendered — primary request pages 1-3, status request page 4, filing instructions pages 5-6 — and the filing-instructions page lists the other two rather than itself, which is the pattern every proven family follows (rcap-nd, rcap-ms, rcap-ks).",
+          "byteChangeThisLaneMade": "none in this family's pages; the repair was verified present, not re-authored"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "findingRepairedAgainst": "participant-instructions.md affirmatively contradicted the request pages by calling the act a filing, directing the participant to file the pages for the route, and saying the court assigns a case number at filing.",
+          "whatThisLaneDid": "Read the current participant-instructions.md end to end. It now opens \"What you must do before you send this request\", its first step reads \"This is not a court filing. It names the supervising or detaining authority this goes to\", its send step reads \"Send the request you choose to the supervising or detaining authority by ordinary mail or that authority's stated correspondence channel\", and the FILING_DESTINATION row carries the registry's own venue sentence, \"Not a court filing. Send the written request to the supervising or detaining authority.\" No sentence anywhere in the file calls this a filing or sends it to a court. The rendered page 1 was read as an image and agrees.",
+          "byteChangeThisLaneMade": "none in this family's pages; the repair was verified present, not re-authored"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "findingRepairedAgainst": "The visible TO/addressee line on primary-request page 1 was absent from production-field-map.json, blanks-left-for-the-participant.json and the required-items table; a nonexistent primary-filing-1.case_number was classified protected; and the instructions said every case number in every caption is left blank until the court assigns one at filing.",
+          "whatThisLaneDid": "Inventoried the current field map against the current page. primary-filing-1.addressee_detail now exists as a REQUIRED_BEFORE_FILING row — \"The current office and postal address of the supervising or detaining authority\", with the registry's reason, \"the committed specification requires the current mailing address of the supervising authority before sending\" — and appears in the field map, the blanks record, the 14-item requiredBeforeFiling list and the participant's required-items table. No primary-filing-1.case_number exists anywhere in production-field-map.json; the only case-number rows are status-request-2.req_case_number, correctly required-before-filing because the status page asks for an existing case or docket number. The instructions' deliberately-blank list now reads \"These are facts of your own matter that you copy from the office and case records before sending; no court assigns them at filing.\"",
+          "byteChangeThisLaneMade": "none in this family's pages; the repair was verified present, not re-authored"
+        }
+      ],
+      "otherChangesInThisFamily": "source-receipt.json only, for the same route-obligation-census re-pin and identity-refresh lapse described in the Nevada row.",
+      "rebuild": {
+        "invocation": "node scripts/build-census-v1-rcap-wi-custom-pleading.mjs --no-raster",
+        "rebuiltTwice": true,
+        "byteIdenticalAcrossRebuilds": true,
+        "fixtureBytesUnchangedFromBase": true
+      },
+      "determinism": "Two consecutive rebuilds produced a byte-identical family directory (all 13 files). Both fixtures hash to their base-383e78a4d values.",
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
+        "result": "PASS_COMPLETE, 11/29 written"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "newDigests": {
+        "canonicalPdf": {"sha256": "fa75790c3ef35af41d142cade19bf6def68149e3767e9b14eb73b1bd45414dc9", "byteLength": 17311, "pages": 6, "movedFromBase": false},
+        "boundaryPdf": {"sha256": "84297a24847a4a9555b92a8ac138d101fffd03331e71be7229efb72e50f1b5d8", "byteLength": 17796, "pages": 6, "movedFromBase": false},
+        "sourceReceipt": {"sha256": "a54566e0bd6adb43058559c093a77361487e152f05a29591e74ec89055f7165e", "movedFromBase": true},
+        "familyDirectory": "74ee0c4bf749ae74ada952e9e360fce381813f777b4a4ae344f2462f665bc087"
+      },
+      "whatWasInspected": "All 12 rendered pages at 300 dpi, and participant-instructions.md in full. Route and caption: the single route key obligation:track-only:WI:wi_exp_certificate_of_discharge_followup appears in every page footer, and the heads of both request pages address the supervising or detaining authority rather than a court. Required components: all three, on pages 1-3, 4 and 5-6, with the conditional one carrying its only-if condition on the page. Known facts visible: name, date of birth, address, telephone and email on both requests and the name on the instructions page; the boundary fixture's long name, address and email wrap cleanly and remain readable. Protected areas clean: both DATE and SIGNATURE lines on both requests are blank; there is no court-owned or prosecutor-owned area on any page of this packet, because none of it is filed with a court. Readable pages: 0 blank pages, 0 overlapping word pairs among 1,571 canonical and 1,594 boundary words, no ink within 71 pt of any paper edge. Destination, fee, service and stop instructions: the registry's own words for a route that is not a court filing — no fee, no waiver, no service requirement, ordinary mail or the authority's stated channel, and all nine registry stop conditions.",
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY", "SOURCE_IDENTITY", "KNOWN_PREFILLS", "ROUTE_OPTIONS", "REPEATING_ROWS",
+        "PROTECTED_FIELDS", "ARTIFACTS", "PAGE_ORDER", "CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER",
+        "SERVICE", "SELF_HELP_STOP"
+      ],
+      "alsoNotDischargedByThisRow": [
+        "a governed central raster receipt binding these digests (RAS02); the receipt that exists, workflow 33791677725 job 100770326912, binds these same unchanged fixture bytes but was read at an earlier base",
+        "independent verification of any obligation, including the three repaired here — this lane holds the repair grant and issues no verdict on this family",
+        "any route promotion, price, entitlement or commercial authority"
+      ]
+    },
+    {
+      "lane": "FIX98",
+      "familyId": "rcap-wv-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "WV",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "buildScript": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
+      "verdictRepairedAgainst": {
+        "lane": "vf05",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "wave": "CODEX-CS1-VF05-CT-WV/706dbbd/2026-09-04, which expressly supersedes the earlier VF05 PASS_COMPLETE_INDEPENDENT row at 88d688b8b because that row bound obsolete 12-page hashes",
+        "failedObligationNames": ["CLIPPING_AND_OVERLAP", "COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SERVICE"]
+      },
+      "obligationsRepaired": ["COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SERVICE", "CLIPPING_AND_OVERLAP"],
+      "howEachWasRepaired": [
+        {
+          "obligation": "COMPONENT_SET",
+          "findingRepairedAgainst": "Pages 4-6 did not substantively deliver the required supporting_affidavit: except for the heading they repeated the application, contained no sworn declaration, oath, jurat, notary block or notarial signature/seal field, and ended only with the petitioner's ordinary signature/date line. A label-only duplicate is not the registry's required sworn affidavit.",
+          "whatThisLaneDid": "The affidavit body was a byte-for-byte copy of the application body with one heading changed. It was replaced with an actual affidavit: its own caption and judicial-division line, a jurat venue block (STATE OF WEST VIRGINIA / COUNTY OF ......), section A quoting the registry's own two lines that the applicant swears the affidavit and that notarization is required on it, section B identifying the affiant, section C carrying only the three dates the six-month computation turns on, section D reserving the sworn narrative to the affiant, then the oath \"I swear or affirm that the statements above are true\", the affiant's own signature and date lines, the sentence saying the block below belongs to the officer, and the jurat: \"Taken, subscribed and sworn to before me this ...... day of .................., 20......\" over \"Officer authorized to administer oaths ......\". The affidavit no longer repeats the application's fourteen C items; it supports it. The five components remain in declared order and all five are delivered."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "findingRepairedAgainst": "Each fixture visibly wrote the held participant.date_of_birth in the petitioner block of both the application and the purported affidavit, yet left each document's required C2 date-of-birth answer blank and production-field-map falsely said the platform holds no value.",
+          "whatThisLaneDid": "Item C2 on the application now prints the held date of birth as its answer, and item C1 — which carried the identical untrue refusal for participant.full_legal_name, a value the same page writes three times — now prints the held name. Both moved from the blanks list to the writes list of production-field-map.json, so no row anywhere now says the platform holds no value for a fact it holds. Each printed answer carries the check-and-correct sentence the proven Wisconsin letter uses, and section B was rewritten to say both facts are printed and are not blanks the participant has to fill. On the affidavit the same two facts are printed in section B in the affiant's own voice. Written values rose from 16 to 18 of 56."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "findingRepairedAgainst": "The registry requires affidavit signature/date/jurat and notarization, a judicial-division line, separate prosecuting-attorney and probation-office addresses, and a hearing date on the application notice line. The PDFs and participant instructions contained no oath/jurat/notary block, no hearing-date notice line, no judicial-division instruction, and only one singular service-recipient/address block; these source-declared completion items were absent from the field map and from the participant checklist.",
+          "whatThisLaneDid": "Every one of those registry completion items now exists on a page, in the field map with a true disposition, and in the participant checklist. Judicial-division lines were added to the captions of the application, the affidavit and the certificate, each a REQUIRED_BEFORE_FILING blank quoting the registry's \"Case number and judicial division line — Application, caption block.\" The caption case number stopped being classified court-owned: this is an existing criminal case, the registry makes the case number a participant completion item, and the line now reads \"Case number, as it appears on the conditional discharge order\" and is required-before-filing. A new section D, \"NOTICE OF THE HEARING SECTION 60A-4-407(B) CONTEMPLATES\", carries the hearing-date notice line; the date itself is the court's, so the blank is refused as court-owned rather than described as the participant's to author, and the page, the filing instructions and the deliberately-blank list all say the participant asks the clerk for it and writes it before filing. Affidavit signature, affidavit date and the jurat are three separate declared blanks, the first two protected and the jurat court/officer-owned. The certificate carries separate name, address and method blanks for the prosecuting office and for the probation office. The filing-instructions page gained a section, \"WHAT THE RECORD SAYS YOU MUST COMPLETE BEFORE YOU FILE\", printing all seven registry completion items in the registry's own words. The declared required-before-filing count moved from 31 to 30, and the composition of the 30 is the repair rather than the number: at base, 28 of the 31 were the application's fourteen C items and a verbatim duplicate of the same fourteen on the purported affidavit, plus three certificate blanks. Now the application collects every one of the registry's fourteen generation requirements exactly once (twelve as blanks, C1 and C2 as written held facts) and adds its caption division and case number; the affidavit collects its own caption division and case number, its jurat county and the five items it actually swears to; and the certificate collects its caption division, its case number and three blanks for each of the two offices the record names. Nothing the registry asks for is collected fewer times than before, and nothing is asked for twice. All 30 are disclosed in participant-instructions.md."
+        },
+        {
+          "obligation": "SERVICE",
+          "findingRepairedAgainst": "Instructions required service on both the county prosecuting attorney and the supervising probation office, but the certificate had only one singular recipient/address/method block. It also certified delivery of a proposed order although no proposed order exists in the five-component packet.",
+          "whatThisLaneDid": "The certificate now has two labelled recipient blocks, FIRST RECIPIENT - THE PROSECUTING ATTORNEY OF THE COUNTY and SECOND RECIPIENT - THE SUPERVISING PROBATION OFFICE, each with its own name-and-office, address and method lines, and it quotes the registry's service sentence and states that both offices are served and neither block is optional. The false clause was removed: the certificate now certifies delivery of \"a copy of the application to expunge and of the supporting affidavit filed with it\", which is what the registry's filing rule says is filed — \"File the application, affidavit and certificate of service with the clerk\". The signer can no longer attest to serving a component that does not exist, and the warning against signing early now names both deliveries. The filing-instructions page says the same in prose, including that this packet contains no proposed order."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "findingRepairedAgainst": "No governed raster receipt binds the exact current hashes. The queue is RASTER_PENDING; its only RASTER_PASS binds the superseded 12-page pair. Local calibrated raster/visual/bbox review found all 22 current pages nonblank with 0 geometry problems, but that is supplemental and cannot satisfy the required current governed evidence.",
+          "whatThisLaneDid": "Layout was repaired where the new sworn page created a real risk, and the whole packet was then re-measured at 300 dpi. The affiant's signature line, the officer's sentence and the jurat are now one unsplittable block in the renderer, so a page break can never separate a jurat from the signature it attests, and the route trailer is placed above that block rather than under the officer's rule, so no machine text is printed inside an area the page reserves to the notary. Both are the shape the West Virginia deferral family already had to be repaired into (FIX46), ported into this family's own exclusive builder and proved by an assertion read off the settled layout rather than off intention. One newly authored all-caps warning line rendered out to 547.5 pt and was reworded, dropping the widest West Virginia ink to 541.2 pt of a 612 pt page. Re-measured after the last rebuild: 25 pages at 300 dpi, 0 blank, 0 ink touching any paper edge, 0 overlapping word pairs among 3,705 canonical and 3,719 boundary words, minimum ink fraction 0.0057. The calibrated Chromium renderer agreed on pages 1, 6 and 8 at residual 0.0 px.",
+          "whatIsStillOwedAndByWhom": "A governed central raster receipt binding the new digests 51c4941b... and 4e79ef98..., which is RAS02's to issue and not a repair lane's."
+        }
+      ],
+      "sourceOfEveryNewSentence": "data/record-clearing/legal-design-track-registry.json, track wv_drug_conditional_discharge — its packetSet.participantActionRequired completion items, its rules.service, rules.filing, rules.notarization and rules.participantSignature, and its exclusions and stop conditions. No fee figure, service rule or notice rule was taken from W. Va. Code § 61-11-25 or § 61-11-26; the packet's own build finding on that point is unchanged. No assertion about the participant's probation-violation history is generated anywhere, which the registry forbids in terms.",
+      "rebuild": {
+        "invocation": "node scripts/build-census-v1-rcap-wv-custom-pleading.mjs --no-raster",
+        "rebuiltTwice": true,
+        "byteIdenticalAcrossRebuilds": true,
+        "fixtureBytesUnchangedFromBase": false
+      },
+      "determinism": "Two consecutive rebuilds produced a byte-identical family directory (all 13 files), including both fixtures.",
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
+        "result": "PASS_COMPLETE, 18/56 written"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "newDigests": {
+        "canonicalPdf": {"sha256": "51c4941b11cd25af2810119b919fdb45320718440afc7567fa427cba2d4e28a5", "byteLength": 35845, "pages": 12, "wasAtBase": "b7ada7da2dde97c38d45f15e691b0a2bbb1f2d8b9e52b47a3d17edebb829e8e4 (32,570 bytes, 11 pages)"},
+        "boundaryPdf": {"sha256": "4e79ef98ff350e36a285cc1cf1db3f16fa40c7e3a373cca85f00af36c460964f", "byteLength": 36823, "pages": 13, "wasAtBase": "4a1df2802934d5dc8c9579132e3f26417740c3823fc70a9fb2a25bc7768302ca (33,135 bytes, 11 pages)"},
+        "sourceReceipt": {"sha256": "74cfc37095ebdc0dcd69f7254f922ac50d38377425b6a2874f028871c91331db", "movedFromBase": true},
+        "familyDirectory": "8a890ad9d9dddbdc4b80a3148fb93b59bc3798257af2f00add0c5bc51cd7d202"
+      },
+      "whatWasInspected": "All 25 rendered pages at 300 dpi, three of them read as images, plus participant-instructions.md and production-field-map.json in full. Route and caption: the one route key obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief on every page footer, and a consistent IN THE ...... COURT / judicial division / IN RE / case-number caption on the application, the affidavit and the certificate. Required components: application pages 1-4, affidavit 5-6, certificate 7-8, records checklist 9, filing instructions 10-12 in the canonical fixture, all five delivered. Known facts visible: 18 written values read back from the saved bytes, including the name and date of birth now answering items C1 and C2 rather than sitting beside empty ones. Protected areas clean: the application and certificate signature and date lines, the affiant's signature and date lines, and the notary's jurat and officer line are all blank on both fixtures, with 0 refused fields carrying ink; the jurat and the officer's rule sit whole on one page with nothing of the packet's own printed inside them. Readable pages: 0 blank, 0 overlapping word pairs, widest ink 541.2 pt of 612 pt. Filing, fee, service and stop instructions: the clerk of the court that entered the conditional discharge after six months from the expiration of probation; no application fee under § 60A-4-407 with the subsection (c) court-costs liability and the unestablished civil-clerk charge stated as unestablished and no waiver identified; service on the county prosecuting office and the supervising probation office with a recipient block for each; and all nine registry stop conditions — every one in the committed record's own words.",
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY", "SOURCE_IDENTITY", "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS",
+        "ARTIFACTS", "PAGE_ORDER", "FILING_DESTINATION", "FEE_AND_WAIVER", "SELF_HELP_STOP"
+      ],
+      "alsoNotDischargedByThisRow": [
+        "a governed central raster receipt binding the new digests (RAS02); the receipt on file, workflow 33791677725 job 100770327039, binds a superseded 12-page pair and is superseded again by this rebuild",
+        "independent verification of any obligation, including the five repaired here — this lane authored these repairs and issues no verdict on them",
+        "counsel review of the affidavit's sworn form, and any route promotion, price, entitlement or commercial authority"
+      ]
+    }
+  ],
+  "whatThisLaneDidNotDo": "No route was opened, no price or entitlement changed, no Production, Stripe or Supabase state was touched, no credential was read or written, no subagent was created, no grant was released and the claim ledger was not committed. Nothing outside the three family directories and the one exclusive West Virginia builder was modified. No packet was self-verified: the completeness verifier is a counter run, not a verdict, and this lane issues no verdict on any family it built or repaired."
+}
