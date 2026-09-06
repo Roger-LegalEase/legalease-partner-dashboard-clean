@@ -823,18 +823,39 @@
       "participantMustSupply": "your driver licence number"
     },
     {
+      "document": "NHJB-2956",
+      "field": "NHJB-2956/address",
+      "page": 1,
+      "section": "Section II — Third-Party Release",
+      "disclosureLabel": "Address of the person or entity to receive the record",
+      "identity": "NHJB-2956 field address",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the record recipient’s address if you mail this request or authorize a third-party release; the pinned form requires both sections for all mailed requests. For an in-person request for your own record, its instructions require only Section I",
+      "participantMustSupply": "the record recipient’s address if you mail this request or authorize a third-party release; the pinned form requires both sections for all mailed requests. For an in-person request for your own record, its instructions require only Section I"
+    },
+    {
       "document": "NHJB-2317",
       "field": "NHJB-2317/telnum.1",
       "page": 1,
-      "section": "Applicant's Information",
+      "section": "Applicant's Information (form pages 1)",
       "disclosureLabel": "Telephone Number",
       "identity": "NHJB-2317 field telnum.1",
       "why": "the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 15 characters and the value the platform holds is 24, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 15 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 15,
       "valueLengthThatDidNotFit": 24,
+      "widgetLocations": [
+        {
+          "page": 1,
+          "rect": {
+            "x": 393,
+            "y": 416.56,
+            "width": 175.88,
+            "height": 15.37
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -843,15 +864,35 @@
       "document": "NHJB-2317",
       "field": "NHJB-2317/case number1",
       "page": 2,
-      "section": "Page Header",
+      "section": "Page Header (form pages 2, 3)",
       "disclosureLabel": "Case Number repeated in the page header",
       "identity": "NHJB-2317 field case number1",
       "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 17,
       "valueLengthThatDidNotFit": 33,
+      "widgetLocations": [
+        {
+          "page": 2,
+          "rect": {
+            "x": 105.21,
+            "y": 746.88,
+            "width": 473.98,
+            "height": 14.34
+          }
+        },
+        {
+          "page": 3,
+          "rect": {
+            "x": 106.38,
+            "y": 747.54,
+            "width": 473.98,
+            "height": 13.34
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -860,15 +901,26 @@
       "document": "NHJB-2317",
       "field": "NHJB-2317/case number",
       "page": 1,
-      "section": "Caption",
+      "section": "Caption (form pages 1)",
       "disclosureLabel": "Case Number",
       "identity": "NHJB-2317 field case number",
       "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 17,
       "valueLengthThatDidNotFit": 33,
+      "widgetLocations": [
+        {
+          "page": 1,
+          "rect": {
+            "x": 127.73,
+            "y": 649.84,
+            "width": 196.93,
+            "height": 14.68
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -877,15 +929,26 @@
       "document": "NHJB-2311",
       "field": "NHJB-2311/case number",
       "page": 1,
-      "section": "Caption",
+      "section": "Caption (form pages 1)",
       "disclosureLabel": "Case Number",
       "identity": "NHJB-2311 field case number",
       "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 17,
       "valueLengthThatDidNotFit": 33,
+      "widgetLocations": [
+        {
+          "page": 1,
+          "rect": {
+            "x": 127.47,
+            "y": 644.25,
+            "width": 447.14,
+            "height": 15.79
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -894,15 +957,26 @@
       "document": "NHJB-2328",
       "field": "NHJB-2328/case number",
       "page": 1,
-      "section": "Caption",
+      "section": "Caption (form pages 1)",
       "disclosureLabel": "Case Number",
       "identity": "NHJB-2328 field case number",
       "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 17,
       "valueLengthThatDidNotFit": 33,
+      "widgetLocations": [
+        {
+          "page": 1,
+          "rect": {
+            "x": 124.69,
+            "y": 650.51,
+            "width": 453.31,
+            "height": 15.49
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -911,15 +985,35 @@
       "document": "NHJB-2328",
       "field": "NHJB-2328/case number1",
       "page": 2,
-      "section": "Page Header",
+      "section": "Page Header (form pages 2, 3)",
       "disclosureLabel": "Case Number repeated in the page header",
       "identity": "NHJB-2328 field case number1",
       "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
-      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened.",
       "conditional": true,
       "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
       "declaredMaxLength": 17,
       "valueLengthThatDidNotFit": 33,
+      "widgetLocations": [
+        {
+          "page": 2,
+          "rect": {
+            "x": 106.46,
+            "y": 745.16,
+            "width": 473.98,
+            "height": 17.34
+          }
+        },
+        {
+          "page": 3,
+          "rect": {
+            "x": 106.7,
+            "y": 745.57,
+            "width": 473.98,
+            "height": 15.34
+          }
+        }
+      ],
       "fixturesInWhichThisBoxIsBlank": [
         "boundary"
       ]
@@ -1068,7 +1162,7 @@
       "page": 1,
       "section": "Section II — Third-Party Release",
       "label": "Name of the person or entity to receive the record (selection)",
-      "why": "Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts"
+      "why": "Complete the recipient name if mailing or authorizing a third-party release. This source offers only family and probate courts in its recipient dropdown; do not select an unrelated court. Before mailing, ask the Criminal Records Unit how to enter the intended recipient and complete Section II, including its required notarization. An in-person request for your own record requires only Section I"
     }
   ],
   "protectedBlanks": [
@@ -1431,14 +1525,6 @@
       "label": "Open the form guide (viewer control)",
       "refusalClass": null,
       "why": "viewer ui control; never a filing fact — a button in the PDF viewer that opens guidance, not a place anything is filed"
-    },
-    {
-      "document": "NHJB-2956",
-      "field": "NHJB-2956/address",
-      "page": 1,
-      "label": "Address of the person or entity to receive the record",
-      "refusalClass": null,
-      "why": "Section II is completed only when the record is released to a third party. This packet requests your own record for your own annulment, so Section II is never populated with participant data on this route"
     }
   ],
   "everyRequiredBeforeFilingItemIsDisclosed": true,

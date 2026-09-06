@@ -44,13 +44,13 @@
  * told, in participant-instructions.md, to write the court name by hand where
  * the list cannot express it.
  *
- * Fourth, NHJB-2956 SECTION II IS NOT USED ON THIS ROUTE. It is the
- * third-party release block, and this packet requests the participant's own
- * record for their own annulment. Its two controls are refused as not
- * applicable on this route rather than left unexplained — and one of them is
- * worth a reviewer's eye: the control New Hampshire put on the "NAME OF
- * PERSON/ENTITY TO RECEIVE RECORD" line is a dropdown of family and probate
- * courts.
+ * Fourth, NHJB-2956 SECTION II DEPENDS ON THE REQUEST METHOD. Its printed
+ * instructions require it for every mailed request and third-party release;
+ * only an in-person request for one's own record uses Section I alone. The
+ * recipient control is a dropdown of family and probate courts. The participant
+ * is told to obtain Criminal Records Unit instructions before mailing if that
+ * dropdown cannot express the intended recipient, and to complete Section II
+ * with the notarization the mailed-request instructions require.
  *
  * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
@@ -372,8 +372,6 @@ const PARTICIPANT_ELECTION = "participant_sworn_narrative_or_legal_election";
  * refuses to let a court/clerk refusal class hide one. The platform does not
  * hold this participant's agencies, so each is declared and disclosed by name.
  */
-const AGENCY = (what) => SUPPLY(what);
-
 const FORM_FIELDS = {
   "NHJB-2317": {
     /* --- The caption ----------------------------------------------------- */
@@ -609,11 +607,11 @@ const FORM_FIELDS = {
     },
     address: {
       section: "Section II — Third-Party Release", label: "Address of the person or entity to receive the record",
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party. This packet requests your own record for your own annulment, so Section II is never populated with participant data on this route")
+      ...SUPPLY("the record recipient’s address if you mail this request or authorize a third-party release; the pinned form requires both sections for all mailed requests. For an in-person request for your own record, its instructions require only Section I")
     },
     "court.family/probate1 CUSTOM": {
       section: "Section II — Third-Party Release", label: "Name of the person or entity to receive the record (selection)", selection: true,
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts")
+      ...ELECTION("Complete the recipient name if mailing or authorizing a third-party release. This source offers only family and probate courts in its recipient dropdown; do not select an unrelated court. Before mailing, ask the Criminal Records Unit how to enter the intended recipient and complete Section II, including its required notarization. An in-person request for your own record requires only Section I")
     },
     "Clear Form": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
@@ -1441,7 +1439,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
   out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
   out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
-  out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
+  out.push("8. **Request your record from the State Police using NHJB-2956.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Follow the request method printed in the form’s INSTRUCTIONS block: an **in-person request for your own record requires only Section I**; a **third-party release requires Sections I and II**; and **every mailed request requires both sections completed and Section II notarized**. Section II is left blank for you to complete when required, including the recipient name and address, your signature and date, and the notary’s signature, date, seal and commission expiration. The source’s recipient-name dropdown lists only family and probate courts. **Before mailing, ask the Criminal Records Unit how to enter your intended recipient and complete that block; do not select an unrelated court or mail this request with Section II blank.**");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -1463,7 +1461,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push("- **The certificate of service box on NHJB-2328.** **This route requires no service by you** — the record says service is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank. It is on the form because the same form is used where a filer does have to serve somebody; on this route you have nobody to certify sending a copy to.");
   out.push("- **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.");
   out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
-  out.push("- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.");
+  out.push("- **Section II of NHJB-2956** — complete it for a mailed request or third-party release; all mailed requests require Section II notarized. Only an in-person request for your own record needs Section I alone. See step 8 for the recipient-name dropdown limitation and the completion steps.");
   out.push("");
 
   out.push("## Where self-help ends", "");
@@ -1561,6 +1559,10 @@ async function selfTest() {
   const instructions = participantInstructions([map], required, required, fee, loadSelfHelpStops(fee.record), service);
   assert.ok(instructions.includes(service.service) && instructions.includes(service.notice));
   assert.ok(instructions.includes("## Who else has to be told"));
+  assert.ok(instructions.includes("every mailed request requires both sections completed and Section II notarized"));
+  assert.ok(instructions.includes("in-person request for your own record requires only Section I"));
+  assert.ok(instructions.includes("do not select an unrelated court or mail this request with Section II blank"));
+  assert.ok(!instructions.includes("leave it blank, because this request is for your own record"));
   assert.ok(instructions.includes("wherever the form's own box is long enough to hold them"));
   for (const r of required) assert.ok(instructions.includes(r.disclosureLabel));
   const changedMemo = structuredClone(fee.record);
@@ -1985,15 +1987,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "description of the sentence all blank.",
       "NHJB-2317 page 2: every one of the ten certification boxes unticked, the pending-charges box empty, and the "
         + "signature and date blank.",
-      "NHJB-2317 page 3: untouched. It is the court's own order and is marked FOR COURT USE ONLY.",
+      "NHJB-2317 page 3: its shared case-number header is filled only if the complete value fits; the court order, "
+        + "its elections and judicial signature/date remain blank.",
       "NHJB-2311: the case number and the applicant's name in the opening line, and the entire signature block blank — "
-        + "name, address, city, state, zip, telephone, e-mail, signature and date. The signature box shows the form's "
-        + "own printed hint, 'Enter /s/ before name'; that is the form's ink, not this build's.",
+        + "name, address, city, state, zip, telephone, e-mail, signature and date. The source's placeholder "
+        + "'Enter /s/ before name' is removed under the recorded participant-input appearance disposition; "
+        + "the signature line must be empty.",
       "NHJB-2328 page 1: name, date of birth, residence address and case number written; every financial line and both "
-        + "take-home columns blank. The Total lines are NOT blank and are not meant to be — NHJB-2328 ships its three "
-        + "computed totals with the value 0, so the flattened packet prints \"Total $ 0.00\" on pages 1 and 2. That is "
-        + "the form's own default, recorded in reports/actual-writes.json as a document-authored appearance; a total "
-        + "carrying anything else is a defect.",
+        + "take-home columns blank. The three Total lines on pages 1 and 2 must be blank: the source's "
+        + "precomputed zero values are removed under the recorded participant-input appearance dispositions. "
+        + "No financial figures or totals are held for this participant.",
       "NHJB-2328 pages 2 and 3: every expense, asset and liability line blank, the certificate-of-service box unticked, "
         + "and the whole signature block blank.",
       "NHJB-2956: the date of birth written; the LAST, FIRST and MI boxes written and the (MAIDEN/ALIAS) box between "
@@ -2159,9 +2162,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
           "Section II of NHJB-2956 is the third-party release block, and the control New Hampshire put on its \"NAME OF "
           + "PERSON/ENTITY TO RECEIVE RECORD\" line is a dropdown of family and probate courts.",
         consequence:
-          "This packet requests the participant's own record for their own annulment, so Section II is refused as not "
-          + "applicable on this route and is never populated with participant data. The dropdown is recorded here for "
-          + "the reviewer rather than worked around."
+          "The source requires Section II for every mailed request and every third-party release; only an in-person "
+          + "request for one’s own record uses Section I alone. The recipient address is conditionally required and "
+          + "the recipient selection is disclosed. Step 8 requires the participant to ask the Criminal Records Unit "
+          + "how to enter the intended recipient before mailing, and to complete Section II with notarization. "
+          + "No unrelated court, recipient identity, signature or notarial act is supplied by the platform."
       },
       {
         finding:

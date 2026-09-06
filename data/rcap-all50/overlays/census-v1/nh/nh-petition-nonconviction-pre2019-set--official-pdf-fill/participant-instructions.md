@@ -15,14 +15,14 @@ The platform filled in what it holds about you and your case: your name, your da
 
 New Hampshire sets a character limit on some of these boxes in the form file itself, and where the value the platform holds is longer than the limit **the box is delivered blank rather than shortened**. A case number or a telephone number that has been cut to fit reads as a whole one, and on a court filing that is worse than an empty box. **Check every box named here on your own packet, and write the value in by hand if it is blank.** The clerk has to be able to match the petition, the fee-waiver motion and the statement of assets to one case, and the case number is how that is done.
 
-| Form | Section | The box | The form's limit | Measured in this build |
-| --- | --- | --- | --- | --- |
-| NHJB-2317 | Applicant's Information | Telephone Number | 15 characters | 24 characters, so it is not written |
-| NHJB-2317 | Page Header | Case Number repeated in the page header | 17 characters | 33 characters, so it is not written |
-| NHJB-2317 | Caption | Case Number | 17 characters | 33 characters, so it is not written |
-| NHJB-2311 | Caption | Case Number | 17 characters | 33 characters, so it is not written |
-| NHJB-2328 | Caption | Case Number | 17 characters | 33 characters, so it is not written |
-| NHJB-2328 | Page Header | Case Number repeated in the page header | 17 characters | 33 characters, so it is not written |
+| Form | Section | The box | The form's limit |
+| --- | --- | --- | --- |
+| NHJB-2317 | Applicant's Information (form pages 1) | Telephone Number | 15 characters |
+| NHJB-2317 | Page Header (form pages 2, 3) | Case Number repeated in the page header | 17 characters |
+| NHJB-2317 | Caption (form pages 1) | Case Number | 17 characters |
+| NHJB-2311 | Caption (form pages 1) | Case Number | 17 characters |
+| NHJB-2328 | Caption (form pages 1) | Case Number | 17 characters |
+| NHJB-2328 | Page Header (form pages 2, 3) | Case Number repeated in the page header | 17 characters |
 
 ## One offence, one petition
 
@@ -34,7 +34,7 @@ File the petition with the **clerk of the New Hampshire court that handled the m
 
 ## Who else has to be told
 
-**Nobody is served by you on this route.** The committed legal-design record this packet is built on states the service rule in its own words: “None by the participant. The court provides the copy to the prosecutor.” It states how the prosecutor learns of the petition in its own words too: “The court provides a copy of the petition to the prosecutor of the underlying offence under RSA 651:5, IX. No objection period is specified for this track; the prosecutor is permitted to be heard on the interest of justice.”
+**Nobody is served by you on this route.** The service rule states: “None by the participant. The court provides the copy to the prosecutor.” The notice rule explains how the prosecutor learns of the petition: “The court provides a copy of the petition to the prosecutor of the underlying offence under RSA 651:5, IX. No objection period is specified for this track; the prosecutor is permitted to be heard on the interest of justice.”
 
 So there is no step here for you. You do not mail, deliver or hand a copy of this petition to the prosecutor, to the police, or to anyone else; the court does that. Nothing in this packet is filed or sent for you either — you file the petition with the clerk, and the copy to the prosecutor is the court's to provide.
 
@@ -61,7 +61,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.
 6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.
 7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries "Enter /s/ before name" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: "If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.
-8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.
+8. **Request your record from the State Police using NHJB-2956.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Follow the request method printed in the form’s INSTRUCTIONS block: an **in-person request for your own record requires only Section I**; a **third-party release requires Sections I and II**; and **every mailed request requires both sections completed and Section II notarized**. Section II is left blank for you to complete when required, including the recipient name and address, your signature and date, and the notary’s signature, date, seal and commission expiration. The source’s recipient-name dropdown lists only family and probate courts. **Before mailing, ask the Criminal Records Unit how to enter your intended recipient and complete that block; do not select an unrelated court or mail this request with Section II blank.**
 
 ## NHJB-2317 — Petition to Annul Record: Offenses Resolved Prior to 01/01/2019: the items you must supply
 
@@ -77,9 +77,9 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | Caption | Charge ID, if known | the Charge ID the court or the police gave this charge, if you know it. The form says 'if known' and does not require it |
 | Page Header | Case Name repeated in the page header | the same case name as the caption, repeated in the header of the later pages |
 | Caption | Case Name, as the court styles it | the case name exactly as the court writes it, which for a New Hampshire criminal case is usually The State of New Hampshire v. your name; copy it from a paper the court sent you |
-| Applicant's Information | Telephone Number | write this in by hand if the box is blank on your packet. The box accepts at most 15 characters and the value the platform holds is 24, so the platform leaves it blank rather than shortening it. |
-| Page Header | Case Number repeated in the page header | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it. |
-| Caption | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it. |
+| Applicant's Information (form pages 1) | Telephone Number | write this in by hand if the box is blank on your packet. The box accepts at most 15 characters; a longer value is left blank rather than shortened. |
+| Page Header (form pages 2, 3) | Case Number repeated in the page header | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
+| Caption (form pages 1) | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
 
 ## NHJB-2311 — Motion for Waiver of Filing Fee: the items you must supply
 
@@ -87,7 +87,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | --- | --- | --- |
 | Caption | Case Name, as the court styles it | the same case name you put on the petition |
 | The Motion | Explain why you cannot pay the filing fee | your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you |
-| Caption | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it. |
+| Caption (form pages 1) | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
 
 ## NHJB-2328 — Statement of Assets and Liabilities for Individuals and Sole Proprietors: the items you must supply
 
@@ -157,8 +157,8 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | What You Own and Owe | Income tax paid last year | the income tax you paid last year |
 | What You Own and Owe | Income tax refund received last year | the income tax refund you received last year |
 | Page Header | Case Name repeated in the page header | the same case name as the caption, repeated in the header of the later pages |
-| Caption | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it. |
-| Page Header | Case Number repeated in the page header | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it. |
+| Caption (form pages 1) | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
+| Page Header (form pages 2, 3) | Case Number repeated in the page header | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
 
 ## NHJB-2956 — Criminal History Record Information Release Authorization: the items you must supply
 
@@ -170,6 +170,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | Section I — Who You Are | Hair colour | your hair colour, from the list the form offers |
 | Section I — Who You Are | The state that issued the driver licence | the state that issued your driver licence |
 | Section I — Who You Are | Driver licence number | your driver licence number |
+| Section II — Third-Party Release | Address of the person or entity to receive the record | the record recipient’s address if you mail this request or authorize a third-party release; the pinned form requires both sections for all mailed requests. For an in-person request for your own record, its instructions require only Section I |
 
 ## The choices that are yours
 
@@ -192,7 +193,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | NHJB-2328 | Work | Whether your spouse's work is full-time or part-time (selection) | only you can say which your spouse's work is |
 | NHJB-2328 | Certificate of Service | Certificate of service — certifying you sent a copy on the date you sign (selection) | this route requires no service by the participant — the record's rule is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank; the box is on the form because the same form serves routes where the filer does serve somebody |
 | NHJB-2328 | Caption | Court Name (selection) | pick the court your case is in; the platform holds no court assignment for you |
-| NHJB-2956 | Section II — Third-Party Release | Name of the person or entity to receive the record (selection) | Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts |
+| NHJB-2956 | Section II — Third-Party Release | Name of the person or entity to receive the record (selection) | Complete the recipient name if mailing or authorizing a third-party release. This source offers only family and probate courts in its recipient dropdown; do not select an unrelated court. Before mailing, ask the Criminal Records Unit how to enter the intended recipient and complete Section II, including its required notarization. An in-person request for your own record requires only Section I |
 
 ## What the platform deliberately left blank
 
@@ -201,7 +202,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 - **The certificate of service box on NHJB-2328.** **This route requires no service by you** — the record says service is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank. It is on the form because the same form is used where a filer does have to serve somebody; on this route you have nobody to certify sending a copy to.
 - **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.
 - **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.
-- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.
+- **Section II of NHJB-2956** — complete it for a mailed request or third-party release; all mailed requests require Section II notarized. Only an in-person request for your own record needs Section I alone. See step 8 for the recipient-name dropdown limitation and the completion steps.
 
 ## Where self-help ends
 
