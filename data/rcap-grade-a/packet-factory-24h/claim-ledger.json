@@ -8351,10 +8351,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
     },
     {
       "subjectType": "packet-family",
@@ -8397,10 +8398,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
     },
     {
       "subjectType": "packet-family",
@@ -8489,10 +8491,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
     },
     {
       "subjectType": "packet-family",
@@ -13707,7 +13710,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "e051c0941f9544772d0007552a7797325d92f0b4a44d7449713c85348f3faa95",
+  "claimsDigest": "b13c79fd2d4c0d97618b2ebaba4841596014ea0d63e8c9b35dbff9a95cecf23a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -31803,6 +31806,33 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-06T11:59:00.031Z",
       "reason": "Prepared reread reassigned before worker starts to avoid concurrent VF01 rows edits with active PA reader; current IL accepted bytes and review requirement unchanged."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T17:10:10.258Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T17:10:10.723Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T17:10:11.133Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
     }
   ],
   "reissues": [
@@ -46409,6 +46439,39 @@
       "previouslyReleasedAt": "2026-09-06T11:59:00.031Z",
       "transferredAt": "2026-09-06T11:59:00.253Z",
       "reason": "Captain assigns independent IL current-byte reread to /root/sources_and_ne on unused VF07; this worker authored NH only, not IL. Separate return scope from active VF01 Pennsylvania reader."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-06T17:10:10.258Z",
+      "transferredAt": "2026-09-06T17:10:10.509Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-06T17:10:10.723Z",
+      "transferredAt": "2026-09-06T17:10:10.948Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-06T17:10:11.133Z",
+      "transferredAt": "2026-09-06T17:10:11.272Z",
+      "reason": "Captain rebalancing at the Claude takeover: the Codex Cloud executor cannot run; the Virginia four reads are consolidated on VF02 for one Claude worker"
     }
   ],
   "grants": [
