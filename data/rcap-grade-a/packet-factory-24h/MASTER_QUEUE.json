@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b22ccf2e78a7b2093730efd8fb1955d58ff770b8",
+  "minimumCaptainSha": "30cd4176a5b7f0852359ed32c6bfef7bbacbd350",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,29 +66,29 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 15,
+    "activeFamiliesExcluded": 25,
     "guidanceOnly": 0,
-    "remaining": 331,
+    "remaining": 321,
     "sourceReady": 81,
     "sourceBlocked": 6,
-    "legalBlocked": 18,
-    "verifyPending": 14,
-    "repairRequired": 25,
+    "legalBlocked": 20,
+    "verifyPending": 5,
+    "repairRequired": 17,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 149,
-    "FAIL_REPAIR_REQUIRED": 40,
+    "COMPLETE_PACKET_PROVEN": 146,
+    "FAIL_REPAIR_REQUIRED": 42,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
+    "BUILT_RASTER_PENDING": 9,
     "SOURCE_READY": 81,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 18,
-    "VERIFY_PENDING": 14,
+    "LEGAL_BLOCKED": 20,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "WRONG_DELIVERY_TYPE": 1,
-    "BUILT_RASTER_PENDING": 1
+    "VERIFY_PENDING": 5,
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -109,21 +109,31 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "ar-drug-court-set",
+      "ar-pardon-seal-set",
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "ca-17b-reduction-set",
       "co_motion_seal_conviction-set",
       "co_motion_seal_nonconviction-set",
       "co_petition_seal_arrest-set",
-      "il-cannabis-vacate-set",
-      "il-exp-nonconv-set",
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "fl-10yr-bridge-set",
+      "fl-early-juvenile-set",
       "il-exp-pardon-set",
       "il-exp-precompletion-set",
-      "il-exp-qualprob-set",
-      "il-seal-2yr-set",
-      "il-seal-3yr-set",
       "il-seal-edu-set",
       "il-seal-nonconv-set",
+      "ne-setaside-custodial-set",
       "nm_conviction-set",
       "nm_identity_theft-set",
-      "nm_release_without_conviction-set"
+      "nm_release_without_conviction-set",
+      "oh_marijuana_expungement-set",
+      "pa_pardon_expungement-set",
+      "rcap-nv-custom-pleading",
+      "rcap-wi-custom-pleading",
+      "rcap-wv-custom-pleading",
+      "ri_nonconviction_sealing-set",
+      "vt_exp_decriminalized-set"
     ],
     "staleRosterFamilies": [
       {
@@ -171,13 +181,13 @@
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
   "theHonestShape": {
-    "buildersProvisioned": 24,
+    "buildersProvisioned": 25,
     "sourceReadyFamilies": 81,
-    "familiesPerBuilder": 3.4,
+    "familiesPerBuilder": 3.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 81 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 24 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
-    "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
+    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 81 do, so a full roster of 25 builders averages 3.2 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 26 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whyNotFewerBuilders": "The roster is kept at 25: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
   "families": [
@@ -2302,7 +2312,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-nonconviction-90-set.mjs",
@@ -3391,8 +3401,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX100",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ar-drug-court-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3403,7 +3413,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ar-felony-seal-set",
@@ -4075,8 +4086,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX100",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4087,7 +4098,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ar-veterans-court-set",
@@ -4487,8 +4499,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX100",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4508,7 +4520,8 @@
         "ca-851-91-set",
         "ca-prop64-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
@@ -6358,8 +6371,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX101",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -6370,7 +6383,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ca-851-91-set",
@@ -9142,11 +9156,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "f63954e3aa156a00010059ca8265081944933273",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf07",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -9176,26 +9192,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING",
-        "SOURCE_IDENTITY"
+        "COMPONENT_SET"
       ],
       "failedObligations": [
         {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": null,
-          "evidence": "Two declared codified-record pins rehash exactly. Census receipt still pins 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f, while current file rehashes f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81. Historical blob recovered at 2d01b84f7a57d9bfb2717297783b1951940e506c. Four row fields changed (packetFamilyId, packetSetId, requiredSourceIds, currentImplementationEvidence), while the explicitly recorded legal/instrument/destination projection is unchanged. Receipt requires bounded repair; missing national PDFs are not this failure."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": "All six DECLARED C1-C6 items are disclosed in participant-instructions.md and visibly printed. Independent page-1 blank census found an additional IN THE ........ COURT caption blank in both fixtures. Neither canonical/boundary map writes/refusals nor requiredBeforeFiling/protectedBlanks classifies that field, and the instructions do not disclose how to complete that caption. Six two-line fact blanks plus case number, signature and date account for only 15 of 16 dotted write spans. One logical field is unclassified; two fixture instances."
+          "obligation": "COMPONENT_SET",
+          "finding": "the committed route contract names this route's first packet component 'Verified petition', names the packet family 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2', and records the route's timing anchor as 'no elapsed waiting period; the verified petition may be filed upon learning of the record'. What is rendered is not a verified petition. The composed pleading carries the word VERIFIED in its own running title on all four pages and contains no verification anywhere: its entire execution block is the single line 'DATE ............ SIGNATURE OF PETITIONER ............' followed by '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. A search of the full extracted text of both fixtures for verif/perjury/oath/affirm/swear/notar returns only the six occurrences of the instrument's own title and the contract quotations - no verification clause, no certification, no affirmation. A participant who signs this signs an unverified pleading that calls itself verified. The other two named components, the identity-theft report and mismatched identifier evidence, are participant-obtained records rather than pages and are correctly handled: both are named in the guide's 'Documents you must obtain before filing' table and on packet page 3.",
+          "evidence": "src/lib/legal-authority/routes/route-splits.json routes[6] packetComponents ['Verified petition','Identity-theft report','Mismatched identifier evidence'], packetFamily and timing.anchorText; grep of /tmp raster-side full text extraction of both fixtures for verif|perjury|oath|affirm|swear|notar; 300 dpi pdftoppm read of all four pages of both fixtures; the family's own build-findings.json records blocking [] and no open legal input on verification, so this is an unnoticed gap rather than a recorded legal block"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX103",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -9206,7 +9216,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -12361,8 +12372,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX97",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -12373,7 +12384,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "fl-administrative-set",
@@ -12597,8 +12609,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX97",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -12609,7 +12621,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "fl-expunction-set",
@@ -15978,8 +15991,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX94",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -15990,8 +16003,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-exp-nonconv-set",
@@ -16198,8 +16210,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX94",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -16210,8 +16222,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-exp-pardon-set",
@@ -16810,8 +16821,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX94",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -16822,8 +16833,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-exp-supervision-set",
@@ -17449,8 +17459,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX94",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -17461,8 +17471,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-3yr-set",
@@ -17662,8 +17671,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX94",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -17674,8 +17683,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-edu-set",
@@ -29722,10 +29730,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf06",
-        "verifiedAtBase": "23f4ee15ee0d8a408fccfd488f0cb337200b78b3",
+        "verifiedAtBase": "b70ec78ef",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29761,20 +29771,20 @@
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "FIX91 five-field repair holds: all newly written names/address/email are visible in both fixtures, including complete long names. However, TYPEOFCOURTDROPDOWN remains empty on CC6:11, CC6:11.2 and DC1:15 in both fixtures. The writable source choices contain DISTRICT and fixture matter.court is District Court; the guide itself admits the only obstacle is unsupported choice-widget writing. A known exact matching fact cannot be reclassified unavailable because the filler lacks support. Minimum three missing held facts per fixture. Do not substitute a county for the intentionally unmatched synthetic counties. Conviction description/date handling remains the prior separate legal-design question.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/ne-current-20260906/measurements.json"
+          "finding": "the standing court-type defect is repaired, but three held facts are still absent from the page they belong to. (1) matter.case_number is written on all three filings in the canonical fixture and appears on NO page of the boundary fixture: Text2 on CC-6-11, Text2 on CC-6-11.2 and Text38 on DC-1-15 are all refused with buildPolicyReason 'narrative_exceeds_the_printed_lines_at_minimum_font'. That fit claim is arithmetically honest - the boundary value '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt of Helvetica at the builder's 6pt floor in a 129.34pt box - but the platform plainly holds the fact, so under the contract it is a missing known fact and not a genuinely unavailable one, which is the identical reasoning the standing vf06 finding applied to the court dropdown. It is also disclosed nowhere. (2) DC-1-15 field `plaintiff`, the Plaintiff/Petitioner caption line on packet page 4, is blank in both fixtures although the plaintiff of this criminal case, STATE OF NEBRASKA, is printed by the source on CC 6:11 and CC 6:11.2 in the same packet; the contract's own words are that a fact written anywhere else in the same packet is available. (3) The county caption position lost its only on-page marker: the build erased the source hint 'Choose the county' at x 291.79-351.35, y 120.19, which lies 11.86pt beyond the right edge of its own declared write box (x 43.31-279.93), so the delivered caption shows bare whitespace between 'OF' and 'COUNTY, NEBRASKA' while participant-instructions.md tells the participant to 'write it in the county blank'.",
+          "evidence": "reports/actual-writes.json (canonical CC-6-11 8 writes vs boundary 7; canonical CC-6-11.2 3 vs boundary 2; canonical DC-1-15 8 vs boundary 7, the missing one being the case number each time); production-field-map.json boundaryRefusals for CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38; pdf-lib Helvetica widthOfTextAtSize measured here (134.36pt at 6pt against a 129.34pt box, max fitting size 5.78pt); 300 dpi pdftoppm read of all five pages of both fixtures; pdftotext -bbox-layout word diff of output page 1 against the CC-6-11 source giving the exact coordinates of the erased 'Choose the county' hint"
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The guide says every listed field is a blank the participant must complete, then lists seven fragments on CC6:11a, which is the included instruction sheet with annotated form examples, not a participant filing. It also tells the participant to choose dropdowns in a PDF viewer although both delivered PDFs have zero form fields. Keep valid hand-completion guidance for actual unresolved blanks; remove the false instruction-sheet blanks and unsupported interactive-field direction. The known court choice requires the separate prefill repair. Signatures/service acts remain stage-specific; do not convert them into invented facts.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/ne-current-20260906/measurements.json"
+          "finding": "four of the eleven items the committed manifest declares required-before-filing are named nowhere in participant-instructions.md, and the field map carries more required-before-filing rows than the packet discloses. Absent from the file: 'Check your answer to \"What crime were you convicted of, exactly as it appears on the court papers?\" against Nebraska State Patrol criminal history report'; 'Check your answer to \"What is the case number on the original case?\" against Nebraska court case search result'; the same confirm step for the probation discharge order; and 'The date and judge lines on the proposed order - CC 6:11.2'. The guide scores 0 hits for 'State Patrol', 'criminal history', 'case search', 'Check your answer', 'correct the packet' and '6:11.2'. The two missing confirm steps matter most because the registry names them as confirming saCrimeConvictedOf and saCaseNumber, which are exactly the blanks the packet leaves empty on CC 6:11. Separately, the field map carries nine requiredBeforeFiling refusal rows that are not in its own 21-row declared array and not in the guide: DC-1-15 Text52, Text64 and Text65 in the canonical fixture, and CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38 in the boundary fixture, so the printed count 'Required before filing: 21 field(s)' understates the canonical fixture by three and the boundary fixture by six. Two of those rows, DC-1-15 Text59.0 and Text64, are classified_unwritable_by_role and still carry requiredBeforeFiling true, which the contract's PARTICIPANT-COMPLETABLE condition forbids outright. Finally the disclosed labels fail the IDENTIFIED condition: the participant is told to complete 'CRIMINAL CONVICTION - r', 'SERVICE - To', 'same may be heard', 'changes, you must complete a Change of Contact Information F', and - for DC-1-15 field `plaintiff`, whose printedLabel is null - 'DC1:15 NEW 08/19', which is the form's own revision stamp.",
+          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSet ne-setaside-custodial-set requiredBeforeFiling (11 items) and participantFilingRequirements and manualCompletionItems, each checked term by term against participant-instructions.md; production-field-map.json requiredBeforeFiling (21 rows) diffed against every canonicalRefusals and boundaryRefusals row carrying requiredBeforeFiling true; scripts/rcap-packet-completeness/completeness-contract.mjs REQUIRED_BEFORE_FILING_CONDITIONS (DECLARED, IDENTIFIED, GENUINELY UNAVAILABLE, PARTICIPANT-COMPLETABLE, NOT ROUTE-DETERMINED, DISCLOSED)"
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX102",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29790,7 +29800,8 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
@@ -33114,8 +33125,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX99",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -33126,7 +33137,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "or_contempt_setaside-set",
@@ -33500,9 +33512,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+        "verifiedAtBase": "b70ec78ef",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -33534,43 +33546,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Petition AffiantAddr1 and order AddressOfAffiant are the name/address on the complaint or citation, if available. Current maps and guide incorrectly say complete only after service. Classify these source-record fields by their printed role; keep actual certificate service fields protected. The guide also omits the required current PSP report (within 60 days), MDJ docket-sheet eligibility checks, and all nine boundary width-refusal handoffs while saying these blanks have no held value.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Both petition fixtures add offset inner rectangles to source Yes/No controls. Exact-source 300dpi comparison finds 732 changed pixels per petition outside authorized text-write masks, localized to these two controls; source/current crops were visually inspected. Other PA static source pixels match under the same masks. Preserve FIX85 correct text underlines while removing these synthesized checkbox frames.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/PA490-selector.png"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "Guide directs readers only to the clerk where charges were filed and says destinations are not established. Current rules.filing names the clerk of courts of the judicial district where charges were disposed and the verified petition, blank order and attached PSP report. Carry the established destination and filing set; keep local street address unresolved.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "Guide says whether the fee can be waived is not established, despite current rules.feeWaiver explicitly stating IFP relief is available and a statewide MDJ affidavit. Keep county amount unknown; explain established IFP availability and conditional completion.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "Generic eligibility/unknown-field referrals do not state three current route stops: mixed summary with misdemeanor/felony/murder charges (Rule790 route); inability to confirm case remained in MDJ; any charge conviction. Commonwealth objection stop is already present. Include all current four stops together.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
@@ -33845,20 +33825,22 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "BLOCKED_LEGAL_INPUT",
         "lane": "vf01",
-        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+        "verifiedAtBase": "b70ec78ef",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": {
         "superseded": false,
-        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
+        "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
         "wave2ReturnCommit": "6777009977e7bbfad88b04fab48be952d53425f4",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
@@ -33866,7 +33848,14 @@
       },
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "pa_790_nonconviction-set",
+        "foundBy": [
+          "vf01 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: The packet's treatment is complete against the record and invents nothing: it prints the record's own words for the fee ('County filing fees vary and are not established by statute.', 'No confirmed statewide schedule exists.'), states the waiver route in full ('In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.') with the manifest's two conditions, names no figure and sends the participant to the clerk. What is blocked is not the packet's wording but the input behind it: the committed track record carries ONE releaseBlocker, impact release_blocker, affectedElement participant_instructions, on the county filing-fee schedule (reported range roughly $132 to $215, no statewide schedule established), and MASTER_QUEUE records this family legalInputStatus OPEN_LEGAL_INPUT, legalInputBasis LEGAL_APPROVAL_VERDICT, with an unsuperseded wave2LegalBlock whose decisive obligation is 'fee and waiver treatment' and whose class is MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT. A reader cannot clear a legal-approval input by measuring bytes, so this obligation is recorded blocked rather than passed, and the family cannot be a complete independent pass while it stands.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -33886,31 +33875,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Order page2 PetitionersAddress binds only participant.street_address, omitting held apartment/city/state/ZIP shown on the petition. DateAndArrestingAgency remains blank and court-owned despite held complaint/arrest dates and agency printed on the petition. Both canonical and boundary have these omissions. Text15 also withholds the held charge description; preserve unknown dispositions as explicit completion instead of inventing facts.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/pa_790_nonconviction-set--rule-790-order-canonical--page-2.png"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Petition AffiantAddr1 and order AddressOfAffiant are the name/address on the complaint, if available. Current maps and guide incorrectly say complete only after service. Classify these source-record fields by their printed role; keep actual certificate service fields protected. DateAndArrestingAgency is incorrectly court-owned, hiding a factual block; Text15 combines exact charges and applicable dispositions, so any unheld remainder must be disclosed without guessing.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Both petition fixtures add offset inner rectangles to source Yes/No controls. Exact-source 300dpi comparison finds 683 changed pixels per petition outside authorized text-write masks, localized to these two controls; source/current crops were visually inspected. Other PA static source pixels match under the same masks. Preserve FIX85 correct text underlines while removing these synthesized checkbox frames.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/PA790-selector.png"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
@@ -34426,8 +34395,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX101",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -34438,7 +34407,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "pa_summary_conviction-set",
@@ -35440,8 +35410,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX98",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -35452,7 +35422,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
@@ -36328,8 +36299,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX98",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -36340,7 +36311,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "rcap-wv-custom-pleading",
@@ -36448,8 +36420,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX98",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -36460,7 +36432,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_decriminalized-set",
@@ -37447,8 +37420,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX99",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_nonconviction_sealing-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -37459,7 +37432,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "sc_17_22_950_summary-set",
@@ -40126,7 +40100,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
@@ -40912,7 +40886,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
@@ -41726,21 +41700,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "BLOCKED_LEGAL_INPUT",
         "lane": "vf01",
-        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+        "verifiedAtBase": "b70ec78ef",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "va_exp_nonconviction-set",
+        "foundBy": [
+          "vf01 (current independent verification)"
+        ],
+        "why": "SELF_HELP_STOP: The stated defect is repaired and I measured it: all FIVE selfHelpStopConditions are printed verbatim, in the registry's own order, on the composed filing-instructions page and again in participant-instructions.md (checked string by string after whitespace normalisation), and the Dotson screen sits as a hard gate BESIDE the Part 1 basis election in three places -- step 2 of 'WHAT YOU DO, IN ORDER' on the facing composed page, step 2 of 'What you must do' in the guide, and 'The choices that are yours'. What blocks the obligation is what that gate SAYS against the pinned form. The packet instructs: 'if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt ... do not tick that box and do not file this petition.' The pinned CC-1473 Rev. 07/26, page 1, Part 1, prints the opposite inclusion in the same packet: the 'otherwise dismissed' basis expressly covers 'a charge that is dismissed after a plea or stipulation of the facts that would justify a finding of guilt pursuant to Sec. 19.2-298.02'. A participant in exactly that population is told by the official form that the basis reaches them and by the packet not to file. Which governs is a legal question about Dotson and Sec. 19.2-298.02 that a reader may not settle by measurement, FIX89 itself returned it undischarged as BLOCKED_LEGAL_INPUT, and the standing VF01 row already carried SELF_HELP_STOP as a blocked legal obligation. It is recorded blocked here rather than passed.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -41760,19 +41743,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The records-checklist component (current page5) and participant guide omit the registry-required participant’s own CCRE copy and the case-file obtain/check steps. Mentioning the CCRE fee is not a before-filing checklist. Distinguish the participant’s own copy from the already-present request for CCRE to forward the court copy after case filing.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
@@ -41849,10 +41824,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -41883,25 +41858,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
@@ -41978,10 +41939,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -42012,25 +41973,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
@@ -42107,10 +42054,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -42141,25 +42088,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
@@ -42236,10 +42169,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -42270,25 +42203,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
@@ -42451,8 +42370,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX101",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -42463,7 +42382,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
@@ -46401,8 +46321,8 @@
     }
   ],
   "totals": {
-    "lanes": 56,
-    "builders": 24,
+    "lanes": 57,
+    "builders": 25,
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,

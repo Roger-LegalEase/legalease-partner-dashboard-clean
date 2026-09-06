@@ -444,6 +444,25 @@ const carryVerdict = (row) => {
       supersededAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
     }] };
   }
+  /*
+   * The central gate is the acceptance workflow, and a receipt is only a
+   * RASTER_PASS for this queue when a workflow run is bound to it. A pass
+   * recorded from a local runner (executionEnvironment says so, workflowRunId
+   * is null) is real evidence of what that runner saw and is kept, but it does
+   * not satisfy the gate: the row stays RASTER_PENDING so the workflow can be
+   * dispatched for it, and the local pass travels beside it as
+   * localRasterEvidence. Nothing here widens what a RASTER_PASS means; it
+   * narrows what may be called one.
+   */
+  if (prior.rasterReceipt && !prior.rasterReceipt.workflowRunId) {
+    carried++;
+    return {
+      ...row,
+      currentRasterState: "RASTER_PENDING",
+      localRasterEvidence: prior.rasterReceipt,
+      ...((prior.supersededReceipts ?? []).length ? { supersededReceipts: prior.supersededReceipts } : {}),
+    };
+  }
   carried++;
   return {
     ...row,
