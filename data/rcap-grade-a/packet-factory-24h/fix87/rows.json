@@ -1,1072 +1,1080 @@
 {
- "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
- "lane": "FIX87",
- "laneKind": "shared-host-repair",
- "status": "COMPLETED",
- "repairedByThisLane": true,
- "worker": "FIX87, shared-host repair lane, worktree /home/user/fix87-worktree on branch fix87-va-host-four",
- "baseSha": "99dfee6df",
- "branch": "fix87-va-host-four",
- "grantSet": "8963f882cc54caef",
- "families": [
-  "va_seal_ancillary_matter_only-set",
-  "va_seal_enumerated_seven_year-set",
-  "va_seal_petition_felony-set",
-  "va_seal_petition_misdemeanor-set"
- ],
- "theRepairIsTwoChangesInOneHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs builds all four families. FIX87 made two changes in its FAMILY_CONFIGS and nothing else anywhere. (1) registryComponentOrder: true on the three families that did not carry it, extending the registry-order assembly FIX73 built for the host; the flag stays per family and the mechanism in boundComponentOrder is unchanged. (2) suppressSynthesizedAppearances: true on va_seal_petition_misdemeanor-set, the one family of the four still outside FIX63's flag. Two stale comments that said only three of four families carried each flag were corrected to say what is now true.",
- "whatTheHostReadsAtBuildTime": [
-  "data/record-clearing/legal-design-track-registry.json -- selfHelpStopConditions per track, and the authoritative packetSet component order, now for all four families",
-  "data/record-clearing/legal-design-intake/VA.memo.json -- rules.fees and rules.feeWaiver per track, and the same stop conditions, required to agree with the registry",
-  "data/record-clearing/legal-design-packet-set-manifests.json -- participantActionRequired pay_fee and apply_fee_waiver, required to equal the memo word for word",
-  "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json -- the route key and the destination clause"
- ],
- "eachIsBoundBySha256InTheFamilySourceReceipt": true,
- "everyOtherFamilyDirectoryIsByteIdentical": "sha256 over every file under data/rcap-all50/overlays before and after: 7790 files, of which 7654 lie outside the four granted family directories. All 7654 are byte-identical, none added, none removed. Inside the four, 43 files changed and none was added or removed. git status lists exactly 44 modified paths -- those 43 plus the one host script -- and zero untracked paths.",
- "rastersDeleted": "This lane's own measurement rasters were written under /tmp/fix87 and are deleted. The rasters committed are the builder's own output under each family's raster/ directory.",
- "rasterPngsCommitted": "Only PNGs these families already track in git. 20 raster PNGs changed and every one was already tracked at base 99dfee6df; no new raster file was created or committed. The three reordered families changed exactly their two swapped pages per fixture; the host changed exactly its four form pages per fixture.",
- "notTouched": [
-  "fitAppearancesToRect",
-  "product-wiring.json in all four families (and therefore every acceptanceReceipt)",
-  "the route-obligation census",
-  "legal-design-track-registry.json, legal-design-packet-set-manifests.json, VA.memo.json (read-only)",
-  "the claim ledger",
-  "every overlay directory outside the four granted families",
-  "main, the Captain branch and every other worktree"
- ],
- "rows": [
-  {
-   "itemId": "va_seal_ancillary_matter_only-set",
-   "familyId": "va_seal_ancillary_matter_only-set",
-   "jurisdiction": "VA",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
-   "status": "COMPLETED",
-   "laneKind": "shared-host-repair",
-   "repairedByThisLane": true,
-   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_ancillary_matter_only-set -> CLAIM_OK FIX87 va_seal_ancillary_matter_only-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
-   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-   "buildEntrypoint": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
-   "obligationsRepaired": [
-    "PAGE_ORDER"
-   ],
-   "obligationsThisRowDoesNotDischarge": [
-    "RASTER_ACCEPTANCE",
-    "INDEPENDENT_REREAD",
-    "VISUAL_REVIEW",
-    "COUNSEL_REVIEW",
-    "SOURCE_FRESHNESS_REVIEW",
-    "ROUTE_PROMOTION"
-   ],
-   "whyEachUndischargedItemIsUndischarged": {
-    "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887200 bound by SHA-256 to the SUPERSEDED canonical fixture 6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
-    "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
-    "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
-    "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
-    "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
-    "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
-   },
-   "whatChanged": [
-    "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_ancillary_matter_only-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_ancillary_matter_only].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
-    "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
-   ],
-   "digests": {
-    "before": {
-     "canonical": {
-      "sha256": "6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723",
-      "bytes": 204855
-     },
-     "boundary": {
-      "sha256": "739529061cb133ea8ac4eed6b38489b2983bc7b6ca192dde67ef81cb05e69185",
-      "bytes": 205127
-     }
-    },
-    "after": {
-     "canonical": {
-      "sha256": "e3f8c0b59bef21c9e8b780634b13c7ee70eafbd4a0628d93d512818756d99530",
-      "bytes": 204855,
-      "pages": 11
-     },
-     "boundary": {
-      "sha256": "ffc3d5f8230dec88b855bcade76bbf84ead44037303db998ecfdbec742197c48",
-      "bytes": 205127,
-      "pages": 11
-     }
-    },
-    "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
-    "primaryFilingAfter": {
-     "canonical": "989fc13e5e7ccc72f269b354cdb1c4a88ea8112b8cb4a5487fc9f18f582784ec",
-     "boundary": "ce6ec8ca04308e7ad92fa0ba8c09d0c901e01ab2b1b03ee3511bbf740b33a015"
-    }
-   },
-   "pageOrder": {
-    "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_ancillary_matter_only-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_ancillary_matter_only].packetSet.components",
-    "manifestOrder": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredComponentSet": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredPagesMeasuredWithPdftotext": {
-     "canonical": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:primary_filing",
-      "6:primary_filing",
-      "7:ccre_forwarding_request",
-      "8:commonwealth_service_and_stipulation_request",
-      "9:records_checklist",
-      "10:filing_instructions",
-      "11:filing_instructions"
-     ],
-     "boundary": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:primary_filing",
-      "6:primary_filing",
-      "7:ccre_forwarding_request",
-      "8:commonwealth_service_and_stipulation_request",
-      "9:records_checklist",
-      "10:filing_instructions",
-      "11:filing_instructions"
-     ]
-    },
-    "matchesManifest": true,
-    "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
-   },
-   "pixelIdentityOfTheReorderedPages": {
-    "applies": true,
-    "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
-    "result": {
-     "canonical": {
-      "pages": 11,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       5,
-       6,
-       9,
-       10,
-       11
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX87",
+  "laneKind": "shared-host-repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "worker": "FIX87, shared-host repair lane, worktree /home/user/fix87-worktree on branch fix87-va-host-four",
+  "baseSha": "99dfee6df",
+  "branch": "fix87-va-host-four",
+  "grantSet": "8963f882cc54caef",
+  "families": [
+    "va_seal_ancillary_matter_only-set",
+    "va_seal_enumerated_seven_year-set",
+    "va_seal_petition_felony-set",
+    "va_seal_petition_misdemeanor-set"
+  ],
+  "theRepairIsTwoChangesInOneHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs builds all four families. FIX87 made two changes in its FAMILY_CONFIGS and nothing else anywhere. (1) registryComponentOrder: true on the three families that did not carry it, extending the registry-order assembly FIX73 built for the host; the flag stays per family and the mechanism in boundComponentOrder is unchanged. (2) suppressSynthesizedAppearances: true on va_seal_petition_misdemeanor-set, the one family of the four still outside FIX63's flag. Two stale comments that said only three of four families carried each flag were corrected to say what is now true.",
+  "whatTheHostReadsAtBuildTime": [
+    "data/record-clearing/legal-design-track-registry.json -- selfHelpStopConditions per track, and the authoritative packetSet component order, now for all four families",
+    "data/record-clearing/legal-design-intake/VA.memo.json -- rules.fees and rules.feeWaiver per track, and the same stop conditions, required to agree with the registry",
+    "data/record-clearing/legal-design-packet-set-manifests.json -- participantActionRequired pay_fee and apply_fee_waiver, required to equal the memo word for word",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json -- the route key and the destination clause"
+  ],
+  "eachIsBoundBySha256InTheFamilySourceReceipt": true,
+  "everyOtherFamilyDirectoryIsByteIdentical": "sha256 over every file under data/rcap-all50/overlays before and after: 7790 files, of which 7654 lie outside the four granted family directories. All 7654 are byte-identical, none added, none removed. Inside the four, 43 files changed and none was added or removed. git status lists exactly 44 modified paths -- those 43 plus the one host script -- and zero untracked paths.",
+  "rastersDeleted": "This lane's own measurement rasters were written under /tmp/fix87 and are deleted. The rasters committed are the builder's own output under each family's raster/ directory.",
+  "rasterPngsCommitted": "Only PNGs these families already track in git. 20 raster PNGs changed and every one was already tracked at base 99dfee6df; no new raster file was created or committed. The three reordered families changed exactly their two swapped pages per fixture; the host changed exactly its four form pages per fixture.",
+  "notTouched": [
+    "fitAppearancesToRect",
+    "product-wiring.json in all four families (and therefore every acceptanceReceipt)",
+    "the route-obligation census",
+    "legal-design-track-registry.json, legal-design-packet-set-manifests.json, VA.memo.json (read-only)",
+    "the claim ledger",
+    "every overlay directory outside the four granted families",
+    "main, the Captain branch and every other worktree"
+  ],
+  "rows": [
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_ancillary_matter_only-set -> CLAIM_OK FIX87 va_seal_ancillary_matter_only-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildEntrypoint": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+      "obligationsRepaired": [
+        "PAGE_ORDER"
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 7 equals pre-repair page 8": "e289c324d58af8839b8dd7abe4dcf428774c1001b4094aa2b105ccbbb518e96b",
-       "post-repair page 8 equals pre-repair page 7": "a9927368f6b21f1def5ed81cb6ecd3b8f6889848efe580bfe3b7667bafc25b6c"
-      },
-      "pagesWithAnyPixelChange": []
-     },
-     "boundary": {
-      "pages": 11,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       5,
-       6,
-       9,
-       10,
-       11
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_ACCEPTANCE",
+        "INDEPENDENT_REREAD",
+        "VISUAL_REVIEW",
+        "COUNSEL_REVIEW",
+        "SOURCE_FRESHNESS_REVIEW",
+        "ROUTE_PROMOTION"
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 7 equals pre-repair page 8": "9e46e30330371a3249186445921f1298d5a7ab809774cc1c04545c70589448fc",
-       "post-repair page 8 equals pre-repair page 7": "df85c26a01f5832d59484b9cedaf9ac381f97262a28a5e6c383a16f65989ffda"
+      "whyEachUndischargedItemIsUndischarged": {
+        "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887200 bound by SHA-256 to the SUPERSEDED canonical fixture 6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
+        "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
+        "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
+        "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
+        "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
+        "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
       },
-      "pagesWithAnyPixelChange": []
-     }
-    },
-    "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
-   },
-   "synthesizedSquares": {
-    "form": "CC-1203",
-    "unmarkedSelectionWidgets": 69,
-    "method": "The pinned CC-1203 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
-    "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
-    "before": "0 of 69 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
-    "after": "0 of 69 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
-   },
-   "inkAgainstDeclaredBoxes": {
-    "method": "Every page of both fixtures rastered at 300 dpi. On the 6 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
-    "formPagesOutsideADeclaredBox": 0,
-    "sourceInkLostOnAnyFormPage": 0,
-    "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures; all ink holds x in [72.00, 539.76] pt.",
-    "participantWrites": {
-     "declaredWritesPerFixture": 10,
-     "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
-     "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
-     "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
-     "tightestMarginOnAnySidePt": 0.53
-    }
-   },
-   "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
-    "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
-    "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
-    "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
-    "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
-    "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
-    "noFigureAndNoCurrencySymbol": true,
-    "selfHelpStopConditions": {
-     "registryCount": 4,
-     "foundVerbatimInCanonical": 4,
-     "foundVerbatimInBoundary": 4,
-     "foundVerbatimInParticipantInstructions": 4,
-     "softenedOrAbridged": false
-    },
-    "censusRouteKey": {
-     "key": "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
-     "inProductionFieldMapRouteKeys": true,
-     "inProductWiringRouteKeys": true,
-     "changedByThisLane": false,
-     "censusWritten": false
-    }
-   },
-   "countersBefore": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
-   },
-   "countersAfter": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredHere": true
-   },
-   "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set -> PASS_COMPLETE, 29/149 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
-   "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
-   "rebuild": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
-    "exitCode": 0,
-    "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
-    "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
-   },
-   "preflight": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_ancillary_matter_only-set",
-    "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
-    "twoChecksFailedAndNeitherIsAboutThisFamily": [
-     "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
-     "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
-    ]
-   },
-   "acceptanceReceipt": {
-    "state": "STALE_AFTER_THIS_REPAIR",
-    "receipt": {
-     "verdict": "RASTER_PASS",
-     "workflowRunId": "33999075380",
-     "jobId": "101394887200",
-     "boundToCanonicalSha256": "6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723"
-    },
-    "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
-   },
-   "verifiers": {
-    "selfVerified": false,
-    "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
-   },
-   "whatWasNotDone": [
-    "No central raster was requested and no queue file was written.",
-    "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
-    "The route-obligation census was not written; no route key was added, removed or changed.",
-    "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
-    "No grant was released and the claim ledger is not committed.",
-    "No PR was opened.",
-    "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
-   ]
-  },
-  {
-   "itemId": "va_seal_enumerated_seven_year-set",
-   "familyId": "va_seal_enumerated_seven_year-set",
-   "jurisdiction": "VA",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
-   "status": "COMPLETED",
-   "laneKind": "shared-host-repair",
-   "repairedByThisLane": true,
-   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_enumerated_seven_year-set -> CLAIM_OK FIX87 va_seal_enumerated_seven_year-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
-   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-   "buildEntrypoint": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
-   "obligationsRepaired": [
-    "PAGE_ORDER"
-   ],
-   "obligationsThisRowDoesNotDischarge": [
-    "RASTER_ACCEPTANCE",
-    "INDEPENDENT_REREAD",
-    "VISUAL_REVIEW",
-    "COUNSEL_REVIEW",
-    "SOURCE_FRESHNESS_REVIEW",
-    "ROUTE_PROMOTION"
-   ],
-   "whyEachUndischargedItemIsUndischarged": {
-    "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887191 bound by SHA-256 to the SUPERSEDED canonical fixture e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
-    "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
-    "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
-    "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
-    "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
-    "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
-   },
-   "whatChanged": [
-    "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_enumerated_seven_year-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_enumerated_seven_year].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
-    "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
-   ],
-   "digests": {
-    "before": {
-     "canonical": {
-      "sha256": "e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11",
-      "bytes": 204666
-     },
-     "boundary": {
-      "sha256": "fbca34b30fb77841c8a1f3f2f0a01cd62002062a866f06670d7934a37281fdcf",
-      "bytes": 204946
-     }
-    },
-    "after": {
-     "canonical": {
-      "sha256": "e885a3cd8a4c6390f1a85472fa9a48ed88a34595c5b2e702077eb0f317e30503",
-      "bytes": 204666,
-      "pages": 11
-     },
-     "boundary": {
-      "sha256": "291fc81a7fc0cb86bd973ad99279bded775ffb862d9f53f5c401c2e6c2abbd1d",
-      "bytes": 204946,
-      "pages": 11
-     }
-    },
-    "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
-    "primaryFilingAfter": {
-     "canonical": "2679cbcf910b12754a8057f408901e817ffc938472fcd77a084a230cc1bf8e3e",
-     "boundary": "2c95f149a39eb66e37edf0eb8cd8bb5ffde7e3cced510356b448d0f49eb53da1"
-    }
-   },
-   "pageOrder": {
-    "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_enumerated_seven_year-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_enumerated_seven_year].packetSet.components",
-    "manifestOrder": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredComponentSet": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredPagesMeasuredWithPdftotext": {
-     "canonical": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:primary_filing",
-      "6:primary_filing",
-      "7:ccre_forwarding_request",
-      "8:commonwealth_service_and_stipulation_request",
-      "9:records_checklist",
-      "10:filing_instructions",
-      "11:filing_instructions"
-     ],
-     "boundary": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:primary_filing",
-      "6:primary_filing",
-      "7:ccre_forwarding_request",
-      "8:commonwealth_service_and_stipulation_request",
-      "9:records_checklist",
-      "10:filing_instructions",
-      "11:filing_instructions"
-     ]
-    },
-    "matchesManifest": true,
-    "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
-   },
-   "pixelIdentityOfTheReorderedPages": {
-    "applies": true,
-    "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
-    "result": {
-     "canonical": {
-      "pages": 11,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       5,
-       6,
-       9,
-       10,
-       11
+      "whatChanged": [
+        "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_ancillary_matter_only-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_ancillary_matter_only].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
+        "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 7 equals pre-repair page 8": "422ff4190f4d8ccd9015a0705991ec38a5f9d52bb431c505f9a04d3271c8bbb1",
-       "post-repair page 8 equals pre-repair page 7": "099308fe323a1d594bf71297745b4039a547bdb38743f07e37856e11d429b034"
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723",
+            "bytes": 204855
+          },
+          "boundary": {
+            "sha256": "739529061cb133ea8ac4eed6b38489b2983bc7b6ca192dde67ef81cb05e69185",
+            "bytes": 205127
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "e3f8c0b59bef21c9e8b780634b13c7ee70eafbd4a0628d93d512818756d99530",
+            "bytes": 204855,
+            "pages": 11
+          },
+          "boundary": {
+            "sha256": "ffc3d5f8230dec88b855bcade76bbf84ead44037303db998ecfdbec742197c48",
+            "bytes": 205127,
+            "pages": 11
+          }
+        },
+        "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
+        "primaryFilingAfter": {
+          "canonical": "989fc13e5e7ccc72f269b354cdb1c4a88ea8112b8cb4a5487fc9f18f582784ec",
+          "boundary": "ce6ec8ca04308e7ad92fa0ba8c09d0c901e01ab2b1b03ee3511bbf740b33a015"
+        }
       },
-      "pagesWithAnyPixelChange": []
-     },
-     "boundary": {
-      "pages": 11,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       5,
-       6,
-       9,
-       10,
-       11
+      "pageOrder": {
+        "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_ancillary_matter_only-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_ancillary_matter_only].packetSet.components",
+        "manifestOrder": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredComponentSet": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredPagesMeasuredWithPdftotext": {
+          "canonical": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:primary_filing",
+            "6:primary_filing",
+            "7:ccre_forwarding_request",
+            "8:commonwealth_service_and_stipulation_request",
+            "9:records_checklist",
+            "10:filing_instructions",
+            "11:filing_instructions"
+          ],
+          "boundary": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:primary_filing",
+            "6:primary_filing",
+            "7:ccre_forwarding_request",
+            "8:commonwealth_service_and_stipulation_request",
+            "9:records_checklist",
+            "10:filing_instructions",
+            "11:filing_instructions"
+          ]
+        },
+        "matchesManifest": true,
+        "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
+      },
+      "pixelIdentityOfTheReorderedPages": {
+        "applies": true,
+        "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
+        "result": {
+          "canonical": {
+            "pages": 11,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              9,
+              10,
+              11
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 7 equals pre-repair page 8": "e289c324d58af8839b8dd7abe4dcf428774c1001b4094aa2b105ccbbb518e96b",
+              "post-repair page 8 equals pre-repair page 7": "a9927368f6b21f1def5ed81cb6ecd3b8f6889848efe580bfe3b7667bafc25b6c"
+            },
+            "pagesWithAnyPixelChange": []
+          },
+          "boundary": {
+            "pages": 11,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              9,
+              10,
+              11
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 7 equals pre-repair page 8": "9e46e30330371a3249186445921f1298d5a7ab809774cc1c04545c70589448fc",
+              "post-repair page 8 equals pre-repair page 7": "df85c26a01f5832d59484b9cedaf9ac381f97262a28a5e6c383a16f65989ffda"
+            },
+            "pagesWithAnyPixelChange": []
+          }
+        },
+        "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
+      },
+      "synthesizedSquares": {
+        "form": "CC-1203",
+        "unmarkedSelectionWidgets": 69,
+        "method": "The pinned CC-1203 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
+        "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
+        "before": "0 of 69 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
+        "after": "0 of 69 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
+      },
+      "inkAgainstDeclaredBoxes": {
+        "method": "Every page of both fixtures rastered at 300 dpi. On the 6 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
+        "formPagesOutsideADeclaredBox": 0,
+        "sourceInkLostOnAnyFormPage": 0,
+        "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures; all ink holds x in [72.00, 539.76] pt.",
+        "participantWrites": {
+          "declaredWritesPerFixture": 10,
+          "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
+          "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
+          "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
+          "tightestMarginOnAnySidePt": 0.53
+        }
+      },
+      "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
+        "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
+        "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
+        "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
+        "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
+        "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
+        "noFigureAndNoCurrencySymbol": true,
+        "selfHelpStopConditions": {
+          "registryCount": 4,
+          "foundVerbatimInCanonical": 4,
+          "foundVerbatimInBoundary": 4,
+          "foundVerbatimInParticipantInstructions": 4,
+          "softenedOrAbridged": false
+        },
+        "censusRouteKey": {
+          "key": "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
+          "inProductionFieldMapRouteKeys": true,
+          "inProductWiringRouteKeys": true,
+          "changedByThisLane": false,
+          "censusWritten": false
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set -> PASS_COMPLETE, 29/149 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
+      "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
+        "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_ancillary_matter_only-set",
+        "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
+        "twoChecksFailedAndNeitherIsAboutThisFamily": [
+          "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
+          "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
+        ]
+      },
+      "acceptanceReceipt": {
+        "state": "STALE_AFTER_THIS_REPAIR",
+        "receipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33999075380",
+          "jobId": "101394887200",
+          "boundToCanonicalSha256": "6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723"
+        },
+        "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
+      },
+      "verifiers": {
+        "selfVerified": false,
+        "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
+      },
+      "whatWasNotDone": [
+        "No central raster was requested and no queue file was written.",
+        "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
+        "The route-obligation census was not written; no route key was added, removed or changed.",
+        "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
+        "No grant was released and the claim ledger is not committed.",
+        "No PR was opened.",
+        "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 7 equals pre-repair page 8": "3801f30a76397f445224abaa7e73ee863f51cd48fac21595b12a27c9d36955ed",
-       "post-repair page 8 equals pre-repair page 7": "018d038116ee30b046fe85cd2d5b11d7e26ccd683f840fc5fd20f250e5004009"
-      },
-      "pagesWithAnyPixelChange": []
-     }
+      "lane": "FIX87",
+      "captainCorrection": "Captain added the per-row lane from this file's top-level lane field (FIX87) on 2026-09-06 so the extractor keys the row; no evidence field changed."
     },
-    "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
-   },
-   "synthesizedSquares": {
-    "form": "CC-1203",
-    "unmarkedSelectionWidgets": 69,
-    "method": "The pinned CC-1203 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
-    "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
-    "before": "0 of 69 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
-    "after": "0 of 69 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
-   },
-   "inkAgainstDeclaredBoxes": {
-    "method": "Every page of both fixtures rastered at 300 dpi. On the 6 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
-    "formPagesOutsideADeclaredBox": 0,
-    "sourceInkLostOnAnyFormPage": 0,
-    "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures; all ink holds x in [72.00, 539.76] pt.",
-    "participantWrites": {
-     "declaredWritesPerFixture": 10,
-     "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
-     "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
-     "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
-     "tightestMarginOnAnySidePt": 0.53
-    }
-   },
-   "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
-    "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
-    "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
-    "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
-    "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
-    "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
-    "noFigureAndNoCurrencySymbol": true,
-    "selfHelpStopConditions": {
-     "registryCount": 4,
-     "foundVerbatimInCanonical": 4,
-     "foundVerbatimInBoundary": 4,
-     "foundVerbatimInParticipantInstructions": 4,
-     "softenedOrAbridged": false
-    },
-    "censusRouteKey": {
-     "key": "obligation:track-only:VA:va_seal_enumerated_seven_year",
-     "inProductionFieldMapRouteKeys": true,
-     "inProductWiringRouteKeys": true,
-     "changedByThisLane": false,
-     "censusWritten": false
-    }
-   },
-   "countersBefore": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
-   },
-   "countersAfter": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredHere": true
-   },
-   "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set -> PASS_COMPLETE, 29/149 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
-   "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
-   "rebuild": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
-    "exitCode": 0,
-    "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
-    "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
-   },
-   "preflight": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_enumerated_seven_year-set",
-    "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
-    "twoChecksFailedAndNeitherIsAboutThisFamily": [
-     "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
-     "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
-    ]
-   },
-   "acceptanceReceipt": {
-    "state": "STALE_AFTER_THIS_REPAIR",
-    "receipt": {
-     "verdict": "RASTER_PASS",
-     "workflowRunId": "33999075380",
-     "jobId": "101394887191",
-     "boundToCanonicalSha256": "e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11"
-    },
-    "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
-   },
-   "verifiers": {
-    "selfVerified": false,
-    "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
-   },
-   "whatWasNotDone": [
-    "No central raster was requested and no queue file was written.",
-    "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
-    "The route-obligation census was not written; no route key was added, removed or changed.",
-    "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
-    "No grant was released and the claim ledger is not committed.",
-    "No PR was opened.",
-    "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
-   ]
-  },
-  {
-   "itemId": "va_seal_petition_felony-set",
-   "familyId": "va_seal_petition_felony-set",
-   "jurisdiction": "VA",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
-   "status": "COMPLETED",
-   "laneKind": "shared-host-repair",
-   "repairedByThisLane": true,
-   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_petition_felony-set -> CLAIM_OK FIX87 va_seal_petition_felony-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
-   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-   "buildEntrypoint": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
-   "obligationsRepaired": [
-    "PAGE_ORDER"
-   ],
-   "obligationsThisRowDoesNotDischarge": [
-    "RASTER_ACCEPTANCE",
-    "INDEPENDENT_REREAD",
-    "VISUAL_REVIEW",
-    "COUNSEL_REVIEW",
-    "SOURCE_FRESHNESS_REVIEW",
-    "ROUTE_PROMOTION"
-   ],
-   "whyEachUndischargedItemIsUndischarged": {
-    "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887307 bound by SHA-256 to the SUPERSEDED canonical fixture 6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
-    "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
-    "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
-    "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
-    "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
-    "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
-   },
-   "whatChanged": [
-    "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_felony-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_petition_felony].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
-    "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
-   ],
-   "digests": {
-    "before": {
-     "canonical": {
-      "sha256": "6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d",
-      "bytes": 231267
-     },
-     "boundary": {
-      "sha256": "234c8abc1b54fda5d21541bc9a46d581f671adbcdf0533db0bf6500882d104d5",
-      "bytes": 231535
-     }
-    },
-    "after": {
-     "canonical": {
-      "sha256": "f18bf62aaedd77bd7ba422f0a17dfd242a5b4c9fc05c904da151255fd21b3ef9",
-      "bytes": 231267,
-      "pages": 9
-     },
-     "boundary": {
-      "sha256": "4df72f0ec6a883cf0bb8f9f243a27ce680478b7e39a88b484cd19db0f65b8da5",
-      "bytes": 231535,
-      "pages": 9
-     }
-    },
-    "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
-    "primaryFilingAfter": {
-     "canonical": "8db6d71eef9eda26f75a27ad2e83182afc38be5247e96150aefffc496192fc09",
-     "boundary": "1faab7e7248994713801a119b22628d79d3f9746c8489af596fc883828d5b334"
-    }
-   },
-   "pageOrder": {
-    "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_felony-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_petition_felony].packetSet.components",
-    "manifestOrder": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredComponentSet": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredPagesMeasuredWithPdftotext": {
-     "canonical": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:ccre_forwarding_request",
-      "6:commonwealth_service_and_stipulation_request",
-      "7:records_checklist",
-      "8:filing_instructions",
-      "9:filing_instructions"
-     ],
-     "boundary": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:ccre_forwarding_request",
-      "6:commonwealth_service_and_stipulation_request",
-      "7:records_checklist",
-      "8:filing_instructions",
-      "9:filing_instructions"
-     ]
-    },
-    "matchesManifest": true,
-    "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
-   },
-   "pixelIdentityOfTheReorderedPages": {
-    "applies": true,
-    "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
-    "result": {
-     "canonical": {
-      "pages": 9,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       7,
-       8,
-       9
+    {
+      "itemId": "va_seal_enumerated_seven_year-set",
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_enumerated_seven_year-set -> CLAIM_OK FIX87 va_seal_enumerated_seven_year-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildEntrypoint": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+      "obligationsRepaired": [
+        "PAGE_ORDER"
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 5 equals pre-repair page 6": "7c1ce15d3c04bd7603a54a406588837bedf0090772eacb0a0a92eaa2fc1d61b2",
-       "post-repair page 6 equals pre-repair page 5": "95c2068cff4ac0957d46212778a4c88055407c3cee88be4873b2eb94c95e6e3b"
-      },
-      "pagesWithAnyPixelChange": []
-     },
-     "boundary": {
-      "pages": 9,
-      "identicalInPlace": [
-       1,
-       2,
-       3,
-       4,
-       7,
-       8,
-       9
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_ACCEPTANCE",
+        "INDEPENDENT_REREAD",
+        "VISUAL_REVIEW",
+        "COUNSEL_REVIEW",
+        "SOURCE_FRESHNESS_REVIEW",
+        "ROUTE_PROMOTION"
       ],
-      "movedAndPixelIdenticalAtItsNewPosition": {
-       "post-repair page 5 equals pre-repair page 6": "fd68654dce29b1c509c4985750eb14316458e195893bb2bf2d5f0014226aecab",
-       "post-repair page 6 equals pre-repair page 5": "502200a77c00d74851a6e9ddf7138a849bfa16aec22633379fc39645db303544"
+      "whyEachUndischargedItemIsUndischarged": {
+        "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887191 bound by SHA-256 to the SUPERSEDED canonical fixture e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
+        "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
+        "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
+        "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
+        "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
+        "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
       },
-      "pagesWithAnyPixelChange": []
-     }
+      "whatChanged": [
+        "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_enumerated_seven_year-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_enumerated_seven_year].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
+        "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11",
+            "bytes": 204666
+          },
+          "boundary": {
+            "sha256": "fbca34b30fb77841c8a1f3f2f0a01cd62002062a866f06670d7934a37281fdcf",
+            "bytes": 204946
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "e885a3cd8a4c6390f1a85472fa9a48ed88a34595c5b2e702077eb0f317e30503",
+            "bytes": 204666,
+            "pages": 11
+          },
+          "boundary": {
+            "sha256": "291fc81a7fc0cb86bd973ad99279bded775ffb862d9f53f5c401c2e6c2abbd1d",
+            "bytes": 204946,
+            "pages": 11
+          }
+        },
+        "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
+        "primaryFilingAfter": {
+          "canonical": "2679cbcf910b12754a8057f408901e817ffc938472fcd77a084a230cc1bf8e3e",
+          "boundary": "2c95f149a39eb66e37edf0eb8cd8bb5ffde7e3cced510356b448d0f49eb53da1"
+        }
+      },
+      "pageOrder": {
+        "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_enumerated_seven_year-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_enumerated_seven_year].packetSet.components",
+        "manifestOrder": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredComponentSet": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredPagesMeasuredWithPdftotext": {
+          "canonical": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:primary_filing",
+            "6:primary_filing",
+            "7:ccre_forwarding_request",
+            "8:commonwealth_service_and_stipulation_request",
+            "9:records_checklist",
+            "10:filing_instructions",
+            "11:filing_instructions"
+          ],
+          "boundary": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:primary_filing",
+            "6:primary_filing",
+            "7:ccre_forwarding_request",
+            "8:commonwealth_service_and_stipulation_request",
+            "9:records_checklist",
+            "10:filing_instructions",
+            "11:filing_instructions"
+          ]
+        },
+        "matchesManifest": true,
+        "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
+      },
+      "pixelIdentityOfTheReorderedPages": {
+        "applies": true,
+        "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
+        "result": {
+          "canonical": {
+            "pages": 11,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              9,
+              10,
+              11
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 7 equals pre-repair page 8": "422ff4190f4d8ccd9015a0705991ec38a5f9d52bb431c505f9a04d3271c8bbb1",
+              "post-repair page 8 equals pre-repair page 7": "099308fe323a1d594bf71297745b4039a547bdb38743f07e37856e11d429b034"
+            },
+            "pagesWithAnyPixelChange": []
+          },
+          "boundary": {
+            "pages": 11,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              9,
+              10,
+              11
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 7 equals pre-repair page 8": "3801f30a76397f445224abaa7e73ee863f51cd48fac21595b12a27c9d36955ed",
+              "post-repair page 8 equals pre-repair page 7": "018d038116ee30b046fe85cd2d5b11d7e26ccd683f840fc5fd20f250e5004009"
+            },
+            "pagesWithAnyPixelChange": []
+          }
+        },
+        "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
+      },
+      "synthesizedSquares": {
+        "form": "CC-1203",
+        "unmarkedSelectionWidgets": 69,
+        "method": "The pinned CC-1203 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
+        "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
+        "before": "0 of 69 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
+        "after": "0 of 69 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
+      },
+      "inkAgainstDeclaredBoxes": {
+        "method": "Every page of both fixtures rastered at 300 dpi. On the 6 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
+        "formPagesOutsideADeclaredBox": 0,
+        "sourceInkLostOnAnyFormPage": 0,
+        "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures; all ink holds x in [72.00, 539.76] pt.",
+        "participantWrites": {
+          "declaredWritesPerFixture": 10,
+          "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
+          "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
+          "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
+          "tightestMarginOnAnySidePt": 0.53
+        }
+      },
+      "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
+        "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
+        "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
+        "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
+        "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
+        "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
+        "noFigureAndNoCurrencySymbol": true,
+        "selfHelpStopConditions": {
+          "registryCount": 4,
+          "foundVerbatimInCanonical": 4,
+          "foundVerbatimInBoundary": 4,
+          "foundVerbatimInParticipantInstructions": 4,
+          "softenedOrAbridged": false
+        },
+        "censusRouteKey": {
+          "key": "obligation:track-only:VA:va_seal_enumerated_seven_year",
+          "inProductionFieldMapRouteKeys": true,
+          "inProductWiringRouteKeys": true,
+          "changedByThisLane": false,
+          "censusWritten": false
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set -> PASS_COMPLETE, 29/149 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
+      "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
+        "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_enumerated_seven_year-set",
+        "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
+        "twoChecksFailedAndNeitherIsAboutThisFamily": [
+          "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
+          "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
+        ]
+      },
+      "acceptanceReceipt": {
+        "state": "STALE_AFTER_THIS_REPAIR",
+        "receipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33999075380",
+          "jobId": "101394887191",
+          "boundToCanonicalSha256": "e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11"
+        },
+        "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
+      },
+      "verifiers": {
+        "selfVerified": false,
+        "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
+      },
+      "whatWasNotDone": [
+        "No central raster was requested and no queue file was written.",
+        "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
+        "The route-obligation census was not written; no route key was added, removed or changed.",
+        "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
+        "No grant was released and the claim ledger is not committed.",
+        "No PR was opened.",
+        "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
+      ],
+      "lane": "FIX87",
+      "captainCorrection": "Captain added the per-row lane from this file's top-level lane field (FIX87) on 2026-09-06 so the extractor keys the row; no evidence field changed."
     },
-    "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
-   },
-   "synthesizedSquares": {
-    "form": "CC-1201",
-    "unmarkedSelectionWidgets": 57,
-    "method": "The pinned CC-1201 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
-    "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
-    "before": "0 of 57 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
-    "after": "0 of 57 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
-   },
-   "inkAgainstDeclaredBoxes": {
-    "method": "Every page of both fixtures rastered at 300 dpi. On the 4 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
-    "formPagesOutsideADeclaredBox": 0,
-    "sourceInkLostOnAnyFormPage": 0,
-    "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures, with ONE carried exception: the canonical Commonwealth-copy page holds 6 pixels of a dotted rule reaching x=540.96 pt against the 540.24 pt column, a 0.72 pt excursion. It is PRE-EXISTING -- VF04 recorded the same excursion on the same page before this repair, and that page is pixel-identical to its pre-repair self here. This lane neither introduced it nor repaired it, and does not claim it discharged.",
-    "participantWrites": {
-     "declaredWritesPerFixture": 10,
-     "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
-     "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
-     "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
-     "tightestMarginOnAnySidePt": 0.53
+    {
+      "itemId": "va_seal_petition_felony-set",
+      "familyId": "va_seal_petition_felony-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_petition_felony-set -> CLAIM_OK FIX87 va_seal_petition_felony-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildEntrypoint": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
+      "obligationsRepaired": [
+        "PAGE_ORDER"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_ACCEPTANCE",
+        "INDEPENDENT_REREAD",
+        "VISUAL_REVIEW",
+        "COUNSEL_REVIEW",
+        "SOURCE_FRESHNESS_REVIEW",
+        "ROUTE_PROMOTION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887307 bound by SHA-256 to the SUPERSEDED canonical fixture 6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
+        "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
+        "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
+        "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
+        "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
+        "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
+      },
+      "whatChanged": [
+        "PAGE_ORDER. The authoritative packet set for this family -- data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_felony-set].components, mirrored word for word by data/record-clearing/legal-design-track-registry.json tracks[va_seal_petition_felony].packetSet.components -- orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. The delivered packet carried the two custom pleadings the other way round. This family now opts in to the registry-order assembly FIX73 built for the host family, with the same per-family flag registryComponentOrder, so the order is READ from the registry rather than retyped, the two component lists are asserted to hold the same members, and the binding is recorded in source-receipt.json under recordId page-order:... with the registry's SHA-256. componentSet and pageManifest in reports/rendered-artifacts.json follow the pages.",
+        "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (already true here since FIX63), the route key, the printed human route label, the fee statement, the stop conditions, the field-map semantics, or any component's text."
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d",
+            "bytes": 231267
+          },
+          "boundary": {
+            "sha256": "234c8abc1b54fda5d21541bc9a46d581f671adbcdf0533db0bf6500882d104d5",
+            "bytes": 231535
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "f18bf62aaedd77bd7ba422f0a17dfd242a5b4c9fc05c904da151255fd21b3ef9",
+            "bytes": 231267,
+            "pages": 9
+          },
+          "boundary": {
+            "sha256": "4df72f0ec6a883cf0bb8f9f243a27ce680478b7e39a88b484cd19db0f65b8da5",
+            "bytes": 231535,
+            "pages": 9
+          }
+        },
+        "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
+        "primaryFilingAfter": {
+          "canonical": "8db6d71eef9eda26f75a27ad2e83182afc38be5247e96150aefffc496192fc09",
+          "boundary": "1faab7e7248994713801a119b22628d79d3f9746c8489af596fc883828d5b334"
+        }
+      },
+      "pageOrder": {
+        "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_felony-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_petition_felony].packetSet.components",
+        "manifestOrder": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredComponentSet": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredPagesMeasuredWithPdftotext": {
+          "canonical": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:ccre_forwarding_request",
+            "6:commonwealth_service_and_stipulation_request",
+            "7:records_checklist",
+            "8:filing_instructions",
+            "9:filing_instructions"
+          ],
+          "boundary": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:ccre_forwarding_request",
+            "6:commonwealth_service_and_stipulation_request",
+            "7:records_checklist",
+            "8:filing_instructions",
+            "9:filing_instructions"
+          ]
+        },
+        "matchesManifest": true,
+        "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
+      },
+      "pixelIdentityOfTheReorderedPages": {
+        "applies": true,
+        "method": "Every page of both fixtures was rastered at 300 dpi with pdftoppm (-aa no -aaVector no) before the repair and again after it, and the PNGs were compared by SHA-256. A page that moved must be byte-equal to a DIFFERENT pre-repair page; a page that stayed must be byte-equal to itself.",
+        "result": {
+          "canonical": {
+            "pages": 9,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              7,
+              8,
+              9
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 5 equals pre-repair page 6": "7c1ce15d3c04bd7603a54a406588837bedf0090772eacb0a0a92eaa2fc1d61b2",
+              "post-repair page 6 equals pre-repair page 5": "95c2068cff4ac0957d46212778a4c88055407c3cee88be4873b2eb94c95e6e3b"
+            },
+            "pagesWithAnyPixelChange": []
+          },
+          "boundary": {
+            "pages": 9,
+            "identicalInPlace": [
+              1,
+              2,
+              3,
+              4,
+              7,
+              8,
+              9
+            ],
+            "movedAndPixelIdenticalAtItsNewPosition": {
+              "post-repair page 5 equals pre-repair page 6": "fd68654dce29b1c509c4985750eb14316458e195893bb2bf2d5f0014226aecab",
+              "post-repair page 6 equals pre-repair page 5": "502200a77c00d74851a6e9ddf7138a849bfa16aec22633379fc39645db303544"
+            },
+            "pagesWithAnyPixelChange": []
+          }
+        },
+        "reading": "Exactly two pages moved in each fixture -- the CCRE forwarding request forward and the Commonwealth's copy back -- and their rasters are byte-identical to their pre-repair selves at their new positions. No page carries a single changed pixel. The repair is a reordering and nothing else."
+      },
+      "synthesizedSquares": {
+        "form": "CC-1201",
+        "unmarkedSelectionWidgets": 57,
+        "method": "The pinned CC-1201 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
+        "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
+        "before": "0 of 57 -- this family already carried FIX63's suppressSynthesizedAppearances and was one of the three live controls proving the flag works.",
+        "after": "0 of 57 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
+      },
+      "inkAgainstDeclaredBoxes": {
+        "method": "Every page of both fixtures rastered at 300 dpi. On the 4 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
+        "formPagesOutsideADeclaredBox": 0,
+        "sourceInkLostOnAnyFormPage": 0,
+        "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures, with ONE carried exception: the canonical Commonwealth-copy page holds 6 pixels of a dotted rule reaching x=540.96 pt against the 540.24 pt column, a 0.72 pt excursion. It is PRE-EXISTING -- VF04 recorded the same excursion on the same page before this repair, and that page is pixel-identical to its pre-repair self here. This lane neither introduced it nor repaired it, and does not claim it discharged.",
+        "participantWrites": {
+          "declaredWritesPerFixture": 10,
+          "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
+          "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
+          "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
+          "tightestMarginOnAnySidePt": 0.53
+        }
+      },
+      "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
+        "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
+        "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
+        "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
+        "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
+        "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
+        "noFigureAndNoCurrencySymbol": true,
+        "selfHelpStopConditions": {
+          "registryCount": 9,
+          "foundVerbatimInCanonical": 9,
+          "foundVerbatimInBoundary": 9,
+          "foundVerbatimInParticipantInstructions": 9,
+          "softenedOrAbridged": false
+        },
+        "censusRouteKey": {
+          "key": "obligation:track-only:VA:va_seal_petition_felony",
+          "inProductionFieldMapRouteKeys": true,
+          "inProductWiringRouteKeys": true,
+          "changedByThisLane": false,
+          "censusWritten": false
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set -> PASS_COMPLETE, 28/121 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
+      "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_felony-set.mjs",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
+        "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_felony-set",
+        "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
+        "twoChecksFailedAndNeitherIsAboutThisFamily": [
+          "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
+          "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
+        ]
+      },
+      "acceptanceReceipt": {
+        "state": "STALE_AFTER_THIS_REPAIR",
+        "receipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33999075380",
+          "jobId": "101394887307",
+          "boundToCanonicalSha256": "6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d"
+        },
+        "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
+      },
+      "verifiers": {
+        "selfVerified": false,
+        "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
+      },
+      "whatWasNotDone": [
+        "No central raster was requested and no queue file was written.",
+        "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
+        "The route-obligation census was not written; no route key was added, removed or changed.",
+        "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
+        "No grant was released and the claim ledger is not committed.",
+        "No PR was opened.",
+        "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
+      ],
+      "lane": "FIX87",
+      "captainCorrection": "Captain added the per-row lane from this file's top-level lane field (FIX87) on 2026-09-06 so the extractor keys the row; no evidence field changed."
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_petition_misdemeanor-set -> CLAIM_OK FIX87 va_seal_petition_misdemeanor-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "buildEntrypoint": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_ACCEPTANCE",
+        "INDEPENDENT_REREAD",
+        "VISUAL_REVIEW",
+        "COUNSEL_REVIEW",
+        "SOURCE_FRESHNESS_REVIEW",
+        "ROUTE_PROMOTION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887187 bound by SHA-256 to the SUPERSEDED canonical fixture ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
+        "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
+        "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
+        "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
+        "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
+        "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
+      },
+      "whatChanged": [
+        "CLIPPING_AND_OVERLAP. This family was the one of the host's four outside FIX63's grant, so it alone still let pdf-lib synthesize an appearance for CC-1201's missing /Off state and flatten() stamp it onto the page: a stroked hairline square at every unmarked check box, on all four form pages of both fixtures, that the pinned CC-1201 does not print. suppressSynthesizedAppearances is now true for va_seal_petition_misdemeanor-set in FAMILY_CONFIGS -- the same one-line per-family opt-in its three siblings have carried since FIX63, reaching the same finalizeOfficialForm call at line 877 of the host. Nothing else about this family changed.",
+        "Not changed: fitAppearancesToRect, registryComponentOrder (already true here since FIX73), the route key, the printed human route label, the fee statement, the stop conditions, the component order, the field-map semantics, or any component's text. production-field-map.json, participant-instructions.md and source-receipt.json are byte-identical to their pre-repair selves for this family."
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444",
+            "bytes": 234812
+          },
+          "boundary": {
+            "sha256": "3563b6805f7db48c2f8e547ea549b51bdc2a21154075b0b436055ceb2d8cb5f8",
+            "bytes": 235081
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "febcd0eb7d9ec997fea44db872f9fdf88f5f34dfec76b56a0ab3e41ea0dab58a",
+            "bytes": 231473,
+            "pages": 9
+          },
+          "boundary": {
+            "sha256": "80f11d3a9038f22ffc0efef856e2c61075fc658f132365b7f21d80783d8267c2",
+            "bytes": 231742,
+            "pages": 9
+          }
+        },
+        "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
+        "primaryFilingAfter": {
+          "canonical": "f7fda5595f2064f8dd2b71d5ddf4517c99b8c5036fe7cb62cfed0ab1cc08244d",
+          "boundary": "7346f85011bd003511da8ca1cb88a4152e45c13e7503dfc75319d19b187b4059"
+        }
+      },
+      "pageOrder": {
+        "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_misdemeanor-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_petition_misdemeanor].packetSet.components",
+        "manifestOrder": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredComponentSet": [
+          "primary_filing",
+          "ccre_forwarding_request",
+          "commonwealth_service_and_stipulation_request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "deliveredPagesMeasuredWithPdftotext": {
+          "canonical": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:ccre_forwarding_request",
+            "6:commonwealth_service_and_stipulation_request",
+            "7:records_checklist",
+            "8:filing_instructions",
+            "9:filing_instructions"
+          ],
+          "boundary": [
+            "1:primary_filing",
+            "2:primary_filing",
+            "3:primary_filing",
+            "4:primary_filing",
+            "5:ccre_forwarding_request",
+            "6:commonwealth_service_and_stipulation_request",
+            "7:records_checklist",
+            "8:filing_instructions",
+            "9:filing_instructions"
+          ]
+        },
+        "matchesManifest": true,
+        "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
+      },
+      "pixelIdentityOfTheReorderedPages": {
+        "applies": false,
+        "why": "This family's page order was already the manifest's after FIX73; VF04 passed PAGE_ORDER on it at base 158f37310 and it is unchanged here. Its five companion pages 5-9 are PIXEL-IDENTICAL in place before and after this repair, in both fixtures, which is the proof the page-order assembly was not disturbed while the form pages were rebuilt.",
+        "companionPagesIdenticalInPlace": {
+          "canonical": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "boundary": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "formPagesRebuilt": {
+          "canonical": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "boundary": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      "synthesizedSquares": {
+        "form": "CC-1201",
+        "unmarkedSelectionWidgets": 56,
+        "method": "The pinned CC-1201 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
+        "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
+        "before": "56 of 56 unmarked selection widgets carried added ink in BOTH fixtures (canonical and boundary alike: page 1 1361 px, page 2 3409, page 3 3538, page 4 1618; 9926 added pixels per fixture at 300 dpi inside the padded widget rects). This lane's own measurement of the same defect VF04 reported as 8945 px against declared boxes; the two numbers count different regions and agree on 56 of 56.",
+        "after": "0 of 56 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
+      },
+      "inkAgainstDeclaredBoxes": {
+        "method": "Every page of both fixtures rastered at 300 dpi. On the 4 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
+        "formPagesOutsideADeclaredBox": 0,
+        "sourceInkLostOnAnyFormPage": 0,
+        "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures, with ONE carried exception: the canonical Commonwealth-copy page holds 6 pixels of a dotted rule reaching x=540.96 pt against the 540.24 pt column, a 0.72 pt excursion. It is PRE-EXISTING -- VF04 recorded the same excursion on the same page before this repair, and that page is pixel-identical to its pre-repair self here. This lane neither introduced it nor repaired it, and does not claim it discharged.",
+        "participantWrites": {
+          "declaredWritesPerFixture": 10,
+          "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
+          "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
+          "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
+          "tightestMarginOnAnySidePt": 0.53
+        }
+      },
+      "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
+        "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
+        "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
+        "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
+        "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
+        "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
+        "noFigureAndNoCurrencySymbol": true,
+        "selfHelpStopConditions": {
+          "registryCount": 9,
+          "foundVerbatimInCanonical": 9,
+          "foundVerbatimInBoundary": 9,
+          "foundVerbatimInParticipantInstructions": 9,
+          "softenedOrAbridged": false
+        },
+        "censusRouteKey": {
+          "key": "obligation:track-only:VA:va_seal_petition_misdemeanor",
+          "inProductionFieldMapRouteKeys": true,
+          "inProductWiringRouteKeys": true,
+          "changedByThisLane": false,
+          "censusWritten": false
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set -> PASS_COMPLETE, 29/121 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
+      "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
+        "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
+        "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
+        "twoChecksFailedAndNeitherIsAboutThisFamily": [
+          "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
+          "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
+        ]
+      },
+      "acceptanceReceipt": {
+        "state": "STALE_AFTER_THIS_REPAIR",
+        "receipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33999075380",
+          "jobId": "101394887187",
+          "boundToCanonicalSha256": "ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444"
+        },
+        "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
+      },
+      "verifiers": {
+        "selfVerified": false,
+        "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
+      },
+      "whatWasNotDone": [
+        "No central raster was requested and no queue file was written.",
+        "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
+        "The route-obligation census was not written; no route key was added, removed or changed.",
+        "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
+        "No grant was released and the claim ledger is not committed.",
+        "No PR was opened.",
+        "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
+      ],
+      "lane": "FIX87",
+      "captainCorrection": "Captain added the per-row lane from this file's top-level lane field (FIX87) on 2026-09-06 so the extractor keys the row; no evidence field changed."
     }
-   },
-   "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
-    "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
-    "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
-    "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
-    "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
-    "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
-    "noFigureAndNoCurrencySymbol": true,
-    "selfHelpStopConditions": {
-     "registryCount": 9,
-     "foundVerbatimInCanonical": 9,
-     "foundVerbatimInBoundary": 9,
-     "foundVerbatimInParticipantInstructions": 9,
-     "softenedOrAbridged": false
-    },
-    "censusRouteKey": {
-     "key": "obligation:track-only:VA:va_seal_petition_felony",
-     "inProductionFieldMapRouteKeys": true,
-     "inProductWiringRouteKeys": true,
-     "changedByThisLane": false,
-     "censusWritten": false
-    }
-   },
-   "countersBefore": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
-   },
-   "countersAfter": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredHere": true
-   },
-   "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set -> PASS_COMPLETE, 28/121 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
-   "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
-   "rebuild": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_felony-set.mjs",
-    "exitCode": 0,
-    "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
-    "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
-   },
-   "preflight": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_felony-set",
-    "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
-    "twoChecksFailedAndNeitherIsAboutThisFamily": [
-     "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
-     "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
-    ]
-   },
-   "acceptanceReceipt": {
-    "state": "STALE_AFTER_THIS_REPAIR",
-    "receipt": {
-     "verdict": "RASTER_PASS",
-     "workflowRunId": "33999075380",
-     "jobId": "101394887307",
-     "boundToCanonicalSha256": "6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d"
-    },
-    "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
-   },
-   "verifiers": {
-    "selfVerified": false,
-    "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
-   },
-   "whatWasNotDone": [
-    "No central raster was requested and no queue file was written.",
-    "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
-    "The route-obligation census was not written; no route key was added, removed or changed.",
-    "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
-    "No grant was released and the claim ledger is not committed.",
-    "No PR was opened.",
-    "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
-   ]
-  },
-  {
-   "itemId": "va_seal_petition_misdemeanor-set",
-   "familyId": "va_seal_petition_misdemeanor-set",
-   "jurisdiction": "VA",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
-   "status": "COMPLETED",
-   "laneKind": "shared-host-repair",
-   "repairedByThisLane": true,
-   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX87 va_seal_petition_misdemeanor-set -> CLAIM_OK FIX87 va_seal_petition_misdemeanor-set (repair, grant set 8963f882cc54caef), exit 0. Asserted before any artifact of this family was opened. The grant is not released here and the claim ledger is not committed.",
-   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-   "buildEntrypoint": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-   "obligationsRepaired": [
-    "CLIPPING_AND_OVERLAP"
-   ],
-   "obligationsThisRowDoesNotDischarge": [
-    "RASTER_ACCEPTANCE",
-    "INDEPENDENT_REREAD",
-    "VISUAL_REVIEW",
-    "COUNSEL_REVIEW",
-    "SOURCE_FRESHNESS_REVIEW",
-    "ROUTE_PROMOTION"
-   ],
-   "whyEachUndischargedItemIsUndischarged": {
-    "RASTER_ACCEPTANCE": "The bytes this row describes have never been through the central rasteriser. The rasters committed here are the builder's own local output and the row's rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. The family's product-wiring.json still carries acceptanceReceipt run 33999075380 job 101394887187 bound by SHA-256 to the SUPERSEDED canonical fixture ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444; that receipt no longer describes any file on disk. This lane did not rewrite it, because writing a receipt for bytes no central raster has seen would be fabricating the acceptance it records. It is a stale binding and a central re-raster is owed.",
-    "INDEPENDENT_REREAD": "Every measurement in this row was taken by the lane that made the change. A lane may not verify its own repair. An independent verifier must re-read these bytes.",
-    "VISUAL_REVIEW": "Not a build gate under AGENTS.md, and not discharged by anything here.",
-    "COUNSEL_REVIEW": "Untouched. Two of these families are built on CC-1203 against a PF01 assignment of CC-1201 and carry that as an open counsel question in approval-request.json; this lane changed nothing about it.",
-    "SOURCE_FRESHNESS_REVIEW": "The pinned form revision was not re-checked against the court's site.",
-    "ROUTE_PROMOTION": "Nothing here opens a commercial route. packetsSelfVerified 0, commercialRoutesOpened 0, productionTouched false, buildStatus state_built, approvedForLive false."
-   },
-   "whatChanged": [
-    "CLIPPING_AND_OVERLAP. This family was the one of the host's four outside FIX63's grant, so it alone still let pdf-lib synthesize an appearance for CC-1201's missing /Off state and flatten() stamp it onto the page: a stroked hairline square at every unmarked check box, on all four form pages of both fixtures, that the pinned CC-1201 does not print. suppressSynthesizedAppearances is now true for va_seal_petition_misdemeanor-set in FAMILY_CONFIGS -- the same one-line per-family opt-in its three siblings have carried since FIX63, reaching the same finalizeOfficialForm call at line 877 of the host. Nothing else about this family changed.",
-    "Not changed: fitAppearancesToRect, registryComponentOrder (already true here since FIX73), the route key, the printed human route label, the fee statement, the stop conditions, the component order, the field-map semantics, or any component's text. production-field-map.json, participant-instructions.md and source-receipt.json are byte-identical to their pre-repair selves for this family."
-   ],
-   "digests": {
-    "before": {
-     "canonical": {
-      "sha256": "ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444",
-      "bytes": 234812
-     },
-     "boundary": {
-      "sha256": "3563b6805f7db48c2f8e547ea549b51bdc2a21154075b0b436055ceb2d8cb5f8",
-      "bytes": 235081
-     }
-    },
-    "after": {
-     "canonical": {
-      "sha256": "febcd0eb7d9ec997fea44db872f9fdf88f5f34dfec76b56a0ab3e41ea0dab58a",
-      "bytes": 231473,
-      "pages": 9
-     },
-     "boundary": {
-      "sha256": "80f11d3a9038f22ffc0efef856e2c61075fc658f132365b7f21d80783d8267c2",
-      "bytes": 231742,
-      "pages": 9
-     }
-    },
-    "beforeEqualsWhatVF04Read": "Both pre-repair digests were re-hashed off disk before any measurement and equal VF04's canonicalSha256/boundarySha256 at verifiedAtBase 158f37310.",
-    "primaryFilingAfter": {
-     "canonical": "f7fda5595f2064f8dd2b71d5ddf4517c99b8c5036fe7cb62cfed0ab1cc08244d",
-     "boundary": "7346f85011bd003511da8ca1cb88a4152e45c13e7503dfc75319d19b187b4059"
-    }
-   },
-   "pageOrder": {
-    "authority": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_misdemeanor-set].components, mirrored by legal-design-track-registry.json tracks[va_seal_petition_misdemeanor].packetSet.components",
-    "manifestOrder": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredComponentSet": [
-     "primary_filing",
-     "ccre_forwarding_request",
-     "commonwealth_service_and_stipulation_request",
-     "records_checklist",
-     "filing_instructions"
-    ],
-    "deliveredPagesMeasuredWithPdftotext": {
-     "canonical": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:ccre_forwarding_request",
-      "6:commonwealth_service_and_stipulation_request",
-      "7:records_checklist",
-      "8:filing_instructions",
-      "9:filing_instructions"
-     ],
-     "boundary": [
-      "1:primary_filing",
-      "2:primary_filing",
-      "3:primary_filing",
-      "4:primary_filing",
-      "5:ccre_forwarding_request",
-      "6:commonwealth_service_and_stipulation_request",
-      "7:records_checklist",
-      "8:filing_instructions",
-      "9:filing_instructions"
-     ]
-    },
-    "matchesManifest": true,
-    "reportsFollow": "reports/rendered-artifacts.json componentSet and both pageManifests carry the same order as the delivered pages."
-   },
-   "pixelIdentityOfTheReorderedPages": {
-    "applies": false,
-    "why": "This family's page order was already the manifest's after FIX73; VF04 passed PAGE_ORDER on it at base 158f37310 and it is unchanged here. Its five companion pages 5-9 are PIXEL-IDENTICAL in place before and after this repair, in both fixtures, which is the proof the page-order assembly was not disturbed while the form pages were rebuilt.",
-    "companionPagesIdenticalInPlace": {
-     "canonical": [
-      5,
-      6,
-      7,
-      8,
-      9
-     ],
-     "boundary": [
-      5,
-      6,
-      7,
-      8,
-      9
-     ]
-    },
-    "formPagesRebuilt": {
-     "canonical": [
-      1,
-      2,
-      3,
-      4
-     ],
-     "boundary": [
-      1,
-      2,
-      3,
-      4
-     ]
-    }
-   },
-   "synthesizedSquares": {
-    "form": "CC-1201",
-    "unmarkedSelectionWidgets": 56,
-    "method": "The pinned CC-1201 was loaded with pdf-lib, every page's /Annots and the catalog's /AcroForm were deleted, and the bare form was rastered at 300 dpi alongside the delivered fixture with the same flags, so no appearance a viewer might synthesize on either side can hide the defect. For every unmarked selection widget the field map declares (disposition explicit_refusal, rect read first-hand from the pinned binary) the widget rect was windowed with a 2 px pad and pixels dark in the delivered page and not dark in the bare form were counted.",
-    "sensitivity": "The same measurement returns 56 of 56 on the pre-repair host family and 0 of 57 on va_seal_petition_felony-set, which is the live control that it sees the square when it is there and does not invent one when it is not.",
-    "before": "56 of 56 unmarked selection widgets carried added ink in BOTH fixtures (canonical and boundary alike: page 1 1361 px, page 2 3409, page 3 3538, page 4 1618; 9926 added pixels per fixture at 300 dpi inside the padded widget rects). This lane's own measurement of the same defect VF04 reported as 8945 px against declared boxes; the two numbers count different regions and agree on 56 of 56.",
-    "after": "0 of 56 unmarked selection widgets carry added ink, in both fixtures, 0 added pixels."
-   },
-   "inkAgainstDeclaredBoxes": {
-    "method": "Every page of both fixtures rastered at 300 dpi. On the 4 form pages every pixel dark in the delivered page and not dark in the bare pinned form was tested against this family's declared write boxes and declared route-mark boxes with a 1 pt tolerance; source ink lost was counted in the same pass. On the composed pages all ink was tested against the 72-540.24 pt column.",
-    "formPagesOutsideADeclaredBox": 0,
-    "sourceInkLostOnAnyFormPage": 0,
-    "composedPagesOutsideTheColumn": "0 on every composed page of both fixtures, with ONE carried exception: the canonical Commonwealth-copy page holds 6 pixels of a dotted rule reaching x=540.96 pt against the 540.24 pt column, a 0.72 pt excursion. It is PRE-EXISTING -- VF04 recorded the same excursion on the same page before this repair, and that page is pixel-identical to its pre-repair self here. This lane neither introduced it nor repaired it, and does not claim it discharged.",
-    "participantWrites": {
-     "declaredWritesPerFixture": 10,
-     "presentWithInkInsideTheirOwnRect": "10 of 10 in canonical and 10 of 10 in boundary",
-     "readBackAsTextWithPdftotext": "10 of 10 in canonical and 10 of 10 in boundary",
-     "addedInkInA1ptHaloOutsideTheOwnRect": "0 for all 10 writes in both fixtures",
-     "tightestMarginOnAnySidePt": 0.53
-    }
-   },
-   "feeStopsAndRouteKeyFromFIX73StillPresentVerbatim": {
-    "howChecked": "pdftotext -layout over both delivered fixtures and over participant-instructions.md, whitespace-flattened and put through the build's own sanitizePdfText substitutions, then exact substring match against the committed registry strings.",
-    "feeStatementHeading": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE -- present in both fixtures",
-    "feeClauseVerbatim": "\"no court fees or costs are charged for a sealing petition\" -- present in both fixtures",
-    "waiverClauseVerbatim": "\"no court fee is charged, so there is nothing to waive\" -- present in both fixtures",
-    "citationsOnThePage": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) -- both present in both fixtures",
-    "noFigureAndNoCurrencySymbol": true,
-    "selfHelpStopConditions": {
-     "registryCount": 9,
-     "foundVerbatimInCanonical": 9,
-     "foundVerbatimInBoundary": 9,
-     "foundVerbatimInParticipantInstructions": 9,
-     "softenedOrAbridged": false
-    },
-    "censusRouteKey": {
-     "key": "obligation:track-only:VA:va_seal_petition_misdemeanor",
-     "inProductionFieldMapRouteKeys": true,
-     "inProductWiringRouteKeys": true,
-     "changedByThisLane": false,
-     "censusWritten": false
-    }
-   },
-   "countersBefore": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredBy": "VF04 at verifiedAtBase 158f37310 recorded all nine zero on the pre-repair bytes; this lane did not re-run the counters before rebuilding and does not claim to have."
-   },
-   "countersAfter": {
-    "knownRequiredFieldsMissing": 0,
-    "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
-    "incompleteRows": 0,
-    "requiredOptionsMissing": 0,
-    "requiredComponentsMissing": 0,
-    "invisibleWrites": 0,
-    "protectedWrites": 0,
-    "visualDefects": 0,
-    "allZero": true,
-    "measuredHere": true
-   },
-   "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set -> PASS_COMPLETE, 29/121 written, exit 0, run on the committed post-repair bytes. The builder's own nine counters were zero on both rebuilds as well.",
-   "countersNote": "Nine zeros is a statement about the counters. They read the field map: they did not see the synthesized square, which the map declares as a refusal rather than a write, and they do not open the packet manifest, so they never saw the page order either. They were zero before this repair and they are zero after it, and neither reading is what proves the repair.",
-   "rebuild": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
-    "exitCode": 0,
-    "status": "COMPLETED, nine builder counters zero, rasterState RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
-    "runTwice": "Built twice from identical inputs through this family's own entrypoint. sha256 over every one of the 136 files in the four family directories is identical between the two builds -- fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
-   },
-   "preflight": {
-    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
-    "familySourcesBind": "ok -- 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index).",
-    "twoChecksFailedAndNeitherIsAboutThisFamily": [
-     "private_is_git_ignored FAIL. private/ is a SYMLINK in this worktree, as the assignment directs, and `git check-ignore -q private/` returns 'pathspec is beyond a symbolic link'. Without the trailing slash git reports it ignored, and `git ls-files private/` is empty, so nothing beneath private/ is or can be tracked. It is an artefact of the symlink, not a source binary at risk.",
-     "corpus_matches_committed_index FAIL, 1 absent of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. It is an Alabama file in a mounted corpus this lane did not assemble and does not touch; all four Virginia families' own sources bind byte-exact. Reported, not worked around."
-    ]
-   },
-   "acceptanceReceipt": {
-    "state": "STALE_AFTER_THIS_REPAIR",
-    "receipt": {
-     "verdict": "RASTER_PASS",
-     "workflowRunId": "33999075380",
-     "jobId": "101394887187",
-     "boundToCanonicalSha256": "ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444"
-    },
-    "note": "product-wiring.json is not written by the builder and was not written by this lane. Its acceptanceReceipt is still bound by SHA-256 to the pre-repair canonical fixture, which no longer exists on disk. A reader must treat this family as having NO current raster acceptance."
-   },
-   "verifiers": {
-    "selfVerified": false,
-    "statement": "This lane built and repaired these bytes and therefore does not verify them. Every number above is a builder's measurement offered for an independent lane to re-take."
-   },
-   "whatWasNotDone": [
-    "No central raster was requested and no queue file was written.",
-    "product-wiring.json was not edited, so no acceptance receipt was rewritten or invented.",
-    "The route-obligation census was not written; no route key was added, removed or changed.",
-    "No shared manifest, registry or memo was edited -- they were read and bound by SHA-256 only.",
-    "No grant was released and the claim ledger is not committed.",
-    "No PR was opened.",
-    "fitAppearancesToRect was not touched, and nothing was opted in that this lane did not measure."
-   ]
-  }
- ]
+  ]
 }
