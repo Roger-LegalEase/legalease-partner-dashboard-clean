@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "73307067a9432a8611ee78ad1ed12db421a54543",
+  "minimumCaptainSha": "211f048e0e0638cefbc35ae1687b277af4969358",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,12 +72,12 @@
     "sourceReady": 79,
     "sourceBlocked": 6,
     "legalBlocked": 21,
-    "verifyPending": 7,
+    "verifyPending": 6,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 155,
+    "COMPLETE_PACKET_PROVEN": 156,
     "FAIL_REPAIR_REQUIRED": 41,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 21,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -36341,15 +36341,29 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf07",
+        "verifiedAtBase": "9a95c2820",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+        "now": "8e98a1f66045176a082c6b6a454a4bc28289e755b69ca2406a7e559cae0a0de1",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+            "now": "8e98a1f66045176a082c6b6a454a4bc28289e755b69ca2406a7e559cae0a0de1"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -36375,40 +36389,8 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The five component IDs occur in the declared order, but pages 4-6 do not substantively deliver the required supporting_affidavit: except for the heading they repeat the application, contain no sworn declaration, oath, jurat, notary block, or notarial signature/seal field, and end only with the petitioner's ordinary signature/date line. A label-only duplicate is not the registry's required sworn affidavit.",
-          "evidence": null
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Each fixture visibly writes the held participant.date_of_birth in the petitioner block of both the application and purported affidavit, yet leaves each document's required C2 date-of-birth answer blank and production-field-map falsely says the platform holds no value. The exact known fact is therefore not written on the two required C2 fields where it belongs; knownRequiredFieldsMissing=0 is a declaration blind spot.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The current registry requires affidavit signature/date/jurat and notarization, a judicial-division line, separate prosecuting-attorney and probation-office addresses, and a hearing date on the application notice line. The PDFs and participant instructions contain no oath/jurat/notary block, no hearing-date notice line, no judicial-division instruction, and only one singular service-recipient/address block; these source-declared completion items are absent from the field map and from the participant checklist.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "No governed raster receipt binds the exact current hashes. The queue is RASTER_PENDING; its only RASTER_PASS binds the superseded 12-page pair. Local calibrated raster/visual/bbox review found all 22 current pages nonblank with 0 geometry problems, but that is supplemental and cannot satisfy the required current governed evidence.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "Instructions require service on both the county prosecuting attorney and supervising probation office, but the certificate has only one singular recipient/address/method block. It also certifies delivery of a proposed order although no proposed order exists in the five-component packet and the filing instructions say to file the application, affidavit and certificate. As written it cannot truthfully evidence both required deliveries and may make the signer attest to serving a nonexistent component.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
       "state": "VERIFY_PENDING",
@@ -40315,17 +40297,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf04",
-        "verifiedAtBase": "6fb6e391bd4ef24254b5232997fdf2bcb6551371",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "lane": "vf07",
+        "verifiedAtBase": "9a95c2820",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -40355,7 +40334,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
