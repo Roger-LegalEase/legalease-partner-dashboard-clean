@@ -542,5 +542,22 @@
   ],
   "routesOpened": 0,
   "productionTouched": false,
-  "builderSourceSha256": "69cad81ed8ddc1c4a86077cdff9b9a84075dc09f337c40da8e4c0a10bf37b4ff"
+  "builderSourceSha256": "69cad81ed8ddc1c4a86077cdff9b9a84075dc09f337c40da8e4c0a10bf37b4ff",
+  "pushedImplementationCheckpoint": "bc58c523154c767a99b0ae7727076a913a18b4a6",
+  "environmentPreflight": {
+    "command": "NODE_PATH=/tmp/fix91-tools/node_modules node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set --branch fix88-nj-repeating-rows --require-rasterizer",
+    "runAtCleanHead": "bc58c523154c767a99b0ae7727076a913a18b4a6",
+    "exitCode": 1,
+    "passed": 12,
+    "failed": 5,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/environment-preflight.log",
+    "failedChecks": [
+      "browser_environment_exported",
+      "master_library_mounted",
+      "master_library_complete",
+      "corpus_matches_committed_index",
+      "family_sources_bind"
+    ],
+    "actualRasterCapability": "pdftoppm 24.02.0 available; Chromium 1223 actually rendered a page at 2040x2640. Browser environment exports and corpus environment declarations remain absent; this is not a full environment pass."
+  }
 }
