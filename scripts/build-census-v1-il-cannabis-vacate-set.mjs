@@ -1,4 +1,54 @@
 #!/usr/bin/env node
+// il-cannabis-vacate-set.
+//
+// WHAT THIS REPAIR ANSWERS. The independent read
+// data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json
+// failed four obligations on the delivered bytes. Each is repaired here from the
+// controlling manifest rather than paraphrased:
+//
+//   PAGE_ORDER. SOURCES was in alphabetic order, so the packet assembled as
+//     Additional Cannabis, Additional Notice, Getting Started, Motion, Notice,
+//     Order. data/record-clearing/legal-design-packet-set-manifests.json
+//     packetSetId il-cannabis-vacate-set orders the components 1 Motion,
+//     2 Additional Cannabis, 3 Getting Started, 4 Notice, 5 Additional Notice,
+//     6 Order. SOURCES is now in that order and a self-test holds it there.
+//
+//   FEE_AND_WAIVER. The guide stated county uncertainty but omitted the exact
+//     Illinois State Police cost. The registry states it, so the guide now
+//     quotes it: data/record-clearing/legal-design-track-registry.json
+//     tracks[trackId=il-cannabis-vacate].rules.fees --
+//     "The source review does not state a separate cannabis motion fee. Treat
+//      county filing charges as county-specific and confirm with the clerk. ISP
+//      charges $60 to process a court order."
+//     and rules.feeWaiver -- "Supreme Court Rule 298 Application for Waiver of
+//     Court Fees where a county fee applies."
+//
+//   SERVICE. The guide told the participant to confirm notice recipients with
+//     the clerk and never surfaced the service model. rules.service --
+//     "Clerk service applies to the motion itself under Section 5.2(i)(3). The
+//      cannabis suite additionally uses petitioner-completed Notice of Court
+//      Date forms, so the adult suite's clerk-service model does not carry
+//      over." rules.notice -- "The circuit court clerk promptly serves the
+//      motion and supporting documentation on the State's Attorney, who may
+//      object within 60 days with supporting evidence."
+//
+//   REQUIRED_BEFORE_FILING. The guide substituted a generic certified
+//     disposition for the manifest's own steps. packetSet.requiredBeforeFiling
+//     names the Illinois State Police Access and Review transcript, the
+//     case-number compare-and-correct step against that transcript, proof that
+//     the sentence and conditions are complete with its own compare step, and
+//     the $60 ISP order-processing cost. All of them are printed now.
+//
+// NOT RUN IN THE CONTAINER THAT WROTE IT. Every source this family needs lives
+// in the nationwide_recovery_pool_2026_09_02 custody
+// (private/source-imports/Nationwide_Recovery_Pool_2026-09-02), which is not
+// mounted here and is carried by no release; the issuing host
+// ilcourtsaudio.blob.core.windows.net is refused by this session's egress
+// policy. resolveSources therefore stops at "source custody is not mounted"
+// and THE DELIVERED FIXTURES UNDER THIS FAMILY'S DIRECTORY ARE STILL THE
+// DEFECTIVE ONES. Mount the pool, run this builder, then run `--self-test`,
+// which reads the delivered artifacts rather than the sources and fails
+// loudly while those bytes remain unrepaired.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -16,15 +66,27 @@ const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
+// Component order 1-6 of data/record-clearing/legal-design-packet-set-manifests.json
+// packetSetId il-cannabis-vacate-set. The packet assembles in SOURCES order, so this
+// array IS the page order; MANIFEST_COMPONENT_ORDER below holds it to the manifest.
 const SOURCES = [
-  { documentId: "CXP Additional Cannabis Convictions", sourceId: "official-form:CXP Additional Cannabis Convictions", path: "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf", sha256: "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969", componentKinds: ["continuation"] },
-  { documentId: "CXP Additional Notice of Court Date", sourceId: "official-form:CXP Additional Notice of Court Date", path: "LegalEase Illinois/CXP Additional Notice of Court Date.pdf", sha256: "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa", componentKinds: ["local_addendum"] },
-  { documentId: "CXP Getting Started Motion to Vacate and Expunge", sourceId: "official-form:CXP Getting Started Motion to Vacate and Expunge", path: "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf", sha256: "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2", componentKinds: ["instructions"] },
   { documentId: "CXP Motion to Vacate and Expunge", sourceId: "official-form:CXP Motion to Vacate and Expunge", path: "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf", sha256: "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf", componentKinds: ["primary_filing"] },
+  { documentId: "CXP Additional Cannabis Convictions", sourceId: "official-form:CXP Additional Cannabis Convictions", path: "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf", sha256: "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969", componentKinds: ["continuation"] },
+  { documentId: "CXP Getting Started Motion to Vacate and Expunge", sourceId: "official-form:CXP Getting Started Motion to Vacate and Expunge", path: "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf", sha256: "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2", componentKinds: ["instructions"] },
   { documentId: "CXP Notice of Court Date for Motion", sourceId: "official-form:CXP Notice of Court Date for Motion", path: "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf", sha256: "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041", componentKinds: ["local_addendum"] },
+  { documentId: "CXP Additional Notice of Court Date", sourceId: "official-form:CXP Additional Notice of Court Date", path: "LegalEase Illinois/CXP Additional Notice of Court Date.pdf", sha256: "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa", componentKinds: ["local_addendum"] },
   { documentId: "CXP Order Granting or Denying Motion", sourceId: "official-form:CXP Order Granting or Denying Motion", path: "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf", sha256: "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc", componentKinds: ["proposed_order"] }
 ];
 
+// The manifest's own order, kept beside SOURCES so a reordering is caught at build time.
+const MANIFEST_COMPONENT_ORDER = [
+  "CXP Motion to Vacate and Expunge",
+  "CXP Additional Cannabis Convictions",
+  "CXP Getting Started Motion to Vacate and Expunge",
+  "CXP Notice of Court Date for Motion",
+  "CXP Additional Notice of Court Date",
+  "CXP Order Granting or Denying Motion",
+];
 const FAMILY_CONFIG = {
   "il-cannabis-vacate-set": {
     mode: "vacate_and_expunge",
@@ -55,6 +117,26 @@ function resolveSources() {
     assert.equal(sha256(bytes), source.sha256, `source hash drift: ${source.path}`);
     return { ...source, absolute, bytes, byteLength: bytes.length };
   });
+}
+
+// The controlling manifest's own words. Read from
+// data/record-clearing/legal-design-track-registry.json at build time rather than
+// copied, so the guide can never drift from the record it claims to quote.
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const MANIFESTS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_ID = "il-cannabis-vacate";
+
+function controllingRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY_PATH), "utf8"));
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
+  const manifests = JSON.parse(fs.readFileSync(path.join(ROOT, MANIFESTS_PATH), "utf8"));
+  const manifest = manifests.packetSets.find((entry) => entry.packetSetId === "il-cannabis-vacate-set");
+  assert.ok(manifest, "packet-set manifest absent: il-cannabis-vacate-set");
+  const ordered = [...manifest.components].sort((a, b) => a.order - b.order).map((component) => component.officialFormId);
+  assert.deepEqual(MANIFEST_COMPONENT_ORDER, ordered, "SOURCES must assemble in the manifest's component order");
+  assert.deepEqual(SOURCES.map((source) => source.documentId), ordered, "the packet must assemble in the manifest's component order");
+  return { track, manifest, ordered };
 }
 
 function pageOf(field, pages) {
@@ -205,6 +287,7 @@ export async function buildIllinoisFamily(familyId) {
   const config = { familyId, ...base };
   const outRel = `data/rcap-all50/overlays/census-v1/il/${familyId}--official-pdf-fill`;
   const out = path.join(ROOT, outRel);
+  const { track } = controllingRecord();
   const sources = resolveSources();
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, WORKLIST_PATH), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === familyId);
@@ -220,10 +303,40 @@ export async function buildIllinoisFamily(familyId) {
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING", packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(out, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nObtain a certified disposition for every cannabis conviction. Compare the case number, arresting agency, arrest date, offense class, conviction date, and proof that every sentence or condition was completed. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## Filing and notice\n\nFile the motion, any necessary continuation, the Notice of Court Date, and the proposed order with the circuit clerk in the county of the conviction. Confirm current local filing, fee, waiver, notice, copy, and hearing requirements with that clerk. Court, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
-  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\nFile in the circuit court for the county of conviction. Confirm the current filing method, fee and waiver form, number of copies, notice recipients, and hearing-setting practice with that circuit clerk before filing. Do not complete the judge's order, clerk certification, hearing details, service details, signature, or signature date in advance.\n`);
+  const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
+  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois cannabis motion packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nObtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.\n\n${requiredList}\n\nThe Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nCourt, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.\n\n## Stop and get help\n\nStop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.\n`);
+  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nDo not complete the judge's order, clerk certification, hearing details, service details, signature, or signature date in advance.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
-if (pathToFileURL(process.argv[1]).href === import.meta.url) await buildIllinoisFamily("il-cannabis-vacate-set");
+// Reads the DELIVERED artifacts, not the sources, so it runs without the corpus and
+// fails while the delivered bytes are still the ones the independent read faulted.
+function selfTest() {
+  const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill");
+  const { track } = controllingRecord();
+  const rendered = JSON.parse(fs.readFileSync(path.join(out, "reports/rendered-artifacts.json"), "utf8"));
+  for (const packet of rendered.packets) {
+    assert.deepEqual(packet.documents.map((document) => document.documentId), MANIFEST_COMPONENT_ORDER,
+      `${packet.fixture}: the packet must assemble in the manifest's component order`);
+  }
+  const participant = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
+  const filing = fs.readFileSync(path.join(out, "filing-instructions.md"), "utf8");
+  for (const [label, sentence] of [["fees", track.rules.fees], ["feeWaiver", track.rules.feeWaiver],
+    ["service", track.rules.service], ["notice", track.rules.notice], ["filing", track.rules.filing]]) {
+    assert.ok(participant.includes(sentence), `participant-instructions.md must carry the record's ${label} sentence`);
+  }
+  for (const [label, sentence] of [["fees", track.rules.fees], ["feeWaiver", track.rules.feeWaiver],
+    ["service", track.rules.service], ["filing", track.rules.filing]]) {
+    assert.ok(filing.includes(sentence), `filing-instructions.md must carry the record's ${label} sentence`);
+  }
+  for (const line of track.packetSet.requiredBeforeFiling) {
+    assert.ok(participant.includes(line), `participant-instructions.md must carry the required-before-filing step: ${line.slice(0, 60)}`);
+  }
+  assert.ok(/\$60/.test(participant) && /\$60/.test(filing), "the ISP $60 order-processing cost must be stated");
+  assert.ok(/5\.2\(i\)\(3\)/.test(participant), "the service model must name section 5.2(i)(3)");
+  console.log("il-cannabis-vacate-set self-test passed");
+}
+
+if (process.argv.includes("--self-test")) selfTest();
+else await buildIllinoisFamily("il-cannabis-vacate-set");
