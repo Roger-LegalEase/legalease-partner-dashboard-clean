@@ -18600,5 +18600,25 @@
   "routesOpened": 0,
   "productionTouched": false
  },
- "currentCohortSummaryNote": "Earlier top-level summary, membership and verdictCeiling are preserved historical metadata. The nm-three cohort is the separate vf03NmRead20260906 block; every historical row is unchanged."
+ "currentCohortSummaryNote": "Earlier top-level summary, membership and verdictCeiling are preserved historical metadata. The nm-three cohort is the separate vf03NmRead20260906 block; every historical row is unchanged.",
+ "vf03NmPostPushPreflight20260906": {
+  "testedCommit": "839bbb977a9855b8d4a784af5d0e2843b59e4281",
+  "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/post-push-preflight.json",
+  "allThreeCommandsExited": 1,
+  "perFamily": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+  "worktreeCleanBeforeAndAfter": true,
+  "resolved": "Published branch is visible; initial preflight visibility failure is resolved.",
+  "stillBlocked": [
+   "master_library_mounted",
+   "master_library_complete",
+   "corpus_matches_committed_index",
+   "family_sources_bind"
+  ],
+  "familySourceBindingsAbsent": {
+   "nm_conviction-set": "7/7",
+   "nm_identity_theft-set": "4/4",
+   "nm_release_without_conviction-set": "7/7"
+  },
+  "noWaiver": "The original-source and rebuild gates remain unpassed. These source blockers do not erase the independently observed current-byte defects."
+ }
 }
