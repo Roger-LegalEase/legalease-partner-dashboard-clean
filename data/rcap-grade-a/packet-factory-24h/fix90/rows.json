@@ -83,7 +83,172 @@
       ],
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "lane": "FIX90",
+      "laneKind": "repair",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "obligationsRepaired": [],
+      "assignedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+      "savedCheckpoint": "50524359e68a358320446bec92cc5b497689e6dd",
+      "selectedCaptainSha": "ba7f95cf3dedffc503efc7ec077e05803f45ac6d",
+      "postMergeBase": "c5d2800d646fcc2ddf4460419b7b3eb7493f8dba",
+      "claim": "Existing FIX90 grant asserted CLAIM_OK before work, grant set b24b2e95fda9fe70. No transfer, release, reissue or central ledger write.",
+      "workRecovered": "The saved WIP builder and four generated NH disclosure/report changes remain intact. No artifact or local material was discarded.",
+      "codeCompleted": {
+        "maxLenReporting": "Preserved real-finalizer value_exceeds_form_max_length reporting, separate canonical and boundary maps, measured refusals and conditional before-filing disclosures. Added all widget locations to a refusal so repeated headers are explicitly represented, and derived fixture labels from each actual refusing side instead of hardcoding boundary.",
+        "service": "Preserved memo/registry equality checks, both service and notice statements and the distinct service heading. Added rules.service and rules.notice to source-receipt grounding fields. No legal record edited.",
+        "participantCopy": "Conditional filing instructions identify the form page locations and character limits without presenting synthetic fixture lengths as participant facts. Measurements remain in the technical reports.",
+        "execution": "Lazy-load the existing calibrated rasterizer only when raster is requested, so source checks/no-raster work do not fail merely from absent sharp. Requested calibrated raster still requires its real dependencies. BLOCKED_SOURCE and STOPPED CLI results now exit nonzero.",
+        "regression": "Added --self-test to this single builder. It invokes the real finalizer on two synthetic controls across three widgets, verifies canonical writes versus whole-value MaxLen refusals (17/33 and 15/24), repeated-widget declarations, canonical-only/boundary-only/both-side refusals, and current memo/registry service agreement including disagreement refusal. It writes no family artifacts."
+      },
+      "checksActuallyExecuted": [
+        {
+          "command": "node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs --check",
+          "exitCode": 1,
+          "output": "AssertionError [ERR_ASSERTION]: the Master Library is not mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\n    at corpusRoot (file:///workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs:179:10)\n    at resolveSources (file:///workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs:728:16)\n    at runFamily (file:///workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs:1586:34)\n    at file:///workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs:2213:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
+        },
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family nh_petition_nonconviction_pre2019-set --branch fix90-nc-nh-instructions",
+          "exitCode": 1,
+          "output": "  ok  repo_identity                          fix90-nc-nh-instructions at 20028a42\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/fix90-nc-nh-instructions at 20028a42\nFAIL  worktree_clean                         1 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 \u2014 run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    4 of 4 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+          "exitCode": 0,
+          "output": "  ok   nh_petition_nonconviction_pre2019-set          PASS_COMPLETE                22/168 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+        },
+        {
+          "command": "node --check scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+          "exitCode": 0,
+          "output": ""
+        },
+        {
+          "command": "node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs --self-test",
+          "exitCode": 0,
+          "output": "{\n  \"familyId\": \"nh_petition_nonconviction_pre2019-set\",\n  \"status\": \"SELF_TEST_PASS\",\n  \"syntheticControls\": 2,\n  \"syntheticWidgetInstances\": 3,\n  \"canonicalWrites\": 2,\n  \"boundaryMaxLenRefusals\": [\n    {\n      \"field\": \"case number\",\n      \"factId\": \"matter.case_number\",\n      \"reason\": \"value_exceeds_form_max_length\",\n      \"category\": \"unfittable\",\n      \"maxLength\": 17,\n      \"valueLength\": 33,\n      \"why\": \"the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.\"\n    },\n    {\n      \"field\": \"telnum.1\",\n      \"factId\": \"participant.phone\",\n      \"reason\": \"value_exceeds_form_max_length\",\n      \"category\": \"unfittable\",\n      \"maxLength\": 15,\n      \"valueLength\": 24,\n      \"why\": \"the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.\"\n    }\n  ],\n  \"familyArtifactsWritten\": false,\n  \"limitation\": \"Synthetic control regression only; exact-source rebuild, visual review and determinism remain separate.\"\n}\n"
+        },
+        {
+          "command": "npx eslint scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+          "exitCode": 0,
+          "output": "\n/workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs\n  375:7  warning  'AGENCY' is assigned a value but never used  @typescript-eslint/no-unused-vars\n\n\u2716 1 problem (0 errors, 1 warning)\n\n"
+        },
+        {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=private/fix90-recovered-sources node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs --check",
+          "exitCode": 1,
+          "output": "{\n  \"familyId\": \"nh_petition_nonconviction_pre2019-set\",\n  \"status\": \"BLOCKED_SOURCE\",\n  \"failedSourceIdentities\": [\n    {\n      \"sourceId\": \"official-form:NHJB-2317-DSe\",\n      \"pathInArchive\": \"STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf\",\n      \"why\": \"the indexed path does not exist on disk: STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf\"\n    },\n    {\n      \"sourceId\": \"official-form:NHJB-2311\",\n      \"pathInArchive\": \"STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf\",\n      \"why\": \"the indexed path does not exist on disk: STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf\"\n    },\n    {\n      \"sourceId\": \"official-form:NHJB-2328\",\n      \"pathInArchive\": \"STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf\",\n      \"why\": \"the indexed path does not exist on disk: STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf\"\n    },\n    {\n      \"sourceId\": \"official-form:NHJB-2956\",\n      \"pathInArchive\": \"STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf\",\n      \"why\": \"the indexed path does not exist on disk: STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf\"\n    }\n  ],\n  \"why\": \"a source did not bind by exact SHA-256, so nothing may be rendered from it\",\n  \"overlayDirectoryTouched\": false\n}\n"
+        }
+      ],
+      "testLimitations": [
+        "The synthetic PDF controls are a unit-test source double. They are not official NH source forms, a packet build, a visual acceptance, or legal approval. The actual finalizer is not stubbed.",
+        "The current completeness verifier exits 0 on the saved artifact/map state, not a freshly rebuilt packet from the revised builder. Its zero counters are not an NH repair-completion claim.",
+        "The first self-test attempt could not import sharp through the eagerly imported rasterizer; after lazy loading, an initial synthetic census type was rejected by the real finalizer and was corrected to the existing text vocabulary. Final tests ran and pass; earlier failures are not counted as passes."
+      ],
+      "currentArtifactInspection": {
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256": "9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d",
+            "bytes": 182593,
+            "unchangedFromCaptainBase": true
+          },
+          {
+            "fixture": "boundary",
+            "sha256": "690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743",
+            "bytes": 182674,
+            "unchangedFromCaptainBase": true
+          }
+        ],
+        "trackedRasterFileHashesMatchReport": 18,
+        "pagesVisuallyInspected": [
+          "canonical page 1",
+          "boundary page 1",
+          "boundary page 9"
+        ],
+        "observed": "Current tracked page images show case number and phone on canonical page 1 and blank matching cells on boundary page 1. Both town values are printed. Boundary page 9 preserves the three name parts and one-line address; the maiden/alias cell and Section II remain blank. This is repair inspection of saved bytes, not an independent verdict.",
+        "savedDisclosureAudit": "All six refusing field identities (covering eight widget instances in the saved review) are absent from boundaryWrites, present in requiredBeforeFiling and named in participant-instructions.md. The new builder explicitly carries every widget location on rebuild.",
+        "generatedOutputsNotRegenerated": "The source PDFs are unavailable. Existing WIP generated reports/instructions remain saved artifacts and do not yet represent all final builder changes. No manual artifact reconstruction was substituted for a real rebuild."
+      },
+      "sourceRecovery": {
+        "boundedLocalSearch": "No exact original source PDF found among tracked NH/source-name candidates. The governed private corpus and old /home/user environment are absent here.",
+        "officialUrlAttempts": [
+          {
+            "formNumber": "NHJB-2317",
+            "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-04/nhjb-2317-dse.pdf",
+            "expectedSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+            "expectedBytes": 85115,
+            "error": "HTTP Error 403: Forbidden",
+            "matches": false
+          },
+          {
+            "formNumber": "NHJB-2311",
+            "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-04/nhjb-2311-se.pdf",
+            "expectedSha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+            "expectedBytes": 64896,
+            "error": "HTTP Error 403: Forbidden",
+            "matches": false
+          },
+          {
+            "formNumber": "NHJB-2328",
+            "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2328-dfpe-statementofassetsliabilitiesindividual.pdf",
+            "expectedSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+            "expectedBytes": 66063,
+            "error": "HTTP Error 403: Forbidden",
+            "matches": false
+          },
+          {
+            "formNumber": "NHJB-2956",
+            "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2956-fpe-criminalrecordreleaseauth.pdf",
+            "expectedSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+            "expectedBytes": 62291,
+            "error": "HTTP Error 403: Forbidden",
+            "matches": false
+          }
+        ],
+        "result": "All four recorded official URLs returned HTTP 403. No response body was accepted or written as a source.",
+        "exactNextInput": "The four original PDFs at the expected SHA-256/byte lengths above, from the governed corpus or an authorized environment that can retrieve those same bytes. No version substitution."
+      },
+      "freshFullRebuildsCompleted": 0,
+      "deterministicRebuild": "NOT_EXECUTED: exact-source binding is required before either run; it has not passed.",
+      "newlyObservedSourceConflict": {
+        "status": "UNRESOLVED_REQUIRES_SOURCE_FAITHFUL_REPAIR_OR_LEGAL_DIRECTION",
+        "sourceLocation": "NHJB-2956 delivered page 9, INSTRUCTIONS block",
+        "sourceSays": "All requests by mail must have both sections completed and Section II notarized.",
+        "participantInstructionLocation": "participant-instructions.md, step 8",
+        "participantInstructionSays": "Send NHJB-2956 to the State Police and leave Section II blank because the request is for your own record.",
+        "implication": "The mailing instruction and official condition disagree. This saved conflict was reported to Captain; this lane does not invent an exception or silently decide a different legal process."
+      },
+      "oldEnvironmentMaterial": {
+        "path": "/home/user/fix90-worktree, NH raster/boundary/page-05/",
+        "state": "Two untracked byproducts reported at handoff remain untouched in the old environment. That filesystem is absent here.",
+        "reproducibility": "Not established for the unknown byproduct bytes: names/hashes are unavailable and the calibrated rasterizer dependencies are absent. The builder code describes scratch page.pdf/page-calibration.pdf/page-calibration.png outputs, but that is not proof these two byproducts are byte-reproduced. Nothing deleted."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "EXACT_SOURCE_REBUILD",
+        "DETERMINISTIC_REBUILD",
+        "CURRENT_CENTRAL_RASTER_IF_BYTES_CHANGE",
+        "INDEPENDENT_RE_READ"
+      ],
+      "remainingActions": [
+        "Recover the four exactly pinned source PDFs; run family source binding and two full deterministic builds with the applicable calibrated raster environment.",
+        "Inspect all current write/refusal instances including repeated headers; refresh generated disclosures/receipts through the builder.",
+        "Resolve the NHJB-2956 mailing/Section-II contradiction from the actual governing source/process.",
+        "Submit changed delivered bytes to central raster if hashes move, then assign an independent reviewer."
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ],
-  "remainingWork": "NH WIP recovery remains in progress on the same branch; no NH completion is claimed by this checkpoint."
+  "remainingWork": "NC instruction repair is completed and separately handed off; NH code is checkpointed but exact-source rebuild, current artifact acceptance, the source instruction conflict, and independent review remain open."
 }
