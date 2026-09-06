@@ -385,6 +385,36 @@ export function captionAsksForEveryNamePart(subject, hay = haystack(subject)) {
  */
 export const PARTICIPANT_STATED_SUBJECT = [
   {
+    id: "al_cr65_participant_charge",
+    match: /^(?:charge or conviction to be expunged|criminal charge or conviction from the record to be considered) \|\|/,
+    exempts: ["disposition_or_hearing"],
+    because: "CR-65 Rev. 10/2024 pages 1 and 5 ask the petitioner to identify the charge being petitioned; these are not a court finding or disposition entry."
+  },
+  {
+    id: "al_cr65_participant_arresting_agency",
+    match: /^(?:the agency or department that made the arrest|3 the agency or department that made the arrest [12]) \|\|/,
+    exempts: ["agency"],
+    because: "CR-65 Rev. 10/2024 page 5 item 3 expressly asks the petitioner to name the agency that made the arrest; it is not an agency certification or court order."
+  },
+  {
+    id: "al_cr65_participant_detention_agency",
+    match: /^any agency or department where the petitioner was booked or was incarcerated or detained pursuant to the arrest or charge sought to be expunged \|\|/,
+    exempts: ["agency"],
+    because: "CR-65 Rev. 10/2024 page 5 item 4 requires the petitioner to identify every booking or detention record holder, or state that no booking or detention occurred."
+  },
+  {
+    id: "al_cr65_participant_pro_se_choice",
+    match: /^pro se \(not represented by an attorney\) \|\|/,
+    exempts: ["attorney"],
+    because: "CR-65 Rev. 10/2024 page 6 asks the petitioner whether they are pro se. Only an explicit held participant answer may settle this checkbox; the attorney block stays protected."
+  },
+  {
+    id: "al_c10_participant_expungement_fee_request",
+    match: /^i, because of financial hardship, am unable to pay the expungement petition administrative filing fee and request that these fees be waived \|\|/,
+    exempts: ["money"],
+    because: "C-10-CRIMINAL Rev. 5/2024 page 1 asks for the participant's financial-hardship fee-waiver request. It does not decide indigency, waive a fee, or fill the court's page-3 findings."
+  },
+  {
     id: "or_ojd_set_aside_citing_or_arresting_agency",
     // The exact printed caption, tolerant only of how it is spaced.
     match: /citing\s*\/?\s*arresting\s+law\s+enforcement\s+agency/,
