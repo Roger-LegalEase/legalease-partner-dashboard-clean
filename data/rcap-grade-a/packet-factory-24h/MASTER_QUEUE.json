@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "206fe34917cea147e3bf9b62e63a9872fc8cc238",
+  "minimumCaptainSha": "cd0856fb1df4c869888d8310172ddcc2991ea197",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 23,
+    "activeFamiliesExcluded": 24,
     "guidanceOnly": 0,
-    "remaining": 323,
+    "remaining": 322,
     "sourceReady": 80,
     "sourceBlocked": 6,
     "legalBlocked": 14,
-    "verifyPending": 7,
+    "verifyPending": 6,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 160,
-    "FAIL_REPAIR_REQUIRED": 41,
+    "FAIL_REPAIR_REQUIRED": 42,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 80,
@@ -87,7 +87,7 @@
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "BUILT_RASTER_PENDING": 1,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -121,6 +121,7 @@
       "co_petition_seal_arrest-set",
       "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "in_infraction_nondisclosure-set",
+      "ms-nonconv-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
@@ -26849,12 +26850,14 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_LEGAL_INPUT",
-        "lane": "vf01",
-        "verifiedAtBase": "30a8b3b71",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "513f43c82",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -26894,14 +26897,7 @@
         "whyNotPass": "The record answered the legal input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed.",
         "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
       },
-      "laneReturnLegalHold": {
-        "familyId": "ms-nonconv-set",
-        "foundBy": [
-          "vf01 (current independent verification)"
-        ],
-        "why": "COMPONENT_SET: BLOCKED_LEGAL_INPUT, naming it exactly: the required section VERIFICATION (kind verification_on_oath, notarisationRequired true) of the required specification document ms-petition-for-expungement reaches no page and carries no disposition, and which of two committed records governs it — the specification's mandatory jurat or MS.memo.json's unresolved notarization — is an open counsel question this lane must not settle. Everything else this obligation asks is measured and clean: all five specification documents render at the pages the record names, the cover prints the specification's wording verbatim with nothing invented, and the contents list matches what is delivered. VF06's FAIL is cured; only the jurat half remains, exactly as FIX01 said it would.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
-      },
+      "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -26921,13 +26917,21 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL: the canonical and boundary bytes do not hash to what the family's own product record names. product-wiring.json still pins the superseded 10-page pair (0441d16c… / 379dae5a…) against bytes that hash to 732e7f47… / 87e4bf90…, still says no raster covers the current bytes when a receipt bound to them exists, and still carries the open counsel question and the now-false statement that no verification block was added — a record that reads as authoritative and describes a packet that no longer exists.",
+          "evidence": "The bytes are right and one of the family's own records still names the bytes they replaced. Recomputed here: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845, 33154 B, 11 pages; boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58, 33493 B, 11 pages. Those equal RASTER_QUEUE.json rows[107] and its receipt, equal fix107/rows.json sha256After, and equal reports/rendered-artifacts.json artifacts[].sha256 (both fixtures, read here). They do NOT equal data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json, which still declares censusV1Representation.fixtures.canonical.sha256 = 0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc / 29578 B / pageCount 10 and censusV1Representation.fixtures.boundary.sha256 = 379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d / 29851 B / pageCount 10 — the pre-repair pair VF01 read, which is on disk nowhere. The same block carries four further statements the delivered bytes now contradict: acceptanceReceipt is null; whyAcceptanceReceiptIsNull says 'No raster of any kind covers the current bytes' and names superseded run 33973869055 / job 101327371890, while RASTER_QUEUE now holds a RASTER_PASS receipt bound to the exact digests on disk from run 34058277654 / job 101554484258 at 2495d6d9b; openCounselQuestion still asks which record governs the notarised verification; and howTheOpenQuestionIsTreated still states 'No verification block and no notarial certificate was added to the petition, the order or the certificate of service' and that 'the composed petition carries a truth statement instead', which is false of delivered page 5. FIX107's row reports openQuestionBlockRemoved, and that is true of reports/rendered-artifacts.json (openLegalQuestions [], a resolvedLegalQuestions entry added) but was not carried into product-wiring.json. approval-request.json carries the same residue at counselQuestionsRaised[3]: 'Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.' The Clinic Demo binding in the same file (binding.artifacts, the two participant-delivery PDFs Lawrence Blackmon approved, 413f6226… and 9f766f22…) is a different artifact set, was correctly left alone, and is not what this finding is about."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX118",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -26938,7 +26942,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "mt_deferred_dismissal-set",

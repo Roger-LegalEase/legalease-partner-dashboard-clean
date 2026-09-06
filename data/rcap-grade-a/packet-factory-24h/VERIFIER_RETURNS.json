@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 947,
+    "rows": 948,
     "independentVerdicts": 243,
-    "failRepairRequired": 42,
+    "failRepairRequired": 43,
     "passIndependent": 179
   },
   "failRepairRequiredFamilies": [
@@ -69,6 +69,7 @@
     "il-seal-edu-set",
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
+    "ms-nonconv-set",
     "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -10908,7 +10909,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-nonconv-set",
@@ -10923,6 +10924,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "513f43c82",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL: the canonical and boundary bytes do not hash to what the family's own product record names. product-wiring.json still pins the superseded 10-page pair (0441d16c… / 379dae5a…) against bytes that hash to 732e7f47… / 87e4bf90…, still says no raster covers the current bytes when a receipt bound to them exists, and still carries the open counsel question and the now-false statement that no verification block was added — a record that reads as authoritative and describes a packet that no longer exists.",
+          "evidence": "The bytes are right and one of the family's own records still names the bytes they replaced. Recomputed here: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845, 33154 B, 11 pages; boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58, 33493 B, 11 pages. Those equal RASTER_QUEUE.json rows[107] and its receipt, equal fix107/rows.json sha256After, and equal reports/rendered-artifacts.json artifacts[].sha256 (both fixtures, read here). They do NOT equal data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json, which still declares censusV1Representation.fixtures.canonical.sha256 = 0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc / 29578 B / pageCount 10 and censusV1Representation.fixtures.boundary.sha256 = 379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d / 29851 B / pageCount 10 — the pre-repair pair VF01 read, which is on disk nowhere. The same block carries four further statements the delivered bytes now contradict: acceptanceReceipt is null; whyAcceptanceReceiptIsNull says 'No raster of any kind covers the current bytes' and names superseded run 33973869055 / job 101327371890, while RASTER_QUEUE now holds a RASTER_PASS receipt bound to the exact digests on disk from run 34058277654 / job 101554484258 at 2495d6d9b; openCounselQuestion still asks which record governs the notarised verification; and howTheOpenQuestionIsTreated still states 'No verification block and no notarial certificate was added to the petition, the order or the certificate of service' and that 'the composed petition carries a truth statement instead', which is false of delivered page 5. FIX107's row reports openQuestionBlockRemoved, and that is true of reports/rendered-artifacts.json (openLegalQuestions [], a resolvedLegalQuestions entry added) but was not carried into product-wiring.json. approval-request.json carries the same residue at counselQuestionsRaised[3]: 'Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.' The Clinic Demo binding in the same file (binding.artifacts, the two participant-delivery PDFs Lawrence Blackmon approved, 413f6226… and 9f766f22…) is a different artifact set, was correctly left alone, and is not what this finding is about."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": false
     },
     {
       "familyId": "ms-nonconv-set",
