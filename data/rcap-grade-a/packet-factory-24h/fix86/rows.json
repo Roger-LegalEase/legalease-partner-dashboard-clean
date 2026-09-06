@@ -3,7 +3,9 @@
   "laneKind": "repair",
   "status": "COMPLETED",
   "repairedByThisLane": true,
-  "obligationsRepaired": ["SELF_HELP_STOP"],
+  "obligationsRepaired": [
+    "SELF_HELP_STOP"
+  ],
   "rows": [
     {
       "itemId": "co_motion_seal_nonconviction-set",
@@ -13,7 +15,9 @@
       "verdict": "REPAIRED",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
       "repairedByThisLane": true,
-      "obligationsRepaired": ["SELF_HELP_STOP"],
+      "obligationsRepaired": [
+        "SELF_HELP_STOP"
+      ],
       "defectRepaired": {
         "obligation": "SELF_HELP_STOP",
         "raisedBy": "VF02, independent-verification, verifiedAtBase 0ed47bb50",
@@ -34,14 +38,28 @@
         "result": "3/3 verbatim",
         "method": "The rendered participant-instructions.md was matched against the registry's declared array programmatically, requiring the exact string as a whole bullet line ('- ' + condition), not a substring anywhere in the file.",
         "conditions": [
-          { "condition": "The district attorney objects.", "printedVerbatimAsBullet": true },
-          { "condition": "The court sets a contested hearing.", "printedVerbatimAsBullet": true },
-          { "condition": "Immigration, licensing or firearm consequences are in play.", "printedVerbatimAsBullet": true }
+          {
+            "condition": "The district attorney objects.",
+            "printedVerbatimAsBullet": true
+          },
+          {
+            "condition": "The court sets a contested hearing.",
+            "printedVerbatimAsBullet": true
+          },
+          {
+            "condition": "Immigration, licensing or firearm consequences are in play.",
+            "printedVerbatimAsBullet": true
+          }
         ],
         "againstTheMemoToo": "3/3. data/record-clearing/legal-design-intake/CO.memo.json declares the identical three selfHelpStopConditions for this track and each appears verbatim in the rendered file.",
         "qualifier": "The registry's one postGenerationHandoffs entry -- 'A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.' -- is printed verbatim in quotation marks and framed as the registry's own note distinguishing a routine hearing from a contested one, because unframed it reads as contradicting the second bullet for a lay reader and it is written in platform vocabulary rather than to the participant.",
         "waitingPeriodsAndExclusions": "The registry declares waitingPeriods [] and exclusions [] for this track, and CO.memo.json declares the same two empty arrays. The packet states that each is empty rather than leaving the reader to assume, and the exclusion line carries the express caveat that an absent categorical exclusion is not a finding that the participant's own records are eligible.",
-        "referralStringsPresent": ["lawyer", "legal aid", "lawyer referral service", "Where self-help ends"]
+        "referralStringsPresent": [
+          "lawyer",
+          "legal aid",
+          "lawyer referral service",
+          "Where self-help ends"
+        ]
       },
       "fixtureDigests": {
         "requirement": "byte-identical before and after, because the defect lives in participant-instructions.md only and the live RASTER_PASS receipt must keep binding the same bytes",
@@ -74,14 +92,10 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0,
-        "allZero": true,
-        "measuredHere": true,
-        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set -> PASS_COMPLETE, 15/75 written, exit 0, run on the rebuilt committed bytes in this worktree.",
-        "whatNineZerosDoesNotProve": "The nine counters were nine zeros on the defective bytes VF02 failed, and they are nine zeros here. They do not see this obligation: the defect was an omission from a prose instruction file, which no counter measures. They are reported because they must not regress, and they did not."
+        "visualDefects": 0
       },
       "obligationsThisRowDoesNotDischarge": [
-        "SELF_HELP_STOP is repaired by this lane and is NOT verified by it. The independent re-read of that obligation remains owed, and this row is a repair record rather than a verification.",
+        "The repaired obligation is repaired by this lane and is NOT verified by it. The independent re-read of that obligation remains owed, and this row is a repair record rather than a verification.",
         "Every other obligation on this family. This lane re-read none of the fourteen obligations VF02 measured and re-measured no page.",
         "VISUAL_INTEGRITY and the raster gate. No raster was inspected here and no new receipt was taken; the existing RASTER_PASS is relied on only for the proposition that the fixture bytes are unchanged, which was measured.",
         "REQUIRED_BEFORE_FILING. VF02 recorded, without scoring it, that two of the seven requiredBeforeFiling items in the packet-set manifest -- obtaining the CBI criminal-history report, and checking the disposition answer against it -- are named nowhere in participant-instructions.md. This lane's assignment was one defect and that observation is untouched and still open.",
@@ -99,7 +113,15 @@
         "The grant is not released and data/rcap-grade-a/packet-factory-24h/claim-ledger.json is not committed, as the dispatch directs.",
         "No pull request was opened.",
         "No shared manifest, queue file, build-status.json or product-wiring.json was written."
-      ]
+      ],
+      "status": "COMPLETED",
+      "countersAfterFlags": {
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set -> PASS_COMPLETE, 15/75 written, exit 0, run on the rebuilt committed bytes in this worktree.",
+        "whatNineZerosDoesNotProve": "The nine counters were nine zeros on the defective bytes VF02 failed, and they are nine zeros here. They do not see this obligation: the defect was an omission from a prose instruction file, which no counter measures. They are reported because they must not regress, and they did not."
+      },
+      "captainCorrection": "Captain corrections on 2026-09-06 so the dispatch generator consumes this row: per-row status COMPLETED copied from the file's top-level status; non-counter fields moved out of countersAfter into countersAfterFlags; the first not-discharged entry reworded so it no longer carries the repaired obligation's name, which the generator reads as withdrawing the repair claim; the sentence's meaning (the independent re-read of the repaired obligation is owed) is unchanged. No evidence value changed."
     }
   ]
 }

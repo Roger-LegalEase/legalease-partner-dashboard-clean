@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e4f648b538834345e7741d632e96bc2a14a5451e` (or the newer dispatch base)
+**Minimum required ancestor:** `071e68095f904d08d619d7a7e4b8c6426c6cfc05` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' \
   --codex-cloud \
-  --minimum-captain-sha e4f648b538834345e7741d632e96bc2a14a5451e
+  --minimum-captain-sha 071e68095f904d08d619d7a7e4b8c6426c6cfc05
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,7 +43,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ar-felony-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'fl-early-juvenile-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-felony-dwop-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-exp-qualprob-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-seal-2yr-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -67,7 +67,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ar-felony-seal-set`
 - `fl-early-juvenile-set`
 - `al-felony-dwop-set`
-- `il-exp-qualprob-set`
+- `il-seal-2yr-set`
 
 ## What you receive
 
@@ -84,12 +84,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
 - `scripts/build-census-v1-ar-felony-seal-set.mjs`
 - `scripts/build-census-v1-fl-early-juvenile-set.mjs`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
-- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
+- `scripts/build-census-v1-il-seal-2yr-set.mjs`
 
 ## Never write here
 

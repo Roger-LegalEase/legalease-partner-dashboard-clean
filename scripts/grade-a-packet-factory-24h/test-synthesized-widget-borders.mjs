@@ -85,6 +85,13 @@ function appearanceStream(context, content) {
  * participant: one rule along the bottom of the box, and no word.
  */
 const SILENT_RULE = `0 G\n0 0.5 m\n${RECT.width - 0.1} 0.5 l\ns\n`;
+/**
+ * What the six correctly-boxed `/MK /BC` widgets on that same Pennsylvania page
+ * ship: a stroked rectangle, which is what the default solid style declares.
+ */
+const SOURCE_BOX = `0 G\n0.5 0.5 ${RECT.width - 1} ${RECT.height - 1} re\ns\n`;
+/** The one field name every probe uses, as the set the finalizer takes. */
+const WRITTEN = new Set(["the.field"]);
 /** What a chooser still showing the court's prompt draws. */
 const PROMPT = `${SILENT_RULE}/Tx BMC\nq\nBT\n/Helv 9 Tf\n0 g\n2 3.6 Td\n(Choose the court) Tj\nET\nQ\nEMC\n`;
 
@@ -97,7 +104,7 @@ const PROMPT = `${SILENT_RULE}/Tx BMC\nq\nBT\n/Helv 9 Tf\n0 g\n2 3.6 Td\n(Choose
  * and is dropped when unwritten. `appearance` is the stream the source ships,
  * or null for a source that ships none.
  */
-async function probe({ kind, appearance = null, value = null }) {
+async function probe({ kind, appearance = null, value = null, borderStyle = null, borderColor = [0, 0, 0] }) {
   const doc = await PDFDocument.create();
   const page = doc.addPage([PAGE.width, PAGE.height]);
   const form = doc.getForm();
@@ -110,8 +117,18 @@ async function probe({ kind, appearance = null, value = null }) {
   // The source's own characteristics, replacing whatever pdf-lib's builder set:
   // a black border and no background, exactly as JDF 641 ships them.
   const mk = doc.context.obj({});
-  mk.set(PDFName.of("BC"), doc.context.obj([0, 0, 0]));
+  if (borderColor !== null) mk.set(PDFName.of("BC"), doc.context.obj(borderColor));
   widget.dict.set(PDFName.of("MK"), mk);
+  // The border STYLE, which says WHERE that colour is painted. Set explicitly
+  // or removed explicitly, never left to whatever pdf-lib's widget builder put
+  // there, or the case under test would not be the case described.
+  if (borderStyle === null) widget.dict.delete(PDFName.of("BS"));
+  else {
+    const bs = doc.context.obj({});
+    bs.set(PDFName.of("S"), PDFName.of(borderStyle.S));
+    if (borderStyle.W !== undefined) bs.set(PDFName.of("W"), doc.context.obj(borderStyle.W));
+    widget.dict.set(PDFName.of("BS"), bs);
+  }
   if (appearance === null) widget.dict.delete(PDFName.of("AP"));
   else {
     const ap = doc.context.obj({});
@@ -121,8 +138,10 @@ async function probe({ kind, appearance = null, value = null }) {
   return doc;
 }
 
-async function finalize(doc, { writtenFields = new Set(), suppressSynthesizedWidgetBorders = false } = {}) {
-  const { clean, report } = await sanitizeAndFlatten(doc, { writtenFields, suppressSynthesizedWidgetBorders });
+async function finalize(doc, { writtenFields = new Set(), suppressSynthesizedWidgetBorders = false,
+  honorWidgetBorderStyle = false } = {}) {
+  const { clean, report } = await sanitizeAndFlatten(doc,
+    { writtenFields, suppressSynthesizedWidgetBorders, honorWidgetBorderStyle });
   // Pinned, so a byte comparison measures the page and not the clock.
   const stamp = new Date("2026-01-01T00:00:00Z");
   clean.setCreationDate(stamp);
@@ -162,16 +181,44 @@ function inkInWidgetRect(bytes, label) {
     // The bottom fifth of the rect, in raster rows: the band the court's rule
     // is drawn in.
     const ruleBand = Math.ceil((PAGE.height - RECT.y - RECT.height * 0.2) * s);
+    // Two bands a stroked rectangle fills and an underline never touches, and
+    // which the participant's own value cannot reach either: the leftmost
+    // 1.2pt of the rect, inside the 2pt of padding pdf-lib insets its text by,
+    // and the topmost 1.2pt. Measured separately from `aboveTheRule`, which a
+    // written value fills legitimately.
+    const edge = Math.max(1, Math.round(1.2 * s));
+    const leftEdgeX = Math.floor(RECT.x * s) + edge;
+    const topEdgeY = Math.floor((PAGE.height - RECT.y - RECT.height) * s) + edge;
+    // The bottom 1.2pt: where the underline the style declares is drawn.
+    const ruleBandY = Math.ceil((PAGE.height - RECT.y) * s) - edge;
     let dark = 0;
     let aboveTheRule = 0;
+    let leftEdge = 0;
+    let topEdge = 0;
+    let ruleBandInk = 0;
     for (let y = y0; y <= y1; y += 1) {
       for (let x = x0; x <= x1; x += 1) {
         if (raw[offset + y * width + x] >= 200) continue;
         dark += 1;
         if (y < ruleBand) aboveTheRule += 1;
+        if (x < leftEdgeX && y > topEdgeY && y < ruleBandY) leftEdge += 1;
+        if (y < topEdgeY) topEdge += 1;
+        if (y >= ruleBandY) ruleBandInk += 1;
       }
     }
-    return { dark, aboveTheRule };
+    return { dark, aboveTheRule, leftEdge, topEdge, ruleBand: ruleBandInk };
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/** The text a reader gets off the delivered page, read with poppler. */
+function pdfText(bytes) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "fix85-text-"));
+  try {
+    const pdf = path.join(dir, "page.pdf");
+    fs.writeFileSync(pdf, bytes);
+    return execFileSync("pdftotext", ["-layout", pdf, "-"], { encoding: "utf8" });
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -262,6 +309,132 @@ async function main() {
     darkPixelsInWidgetRect: promptInk.dark,
     keptAsSilent: promptOn.report.widgetContributions.silentSourceAppearancesKept.length,
     covering: "the unwritten-input drop is narrowed by the option, never widened"
+  });
+
+
+  // ---- E. a WRITTEN text field whose border style is an underline -----------
+  //
+  // The Pennsylvania Rule 490 order spelling, in a few lines: `/MK /BC [0 0 0]`
+  // with `/BS << /S /U >>`, and a source appearance that draws the one rule the
+  // style declares. The packet writes a value into it, so neither half of
+  // suppressSynthesizedWidgetBorders is ever reached for it and the box above
+  // survives every option that existed before this one.
+  const underlineProbe = () => probe({ kind: "text", appearance: SILENT_RULE, value: "Jordan Reyes",
+    borderStyle: { S: "U" } });
+  const underlineOff = await finalize(await underlineProbe(), { writtenFields: WRITTEN });
+  const underlineOn = await finalize(await underlineProbe(),
+    { writtenFields: WRITTEN, honorWidgetBorderStyle: true });
+  // The same widget with no border colour at all: what dropping `/MK /BC` and
+  // regenerating would deliver on its own. Its rule band is the measurement
+  // that says whether the court's rule needs drawing back.
+  const noColour = await finalize(await probe({ kind: "text", appearance: SILENT_RULE, value: "Jordan Reyes",
+    borderStyle: { S: "U" }, borderColor: null }), { writtenFields: WRITTEN });
+
+  const underlineInkOff = inkInWidgetRect(underlineOff.bytes, "e-off");
+  const underlineInkOn = inkInWidgetRect(underlineOn.bytes, "e-on");
+  const noColourInk = inkInWidgetRect(noColour.bytes, "e-nocolour");
+
+  assert.ok(underlineInkOff.leftEdge > 0 && underlineInkOff.topEdge > 0,
+    "NEGATIVE CONTROL FAILED: with the option off no box is stroked around the written widget, "
+    + "so this test proves nothing");
+  control("7-with-the-option-off-a-written-underline-styled-widget-is-delivered-inside-a-stroked-rectangle", {
+    darkPixelsInWidgetRect: underlineInkOff.dark,
+    leftEdgeBand: underlineInkOff.leftEdge,
+    topEdgeBand: underlineInkOff.topEdge,
+    synthesizedBy: "pdf-lib defaultTextFieldAppearanceProvider reads /MK /BC and never reads /BS /S"
+  });
+
+  assert.equal(underlineInkOn.leftEdge, 0,
+    `with the option on the left edge of the rect still carries ${underlineInkOn.leftEdge} dark pixels`);
+  assert.equal(underlineInkOn.topEdge, 0,
+    `with the option on the top edge of the rect still carries ${underlineInkOn.topEdge} dark pixels`);
+  control("8-with-the-option-on-the-box-is-gone-from-every-side-the-underline-style-does-not-declare", {
+    leftEdgeBand: { before: underlineInkOff.leftEdge, after: underlineInkOn.leftEdge },
+    topEdgeBand: { before: underlineInkOff.topEdge, after: underlineInkOn.topEdge },
+    matchesAConformingViewer: "ISO 32000-1 12.5.4 Table 166: /S /U is 'a single line along the bottom of the "
+      + "annotation rectangle', not a border around it"
+  });
+
+  // The rule is the half that a bare `/MK /BC` deletion would lose, so it is
+  // measured against a document that does exactly that and nothing more.
+  assert.ok(underlineInkOn.ruleBand > 0, "the option removed the box and the court's rule with it");
+  assert.ok(underlineInkOn.ruleBand > noColourInk.ruleBand,
+    "CONTROL FAILED: the rule band is no fuller than with the border colour simply deleted, so the "
+    + "underline is not being drawn back and this option is only a deletion");
+  control("9-the-writing-rule-the-underline-style-declares-is-drawn-back-and-a-bare-BC-deletion-loses-it", {
+    ruleBand: { withTheOptionOn: underlineInkOn.ruleBand, withTheBorderColourSimplyDeleted: noColourInk.ruleBand },
+    covering: "at the Pennsylvania widgets the court's rule is drawn ONLY by the widget's own appearance "
+      + "stream and not by the page, so removing /MK /BC alone trades a border the form does not print "
+      + "for the loss of a rule the form does"
+  });
+
+  const valueOn = pdfText(underlineOn.bytes);
+  assert.ok(valueOn.includes("Jordan Reyes"),
+    `the participant's value is not legible on the delivered page: ${JSON.stringify(valueOn)}`);
+  assert.deepEqual(underlineOn.report.declaredWidgetBorderStyles.widgets,
+    [{ field: "the.field", borderWidthPt: 1, stroke: "0 0 0 RG" }]);
+  assert.equal(underlineOn.report.declaredWidgetBorderStyles.drawn.length, 1);
+  assert.equal(underlineOff.report.declaredWidgetBorderStyles, undefined,
+    "the option is off, so nothing about border styles may be reported");
+  control("10-the-value-is-still-legible-and-the-widget-is-reported-with-the-geometry-it-was-drawn-at", {
+    valueReadBackWithPdftotext: "Jordan Reyes",
+    reported: underlineOn.report.declaredWidgetBorderStyles.drawn[0],
+    withOptionOff: "no declaredWidgetBorderStyles key at all"
+  });
+
+  // ---- F. a written widget with NO /BS keeps the box the form prints --------
+  //
+  // The other six /MK /BC widgets on that same Pennsylvania page: no /BS at
+  // all, so the style is the default solid, and each ships an appearance that
+  // strokes a rectangle. Honouring the declared style must leave them exactly
+  // as they are.
+  const boxedOff = await finalize(await probe({ kind: "text", appearance: SOURCE_BOX, value: "Jordan Reyes" }),
+    { writtenFields: WRITTEN });
+  const boxedOn = await finalize(await probe({ kind: "text", appearance: SOURCE_BOX, value: "Jordan Reyes" }),
+    { writtenFields: WRITTEN, honorWidgetBorderStyle: true });
+  const boxedInk = inkInWidgetRect(boxedOn.bytes, "f-boxed");
+  assert.ok(boxedOn.bytes.equals(boxedOff.bytes),
+    "a widget declaring no /BS is not byte-identical with the option on");
+  assert.ok(boxedInk.leftEdge > 0, "the solid border the form does print was removed");
+  assert.deepEqual(boxedOn.report.declaredWidgetBorderStyles.widgets, []);
+  control("11-a-written-widget-that-declares-no-border-style-keeps-its-box-and-not-a-byte-moves", {
+    bytes: boxedOff.bytes.length,
+    identical: true,
+    leftEdgeBand: boxedInk.leftEdge,
+    covering: "the default style is solid, and a solid border is a border around the rectangle"
+  });
+
+  // ---- G. a widget whose own appearance contradicts its declared style ------
+  const contradictOn = await finalize(
+    await probe({ kind: "text", appearance: SOURCE_BOX, value: "Jordan Reyes", borderStyle: { S: "U" } }),
+    { writtenFields: WRITTEN, honorWidgetBorderStyle: true });
+  const contradictOff = await finalize(
+    await probe({ kind: "text", appearance: SOURCE_BOX, value: "Jordan Reyes", borderStyle: { S: "U" } }),
+    { writtenFields: WRITTEN });
+  assert.ok(contradictOn.bytes.equals(contradictOff.bytes),
+    "a widget whose appearance contradicts its declared style was repaired anyway");
+  assert.deepEqual(contradictOn.report.declaredWidgetBorderStyles.refusedContradictoryAppearance, ["the.field"]);
+  assert.deepEqual(contradictOn.report.declaredWidgetBorderStyles.widgets, []);
+  control("12-a-widget-declaring-an-underline-whose-own-appearance-draws-a-box-is-refused-and-counted", {
+    identical: true,
+    refusedContradictoryAppearance: ["the.field"],
+    covering: "two signals must agree; where the form contradicts itself, honouring either would change "
+      + "what the court's own form shows"
+  });
+
+  // ---- H. the two options do not overlap ------------------------------------
+  const unwrittenUnderline = await finalize(
+    await probe({ kind: "text", appearance: SILENT_RULE, borderStyle: { S: "U" } }),
+    { honorWidgetBorderStyle: true });
+  assert.deepEqual(unwrittenUnderline.report.declaredWidgetBorderStyles.widgets, [],
+    "the new option reached a field this run did not write");
+  assert.equal(unwrittenUnderline.report.widgetContributions.synthesizedBorderCharacteristicsRemoved, 0,
+    "the new option performed the other option's remedy");
+  control("13-the-new-option-never-reaches-an-unwritten-field-and-the-two-remedies-do-not-overlap", {
+    honorWidgetBorderStyleTouched: 0,
+    suppressSynthesizedWidgetBordersTouched: 0,
+    covering: "suppressSynthesizedWidgetBorders acts only on a field this run did not write; "
+      + "honorWidgetBorderStyle acts only on a field this run did write"
   });
 
   console.log(JSON.stringify({ control: "synthesized widget borders from /MK", dpi: DPI, results }, null, 2));

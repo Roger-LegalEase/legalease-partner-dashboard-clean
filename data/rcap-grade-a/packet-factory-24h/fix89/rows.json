@@ -4,7 +4,9 @@
   "laneKind": "repair",
   "status": "COMPLETED",
   "repairedByThisLane": true,
-  "obligationsRepaired": ["SELF_HELP_STOP"],
+  "obligationsRepaired": [
+    "SELF_HELP_STOP"
+  ],
   "rows": [
     {
       "itemId": "va_exp_nonconviction-set",
@@ -12,15 +14,15 @@
       "laneKind": "repair",
       "status": "COMPLETED",
       "repairedByThisLane": true,
-      "obligationsRepaired": ["SELF_HELP_STOP"],
+      "obligationsRepaired": [
+        "SELF_HELP_STOP"
+      ],
       "defectRepaired": "SELF_HELP_STOP",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
       "builder": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
       "worktree": "/home/user/fix89-worktree, branch fix89-va-exp-stops cut from 11e568add. core.sparseCheckout false, 0 skip-worktree bits. private/ and node_modules symlinked read-only; MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1. Every raster was taken under /tmp at 300 dpi for measurement only and deleted after measuring; no PNG was committed, and this family tracks none.",
       "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX89 va_exp_nonconviction-set -> CLAIM_OK FIX89 va_exp_nonconviction-set (repair, grant set fee594417e8c9532), exit 0. Asserted before any artifact of this family was read or written. The grant is not released here and the claim ledger is not committed.",
-
       "theDefect": "VF01, verifiedAtBase 7e01df1d8, FAIL on SELF_HELP_STOP: the committed track registry names five selfHelpStopConditions for track va_exp_nonconviction and the packet stated none of them. The packet said 'it is not legal advice', which states what the packet is rather than where the participant's own case leaves its reach. VF03 had measured the same absence at e80c4a759 and recorded the Dotson screen, the twenty-one-day objection window and the prior-record/felony case under observations rather than failing the obligation; VF01 ruled the other way on the same bytes and this lane repairs to VF01's reading.",
-
       "theRepair": {
         "readAtBuildTime": "A new selfHelpStops() in the builder reads data/record-clearing/legal-design-track-registry.json at build time for trackId va_exp_nonconviction. It asserts the track exists, asserts selfHelpStopConditions is non-empty, asserts one of them names Dotson, and asserts the matching Dotson exclusion is present. Nothing is hard-coded: the conditions are printed in the registry's own words and in the registry's own order, so the packet cannot drift from the record and cannot silently lose one. This is the shape FIX86 gave Colorado in scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs and the shape the Vermont host carries.",
         "composedFilingInstructionsPage": "The composed filing_instructions page now carries three new sections after the fee block and before WHAT THIS PACKET IS NOT: 'THE DOTSON SCREEN, A HARD GATE ON THE BASIS ELECTION IN PART ONE', which quotes the registry's condition 1 and the matching registry exclusion verbatim; 'WHERE SELF-HELP ENDS', which prints all five conditions verbatim, one bullet per declared condition; and 'WHO TO ASK WHEN YOU REACH ONE OF THEM'.",
@@ -29,21 +31,49 @@
         "whoToAsk": "Only who the repository's records and the existing packets already name. The clerk of the circuit court where the petition is filed answers procedural questions -- what to file, how the copy must be served, what that court requires -- which is who this packet already sends the participant to on three other pages; the page says in terms that the clerk cannot tell them whether their charge is eligible. The legal questions -- whether the Dotson screen catches the dismissal, whether the Sec. 19.2-392.2(F) presumption is available, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question -- are put to a lawyer licensed to practise in Virginia, or a legal-aid office reached through that same clerk's office. NO NAMED LAWYER, ORGANISATION OR REFERRAL SERVICE IS INVENTED: the VA memo and the track registry name none for this route, and none is stated.",
         "whatWasNotDisturbed": "FIX74's composed fee block ('THE FILING FEE, AND ONE THING THIS PACKET DOES NOT TELL YOU', the Sec. 19.2-392.2(A) no-fee statement and the CCRE-fee sentence) is byte-for-byte the text it was, in the composed page and in the instructions. FIX82's suppressSynthesizedAppearances opt-in at the single finalizeOfficialForm call is untouched, and its two per-form intermediates prove it: canonical--CC-1473-primary-filing.pdf stays fb78335106929880be467eef37be576a6e46be0a2bdc3fff99f78b47763ee58e and boundary--CC-1473-primary-filing.pdf stays e7bc916a98af2288158914c89d8dafb52a41e59352d93fe691d3856b8f6cccbe, unchanged across the repair."
       },
-
       "conditionMatch": {
         "declared": 5,
         "matched": 5,
         "result": "5/5",
         "method": "Each of the five registry strings was compared, whitespace-normalised and with the composer's own sanitisation applied (curly quotes to straight, Sec. for the section sign), against participant-instructions.md and against pdftotext -layout of both delivered fixtures. All five are present verbatim in all three.",
         "perCondition": [
-          { "n": 1, "condition": "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.", "participantInstructionsMd": true, "canonicalPdf": true, "boundaryPdf": true },
-          { "n": 2, "condition": "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.", "participantInstructionsMd": true, "canonicalPdf": true, "boundaryPdf": true },
-          { "n": 3, "condition": "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.", "participantInstructionsMd": true, "canonicalPdf": true, "boundaryPdf": true },
-          { "n": 4, "condition": "Any immigration question.", "participantInstructionsMd": true, "canonicalPdf": true, "boundaryPdf": true },
-          { "n": 5, "condition": "Juvenile or federal records.", "participantInstructionsMd": true, "canonicalPdf": true, "boundaryPdf": true }
+          {
+            "n": 1,
+            "condition": "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+            "participantInstructionsMd": true,
+            "canonicalPdf": true,
+            "boundaryPdf": true
+          },
+          {
+            "n": 2,
+            "condition": "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
+            "participantInstructionsMd": true,
+            "canonicalPdf": true,
+            "boundaryPdf": true
+          },
+          {
+            "n": 3,
+            "condition": "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
+            "participantInstructionsMd": true,
+            "canonicalPdf": true,
+            "boundaryPdf": true
+          },
+          {
+            "n": 4,
+            "condition": "Any immigration question.",
+            "participantInstructionsMd": true,
+            "canonicalPdf": true,
+            "boundaryPdf": true
+          },
+          {
+            "n": 5,
+            "condition": "Juvenile or federal records.",
+            "participantInstructionsMd": true,
+            "canonicalPdf": true,
+            "boundaryPdf": true
+          }
         ]
       },
-
       "digests": {
         "before": {
           "canonicalSha256": "5bd8aa7b89bdddafae1f672ae7e000a0f1ad9fdee005e75770e740b8ed734b25",
@@ -68,7 +98,6 @@
         },
         "pageCountMoved": "7 -> 8 in both fixtures. The composed filing_instructions document grew from two pages to three; the extra sheet is packetPage 8 and carries the WHAT THIS PACKET IS NOT block and the route trailer, which is the block that stood on page 7 before. No other component's page count changed."
       },
-
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -78,27 +107,26 @@
         "requiredComponentsMissing": 0,
         "invisibleWrites": 0,
         "protectedWrites": 0,
-        "visualDefects": 0,
-        "allZero": true,
-        "measuredHere": true,
-        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set, run on the committed post-repair bytes -> PASS_COMPLETE, 15/56 written, exit 0.",
-        "whyNineZerosIsNotByItselfAPass": "The counters read the field map. VF01 said so in terms: no counter reads participant-instructions.md against the track record's stop conditions, and all nine read zero over the omission before the repair as well as after it. The proof that the omission is closed is the 5/5 verbatim match and the rastered page, not these nine."
+        "visualDefects": 0
       },
-
       "determinism": {
         "result": "BYTE_IDENTICAL",
         "method": "The repaired builder was run twice in this container with the same environment. The whole family directory was copied aside after the first run and diff -r against the second run's output returned no difference: fixtures, participant-instructions.md, field census, field map and every report. sha256sum after the second run returns the same b638124a... and eefa407b... reported above.",
         "command": "node scripts/build-census-v1-va_exp_nonconviction-set.mjs --no-raster",
         "rasterFlag": "--no-raster matches the committed record: reports/rendered-artifacts.json carries rasterSkipped true and rasterPages [] both before and after, so the repair did not change how the family is rendered."
       },
-
       "rasterProof": {
         "engine": "pdftoppm 300 dpi, Pillow/numpy pixel comparison, under /tmp, deleted after measuring",
         "officialPagesPixelIdentical": {
           "result": "IDENTICAL",
           "pages": "CC-1473 packet pages 1 and 2, in both fixtures",
           "measurement": "Each pre-repair fixture was recovered from git at 11e568add (sha256 confirmed 5bd8aa7b... and 24b8dbc1...), rastered at 300 dpi alongside the post-repair fixture, and compared pixel by pixel at 2550x3300. canonical p1 0 differing pixels, canonical p2 0, boundary p1 0, boundary p2 0. Same dimensions in every pair. The official form pages are the pre-repair pages exactly.",
-          "differingPixels": { "canonicalPage1": 0, "canonicalPage2": 0, "boundaryPage1": 0, "boundaryPage2": 0 }
+          "differingPixels": {
+            "canonicalPage1": 0,
+            "canonicalPage2": 0,
+            "boundaryPage1": 0,
+            "boundaryPage2": 0
+          }
         },
         "newTextPlacement": {
           "result": "INSIDE_COLUMN_NO_OVERLAP_NO_CLIPPING",
@@ -108,7 +136,6 @@
           "overlap": "Ink rows were banded per page and the vertical gap between consecutive text bands measured. Minimum clear gap 17 px on pages 6 and 7 and 18 px on page 8, so no line of the new text touches or overlaps the line above or below it."
         }
       },
-
       "obligationsThisRowDoesNotDischarge": [
         "CENTRAL_RASTER. The RASTER_QUEUE row for this family binds RASTER_PASS to the pre-repair digests 5bd8aa7b... and 24b8dbc1... at renderedCommitSha f8b5544ee83033b8b7eb3dcd82a53935bc1d27b0 with expectedPages 7. Those bytes no longer exist and the packet is now 8 pages. That receipt is stale and the central raster is owed again on b638124a... and eefa407b... at 8 pages. The rasters taken here were local, under /tmp, for measurement only, and are not a substitute for it.",
         "INDEPENDENT_RE_READ. This lane wrote the repair, so it may not verify it. VF01's FAIL on this family stands until an independent lane re-reads the delivered bytes at this base and rules on the repaired obligation itself. Nothing in this row is an independent verification.",
@@ -118,7 +145,6 @@
         "The thin final sheet. VF01 observed that delivered page 7 carried four drawn lines and 44 words and that SCAN01 classes that a fragment_page. The repair moved that block to page 8 without changing its character: page 8 carries the same four text bands. It is the page VF07 asked for and VF03 declined to re-issue, and this lane does not re-issue it either.",
         "No route promotion, no commercial authority, no approval. This row repairs a packet defect and nothing more."
       ],
-
       "filesChanged": [
         "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
         "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
@@ -129,7 +155,14 @@
         "data/rcap-grade-a/packet-factory-24h/fix89/rows.json"
       ],
       "filesNotTouched": "No other family, no shared manifest, no legal-decision record, no queue file, no build-status.json, no product-wiring.json, no claim ledger. The track registry was read and not written.",
-      "grantsNothing": "A repair proves that one stated defect is closed on these bytes and nothing else. It approves no output, opens no commercial route, promotes no build status and is not an independent verification."
+      "grantsNothing": "A repair proves that one stated defect is closed on these bytes and nothing else. It approves no output, opens no commercial route, promotes no build status and is not an independent verification.",
+      "countersAfterFlags": {
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set, run on the committed post-repair bytes -> PASS_COMPLETE, 15/56 written, exit 0.",
+        "whyNineZerosIsNotByItselfAPass": "The counters read the field map. VF01 said so in terms: no counter reads participant-instructions.md against the track record's stop conditions, and all nine read zero over the omission before the repair as well as after it. The proof that the omission is closed is the 5/5 verbatim match and the rastered page, not these nine."
+      },
+      "captainCorrection": "Captain moved the non-counter fields (allZero, measuredHere, measuredBy, whyNineZerosIsNotByItselfAPass) out of countersAfter into countersAfterFlags on 2026-09-06 so the dispatch generator's nine-zero test can read the counters; the values are unchanged."
     }
   ]
 }
