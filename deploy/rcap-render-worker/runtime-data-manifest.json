@@ -4,16 +4,12 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 67,
-  "totalBytes": 10626559,
+  "fileCount": 122,
+  "totalBytes": 13777640,
   "excluded": [
     {
-      "path": "data/rcap-all50/composed-routes",
-      "reason": "Read by loadComponentDeferrals, reached only from briefcase item CREATION clamps (clampExactDeferral/clampComponentDeferral). The worker's path is getBriefcaseItemForWebhook, a read, which does not call them."
-    },
-    {
-      "path": "data/rcap-all50/terminalization-treatments",
-      "reason": "Read by loadTerminalTreatments, same creation-only clamp path as composed-routes."
+      "path": "data/rcap-all50/composed-routes/**, other than route.json",
+      "reason": "The component-deferral loader opens route.json and nothing else; the canonical/boundary/negative/dependency fixtures and the participant-instructions/handoff/process-guidance markdown beside it have no runtime reader on the worker's graph."
     },
     {
       "path": "data/rcap-all50/overlays/**/fixtures/*.pdf",
@@ -33,6 +29,118 @@
     }
   ],
   "files": [
+    {
+      "path": "data/rcap-all50/composed-routes/arkansas/ar-act346/route.json",
+      "sha256": "44cd775b4ca5ad1ec068795e0c5710959a1e3030f108d898bf78a9d165e2151c",
+      "bytes": 19816,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/arkansas/ar-drug-court/route.json",
+      "sha256": "18d5c8616c1a4f28da62d4bf21053bbaae1a9538f5e587ee36ac453ed0f5487d",
+      "bytes": 19898,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/route.json",
+      "sha256": "db95b194ac5dbc2acf74eb964b934894a5ed4ae1c48686df5510885aff899348",
+      "bytes": 20248,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/route.json",
+      "sha256": "ee6dcbfbcd02b3197b18a18e8b8f5598eefab35cf0a10d4624baf08dd60a8350",
+      "bytes": 20121,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/california/ca-diversion-seal/route.json",
+      "sha256": "de5b0389612c5a38abc0d4b4085d7742d36a888aa5124bbfc9f9a694d0638a9b",
+      "bytes": 23671,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/route.json",
+      "sha256": "81b73e8d91e98d2003ab3954058fb5f93e7b5c6286476a563af3e19277924922",
+      "bytes": 23279,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/route.json",
+      "sha256": "701f9e4201922b3a49631561c625b58aa481673f00f0787acf125571b0d70b48",
+      "bytes": 23609,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/route.json",
+      "sha256": "99ae98639effcfc88eefec92291448eacd11450e341b1a1cf5850268c147ab3f",
+      "bytes": 23068,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/illinois/il-prb-cert/route.json",
+      "sha256": "37e5a9000a7b765c8e80335e92e50d83706a0e2ed74c8b5356cc1daa90e937d9",
+      "bytes": 70244,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/route.json",
+      "sha256": "f5f47b7f7076a66c18932d92114dba6f58d4225e5d7ee1bca2ad7a9b47bf6110",
+      "bytes": 26799,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/iowa/ia-9079/route.json",
+      "sha256": "38793c3ae5b907279815ea7dda18b31ec7bb9c27e3821bbef76d19a6f52bd52f",
+      "bytes": 32092,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+      "sha256": "95e187a2aefdc9f86ff6cc6cd77c08a967213d69ff474d0219e55e8dd6a82382",
+      "bytes": 32826,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json",
+      "sha256": "3680859a113a2e62d46f19a15436c58741bbd311389b084e8de966c17eea0a03",
+      "bytes": 47788,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json",
+      "sha256": "8c4712a3b599b8d1907d4291b176168419405b49a798b289e4e958ad25dc0e53",
+      "bytes": 62380,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+      "sha256": "256334e09bbd4db532b71c9968b627aed365602fcc3d3e5cdc08ec354bf927f1",
+      "bytes": 37552,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
+    {
+      "path": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json",
+      "sha256": "23ceb57f2883c45f3b525bbf457dcc2320bf4046819925e877a6578bbddcece0",
+      "bytes": 72289,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (COMPOSED_ROUTES_DIR, loadComponentDeferrals)",
+      "why": "loadComponentDeferrals walks <state>/<route>/route.json and it FAILS OPEN: an absent directory yields an empty deferral map. resolvePacketRoute (reached from src/lib/rcap/render/job-contract.ts buildRenderJobSpec, which is on the worker's graph) consults it before every other classification, so without these files a component-deferred track stops resolving to routeKind component_deferral and falls through to a later, possibly sellable, classification. Only route.json is opened; sibling canonical/boundary/negative fixtures and participant .md copy are never read, and a route directory carrying no route.json is skipped by the loader either way, so this subset produces the identical deferral map."
+    },
     {
       "path": "data/rcap-all50/guidance-packets/_schema.json",
       "sha256": "5f8dffc055223a5732bc4f18d50e1a2aa9e014656eca7ba546aa2995d3edef86",
@@ -284,6 +392,279 @@
       "bytes": 192955,
       "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts",
       "why": "Factory-v2 route dispositions consulted during route availability."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/_schema.json",
+      "sha256": "1fc9b98cba0e58f968ff514406fa36ef3ad574c99a4bf2214c1874d4a647ebb5",
+      "bytes": 7139,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ak.json",
+      "sha256": "6ac79872dd307e0b48839d05e5a08e0a96193b6c8822f277bcae30eb5c1f2735",
+      "bytes": 44805,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/al.json",
+      "sha256": "c2492bf32b1de8cc9e86d020ecb0e07ecac134309b508df6cca5a4137b3c69b7",
+      "bytes": 95932,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ar.json",
+      "sha256": "65739d517cadf12603292e3d81d534aae74535060a1ade6271729d8e50001ef1",
+      "bytes": 140613,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/az.json",
+      "sha256": "b2e817eeed0f12fdbecea55a8219733e803958c9cd991289aaa7e813cfa94739",
+      "bytes": 100085,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ca.json",
+      "sha256": "f152479099db043105d36a38dc73dbfcfe3a53ac1d27fc755cffbecc157395e1",
+      "bytes": 131503,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/co.json",
+      "sha256": "f35aff2b69d5fdeb9197670fc339ea23ecde48e977350baa9dd93f245efcf94b",
+      "bytes": 81778,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ct.json",
+      "sha256": "a984fa89b7c5ea6f14bf40ebb34b5b334b74274b9d8a896da8c1680f4a95bd85",
+      "bytes": 78550,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/dc.json",
+      "sha256": "1570dbbe1bec5707adad6d5a9ff1e8cf8af90ce23b7bbb296b7e3580cb55af2b",
+      "bytes": 20094,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/fl.json",
+      "sha256": "8cc53cdbd857b99cfd0113258b7dc22c95cc74fa6ceb662bc085a3be3a627478",
+      "bytes": 26114,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ia.json",
+      "sha256": "1e53171bf7144c06cc6838892b486bf626a6f91fc3d0f13cc981a30f95b3a140",
+      "bytes": 37801,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/id.json",
+      "sha256": "d176546e29bf8e696b4dbc0521b11a19e92ab514339fac68f321fbe29941c7a2",
+      "bytes": 41880,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/il.json",
+      "sha256": "0a3feb80bd7ee0534ce3d5f26cc911f9384e41aa3e9e2c6c229325ca0f5e7359",
+      "bytes": 110559,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/in.json",
+      "sha256": "97163d45c8a36b91cc235a893687664d57c57f039ae9480b07666843507b9e14",
+      "bytes": 22546,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ks.json",
+      "sha256": "0e065fa043b998ad3793058e11ba45d38ad19922a740dccfa572fb4602c180a9",
+      "bytes": 62899,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ky.json",
+      "sha256": "62f938ced173e2701fafa5efa145f8acf8cd69f9664cd904ae3c1c54f4c55998",
+      "bytes": 61052,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/la.json",
+      "sha256": "f882c9de5e660085ae7cdea900939fd7ba5a2db188394331dd71e55e0f2ac2e7",
+      "bytes": 24473,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ma.json",
+      "sha256": "7d7834d78c6aa10fb34164a4b942e09a9fdb472e78f5adedab8811f70a8b5104",
+      "bytes": 18498,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/mi.json",
+      "sha256": "c35e04572f0cbddd3f28f1a251db4f12c27f3dad64816299eddf3a53a1a5db5b",
+      "bytes": 65733,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/mn.json",
+      "sha256": "7ad234e5c29cb139fa389bd2e4d80cf41f53922a9af15042e0557e1801625046",
+      "bytes": 58597,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/mo.json",
+      "sha256": "ac0bab2de7baef9f2d5181021f2816dc95a5845d755813786bd8afb871ed15e3",
+      "bytes": 55921,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/mt.json",
+      "sha256": "55316fcd5f380e109f5a14cc13bd602db97762e084ec0611db88eda2fd25968a",
+      "bytes": 34476,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nc.json",
+      "sha256": "d80006d112c66923a62d0f1b5fc29c0e39748a6d67aa575f6cb6b5f195ddc781",
+      "bytes": 47945,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nd.json",
+      "sha256": "466eb4c9ce14e4076640666406fe95db30697212aefbfc58ce023d5d7ef4150f",
+      "bytes": 130044,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ne.json",
+      "sha256": "aabd5b6b3286efa351619012c8b260ea0007790f87305e3e96c9cef7e76e4d66",
+      "bytes": 39248,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nh.json",
+      "sha256": "fae3137a59cb5c7070f6327248863b96968883246ebdb3b2a5226cf8d7307c11",
+      "bytes": 78483,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nj.json",
+      "sha256": "3beb984d95a8d8a6ccfee17289d05be5885255d56e63b4a16a359be4cfdfb613",
+      "bytes": 70360,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nm.json",
+      "sha256": "a11dc12121eb08066fffc0e6d05c33187833c01e869dfc6afb65a2fb46b4fe9a",
+      "bytes": 31598,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/nv.json",
+      "sha256": "fc64c9c7ad5f6b22d32f8c0cd50353d2b5dcce0dd919191109613d5dcde12563",
+      "bytes": 76781,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ok.json",
+      "sha256": "fe60fe005f1dc7b1b95f6bd59bbe2f8bf20183b1d9907a634b4997670a712ddb",
+      "bytes": 27263,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/or.json",
+      "sha256": "62df9c0644f223f33779b4e08550e35368f50ee4d359a1d9c6a6fbc36d5e00e4",
+      "bytes": 51904,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/sc.json",
+      "sha256": "f77ec8696f1ed8022bc32bb54d52b9c5d3e68b9b3c8b12648ca1f8f868a61942",
+      "bytes": 76872,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/tx.json",
+      "sha256": "4ae23bfb7c48ed6da214e9dc08948275bca19f269df9fcf77232b9de621e240f",
+      "bytes": 170331,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/ut.json",
+      "sha256": "b98540d40b8a9eb8c403d29becd565a93e80f8ea6dfd1f25a4d48a449204cd02",
+      "bytes": 27260,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/va.json",
+      "sha256": "bebca47d7f9d983798a06bd8579322505ebbd1baea2f97fe630f7b448fd66309",
+      "bytes": 140601,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/vt.json",
+      "sha256": "97a916caa336b716123f4fac36a625f8a1e08b90e2a9486c993a7346c57ca867",
+      "bytes": 57498,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/wa.json",
+      "sha256": "8b8c1e790d8832f20643d1883de693522bb8c00a8ebe6f7203091b290627cfa1",
+      "bytes": 139748,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/wi.json",
+      "sha256": "2a2b672814870a4896f20ff6dbea8535e05e49fc4e6ec866a2aed2c613ddfdd2",
+      "bytes": 70614,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/wv.json",
+      "sha256": "14b431adbb35c6aa63ea38fd835af80ac22a410bb922a224981cec724a8dba5c",
+      "bytes": 37803,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (TERMINAL_TREATMENT_DIR, loadTerminalTreatments)",
+      "why": "Same fail-open shape: an absent directory yields no treatments, and resolvePacketRoute then stops returning exact_supported_deferral with treatmentReviewState pending_independent_review for the 114 treated tracks. The loader reads every top-level .json (skipping _-prefixed names at parse time), so the whole flat directory ships."
     },
     {
       "path": "data/rcap-codex/release-readiness.json",

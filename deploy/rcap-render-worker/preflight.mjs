@@ -93,6 +93,48 @@ const specCount = fs.readdirSync(specDir).filter((f) => f.endsWith(".json")).len
 if (specCount !== 19) fail(`expected 19 packaged specifications, found ${specCount}`);
 console.log(`specification directory: ${specCount} files scannable at ${path.relative(ROOT, specDir)}`);
 
+// 5. The two fail-open loaders actually loaded from the packaged tree.
+//    loadComponentDeferrals and loadTerminalTreatments return an EMPTY map when
+//    their directory is absent, and resolvePacketRoute consults both before it
+//    classifies a route. An image missing them therefore does not crash: it
+//    quietly stops suppressing every component-deferred and terminally-treated
+//    track. Counting the packaged inputs and then asserting the resolver still
+//    refuses each of those tracks is what makes that failure visible.
+const { allTerminalTreatments } = await import(path.join(ROOT, "src/lib/rcap/documents/guidance-packet-registry.ts"));
+const { resolvePacketRoute } = await import(path.join(ROOT, "src/lib/rcap/documents/packet-route-resolver.ts"));
+
+const composedRoot = path.join(ROOT, "data/rcap-all50/composed-routes");
+const deferredTracks = [];
+if (!fs.existsSync(composedRoot)) fail("data/rcap-all50/composed-routes is absent; every component deferral would silently un-suppress");
+else for (const state of fs.readdirSync(composedRoot)) {
+  const stateDir = path.join(composedRoot, state);
+  if (!fs.statSync(stateDir).isDirectory()) continue;
+  for (const dir of fs.readdirSync(stateDir)) {
+    const routePath = path.join(stateDir, dir, "route.json");
+    if (!fs.existsSync(routePath)) continue;
+    const route = JSON.parse(fs.readFileSync(routePath, "utf8"));
+    if ((route.units ?? []).some((unit) => unit.requiredOutput === "official_form_dependency")) {
+      deferredTracks.push({ trackId: route.trackId ?? dir, state: state.slice(0, 2).toUpperCase() });
+    }
+  }
+}
+const treatments = allTerminalTreatments();
+if (deferredTracks.length === 0) fail("no component-deferral track loaded from the packaged composed-routes tree");
+if (treatments.length === 0) fail("no terminalization treatment loaded from the packaged directory");
+for (const track of deferredTracks) {
+  const resolved = resolvePacketRoute({ state: track.state, pathway: track.trackId, trackId: track.trackId });
+  if (resolved.routeKind !== "component_deferral" || resolved.sellable !== false || resolved.rendererKind !== "none") {
+    fail(`${track.trackId}: component deferral not suppressed in the container (routeKind=${resolved.routeKind}, sellable=${resolved.sellable})`);
+  }
+}
+for (const treatment of treatments) {
+  const resolved = resolvePacketRoute({ state: treatment.jurisdiction, pathway: treatment.trackId, trackId: treatment.trackId });
+  if (resolved.sellable !== false || resolved.rendererKind !== "none") {
+    fail(`${treatment.trackId}: terminal treatment not suppressed in the container (routeKind=${resolved.routeKind}, sellable=${resolved.sellable})`);
+  }
+}
+console.log(`fail-open loaders: ${deferredTracks.length} component-deferral tracks and ${treatments.length} terminal treatments loaded from packaged data; all resolve unsellable with rendererKind none`);
+
 }
 
 if (failures) { console.error(`\nPREFLIGHT FAILED: ${failures} problem(s)`); process.exit(1); }
