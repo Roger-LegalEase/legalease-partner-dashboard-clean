@@ -1020,7 +1020,8 @@
           "conditionDescription": "Where the participant seeks a filing-fee waiver or the state police fee waiver under RSA 651:5, X(d).",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "NHJB-2328",
-          "notes": "Statement of Assets and Liabilities (Individual), retained in Edition 1.2. RSA 651:5, X(d) requires the state police fee waiver request to be accompanied by an affidavit listing the petitioner's and spouse's monthly net income and assets, on a form substantially similar to the superior court fee waiver forms."
+          "notes": "Statement of Assets and Liabilities (Individual), retained in Edition 1.2. RSA 651:5, X(d) requires the state police fee waiver request to be accompanied by an affidavit listing the petitioner's and spouse's monthly net income and assets, on a form substantially similar to the superior court fee waiver forms.",
+          "printedRevision": "NHJB-2328-DFPe* (01/01/2018), read from the printed footer of the bound bytes (sha256 b4384b41efb4…) on 2026-09-06; the corpus file name carries REV-UNKNOWN and is left as filed."
         },
         {
           "role": "criminal_history_request",
@@ -1191,7 +1192,8 @@
         "notice": "The court provides a copy of the petition to the prosecutor of the underlying offence under RSA 651:5, IX.",
         "service": "None by the participant.",
         "participantSignature": "Sworn signature on the petition under penalties of law.",
-        "notarization": "None identified."
+        "notarization": "None identified.",
+        "serviceCertificateOnNhjb2328": "NHJB-2328 carries its own certificate on page 2, verbatim: \"I state that on this date I am sending a copy of this document as required by the rules of the Circuit Court. I am electronically sending this document through the court's electronic filing system to all attorneys and to all other parties who have entered electronic service contacts (email addresses) in this case. I am mailing or hand-delivering copies to all other interested parties.\" Recorded 2026-09-06. The petition's own service answer stands (none by the participant; the court provides the prosecutor copy under RSA 651:5, IX). The certificate's checkbox, signature and date stay blank in the packet until service actually occurs, and the packet says so."
       },
       "selfHelpStopConditions": [
         "Obtaining the vacatur itself, which is post-conviction litigation and outside scope.",
@@ -1334,7 +1336,22 @@
             }
           }
         ]
-      }
+      },
+      "openLegalQuestions": [
+        {
+          "question": "Outstanding court/channel confirmation only: which parties, if any, the NHJB-2328 certificate reaches on an RSA 651:5 annulment petition, and through which channel (the court's electronic filing system or mail/hand delivery). Narrowed on 2026-09-06 from the earlier open service question: the printed revision and the form's own certificate language are now recorded, the petition's service answer is settled, and nothing else about service is open.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "narrowedOn": "2026-09-06",
+          "basis": {
+            "kind": "owner_relayed_narrow_research",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "note": "Research result relayed by the owner on 2026-09-06 and applied through the existing records. It is not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes."
+          }
+        }
+      ]
     },
     {
       "trackId": "nh_conviction_standard",
