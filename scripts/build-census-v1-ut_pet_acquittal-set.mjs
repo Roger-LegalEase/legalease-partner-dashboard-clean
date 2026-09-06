@@ -1553,10 +1553,23 @@ function selectionRefusal(control, formNumber, config = {}) {
       + "decided this case, so the packet discloses the election rather than marking one",
     approvedBlankDisposition: "PARTICIPANT_ELECTION_GENUINE"
   };
+  /*
+   * FIX104, unclassifiedBlanks. FIX83 refused this finding correctly and then
+   * named the refusal in a private vocabulary: kind
+   * "court_finding_requires_prosecutor_evidence" is outside the closed refusal
+   * classes, and the prose that replaced the approved wording matched no
+   * approved reason, so the completeness contract read the blank as
+   * UNCLASSIFIED. The refusal itself is unchanged and the box stays unmarked;
+   * only its classification is restored to the one every other court-owned
+   * 1020EX blank in this family already uses -- the court, clerk, prosecutor,
+   * agency or hearing class, protected for later court completion. The
+   * family-specific explanation is kept after it, and paragraph 5 remains
+   * named in participant-instructions.md.
+   */
   if (config.prosecutorConsentNotHeld && isProsecutorConsentFinding(control, formNumber)) return {
     ...common,
-    kind: "court_finding_requires_prosecutor_evidence",
-    reason: "court finding for later court completion: this paragraph asserts actual written prosecutor consent and no intent to refile. Neither fact is held. The committed dismissal-without-prejudice route also permits the 180-day alternative, so the family alone cannot select this finding.",
+    kind: "selection_control",
+    reason: "court, clerk, prosecutor, agency, or hearing field; protected for later court completion: this paragraph asserts actual written prosecutor consent and no intent to refile. Neither fact is held. The committed dismissal-without-prejudice route also permits the 180-day alternative, so the family alone cannot select this finding.",
     approvedBlankDisposition: "LATER_COMPLETION"
   };
   if (NO_FILL_FORMS.has(formNumber)) return {

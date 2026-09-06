@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX104",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "worker": "FIX104 (repair lane; classified one blank, rebuilt twice, rendered no new bytes and rastered nothing)",
+  "baseCommit": "df8da7ff7",
+  "branch": "fix104-ut-dwp-blank",
+  "worktree": "/home/user/fix104-worktree",
+  "generatedAtDateUtc": "2026-09-06",
+  "grantsConfirmed": [
+    "CLAIM_OK FIX104 ut_pet_dismissed_without_prejudice-set (repair, grant set ca37e85242c1212e)"
+  ],
+  "grantsReleased": 0,
+  "claimLedgerCommitted": false,
+  "preflight": {
+    "script": "scripts/verify-packet-build-environment.mjs --family ut_pet_dismissed_without_prejudice-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable",
+    "family_sources_bind": "ok - 9/9 source(s) bind by exact SHA-256 (custody_reconciliation). The family's own sources all bind, which is the level this repair needed.",
+    "remainingFailure": "corpus_matches_committed_index - 1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' in the master_library custody; it is an Alabama corpus gap in the shared /home/user/corpus-x mount, is not a Utah source, and was neither caused nor repaired by this lane. Two of four custodies (d_source_packs, nationwide_recovery_pool_2026_09_02) are not mounted here and were not compared.",
+    "privateIsGitIgnoredNote": "Initially FAIL because a bare 'private' symlink is not matched by the .gitignore 'private/' directory rule and 'git check-ignore private/' refuses to traverse a symlink. Re-made as a real directory holding per-entry read-only symlinks; the check then passes and nothing beneath private/ is tracked. No source binary was committed."
+  },
+  "theBlank": {
+    "familyId": "ut_pet_dismissed_without_prejudice-set",
+    "document": "1020EX (proposed order), page 2 of the form, packet page 9",
+    "fieldId": "p2-printed_bracket_pair-x121.5-y654.1",
+    "printedCaption": "[ ] the expungement petition is for a case that was dismissed without",
+    "whatItAsserts": "Paragraph 5 of the proposed order: that the prosecutor consented in writing to the expungement and has no intent to refile.",
+    "verifierClassificationBeforeRepair": "UNCLASSIFIED_BLANK, counted under unclassifiedBlanks, result FAIL_MISSING_PREFILLS 36/443 written",
+    "howItWasIdentified": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs offers no verbose or JSON flag (its only flags are --family, --write, --mutations), so its exported auditFamily() was called directly and its untruncated findings array read. Exactly one finding, on this field."
+  },
+  "cause": {
+    "verdict": "A shared-finalizer change, not a form revision and not field-map drift.",
+    "commit": "19c425778 fix(rcap): repair four Utah captions and filing prerequisites",
+    "what": "That commit is the FIX83/VF04 repair wave. It correctly stopped marking 1020EX paragraph 5 from family membership alone (the earlier VF04 ROUTE_OPTIONS FAIL at e5b6f7254) by adding isProsecutorConsentFinding() and a new refusal branch in selectionRefusal() in the shared host scripts/build-census-v1-ut_pet_acquittal-set.mjs.",
+    "why_it_became_unclassified": "The new branch named the refusal in a private vocabulary. It emitted kind 'court_finding_requires_prosecutor_evidence' and bespoke prose. For a selectionControls row the completeness reader takes the refusal class from category, then class, then kind (verify-packet-completeness.mjs line 197); 'court_finding_requires_prosecutor_evidence' is outside REFUSAL_CLASSES, and because the row uses no declared channel the unknown-class guard is skipped and classifyBlank falls through to the prose table. The new prose matched no entry in APPROVED_REASONS, so the blank landed on UNCLASSIFIED_BLANK. The row's own approvedBlankDisposition 'LATER_COMPLETION' could not save it: no script in the repository reads approvedBlankDisposition except the three builders that write it, so it is inert to the contract.",
+    "why_vf04_did_not_see_it": "vf04's PASS row at 6fb6e391b recorded commandReturnedNineZeros true; that is the one part of the row this lane could not reproduce. The field map at 6fb6e391b is byte-identical to the pre-repair bytes at df8da7ff7 (sha256 9713705c6e9f1940f94cd616c4c9cfdea384f75da34893c20157141a465fba29), and the completeness contract as it stood at 6fb6e391b, run directly on that row, also returns UNCLASSIFIED_BLANK. The only completeness change between 6fb6e391b and df8da7ff7 is 8ae2632bb, which added the source-presentation path this row does not enter. So the counter was already 1 when vf04 read, and the drift is the FIX83 finalizer change alone, not a later contract change. Every substantive VF04 proof-obligation finding was reproduced and none is disturbed by this repair.",
+    "whyTheSiblingsPass": "ut_pet_dismissed_with_prejudice-set and ut_pet_no_charges-set carry the identical widget with kind 'selection_control' and the reason 'attorney-only or alternative route branch not applicable on this route-specific packet', which the APPROVED_REASONS attorney-only pattern resolves to NOT_APPLICABLE_ON_THIS_ROUTE. That classification is correct for them and would be false here: this route IS the dismissal-without-prejudice route the paragraph describes, so the branch is reached, not inapplicable."
+  },
+  "classification": {
+    "decision": "REFUSED, on the court/clerk/prosecutor role class, unchanged in substance from the refusal FIX83 already made.",
+    "reasonClassApplied": "court, clerk, prosecutor, agency, or hearing field; protected for later court completion",
+    "whyThatClass": "The finding is a judicial finding the court makes from evidence, and the underlying fact is a prosecutor act. data/record-clearing/legal-design-track-registry.json track ut_pet_dismissed_without_prejudice states the mechanism as 'either the prosecutor consents in writing ... or at least 180 days have passed since the dismissal', records the prosecutor's written consent as a participant-obtained conditional item with 'LegalEase does not seek, negotiate or obtain prosecutor consent, and never asserts that it has been given', and gives the prosecuting attorney's signature on 1148XX as a prosecutor act. The platform holds neither the consent nor the no-intent-to-refile fact, so no value could be written from a held fact.",
+    "notInvented": "No value was written. The box remains unmarked in both fixtures, exactly as before.",
+    "establishedUsage": "This is the same reason string the neighbouring 1020EX/1022EX court-role branch of the same selectionRefusal() already emits for pleadings/hearing/objection blanks, and category/class 'court_prosecutor_clerk_or_agency_owned' is the same closed-vocabulary class carried on 2498 category rows and 2320 class rows across census-v1. No new convention was introduced. The invented kind was reset to 'selection_control', the value every other Utah selection control carries.",
+    "resolvedDisposition": "PROTECTED_FIELD (from the approved reason). approvedBlankDisposition on the row stays 'LATER_COMPLETION', matching the sibling court-role branch on this same form.",
+    "namedInParticipantInstructions": "Yes. participant-instructions.md line 61 already carries the refusal: '**Paragraph 5 of the proposed order (1020EX) is left unmarked.** It asserts that the prosecutor consented in writing and has no intent to refile. This packet holds neither fact and does not infer consent from a dismissal without prejudice...' No instruction text was changed, because the disclosure FIX83 wrote is correct and complete."
+  },
+  "filesChanged": [
+    "scripts/build-census-v1-ut_pet_acquittal-set.mjs (shared Utah host; the prosecutorConsentNotHeld branch of selectionRefusal only, gated on a flag set by no family but ut_pet_dismissed_without_prejudice-set)",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/production-field-map.json (two strings on one selection control)",
+    "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json (the same basis string, regenerated by the builder)",
+    "data/rcap-grade-a/packet-factory-24h/fix104/rows.json (this return)"
+  ],
+  "siblingsUnmoved": "The three Utah families sharing this host set no prosecutorConsentNotHeld flag, so the edited branch is unreachable for them. No sibling family byte changed; git status after two rebuilds lists only the files above.",
+  "determinism": {
+    "rebuilds": 2,
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+    "method": "sha256 over every file in the family directory, sorted, after each build; the two lists were diffed.",
+    "result": "BYTE_IDENTICAL across both rebuilds, all files in the family directory."
+  },
+  "digests": {
+    "note": "The fixture bytes did not move. This repair changes only how a blank is CLASSIFIED; the box was already unmarked and no write was added or removed, so there is nothing for the renderer to render differently.",
+    "fixturesUnchangedProof": "Digests recomputed on the committed tree before any edit and again after two rebuilds; both PDFs and all 38 tracked raster PNGs are identical, and git status lists no fixture or raster file as modified.",
+    "fixtures": [
+      {
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256Before": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a",
+        "sha256After": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a",
+        "moved": false
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256Before": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f",
+        "sha256After": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f",
+        "moved": false
+      }
+    ],
+    "rasterPngsTracked": 38,
+    "rasterPngsChanged": 0,
+    "fieldMap": {
+      "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/production-field-map.json",
+      "sha256Before": "9713705c6e9f1940f94cd616c4c9cfdea384f75da34893c20157141a465fba29",
+      "sha256After": "aca3f74fa52e3daa14ebbfbf44fd2ba51cf70fe95b0cba94e0585a3e928d4676",
+      "moved": true
+    }
+  },
+  "vf04PassStatus": {
+    "lapsed": false,
+    "why": "The vf04 PASS_COMPLETE_INDEPENDENT at 6fb6e391b is a read of the delivered packet bytes. Both fixture PDFs and every tracked raster are byte-identical to the bytes that read verified, so the read still describes the delivered document and no independent re-read or central raster is owed on account of this lane. The family's existing BUILT_RASTER_PENDING state and its outstanding obligation of a fresh central raster on these exact eight PDF hashes are unchanged by this repair and are not discharged by it.",
+    "ifTheBytesHadMoved": "They did not. Had they moved, the PASS would have lapsed and an independent re-read plus a central raster would be owed; that is recorded here only so the condition is on the record."
+  },
+  "rows": [
+    {
+      "itemId": "ut_pet_dismissed_without_prejudice-set",
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "lane": "FIX104",
+      "status": "COMPLETED",
+      "obligationsRepaired": ["KNOWN_PREFILLS"],
+      "obligationsRepairedBasis": "The verifier's own classification. The blank was counted on unclassifiedBlanks, whose defect class is FAIL_MISSING_PREFILLS; the assignment's KNOWN_PREFILLS is the matching proof obligation and the row repairs that one only.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 1,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "countersAfterResult": "PASS_COMPLETE 36/443 written",
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischargeNote": "This row classified one blank on a shared build host. It rendered nothing new, rastered nothing, opened no route, and touched no legal record. The family's outstanding central raster on its current eight PDF hashes, its legal-design holds, and the separately blocked Utah limitations venue/1044XX question are all untouched.",
+      "digestsBefore": {
+        "fixtures/canonical.pdf": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a",
+        "fixtures/boundary.pdf": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f"
+      },
+      "digestsAfter": {
+        "fixtures/canonical.pdf": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a",
+        "fixtures/boundary.pdf": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f"
+      },
+      "fixtureBytesMoved": false,
+      "determinism": "Rebuilt twice; every file in the family directory byte-identical between the two rebuilds.",
+      "packetFilesModified": 1,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
