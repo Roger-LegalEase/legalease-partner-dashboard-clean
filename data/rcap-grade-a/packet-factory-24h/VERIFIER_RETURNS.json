@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 877,
+    "rows": 879,
     "independentVerdicts": 240,
     "failRepairRequired": 62,
     "passIndependent": 160
@@ -4098,6 +4098,28 @@
       ],
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0ed47bb50",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet does not state where self-help ends. The repository holds the answer for this exact track and the packet carries none of it, names no lawyer and names no referral route. REPAIR: add a stop section to participant-instructions.md carrying the three conditions CO.memo.json declares for co_motion_seal_nonconviction, and name who to ask when one is reached, in the way the Vermont and Pennsylvania packets already do; no form byte need change and no rebuild of the fixtures is required by this defect.",
+          "evidence": "MEASURED AGAINST THE FILE AND AGAINST THE DELIVERED PAGES, AND THE PACKET NEVER STATES A STOPPING POINT. data/record-clearing/legal-design-intake/CO.memo.json declares three selfHelpStopConditions for track co_motion_seal_nonconviction, read here: 'The district attorney objects.', 'The court sets a contested hearing.', and 'Immigration, licensing or firearm consequences are in play.' NONE OF THE THREE APPEARS ANYWHERE. participant-instructions.md was grepped for lawyer, attorney, stop, hearing, object, immigration, licens, firearm, legal aid and counsel: the only hits are 'the prosecuting attorney' as the party to be served, the attorney-only counsel signature control, and 'no attorney-representation fact is held for you'. The word lawyer does not occur in the file. All five delivered pages were searched the same way: the only hits are the form's own 'Prosecuting Attorney' service block and the line '(only available to lawyers)' beside the Colorado Courts E-Filing method, which is the form's note about who may e-file, not a referral. WHAT THE PACKET DOES SAY, weighed and found not to be this obligation: 'What this packet is not' states it is not legal advice, is not filed for the participant, and does not decide whether the records are eligible to be sealed; 'What the platform deliberately left blank' assigns the verification, the certificate, the counsel block, the Division and Courtroom boxes and JDF 478 sections 4 and 5 to their proper owners; and section 7's affirmations are flagged with 'Read them before you swear to them.' That is a disclaimer plus a division of labour among fields. It tells the participant who fills which blank. It does not tell them at what point this packet stops being enough, it never names a person or office to consult when it does -- no lawyer, no legal aid, no referral service -- and the clerk it does name is named only for filing questions and the fee. MEASURED AGAINST THE PACKETS THAT PASS THIS OBLIGATION: vt_seal_nonconviction-set carries a 'When to stop and get a lawyer' section whose six stops match its memo item for item, and pa_490_nonconviction-set carries a 'Where self-help ends' section naming three stops and then 'Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service.' This packet has no equivalent of either. THIS DEPARTS FROM THIS LANE'S OWN PREVIOUS ROW AND SAYS SO: at ab018b86a VF02 passed this obligation on the same measurement, recording the three absent conditions as 'DISCLOSED AND NOT SCORED'. On re-reading the obligation against the two packets that pass it, that disclosure IS the obligation rather than a note beside it: a packet whose route the record says ends in self-help at a district attorney's objection, at a contested hearing, and at immigration, licensing or firearm exposure, and which carries none of that on its face, has not stated where self-help ends. Nothing about the bytes changed between the two reads; the reading of the obligation did, and the earlier row's own measurement is the evidence for this one."
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
@@ -14747,6 +14769,28 @@
     {
       "familyId": "pa_490_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0ed47bb50",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On page 1 of the proposed order, at the two widgets the packet writes that carry an /MK /BC border colour, the packet strokes a one-point black rectangle around the field where the official Pennsylvania order draws a single writing rule -- about 3,157 and 3,244 pixels of the packet's own ink per fixture, proved not to be the form's page content, proved absent at the same-page control widget with no /BC, and proved absent at the same widget on the boundary fixture where the value is withheld and the appearance is not regenerated. It predates FIX77 and no counter or raster receipt sees it, because it lies inside a declared write box. REPAIR: at the shared finalizer, preserve a widget's own /AP /N appearance semantics when regenerating a written text field, or suppress /MK /BC border synthesis where the widget's shipped appearance draws no border; rebuild, re-raster centrally on the new bytes, and re-read this obligation independently. Two things are disclosed and NOT scored, both proved to be the form's own: the 624 revealed page-content pixels at the petition's two Yes/No widgets, and the source's comment-only DSBlank /Sig placeholder the sweep counts as the one non-conforming placement of 30 and that paints nothing.",
+          "evidence": "THE DEFECT, MEASURED FOUR WAYS ON THE CURRENT BYTES, WITH TWO LIVE CONTROLS. (1) WHAT IT IS. The pinned PA-RCRIM-P-490-ORDER carries EIGHT widgets with an /MK /BC border colour of [0 0 0], enumerated here from the pinned binary. Six of them -- NameAddrOfJudge, DateAndArrestingAgency, ReasonForExpunge, AgenciesServed, SpecificCharges, NameAddressOfAffiant -- ship an /AP /N stream that itself strokes a rectangle ('0 G 0.5 0.5 W H re s'), so honouring /BC coincides with the form. The other TWO -- DocketNumber (/Rect x 384.826 y 664.472 w 160.747 h 14.904, order page 1) and Defendant (/Rect x 101.95 y 689.954 w 171.281 h 13.992, order page 1) -- ship an /AP /N stream that draws ONE HORIZONTAL RULE and nothing else: '0 G 0 0.5 m 160.7475 0.5 l s' and '0 G 0 0.5 m 171.2816 0.5 l s', read byte for byte from the pinned binary. Those two are the two widgets on that page the packet writes a value into. (2) WHAT THE PACKET DRAWS INSTEAD. Read from the delivered bytes: the flattened appearance for Defendant, /FlatWidget-6837590713, /BBox [0 0 171.281 13.992], contains '0 0 0 RG 1 w [] 0 d 1 0 0 1 0.5 0.5 cm ... 0 0 m 0 12.992 l 170.281 12.992 l 170.281 0 l h S' -- a one-point black STROKED RECTANGLE around the whole widget. /FlatWidget-7592840450 does the same at DocketNumber. Every other flattened widget on that page constructs its path with '0 w' and ends it 'h' with NO stroke operator, so no box is painted; the difference is exactly /MK /BC. This is the /MK /BC border regeneration this lane measured on the sibling co_multiple_conviction_seal-set, found here on Pennsylvania. (3) IT IS INK ON A DELIVERED PAGE. Both order fixtures were rastered at 300 dpi and compared pixel for pixel with the pinned order page 1. Connected-component analysis of the added ink returns, as its two largest components, a rectangle outline of 3,157 px at x[384.72,545.28] y[666.00,679.44] (fill ratio 0.083) and one of 3,244 px at x[102.00,272.88] y[691.44,703.92] (fill ratio 0.086) -- the two widget rectangles, outlined not filled. In a 1.5pt perimeter band the delivered page carries 3,635 dark pixels at DocketNumber against the pinned form's 1,350, and 3,068 at Defendant against 1,438. (4) IT IS NOT THE FORM'S OWN INK REVEALED, which is the test this lane has applied to every comparable divergence. The pinned order was re-rendered a third time with its /Annots and /AcroForm removed: of the 2,949 added dark pixels in the left-and-top edge band of DocketNumber, 0 fall on the pinned page content and 2,949 fall on neither the pinned render nor the pinned page content. The packet draws them itself. CONTROL A, SAME PAGE, NO /BC: DefendantName is the adjacent written text widget with no /MK /BC; its 1.5pt perimeter band is 4,395 delivered against 4,395 pinned, difference 0, and every difference at that widget is the value's own glyphs. CONTROL B, SAME WIDGET, NOT WRITTEN: on the boundary fixture Defendant is heldButNotPrinted, its appearance is not regenerated, only ONE stroked-rect XObject exists in that fixture instead of two, and its window differs from the pinned form by 0 pixels. So the box appears exactly where /MK /BC exists AND the packet regenerates the appearance, and nowhere else. PRE-EXISTING: the same two stroked-rect XObjects are present in the pre-FIX77 order recovered at 21ddabcb3^ (sha256 2339fbe6...), so FIX77 neither introduced nor touched it, and VF03 read the edge signal at 0d4d1d5a1 and attributed it to 'the form's own printed box border, revealed by the same background neutralization' -- an attribution these three measurements contradict. WHAT IT MEANS ON PAPER: on the proposed order a judge signs, the two caption blanks the Pennsylvania Judiciary draws as writing lines are delivered as boxed fields. THE REST OF THE STANDARD, MEASURED IN FULL AND HOLDING. THE SWEEP: rule-490-petition-canonical 78 of 78 flattened placements pass and -boundary 78 of 78, 0 fail, 0 unmatched, plus 4 of 4 exact-fact overlay placements on each. rule-490-order-canonical and -boundary each return 29 pass and 1 non-conforming of 30, 0 unmatched, with 4 and 3 overlay placements. THE ONE NON-CONFORMING PLACEMENT IS REPORTED RATHER THAN ROUNDED AWAY and it is the source's own: /FlatWidget-2708199956 on order page 1 is the flattened CourtSignature widget (/FT /Sig, /Rect 200.846 x 27.547) whose appearance stream is the ten bytes '% DSBlank' -- a comment and nothing else -- inside a /BBox of [0 0 100 100] with no /Matrix, so the product is 100/200.846 in x and 100/27.547 in y. It paints not one mark, being comment-only; it is the pinned form's own structure on a protected court signature block; it is identical in the pre-FIX77 bytes; and it is disclosed rather than scored, exactly as VF03 and FIX77 disclosed it. The two composed certificate fixtures carry no flattened widget placements at all, being composed. INK OUTSIDE A DECLARED WRITE BOX: on the two order fixtures, 0 pixels on either page, at zero tolerance, so the border boxes above are ink INSIDE a declared write box and no counter, no glyph check and no raster receipt can see them. On the two petition fixtures, 624 pixels each lie outside a declared box, and those 624 WERE RUN DOWN rather than tolerated: they lie at x[466.08,537.60] y[511.20,519.60] top-down, the two Yes/No boxes of the fine-costs-restitution question, and rendering the pinned petition with its annotations and AcroForm removed shows that 624 OF 624 fall on ink the pinned page content itself carries and 0 fall on neither -- those two widgets ship an /Off stream opening with an opaque white fill which the shared background neutralization strips, so the form's own printed box underneath becomes visible. That adds no ink of the packet's own, it is the same shared-step divergence this lane recorded for Vermont's 600-00228, and it is disclosed rather than scored. NO SYNTHESIZED SQUARE OF THE FIX62 CLASS REMAINS: all 14 selection-widget readings across the four form fixtures were windowed at 300 dpi, the three order checkboxes and the two petition Checkbox2 widgets are pixel-identical to the pinned forms in both fixtures, and the two petition Check Box1 widgets differ only by the revealed page content just measured, with outside-rect counts identical to the pinned form. NO PARTICIPANT WRITE IS CLIPPED: every written widget was windowed at 300 dpi against the four edges of its own /Rect and every value has positive margin on all four sides. The one edge-test hit, DocketNumber on order page 1 at left -0.11pt and top -0.06pt in BOTH fixtures with identical geometry despite different values, is not the value touching the edge -- it is the regenerated border box measured above, which is why the same reading appears on both fixtures. Every written value was read back complete and unabbreviated with pdftotext on all six fixtures, and the boundary values that would not fit are recorded as heldButNotPrinted and left empty rather than truncated. THE COMPOSED CERTIFICATE: ink confined to x[72.00,527.52] y[396.00,727.44] on a 612x792 page in both fixtures, no page-edge contact, 18 text row bands with no collision, content stream carrying one colour operator '0 rg', zero rectangle fills and zero rectangle strokes, so there is no opaque re-fill, no synthesized box and no self-overlap, and the much longer boundary name and docket number occupy the same ink extent, so neither overruns."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "0d4d1d5a1",
@@ -14770,7 +14814,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_490_nonconviction-set",

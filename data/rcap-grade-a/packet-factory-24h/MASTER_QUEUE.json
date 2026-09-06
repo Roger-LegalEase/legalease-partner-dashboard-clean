@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "6125e73ac7f6f37e5c503559068d7e4676cd1875",
+  "minimumCaptainSha": "dc252f8cec91d05f7e1a9c5da7bfc59b91ec421a",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "1a1d17f95e54c685b734895599e29c8724abcb9a81dbcc9590e6b25fe6d7e344",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "0293513baea9a7533b94594e888426d4dfb2d84832df80883f60ac55bda1fb05",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,28 +66,28 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 10,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 336,
+    "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 15,
-    "verifyPending": 18,
-    "repairRequired": 35,
+    "verifyPending": 16,
+    "repairRequired": 37,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 142,
-    "FAIL_REPAIR_REQUIRED": 45,
+    "FAIL_REPAIR_REQUIRED": 46,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 18,
-    "BUILT_RASTER_PENDING": 1,
+    "BUILT_RASTER_PENDING": 2,
     "LEGAL_BLOCKED": 15,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 16,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -110,7 +110,6 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "ne-setaside-custodial-set",
       "nm_conviction-set",
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
@@ -7699,10 +7698,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf02",
-        "verifiedAtBase": "ab018b86a",
+        "verifiedAtBase": "0ed47bb50",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -7732,18 +7733,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary, identically. At each of the five section 6 ground-election radios the packet paints the official form's own bevel 4.32pt oversize, losing 1,830 of the form's pixels and putting 2,951 pixels of ink outside the write box the appearance belongs to, where JDF-477 paints none. Nine counters are zero and a RASTER_PASS is live on these exact bytes; neither sees it, which is why the appearance read exists.",
-          "evidence": "THE DEFECT, MEASURED THREE WAYS ON THE CURRENT BYTES. (1) THE PLACEMENT SWEEP FAILS. For every flattened widget appearance the page-content cm chain was composed through q/Q, the placed XObject's /BBox and /Matrix read, the BBox transformed by the Matrix, the placement matched to the pinned widget whose /Rect origin it translates to, and cmScale x requiredScale required to equal 1 within 0.05pt. Result: 70 of 75 pass and 5 FAIL in canonical, and the identical 70 of 75 with the same 5 failures in boundary; 0 unmatched, every placement matched at distance 0. The five are /FlatWidget-735569487, /FlatWidget-8784015711, /FlatWidget-9668333493, /FlatWidget-250812044 and /FlatWidget-1275322832 on packet page 1. Each has /BBox [0 0 18 18] and /Matrix [1 0 0 1 0 0], is placed at cmScale 1, and belongs to a widget whose /Rect is 13.68 x 13.68. requiredScale is 0.76, the product is 0.76 and not 1, and the error is 4.32pt on each axis. (2) WHAT THEY ARE. Read from the pinned JDF-477: all five are widgets of the radio group Group_6_0, the section 6 statutory-ground election -- acquitted of all charges, case completely dismissed, conviction vacated as a trafficking victim, completed diversion, completed deferred judgment. Each has /AS /Off and SHIPS ITS OWN /Off stream of 109 bytes whose content is a grey bevel, '0.501953 g 1 1 m 1 17 l 17 17 l 16 16 l 2 16 l 2 2 l f 0.75293 g 17 17 m 17 1 l 1 1 l 2 2 l 16 2 l 16 16 l f', drawn to an 18pt box. Under ISO 32000-1 12.5.5 a conforming viewer transforms that BBox by the Matrix and FITS the result onto the /Rect, so it draws the bevel at 13.68pt. pdf-lib's flatten emits a translation and no scale, so the packet stamps it at 18pt. (3) IT IS INK ON A DELIVERED PAGE, not arithmetic. Both fixtures were rastered at 300 dpi and compared pixel for pixel with the pinned JDF-477 page 1. At the five rects the delivered page paints 891/810/849/801/806 dark pixels where the pinned form paints 1060/1011/1018/1002/972, differing at 567/527/567/525/568 pixels; 1,830 of the form's own bevel pixels are lost and 924 new ones appear INSIDE the rects, and a further 2,951 dark pixels per fixture lie OUTSIDE the 13.68pt /Rect the appearance belongs to, inside the 18pt footprint, where the pinned form paints none. The overhang measures about 3.3pt to the right of each rect and about 3.3pt above it. The two fixtures are identical in this to the pixel: 3,875 added dark pixels lie outside every declared write box on page 1 of canonical and 3,875 on page 1 of boundary, of which 2,951 are outside the widget rect in each. THE REST OF THE STANDARD HOLDS, AND IS RECORDED SO THE REPAIR IS SCOPED. VF08's own defect IS discharged: all 12 widgets across the two forms whose current /AS state has no stream under /AP /N -- 5 on JDF-477 and 7 on JDF-478, which are the 24 readings VF08 counted -- are now PIXEL-IDENTICAL to the pinned form in both fixtures, so no synthesized square remains anywhere. Of 27 selection widgets, 22 are pixel-identical and only these 5 are not. Every participant write is present, legible and unclipped: 17 canonical and 16 boundary values all read back with pdftotext on their own page, each with positive margin on all four sides of its /Rect, tightest 0.48pt. Pages 2, 3 and 5 carry no added ink at all and are pixel-identical between fixtures and to the pinned forms; page 4 carries 23,180 (canonical) and 38,043 (boundary) added pixels and 0 of them lie outside a declared write box. No invisible writes: 0 annotations, 0 AcroForm fields, no OCProperties, no '3 Tr' and no white-filled text in any of the 105 content and XObject streams of either fixture. WHY THIS IS NOT FIX64'S FAILURE. FIX64 opted this builder into suppressSynthesizedAppearances and said in terms which cases the option leaves alone by design, the first being 'a widget that ships its own stream for the state it is set to'. These five are exactly that. This is the SECOND, separate shared-machinery defect -- the flatten-time appearance scale error that scripts/rcap-official-forms/scan-appearance-bbox-rect-mismatch.mjs was written to count and that fitAppearancesToRect exists to repair. Measured here: scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs passes suppressSynthesizedAppearances: true and does NOT pass fitAppearancesToRect; grepped across scripts/, the only builder in the repository that passes fitAppearancesToRect: true is scripts/build-census-v1-vt_seal_nonconviction-set.mjs. The defect also predates the repair: the same sweep on the pre-repair bytes recovered from 4febb487d^ (6c3d8f44.../1fb4e7b9..., FIX64's own 'before' values) returns 81 of 86 with the identical five failures, so FIX64 neither introduced it nor touched it. REPAIR: opt this family's builder into fitAppearancesToRect at its finalizeOfficialForm call site, rebuild, re-raster centrally on the new bytes, and re-read this obligation independently. The shared default stays as it is and no single family may flip it on the others' behalf."
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet does not state where self-help ends. The repository holds the answer for this exact track and the packet carries none of it, names no lawyer and names no referral route. REPAIR: add a stop section to participant-instructions.md carrying the three conditions CO.memo.json declares for co_motion_seal_nonconviction, and name who to ask when one is reached, in the way the Vermont and Pennsylvania packets already do; no form byte need change and no rebuild of the fixtures is required by this defect.",
+          "evidence": "MEASURED AGAINST THE FILE AND AGAINST THE DELIVERED PAGES, AND THE PACKET NEVER STATES A STOPPING POINT. data/record-clearing/legal-design-intake/CO.memo.json declares three selfHelpStopConditions for track co_motion_seal_nonconviction, read here: 'The district attorney objects.', 'The court sets a contested hearing.', and 'Immigration, licensing or firearm consequences are in play.' NONE OF THE THREE APPEARS ANYWHERE. participant-instructions.md was grepped for lawyer, attorney, stop, hearing, object, immigration, licens, firearm, legal aid and counsel: the only hits are 'the prosecuting attorney' as the party to be served, the attorney-only counsel signature control, and 'no attorney-representation fact is held for you'. The word lawyer does not occur in the file. All five delivered pages were searched the same way: the only hits are the form's own 'Prosecuting Attorney' service block and the line '(only available to lawyers)' beside the Colorado Courts E-Filing method, which is the form's note about who may e-file, not a referral. WHAT THE PACKET DOES SAY, weighed and found not to be this obligation: 'What this packet is not' states it is not legal advice, is not filed for the participant, and does not decide whether the records are eligible to be sealed; 'What the platform deliberately left blank' assigns the verification, the certificate, the counsel block, the Division and Courtroom boxes and JDF 478 sections 4 and 5 to their proper owners; and section 7's affirmations are flagged with 'Read them before you swear to them.' That is a disclaimer plus a division of labour among fields. It tells the participant who fills which blank. It does not tell them at what point this packet stops being enough, it never names a person or office to consult when it does -- no lawyer, no legal aid, no referral service -- and the clerk it does name is named only for filing questions and the fee. MEASURED AGAINST THE PACKETS THAT PASS THIS OBLIGATION: vt_seal_nonconviction-set carries a 'When to stop and get a lawyer' section whose six stops match its memo item for item, and pa_490_nonconviction-set carries a 'Where self-help ends' section naming three stops and then 'Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service.' This packet has no equivalent of either. THIS DEPARTS FROM THIS LANE'S OWN PREVIOUS ROW AND SAYS SO: at ab018b86a VF02 passed this obligation on the same measurement, recording the three absent conditions as 'DISCLOSED AND NOT SCORED'. On re-reading the obligation against the two packets that pass it, that disclosure IS the obligation rather than a note beside it: a packet whose route the record says ends in self-help at a district attorney's objection, at a contested hearing, and at immigration, licensing or firearm exposure, and which carries none of that on its face, has not stated where self-help ends. Nothing about the bytes changed between the two reads; the reading of the obligation did, and the earlier row's own measurement is the evidence for this one."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
@@ -29681,9 +29682,7 @@
         "verifiedAtBase": "ebe931e4e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29730,9 +29729,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX81",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29748,8 +29747,7 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
@@ -33563,11 +33561,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "0d4d1d5a1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "0ed47bb50",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33597,24 +33597,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
-        "KNOWN_PREFILLS"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": "A required component of the route is rendered nowhere and disclosed nowhere. REPAIR: render the certificate of service, or record it in componentsNotGenerated with a reason the way PA-IFP-MDJ already is.",
-          "evidence": "Measured against the route's own component list in data/record-clearing/legal-design-packet-set-manifests.json, which is what 'the component set the route names' means, and then against the delivered bytes and the family's own records. The route declares 4 components. The family binds 3 of them in product-wiring.json binding.packetComponents, and those are rendered: the official-form components all reach a page of the delivered fixture, and the declared page counts were re-counted from the bytes with pdf-lib. The components below are named by the route as REQUIRED and are rendered nowhere, mapped to no page, named in no instruction section, and not disclosed as deliberately not generated: certificate_of_service (component 3, outputStrategy custom_pleading, requirement required). No certificate-of-service artifact exists in the family directory, no delivered page carries one, and reports/rendered-artifacts.json lists it in neither pdfs nor componentsNotGenerated. product-wiring.json binding.instrumentKinds names certificate_of_service while binding.packetComponents omits it, so the family's own record shows the gap. There is no componentDelivery or manifestComponentDelivery record in this family directory mapping any manifest component to a delivered page, so nothing in the family claims they are delivered elsewhere. The conditional fee_waiver component is NOT counted against this family: PA-IFP-MDJ is declared generatedParticipantArtifact false in source-receipt.json, listed in reports/rendered-artifacts.json componentsNotGenerated with a stated reason, and disclosed to the participant at participant-instructions.md line 105. That is exactly how a component that is deliberately not generated should be recorded, and it is the standard the missing component above does not meet. requiredComponentsMissing reports 0 because verify-packet-completeness.mjs only asks whether every documentId the field map or source receipt names appears in a rendered artifact; it never reads the packet-set manifest."
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Two blanks declared required-before-filing on the ground that the platform holds no value carry facts the same packet prints on its other component. REPAIR: write the arrest date, citation date and arresting agency into order item 10 and the charge description into the petition's first Statute Description cell, or set factAvailable and re-classify honestly; then rebuild, re-raster centrally and re-read.",
-          "evidence": "MEASURED ON THE DELIVERED PAGES, and it is a contradiction inside one packet rather than a judgement about what the platform ought to hold. The completeness contract's own REQUIRED_BEFORE_FILING condition reads: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact' (scripts/rcap-packet-completeness/completeness-contract.mjs line 47). Two declarations in this family fail it on the bytes. (a) PA-RCRIM-P-490-ORDER field DateAndArrestingAgency, item 10 of the proposed order, prints 'The date on the citation or complaint, or the date of arrest, and if available, the criminal justice agency that made the arrest'. It is declared requiredBeforeFiling true with the reason 'the platform holds no exact fact for this field', and it is delivered blank on both order fixtures. The petition in the SAME packet prints all three of those facts on its own page 1: Date of Arrest 2019-03-08 (matter.arrest_date), Date on Citation or Complaint 2019-03-08 (matter.offense_date) and Name of Arresting Agency 'Example Police Department' (matter.citing_or_arresting_agency), each read back off the raster. (b) PA-RCRIM-P-490-PETITION field 'Statute DescriptionRow1', the first Statute Description cell of the petition's charges table, is declared requiredBeforeFiling true on the same reason and delivered blank. The order in the SAME packet prints the charge at item 11: 'Possession of a controlled substance' (matter.charge). The consequence on paper is that the judge-signed order omits the arrest date and arresting agency the petition swears to, and the sworn petition's charge table is empty while the order it accompanies lists the charge. The counters cannot see it: the required-before-filing gate tests dec.factAvailable, a flag the build itself sets and did not set, rather than testing whether the fact is written elsewhere in the packet. DISCLOSED IN THE SAME FINDING AND NOT COUNTED SEPARATELY: order item 3 prints only '118 Maple Street' for the petitioner's address while the petition prints Apartment 4B, Harrisburg, PA and 17101 on its own page; the order has a single address widget, so this is the same class of gap and the same repair."
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On page 1 of the proposed order, at the two widgets the packet writes that carry an /MK /BC border colour, the packet strokes a one-point black rectangle around the field where the official Pennsylvania order draws a single writing rule -- about 3,157 and 3,244 pixels of the packet's own ink per fixture, proved not to be the form's page content, proved absent at the same-page control widget with no /BC, and proved absent at the same widget on the boundary fixture where the value is withheld and the appearance is not regenerated. It predates FIX77 and no counter or raster receipt sees it, because it lies inside a declared write box. REPAIR: at the shared finalizer, preserve a widget's own /AP /N appearance semantics when regenerating a written text field, or suppress /MK /BC border synthesis where the widget's shipped appearance draws no border; rebuild, re-raster centrally on the new bytes, and re-read this obligation independently. Two things are disclosed and NOT scored, both proved to be the form's own: the 624 revealed page-content pixels at the petition's two Yes/No widgets, and the source's comment-only DSBlank /Sig placeholder the sweep counts as the one non-conforming placement of 30 and that paints nothing.",
+          "evidence": "THE DEFECT, MEASURED FOUR WAYS ON THE CURRENT BYTES, WITH TWO LIVE CONTROLS. (1) WHAT IT IS. The pinned PA-RCRIM-P-490-ORDER carries EIGHT widgets with an /MK /BC border colour of [0 0 0], enumerated here from the pinned binary. Six of them -- NameAddrOfJudge, DateAndArrestingAgency, ReasonForExpunge, AgenciesServed, SpecificCharges, NameAddressOfAffiant -- ship an /AP /N stream that itself strokes a rectangle ('0 G 0.5 0.5 W H re s'), so honouring /BC coincides with the form. The other TWO -- DocketNumber (/Rect x 384.826 y 664.472 w 160.747 h 14.904, order page 1) and Defendant (/Rect x 101.95 y 689.954 w 171.281 h 13.992, order page 1) -- ship an /AP /N stream that draws ONE HORIZONTAL RULE and nothing else: '0 G 0 0.5 m 160.7475 0.5 l s' and '0 G 0 0.5 m 171.2816 0.5 l s', read byte for byte from the pinned binary. Those two are the two widgets on that page the packet writes a value into. (2) WHAT THE PACKET DRAWS INSTEAD. Read from the delivered bytes: the flattened appearance for Defendant, /FlatWidget-6837590713, /BBox [0 0 171.281 13.992], contains '0 0 0 RG 1 w [] 0 d 1 0 0 1 0.5 0.5 cm ... 0 0 m 0 12.992 l 170.281 12.992 l 170.281 0 l h S' -- a one-point black STROKED RECTANGLE around the whole widget. /FlatWidget-7592840450 does the same at DocketNumber. Every other flattened widget on that page constructs its path with '0 w' and ends it 'h' with NO stroke operator, so no box is painted; the difference is exactly /MK /BC. This is the /MK /BC border regeneration this lane measured on the sibling co_multiple_conviction_seal-set, found here on Pennsylvania. (3) IT IS INK ON A DELIVERED PAGE. Both order fixtures were rastered at 300 dpi and compared pixel for pixel with the pinned order page 1. Connected-component analysis of the added ink returns, as its two largest components, a rectangle outline of 3,157 px at x[384.72,545.28] y[666.00,679.44] (fill ratio 0.083) and one of 3,244 px at x[102.00,272.88] y[691.44,703.92] (fill ratio 0.086) -- the two widget rectangles, outlined not filled. In a 1.5pt perimeter band the delivered page carries 3,635 dark pixels at DocketNumber against the pinned form's 1,350, and 3,068 at Defendant against 1,438. (4) IT IS NOT THE FORM'S OWN INK REVEALED, which is the test this lane has applied to every comparable divergence. The pinned order was re-rendered a third time with its /Annots and /AcroForm removed: of the 2,949 added dark pixels in the left-and-top edge band of DocketNumber, 0 fall on the pinned page content and 2,949 fall on neither the pinned render nor the pinned page content. The packet draws them itself. CONTROL A, SAME PAGE, NO /BC: DefendantName is the adjacent written text widget with no /MK /BC; its 1.5pt perimeter band is 4,395 delivered against 4,395 pinned, difference 0, and every difference at that widget is the value's own glyphs. CONTROL B, SAME WIDGET, NOT WRITTEN: on the boundary fixture Defendant is heldButNotPrinted, its appearance is not regenerated, only ONE stroked-rect XObject exists in that fixture instead of two, and its window differs from the pinned form by 0 pixels. So the box appears exactly where /MK /BC exists AND the packet regenerates the appearance, and nowhere else. PRE-EXISTING: the same two stroked-rect XObjects are present in the pre-FIX77 order recovered at 21ddabcb3^ (sha256 2339fbe6...), so FIX77 neither introduced nor touched it, and VF03 read the edge signal at 0d4d1d5a1 and attributed it to 'the form's own printed box border, revealed by the same background neutralization' -- an attribution these three measurements contradict. WHAT IT MEANS ON PAPER: on the proposed order a judge signs, the two caption blanks the Pennsylvania Judiciary draws as writing lines are delivered as boxed fields. THE REST OF THE STANDARD, MEASURED IN FULL AND HOLDING. THE SWEEP: rule-490-petition-canonical 78 of 78 flattened placements pass and -boundary 78 of 78, 0 fail, 0 unmatched, plus 4 of 4 exact-fact overlay placements on each. rule-490-order-canonical and -boundary each return 29 pass and 1 non-conforming of 30, 0 unmatched, with 4 and 3 overlay placements. THE ONE NON-CONFORMING PLACEMENT IS REPORTED RATHER THAN ROUNDED AWAY and it is the source's own: /FlatWidget-2708199956 on order page 1 is the flattened CourtSignature widget (/FT /Sig, /Rect 200.846 x 27.547) whose appearance stream is the ten bytes '% DSBlank' -- a comment and nothing else -- inside a /BBox of [0 0 100 100] with no /Matrix, so the product is 100/200.846 in x and 100/27.547 in y. It paints not one mark, being comment-only; it is the pinned form's own structure on a protected court signature block; it is identical in the pre-FIX77 bytes; and it is disclosed rather than scored, exactly as VF03 and FIX77 disclosed it. The two composed certificate fixtures carry no flattened widget placements at all, being composed. INK OUTSIDE A DECLARED WRITE BOX: on the two order fixtures, 0 pixels on either page, at zero tolerance, so the border boxes above are ink INSIDE a declared write box and no counter, no glyph check and no raster receipt can see them. On the two petition fixtures, 624 pixels each lie outside a declared box, and those 624 WERE RUN DOWN rather than tolerated: they lie at x[466.08,537.60] y[511.20,519.60] top-down, the two Yes/No boxes of the fine-costs-restitution question, and rendering the pinned petition with its annotations and AcroForm removed shows that 624 OF 624 fall on ink the pinned page content itself carries and 0 fall on neither -- those two widgets ship an /Off stream opening with an opaque white fill which the shared background neutralization strips, so the form's own printed box underneath becomes visible. That adds no ink of the packet's own, it is the same shared-step divergence this lane recorded for Vermont's 600-00228, and it is disclosed rather than scored. NO SYNTHESIZED SQUARE OF THE FIX62 CLASS REMAINS: all 14 selection-widget readings across the four form fixtures were windowed at 300 dpi, the three order checkboxes and the two petition Checkbox2 widgets are pixel-identical to the pinned forms in both fixtures, and the two petition Check Box1 widgets differ only by the revealed page content just measured, with outside-rect counts identical to the pinned form. NO PARTICIPANT WRITE IS CLIPPED: every written widget was windowed at 300 dpi against the four edges of its own /Rect and every value has positive margin on all four sides. The one edge-test hit, DocketNumber on order page 1 at left -0.11pt and top -0.06pt in BOTH fixtures with identical geometry despite different values, is not the value touching the edge -- it is the regenerated border box measured above, which is why the same reading appears on both fixtures. Every written value was read back complete and unabbreviated with pdftotext on all six fixtures, and the boundary values that would not fit are recorded as heldButNotPrinted and left empty rather than truncated. THE COMPOSED CERTIFICATE: ink confined to x[72.00,527.52] y[396.00,727.44] on a 612x792 page in both fixtures, no page-edge contact, 18 text row bands with no collision, content stream carrying one colour operator '0 rg', zero rectangle fills and zero rectangle strokes, so there is no opaque re-fill, no synthesized box and no self-overlap, and the much longer boundary name and docket number occupy the same ink extent, so neither overruns."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
