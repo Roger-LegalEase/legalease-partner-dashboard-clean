@@ -3,7 +3,7 @@ import "server-only";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { currentPersonalizedVerification, preparePersonalizedPacket, PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/personalized-packet";
 import { artifactStorageContext, commercialRouteIdentity, finalVerificationSnapshotFrom,
-  fulfillmentRequestContext, governCommercialAdmission } from "@/lib/rcap/render/commercial-admission";
+  fulfillmentRequestContext, governArtifactAttachment } from "@/lib/rcap/render/commercial-admission";
 import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
 import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
 
@@ -45,7 +45,7 @@ export async function finalizeSponsoredRenderArtifact(jobId: string): Promise<bo
     briefcaseItemId: job.sponsored_consumer_briefcase_item_id, authUserId: job.sponsored_consumer_auth_user_id });
   if (!authority || authority.partner_id !== job.partner_id || authority.clinic_event_id !== job.sponsored_clinic_event_id) return false;
   const identity = commercialRouteIdentity({ jurisdiction: current.snapshot.jurisdiction, pathwayId: current.snapshot.pathwayId });
-  governCommercialAdmission("artifact_commercial_attachment", identity, fulfillmentRequestContext({
+  governArtifactAttachment(identity, fulfillmentRequestContext({
     participantUserId: job.sponsored_consumer_auth_user_id, matterOwnerUserId: job.sponsored_consumer_auth_user_id,
     matterId: job.matter_id,
     finalVerification: finalVerificationSnapshotFrom({ snapshot: current.snapshot, verificationHash: current.hash,

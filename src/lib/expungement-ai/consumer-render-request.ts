@@ -26,7 +26,7 @@ import {
   entitlementContext,
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext,
-  governCommercialAdmission
+  governProviderDispatch
 } from "@/lib/rcap/render/commercial-admission";
 
 /**
@@ -383,7 +383,7 @@ async function requestConsumerPacketRenderInternal(input: {
     pathwayId: verifiedPathwayId
   });
   try {
-    governCommercialAdmission("provider_dispatch", dispatchIdentity, fulfillmentRequestContext({
+    governProviderDispatch(dispatchIdentity, fulfillmentRequestContext({
       participantUserId: authUserId,
       matterId,
       matterOwnerUserId: authUserId,
