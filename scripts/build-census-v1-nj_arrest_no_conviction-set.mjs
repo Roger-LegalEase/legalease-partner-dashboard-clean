@@ -704,6 +704,59 @@ const NJ_KIT_OFFICIAL_COMPONENTS = Object.freeze({
   }),
 });
 
+// FIX88: a petition record is complete or untouched, just like an order row.
+// Optional continuation lines are not mandatory cells. No offence citation,
+// sentence or completion event is derived from the fixture's charge description.
+const NJ_PETITION_ARREST_DATE_BLANK = Object.freeze({
+  page: 18,
+  printed: "“I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1",
+  whatGoesThere: "The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file.",
+});
+const NJ_PETITION_ARREST_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), paragraph 1, delivered page 18",
+  fields: ["arrestOff1", "arrestStatute", "arrestMuni", "origCaseNums"],
+});
+const NJ_PETITION_DISMISSAL_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), item (a), delivered page 18",
+  fields: ["dismissDt", "dismissOff1", "dismissCrt"],
+});
+const NJ_PETITION_CONVICTION_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), item (d), delivered page 19",
+  fields: ["guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
+    "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"],
+});
+const NJ_CONVICTION_BLANK_DECLARATIONS = Object.freeze(Object.fromEntries([
+  ["guiltyOff2", "name of offense(s), continuation line if needed"],
+  ["guiltyStatute", "in violation of N.J.S.A. (statute(s))"],
+  ["guiltyFinal1", "final sentence, first line"],
+  ["guiltyFinal2", "final sentence, continuation line if needed"],
+  ["guiltyTimeType", "jail/prison/incarceration time"],
+  ["guiltyDocCmpltDt", "date jail/prison/incarceration was completed"],
+  ["guiltyProbDt", "date probation was completed"],
+  ["guiltyFineDt", "date fines were paid"],
+].map(([field, caption]) => [field, {
+  blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+  refusalClass: null, routeDetermined: false,
+  identity: `NJ-CN-10557 field ${field}`,
+  effectiveLabel: `${caption} — Form A, item (d), delivered page 19`,
+  reason: "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+}])));
+
+// One source field serves two legally different paragraphs. Only its page-18
+// widget answers this route's ordinary dismissal fact; page 19 is a diversion
+// assertion this route neither selects nor establishes. Bind both measured
+// widget identities so source geometry drift fails closed.
+const NJ_ORDINARY_DISMISSAL_COURT_WIDGETS = Object.freeze({
+  dismissCrt: {
+    allWidgets: [
+      { widgetIndex: 0, page: 18, rect: { x: 315.144, y: 179.395, width: 135.691, height: 17.333 } },
+      { widgetIndex: 1, page: 19, rect: { x: 314.515, y: 674.833, width: 157.618, height: 13.769 } },
+    ],
+    writableWidgetIndexes: [0],
+    reason: "Only Form A item (a), page 18, is an ordinary-dismissal court. The same source field's page-19 item (c) widget asserts a diversion dismissal and must remain untouched on this route.",
+  },
+});
+
 const NJ_ORDER_ARREST_ROW_1 = Object.freeze({
   row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
   fields: ["arrest1Dt", "arrest1Statute", "arrest1CaseNum"],
@@ -1060,7 +1113,7 @@ Object.assign(FAMILY, {
     ["dismiss"], { origCaseNums: "matter.case_number",
       dismissDt: "matter.disposition_date", dismissOff1: "matter.charge",
       dismissCrt: "matter.court" },
-    "The route election is the measured existing dismissed control on page 18; no box is invented.",
+    "The route election is the measured existing dismissed control on page 18; no box is invented. The court name is bound only to item (a). Item (c) on page 19 is for diversion dismissals and stays wholly untouched; diversion questions remain a self-help stop. If any required fact of item (a) cannot print, its date, charge and court are all withheld together.",
     {
       /*
        * FIX01/RP-2: FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP.
@@ -1173,21 +1226,17 @@ Object.assign(FAMILY, {
        * fifty declared items as correct and found one blank missing from them:
        * paragraph 1 of the sworn Petition, delivered page 18. It carries no
        * AcroForm widget, so it can reach no field map and no widget-derived
-       * list; the packet nevertheless HOLDS the arrest date and prints it on
-       * the proposed order at page 31, so a participant filing this petition
-       * would swear to a paragraph whose own date line is empty. The plea
-       * bargain pair on page 19 is the same class: a printed participant
+       * list; the packet nevertheless HOLDS the arrest date. The order row is
+       * now withheld for row integrity, so FIX88 also removes the obsolete
+       * instruction to copy a date from that blank row. The plea bargain pair
+       * is on page 18, not page 19: a printed participant
        * election, delivered unmarked, disclosed nowhere.
        */
       unwidgetedParticipantBlanks: [
+        NJ_PETITION_ARREST_DATE_BLANK,
         {
           page: 18,
-          printed: "\u201cI was arrested/taken into custody on (date) ______\u201d \u2014 Petition for Expungement (Form A), paragraph 1",
-          whatGoesThere: "The arrest or custody date. This packet holds it and prints it on the proposed Expungement Order at delivered page 31; copy the same date onto this line by hand. There is no fill-in box on this line for any build to write into.",
-        },
-        {
-          page: 19,
-          printed: "\u201cWas the dismissal a result of a plea bargain? [ ] Yes [ ] No\u201d \u2014 Petition for Expungement (Form A), item a",
+          printed: "“Was the dismissal a result of a plea bargain? [ ] Yes [ ] No” — Petition for Expungement (Form A), item a",
           whatGoesThere: "Your own answer. This is an election about your case, not a fact the platform holds, and it is delivered unmarked; mark the box that is true before you sign.",
         },
       ],
@@ -1521,7 +1570,8 @@ Object.assign(FAMILY, {
        * kit for the other four New Jersey families and they are not in this
        * lane's grant.
        */
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      exactWidgetBindings: NJ_ORDINARY_DISMISSAL_COURT_WIDGETS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_DISMISSAL_ROW],
     }
   ),
   "nj_clean_slate-set": njFamily(
@@ -1536,6 +1586,7 @@ Object.assign(FAMILY, {
       guiltyCrt: "matter.court" },
     "The measured conviction control is marked; no clean-slate or marijuana election is made.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       registryGuidance: {
         trackId: "nj_disorderly_persons",
         sections: [
@@ -1588,7 +1639,8 @@ Object.assign(FAMILY, {
     {
       fitTextPerWidget: true,
       deny: ["ExpungeCntyName"],
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "nj_indictable_conviction-set": njFamily(
@@ -1597,6 +1649,7 @@ Object.assign(FAMILY, {
     },
     "The measured conviction control is marked; degree and statutory eligibility remain unselected.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
        * FIX76, COMPONENT_SET. The route declares nine components. This family
        * bound the four official-form ones and delivered none of the five
@@ -1655,15 +1708,17 @@ Object.assign(FAMILY, {
        * nothing; this is that setting, not a new one.
        */
       fitTextPerWidget: true,
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "nj_ordinance-set": njFamily(
     "obligation:track-only:NJ:nj_ordinance", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; the ordinance characterization is not inferred into another control.",
+    "The measured conviction control is marked; the ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
        * FIX76, COMPONENT_SET. Eight declared components, four bound and four
        * process-guidance ones delivered nowhere; see the note on
@@ -1707,7 +1762,8 @@ Object.assign(FAMILY, {
       // and carried the same truncated boundary name on the same fourteen
       // delivered pages.
       fitTextPerWidget: true,
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "ny_160_59_petition-set": {
@@ -2428,6 +2484,66 @@ function refusalReason(refusalClass) {
   return "The field remains blank under its recorded participant, later-act, or protected-owner treatment.";
 }
 
+// Source-independent engineering regression, explicitly separate from packet
+// acceptance: its blank 19-page PDF is synthetic and is never a source fixture.
+async function selfTestFix88() {
+  const doc = FAMILY["nj_arrest_no_conviction-set"].documents[0];
+  const bound = NJ_ORDINARY_DISMISSAL_COURT_WIDGETS.dismissCrt;
+  const field = { name: "dismissCrt", type: "text", multiline: false,
+    widgets: bound.allWidgets, effectiveLabel: "name of Court" };
+  const census = { fields: [field], documentTextLines: [], pageTextByPage: [] };
+  const map = fieldMapFor(doc, census);
+  assert.deepEqual(map[0].writableWidgetIndexes, [0]);
+  assert.throws(() => fieldMapFor(doc, { ...census,
+    fields: [{ ...field, widgets: field.widgets.map((widget) => ({ ...widget, page: widget.page + 1 })) }] }),
+  /exact widget binding drift/);
+  const pdf = await PDFDocument.create();
+  for (let n = 0; n < 19; n += 1) pdf.addPage([612, 792]);
+  const court = pdf.getForm().createTextField("dismissCrt");
+  for (const widget of bound.allWidgets) court.addToPage(pdf.getPages()[widget.page - 1], {
+    ...widget.rect, borderWidth: 0,
+  });
+  const sourceBytes = Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+  const facts = { "matter.court": "Synthetic Ordinary Dismissal Court" };
+  const render = (exactFieldMap = map, unwritableFields = []) => finalizeEastOfficialForm({
+    sourceBytes, expectedSha256: sha256(sourceBytes), census: census.fields,
+    facts, explicitMappings: { dismissCrt: "matter.court" }, exactFieldMap,
+    documentTextLines: [], unwritableFields, title: "FIX88 synthetic binding regression",
+  });
+  const first = await render();
+  const second = await render();
+  assert.equal(sha256(first.bytes), sha256(second.bytes), "identical synthetic inputs must be deterministic");
+  const written = first.report.written.find((row) => row.field === "dismissCrt");
+  assert.ok(written, "ordinary-dismissal court must render");
+  assert.deepEqual(written.widgets.map((widget) => widget.page), [18]);
+  assert.deepEqual(written.withheldWidgets.map((widget) => widget.page), [19]);
+  const firstPdf = await PDFDocument.load(first.bytes);
+  assert.ok(extractTextItems(firstPdf.getPages()[17]).some((item) => item.text === facts["matter.court"]));
+  assert.deepEqual(extractTextItems(firstPdf.getPages()[18]), [], "diversion page must carry no participant text");
+  // When a peer cell fails, the actual second-pass shape must also block the
+  // scoped overlay. This exercises both writer paths, not a report-only mock.
+  const withheld = await render(map.map((row) => ({ ...row, decision: "refuse", factId: null })),
+    [{ field: "dismissCrt", class: "required_before_filing" }]);
+  assert.ok(!withheld.report.written.some((row) => row.field === "dismissCrt"));
+  const withheldPdf = await PDFDocument.load(withheld.bytes);
+  assert.deepEqual(extractTextItems(withheldPdf.getPages()[17]), []);
+  assert.deepEqual(extractTextItems(withheldPdf.getPages()[18]), []);
+  for (const id of ["nj_disorderly_persons-set", "nj_indictable_conviction-set", "nj_ordinance-set"]) {
+    const config = FAMILY[id].documents[0];
+    assert.deepEqual(FAMILY[id].unwidgetedParticipantBlanks, [NJ_PETITION_ARREST_DATE_BLANK]);
+    assert.ok(participantInstructions(FAMILY[id], []).includes("date verified from the court record"));
+    assert.ok(config.repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
+    const mappings = factMappingsForDocument(config);
+    for (const name of ["guiltyStatute", "guiltyFinal1", "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
+      assert.equal(mappings[name], undefined, `${id}/${name}: no invented case fact`);
+      assert.equal(config.declarations[name].requiredBeforeFiling, true);
+    }
+  }
+  assert.equal(FAMILY["nj_clean_slate-set"].documents[0].exactWidgetBindings, undefined);
+  assert.deepEqual(FAMILY["nj_clean_slate-set"].documents[0].repeatingRowGroups, []);
+  console.log("FIX88 source-independent binding regression: PASS (page 18 only, no diversion spill, whole-row withholding blocks both writers, deterministic synthetic bytes, source geometry drift denied; no packet acceptance)");
+}
+
 async function selfTest(familyId) {
   assert.equal(
     process.env.RCAP_PDFTOPPM ? true : POPPLER_PDFTOPPM === "pdftoppm",
@@ -2949,7 +3065,14 @@ function fieldMapFor(doc, census, installed = new Map()) {
       // neighboring page text and is fallible for wide fields; carrying it on
       // an allowlisted write lets one caption shadow a differently-named blank
       // and read as "this fact is written beside it".
+      const binding = doc.exactWidgetBindings?.[field.name];
+      if (binding) {
+        assert.deepEqual(field.widgets.map(({ widgetIndex, page, rect }) => ({ widgetIndex, page, rect })),
+          binding.allWidgets, `${doc.documentId}/${field.name}: exact widget binding drift`);
+      }
       return { field: field.name, decision: "candidate_write", factId,
+        ...(binding ? { writableWidgetIndexes: binding.writableWidgetIndexes,
+          widgetBindingReason: binding.reason } : {}),
         decisionBasis: Object.hasOwn(sharedMappings, field.name)
           ? "shared exact terminal-name fact allowlist; shared semantic finalizer still controls"
           : "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
@@ -3118,7 +3241,13 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
         reason: "no_value_for_exact_mapping" });
       continue;
     }
-    const fittedWidgets = field.widgets.map((widget) => ({
+    const writableWidgets = mapping.writableWidgetIndexes
+      ? field.widgets.filter((widget) => mapping.writableWidgetIndexes.includes(widget.widgetIndex))
+      : field.widgets;
+    if (mapping.writableWidgetIndexes) {
+      assert.ok(writableWidgets.length, `${mapping.field}: exact mapping has no writable widget`);
+    }
+    const fittedWidgets = writableWidgets.map((widget) => ({
       widget,
       fit: fitTextToWidget({
         font, text: String(value), rect: widget.rect, multiline: field.multiline === true,
@@ -3140,7 +3269,11 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
         rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome, ...appearance });
     }
     written.push({ field: mapping.field, factId: mapping.factId,
-      kind: "exact_measured_fact_overlay", widgets: widgetWrites });
+      kind: "exact_measured_fact_overlay", widgets: widgetWrites,
+      ...(mapping.writableWidgetIndexes ? {
+        withheldWidgets: field.widgets.filter((widget) => !mapping.writableWidgetIndexes.includes(widget.widgetIndex)),
+        widgetBindingReason: mapping.widgetBindingReason,
+      } : {}) });
   }
 
   if (written.length === 0) return { bytes, report: { ...report,
@@ -3261,6 +3394,12 @@ async function finalizeEastOfficialForm(options) {
     const { exactFieldMap = [], ...officialOptions } = options;
     const result = await finalizeOfficialForm({
       ...officialOptions,
+      // A shared AcroForm field writes every widget. For an explicitly scoped
+      // mapping, withhold that field here and let the existing measured overlay
+      // place the fact only at the source-bound widget selected above.
+      unwritableFields: [...(officialOptions.unwritableFields ?? []),
+        ...exactFieldMap.filter((row) => row.writableWidgetIndexes)
+          .map((row) => ({ field: row.field, class: "route_selection_or_role" }))],
       sourceBytes: preparedSourceBytes,
       expectedSha256: sha256(preparedSourceBytes),
       // FIX50's opt-in, for every document this host finalizes. With the save
@@ -3731,6 +3870,13 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
       : (field?.widgets ?? []).map((widget) => drawnAt(appearances, {
         page: widget.page, rect: widget.rect, tolerance: 3,
       }).map((entry) => String(entry.text ?? "").trim()).filter(Boolean));
+    for (const widget of write.withheldWidgets ?? []) {
+      assert.deepEqual(overlayTextAt(widget.page, widget.rect), [],
+        `${label}/${write.field}: an excluded widget carries participant text`);
+      assert.deepEqual(drawnAt(appearances, { page: widget.page, rect: widget.rect, tolerance: 1 })
+        .map((entry) => String(entry.text ?? "").trim()).filter(Boolean), [],
+      `${label}/${write.field}: an excluded widget carries a flattened field value`);
+    }
     const drawn = byWidget.flat();
     const exactValueObserved = byWidget.length > 0
       && byWidget.every((chunks) => appearanceMatchesExpected(chunks, expected));
@@ -6554,6 +6700,7 @@ async function checkPa6308Stop() {
 }
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
+  if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
   if (Object.hasOwn(FAMILY, familyId)) {
