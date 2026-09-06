@@ -29,6 +29,7 @@ const { consumerPersonMatchKey, consumerMatterIdForItem } = await import("../src
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MIGRATION = "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql";
+const REGENERATION_MIGRATION = "supabase/migrations/20260906130000_verified_artifact_regeneration.sql";
 const MS_MIGRATION = "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql";
 const PROVENANCE_MIGRATION = "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql";
 
@@ -279,12 +280,13 @@ try {
   for (const migration of [PROVENANCE_MIGRATION, "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
     "supabase/migrations/20260901130000_consumer_private_delivery.sql",
     "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
-    MS_MIGRATION, MIGRATION]) {
+    MS_MIGRATION, MIGRATION, REGENERATION_MIGRATION]) {
     db.applyFile(path.join(root, migration));
   }
   // A forward migration has to be re-runnable; applying it twice must not fail
   // and must not duplicate a registration row.
   db.applyFile(path.join(root, MIGRATION));
+  db.applyFile(path.join(root, REGENERATION_MIGRATION));
   check("the migration is re-runnable and does not duplicate a registration",
     db.scalar("select count(*) from sponsored_packet_render_routes") === "2");
   db.sql(`
@@ -586,6 +588,7 @@ try {
   ms.applyFile(path.join(root, PROVENANCE_MIGRATION));
   ms.applyFile(path.join(root, MS_MIGRATION));
   ms.applyFile(path.join(root, MIGRATION));
+  ms.applyFile(path.join(root, REGENERATION_MIGRATION));
 
   check("MS preserved: the entry point keeps its name, signature, SECURITY DEFINER and empty search_path",
     ms.scalar(`select prosecdef and proconfig = array['search_path=""']::text[]
