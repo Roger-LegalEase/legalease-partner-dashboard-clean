@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {protectCategoryOf,decideBinding} from '../../../../../scripts/rcap-official-forms/rcap-field-semantics.mjs';
+import {protectCategoryOf,decideBinding,PARTICIPANT_STATED_SUBJECT,haystack} from '../../../../../scripts/rcap-official-forms/rcap-field-semantics.mjs';
 import {FIXTURES,resolveSources,censusOf,selections} from '../../../../../scripts/build-census-v1-al-misd-nonconviction-90-set.mjs';
 const baselineBytes=execFileSync('git',['show','1a6b274dfb9269f506320bf940779057ff28a0e6:scripts/rcap-official-forms/rcap-field-semantics.mjs']);
 const before=await import('data:text/javascript;base64,'+baselineBytes.toString('base64'));
@@ -24,6 +24,22 @@ for(const [id,name,page,oldCategory]of cases){
 }
 const protectedControls=['The following agencies are hereby ordered to seal records in their custody','Agency certification','Printed or Typed Name of Attorney & AL State Bar No.','Signature of Attorney','Payment of Expungement filing fees shall be waived and assessed at the conclusion of the case','Court use only','Hearing date','Disposition entered by clerk','I certify service on the agency','Signature of Petitioner','Sworn to before me','Fee amount','Employer name'];
 for(const caption of protectedControls){assert.ok(protectCategoryOf(caption),caption);assert.equal(protectCategoryOf(caption),before.protectCategoryOf(caption));}
+// Removing each AL correction must restore its source-caption refusal. The
+// regex anchors must also refuse a caption with an added owner or directive.
+const ruleRemovalMutations=[];
+for(const rule of PARTICIPANT_STATED_SUBJECT.filter(r=>r.id.startsWith('al_'))){
+ const sourceCase=positive.find(p=>rule.match.test(haystack(p.caption)));assert.ok(sourceCase,rule.id);
+ const index=PARTICIPANT_STATED_SUBJECT.indexOf(rule);
+ try{PARTICIPANT_STATED_SUBJECT.splice(index,1);assert.equal(protectCategoryOf(sourceCase.caption),sourceCase.before,rule.id);}
+ finally{PARTICIPANT_STATED_SUBJECT.splice(index,0,rule);}
+ assert.equal(protectCategoryOf(sourceCase.caption),null);
+ for(const caption of ['Judge '+sourceCase.caption,sourceCase.caption+' ordered by court']){
+  assert.equal(rule.match.test(haystack(caption)),false,caption);
+  assert.ok(protectCategoryOf(caption),caption);
+  assert.equal(decideBinding({name:caption,pdfType:'text'},{explicitMappings:{[caption]:'participant.full_legal_name'}}).writable,false);
+ }
+ ruleRemovalMutations.push(rule.id);
+}
 assert.equal(decideBinding({name:'Charge or conviction to be expunged',effectiveLabel:'Charge or conviction to be expunged',pdfType:'text'},{explicitMappings:{'Charge or conviction to be expunged':'matter.charge'}}).writable,true);
 assert.equal(decideBinding({name:'Charge or conviction to be expunged',effectiveLabel:'Charge or conviction to be expunged',pdfType:'checkbox'}).writable,false);
 assert.equal(decideBinding({name:'Charge or conviction to be expunged',effectiveLabel:'Charge or conviction to be expunged',pdfType:'text'}).writable,false);
@@ -39,4 +55,4 @@ const affected=[];
 const files=execFileSync('git',['ls-files','data/rcap-all50/overlays/census-v1/*/production-field-map.json'],{encoding:'utf8',maxBuffer:10_000_000}).trim().split('\n').filter(Boolean);
 function visit(value,file){if(!value||typeof value!=='object')return;if(!Array.isArray(value)){for(const key of ['effectiveLabel','printedLabel','semanticLabel','sourceLabel','field','fieldName','name'])if(typeof value[key]==='string'){const old=before.protectCategoryOf(value[key]),now=protectCategoryOf(value[key]);if(old!==now)affected.push({file,key,caption:value[key],before:old,after:now});}}for(const v of Object.values(value))if(v&&typeof v==='object')visit(v,file);}
 for(const file of files)visit(JSON.parse(fs.readFileSync(file,'utf8')),file);
-console.log(JSON.stringify({result:'PASS',exactSourcePositiveCases:positive,protectedNegativeControls:protectedControls.length,explicitAnswerAndWrongTrackNegativeCases:12,existingMapChangeSurface:[...new Map(affected.map(a=>[JSON.stringify(a),a])).values()],limitations:'Source-caption semantics regression and affected-input scan; no independent visual or legal acceptance.'},null,2));
+console.log(JSON.stringify({result:'PASS',exactSourcePositiveCases:positive,protectedNegativeControls:protectedControls.length,ruleRemovalMutations,anchoredOwnerAndDirectiveNegativeCases:ruleRemovalMutations.length*2,explicitAnswerAndWrongTrackNegativeCases:12,existingMapChangeSurface:[...new Map(affected.map(a=>[JSON.stringify(a),a])).values()],limitations:'Source-caption semantics regression and affected-input scan; no independent visual or legal acceptance.'},null,2));
