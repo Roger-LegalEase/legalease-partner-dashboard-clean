@@ -44,6 +44,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| Arrest circuit in the opening IN THE ... COURT caption | Write the name of the Illinois circuit court where the arrest occurred in the dotted court-caption line, using the arrest record and the circuit identified in item C2. If the exact court name is unclear, ask the office of that circuit's chief judge before filing. |
 | Item C1 - identity theft report and mismatched identifiers | Identity theft report and mismatched identifiers — copied from the record itself, not from memory |
 | Item C2 - arrest circuit | Arrest circuit — copied from the record itself, not from memory |
 | Item C3 - exact prostitution statute/class | Exact prostitution statute/class — copied from the record itself, not from memory |

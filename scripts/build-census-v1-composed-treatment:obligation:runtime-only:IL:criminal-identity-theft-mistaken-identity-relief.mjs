@@ -184,6 +184,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "arrest_circuit_caption",
+          "label": "Arrest circuit in the opening IN THE ... COURT caption",
+          "supply": "Write the name of the Illinois circuit court where the arrest occurred in the dotted court-caption line, using the arrest record and the circuit identified in item C2. If the exact court name is unclear, ask the office of that circuit's chief judge before filing.",
+          "why": "the destination is the chief judge of the arrest circuit, but the platform holds no value for the participant's actual arrest circuit or court name"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_q1",
           "label": "Item C1 - identity theft report and mismatched identifiers",
           "supply": "Identity theft report and mismatched identifiers — copied from the record itself, not from memory",
@@ -268,6 +275,7 @@ const SPEC = {
         "",
         "- Get the identity-theft report and anything showing the identifiers on the record do not match yours; the committed contract names both as components of this packet.",
         "- Fill every labelled item on the petition from the record itself.",
+        "- Complete the opening IN THE ... COURT caption with the name of the Illinois circuit court identified by the arrest record and item C2. If its exact name is unclear, ask the office of that circuit's chief judge before filing.",
         "- Sign and date the petition personally, then take it to the office of the chief judge of the circuit where the arrest occurred.",
         "",
         "WHAT YOU DO NOT DO",
