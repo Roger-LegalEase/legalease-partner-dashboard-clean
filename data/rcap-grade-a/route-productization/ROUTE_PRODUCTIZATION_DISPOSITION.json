@@ -26,12 +26,12 @@
     "why": "No route clears all seven conditions. Five routes across four packet families hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
   },
   "inputs": {
-    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "f0364ea48beeb2b13ffdbc7185387e05bc585462bed8afe0cec901159a12d846",
+    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "dae88a660f12ed2c1739bc642871e1c09fa9108bc72b9b5d28a71a31ef4281a1",
     "data/rcap-ledger/launch-graph.json": "8f863f62cdcd4f49446a285106a2fc44bb9615b4fde36183e2ad2d5da68912cc",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "data/rcap-grade-a/fulfillment-authority-registry.json": "9f4ace22498e47d0e7a20d2c89ec8ecaa22960ab71b0761f403064592c69376e",
+    "data/rcap-grade-a/fulfillment-authority-registry.json": "8efde3822c38bd26e4e5ea7844316e09ac76279220f9184fd8b3076a599c6e89",
     "data/rcap-grade-a/fulfillment-authority-projection.json": "cce81bcca35195a3e6bdce4855071e3709c72945eaedad1e80d52eda2da6e2fd",
-    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "f7ca7f0cd46a951020d0173c0b275911f93c39e497ba8d8a3aecac952934e6e6",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "9684fc4bd87eba0000775ef2060b2ce3cb7afeb581c28a383cb432a379b4adcf",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
     "data/rcap-ledger/public-witness-fixtures.json": "a1152d0363cf0299733a8d868794fa7572ed734b5d7fc76418aaad0ae0fd29e2",
@@ -1194,7 +1194,16 @@
           "inRatificationRegistry": false
         }
       ],
-      "familyDistance": null
+      "familyDistance": {
+        "familyId": "rcap-ks-custom-pleading",
+        "blocker": "SPECIFICATION_LEGAL_SECTIONS_UNBOUND",
+        "unmetGeneratorPreconditionCount": 8,
+        "remainingStepCount": 4,
+        "remainingStepsOnlyRogerCanTake": [
+          "S4_obtainCompletedOutputOwnerApproval"
+        ],
+        "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding."
+      }
     },
     "dcCorrectMisattributedArrest": {
       "routeId": "DC:dc_correct_misattributed_arrest",
@@ -1253,14 +1262,14 @@
       "decision": "Adopt the completed output of the families that hold no completed-output owner approval, naming their exact shipping-artifact digests",
       "whoDecides": "Roger",
       "record": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json (OWN-ADOPT-2026-09-02-BATCH-53) or a successor record",
-      "blocks": "52 proven families, including ct-cleanslate-petition-set and rcap-ks-custom-pleading",
+      "blocks": "54 proven families, including ct-cleanslate-petition-set and rcap-ks-custom-pleading",
       "generatorPreconditionItCloses": "P08"
     },
     {
       "decision": "Re-review the families whose approved shipping-artifact digest moved after approval",
       "whoDecides": "Roger",
       "record": "OWN-ADOPT-2026-09-02-BATCH-53, as a re-review",
-      "blocks": "4 proven families",
+      "blocks": "5 proven families",
       "generatorPreconditionItCloses": "P09"
     },
     {
