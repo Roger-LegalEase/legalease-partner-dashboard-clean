@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1692356412ced354bce6f7a63c1f8ddbb052df16",
+  "minimumCaptainSha": "01a9cbae47148c5c582e7e5f66f9548920fd7f53",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "15cd3d9ecf0205259bd7fbb12d8e77ad119ce5cf75eb10912675bfeba029b525",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "f2d1a75662b72e315b1f76b3b6c762a17c337e17b880e85e3e0ad30ef9df0221",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 10,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 336,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
@@ -78,7 +78,7 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 146,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "FAIL_REPAIR_REQUIRED": 45,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,7 +87,7 @@
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 1,
+    "BUILT_RASTER_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -115,10 +115,6 @@
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
       "pa_490_nonconviction-set",
-      "ut_pet_dismissed_with_prejudice-set",
-      "ut_pet_dismissed_without_prejudice-set",
-      "ut_pet_limitations-set",
-      "ut_pet_no_charges-set",
       "va_seal_ancillary_matter_only-set",
       "va_seal_enumerated_seven_year-set",
       "va_seal_petition_felony-set",
@@ -40174,9 +40170,7 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40271,9 +40265,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX83",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -40284,8 +40278,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
@@ -40488,9 +40481,7 @@
         "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40531,9 +40522,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX83",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -40544,8 +40535,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ut_pet_limitations-set",
@@ -40748,9 +40738,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40840,9 +40828,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX83",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -40853,8 +40841,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ut_pet_no_charges-set",
@@ -41057,9 +41044,7 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -41125,9 +41110,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX83",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -41138,8 +41123,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ut_pet_remove_link-set",
