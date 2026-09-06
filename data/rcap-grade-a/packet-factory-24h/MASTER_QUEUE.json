@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e68c51ed31bc32caff037dcf8d1562d6ce588ac9",
+  "minimumCaptainSha": "11e568add5dee74078b392b812a59d86746dd95b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 16,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 330,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
     "verifyPending": 7,
-    "repairRequired": 38,
+    "repairRequired": 36,
     "sumsToDenominator": true
   },
   "byState": {
@@ -108,8 +108,9 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "co_motion_seal_nonconviction-set",
       "il-seal-edu-set",
+      "nc_146_dismissal_petition-set",
+      "nh_petition_nonconviction_pre2019-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
@@ -118,6 +119,7 @@
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
       "pa_490_nonconviction-set",
+      "va_exp_nonconviction-set",
       "va_seal_ancillary_matter_only-set",
       "va_seal_enumerated_seven_year-set",
       "va_seal_petition_felony-set",
@@ -7749,8 +7751,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX86",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -7761,8 +7763,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
@@ -28375,8 +28376,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX90",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -28387,7 +28388,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nc_auto_146_a4_agency_followup-set",
@@ -30684,8 +30686,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX90",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -30696,7 +30698,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nh_petition_vacated-set",
@@ -41944,8 +41947,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX89",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -41956,7 +41959,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "va_seal_ancillary_matter_only-set",
