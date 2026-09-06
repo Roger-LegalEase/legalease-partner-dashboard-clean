@@ -159,22 +159,56 @@ function run() {
   const completedBuildFamilies = new Set();
   for (const entry of fs.readdirSync(path.join(ROOT, DIR), { withFileTypes: true })) {
     if (!entry.isDirectory() || !/^pf\d+$/i.test(entry.name)) continue;
-    const rowsPath = `${DIR}/${entry.name}/rows.json`;
-    if (!fs.existsSync(path.join(ROOT, rowsPath))) continue;
-    let laneRows;
-    try { laneRows = read(rowsPath).rows ?? []; } catch { continue; }
-    for (const row of laneRows) {
-      const familyId = row.itemId ?? row.familyId;
-      if (!familyId) continue;
-      if (row.status === "COMPLETED") completedBuildFamilies.add(familyId);
-      else if (row.status === "STOPPED") stoppedBuildRows.set(familyId, rowsPath);
+    // Match the generator's laneReturnDocuments contract. Later cohorts keep
+    // earlier returns intact and may write their completed rows beside them.
+    for (const file of fs.readdirSync(path.join(ROOT, DIR, entry.name))) {
+      if (!file.endsWith(".json")) continue;
+      const rowsPath = `${DIR}/${entry.name}/${file}`;
+      let laneRows;
+      try { laneRows = read(rowsPath).rows; } catch { continue; }
+      if (!Array.isArray(laneRows) || laneRows.length === 0
+        || !laneRows.every((row) => (row?.itemId ?? row?.familyId) && row?.status)) continue;
+      for (const row of laneRows) {
+        const familyId = row.itemId ?? row.familyId;
+        if (row.status === "COMPLETED") completedBuildFamilies.add(familyId);
+        else if (row.status === "STOPPED") {
+          if (!stoppedBuildRows.has(familyId)) stoppedBuildRows.set(familyId, []);
+          stoppedBuildRows.get(familyId).push({ row, rowsPath });
+        }
+      }
     }
   }
   for (const familyId of completedBuildFamilies) stoppedBuildRows.delete(familyId);
-  for (const [familyId, rowsPath] of stoppedBuildRows) {
+  const buildVerifierRows = (() => {
+    try { return read(`${DIR}/VERIFIER_RETURNS.json`).rows ?? []; }
+    catch { return []; }
+  })();
+  for (const [familyId, stoppedRows] of stoppedBuildRows) {
     const family = familyById.get(familyId);
-    if (family && ["PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "BUILT_RASTER_PENDING", "VERIFIED_PASS", "COMPLETE_PACKET_PROVEN"].includes(family.state)) {
-      stoppedBuildPromotions.push(`${familyId}: STOPPED in ${rowsPath}, state ${family.state}`);
+    if (!family || !["PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "BUILT_RASTER_PENDING", "VERIFIED_PASS", "COMPLETE_PACKET_PROVEN"].includes(family.state)) continue;
+    // The generator gives a current independent PASS precedence over an old
+    // build stop. Require the actual selected return and prove that every
+    // exact STOPPED row already existed at its read base. A queue label, a
+    // released claim, or a pass preceding a new stop does not discharge F37.
+    const selected = family.selectedIndependentVerdict;
+    const pass = buildVerifierRows.find((row) => row.familyId === familyId
+      && row.isIndependentVerification === true && !row.superseded
+      && row.verdict === "PASS_COMPLETE_INDEPENDENT"
+      && selected?.verdict === row.verdict && selected.lane === row.lane
+      && selected.verifiedAtBase === row.verifiedAtBase && selected.evidencePath === row.evidencePath);
+    const passCoversStops = pass && /^[0-9a-f]{7,40}$/.test(String(pass.verifiedAtBase ?? ""))
+      && typeof pass.evidencePath === "string"
+      && fs.existsSync(path.join(ROOT, pass.evidencePath))
+      && gitOk(["merge-base", "--is-ancestor", pass.verifiedAtBase, "HEAD"])
+      && stoppedRows.every(({ row, rowsPath }) => {
+        try {
+          const before = JSON.parse(execFileSync("git", ["show", `${pass.verifiedAtBase}:${rowsPath}`],
+            { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
+          return (before.rows ?? []).some((prior) => JSON.stringify(prior) === JSON.stringify(row));
+        } catch { return false; }
+      });
+    if (!passCoversStops) {
+      stoppedBuildPromotions.push(`${familyId}: STOPPED in ${stoppedRows.map((row) => row.rowsPath).join(", ")}, state ${family.state}`);
     }
   }
   check("F37", "a STOPPED packet-build return cannot promote preserved WIP bytes to verification",
@@ -1583,7 +1617,17 @@ if (MUTATIONS) {
      * these construct the condition rather than searching for one. */
     { on: "active", id: "F16", name: "one source obligation dispatched to two lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && x.items.length); s[1].items.push(s[0].items[0]); return j; } },
     { on: "active", id: "F17", name: "one family released by two source lanes is caught", mutate: (j) => { const s = j.assignments.filter((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); s[1].familiesUnblocked.push(s[0].familiesUnblocked[0]); return j; } },
-    { on: "active", id: "F17", name: "a split family claimed as released anyway is caught", mutate: (j) => { const s = j.assignments.find((x) => (x.familiesAdvancedButNotReleasedHere ?? []).length); s.familiesUnblocked.push(s.familiesAdvancedButNotReleasedHere[0].familyId); return j; } },
+    { on: "active", id: "F17", name: "a split family claimed as released anyway is caught", mutate: (j) => {
+        const s = j.assignments.find((x) => x.itemKind === "sourceObligation");
+        if (!s) throw new Error("F17 requires a source lane");
+        // A correct live queue may have no split families. Construct the
+        // forbidden split/release pairing instead of waiting for one to exist.
+        const familyId = "mutation-f17-split-family";
+        s.familiesAdvancedButNotReleasedHere = [...(s.familiesAdvancedButNotReleasedHere ?? []),
+          { familyId, releasedOnlyWhenAllOf: ["MUTATION_SRC_A", "MUTATION_SRC_B"] }];
+        s.familiesUnblocked = [...(s.familiesUnblocked ?? []), familyId];
+        return j;
+      } },
     { on: "master", id: "F18", name: "a family bound by held bytes with no custody path is caught", mutate: (j) => { const f = j.families.find((x) => x.sourceStatus === "SOURCE_BOUND_BY_HELD_BYTES"); f.sourceReadiness.boundSources[0].path = ""; return j; } },
     { on: "active", id: "F18", name: "a promotion lane that drops the exact-bytes rule is caught", mutate: (j) => { j.assignments.find((x) => /^PROMO/.test(x.assignmentId)).promotionRule = "promote what the lane has resolved"; return j; } },
     { on: "active", id: "F19", name: "a builder that drops the refill rule is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "packet-build").refillRule = "the lane works through its list"; return j; } },

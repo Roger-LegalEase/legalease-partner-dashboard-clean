@@ -566,7 +566,15 @@ if (MUTATIONS) {
     /* C21's subject: a threshold reading a state name nothing writes counts
      * zero and reports a quiet day. "REPAIR_REQUIRED" did exactly that while
      * twenty-six families sat in FAIL_REPAIR_REQUIRED. */
-    { on: "active", id: "C23", name: "a source-blocked family released by no lane and recorded nowhere is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); l.familiesUnblocked = l.familiesUnblocked.slice(1); l.familiesUnblockedCount = l.familiesUnblocked.length; return j; } },
+    { on: "master", id: "C23", name: "a source-blocked family released by no lane and recorded nowhere is caught", mutate: (j) => {
+        // A release can name a family that has since become source-ready, so
+        // dropping the first release no longer guarantees an unaccounted
+        // SOURCE_BLOCKED row. Give the check that exact missing identity.
+        const template = j.families[0];
+        if (!template) throw new Error("C23 requires a family-shaped fixture");
+        j.families.push({ ...structuredClone(template), familyId: "mutation-c23-unaccounted-source-family", state: "SOURCE_BLOCKED" });
+        return j;
+      } },
     { on: "active", id: "C23", name: "a family both released and deferred is caught", mutate: (j) => { const l = j.assignments.find((x) => x.itemKind === "sourceObligation" && (x.familiesUnblocked ?? []).length); l.familiesAdvancedButNotReleasedHere = [...(l.familiesAdvancedButNotReleasedHere ?? []), { familyId: l.familiesUnblocked[0] }]; return j; } },
     { on: "prompt", id: "C22", name: "a source prompt stripped of the relationship registry is caught", mutateText: (t) => t.replace(/## Read the source relationship registry first[\s\S]*?(?=\n## )/, "") },
     { on: "prompt", id: "C22", name: "a source prompt listing the states without saying which are not a fetch is caught", mutateText: (t) => t.replace(/\*\*These states are NOT a fetch[^\n]*\*\*/, "**These states exist.**") },
