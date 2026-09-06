@@ -110,10 +110,13 @@ const SPEC = {
         "IN THE ............................................................ COURT",
         "(Clerk of the court that entered the conditional discharge order - see the filing instructions in this packet)",
         "",
+        "Judicial division:",
+        "{{DOTS}}",
+        "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
         "",
-        "Case number, if the court assigns one at filing:",
+        "Case number, as it appears on the conditional discharge order:",
         "{{DOTS}}",
         "",
         "APPLICATION TO EXPUNGE RECORDS OF ARREST, TRIAL AND CONVICTION AFTER A FIRST-OFFENCE CONTROLLED SUBSTANCE CONDITIONAL DISCHARGE, W. VA. CODE § 60A-4-407(B)",
@@ -124,21 +127,24 @@ const SPEC = {
         "",
         "A person who has not previously been convicted of any offence under chapter 60A or under any federal or state narcotics, marihuana, stimulant, depressant or hallucinogenic drug statute, and who pleads guilty to or is found guilty of possession of a controlled substance under § 60A-4-401(c), may with their consent have further proceedings deferred and be placed on probation without entry of a judgment of guilt. On fulfilment of the terms and conditions the court discharges the person and dismisses the proceedings without adjudication of guilt. The discharge is not a conviction for purposes of any disqualification or disability imposed by law, and its effect is to restore the person in contemplation of law to the status occupied before arrest and trial. There may be only one discharge and dismissal under the section with respect to any person. Read at source on 2026-08-06, subsection (b) supplies the relief this track generates: after a period of not less than six months, beginning to run immediately on the expiration of the term of probation, the person may apply to the court for an order to expunge from all official records all recordations of the arrest, trial and conviction, and if the court determines after a hearing that the person was not guilty of any serious or repeated violation of the conditions of probation during probation or before the application, it shall order the expungement. Subsection (c) makes the person liable for the court costs assessable against a person convicted under § 60A-4-401(c), and payment may be a condition of probation.",
         "",
-        "B. THE PETITIONER",
+        "B. THE PETITIONER, AND THE TWO THINGS THE PLATFORM ALREADY HOLDS",
         "",
+        "The platform holds your full legal name and your date of birth from your own record. Both are printed here and again at items C1 and C2 below, so neither is a blank you have to fill. Read each against your own papers and correct it in writing if it is wrong. Every other item in section C belongs to the court record, and you fill it from the record itself.",
+        "",
+        "Full legal name: {{participant.full_legal_name}}",
         "Date of birth: {{participant.date_of_birth}}",
         "",
         "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
         "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself.",
+        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, except items C1 and C2, which the platform has already answered from the facts it holds.",
         "",
         "[C1 - applicant name] What is your full legal name as it appears on the court record?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "{{participant.full_legal_name}}",
+        "(Answered from the name the platform holds. Read it against the court record and correct it in writing if the court record writes it differently.)",
         "",
         "[C2 - date of birth] What is your date of birth?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "{{participant.date_of_birth}}",
+        "(Answered from the date of birth the platform holds. Read it against your own papers and correct it in writing if it is wrong.)",
         "",
         "[C3 - court and county] Which court, and in which county, placed you on probation under the conditional discharge?",
         "{{DOTS}}",
@@ -188,7 +194,14 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "D. THE REQUEST",
+        "D. NOTICE OF THE HEARING SECTION 60A-4-407(B) CONTEMPLATES",
+        "",
+        "Section 60A-4-407(b) provides for a hearing at which the court determines whether the petitioner was guilty of any serious or repeated violation of the conditions of probation. The committed track registry records a hearing date on this application's notice line as an item to be completed before filing. That date is the court's to set: ask the clerk of the court that entered the conditional discharge for it, and write it on the line below before you file. Nothing on this line is written for you, because this build never writes a date no court has set.",
+        "",
+        "Hearing date:",
+        "{{DOTS}}",
+        "",
+        "E. THE REQUEST",
         "",
         "The petitioner asks the court to grant the relief described in paragraph A, under W. Va. Code § 60A-4-407(a); W. Va. Code § 60A-4-407(b); W. Va. Code § 60A-4-407(c); W. Va. Code § 60A-4-401(c); W. Va. Code § 60A-4-407a.",
         "",
@@ -226,22 +239,32 @@ const SPEC = {
           "id": "email",
           "label": "Email address in the contact block at the foot of this document",
           "factId": "participant.email"
+        },
+        {
+          "id": "fact_applicantName",
+          "label": "Item C1 - applicant name, answered from the name the platform holds",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "id": "fact_dateOfBirth",
+          "label": "Item C2 - date of birth, answered from the date of birth the platform holds",
+          "factId": "participant.date_of_birth"
         }
       ],
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_applicantName",
-          "label": "Item C1 - applicant name",
-          "supply": "What is your full legal name as it appears on the court record?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "judicial_division",
+          "label": "Judicial division of the court, in the caption of this application",
+          "supply": "the judicial division exactly as the caption of your own case papers writes it",
+          "why": "the committed track registry records the case number and judicial division line in the application caption as an item the participant completes before filing, and the platform holds no division for a case it has not seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_dateOfBirth",
-          "label": "Item C2 - date of birth",
-          "supply": "What is your date of birth?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "case_number",
+          "label": "Case number of the case, as it appears on the conditional discharge order, in the caption of this application",
+          "supply": "the case number, copied from the certified conditional discharge order",
+          "why": "the committed track registry records the case number and judicial division line in the application caption as an item the participant completes before filing, and the platform holds no case number for a record it has not seen"
         },
         {
           "kind": "rbf",
@@ -328,10 +351,10 @@ const SPEC = {
           "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
         },
         {
-          "kind": "court",
-          "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
+          "kind": "clerkSet",
+          "id": "hearing_date",
+          "label": "Hearing date the clerk sets, on the notice line of the application",
+          "why": "the court sets the hearing date; the participant asks the clerk for it and writes it on the notice line before filing, and this build never writes a date no court has set"
         },
         {
           "kind": "protected",
@@ -352,102 +375,76 @@ const SPEC = {
       "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
       "title": "Supporting Affidavit - Clear a first drug-possession case that ended in a conditional discharge",
       "role": "supporting_affidavit",
-      "description": "the sworn affidavit filed with the application (Clear a first drug-possession case that ended in a conditional discharge)",
+      "description": "the sworn affidavit the committed record requires with the application, signed before a notary public or other officer authorized to administer oaths (Clear a first drug-possession case that ended in a conditional discharge)",
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
         "(Clerk of the court that entered the conditional discharge order - see the filing instructions in this packet)",
         "",
+        "Judicial division:",
+        "{{DOTS}}",
+        "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
         "",
-        "Case number, if the court assigns one at filing:",
+        "Case number, as it appears on the conditional discharge order:",
         "{{DOTS}}",
         "",
-        "APPLICATION TO EXPUNGE RECORDS OF ARREST, TRIAL AND CONVICTION AFTER A FIRST-OFFENCE CONTROLLED SUBSTANCE CONDITIONAL DISCHARGE, W. VA. CODE § 60A-4-407(B)",
+        "AFFIDAVIT IN SUPPORT OF THE APPLICATION TO EXPUNGE RECORDS OF ARREST, TRIAL AND CONVICTION AFTER A FIRST-OFFENCE CONTROLLED SUBSTANCE CONDITIONAL DISCHARGE, W. VA. CODE § 60A-4-407(B)",
         "",
-        "The petitioner, {{participant.full_legal_name}}, applies to this court under W. Va. Code § 60A-4-407(a); W. Va. Code § 60A-4-407(b); W. Va. Code § 60A-4-407(c); W. Va. Code § 60A-4-401(c); W. Va. Code § 60A-4-407a and states:",
+        "STATE OF WEST VIRGINIA",
+        "COUNTY OF {{DOTS:48}}",
         "",
-        "A. THE RELIEF THIS PETITION ASKS FOR, AS THE COMMITTED RECORD STATES IT",
+        "A. WHY THIS AFFIDAVIT IS IN THIS PACKET, AS THE COMMITTED RECORD STATES IT",
         "",
-        "A person who has not previously been convicted of any offence under chapter 60A or under any federal or state narcotics, marihuana, stimulant, depressant or hallucinogenic drug statute, and who pleads guilty to or is found guilty of possession of a controlled substance under § 60A-4-401(c), may with their consent have further proceedings deferred and be placed on probation without entry of a judgment of guilt. On fulfilment of the terms and conditions the court discharges the person and dismisses the proceedings without adjudication of guilt. The discharge is not a conviction for purposes of any disqualification or disability imposed by law, and its effect is to restore the person in contemplation of law to the status occupied before arrest and trial. There may be only one discharge and dismissal under the section with respect to any person. Read at source on 2026-08-06, subsection (b) supplies the relief this track generates: after a period of not less than six months, beginning to run immediately on the expiration of the term of probation, the person may apply to the court for an order to expunge from all official records all recordations of the arrest, trial and conviction, and if the court determines after a hearing that the person was not guilty of any serious or repeated violation of the conditions of probation during probation or before the application, it shall order the expungement. Subsection (c) makes the person liable for the court costs assessable against a person convicted under § 60A-4-401(c), and payment may be a condition of probation.",
+        "The committed track registry for this route records, in its own words, that the applicant signs the application and swears the affidavit, and that notarization is required on the supporting affidavit. This page is that affidavit. It is filed with the application, and it is sworn before a notary public or other officer authorized to administer oaths - not before.",
         "",
-        "B. THE PETITIONER",
+        "B. THE AFFIANT",
         "",
-        "Date of birth: {{participant.date_of_birth}}",
+        "I, {{participant.full_legal_name}}, am the petitioner named in the application filed with this affidavit. My date of birth is {{participant.date_of_birth}}. The platform holds my name and my date of birth from my own record and has printed both here, so neither is a blank I have to fill; I have read each against my own papers and corrected it in writing if it was wrong.",
         "",
-        "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
+        "C. THE DATES THIS APPLICATION DEPENDS ON, WHICH I SUPPLY FROM THE RECORD",
         "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself.",
+        "Each date below is copied from the certified orders and from the probation office's written confirmation, never from memory. The period of not less than six months runs from the expiration of the term of probation, not from the date of the dismissal, and the registry records that the two are often months apart.",
         "",
-        "[C1 - applicant name] What is your full legal name as it appears on the court record?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C2 - date of birth] What is your date of birth?",
-        "{{DOTS}}",
+        "[A1 - discharge order date] On what date did the court enter the order deferring proceedings and placing you on probation?",
         "{{DOTS}}",
         "",
-        "[C3 - court and county] Which court, and in which county, placed you on probation under the conditional discharge?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C4 - case number] What is the case number?",
-        "{{DOTS}}",
+        "[A2 - probation expiry date] On what date did that probation term expire?",
         "{{DOTS}}",
         "",
-        "[C5 - arrest date] On what date were you arrested, and which agency arrested you?",
-        "{{DOTS}}",
+        "[A3 - dismissal date] On what date did the court discharge you and dismiss the proceedings?",
         "{{DOTS}}",
         "",
-        "[C6 - offense charged] What possession offence were you charged with, and under which Code section?",
+        "D. WHAT I SWEAR TO, IN MY OWN WORDS",
+        "",
+        "The lines below are mine alone and nothing on them is written for me. This packet states nothing about whether the conditions of the probation were kept: the committed record reserves that determination to the court, and W. Va. Code § 60A-4-407(b) makes it the question the court decides after a hearing.",
+        "",
+        "[A4 - completion of probation] In your own words, what you did to complete the terms and conditions of the probation the court imposed:",
+        "{{DOTS}}",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C7 - discharge order date] On what date did the court enter the order deferring proceedings and placing you on probation?",
+        "[A5 - earlier drug case or earlier discharge] In your own words, what you know about any earlier drug conviction, and about any earlier discharge and dismissal under this section:",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C8 - probation term] How long was the probation term the court imposed?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C9 - probation expiry date] On what date did that probation term expire?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C10 - dismissal date] On what date did the court discharge you and dismiss the proceedings?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C11 - probation violations] During probation, or since it ended, has anyone alleged that you broke the conditions of your probation?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C12 - prior drug conviction] Before this case, had you ever been convicted of any drug offence, in West Virginia, another state or a federal court?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C13 - prior conditional discharge] Have you ever had a conditional discharge under this section before, in any West Virginia case?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C14 - court costs paid] Have you paid the court costs the court assessed in this case?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "D. THE REQUEST",
-        "",
-        "The petitioner asks the court to grant the relief described in paragraph A, under W. Va. Code § 60A-4-407(a); W. Va. Code § 60A-4-407(b); W. Va. Code § 60A-4-407(c); W. Va. Code § 60A-4-401(c); W. Va. Code § 60A-4-407a.",
-        "",
-        "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
-        "",
-        "(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)",
+        "AFFIANT'S CONTACT DETAILS, AS THE PLATFORM HOLDS THEM",
         "",
         "PRINTED NAME: {{participant.full_legal_name}}",
         "MAILING ADDRESS: {{participant.street_address}}",
         "TELEPHONE: {{participant.phone}}",
-        "EMAIL: {{participant.email}}"
+        "EMAIL: {{participant.email}}",
+        "",
+        "I swear or affirm that the statements above are true.",
+        "",
+        "SIGNATURE OF AFFIANT {{DOTS:44}}",
+        "DATE {{DOTS:44}}",
+        "",
+        "(You sign this affidavit before a notary public or other officer authorized to administer oaths, and not before. The block below is completed by that officer, never by you and never by this packet.)",
+        "",
+        "Taken, subscribed and sworn to before me this ...... day of .................., 20......",
+        "Officer authorized to administer oaths {{DOTS:44}}"
       ],
       "writes": [
         {
@@ -479,119 +476,77 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_applicantName",
-          "label": "Item C1 - applicant name",
-          "supply": "What is your full legal name as it appears on the court record?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "affidavit_judicial_division",
+          "label": "Judicial division of the court, in the caption of this affidavit",
+          "supply": "the judicial division exactly as the caption of your own case papers writes it",
+          "why": "the committed track registry records the case number and judicial division line as an item the participant completes before filing, and the platform holds no division for a case it has not seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_dateOfBirth",
-          "label": "Item C2 - date of birth",
-          "supply": "What is your date of birth?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "affidavit_case_number",
+          "label": "Case number of the case, as it appears on the conditional discharge order, in the caption of this affidavit",
+          "supply": "the case number, copied from the certified conditional discharge order",
+          "why": "the committed track registry records the case number and judicial division line as an item the participant completes before filing, and the platform holds no case number for a record it has not seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_courtAndCounty",
-          "label": "Item C3 - court and county",
-          "supply": "Which court, and in which county, placed you on probation under the conditional discharge?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "affidavit_jurat_county",
+          "label": "County in which the affidavit is sworn, in the jurat venue line",
+          "supply": "the county in which you actually swear this affidavit before the officer",
+          "why": "where the oath is administered is a fact of the swearing itself, which has not happened when this page is composed"
         },
         {
           "kind": "rbf",
-          "id": "fact_caseNumber",
-          "label": "Item C4 - case number",
-          "supply": "What is the case number?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_arrestDate",
-          "label": "Item C5 - arrest date",
-          "supply": "On what date were you arrested, and which agency arrested you?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_offenseCharged",
-          "label": "Item C6 - offense charged",
-          "supply": "What possession offence were you charged with, and under which Code section?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_dischargeOrderDate",
-          "label": "Item C7 - discharge order date",
+          "id": "affidavit_dischargeOrderDate",
+          "label": "Item A1 - discharge order date, in the affidavit",
           "supply": "On what date did the court enter the order deferring proceedings and placing you on probation?",
           "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
-          "id": "fact_probationTerm",
-          "label": "Item C8 - probation term",
-          "supply": "How long was the probation term the court imposed?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_probationExpiryDate",
-          "label": "Item C9 - probation expiry date",
+          "id": "affidavit_probationExpiryDate",
+          "label": "Item A2 - probation expiry date, in the affidavit",
           "supply": "On what date did that probation term expire?",
           "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
-          "id": "fact_dismissalDate",
-          "label": "Item C10 - dismissal date",
+          "id": "affidavit_dismissalDate",
+          "label": "Item A3 - dismissal date, in the affidavit",
           "supply": "On what date did the court discharge you and dismiss the proceedings?",
           "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
-          "id": "fact_probationViolations",
-          "label": "Item C11 - probation violations",
-          "supply": "During probation, or since it ended, has anyone alleged that you broke the conditions of your probation?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "affidavit_completionAccount",
+          "label": "Item A4 - your own account of completing the terms and conditions of your probation",
+          "supply": "your own first-hand account of what you did to complete the terms and conditions of the probation the court imposed - these lines are yours alone",
+          "why": "the affidavit is the affiant's own sworn statement, and the committed record forbids this build from generating any assertion about the participant's probation violation history"
         },
         {
           "kind": "rbf",
-          "id": "fact_priorDrugConviction",
-          "label": "Item C12 - prior drug conviction",
-          "supply": "Before this case, had you ever been convicted of any drug offence, in West Virginia, another state or a federal court?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "id": "affidavit_priorHistoryAccount",
+          "label": "Item A5 - your own account of any earlier drug conviction or earlier discharge and dismissal under this section",
+          "supply": "your own first-hand account of any earlier drug conviction and of any earlier discharge and dismissal under this section - these lines are yours alone",
+          "why": "the affidavit is the affiant's own sworn statement, and the platform holds no criminal-history record for the affiant"
         },
         {
-          "kind": "rbf",
-          "id": "fact_priorConditionalDischarge",
-          "label": "Item C13 - prior conditional discharge",
-          "supply": "Have you ever had a conditional discharge under this section before, in any West Virginia case?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "kind": "protected",
+          "id": "affiant_signature",
+          "label": "Signature of the affiant on the affidavit",
+          "why": "the affiant swears and signs before a notary public or other officer authorized to administer oaths; this build never signs for anyone"
         },
         {
-          "kind": "rbf",
-          "id": "fact_courtCostsPaid",
-          "label": "Item C14 - court costs paid",
-          "supply": "Have you paid the court costs the court assessed in this case?",
-          "why": "the committed track registry records this as a required generation input for wv_drug_conditional_discharge, and the platform holds no value for it"
+          "kind": "protected",
+          "id": "affidavit_signature_date",
+          "label": "Date beside the affiant's signature on the affidavit",
+          "why": "a date written before the affidavit is sworn would be false"
         },
         {
           "kind": "court",
-          "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
-          "kind": "protected",
-          "id": "petition_signature",
-          "label": "Signature of the person named in the caption, on the petition",
-          "why": "the participant signs personally; this build never signs for anyone"
-        },
-        {
-          "kind": "protected",
-          "id": "petition_signature_date",
-          "label": "Date beside the signature on the petition",
-          "why": "a date written before the document is signed would be false"
+          "id": "affidavit_jurat",
+          "label": "Jurat and officer line, completed by the notary public or other officer who administers the oath",
+          "why": "the jurat belongs to the notary public or other authorized officer, never to the participant and never to this packet"
         }
       ]
     },
@@ -600,34 +555,53 @@ const SPEC = {
       "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
       "title": "Certificate of Service - Clear a first drug-possession case that ended in a conditional discharge",
       "role": "certificate_of_service",
-      "description": "the page on which the participant records that the papers were actually delivered, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)",
+      "description": "the page on which the participant records that the papers were actually delivered to both offices the record names, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)",
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
         "(Clerk of the court that entered the conditional discharge order)",
         "",
+        "Judicial division:",
+        "{{DOTS}}",
+        "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
         "",
-        "Case number, if one was assigned:",
+        "Case number, as it appears on the conditional discharge order:",
         "{{DOTS}}",
         "",
         "CERTIFICATE OF SERVICE",
         "",
-        "I, {{participant.full_legal_name}}, state that on the date I write beside my signing line below, and not before, I delivered a copy of the petition and of the proposed order filed with it to the person or office named here:",
+        "I, {{participant.full_legal_name}}, state that on the date I write beside my signing line below, and not before, I delivered a copy of the application to expunge and of the supporting affidavit filed with it to each of the two offices named below.",
         "",
-        "Name and office of the person or office to whom the papers were delivered:",
+        "The committed track registry for this route records service in these words: serve the prosecuting attorney of the county and the supervising probation office, following the Sec. 61-11-26(e) service practice West Virginia clerks expect. Both offices are served. Neither block below is optional, and this page certifies only what was actually delivered.",
+        "",
+        "FIRST RECIPIENT - THE PROSECUTING ATTORNEY OF THE COUNTY",
+        "",
+        "Name and office of the county prosecuting office the papers were delivered to:",
         "{{DOTS}}",
         "",
-        "Address at which the papers were delivered:",
+        "Address at which the papers were delivered to that office:",
         "{{DOTS}}",
         "",
-        "How the papers were delivered - by hand, by mail, or by the electronic method the court accepts:",
+        "How the papers were delivered to that office - by hand, by mail, or by the electronic method the court accepts:",
+        "{{DOTS}}",
+        "",
+        "SECOND RECIPIENT - THE SUPERVISING PROBATION OFFICE",
+        "",
+        "Name and office of the supervising probation office the papers were delivered to:",
+        "{{DOTS}}",
+        "",
+        "Address at which the papers were delivered to that office:",
+        "{{DOTS}}",
+        "",
+        "How the papers were delivered to that office - by hand, by mail, or by the electronic method the court accepts:",
         "{{DOTS}}",
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
-        "(DO NOT SIGN OR DATE THIS PAGE UNTIL THE PAPERS HAVE ACTUALLY BEEN DELIVERED. A certificate signed before delivery states something that has not happened.)",
+        "(DO NOT SIGN OR DATE THIS PAGE YET.)",
+        "You sign and date this certificate only after the papers have actually been delivered to both offices. A certificate signed before a delivery, or between the two deliveries, states something that has not happened.",
         "",
         "PRINTED NAME: {{participant.full_legal_name}}",
         "MAILING ADDRESS: {{participant.street_address}}",
@@ -658,42 +632,71 @@ const SPEC = {
       ],
       "blanks": [
         {
-          "kind": "court",
+          "kind": "rbf",
+          "id": "service_judicial_division",
+          "label": "Judicial division of the court, in the caption of this certificate",
+          "supply": "the judicial division exactly as the caption of your own case papers writes it",
+          "why": "the committed track registry records the case number and judicial division line as an item the participant completes before filing, and the platform holds no division for a case it has not seen"
+        },
+        {
+          "kind": "rbf",
           "id": "service_case_number",
-          "label": "Case number in the caption of this page, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
+          "label": "Case number of the case, as it appears on the conditional discharge order, in the caption of this certificate",
+          "supply": "the case number, copied from the certified conditional discharge order",
+          "why": "the committed track registry records the case number and judicial division line as an item the participant completes before filing, and the platform holds no case number for a record it has not seen"
         },
         {
           "kind": "rbf",
-          "id": "served_party",
-          "label": "Name and office of the person or office to whom the papers were delivered",
-          "supply": "the name and office of the person or office you delivered the papers to",
-          "why": "who is served depends on the participant's own case and the office that holds it"
+          "id": "served_prosecuting_office",
+          "label": "First recipient - name and office of the county prosecuting office the papers were delivered to",
+          "supply": "the name and office of the county prosecuting office you delivered the papers to, as that office writes it",
+          "why": "the committed track registry requires service on the prosecuting attorney of the county, and which office that is depends on the county the case was heard in"
         },
         {
           "kind": "rbf",
-          "id": "served_address",
-          "label": "Address at which the papers were delivered",
-          "supply": "the address at which you delivered the papers",
-          "why": "an address is a fact of the participant's own delivery"
+          "id": "served_prosecuting_address",
+          "label": "First recipient - address at which the papers were delivered to the county prosecuting office",
+          "supply": "the address at which you delivered the papers to the county prosecuting office",
+          "why": "the committed track registry records the prosecuting attorney's address as an item the participant completes before filing, and the platform holds no office address for a county it has not been told"
         },
         {
           "kind": "rbf",
-          "id": "service_method",
-          "label": "How the papers were delivered - by hand, by mail, or by the electronic method the court accepts",
-          "supply": "how you actually delivered the papers",
+          "id": "served_prosecuting_method",
+          "label": "First recipient - how the papers were delivered to the county prosecuting office",
+          "supply": "how you actually delivered the papers to the county prosecuting office",
+          "why": "only the participant knows how delivery was made"
+        },
+        {
+          "kind": "rbf",
+          "id": "served_probation_office",
+          "label": "Second recipient - name and office of the supervising probation office the papers were delivered to",
+          "supply": "the name and office of the supervising probation office you delivered the papers to, as that office writes it",
+          "why": "the committed track registry requires service on the supervising probation office, and which office supervised the participant is a fact of the participant's own case"
+        },
+        {
+          "kind": "rbf",
+          "id": "served_probation_address",
+          "label": "Second recipient - address at which the papers were delivered to the supervising probation office",
+          "supply": "the address at which you delivered the papers to the supervising probation office",
+          "why": "the committed track registry records the probation office's address as an item the participant completes before filing, and the platform holds no office address for a supervision it has not seen"
+        },
+        {
+          "kind": "rbf",
+          "id": "served_probation_method",
+          "label": "Second recipient - how the papers were delivered to the supervising probation office",
+          "supply": "how you actually delivered the papers to the supervising probation office",
           "why": "only the participant knows how delivery was made"
         },
         {
           "kind": "protected",
           "id": "service_signature",
-          "label": "Signature of the person named in the caption, on the certificate, and only after the papers have actually been delivered",
+          "label": "Signature of the person named in the caption, on the certificate, and only after the papers have actually been delivered to both offices",
           "why": "the participant signs personally; this build never signs for anyone"
         },
         {
           "kind": "protected",
           "id": "service_signature_date",
-          "label": "Date beside the signature on the certificate, and only after the papers have actually been delivered",
+          "label": "Date beside the signature on the certificate, and only after the papers have actually been delivered to both offices",
           "why": "a date written before the document is signed would be false"
         }
       ]
@@ -771,6 +774,19 @@ const SPEC = {
         "WHO MUST BE SERVED",
         "",
         "Service as recorded: Serve the prosecuting attorney of the county and the supervising probation office, following the § 61-11-26(e) service practice West Virginia clerks expect. Notice as recorded: Section 60A-4-407(b) provides for a hearing but names no statutory notice or opposition window. The application is served on the prosecuting attorney as a matter of ordinary practice.",
+        "Two offices, not one. The certificate of service in this packet carries a separate recipient block for the county prosecuting office and for the supervising probation office, because the record names both. Deliver to both, record each delivery in its own block, and sign and date the certificate only after the second delivery has actually happened. The certificate covers the application and the supporting affidavit; this packet contains no proposed order and the certificate does not say that it does.",
+        "",
+        "WHAT THE RECORD SAYS YOU MUST COMPLETE BEFORE YOU FILE",
+        "",
+        "These are the completion items the committed track registry records for this route, in its own words, and what each one means on the pages in this set.",
+        "",
+        "- Applicant's signature on the application — Application, signature block. You sign personally; nothing on this page is signed for you.",
+        "- Affidavit signature, date and jurat — Supporting affidavit, foot of the document. You sign and date the affidavit in front of the officer, and the jurat is that officer's to complete.",
+        "- Case number and judicial division line — Application, caption block. Both are on the caption of the application, the affidavit and the certificate of service; copy them from the certified conditional discharge order and from the caption of your own case papers.",
+        "- Prosecuting attorney and probation office addresses, and the certificate of service date and signature — Certificate of service. Each office has its own recipient block on that page.",
+        "- Hearing date — Application, notice line. Ask the clerk of the court that entered the conditional discharge for the date. The court sets it; this packet never writes one.",
+        "- The applicant signs the application and swears the affidavit.",
+        "- Notarization: Required on the supporting affidavit. Swear it before a notary public or other officer authorized to administer oaths, and not before.",
         "",
         "WHAT THE RECORD SAYS YOU MUST KNOW",
         "",
@@ -795,8 +811,8 @@ const SPEC = {
         "THE PAGES IN THIS SET",
         "",
         "- wv_drug_conditional_discharge-primary-filing-1: the composed petition, on this route's own statutory ground (Clear a first drug-possession case that ended in a conditional discharge)",
-        "- wv_drug_conditional_discharge-supporting-affidavit-2: the sworn affidavit filed with the application (Clear a first drug-possession case that ended in a conditional discharge)",
-        "- wv_drug_conditional_discharge-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)",
+        "- wv_drug_conditional_discharge-supporting-affidavit-2: the sworn affidavit the committed record requires with the application, signed before a notary public or other officer authorized to administer oaths (Clear a first drug-possession case that ended in a conditional discharge)",
+        "- wv_drug_conditional_discharge-certificate-of-service-3: the page on which the participant records that the papers were actually delivered to both offices the record names, signed only after delivery (Clear a first drug-possession case that ended in a conditional discharge)",
         "- wv_drug_conditional_discharge-records-checklist-4: the records the participant must have in front of them before the application can be completed (Clear a first drug-possession case that ended in a conditional discharge)",
         "- wv_drug_conditional_discharge-filing-instructions-5: this page"
       ],
@@ -857,7 +873,7 @@ const SPEC = {
   ],
   "instructionsIntro": [
     "This packet is composed from committed repository records, not from an official form: no committed record names an official statewide participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory."
+    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Your name and your date of birth are also printed as the answers to items C1 and C2 on the application, because the platform holds them and a fact it holds is not a blank you have to fill. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory."
   ],
   "instrumentChoice": null,
   "documentsToObtain": [
@@ -875,17 +891,20 @@ const SPEC = {
     ]
   ],
   "steps": [
-    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.",
-    "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
-    "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
-    "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
-    "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
+    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, what the record says you must complete before filing, and when to stop.",
+    "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name. Items C1 and C2 on the application are already answered from the name and date of birth the platform holds; read both against your own papers and correct them in writing if they are wrong.",
+    "**Ask the clerk of the court that entered the conditional discharge for the hearing date**, and write it on the application's notice line. The court sets that date and this packet never writes one.",
+    "**Sign the application personally, and swear the supporting affidavit before a notary public or other officer authorized to administer oaths.** The committed record requires notarization on the affidavit. Sign and date the affidavit in front of that officer and not before; the jurat block below your signature is theirs to complete.",
+    "**Deliver a copy of the application and the affidavit to the county prosecuting office and to the supervising probation office.** The record names both, and the certificate of service has a separate recipient block for each.",
+    "**Do not sign or date the certificate of service until the papers have actually been delivered to both offices.**",
+    "**File the application, the supporting affidavit and the certificate of service with the clerk of the court that entered the conditional discharge**, and ask that office what it charges and how it accepts filings before you go.",
+    "**Leave every page and every line that belongs to the court, the clerk, the prosecuting office or the notary blank.** Those are not yours to fill."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
-    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists.",
-    "**The certificate or proof of delivery, until the papers have actually been delivered.** A certificate signed before delivery states something that has not happened."
+    "**The jurat on the supporting affidavit.** It belongs to the notary public or other officer who administers the oath, never to you and never to this packet.",
+    "**The hearing date on the application's notice line.** The court sets it. Ask the clerk of the court that entered the conditional discharge for the date and write it there before you file; this packet never writes a date no court has set.",
+    "**Both recipient blocks on the certificate of service, until the papers have actually been delivered to that office.** A certificate signed before delivery states something that has not happened."
   ],
   "recordSays": [
     [
@@ -984,6 +1003,20 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const OUT = SPEC.outDir;
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 const DOTS = (n = 84) => ".".repeat(n);
+
+/* THE CLOSING EXECUTION UNIT ON A SWORN PAGE.
+ *
+ * The affiant's own signature line opens the unit; the two lines the notary or
+ * other authorized officer completes close it. Both patterns are matched on the
+ * composed source line, and both are read twice: by composedBody, to put the
+ * route trailer in front of the unit rather than inside the officer's block,
+ * and by renderComposedPdf, to keep the unit whole on one page. A jurat split
+ * across a page break, or a machine trailer printed under the officer's rule,
+ * are the two defects the West Virginia deferral family already measured and
+ * repaired; the same shape is used here so the affidavit cannot repeat them. */
+const EXECUTION_UNIT_OPENER = /^SIGNATURE OF /;
+const OFFICER_EXECUTION_LINE = /^(Taken, subscribed and sworn to before me|Officer authorized to administer oaths)\b/;
+
 const COMPONENT_IDS = SPEC.components.map((c) => c.id);
 const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
 
@@ -1038,13 +1071,6 @@ async function renderComposedPdf(fullText, title, componentId) {
   const lineHeight = componentId === "wv_drug_conditional_discharge-records-checklist-4" ? 13.5 : 14.5;
   const width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
   const splitToken = (token) => {
     const chunks = []; let current = "";
     for (const ch of token) {
@@ -1066,7 +1092,56 @@ async function renderComposedPdf(fullText, title, componentId) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /* The same rows, wrapped by the same rule, on the same pages: rowsPerPage is
+   * exactly the number the old draw-until-the-margin loop fitted, so no
+   * component's pagination moves. What is new is that the closing execution
+   * unit is ONE block, and a block that fits on a page is never split across a
+   * page break. */
+  const rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1;
+  const source = sanitizePdfText(fullText).split("\n");
+  const lastDrawn = source.reduce((last, line, index) => (line === "" ? last : index), -1);
+  const unitStart = lastDrawn >= 0 && OFFICER_EXECUTION_LINE.test(source[lastDrawn])
+    ? source.findIndex((line) => EXECUTION_UNIT_OPENER.test(line))
+    : -1;
+  const blocks = [];
+  for (let i = 0; i < source.length; i += 1) {
+    if (unitStart >= 0 && i === unitStart) {
+      const rows = [];
+      for (let j = unitStart; j <= lastDrawn; j += 1) rows.push(...wrap(source[j]));
+      blocks.push({ rows, execution: true });
+      i = lastDrawn;
+      continue;
+    }
+    blocks.push({ rows: wrap(source[i]), execution: false });
+  }
+  const pages = [[]];
+  for (const block of blocks) {
+    let current = pages[pages.length - 1];
+    if (block.execution && block.rows.length <= rowsPerPage && current.length + block.rows.length > rowsPerPage) {
+      pages.push([]);
+      current = pages[pages.length - 1];
+    }
+    for (const text of block.rows) {
+      if (current.length === rowsPerPage) { pages.push([]); current = pages[pages.length - 1]; }
+      current.push({ text, execution: block.execution === true });
+    }
+  }
+  for (const rows of pages) {
+    const page = pdf.addPage([width, height]);
+    let y = height - margin;
+    for (const row of rows) {
+      if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+      y -= lineHeight;
+    }
+  }
+  /* Proof read off the settled layout rather than off the intention: every
+   * drawn row of the closing execution unit landed on one page. */
+  const executionRows = pages.map((rows) => rows.filter((r) => r.execution).length);
+  const drawnExecutionRows = executionRows.reduce((n, k) => n + k, 0);
+  if (drawnExecutionRows > 0) {
+    assert.equal(executionRows.filter((k) => k > 0).length, 1,
+      `${title}: the affiant signature, the officer's sentence and the jurat must land whole on one page`);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -1088,7 +1163,21 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
+  /* WHERE THE ROUTE TRAILER GOES WHEN AN OFFICER'S BLOCK CLOSES THE PAGE.
+   *
+   * The trailer is internal machine metadata and it closes every component. On
+   * a sworn page that would put it under "Officer authorized to administer
+   * oaths" - inside a block whose own words reserve it to the notary or other
+   * officer, "never by you and never by this packet". So where a component
+   * closes on a third party's execution block the trailer closes the preparer's
+   * own half of the page instead, immediately above that block. Nothing is
+   * added, removed or reworded; every other component keeps it at the foot. */
+  const trailer = `Route: ${c.routeKey}`;
+  const lastDrawn = lines.reduce((last, line, index) => (line === "" ? last : index), -1);
+  const closesOnAnOfficersBlock = lastDrawn >= 0 && OFFICER_EXECUTION_LINE.test(lines[lastDrawn]);
+  const unitStart = closesOnAnOfficersBlock ? lines.findIndex((line) => EXECUTION_UNIT_OPENER.test(line)) : -1;
+  if (unitStart >= 0) lines.splice(unitStart, 0, trailer, "");
+  else lines.push("", trailer);
   return lines.join("\n");
 }
 
@@ -1114,6 +1203,21 @@ function mapHelpers(componentId) {
       category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
       requiredBeforeFiling: false, document: componentId, why
     }),
+    /* A line whose CONTENT is the court's even though the participant is the
+     * one who transcribes it onto the page. The hearing date is the measured
+     * instance: the registry lists it among the items completed before filing,
+     * and the clerk is the only source of the date. Declaring it
+     * required-before-filing would be refused -- a COURT_ONLY field is not the
+     * participant's to author -- and declaring it filled would be false. So it
+     * carries the court-owned refusal, which is the truth about who the date
+     * belongs to, and the filing instructions and the deliberately-blank list
+     * both name it and say where the participant gets it. */
+    clerkSetBlank: (id, label, why) => ({
+      ...base(id, label),
+      reason: "the court sets this value; the participant obtains it from the clerk and writes it before filing, and this build never writes a value no court has set",
+      category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
     rbf: (id, label, what, why) => ({
       ...base(id, label),
       reason: `the participant supplies this before filing: ${what}`,
@@ -1133,6 +1237,7 @@ function composedMap(componentId) {
     if (b.kind === "rbf") return h.rbf(b.id, b.label, b.supply, b.why);
     if (b.kind === "protected") return h.protectedBlank(b.id, b.label, b.why);
     if (b.kind === "court") return h.clerkBlank(b.id, b.label, b.why);
+    if (b.kind === "clerkSet") return h.clerkSetBlank(b.id, b.label, b.why);
     throw new Error(`${componentId}.${b.id}: unknown blank kind ${b.kind}`);
   });
   return {
