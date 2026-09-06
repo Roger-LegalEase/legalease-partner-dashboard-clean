@@ -1639,7 +1639,8 @@ Object.assign(FAMILY, {
     {
       fitTextPerWidget: true,
       deny: ["ExpungeCntyName"],
-      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      // The existing FIX13 entrypoint owns these installed conviction-blank
+      // disclosures. Preserve them so rebuild and --check read the same map.
       repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
@@ -2534,9 +2535,17 @@ async function selfTestFix88() {
     assert.ok(participantInstructions(FAMILY[id], []).includes("date verified from the court record"));
     assert.ok(config.repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
     const mappings = factMappingsForDocument(config);
+    // FIX13 owns disorderly's installed declarations. Exercise the same
+    // installed-map preservation and declaration precedence as build/check.
+    const installed = id === "nj_disorderly_persons-set"
+      ? installedRefusalRows(readJson(`${officialOut(id, FAMILY[id].jurisdiction)}/production-field-map.json`))
+      : new Map();
     for (const name of ["guiltyStatute", "guiltyFinal1", "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
       assert.equal(mappings[name], undefined, `${id}/${name}: no invented case fact`);
-      assert.equal(config.declarations[name].requiredBeforeFiling, true);
+      const [row] = fieldMapFor(config, { fields: [{ name, widgets: [] }] }, installed);
+      assert.equal(row.decision, "refuse", `${id}/${name}: withheld until verified`);
+      assert.equal(row.factId, null, `${id}/${name}: no invented case fact`);
+      assert.equal(row.requiredBeforeFiling, true, `${id}/${name}: disclosed requirement survives rebuild`);
     }
   }
   assert.equal(FAMILY["nj_clean_slate-set"].documents[0].exactWidgetBindings, undefined);
@@ -2659,9 +2668,15 @@ async function selfTest(familyId) {
     .reduce((count, mappings) => count + Object.keys(mappings).length, 0), 41);
   for (const [documentId, mappings] of Object.entries(SHARED_EXACT_FACT_ALLOWLIST)) {
     assert.ok(configuredDocumentIds.has(documentId), `${documentId}: shared exact map has no configured document`);
-    for (const factId of Object.values(mappings)) {
-      assert.ok(resolveFact(factsCanonical, factId) != null,
-        `${documentId}: exact map names an unavailable fixture fact ${factId}`);
+    // Validate against the same jurisdiction/family-derived facts used by the
+    // build; raw seed facts omit derived values such as participant.state_zip.
+    const documentConfigs = Object.values(FAMILY)
+      .filter((config) => config.documents.some((doc) => doc.documentId === documentId));
+    for (const config of documentConfigs) {
+      for (const factId of Object.values(mappings)) {
+        assert.ok(resolveFact(familyFacts(config), factId) != null,
+          `${documentId}: exact map names an unavailable fixture fact ${factId}`);
+      }
     }
   }
   const exactOverlaySource = await PDFDocument.create();

@@ -1,0 +1,462 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-rows/v1",
+  "lane": "FIX88",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "workerBranch": "fix88-nj-repeating-rows",
+  "worktree": "/workspaces/legalease-fix91",
+  "selectedBase": "1ba286e7c8650407538a881ec5972d1175ed6d29",
+  "implementationCheckpointRequiredForIntegration": "bc58c523154c767a99b0ae7727076a913a18b4a6",
+  "integrationNote": "Merge the completed branch or integrate the earlier NJ host implementation and this completion together. The final output commit alone does not contain the original row/binding implementation. Shared-host integration must preserve Captain PA/VA changes.",
+  "historicalReturnPreserved": "data/rcap-grade-a/packet-factory-24h/fix88/rows.json",
+  "summary": {
+    "familiesRepaired": 4,
+    "assignedObligationsRepaired": 5,
+    "fixturePdfInstances": 8,
+    "finalPageRasterInstances": 344,
+    "independentFamiliesAcceptedByThisAuthor": 0,
+    "centralRasterAcceptancesIssued": 0,
+    "newDownloads": 0,
+    "remainingExactSourceDependencies": 0
+  },
+  "source": {
+    "documentId": "NJ-CN-10557",
+    "sourcePath": "/tmp/codex-source-drive/complete-master/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "archivePath": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "driveFileId": "1rZSfxa0-H6CgGwSeKyrUC2UfFBAzDw7l",
+    "byteLength": 1924831,
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "expectedByteLength": 1924831,
+    "expectedSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "outcome": "EXACT_SOURCE_REUSED",
+    "newDownloads": 0,
+    "remainingExactSources": []
+  },
+  "grantAssertions": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/grant-assertions.json",
+  "engineeringChecks": [
+    {
+      "command": "NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --self-test",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/host-self-test.log"
+    },
+    {
+      "command": "NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --self-test-fix88",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/fix88-self-test.log"
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/eslint.log",
+      "warning": "Preexisting unused _paRow1ChargeCell warning retained; zero errors."
+    },
+    {
+      "command": "node --check scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "priorFailures": {
+    "disorderlyCheck": "Preserved failed log at data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/prior-disorderly-check-failure.log. The host was overriding FIX13 installed declarations; its redundant override is removed, and current source check now agrees with the installed map. No failure log was deleted.",
+    "genericSelfTest": "Prior raw seed-fact test falsely rejected derived participant.state_zip. The assertion now uses each configured family's production fixture derivation; no runtime fact or packet code was changed by that harness correction.",
+    "fix88Regression": "After retaining FIX13 declarations, the direct-config test dereferenced absent declarations. It now calls the actual fieldMapFor path with the installed map and asserts refusal, null factId, and requiredBeforeFiling for every required unknown cell."
+  },
+  "limitations": [
+    "This is an author repair return, not an independent verdict or live approval. All four historical selected verdicts were FAIL_REPAIR_REQUIRED and are retained as evidence.",
+    "Source-bound Poppler build/replay evidence and focused author visual reads do not issue central raster acceptance; eight exact changed PDFs await that acceptance and independent reread.",
+    "The full-library environment preflight was not claimed as passed. The historical preflight remains in fix88/rows.json; this bounded worker verified the exact CN-10557 file needed by all four executable families without requiring the whole library.",
+    "The synthetic regression substitutes a 19-page test PDF only for the source boundary in its binding checks; official PDFs and artifacts are separately checked from exact source bytes.",
+    "Node emits the preexisting MODULE_TYPELESS_PACKAGE_JSON warning for custom-pleading-renderer.ts. No package/security setting changed."
+  ],
+  "scratchPreserved": [
+    "/tmp/fix88-current",
+    "/tmp/codex-fix88-resumed-20260906",
+    "/tmp/codex-source-drive"
+  ],
+  "rows": [
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "whatChanged": [
+        "The ordinary-dismissal court binds only to page-18 dismissCrt widget 0; page-19 widget 1 in the diversion paragraph receives no injected court.",
+        "The page-18 dismissal row writes all three canonical facts together and withholds the whole boundary row when the offense does not fit. Paragraph 1 also stays wholly unfilled when its required statute and municipality are missing.",
+        "The guide discloses every held fact, the printed unwidgeted arrest date, and correction of the plea-bargain election page."
+      ],
+      "selectedIndependentVerdictBeforeRepair": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "f1a686387",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "sourceReceipt": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/exact-source.json",
+      "remainingExactSourceDependencies": [],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "byteLength": 572743,
+          "sha256": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 13,
+          "refusedFields": 166,
+          "routeSelections": 1,
+          "heldButNotPrinted": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "byteLength": 574408,
+          "sha256": "77ccbea40a7831ad4d0d5ae488cf448b7d66d012251d90273d7447bffb9fecfb",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 7
+        }
+      ],
+      "sourceCheck": {
+        "status": "PASS",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/arrest-check-reused.log",
+        "pdfs": 2,
+        "replayedRasters": 86,
+        "reuse": true
+      },
+      "determinism": {
+        "status": "PASS",
+        "twoSuccessfulFullBuilds": true,
+        "filesCompared": 99,
+        "allFilesByteIdentical": true,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/arrest-determinism.json",
+        "reuse": "Both successful prior runs and exact current 99-file hashes reused; no redundant full regeneration."
+      },
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/nj_arrest_no_conviction-set-completeness.log"
+      },
+      "sourceBoundWidgetMeasurements": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-artifact-measurements.json",
+      "participantDisclosureCheck": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-disclosures.json",
+      "authorVisualRead": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/focused-visual-read.json",
+      "freshRebuildExecuted": true,
+      "deterministicFullRebuildExecuted": true,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "acceptanceStatus": "REPAIR_COMPLETE_PENDING_INDEPENDENT_REREAD",
+      "remainingAcceptanceChecks": [
+        "Fresh central raster acceptance for these exact changed PDF hashes.",
+        "Independent reread of the assigned failed obligations against current delivered bytes; historical FAIL_REPAIR_REQUIRED is not self-cleared by this author return."
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "whatChanged": [
+        "Whole-row withholding now covers the page-18 arrest paragraph and the page-19 conviction paragraph, in addition to the prior page-31 order row.",
+        "All unknown conviction fields are declared required before filing with their source captions; the guide discloses every held fact and manual completion of the unwidgeted arrest-date line from the court record."
+      ],
+      "selectedIndependentVerdictBeforeRepair": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "f1a686387",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "sourceReceipt": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/exact-source.json",
+      "remainingExactSourceDependencies": [],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "byteLength": 572107,
+          "sha256": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 7
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "byteLength": 574409,
+          "sha256": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 7
+        }
+      ],
+      "sourceCheck": {
+        "status": "PASS",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/disorderly-check.log",
+        "pdfs": 2,
+        "replayedRasters": 86,
+        "reuse": false
+      },
+      "determinism": {
+        "status": "PASS",
+        "twoSuccessfulFullBuilds": true,
+        "filesCompared": 99,
+        "allFilesByteIdentical": true,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/disorderly-determinism.json",
+        "reuse": "Preserved final successful first run plus resumed confirming full build; all 99 files unchanged."
+      },
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/nj_disorderly_persons-set-completeness.log"
+      },
+      "sourceBoundWidgetMeasurements": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-artifact-measurements.json",
+      "participantDisclosureCheck": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-disclosures.json",
+      "authorVisualRead": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/focused-visual-read.json",
+      "freshRebuildExecuted": true,
+      "deterministicFullRebuildExecuted": true,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "acceptanceStatus": "REPAIR_COMPLETE_PENDING_INDEPENDENT_REREAD",
+      "remainingAcceptanceChecks": [
+        "Fresh central raster acceptance for these exact changed PDF hashes.",
+        "Independent reread of the assigned failed obligations against current delivered bytes; historical FAIL_REPAIR_REQUIRED is not self-cleared by this author return."
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+      "whatChanged": [
+        "Whole-row withholding now covers the page-18 arrest paragraph and the page-19 conviction paragraph, in addition to the prior page-31 order row.",
+        "All unknown conviction fields are declared required before filing with their source captions; the guide discloses every held fact and manual completion of the unwidgeted arrest-date line from the court record."
+      ],
+      "selectedIndependentVerdictBeforeRepair": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "f1a686387",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "sourceReceipt": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/exact-source.json",
+      "remainingExactSourceDependencies": [],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "byteLength": 572107,
+          "sha256": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 8
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "byteLength": 574409,
+          "sha256": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 8
+        }
+      ],
+      "sourceCheck": {
+        "status": "PASS",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/indictable-check.log",
+        "pdfs": 2,
+        "replayedRasters": 86,
+        "reuse": false
+      },
+      "determinism": {
+        "status": "PASS",
+        "twoSuccessfulFullBuilds": true,
+        "filesCompared": 99,
+        "allFilesByteIdentical": true,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/indictable-determinism.json",
+        "reuse": "Two full builds in this resumed execution; all 99 files identical."
+      },
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/nj_indictable_conviction-set-completeness.log"
+      },
+      "sourceBoundWidgetMeasurements": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-artifact-measurements.json",
+      "participantDisclosureCheck": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-disclosures.json",
+      "authorVisualRead": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/focused-visual-read.json",
+      "freshRebuildExecuted": true,
+      "deterministicFullRebuildExecuted": true,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "acceptanceStatus": "REPAIR_COMPLETE_PENDING_INDEPENDENT_REREAD",
+      "remainingAcceptanceChecks": [
+        "Fresh central raster acceptance for these exact changed PDF hashes.",
+        "Independent reread of the assigned failed obligations against current delivered bytes; historical FAIL_REPAIR_REQUIRED is not self-cleared by this author return."
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_ordinance-set.mjs",
+      "whatChanged": [
+        "Whole-row withholding now covers the page-18 arrest paragraph and the page-19 conviction paragraph, in addition to the prior page-31 order row.",
+        "All unknown conviction fields are declared required before filing with their source captions; the guide discloses every held fact and manual completion of the unwidgeted arrest-date line from the court record."
+      ],
+      "selectedIndependentVerdictBeforeRepair": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "f1a686387",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "sourceReceipt": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/exact-source.json",
+      "remainingExactSourceDependencies": [],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "byteLength": 572107,
+          "sha256": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 8
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "byteLength": 574409,
+          "sha256": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "pages": 43,
+          "pageRasters": 43,
+          "writtenFields": 10,
+          "refusedFields": 169,
+          "routeSelections": 1,
+          "heldButNotPrinted": 8
+        }
+      ],
+      "sourceCheck": {
+        "status": "PASS",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/ordinance-check.log",
+        "pdfs": 2,
+        "replayedRasters": 86,
+        "reuse": false
+      },
+      "determinism": {
+        "status": "PASS",
+        "twoSuccessfulFullBuilds": true,
+        "filesCompared": 99,
+        "allFilesByteIdentical": true,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/ordinance-determinism.json",
+        "reuse": "Two full builds in this resumed execution; all 99 files identical."
+      },
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/nj_ordinance-set-completeness.log"
+      },
+      "sourceBoundWidgetMeasurements": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-artifact-measurements.json",
+      "participantDisclosureCheck": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/row-disclosures.json",
+      "authorVisualRead": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/resumed-20260906/focused-visual-read.json",
+      "freshRebuildExecuted": true,
+      "deterministicFullRebuildExecuted": true,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "acceptanceStatus": "REPAIR_COMPLETE_PENDING_INDEPENDENT_REREAD",
+      "remainingAcceptanceChecks": [
+        "Fresh central raster acceptance for these exact changed PDF hashes.",
+        "Independent reread of the assigned failed obligations against current delivered bytes; historical FAIL_REPAIR_REQUIRED is not self-cleared by this author return."
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "routesOpened": 0,
+  "productionTouched": false,
+  "builderSourceSha256": "c03dd17fa9ab01da8b6279fe04c5adda1e1a9d10ef6221d3d841738242f9d307"
+}

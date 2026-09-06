@@ -53,7 +53,11 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | --- | --- | --- | --- |
 | `arrest1CaseNum` | `matter.case_number` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `dismissCrt` | `matter.court` | another cell of the same row (dismissOff1) could not be printed, and a row is completed or left untouched | boundary |
+| `dismissDt` | `matter.disposition_date` | another cell of the same row (dismissOff1) could not be printed, and a row is completed or left untouched | boundary |
 | `dismissOff1` | `matter.charge` | the value does not fit this box at a size a court could read | boundary |
+| `origCaseNums` | `matter.case_number` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 
 ## Records to gather before you file
 
@@ -141,8 +145,8 @@ The lines below are printed on delivered pages of this packet and there is no fo
 
 | Delivered page | What the form prints | What goes there |
 | --- | --- | --- |
-| 18 | “I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1 | The arrest or custody date. This packet holds it and prints it on the proposed Expungement Order at delivered page 31; copy the same date onto this line by hand. There is no fill-in box on this line for any build to write into. |
-| 19 | “Was the dismissal a result of a plea bargain? [ ] Yes [ ] No” — Petition for Expungement (Form A), item a | Your own answer. This is an election about your case, not a fact the platform holds, and it is delivered unmarked; mark the box that is true before you sign. |
+| 18 | “I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1 | The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file. |
+| 18 | “Was the dismissal a result of a plea bargain? [ ] Yes [ ] No” — Petition for Expungement (Form A), item a | Your own answer. This is an election about your case, not a fact the platform holds, and it is delivered unmarked; mark the box that is true before you sign. |
 
 ## Where self-help ends
 
@@ -179,5 +183,5 @@ The lines below are printed on delivered pages of this packet and there is no fo
 **If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file. A New Jersey expungement has no federal immigration effect, and this packet does not tell you what any immigration authority already holds or will do.
 
 **Where to ask, and for what.** The kit's own page 3 says it plainly: the court system can be confusing and it is a good idea to get a lawyer. If you cannot afford one, contact the legal services programme in your county to see whether you qualify for free legal services — their number is listed online under Legal Aid or Legal Services. If you do not qualify and need help finding an attorney, your county bar association's lawyer referral service can give you names, and some of those attorneys will consult at a reduced fee. The Criminal Case Management Office can explain how the court works, what the filing requirements are, and what its deadlines are; the kit states in the same place that court staff **cannot** give you legal advice. Only a lawyer can.
-- The route election is the measured existing dismissed control on page 18; no box is invented.
+- The route election is the measured existing dismissed control on page 18; no box is invented. The court name is bound only to item (a). Item (c) on page 19 is for diversion dismissals and stays wholly untouched; diversion questions remain a self-help stop. If any required fact of item (a) cannot print, its date, charge and court are all withheld together.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.

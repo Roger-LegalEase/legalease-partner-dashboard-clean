@@ -19,7 +19,12 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | --- | --- | --- | --- |
 | `arrest1CaseNum` | `matter.case_number` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `ExpungeCntyName` | `matter.county` | this blank is a chooser the form fills from its own list of options, not a free-text line, and the held value is not one of those options | canonical, boundary |
+| `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `origCaseNums` | `matter.case_number` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 
 ## Records to gather before you file
 
@@ -101,6 +106,14 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - offense(s)) (source field: `arrestOff2`)
 - in violation of N.J.S.A. (statute(s)) (source field: `arrestStatute`)
 - (original indict (source field: `arrestMuni`)
+- name of offense(s), continuation line if needed — Form A, item (d), delivered page 19 (source field: `guiltyOff2`)
+- in violation of N.J.S.A. (statute(s)) — Form A, item (d), delivered page 19 (source field: `guiltyStatute`)
+- final sentence, first line — Form A, item (d), delivered page 19 (source field: `guiltyFinal1`)
+- final sentence, continuation line if needed — Form A, item (d), delivered page 19 (source field: `guiltyFinal2`)
+- jail/prison/incarceration time — Form A, item (d), delivered page 19 (source field: `guiltyTimeType`)
+- date jail/prison/incarceration was completed — Form A, item (d), delivered page 19 (source field: `guiltyDocCmpltDt`)
+- date probation was completed — Form A, item (d), delivered page 19 (source field: `guiltyProbDt`)
+- date fines were paid — Form A, item (d), delivered page 19 (source field: `guiltyFineDt`)
 - contOwe (source field: `contOwe`)
 - Original (source field: `oweDocket`)
 - in the amount of $ (source field: `oweAmt`)
@@ -175,5 +188,13 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - Records and Identification Unit (source field: `FamDivAddrStr`)
 - (address) (address) (source field: `FamDivAddr2`)
 - The administrator(s) of the (source field: `AdminMuniCts`)
+
+## Blanks the form prints with no fill-in box
+
+The lines below are printed on delivered pages of this packet and there is no form field over them, so no build can put anything on them and none of them appears in the list above. **Write each one in by hand before you file.**
+
+| Delivered page | What the form prints | What goes there |
+| --- | --- | --- |
+| 18 | “I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1 | The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file. |
 - The measured conviction control is marked; degree and statutory eligibility remain unselected.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.
