@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "2d31b835415d87150c8427a8e0c55235d898fb9c",
+  "minimumCaptainSha": "0a1577634215ad532906cb9246d19ebfca72e105",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 19,
+    "activeFamiliesExcluded": 23,
     "guidanceOnly": 0,
-    "remaining": 327,
+    "remaining": 323,
     "sourceReady": 81,
     "sourceBlocked": 6,
     "legalBlocked": 20,
-    "verifyPending": 5,
+    "verifyPending": 0,
     "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 154,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "COMPLETE_PACKET_PROVEN": 155,
+    "FAIL_REPAIR_REQUIRED": 46,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 81,
@@ -86,7 +86,6 @@
     "LEGAL_BLOCKED": 20,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1,
     "BUILT_RASTER_PENDING": 1
   },
@@ -118,6 +117,10 @@
       "co_petition_seal_arrest-set",
       "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "ne-setaside-custodial-set",
+      "nj_arrest_no_conviction-set",
+      "nj_disorderly_persons-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
       "nm_conviction-set",
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
@@ -30658,10 +30661,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "5321af5c3",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -30692,25 +30695,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "All declared writes are correct: 22 canonical fields across 24 widget instances and 16 boundary fields/instances match held values; eight boundary widget locations correctly refuse the six over-MaxLen fields. However, two required field locations omit held facts in each fixture: (1) NHJB-2311 p2 / packet p5 printed Case Number header is blank although the case number is known. It is above the FOR COURT USE ONLY heading; source has no text widget there, so the 168-widget census never considers it. (2) NHJB-2328 p1 / packet p6 Residence Address field 2.1 contains only street/apartment, omitting held city, state and ZIP. There is no separate locality field on that form. Its 420.342-point source widget has no MaxLen, and full held addresses fit at 11pt. The actual missing values and width measurements are recorded, not inferred from counters.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "All 89 declared entries and all 89 blank-report labels are disclosed, including current six conditional MaxLen items. Independent printed-page coverage still fails: NHJB-2311 p2 Case Name and Case Number header lines have no entry in either mapping/refusal census, and the guide labels the entire second page court-only without distinguishing its participant/case caption from the order beneath it. The page2 Case Name is an unheld court-styled fact needing a specific repeated-header instruction; the known Case Number should be filled, not reclassified as unknown. The full residence-address omission is not disclosed as a completion item either. The source page has two printed caption blanks outside the source-widget denominator.",
-          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -30964,10 +30953,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "f1a686387",
+        "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -30997,26 +30988,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
         "REPEATING_ROWS"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "A held fact is written into a box whose printed question the route does not answer, on both fixtures. REPAIR: bind matter.court to the item-(a) widget alone rather than to the dismissCrt FIELD, or refuse the page-19 widget and disclose it; then rebuild, re-raster centrally and re-read.",
-          "evidence": "MEASURED ON THE DELIVERED PAGE, at 300 dpi and read back per widget with pdftotext -bbox against each widget's own pinned /Rect. The caption mis-fill the previous independent read failed this obligation on is discharged, and discharged on the paper rather than in a report: the (city) line now carries the city and the (state, zip code) line carries the state and the ZIP, on all seven caption blocks -- delivered pages 18 (Form A), 27 (Form B), 30 (Form C) and the Form D, E, F and G letters at 35, 38, 40 and 43. Canonical page 18 reads '(city) Newark' and '(state, zip code) NJ 07102'; boundary reads '(city) Unincorporated Township of Long Hollow Crossing near Newark' and '(state, zip code) NJ 07102-9999'. The telephone is written once, in the one box the kit labels '(your telephone number)' on page 18, and nowhere else; delivered page 35 now carries no telephone at all. The same measurement run against the pre-repair bytes recovered from history returns the old defect verbatim, which is what makes this a measurement rather than an assertion. Every other held fact was checked at the widget the form asks for it: name at 20 widgets, street address at 8, city, state, ZIP, date of birth at 2, case number, charge description, conviction date and court -- 52 of 53 widget read-backs return the expected string character for character, the single deviation being the form's own comma inside the page-30 DefBirthDt window. THE FAILURE IS ELSEWHERE AND IT IS THE ONE FIX76 SAID IT DID NOT REPAIR, CONFIRMED ALIVE ON THE CURRENT BYTES. matter.court is written into BOTH widgets of the dismissCrt field, and the second one is not a dismissal-court box. dismissCrt is one AcroForm field with two widgets: index 0 on delivered page 18 at /Rect x 315.144 y 179.395 w 135.7, inside Form A item (a) 'was/were dismissed by the (name of Court) ____'; and index 1 on delivered page 19 at /Rect x 314.515 y 674.833 w 157.6, inside item (c), whose printed sentence is 'was/were dismissed by the (name of Court) ____ Court AFTER conditional discharge, conditional dismissal, Pretrial Intervention Program (PTI), Veterans Diversion Program, Juvenile Conference Committee, Intake Service Conference, or deferred disposition was successfully completed.' Read off the delivered page here with pdftotext -layout, page 19 prints 'was/were dismissed by the (name of Court) Example Court Court after conditional discharge...', on both fixtures, 2,230 added pixels inside that widget. Item (c)'s own checkbox (dismissPti) is unmarked, its date and offence blanks are empty, and the field map refuses all three of them. The platform holds no fact that this dismissal followed a diversion programme -- and this family's own guide lists 'Dismissal after pretrial intervention, conditional discharge or another diversion programme' as the first point where self-help ENDS. The packet therefore prints, on a petition verified under N.J.S.A. 2C:52-7, an assertion in a branch its own guidance tells the participant to stop on. The nine counters cannot see it: the write is bound to a held fact, lands inside a measured /Rect and is visible, which is all they ask."
-        },
-        {
           "obligation": "REPEATING_ROWS",
-          "finding": "Petition item (c) carries a court name beside blank required cells on both fixtures, and on the boundary fixture item (a) carries a date and a court with the offence withheld. REPAIR: declare the page-18 and page-19 disposition paragraphs as repeating-row groups so an unmapped or refused cell withdraws the whole row, the way NJ_ORDER_ARREST_ROW_1 now does; then rebuild, re-raster centrally and re-read.",
-          "evidence": "The defect the previous independent read failed this obligation on IS discharged, and discharged on the paper: delivered page 31, Expungement Order (Form C - Continued), arrest row (1) now prints '(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____', character for character the shape of rows (2) to (5), on both fixtures; read here with pdftotext -layout on the delivered bytes. The two withheld cells (arrest1Dt, arrest1CaseNum) are in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and are disclosed in the guide's held-but-not-printed table. TWO ROWS STILL FAIL, both on the petition. (1) BOTH FIXTURES, delivered page 19 item (c): the diversion branch carries 'Example Court' in its (name of Court) cell while the item's own date cell, offence cell and checkbox are all blank and all refused. One written cell beside required blanks, in a branch the route does not claim -- the same ink this row fails under KNOWN_PREFILLS, counted here for what it does to the row. (2) BOUNDARY FIXTURE, delivered page 18 item (a): dismissDt prints 2020-01-15 and dismissCrt prints 'Example Court' while dismissOff1 -- the offence -- is withheld, recorded in heldButNotPrinted with reason value_exceeds_widget_width_at_minimum_font and disclosed in the guide. Disclosure is not the rule the lane applied to the order's row 1: there the withholding of one cell withdrew the whole row. Here the row is left with a date and a court and no offence, which reads as a finished dismissal of nothing. On the canonical fixture all three cells print and item (a) is whole. incompleteRows reports 0 for the same rowKeyOf reason as on the sibling families."
+          "finding": "FAIL on the boundary fixture. The standing defect is discharged -- boundary item (a) no longer prints a date and a court with the offence missing; dismissDt, dismissOff1 and dismissCrt are all withheld, recorded in reports/actual-writes.json heldButNotPrinted and disclosed in the guide. But the row's own election mark was left behind. reports/actual-writes.json records selections [{control:'dismiss', page:18, box x0 33.793 y0 214.365 x1 51.793 y1 232.365, mark 'two_diagonal_strokes_inset'}] on the boundary fixture as well as the canonical, and the 300 dpi crop of delivered page 18 confirms it: the box beside 'a.' carries an X while '(date)', '(name of offense(s))' and '(name of Court)' are all empty. The boundary petition therefore swears, under N.J.S.A. 2C:52-7, that charges it does not name were dismissed by a court it does not identify on a date it does not give -- and the packet holds all three values. The canonical fixture is whole and is not the failure. incompleteRows reports 0 because a vector selection mark is not a cell the counter can see.",
+          "evidence": "reports/actual-writes.json artifacts[boundary].selections and heldButNotPrinted; 300 dpi render of boundary delivered page 18, PDF y 180-245 crop; pdftotext -layout of the same page"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX105",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31041,7 +31026,8 @@
         "rcap-oh-custom-pleading-clean-tracks",
         "ri_nonconviction_sealing-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -31222,10 +31208,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "f1a686387",
+        "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31260,15 +31248,15 @@
       "failedObligations": [
         {
           "obligation": "REPEATING_ROWS",
-          "finding": "Petition item (d) on delivered page 19 carries written cells beside required cells left blank, on both fixtures. REPAIR: apply the extended repeating-row rule to the page-19 conviction paragraph as it is applied to the order's arrest row 1 -- write the row or leave it wholly untouched and disclose it -- then rebuild, re-raster centrally and re-read.",
-          "evidence": "The defect the previous independent read failed this obligation on IS discharged, and discharged on the paper: delivered page 31, Expungement Order (Form C - Continued), arrest row (1) now prints '(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____', character for character the shape of rows (2) to (5), on both fixtures; read here with pdftotext -layout on the delivered bytes. The two withheld cells (arrest1Dt, arrest1CaseNum) are in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and are disclosed in the guide's held-but-not-printed table. THE FAILURE IS THE SAME ROW RULE, UNAPPLIED ONE PAGE EARLIER, ON THE SWORN PETITION. Delivered page 19, Petition for Expungement (Form A) item (d) -- the conviction paragraph this build's one route mark selects -- prints: 'd. On (date) 2019-11-02 I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) Possession of a controlled substance, in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) Example Court Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' Three cells of that paragraph are written (guiltyDt, guiltyOff1, guiltyCrt) and six are blank (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt), on both fixtures. It is the identical fact pattern the lane repaired on page 31 -- the same missing N.J.S.A. citation -- and the opposite treatment: on the order the whole row was withheld because the statute could not be written truthfully; on the petition the row is delivered half written. A half-written conviction paragraph reads as a finished one, and on this form the blanks are not incidental: the statute identifies the offence being expunged and the completion dates are what the five-year (or three-year) waiting period is measured from. The build's own words agree with this reading -- on nj_disorderly_persons-set the same six blanks are declared with the reason 'this blank belongs to the selected page-19 conviction row; surface the exact participant fact and do not leave a partially classified row'. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in the terminal field name, and these fields carry no such marker, so the verifier never groups them into a row. On this family the six blanks ARE declared requiredBeforeFiling and ARE listed for the participant by printed caption, which is the right disclosure and does not make the delivered row whole."
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX105",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31279,7 +31267,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -31352,10 +31341,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "f1a686387",
+        "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31390,15 +31381,15 @@
       "failedObligations": [
         {
           "obligation": "REPEATING_ROWS",
-          "finding": "Petition item (d) on delivered page 19 carries written cells beside required cells left blank, on both fixtures, and the blanks are disclosed nowhere. REPAIR: write the row or leave it wholly untouched, and in either case declare the blanks the way nj_disorderly_persons-set declares them; then rebuild, re-raster centrally and re-read.",
-          "evidence": "The defect the previous independent read failed this obligation on IS discharged, and discharged on the paper: delivered page 31, Expungement Order (Form C - Continued), arrest row (1) now prints '(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____', character for character the shape of rows (2) to (5), on both fixtures; read here with pdftotext -layout on the delivered bytes. The two withheld cells (arrest1Dt, arrest1CaseNum) are in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and are disclosed in the guide's held-but-not-printed table. THE FAILURE IS THE SAME ROW RULE, UNAPPLIED ONE PAGE EARLIER, ON THE SWORN PETITION. Delivered page 19, Petition for Expungement (Form A) item (d) -- the conviction paragraph this build's one route mark selects -- prints: 'd. On (date) 2019-11-02 I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) Possession of a controlled substance, in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) Example Court Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' Three cells of that paragraph are written (guiltyDt, guiltyOff1, guiltyCrt) and six are blank (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt), on both fixtures. It is the identical fact pattern the lane repaired on page 31 -- the same missing N.J.S.A. citation -- and the opposite treatment: on the order the whole row was withheld because the statute could not be written truthfully; on the petition the row is delivered half written. A half-written conviction paragraph reads as a finished one, and on this form the blanks are not incidental: the statute identifies the offence being expunged and the completion dates are what the five-year (or three-year) waiting period is measured from. The build's own words agree with this reading -- on nj_disorderly_persons-set the same six blanks are declared with the reason 'this blank belongs to the selected page-19 conviction row; surface the exact participant fact and do not leave a partially classified row'. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in the terminal field name, and these fields carry no such marker, so the verifier never groups them into a row. AND ON THIS FAMILY THE SIX BLANKS ARE NOT DECLARED AT ALL: they are refused under refusalClass participant_sworn_narrative_or_legal_election with the reason 'No write is authorized for this field in this family build', a statement of build policy, and none of the six appears anywhere in participant-instructions.md. So the participant receives a half-written sworn paragraph and is told nothing about the cells that are missing from it -- on pages that are byte-identical to a sibling family which declares and lists all six."
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX105",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -31409,7 +31400,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_ordinance-set",
@@ -31481,10 +31473,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "f1a686387",
+        "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31514,20 +31508,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REPEATING_ROWS"
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
           "obligation": "REPEATING_ROWS",
-          "finding": "Petition item (d) on delivered page 19 carries written cells beside required cells left blank, on both fixtures, and the blanks are disclosed nowhere. REPAIR: write the row or leave it wholly untouched, declare the blanks as nj_disorderly_persons-set does, and say on this track what goes on an N.J.S.A. line for an ordinance offence; then rebuild, re-raster centrally and re-read.",
-          "evidence": "The defect the previous independent read failed this obligation on IS discharged, and discharged on the paper: delivered page 31, Expungement Order (Form C - Continued), arrest row (1) now prints '(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____', character for character the shape of rows (2) to (5), on both fixtures; read here with pdftotext -layout on the delivered bytes. The two withheld cells (arrest1Dt, arrest1CaseNum) are in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and are disclosed in the guide's held-but-not-printed table. THE FAILURE IS THE SAME ROW RULE, UNAPPLIED ONE PAGE EARLIER, ON THE SWORN PETITION. Delivered page 19, Petition for Expungement (Form A) item (d) -- the conviction paragraph this build's one route mark selects -- prints: 'd. On (date) 2019-11-02 I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) Possession of a controlled substance, in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) Example Court Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' Three cells of that paragraph are written (guiltyDt, guiltyOff1, guiltyCrt) and six are blank (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt), on both fixtures. It is the identical fact pattern the lane repaired on page 31 -- the same missing N.J.S.A. citation -- and the opposite treatment: on the order the whole row was withheld because the statute could not be written truthfully; on the petition the row is delivered half written. A half-written conviction paragraph reads as a finished one, and on this form the blanks are not incidental: the statute identifies the offence being expunged and the completion dates are what the five-year (or three-year) waiting period is measured from. The build's own words agree with this reading -- on nj_disorderly_persons-set the same six blanks are declared with the reason 'this blank belongs to the selected page-19 conviction row; surface the exact participant fact and do not leave a partially classified row'. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in the terminal field name, and these fields carry no such marker, so the verifier never groups them into a row. AND ON THIS FAMILY THE SIX BLANKS ARE NOT DECLARED AT ALL: refused under refusalClass participant_sworn_narrative_or_legal_election with the reason 'No write is authorized for this field in this family build', and named nowhere in participant-instructions.md. There is a second reason this bites hardest here: on a municipal ordinance track the printed question is 'in violation of N.J.S.A. (statute(s))', and an ordinance conviction is not a violation of N.J.S.A. at all, so the one cell that would have told the court what this petition is about is both blank and unexplained."
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all. It bites hardest on this track: the paragraph the mark affirms asks for a violation of N.J.S.A., and a municipal ordinance conviction is not one, so the box now affirms a guilty finding whose only identifying cell is both blank and, on this route, unanswerable in the terms the form asks.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "the packet nowhere states where self-help ends. participant-instructions.md has no section for it, and not one of the 12 selfHelpStopConditions the committed record holds for nj_ordinance appears anywhere in the guide -- not the ordinance-versus-disorderly-persons-versus-Title-39 classification question the record puts first, not prosecutor objection, not the 2C:52-2(b) and (c) non-expungeable list, not the prior-expungement bar at 2C:52-14(e), not pending charges, not unpaid financial assessments, not federal or out-of-state records, not immigration exposure, not Title 39. The only trace is one clause inside a technical bullet under 'Blanks the form prints with no fill-in box'. This is an omission rather than an unavailable input: the three sibling families on the same shared build host each carry all of theirs verbatim -- nj_arrest_no_conviction 13 of 13, nj_disorderly_persons 14 of 14, nj_indictable_conviction 13 of 13 -- and this family carries 0 of 12.",
+          "evidence": "NJ.memo.json selfHelpStopConditions for nj_ordinance, each of the 12 tested as an exact substring of participant-instructions.md and each absent; the same test run against the three sibling guides returns full coverage"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX105",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -31538,7 +31538,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nm_conviction-set",

@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 936,
+    "rows": 941,
     "independentVerdicts": 241,
-    "failRepairRequired": 45,
-    "passIndependent": 173
+    "failRepairRequired": 44,
+    "passIndependent": 174
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -70,7 +70,6 @@
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "ne-setaside-custodial-set",
-    "nh_petition_nonconviction_pre2019-set",
     "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -12534,6 +12533,20 @@
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5321af5c3",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -12580,7 +12593,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -12823,6 +12836,28 @@
       ],
       "failedObligationNames": [
         "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5321af5c3",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL on the boundary fixture. The standing defect is discharged -- boundary item (a) no longer prints a date and a court with the offence missing; dismissDt, dismissOff1 and dismissCrt are all withheld, recorded in reports/actual-writes.json heldButNotPrinted and disclosed in the guide. But the row's own election mark was left behind. reports/actual-writes.json records selections [{control:'dismiss', page:18, box x0 33.793 y0 214.365 x1 51.793 y1 232.365, mark 'two_diagonal_strokes_inset'}] on the boundary fixture as well as the canonical, and the 300 dpi crop of delivered page 18 confirms it: the box beside 'a.' carries an X while '(date)', '(name of offense(s))' and '(name of Court)' are all empty. The boundary petition therefore swears, under N.J.S.A. 2C:52-7, that charges it does not name were dismissed by a court it does not identify on a date it does not give -- and the packet holds all three values. The canonical fixture is whole and is not the failure. incompleteRows reports 0 because a vector selection mark is not a cell the counter can see.",
+          "evidence": "reports/actual-writes.json artifacts[boundary].selections and heldButNotPrinted; 300 dpi render of boundary delivered page 18, PDF y 180-245 crop; pdftotext -layout of the same page"
+        }
+      ],
+      "failedObligationNames": [
         "REPEATING_ROWS"
       ],
       "unmeasuredObligations": [],
@@ -13147,6 +13182,28 @@
           "obligation": "REPEATING_ROWS",
           "finding": "Petition item (d) on delivered page 19 carries written cells beside required cells left blank, on both fixtures. REPAIR: apply the extended repeating-row rule to the page-19 conviction paragraph as it is applied to the order's arrest row 1 -- write the row or leave it wholly untouched and disclose it -- then rebuild, re-raster centrally and re-read.",
           "evidence": "The defect the previous independent read failed this obligation on IS discharged, and discharged on the paper: delivered page 31, Expungement Order (Form C - Continued), arrest row (1) now prints '(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____', character for character the shape of rows (2) to (5), on both fixtures; read here with pdftotext -layout on the delivered bytes. The two withheld cells (arrest1Dt, arrest1CaseNum) are in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and are disclosed in the guide's held-but-not-printed table. THE FAILURE IS THE SAME ROW RULE, UNAPPLIED ONE PAGE EARLIER, ON THE SWORN PETITION. Delivered page 19, Petition for Expungement (Form A) item (d) -- the conviction paragraph this build's one route mark selects -- prints: 'd. On (date) 2019-11-02 I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) Possession of a controlled substance, in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) Example Court Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' Three cells of that paragraph are written (guiltyDt, guiltyOff1, guiltyCrt) and six are blank (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt), on both fixtures. It is the identical fact pattern the lane repaired on page 31 -- the same missing N.J.S.A. citation -- and the opposite treatment: on the order the whole row was withheld because the statute could not be written truthfully; on the petition the row is delivered half written. A half-written conviction paragraph reads as a finished one, and on this form the blanks are not incidental: the statute identifies the offence being expunged and the completion dates are what the five-year (or three-year) waiting period is measured from. The build's own words agree with this reading -- on nj_disorderly_persons-set the same six blanks are declared with the reason 'this blank belongs to the selected page-19 conviction row; surface the exact participant fact and do not leave a partially classified row'. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in the terminal field name, and these fields carry no such marker, so the verifier never groups them into a row. On this family the six blanks ARE declared requiredBeforeFiling and ARE listed for the participant by printed caption, which is the right disclosure and does not make the delivered row whole."
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5321af5c3",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
         }
       ],
       "failedObligationNames": [
@@ -13524,6 +13581,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5321af5c3",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
       "superseded": false
     },
     {
@@ -13700,6 +13779,34 @@
       ],
       "failedObligationNames": [
         "REPEATING_ROWS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5321af5c3",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "FAIL on the current bytes, and it is not the defect the standing row named. The standing failure IS discharged: petition item (d) on delivered page 19 no longer carries guiltyDt, guiltyOff1 or guiltyCrt beside its six blank cells. Read here with pdftotext -layout, page 19 prints 'd. On (date) ____ I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ____ , in violation of N.J.S.A. (statute(s)) ____ and sentenced to (final sentence) ____ by the (name of Court) ____ Court. I completed (jail/prison/incarceration time) ____ on (date) ____; probation on (date) ____ and I paid the fine(s) on (date) ____.' -- every one of the nine cells empty, on both fixtures. WHAT THE REPAIR LEFT BEHIND IS THE ROW'S OWN ELECTION MARK. The route selection is still written into that paragraph: reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}], derived from the artifact bytes, on canonical and boundary alike. Measured here rather than read from that report: the 300 dpi difference against the pinned source shows 834 added ink pixels on page 19 and nothing else, and the 300 dpi crop of PDF y 470-620 shows an X in the box beside 'd.' with every blank in the paragraph empty. So the delivered petition, verified under N.J.S.A. 2C:52-7, affirms by a checked box that the petitioner pled or was found guilty of charges it then declines to name, under a statute it declines to cite, in a court it declines to identify -- and the packet HOLDS three of those facts: guiltyDt (matter.conviction_date), guiltyOff1 (matter.charge) and guiltyCrt (matter.court) are in reports/actual-writes.json heldButNotPrinted under reason withheld_for_row_integrity. That is a written cell beside required cells left blank, which is the obligation, and the guide's own words are the standard it fails: its held-but-not-printed table gives the reason as 'a row is completed or left untouched', and this row is neither. incompleteRows reports 0 because rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these carry no such marker, and because a vector selection mark is not a cell the counter can see at all. It bites hardest on this track: the paragraph the mark affirms asks for a violation of N.J.S.A., and a municipal ordinance conviction is not one, so the box now affirms a guilty finding whose only identifying cell is both blank and, on this route, unanswerable in the terms the form asks.",
+          "evidence": "reports/actual-writes.json artifacts[].selections and heldButNotPrinted on both fixtures; delivered page 19 read with pdftotext -layout; 300 dpi render of delivered page 19 differenced against the 300 dpi render of the pinned source page 19 (834 added ink pixels, nothing else) and a 300 dpi crop of PDF y 470-620 showing the marked box above nine empty cells"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "the packet nowhere states where self-help ends. participant-instructions.md has no section for it, and not one of the 12 selfHelpStopConditions the committed record holds for nj_ordinance appears anywhere in the guide -- not the ordinance-versus-disorderly-persons-versus-Title-39 classification question the record puts first, not prosecutor objection, not the 2C:52-2(b) and (c) non-expungeable list, not the prior-expungement bar at 2C:52-14(e), not pending charges, not unpaid financial assessments, not federal or out-of-state records, not immigration exposure, not Title 39. The only trace is one clause inside a technical bullet under 'Blanks the form prints with no fill-in box'. This is an omission rather than an unavailable input: the three sibling families on the same shared build host each carry all of theirs verbatim -- nj_arrest_no_conviction 13 of 13, nj_disorderly_persons 14 of 14, nj_indictable_conviction 13 of 13 -- and this family carries 0 of 12.",
+          "evidence": "NJ.memo.json selfHelpStopConditions for nj_ordinance, each of the 12 tested as an exact substring of participant-instructions.md and each absent; the same test run against the three sibling guides returns full coverage"
+        }
+      ],
+      "failedObligationNames": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
