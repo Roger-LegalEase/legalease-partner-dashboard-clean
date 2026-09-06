@@ -1,5 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import { register } from "node:module";
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 // The /auth/forgot-password route is shared by Expungement.ai consumers and
 // LegalEase partner staff. The reset email must return the user to the domain
@@ -12,6 +15,7 @@ process.env.NEXT_PUBLIC_PARTNER_APP_URL = "https://legaleasepartner.com";
 delete process.env.NEXT_PUBLIC_LEGALEASE_PARTNER_URL;
 
 const { passwordResetRedirectUrl } = await import("../src/lib/app-url.ts");
+const { consumerAuthContinuationFrom } = await import("../src/lib/expungement-ai/auth-continuation.ts");
 
 const root = process.cwd();
 const failures = [];
@@ -54,12 +58,27 @@ assert(
 assert(!dtcByProduct.includes("legaleasepartner.com"), "DTC reset URL must not point at the partner domain.");
 assert(!partnerByHost.includes("expungement.ai"), "Partner reset URL must not point at expungement.ai.");
 
-// 5. Wiring: the consumer sign-in link carries the expungement product hint, and
+// 5. A DTC password-recovery interruption preserves only the validated claim,
+// safe local next path and locale.
+const claimToken = "aD9_wH2nR7pL4xQ8mK5vC1sF6jT3bY0uE9iO2zX7qW4";
+const continuation = consumerAuthContinuationFrom(new URLSearchParams({
+  claim: claimToken,
+  next: "/briefcase/matters/2ce8d69f-5b69-4fbb-b63a-d85e39c47270",
+  locale: "es",
+  partner: "untrusted"
+}));
+const continuedUrl = new URL(passwordResetRedirectUrl({ product: "expungement", continuation }));
+assert(continuedUrl.searchParams.get("claim") === claimToken, "DTC reset must preserve the validated opaque claim.");
+assert(continuedUrl.searchParams.get("locale") === "es", "DTC reset must preserve locale.");
+assert(continuedUrl.searchParams.get("partner") === null, "DTC reset must not preserve browser-controlled attribution.");
+
+// 6. Wiring: the consumer sign-in link carries the validated continuation, and
 //    the partner sign-in link uses the partner default (no product hint).
 const consumerForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
 assert(
-  consumerForm.includes('href="/auth/forgot-password?product=expungement"'),
-  "Consumer sign-in form must link forgot-password with ?product=expungement."
+  consumerForm.includes("consumerForgotPasswordPath(requestContext)")
+    && consumerForm.includes("setRequestContext(readAuthRequestContext())"),
+  "Consumer sign-in form must hydrate Forgot Password from the validated continuation."
 );
 const partnerSignIn = read("src/app/sign-in/page.tsx");
 assert(
@@ -71,7 +90,7 @@ assert(
   "Partner sign-in must not carry the expungement product hint."
 );
 
-// 6. Prerender safety: set-password is a client component and never instantiates
+// 7. Prerender safety: set-password is a client component and never instantiates
 //    Supabase at module scope (only inside effects/handlers).
 const setPassword = read("src/app/auth/set-password/page.tsx");
 assert(setPassword.trimStart().startsWith('"use client"'), "set-password must be a client component (\"use client\").");
@@ -87,4 +106,4 @@ if (failures.length > 0) {
 }
 
 console.log("Expungement.ai forgot-password domain verifier passed.");
-console.log("DTC resets return to expungement.ai/briefcase; partner resets return to legaleasepartner.com/partner/dashboard; set-password stays prerender-safe.");
+console.log("DTC resets preserve the validated claim on expungement.ai; partner resets return to legaleasepartner.com; set-password stays prerender-safe.");

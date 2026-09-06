@@ -432,9 +432,9 @@ export function RemindersView() {
 }
 
 export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) {
-  const paid = items.filter((item) => item.paymentState === "paid");
+  const transactions = items.filter((item) => item.paymentState === "paid" || item.paymentState === "refunded");
   const unavailableCount = items.filter((item) => item.paymentState === "unavailable").length;
-  const hasConsumerMatter = items.some((item) => item.paymentState === "paid" || item.paymentState === "unpaid");
+  const hasConsumerMatter = items.some((item) => ["paid", "refunded", "unpaid"].includes(item.paymentState));
   return (
     <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
       <h1 className="flex items-center gap-2 text-[22px] font-extrabold text-[#0B1320]"><CreditCard className="h-5 w-5" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" /></h1>
@@ -444,12 +444,31 @@ export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) 
             We could not verify payment details for {unavailableCount === 1 ? "one saved matter" : `${unavailableCount} saved matters`} right now.
           </p>
         ) : null}
-        {paid.length ? (
-          paid.map((item) => (
+        {transactions.length ? (
+          transactions.map((item) => (
             <div key={item.id} className="rounded-[12px] bg-[#F7F3EC] p-4 text-sm">
-              <p className="font-bold text-[#0B1320]">$50 <LocalizedText k="payment.one_time" fallback="one-time" />: paid</p>
+              <p className="font-bold text-[#0B1320]">
+                $50 <LocalizedText k="payment.one_time" fallback="one-time" />:{" "}
+                {item.paymentState === "refunded"
+                  ? <LocalizedText k="payment.refunded" fallback="refunded" />
+                  : <LocalizedText k="payment.paid" fallback="paid" />}
+              </p>
               <p className="mt-1 text-[#5A6275]">{item.title}</p>
               <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
+              {item.paymentReceipt ? (
+                <a
+                  className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-[13px] font-bold text-[#0B1320]"
+                  href={item.paymentReceipt.actionPath}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <CreditCard className="h-4 w-4" aria-hidden="true" />
+                  <LocalizedText k="briefcase.view_receipt" fallback="View receipt" />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ) : (
+                <p className="mt-3 text-[13px] text-[#5A6275]" role="status">Receipt temporarily unavailable.</p>
+              )}
             </div>
           ))
         ) : hasConsumerMatter ? (

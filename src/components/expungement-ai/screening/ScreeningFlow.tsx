@@ -350,7 +350,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName }: {
 
     // Not signed in yet. The token travels through the authentication handoff
     // and the claim completes on the other side.
-    router.push(claimHandoffPath(pending.claimToken, "create"));
+    router.push(claimHandoffPath(pending.claimToken, "create", locale));
   }
 
   async function handleContinue() {

@@ -15,6 +15,7 @@ import {
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
+import { stripeReceiptUrlForCheckoutSession } from "@/lib/expungement-ai/consumer-payment-receipt";
 import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
@@ -148,6 +149,7 @@ async function finalizePaidCheckoutSession(
   matterId: string,
   expectedVerificationHash: string
 ): Promise<void> {
+  const receiptUrl = await stripeReceiptUrlForCheckoutSession(session);
   // The payment fact goes through the server-only writer, never through a
   // column update. Phase 52 revoked the application's privilege to set these
   // columns precisely because holding it is what let a payer forge them, and
@@ -163,7 +165,7 @@ async function finalizePaidCheckoutSession(
     providerEventId,
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntentIdFor(session) ?? null,
-    receiptUrl: null,
+    receiptUrl,
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId,
     matterId,

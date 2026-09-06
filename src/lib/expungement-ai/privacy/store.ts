@@ -97,6 +97,64 @@ export async function openPrivacyRequest(input: {
   return row;
 }
 
+export async function acquireAccountDeletionRunLease(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): Promise<boolean> {
+  const { data, error } = await input.supabase.rpc(
+    "acquire_participant_account_deletion_run_lease",
+    { p_request_id: input.requestId, p_lease_token: input.leaseToken }
+  );
+  if (error) throw new Error(`could not acquire account-deletion run lease: ${error.message}`);
+  return data === true;
+}
+
+export async function releaseAccountDeletionRunLease(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): Promise<void> {
+  const { error } = await input.supabase.rpc(
+    "release_participant_account_deletion_run_lease",
+    { p_request_id: input.requestId, p_lease_token: input.leaseToken }
+  );
+  if (error) throw new Error(`could not release account-deletion run lease: ${error.message}`);
+}
+
+export const ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS = 5_000;
+
+export function startAccountDeletionRunLeaseHeartbeat(input: {
+  supabase: SupabaseClient;
+  requestId: string;
+  leaseToken: string;
+}): { stop: () => Promise<void> } {
+  let stopped = false;
+  let inFlight = Promise.resolve();
+  const renew = () => {
+    inFlight = inFlight.then(async () => {
+      if (stopped) return;
+      try {
+        await acquireAccountDeletionRunLease(input);
+      } catch {
+        // A transient renewal error does not end the request. The existing
+        // fifteen-minute lease remains authoritative and the next heartbeat
+        // retries; a competing request still cannot acquire it meanwhile.
+      }
+    });
+  };
+  const timer = setInterval(renew, ACCOUNT_DELETION_RUN_LEASE_HEARTBEAT_MS);
+  timer.unref?.();
+
+  return {
+    async stop() {
+      stopped = true;
+      clearInterval(timer);
+      await inFlight;
+    }
+  };
+}
+
 export async function readPrivacyRequest(
   supabase: SupabaseClient,
   requestId: string
@@ -132,6 +190,25 @@ export async function readPrivacySteps(
     .eq("request_id", requestId)
     .order("step_order", { ascending: true });
   return (data as PrivacyStepRow[] | null) ?? [];
+}
+
+export type PrivacyProcessorPropagationRow = {
+  processor_key: string;
+  status: "pending" | "sent" | "acknowledged" | "not_applicable" | "failed";
+  reference: string | null;
+  detail: Record<string, unknown> | null;
+};
+
+export async function readProcessorPropagations(
+  supabase: SupabaseClient,
+  requestId: string
+): Promise<PrivacyProcessorPropagationRow[]> {
+  const { data, error } = await supabase
+    .from("participant_processor_propagations")
+    .select("processor_key, status, reference, detail")
+    .eq("request_id", requestId);
+  if (error) throw new Error(`could not read processor propagation ledger: ${error.message}`);
+  return (data as PrivacyProcessorPropagationRow[] | null) ?? [];
 }
 
 export async function recordPrivacyStep(input: {

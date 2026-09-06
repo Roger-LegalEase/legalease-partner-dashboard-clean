@@ -22,6 +22,8 @@ const homepageCopy = read("src/app/expungement-ai/landing-approved-copy.ts");
 const landingLocaleController = read("src/app/expungement-ai/landing-locale-controller.ts");
 const localizationProvider = read("src/components/expungement-ai/LocalizationProvider.tsx");
 const consumerSignInForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
+const authContinuation = read("src/lib/expungement-ai/auth-continuation.ts");
+const claimHandoff = read("src/lib/expungement-ai/claim/claim-handoff.ts");
 const signInPage = read("src/app/expungement-ai/sign-in/page.tsx");
 const consumerNav = read("src/components/expungement-ai/ConsumerNav.tsx");
 const authHelper = read("src/lib/expungement-ai/auth.ts");
@@ -55,23 +57,26 @@ includes(homepageCopy, 'hero_cta1: "Check my options"', "approved homepage Engli
 
 // Account gate: conversion intent defaults to create-account; header sign-in remains sign-in.
 includes(consumerSignInForm, 'type AuthMode = "create" | "signin"', "account gate two-state mode");
-includes(consumerSignInForm, 'params.get("mode") === "create"', "explicit create mode");
-includes(consumerSignInForm, 'params.get("mode") === "signin"', "explicit sign-in mode");
-includes(consumerSignInForm, 'isConversionNextPath(next) ? "create" : "signin"', "conversion default create mode");
-includes(consumerSignInForm, 'next.startsWith("/expungement-ai/pay")', "pay conversion path");
-includes(consumerSignInForm, 'next.startsWith("/expungement-ai/packet-ready")', "packet-ready conversion path");
-includes(consumerSignInForm, 'next.startsWith("/briefcase")', "briefcase conversion path");
+includes(authContinuation, 'search.get("mode") === "create"', "explicit create mode");
+includes(authContinuation, 'search.get("mode") === "signin"', "explicit sign-in mode");
+includes(authContinuation, 'if (!requestedNext) return "signin"', "bare sign-in stays in sign-in mode");
+includes(authContinuation, 'isConversionNextPath(next) ? "create" : "signin"', "explicit conversion defaults to create mode");
+includes(authContinuation, 'next.startsWith("/expungement-ai/pay")', "pay conversion path");
+includes(authContinuation, 'next.startsWith("/expungement-ai/packet-ready")', "packet-ready conversion path");
+includes(authContinuation, 'next.startsWith("/briefcase")', "briefcase conversion path");
 includes(consumerSignInForm, "supabase.auth.signUp", "create-account uses Supabase signUp");
 includes(consumerSignInForm, "supabase.auth.signInWithPassword", "returning-user sign-in remains");
-includes(consumerSignInForm, "safeAppRedirectPath", "account gate preserves safe next");
+includes(consumerSignInForm, "consumerAuthContinuationFrom", "account gate uses the validated continuation contract");
+includes(authContinuation, 'safeAppRedirectPath(search.get("next"), "/briefcase")', "continuation contract validates safe next");
 includes(consumerSignInForm, "const requestContext = readAuthRequestContext();", "auth submission reads pending context at click time");
-includes(consumerSignInForm, "claimPendingResult(requestContext.pendingId, requestContext.nextPath)", "pending claim reads live query context instead of a hydration-time snapshot");
+includes(consumerSignInForm, "submitClaim(requestContext.claimToken)", "pending claim uses the validated opaque claim from live request context");
 includes(consumerSignInForm, "Check your email to finish creating your account.", "email confirmation copy");
-includes(consumerSignInForm, "if (!response.ok || !payload?.redirectTo) return { ok: false }", "pending claim rejects non-2xx or missing redirect");
-includes(consumerSignInForm, "isExactBriefcaseMatterPath", "pending claim requires exact matter redirect");
-includes(consumerSignInForm, "You are signed in, but we could not save this matter", "pending claim visible failure copy");
+includes(claimHandoff, "!response.ok || !payload?.redirectTo", "pending claim rejects non-2xx or missing redirect");
+includes(claimHandoff, "isExactMatterPath(redirectTo)", "pending claim requires exact matter redirect");
+includes(consumerSignInForm, "You are signed in, but we could not save your result yet", "pending claim visible failure copy");
 includes(consumerSignInForm, 'data-pending-claim-retry="true"', "pending claim retry control");
-assert(!consumerSignInForm.includes("return fallbackNext;"), "Failed pending claim must not silently fall back to a generic Briefcase.");
+includes(consumerSignInForm, "consumerForgotPasswordPath", "Forgot Password preserves the validated continuation");
+assert(!authContinuation.includes("pendingId"), "Retired pending identifiers must not authorize auth continuation.");
 includes(consumerSignInForm, "save this result in your free Briefcase, complete packet information, and return later", "free Briefcase create-account handoff copy");
 assert(!consumerSignInForm.includes("continue to checkout"), "Account creation must not imply that checkout follows sign-in.");
 includes(localization, "save this result in your free Briefcase, complete packet information, and return later", "localized free Briefcase create-account copy");
@@ -88,7 +93,7 @@ includes(authHelper, 'redirect(`/expungement-ai/sign-in?mode=create&next=${encod
 includes(payPage, 'requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`)', "pay page preserves next");
 includes(packetReadyPage, "requireConsumerBriefcaseSession(next)", "legacy packet-ready return preserves the exact matter as its auth continuation");
 includes(packetReadyPage, "getBriefcaseItem(auth.userId, briefcaseItemId)", "legacy packet-ready return resolves only an owner-scoped matter");
-includes(screeningFlow, 'mode: "create"', "screening save-result conversion handoff");
+includes(screeningFlow, 'claimHandoffPath(pending.claimToken, "create", locale)', "screening save-result conversion handoff preserves claim and locale");
 includes(briefcaseViews, 'href="/expungement-ai/sign-in?mode=create&next=/briefcase"', "Briefcase auth gate create handoff");
 
 for (const key of [

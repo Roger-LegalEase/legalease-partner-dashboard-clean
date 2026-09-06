@@ -57,9 +57,11 @@ async function requestProof(purpose: "matter_deletion" | "account_deletion", pas
 }
 
 export function PrivacyDataView({
+  accountDeletionReady,
   items = [],
   requests = []
 }: {
+  accountDeletionReady: boolean;
   items?: ConsumerBriefcaseItem[];
   requests?: PrivacyRequestSummary[];
 }) {
@@ -82,7 +84,7 @@ export function PrivacyDataView({
 
       <ExportPanel />
       <MatterDeletionPanel items={items} onDone={refresh} />
-      <AccountDeletionPanel onDone={refresh} />
+      <AccountDeletionPanel onDone={refresh} ready={accountDeletionReady} />
       <RetentionPanel />
       <HistoryPanel requests={requests} />
     </div>
@@ -251,7 +253,7 @@ function MatterDeletionPanel({ items, onDone }: { items: ConsumerBriefcaseItem[]
 
 /* ------------------------------------------------------------------ */
 
-function AccountDeletionPanel({ onDone }: { onDone: () => void }) {
+function AccountDeletionPanel({ onDone, ready }: { onDone: () => void; ready: boolean }) {
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [busy, setBusy] = useState(false);
@@ -310,41 +312,50 @@ function AccountDeletionPanel({ onDone }: { onDone: () => void }) {
         </div>
       </div>
 
-      <div className="mt-4 space-y-3">
-        <label className="block text-[13px] font-bold text-[#0B1320]" htmlFor="privacy-account-password">
-          Confirm your password
-        </label>
-        <input
-          id="privacy-account-password"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          className="min-h-11 w-full rounded-[10px] border border-[#D9DEE8] bg-white px-3 text-sm text-[#0B1320]"
-        />
-
-        <label className="block text-[13px] font-bold text-[#0B1320]" htmlFor="privacy-account-confirm">
-          Type {ACCOUNT_CONFIRMATION} to confirm
-        </label>
-        <input
-          id="privacy-account-confirm"
-          type="text"
-          autoComplete="off"
-          value={confirmation}
-          onChange={(event) => setConfirmation(event.target.value)}
-          className="min-h-11 w-full rounded-[10px] border border-[#D9DEE8] bg-white px-3 text-sm text-[#0B1320]"
-        />
-
-        <button
-          type="button"
-          onClick={deleteAccount}
-          disabled={busy || !password || confirmation.trim() !== ACCOUNT_CONFIRMATION}
-          className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#B23036] px-5 text-sm font-bold text-white disabled:opacity-50"
+      {!ready ? (
+        <p
+          className="mt-4 rounded-[10px] border border-[#F3C8C9] bg-white px-4 py-3 text-sm font-semibold text-[#B23036]"
+          role="status"
         >
-          <Trash2 className="h-4 w-4" aria-hidden="true" />
-          {busy ? "Deleting your account…" : "Delete my account and personal data"}
-        </button>
-      </div>
+          Account deletion is temporarily unavailable. You can still download your data or delete one matter.
+        </p>
+      ) : (
+        <div className="mt-4 space-y-3">
+          <label className="block text-[13px] font-bold text-[#0B1320]" htmlFor="privacy-account-password">
+            Confirm your password
+          </label>
+          <input
+            id="privacy-account-password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="min-h-11 w-full rounded-[10px] border border-[#D9DEE8] bg-white px-3 text-sm text-[#0B1320]"
+          />
+
+          <label className="block text-[13px] font-bold text-[#0B1320]" htmlFor="privacy-account-confirm">
+            Type {ACCOUNT_CONFIRMATION} to confirm
+          </label>
+          <input
+            id="privacy-account-confirm"
+            type="text"
+            autoComplete="off"
+            value={confirmation}
+            onChange={(event) => setConfirmation(event.target.value)}
+            className="min-h-11 w-full rounded-[10px] border border-[#D9DEE8] bg-white px-3 text-sm text-[#0B1320]"
+          />
+
+          <button
+            type="button"
+            onClick={deleteAccount}
+            disabled={busy || !password || confirmation.trim() !== ACCOUNT_CONFIRMATION}
+            className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#B23036] px-5 text-sm font-bold text-white disabled:opacity-50"
+          >
+            <Trash2 className="h-4 w-4" aria-hidden="true" />
+            {busy ? "Deleting your account…" : "Delete my account and personal data"}
+          </button>
+        </div>
+      )}
       {message ? <p className="mt-3 text-[13px] font-semibold text-[#1F9D6B]">{message}</p> : null}
       {error ? <p className="mt-3 text-[13px] font-semibold text-[#B23036]">{error}</p> : null}
     </section>

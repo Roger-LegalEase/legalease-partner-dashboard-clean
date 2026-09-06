@@ -1,8 +1,11 @@
 import { NextRequest } from "next/server";
+import { randomUUID } from "node:crypto";
 
-import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
+import { requireParticipantPrivacyApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { PRIVACY_RATE_LIMIT_POLICIES } from "@/lib/expungement-ai/privacy/contract";
-import { runAccountDeletion } from "@/lib/expungement-ai/privacy/deletion";
+import { runAccountDeletion, type DeletionOutcome } from "@/lib/expungement-ai/privacy/deletion";
+import { participantPrivacyReadiness } from "@/lib/expungement-ai/privacy/readiness";
+import { PrivacyProcessorConfigError } from "@/lib/expungement-ai/privacy/processor-config";
 import { participantSubjectPseudonym } from "@/lib/expungement-ai/privacy/pseudonym";
 import { verifyRecentAuthProof } from "@/lib/expungement-ai/privacy/recent-auth";
 import {
@@ -14,10 +17,12 @@ import {
   requireIdempotencyKey
 } from "@/lib/expungement-ai/privacy/request-security";
 import {
+  acquireAccountDeletionRunLease,
   openPrivacyRequest,
   PrivacyStoreUnavailableError,
-  readPrivacyRequest,
-  requirePrivacyAdminClient
+  releaseAccountDeletionRunLease,
+  requirePrivacyAdminClient,
+  startAccountDeletionRunLeaseHeartbeat
 } from "@/lib/expungement-ai/privacy/store";
 import { checkResumeRateLimit } from "@/lib/expungement-ai/screening-resume-rate-limit";
 
@@ -46,8 +51,22 @@ export async function POST(request: NextRequest) {
 
   // A frozen account is admitted HERE and nowhere else, so a participant whose
   // deletion stopped half-way can resume it. See the helper for why.
-  const session = await requireConsumerBriefcaseApiSession({ allowFrozen: true });
+  const session = await requireParticipantPrivacyApiSession({ allowFrozen: true });
   if (!session.ok) return session.response;
+
+  // The page and API intentionally call the same runtime readiness contract.
+  // This happens before the request row is opened and, critically, before the
+  // account can be frozen or any session, render, download or object changed.
+  const readiness = await participantPrivacyReadiness();
+  if (!readiness.ready) {
+    return privacyJson(
+      {
+        error: "Account deletion is temporarily unavailable. Nothing has been changed. Try again later.",
+        code: "privacy_not_ready"
+      },
+      503
+    );
+  }
 
   let idempotencyKey: string;
   let proofToken: unknown;
@@ -138,7 +157,53 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const outcome = await runAccountDeletion({ supabase, request: privacyRequest });
+  const leaseToken = randomUUID();
+  const leaseAcquired = await acquireAccountDeletionRunLease({
+    supabase,
+    requestId: privacyRequest.id,
+    leaseToken
+  });
+  if (!leaseAcquired) {
+    return privacyJson(
+      {
+        error: "A deletion attempt is already running for this account. Try again shortly.",
+        code: "deletion_in_progress"
+      },
+      409
+    );
+  }
+  const leaseHeartbeat = startAccountDeletionRunLeaseHeartbeat({
+    supabase,
+    requestId: privacyRequest.id,
+    leaseToken
+  });
+
+  let outcome: DeletionOutcome;
+  try {
+    try {
+      outcome = await runAccountDeletion({ supabase, request: privacyRequest, leaseToken });
+    } catch (error) {
+      if (error instanceof PrivacyProcessorConfigError) {
+        return privacyJson(
+          {
+            error: "Account deletion is temporarily unavailable. Nothing has been changed. Try again later.",
+            code: "privacy_not_ready"
+          },
+          503
+        );
+      }
+      throw error;
+    }
+  } finally {
+    await leaseHeartbeat.stop();
+    try {
+      await releaseAccountDeletionRunLease({ supabase, requestId: privacyRequest.id, leaseToken });
+    } catch {
+      // Completion and its durable receipt take precedence over best-effort
+      // lease cleanup. A failed release cannot expose the private row and its
+      // short expiry still permits a later resumable attempt.
+    }
+  }
 
   if (outcome.status === "blocked_legal_hold") {
     return privacyJson(
@@ -153,17 +218,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (outcome.status === "failed") {
-    const latest = await readPrivacyRequest(supabase, privacyRequest.id);
+  if (outcome.status === "failed" || outcome.status === "partially_completed") {
     return privacyJson(
       {
-        status: "failed",
+        status: outcome.status,
         requestId: privacyRequest.id,
-        failedStep: outcome.failedStep,
         resumable: true,
+        code: "deletion_incomplete",
         error:
-          "We could not finish deleting your account. Your account is frozen and no longer usable; send the same request again and we resume from the step that stopped.",
-        lastError: latest?.last_error ?? outcome.error
+          outcome.status === "partially_completed"
+            ? "We could not finish every deletion step. Your account is locked for your protection. Send the same request again and we will resume safely."
+            : "We could not begin deleting your account. Nothing was changed. Send the same request again to retry."
       },
       500
     );
