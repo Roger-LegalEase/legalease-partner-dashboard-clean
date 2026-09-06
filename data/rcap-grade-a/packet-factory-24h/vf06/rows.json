@@ -8179,7 +8179,147 @@
    "commercialRoutesOpened": 0,
    "routesOpened": 0,
    "productionTouched": false
-  }
+  },
+ {
+  "itemId": "ne-setaside-custodial-set",
+  "lane": "VF06",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+  "verifiedAtBase": "b70ec78ef",
+  "worker": "VF06-VF07-NE-IL",
+  "verifiedBy": "VF06/VF07 independent verification, measured in this worktree against the committed bytes at b70ec78ef. This reader did not build or repair this family.",
+  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. FAIL private_is_git_ignored is an artefact of the assignment's mandated `private` symlink: `git check-ignore private/` refuses a pathspec beyond a symbolic link, while `private` itself IS ignored and `git ls-files private/` returns 0 tracked paths, so no source binary can enter a commit. FAIL corpus_matches_committed_index is 1 absent of 24 sampled, the absent entry being 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which neither family under read binds. family_sources_bind passed 4/4 for this family.",
+  "rasterState": "rendered_locally_pending_central_acceptance",
+  "rasterWorkflowRunId": null,
+  "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. RASTER_QUEUE currentRasterState is RASTER_PASS, but rasterReceipt.workflow is null, rasterReceipt.workflowRunId is null, executionEnvironment is 'Codespaces local calibrated raster runner' and githubDispatch records 'HTTP 403; no GitHub run was started or claimed'. The pass is a local render bound to canonical dd6825cc and boundary a9f36274 at rendered commit a3ca119bd; it is not the central acceptance gate. Three superseded receipts on this row DO carry workflow run ids (33596784162, 33994313031, 34000834003) but each binds different fixture bytes than the ones delivered here.",
+  "digestsConfirmedOnDiskBeforeMeasuring": "canonical.pdf sha256 dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc and boundary.pdf sha256 a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695, both recomputed here and both equal to the RASTER_QUEUE row and to reports/rendered-artifacts.json.",
+  "verdictCeilingApplied": null,
+  "standingFailedObligationsRuledOnCurrentBytes": [
+   {
+    "standingItem": "KNOWN_PREFILLS - TYPEOFCOURTDROPDOWN empty on CC 6:11, CC 6:11.2 and DC 1:15 in both fixtures",
+    "ruling": "REPAIRED",
+    "evidence": "The source CC-6-11 caption reads 'IN THE [gap] COURT OF [gap] COUNTY, NEBRASKA' with hint lines 'Choose the court' and 'Choose the county'. All four delivered caption instances (canonical and boundary, CC 6:11 p1, CC 6:11.2 p2, DC 1:15 p4) now print 'IN THE DISTRICT COURT OF', written from fact matter.court through field TYPEOFCOURTRESULTS at rect x 43.31 y 672.45 w 236.62 h 18, and each write is recorded visible in the artifact bytes. Read at 300 dpi on every page of both fixtures."
+   },
+   {
+    "standingItem": "REQUIRED_BEFORE_FILING - seven false instruction-sheet blanks listed on CC 6:11a, and direction to choose dropdowns in a PDF viewer although both delivered PDFs have zero form fields",
+    "ruling": "REPAIRED",
+    "evidence": "participant-instructions.md now carries no CC-6-11A section at all (its sections are CC-6-11, CC-6-11.2 and DC-1-15 only), states in terms 'CC 6:11a is an instruction sheet, not a filing to complete', states 'These PDFs have no interactive form fields', and each county entry adds 'The delivered PDF is flattened and has no interactive dropdown.' pdfinfo reports Form: none on both fixtures. CC-6-11A carries 0 actual writes and 16 protected selection controls in both fixtures."
+   }
+  ],
+  "nineCounters": {
+   "knownRequiredFieldsMissing": 0,
+   "requiredFactsNotCollected": 0,
+   "unclassifiedBlanks": 0,
+   "incompleteRows": 0,
+   "requiredOptionsMissing": 0,
+   "requiredComponentsMissing": 0,
+   "invisibleWrites": 0,
+   "protectedWrites": 0,
+   "visualDefects": 0,
+   "allZero": true,
+   "measuredHere": true,
+   "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set, run without --write in this worktree on the committed bytes; reported PASS_COMPLETE, 19/162 written",
+   "countersAreGreenAndTheFamilyStillFails": "All nine counters are zero here and two proof obligations still fail. The counters measure the field map's own dispositions; they do not test whether a declared REQUIRED_BEFORE_FILING item was actually disclosed to the participant, and that is where this family fails."
+  },
+  "proofObligations": {
+   "ROUTE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the packet is built for the route the record names, and that route key exists in the committed census",
+    "evidence": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less is PRESENT in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json and in canonical-route-universe.json, and is the single routeKey on the MASTER_QUEUE row; participant-instructions.md prints the same key"
+   },
+   "SOURCE_IDENTITY": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "4/4 declared official sources recomputed byte-for-byte from the mounted Master Library and every sha256 matched",
+    "evidence": "sha256 recomputed under MASTER_LIBRARY_SOURCE_DIR for CC-6-11 (c0dcc5c0...5492), CC-6-11.2 (8bfa884d...767b6), CC-6-11a (615c64b4...a50ac) and DC-1-15 (43675986...2cd5b) against the MASTER_QUEUE sourceHashes and source-receipt.json. The queue records these under a rcap-d-source-packs path that does not exist here; they were bound by content hash instead, which is how the queue itself resolved them (one identity at several paths)."
+   },
+   "COMPONENT_SET": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the four official-form components are rendered in manifest order and the required local_rules_check component is delivered as process guidance, which is its own declared outputStrategy. The conditional fee_waiver component is absent, disclosed, and tied to a registry release blocker rather than silently dropped.",
+    "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSet ne-setaside-custodial-set declares six components; components 1-4 (CC-6-11, CC-6-11.2, DC-1-15, CC-6-11a) appear as the five-row pageManifest in reports/rendered-artifacts.json; component 6 ne-setaside-custodial-local-rules-check-6 (role local_rules_check, requirement required, outputStrategy process_guidance) is delivered as the 'Confirm what the filing court requires before you file' section, which names the componentId and quotes NE.memo.json components[5]; component 5 ne-setaside-custodial-fee-waiver-5 (role fee_waiver, requirement conditional) is not rendered and the packet says why, matching the registry releaseBlockers entry that DC 6:7.1 does not fit this filing"
+   },
+   "KNOWN_PREFILLS": {
+    "measured": true,
+    "result": "FAIL",
+    "finding": "the standing court-type defect is repaired, but three held facts are still absent from the page they belong to. (1) matter.case_number is written on all three filings in the canonical fixture and appears on NO page of the boundary fixture: Text2 on CC-6-11, Text2 on CC-6-11.2 and Text38 on DC-1-15 are all refused with buildPolicyReason 'narrative_exceeds_the_printed_lines_at_minimum_font'. That fit claim is arithmetically honest - the boundary value '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt of Helvetica at the builder's 6pt floor in a 129.34pt box - but the platform plainly holds the fact, so under the contract it is a missing known fact and not a genuinely unavailable one, which is the identical reasoning the standing vf06 finding applied to the court dropdown. It is also disclosed nowhere. (2) DC-1-15 field `plaintiff`, the Plaintiff/Petitioner caption line on packet page 4, is blank in both fixtures although the plaintiff of this criminal case, STATE OF NEBRASKA, is printed by the source on CC 6:11 and CC 6:11.2 in the same packet; the contract's own words are that a fact written anywhere else in the same packet is available. (3) The county caption position lost its only on-page marker: the build erased the source hint 'Choose the county' at x 291.79-351.35, y 120.19, which lies 11.86pt beyond the right edge of its own declared write box (x 43.31-279.93), so the delivered caption shows bare whitespace between 'OF' and 'COUNTY, NEBRASKA' while participant-instructions.md tells the participant to 'write it in the county blank'.",
+    "evidence": "reports/actual-writes.json (canonical CC-6-11 8 writes vs boundary 7; canonical CC-6-11.2 3 vs boundary 2; canonical DC-1-15 8 vs boundary 7, the missing one being the case number each time); production-field-map.json boundaryRefusals for CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38; pdf-lib Helvetica widthOfTextAtSize measured here (134.36pt at 6pt against a 129.34pt box, max fitting size 5.78pt); 300 dpi pdftoppm read of all five pages of both fixtures; pdftotext -bbox-layout word diff of output page 1 against the CC-6-11 source giving the exact coordinates of the erased 'Choose the county' hint"
+   },
+   "REQUIRED_BEFORE_FILING": {
+    "measured": true,
+    "result": "FAIL",
+    "finding": "four of the eleven items the committed manifest declares required-before-filing are named nowhere in participant-instructions.md, and the field map carries more required-before-filing rows than the packet discloses. Absent from the file: 'Check your answer to \"What crime were you convicted of, exactly as it appears on the court papers?\" against Nebraska State Patrol criminal history report'; 'Check your answer to \"What is the case number on the original case?\" against Nebraska court case search result'; the same confirm step for the probation discharge order; and 'The date and judge lines on the proposed order - CC 6:11.2'. The guide scores 0 hits for 'State Patrol', 'criminal history', 'case search', 'Check your answer', 'correct the packet' and '6:11.2'. The two missing confirm steps matter most because the registry names them as confirming saCrimeConvictedOf and saCaseNumber, which are exactly the blanks the packet leaves empty on CC 6:11. Separately, the field map carries nine requiredBeforeFiling refusal rows that are not in its own 21-row declared array and not in the guide: DC-1-15 Text52, Text64 and Text65 in the canonical fixture, and CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38 in the boundary fixture, so the printed count 'Required before filing: 21 field(s)' understates the canonical fixture by three and the boundary fixture by six. Two of those rows, DC-1-15 Text59.0 and Text64, are classified_unwritable_by_role and still carry requiredBeforeFiling true, which the contract's PARTICIPANT-COMPLETABLE condition forbids outright. Finally the disclosed labels fail the IDENTIFIED condition: the participant is told to complete 'CRIMINAL CONVICTION - r', 'SERVICE - To', 'same may be heard', 'changes, you must complete a Change of Contact Information F', and - for DC-1-15 field `plaintiff`, whose printedLabel is null - 'DC1:15 NEW 08/19', which is the form's own revision stamp.",
+    "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSet ne-setaside-custodial-set requiredBeforeFiling (11 items) and participantFilingRequirements and manualCompletionItems, each checked term by term against participant-instructions.md; production-field-map.json requiredBeforeFiling (21 rows) diffed against every canonicalRefusals and boundaryRefusals row carrying requiredBeforeFiling true; scripts/rcap-packet-completeness/completeness-contract.mjs REQUIRED_BEFORE_FILING_CONDITIONS (DECLARED, IDENTIFIED, GENUINELY UNAVAILABLE, PARTICIPANT-COMPLETABLE, NOT ROUTE-DETERMINED, DISCLOSED)"
+   },
+   "ROUTE_OPTIONS": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "requiredOptionsMissing=0 measured here, and the one route-determined election on the face of these forms, the court type, is now selected rather than asked",
+    "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set, run without --write in this worktree on the committed bytes; the DC-1-15 'Type of Case' box is a source viewer control whose own text states it will not print, and it does not appear on the rendered page"
+   },
+   "REPEATING_ROWS": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "incompleteRows=0 measured here; these four forms carry no repeating row structure, and no row carries written cells beside required cells left blank",
+    "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set, run without --write in this worktree on the committed bytes, confirmed against the 300 dpi read of all five pages of both fixtures"
+   },
+   "PROTECTED_FIELDS": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink in either fixture. The CC 6:11 signature and date lines are blank; the CC 6:11.2 'Dated:' line and the 'BY THE COURT: / JUDGE' block are blank; on the DC 1:15 certificate of service the 'I ______, verify that on ______ (date)' line, the served party's name and address, and the signature and date are all blank, while only the participant's own printed name, address, telephone and email are written beneath them.",
+    "evidence": "300 dpi pdftoppm read of pages 1-5 of both fixtures; reports/actual-writes.json records protectedWithheldInk 0 and protected selection controls 3/2/16/3 per document with no write against any of them; protectedWrites counter 0 measured here"
+   },
+   "ARTIFACTS": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "both canonical and boundary bytes hash to what the record names, and the fixtures directory holds nothing the record does not name",
+    "evidence": "sha256 recomputed on disk before measuring: canonical dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc and boundary a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695, each equal to the RASTER_QUEUE documents entries, the canonicalPdfSha256/boundaryPdfSha256 fields, reports/rendered-artifacts.json and the rasterReceipt binding; fixtures/ contains exactly those two PDFs"
+   },
+   "PAGE_ORDER": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the rendered page order matches the packet manifest: five contiguous rows, CC-6-11 p1, CC-6-11.2 p1, CC-6-11A p1, DC-1-15 p1, DC-1-15 p2, which is manifest component order 1, 2, 4, 3, 3",
+    "evidence": "reports/rendered-artifacts.json pageManifest against pdfinfo Pages: 5 on both fixtures, and against the componentId order in legal-design-packet-set-manifests.json"
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "0 added words outside a declared write box across all ten rendered pages, and 0 added words outside the page box. One word does fall outside the page box - a 64-character underscore rule at x 293.00-613.00 on DC-1-15 page 1 against a 612pt page - but it is present at identical coordinates in the official source form and was not added by this build. Disclosed rather than passed silently: the build's modification footprint is wider than the box it declares, because it erased the source hint 'Choose the county' 11.86pt beyond the right edge of its declared write box. That is a removal rather than ink, so it does not fail this obligation on its words; it is ruled under KNOWN_PREFILLS, where it destroyed the county blank's only marker.",
+    "evidence": "pdftotext -bbox-layout word extraction of every page of both fixtures, each output word matched against its own source form page to isolate the 156 added words, then each added word tested for containment in a write box declared in reports/actual-writes.json (0 outside); every word rectangle also tested against its own page MediaBox; the single overrun reproduced against the DC-1-15 source PDF"
+   },
+   "FILING_DESTINATION": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the instructions name the court the route names: the clerk of the sentencing court, filed inside the existing criminal case, with the county-court and district-court split stated correctly",
+    "evidence": "participant-instructions.md 'Where you file this' against data/record-clearing/legal-design-track-registry.json track ne-setaside-custodial destination (kind clerk, name 'Clerk of the sentencing court') and venue ('The sentencing court: the Nebraska county court or district court that imposed the sentence'), including the registry's own detail about the bailiff, DC 1:15 and the county-court clerk"
+   },
+   "FEE_AND_WAIVER": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the fee and the waiver route are both stated. No figure is shown and the packet says in terms why - the statewide schedule carries no line item for a petition filed inside an existing criminal case - and names the clerk of the sentencing court as the office that answers it. The waiver is stated as existing in principle under Neb. Rev. Stat. 25-2301.01, with the DC 6:7.1 mismatch recorded rather than papered over.",
+    "evidence": "participant-instructions.md 'What it costs, and what to do if you cannot pay' against the track registry releaseBlockers entry for filing_process, which records the same not-established finding, the same reason and the same named office"
+   },
+   "SERVICE": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "who must be served and how are both stated, and correctly split by court type: in district court, by mail on the prosecutor, evidenced by the certificate of service on DC 1:15 page two, with the instruction to sign that certificate only after mailing; in county court, the clerk schedules and mails the notice and the participant serves nobody",
+    "evidence": "participant-instructions.md 'Who must receive a copy, and how' against the track registry destination detail and against manifest participantActionRequired items 10 and 15"
+   },
+   "SELF_HELP_STOP": {
+    "measured": true,
+    "result": "PASS",
+    "finding": "the packet states where self-help ends, in a dedicated section carrying 13 of the 14 conditions the committed registry records. Noted rather than failed: registry condition 11, 'Any registration obligation, current or historical', is narrowed by the packet to sex-offender registration only, which registry condition 6 already covers; every other condition is carried, several verbatim.",
+    "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for ne-setaside-custodial (14 items) compared term by term against the 11 bullets of participant-instructions.md 'Stop, and take this to a lawyer, if any of these is true'"
+   }
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantReleased": false,
+  "repairAssignmentId": "VF06-REPAIR-NE-SETASIDE-CUSTODIAL-DISCLOSURE-AND-HELD-FACTS"
+ }
  ],
  "vf06ReDispatchWave": {
   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",

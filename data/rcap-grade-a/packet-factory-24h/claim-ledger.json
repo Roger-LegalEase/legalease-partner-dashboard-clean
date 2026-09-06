@@ -1978,9 +1978,9 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Prepared reread reassigned before worker starts to avoid concurrent VF01 rows edits with active PA reader; current IL accepted bytes and review requirement unchanged."
+      "released": true,
+      "releasedAt": "2026-09-06T17:47:12.189Z",
+      "releaseReason": "VF07 read at base b70ec78ef: FAIL_REPAIR_REQUIRED on COMPONENT_SET (the contract names a Verified petition; the pleading prints VERIFIED in its title but contains no verification, only a bare signature line); both standing items repaired (3/3 pins byte-exact, caption classified and disclosed); nine counters zero; local raster receipt with no workflow run bound; row in vf07/rows.json, lane commit 300c0103e"
     },
     {
       "subjectType": "packet-family",
@@ -2007,10 +2007,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX93",
+      "lane": "FIX103",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T11:46:22.987Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Completed scoped FIX93 repair integrated at486d4fd6a; standardized row binds author evidence. Changed PDFs still require central raster and independent verification."
     },
     {
@@ -6005,9 +6005,9 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Current independent review completed and integrated; resume existing repair lane for all definite findings, preserving source/legal holds and separate post-repair reviewer."
+      "released": true,
+      "releasedAt": "2026-09-06T17:47:12.071Z",
+      "releaseReason": "VF06 read at base b70ec78ef: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS (boundary matter.case_number refused unfittable but disclosed nowhere; DC 1:15 plaintiff caption blank; the county caption marker erased outside its write box) and REQUIRED_BEFORE_FILING (4 of 11 manifest items absent from participant-instructions.md, 9 undisclosed rows, 2 role-protected fields declared rbf, revision-stamp labels); the two standing items repaired; nine counters zero; local raster receipt with no workflow run bound; row in vf06/rows.json, lane commit 300c0103e"
     },
     {
       "subjectType": "packet-family",
@@ -6019,10 +6019,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX102",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T05:37:35.927Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13743,7 +13743,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "07376e49742692d9e1c361fcfe7d65086096a17862c17a3137aab878c7c8bb3a",
+  "claimsDigest": "3c714e19f6f0aa4f487611b80ea4c2a6a44c43301df6b38d91656115d3defd8c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32199,6 +32199,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-06T17:45:53.528Z",
       "reason": "VF01 read at base b70ec78ef: BLOCKED_LEGAL_INPUT on SELF_HELP_STOP (the packet's categorical do-not-file stop contradicts the 19.2-298.02 basis printed on the pinned CC-1473 Rev. 07/26; a counsel question), fourteen PASS, five stop conditions verbatim and the Dotson gate in place; row in vf01/rows.json, lane commit 1f3c27b87"
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T17:47:12.071Z",
+      "reason": "VF06 read at base b70ec78ef: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS (boundary matter.case_number refused unfittable but disclosed nowhere; DC 1:15 plaintiff caption blank; the county caption marker erased outside its write box) and REQUIRED_BEFORE_FILING (4 of 11 manifest items absent from participant-instructions.md, 9 undisclosed rows, 2 role-protected fields declared rbf, revision-stamp labels); the two standing items repaired; nine counters zero; local raster receipt with no workflow run bound; row in vf06/rows.json, lane commit 300c0103e"
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T17:47:12.189Z",
+      "reason": "VF07 read at base b70ec78ef: FAIL_REPAIR_REQUIRED on COMPONENT_SET (the contract names a Verified petition; the pleading prints VERIFIED in its title but contains no verification, only a bare signature line); both standing items repaired (3/3 pins byte-exact, caption classified and disclosed); nine counters zero; local raster receipt with no workflow run bound; row in vf07/rows.json, lane commit 300c0103e"
     }
   ],
   "reissues": [
@@ -47299,6 +47317,28 @@
       "previouslyReleasedAt": "2026-09-06T17:42:53.624Z",
       "transferredAt": "2026-09-06T17:44:17.670Z",
       "reason": "PF25 builds the three Texas nondisclosure families (tx_nd_automatic_misdemeanor_deferred, tx_nd_deferred_other, tx_nd_veterans_reemployment) on the existing Texas nondisclosure host from Master Library sources with the established finalizer opt-ins; the builder does not verify or terminalize its own output"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX102",
+      "previouslyReleasedAt": "2026-09-06T05:37:35.927Z",
+      "transferredAt": "2026-09-06T17:47:12.383Z",
+      "reason": "FIX102 repairs Nebraska custodial set-aside for every VF06 finding together: disclose the unfittable boundary case number (unfittable record, field-map refusal row, requiredBeforeFiling naming it), write the DC 1:15 plaintiff caption, restore the county caption marker inside its box, carry all 11 manifest required-before-filing items into participant-instructions.md, disclose the 9 rows, remove the role-protected fields from rbf, drop the revision-stamp labels; one writer on build-census-v1-ne-setaside-custodial-set.mjs"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX93",
+      "toLane": "FIX103",
+      "previouslyReleasedAt": "2026-09-06T11:46:22.987Z",
+      "transferredAt": "2026-09-06T17:47:12.561Z",
+      "reason": "FIX103 adds the verification the contract's Verified petition component requires (a verification block under 735 ILCS 5/1-109 as the record states it, never a sworn answer the platform cannot support) and keeps the VF07-confirmed pins and caption; one writer on the composed family's builder"
     }
   ],
   "grants": [
