@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-rows/v1",
  "lane": "VF03",
  "laneKind": "independent-verification",
- "worker": "VF-SRC-A + FABLE-VT1 + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL",
+ "worker": "VF-SRC-A + FABLE-VT1 + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL + Codex VF03 NM 2026-09-06",
  "laneMembership": [
   "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
   "fl-trafficking-set"
@@ -17368,6 +17368,349 @@
    "grantsNothing": "An independent read proves what it measured on these bytes and nothing else. It approves no output, opens no commercial route, changes no live RCAP route and creates no fulfillment record; these families remain generationAllowed false and runtimeSelectable false.",
    "sharedBytesRuling": "Not applicable: this family's fixtures are unique to it. The three conviction tracks' shared bytes are ruled on their own records.",
    "fix77Interaction": "FIX77's effect on these four families, ruled by reading the merged host rather than by accepting the note. FIX77 added two channels to scripts/build-census-v1-nj_arrest_no_conviction-set.mjs: familyFacts(config, boundary) with a per-family derivedFacts map, and a composed certificate of service wired through config.supplementalDocuments. Grepped here: derivedFacts is declared by exactly one family (pa_490_nonconviction-set, line 1947) and supplementalDocuments by exactly two (pa_6308_underage-set line 921, pa_490_nonconviction-set line 1946). No New Jersey family declares either, and familyFacts returns factsForJurisdiction unchanged when a family declares no derivedFacts, so neither channel places a mark, a page or a component in any of these four packets. The one place FIX77 does reach New Jersey is its widened held-but-not-printed disclosure, which FIX76 then derived from the refusal reason. It is visible and correct on the delivered guides: nj_indictable_conviction-set and nj_ordinance-set disclose ExpungeCntyName as 'a chooser the form fills from its own list of options, not a free-text line, and the held value is not one of those options', and that is true of the bytes -- ExpungeCntyName is /FT /Ch with 22 options ('  ', 'Atlantic', 'Bergen', ...), and the held value is 'Essex County', which is not among them. A width sentence over a type refusal would have been wrong and is not what is delivered."
+  },
+  {
+   "itemId": "nm_conviction-set",
+   "familyId": "nm_conviction-set",
+   "lane": "VF03",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+   "verifier": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "claim": "Existing VF03 independent-verification claim asserted before inspection; CLAIM_OK, grant set b24b2e95fda9fe70, exit 0. Grant remains live and was not recreated.",
+   "canonicalSha256": "0d06c6154eaa333b076f04064cfff94d6435e145dd08b250875989513b61828e",
+   "boundarySha256": "149540aceff55b8df5fc86889f50d62b8448c7037c4d58dbfbdb723f1f3ee7c3",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "SELF_HELP_STOP"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current product wiring and instructions bind nm_conviction; petition title and statutory citation visibly match this track in both fixtures. Route keys: ['obligation:track-pathway:NM:nm_conviction:conviction']. No sibling route was substituted."
+    },
+    "SOURCE_IDENTITY": {
+     "status": "BLOCKED_SOURCE",
+     "detail": "All current fixture hashes match the committed rendered report and existing raster receipt. The separately pinned original PDFs are absent from the governed corpus here. Ten recorded official URLs returned HTTP 200 HTML challenge pages with wrong SHA/length; three other rendered-source URLs were not located in the bounded recorded-source search. No replacement source accepted. Full original-to-output comparison and two clean rebuilds were not possible."
+    },
+    "COMPONENT_SET": {
+     "status": "PASS_OBSERVED_WITH_UNRESOLVED_WAIVER_SUITABILITY",
+     "detail": "Visible component sequence matches reports/packet-set-manifest-reconciliation.json and its referenced current manifest: ['NM-4-953', 'NM-4-956', 'NM-4-960', 'NM-4-960.3', 'NM-4-960.1', 'NM-LOCAL-CONVICTION-ORDER', 'NM-4-222']. Participant instructions contain the declared guidance sections. The release San Juan proposed-order component is conditional on San Juan County, which neither fixture uses; no missing statewide order is inferred from that conditional omission. NM-4-222 statewide source suitability remains unresolved separately."
+    },
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "72 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 6. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "status": "PASS_LABEL_COVERAGE",
+     "detail": "Every declared disclosure label is present in participant instructions (186/186). This does not validate the declared set: known held address/name fields are incorrectly classified REQUIRED_BEFORE_FILING on a claim that the platform has no value; the same records acknowledge the held values or describe missing mapping support. The false unavailable-fact classification is scored under KNOWN_PREFILLS, not counted twice as a missing disclosure label."
+    },
+    "ROUTE_OPTIONS": {
+     "status": "PASS_OBSERVED",
+     "detail": "No route-determined checkbox is declared; route identity comes from the selected statutory petition. Representation, pending cases, merits, prior applications, chosen agencies, service acts and financial elections remain unmarked because the fixtures hold no answers to those questions. FIX79 removed both wrong court writes from each petition’s pending-other-expungements branch."
+    },
+    "REPEATING_ROWS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current overview page images and extracted text show no partially populated offense/charge, related-case, financial or household repeating row. Those rows remain empty for participant facts; the missing mailing-address and case-number findings are counted separately, not hidden by this observation. No source-to-output delta proof is claimed."
+    },
+    "PROTECTED_FIELDS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Signatures, signature dates, notary fields, service dates and recipient acts, merits findings and judge/prosecutor decisions carry no participant ink in the inspected pages. Petitioner names in allowed caption/printed-name lines remain distinct from signature acts. No protection was changed. Original-source delta proof remains blocked."
+    },
+    "ARTIFACTS": {
+     "status": "PASS",
+     "detail": "Recomputed SHA-256 and byte lengths for both current PDFs agree with reports/rendered-artifacts.json and central run 34009091546; both parse and render successfully. artifacts-and-raster-measurements.json records exact values. No regenerated fixture was used."
+    },
+    "PAGE_ORDER": {
+     "status": "PASS_OBSERVED",
+     "detail": "Both fixtures have 26 pages, read with pdfinfo and rendered by Poppler. Visible form titles, internal page numbering and transitions match the current per-page manifest. Original source page equivalence is not proved without originals."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "status": "PARTIAL_OBSERVATION_NOT_FULL_ACCEPTANCE",
+     "detail": "All 128 current pages across the cohort were rendered at 300 dpi and inspected in contact-sheet overview. Seven selected full-resolution page images were additionally inspected (listed in inspection.json), including long names and address appearances. No obvious clipping or overlap was observed in those views. All 184 declared writes across the cohort read back in a 3-point-tolerance band around their recorded rectangles. Text readback is not a pixel containment proof, and absent originals prevent complete source-pixel delta measurement; no measured visualDefects=0 independent verdict is asserted."
+    },
+    "FILING_DESTINATION": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Instructions name the New Mexico district court clerk for the judicial district where the charge originated/arrest occurred/conviction entered, including cases originating in a lower court. Current route registry and NM memo agree. Fee-waiver fixed-district caption suitability remains separately unresolved; this is not fresh legal approval."
+    },
+    "FEE_AND_WAIVER": {
+     "status": "BLOCKED_LEGAL_INPUT",
+     "detail": "Current copy states $132 district filing fee and Form 4-222 waiver; identity copy preserves the recorded uncertainty whether its fee is charged. Actual waiver application and Form 4-223 order print SIXTH JUDICIAL DISTRICT COURT, while fixtures use Second/Seventh districts. FIX79 itself marks statewide suitability unresolved. Directions to strike the printed district are not independent evidence of authority to use this district-specific binary statewide. Obtain the applicable source/legal decision; do not re-add the wrong county or silently change the source."
+    },
+    "SERVICE": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Instructions identify first-class United States mail, the district attorney for the originating district and DPS at its printed Santa Fe address, and the arresting law-enforcement agency. Actual service certificate/notice pages name those recipients and leave mailing acts/dates blank. Staged briefing and the 63-day mail-adjusted period are disclosed without inventing a new timing rule."
+    },
+    "SELF_HELP_STOP": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "Current registry holds ten stops. The packet omits the felony, Crimes Against Household Members Act, unpaid/unclear financial obligations, intervening conviction, multiple-district and justice-narrative stops; it calls the justice narrative the part only you can write. Pending charges, objections, noncitizens and exclusion offenses are discussed, but they do not supply the omitted stops. See self-help-comparison.json."
+    }
+   },
+   "nineCounters": {
+    "measuredBy": "Existing canonical-only focused completeness command, not independent all-fixture acceptance",
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set",
+    "commandExitCode": 0,
+    "commandReturnedNineZeros": true,
+    "independentNineZeroVerdict": false,
+    "currentKnownRequiredFieldsMissingLowerBounds": {
+     "canonical": 6,
+     "boundary": 6
+    },
+    "whyCommandPassIsNotAcceptance": "The command reads canonical maps only and trusts unavailable-fact classifications. It cannot validate a held fact hidden behind REQUIRED_BEFORE_FILING or the release boundary KNOWN_FACT_NOT_WRITTEN. Full nine independent counters are not asserted."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family nm_conviction-set --branch vf03-nm-three-read",
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          vf03-nm-three-read at 4ba07161\n  ok  clone_is_complete                      full clone, all heads fetchable\nFAIL  assigned_branch_tip_visible            origin/vf03-nm-three-read does not resolve in this clone\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    7 of 7 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": "Existing ingested run 34009091546 at dbd6faff2b119d10f5ec14ba8cad71f9dc2e57d5 binds the exact current canonical and boundary hashes. Its actual rendering coverage is canonical only; boundary is bound but not rendered there. No receipt overwritten and no raster redispatched. All boundary visual findings here use local 300 dpi inspection.",
+   "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/inspection.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/current-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/artifacts-and-raster-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/self-help-comparison.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/source-recovery.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/checks.json"
+   ],
+   "remainingGates": [
+    "Repair all explicit current findings, then independent reread by a reviewer distinct from the repairer.",
+    "Recover the exact pinned originals; pass applicable source preflight and original-to-output source fidelity.",
+    "Resolve the recorded NM-4-222/4-223 statewide suitability question through existing source/legal process.",
+    "Any changed PDFs require new current-byte central raster evidence and deterministic rebuild evidence."
+   ],
+   "packetFilesModified": 0,
+   "routesOpened": 0,
+   "productionTouched": false
+  },
+  {
+   "itemId": "nm_identity_theft-set",
+   "familyId": "nm_identity_theft-set",
+   "lane": "VF03",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+   "verifier": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "claim": "Existing VF03 independent-verification claim asserted before inspection; CLAIM_OK, grant set b24b2e95fda9fe70, exit 0. Grant remains live and was not recreated.",
+   "canonicalSha256": "0ea0cd7a3102b8ca09976b06a0d7a29eea8ba0f43f62a194eca13b799d1e2bd2",
+   "boundarySha256": "b1b1b53bc9f23c85ce5202bd93c8aa053e41e7d05821c4ba53f1be8d28a13811",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current product wiring and instructions bind nm_identity_theft; petition title and statutory citation visibly match this track in both fixtures. Route keys: ['obligation:track-only:NM:nm_identity_theft']. No sibling route was substituted."
+    },
+    "SOURCE_IDENTITY": {
+     "status": "BLOCKED_SOURCE",
+     "detail": "All current fixture hashes match the committed rendered report and existing raster receipt. The separately pinned original PDFs are absent from the governed corpus here. Ten recorded official URLs returned HTTP 200 HTML challenge pages with wrong SHA/length; three other rendered-source URLs were not located in the bounded recorded-source search. No replacement source accepted. Full original-to-output comparison and two clean rebuilds were not possible."
+    },
+    "COMPONENT_SET": {
+     "status": "PASS_OBSERVED_WITH_UNRESOLVED_WAIVER_SUITABILITY",
+     "detail": "Visible component sequence matches reports/packet-set-manifest-reconciliation.json and its referenced current manifest: ['NM-4-951', 'NM-4-960.1', 'NM-LOCAL-IDENTITY-THEFT-ORDER', 'NM-4-222']. Participant instructions contain the declared guidance sections. The release San Juan proposed-order component is conditional on San Juan County, which neither fixture uses; no missing statewide order is inferred from that conditional omission. NM-4-222 statewide source suitability remains unresolved separately."
+    },
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "48 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 4, boundary 4. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "status": "PASS_LABEL_COVERAGE",
+     "detail": "Every declared disclosure label is present in participant instructions (116/116). This does not validate the declared set: known held address/name fields are incorrectly classified REQUIRED_BEFORE_FILING on a claim that the platform has no value; the same records acknowledge the held values or describe missing mapping support. The false unavailable-fact classification is scored under KNOWN_PREFILLS, not counted twice as a missing disclosure label."
+    },
+    "ROUTE_OPTIONS": {
+     "status": "PASS_OBSERVED",
+     "detail": "No route-determined checkbox is declared; route identity comes from the selected statutory petition. Representation, pending cases, merits, prior applications, chosen agencies, service acts and financial elections remain unmarked because the fixtures hold no answers to those questions. FIX79 removed both wrong court writes from each petition’s pending-other-expungements branch."
+    },
+    "REPEATING_ROWS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current overview page images and extracted text show no partially populated offense/charge, related-case, financial or household repeating row. Those rows remain empty for participant facts; the missing mailing-address and case-number findings are counted separately, not hidden by this observation. No source-to-output delta proof is claimed."
+    },
+    "PROTECTED_FIELDS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Signatures, signature dates, notary fields, service dates and recipient acts, merits findings and judge/prosecutor decisions carry no participant ink in the inspected pages. Petitioner names in allowed caption/printed-name lines remain distinct from signature acts. No protection was changed. Original-source delta proof remains blocked."
+    },
+    "ARTIFACTS": {
+     "status": "PASS",
+     "detail": "Recomputed SHA-256 and byte lengths for both current PDFs agree with reports/rendered-artifacts.json and central run 34009091546; both parse and render successfully. artifacts-and-raster-measurements.json records exact values. No regenerated fixture was used."
+    },
+    "PAGE_ORDER": {
+     "status": "PASS_OBSERVED",
+     "detail": "Both fixtures have 17 pages, read with pdfinfo and rendered by Poppler. Visible form titles, internal page numbering and transitions match the current per-page manifest. Original source page equivalence is not proved without originals."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "status": "PARTIAL_OBSERVATION_NOT_FULL_ACCEPTANCE",
+     "detail": "All 128 current pages across the cohort were rendered at 300 dpi and inspected in contact-sheet overview. Seven selected full-resolution page images were additionally inspected (listed in inspection.json), including long names and address appearances. No obvious clipping or overlap was observed in those views. All 184 declared writes across the cohort read back in a 3-point-tolerance band around their recorded rectangles. Text readback is not a pixel containment proof, and absent originals prevent complete source-pixel delta measurement; no measured visualDefects=0 independent verdict is asserted."
+    },
+    "FILING_DESTINATION": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Instructions name the New Mexico district court clerk for the judicial district where the charge originated/arrest occurred/conviction entered, including cases originating in a lower court. Current route registry and NM memo agree. Fee-waiver fixed-district caption suitability remains separately unresolved; this is not fresh legal approval."
+    },
+    "FEE_AND_WAIVER": {
+     "status": "BLOCKED_LEGAL_INPUT",
+     "detail": "Current copy states $132 district filing fee and Form 4-222 waiver; identity copy preserves the recorded uncertainty whether its fee is charged. Actual waiver application and Form 4-223 order print SIXTH JUDICIAL DISTRICT COURT, while fixtures use Second/Seventh districts. FIX79 itself marks statewide suitability unresolved. Directions to strike the printed district are not independent evidence of authority to use this district-specific binary statewide. Obtain the applicable source/legal decision; do not re-add the wrong county or silently change the source."
+    },
+    "SERVICE": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Identity petition: instructions expressly say no prehearing service/60-day objection sequence applies; they distinguish true-offender identification and direct legal help. This agrees with the committed track."
+    },
+    "SELF_HELP_STOP": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "All seven current track stop conditions are covered across participant instructions, including true-offender naming, disputed identity, pending charges, objections/contested hearing, outside/federal/tribal/military records and noncitizens."
+    }
+   },
+   "nineCounters": {
+    "measuredBy": "Existing canonical-only focused completeness command, not independent all-fixture acceptance",
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set",
+    "commandExitCode": 0,
+    "commandReturnedNineZeros": true,
+    "independentNineZeroVerdict": false,
+    "currentKnownRequiredFieldsMissingLowerBounds": {
+     "canonical": 4,
+     "boundary": 4
+    },
+    "whyCommandPassIsNotAcceptance": "The command reads canonical maps only and trusts unavailable-fact classifications. It cannot validate a held fact hidden behind REQUIRED_BEFORE_FILING or the release boundary KNOWN_FACT_NOT_WRITTEN. Full nine independent counters are not asserted."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family nm_identity_theft-set --branch vf03-nm-three-read",
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          vf03-nm-three-read at 4ba07161\n  ok  clone_is_complete                      full clone, all heads fetchable\nFAIL  assigned_branch_tip_visible            origin/vf03-nm-three-read does not resolve in this clone\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    4 of 4 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": "Existing ingested run 34009091546 at dbd6faff2b119d10f5ec14ba8cad71f9dc2e57d5 binds the exact current canonical and boundary hashes. Its actual rendering coverage is canonical only; boundary is bound but not rendered there. No receipt overwritten and no raster redispatched. All boundary visual findings here use local 300 dpi inspection.",
+   "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/inspection.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/current-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/artifacts-and-raster-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/self-help-comparison.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/source-recovery.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/checks.json"
+   ],
+   "remainingGates": [
+    "Repair all explicit current findings, then independent reread by a reviewer distinct from the repairer.",
+    "Recover the exact pinned originals; pass applicable source preflight and original-to-output source fidelity.",
+    "Resolve the recorded NM-4-222/4-223 statewide suitability question through existing source/legal process.",
+    "Any changed PDFs require new current-byte central raster evidence and deterministic rebuild evidence."
+   ],
+   "packetFilesModified": 0,
+   "routesOpened": 0,
+   "productionTouched": false
+  },
+  {
+   "itemId": "nm_release_without_conviction-set",
+   "familyId": "nm_release_without_conviction-set",
+   "lane": "VF03",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+   "verifier": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "claim": "Existing VF03 independent-verification claim asserted before inspection; CLAIM_OK, grant set b24b2e95fda9fe70, exit 0. Grant remains live and was not recreated.",
+   "canonicalSha256": "8033e3305e3bb01b34142b2d6df4fce4bb891afe27604122350a6b3aeb1db29e",
+   "boundarySha256": "632aa0277b907ab74a0eb511c4a8c11cdaa22f4ef3852b510afb6dc01a53a802",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current product wiring and instructions bind nm_release_without_conviction; petition title and statutory citation visibly match this track in both fixtures. Route keys: ['obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction']. No sibling route was substituted."
+    },
+    "SOURCE_IDENTITY": {
+     "status": "BLOCKED_SOURCE",
+     "detail": "All current fixture hashes match the committed rendered report and existing raster receipt. The separately pinned original PDFs are absent from the governed corpus here. Ten recorded official URLs returned HTTP 200 HTML challenge pages with wrong SHA/length; three other rendered-source URLs were not located in the bounded recorded-source search. No replacement source accepted. Full original-to-output comparison and two clean rebuilds were not possible."
+    },
+    "COMPONENT_SET": {
+     "status": "PASS_OBSERVED_WITH_UNRESOLVED_WAIVER_SUITABILITY",
+     "detail": "Visible component sequence matches reports/packet-set-manifest-reconciliation.json and its referenced current manifest: ['NM-4-952', 'NM-4-955', 'NM-4-959', 'NM-4-960.2', 'NM-4-960.1', 'NM-4-222']. Participant instructions contain the declared guidance sections. The release San Juan proposed-order component is conditional on San Juan County, which neither fixture uses; no missing statewide order is inferred from that conditional omission. NM-4-222 statewide source suitability remains unresolved separately."
+    },
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "64 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 7. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "status": "PASS_LABEL_COVERAGE",
+     "detail": "Every declared disclosure label is present in participant instructions (177/177). This does not validate the declared set: known held address/name fields are incorrectly classified REQUIRED_BEFORE_FILING on a claim that the platform has no value; the same records acknowledge the held values or describe missing mapping support. The false unavailable-fact classification is scored under KNOWN_PREFILLS, not counted twice as a missing disclosure label."
+    },
+    "ROUTE_OPTIONS": {
+     "status": "PASS_OBSERVED",
+     "detail": "No route-determined checkbox is declared; route identity comes from the selected statutory petition. Representation, pending cases, merits, prior applications, chosen agencies, service acts and financial elections remain unmarked because the fixtures hold no answers to those questions. FIX79 removed both wrong court writes from each petition’s pending-other-expungements branch."
+    },
+    "REPEATING_ROWS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Current overview page images and extracted text show no partially populated offense/charge, related-case, financial or household repeating row. Those rows remain empty for participant facts; the missing mailing-address and case-number findings are counted separately, not hidden by this observation. No source-to-output delta proof is claimed."
+    },
+    "PROTECTED_FIELDS": {
+     "status": "PASS_OBSERVED",
+     "detail": "Signatures, signature dates, notary fields, service dates and recipient acts, merits findings and judge/prosecutor decisions carry no participant ink in the inspected pages. Petitioner names in allowed caption/printed-name lines remain distinct from signature acts. No protection was changed. Original-source delta proof remains blocked."
+    },
+    "ARTIFACTS": {
+     "status": "PASS",
+     "detail": "Recomputed SHA-256 and byte lengths for both current PDFs agree with reports/rendered-artifacts.json and central run 34009091546; both parse and render successfully. artifacts-and-raster-measurements.json records exact values. No regenerated fixture was used."
+    },
+    "PAGE_ORDER": {
+     "status": "PASS_OBSERVED",
+     "detail": "Both fixtures have 21 pages, read with pdfinfo and rendered by Poppler. Visible form titles, internal page numbering and transitions match the current per-page manifest. Original source page equivalence is not proved without originals."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "status": "PARTIAL_OBSERVATION_NOT_FULL_ACCEPTANCE",
+     "detail": "All 128 current pages across the cohort were rendered at 300 dpi and inspected in contact-sheet overview. Seven selected full-resolution page images were additionally inspected (listed in inspection.json), including long names and address appearances. No obvious clipping or overlap was observed in those views. All 184 declared writes across the cohort read back in a 3-point-tolerance band around their recorded rectangles. Text readback is not a pixel containment proof, and absent originals prevent complete source-pixel delta measurement; no measured visualDefects=0 independent verdict is asserted."
+    },
+    "FILING_DESTINATION": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Instructions name the New Mexico district court clerk for the judicial district where the charge originated/arrest occurred/conviction entered, including cases originating in a lower court. Current route registry and NM memo agree. Fee-waiver fixed-district caption suitability remains separately unresolved; this is not fresh legal approval."
+    },
+    "FEE_AND_WAIVER": {
+     "status": "BLOCKED_LEGAL_INPUT",
+     "detail": "Current copy states $132 district filing fee and Form 4-222 waiver; identity copy preserves the recorded uncertainty whether its fee is charged. Actual waiver application and Form 4-223 order print SIXTH JUDICIAL DISTRICT COURT, while fixtures use Second/Seventh districts. FIX79 itself marks statewide suitability unresolved. Directions to strike the printed district are not independent evidence of authority to use this district-specific binary statewide. Obtain the applicable source/legal decision; do not re-add the wrong county or silently change the source."
+    },
+    "SERVICE": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "Instructions identify first-class United States mail, the district attorney for the originating district and DPS at its printed Santa Fe address. Actual service certificate/notice pages name those recipients and leave mailing acts/dates blank. Staged briefing and the 63-day mail-adjusted period are disclosed without inventing a new timing rule."
+    },
+    "SELF_HELP_STOP": {
+     "status": "PASS_AGAINST_COMMITTED_ROUTE",
+     "detail": "All seven current track stop conditions are covered across participant instructions, including objection, pending charges, uncertain diversion/conditional-discharge completion, multiple districts, contested hearing, noncitizens and the separate early warning that combining conviction and release petitions destroys the seal."
+    }
+   },
+   "nineCounters": {
+    "measuredBy": "Existing canonical-only focused completeness command, not independent all-fixture acceptance",
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
+    "commandExitCode": 0,
+    "commandReturnedNineZeros": true,
+    "independentNineZeroVerdict": false,
+    "currentKnownRequiredFieldsMissingLowerBounds": {
+     "canonical": 6,
+     "boundary": 7
+    },
+    "whyCommandPassIsNotAcceptance": "The command reads canonical maps only and trusts unavailable-fact classifications. It cannot validate a held fact hidden behind REQUIRED_BEFORE_FILING or the release boundary KNOWN_FACT_NOT_WRITTEN. Full nine independent counters are not asserted."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family nm_release_without_conviction-set --branch vf03-nm-three-read",
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          vf03-nm-three-read at 4ba07161\n  ok  clone_is_complete                      full clone, all heads fetchable\nFAIL  assigned_branch_tip_visible            origin/vf03-nm-three-read does not resolve in this clone\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    7 of 7 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterStateBinding": "Existing ingested run 34009091546 at dbd6faff2b119d10f5ec14ba8cad71f9dc2e57d5 binds the exact current canonical and boundary hashes. Its actual rendering coverage is canonical only; boundary is bound but not rendered there. No receipt overwritten and no raster redispatched. All boundary visual findings here use local 300 dpi inspection.",
+   "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/inspection.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/current-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/artifacts-and-raster-measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/self-help-comparison.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/source-recovery.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/checks.json"
+   ],
+   "remainingGates": [
+    "Repair all explicit current findings, then independent reread by a reviewer distinct from the repairer.",
+    "Recover the exact pinned originals; pass applicable source preflight and original-to-output source fidelity.",
+    "Resolve the recorded NM-4-222/4-223 statewide suitability question through existing source/legal process.",
+    "Any changed PDFs require new current-byte central raster evidence and deterministic rebuild evidence."
+   ],
+   "packetFilesModified": 0,
+   "routesOpened": 0,
+   "productionTouched": false
   }
  ],
  "supersededLaneMembership": {
@@ -18180,5 +18523,102 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsReleased": 0
+ },
+ "vf03NmRead20260906": {
+  "worker": "Codex VF03 NM independent reread 2026-09-06",
+  "branch": "vf03-nm-three-read",
+  "worktree": "/workspaces/legalease-vf03",
+  "base": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+  "familyCount": 3,
+  "verdictCounts": {
+   "FAIL_REPAIR_REQUIRED": 3
+  },
+  "allFifteenObligationsConsidered": true,
+  "fullyAcceptedFamilies": 0,
+  "claimsAsserted": 3,
+  "claimsReissued": 0,
+  "independence": "Reviewer did not build or repair NM families; separate FIX79 author.",
+  "reviewMethod": {
+   "currentPdfCount": 6,
+   "currentPagesRenderedAt300Dpi": 128,
+   "rasterCommandsExitedZero": 6,
+   "contactOverviewPagesActuallyViewed": 128,
+   "fullResolutionPagesActuallyViewed": [
+    {
+     "family": "nm_release_without_conviction-set",
+     "fixture": "canonical",
+     "page": 2
+    },
+    {
+     "family": "nm_release_without_conviction-set",
+     "fixture": "boundary",
+     "page": 2
+    },
+    {
+     "family": "nm_conviction-set",
+     "fixture": "canonical",
+     "page": 25
+    },
+    {
+     "family": "nm_identity_theft-set",
+     "fixture": "canonical",
+     "page": 3
+    },
+    {
+     "family": "nm_conviction-set",
+     "fixture": "boundary",
+     "page": 1
+    },
+    {
+     "family": "nm_identity_theft-set",
+     "fixture": "boundary",
+     "page": 1
+    },
+    {
+     "family": "nm_conviction-set",
+     "fixture": "boundary",
+     "page": 23
+    }
+   ],
+   "declaredWritesReadBack": 184,
+   "readbackBandTolerancePoints": 3,
+   "declaredDisclosureLabelsFound": 479,
+   "limits": "Contact sheets establish overview and targeted images establish specific findings, not full per-pixel source equivalence. Text readback does not prove ink containment. Exact original PDFs are absent, so full source-dependent acceptance and clean rebuilds remain unexecuted."
+  },
+  "savedImages": [
+   "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/nm_release_without_conviction-set-canonical-page-02.png",
+   "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/nm_release_without_conviction-set-boundary-page-02.png",
+   "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/nm_conviction-set-canonical-page-25.png",
+   "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/nm_identity_theft-set-canonical-page-03.png"
+  ],
+  "sourceRecovery": "Ten recorded NM Supreme Court URLs returned HTTP 200 non-PDF HTML challenge responses (One moment, please...), all wrong SHA/length. No replacement accepted. Thirteen unique rendered originals remain absent; additional conditional reference source remains governed by its own receipt.",
+  "canonicalCompletenessCommandsPassed": 3,
+  "sourcePreflightPassed": false,
+  "originalsCompared": false,
+  "cleanRebuildsExecuted": 0,
+  "newCentralRasterDispatched": false,
+  "routesOpened": 0,
+  "productionTouched": false
+ },
+ "currentCohortSummaryNote": "Earlier top-level summary, membership and verdictCeiling are preserved historical metadata. The nm-three cohort is the separate vf03NmRead20260906 block; every historical row is unchanged.",
+ "vf03NmPostPushPreflight20260906": {
+  "testedCommit": "839bbb977a9855b8d4a784af5d0e2843b59e4281",
+  "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/post-push-preflight.json",
+  "allThreeCommandsExited": 1,
+  "perFamily": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+  "worktreeCleanBeforeAndAfter": true,
+  "resolved": "Published branch is visible; initial preflight visibility failure is resolved.",
+  "stillBlocked": [
+   "master_library_mounted",
+   "master_library_complete",
+   "corpus_matches_committed_index",
+   "family_sources_bind"
+  ],
+  "familySourceBindingsAbsent": {
+   "nm_conviction-set": "7/7",
+   "nm_identity_theft-set": "4/4",
+   "nm_release_without_conviction-set": "7/7"
+  },
+  "noWaiver": "The original-source and rebuild gates remain unpassed. These source blockers do not erase the independently observed current-byte defects."
  }
 }

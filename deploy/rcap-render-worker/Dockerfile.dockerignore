@@ -44,3 +44,9 @@
 **/.env.*
 **/*.pem
 **/*.key
+
+# Test authority, transport doubles and database harnesses are external mounts
+# for disposable integration tests, never packaged runtime inputs.
+scripts/lib/*-test-*.mjs
+scripts/lib/rcap-ephemeral-pg.mjs
+scripts/lib/rcap-onboarding-artifact-fixture.mjs
