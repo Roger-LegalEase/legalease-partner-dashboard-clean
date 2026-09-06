@@ -1015,7 +1015,7 @@ const COMPOSED_TITLES = {
   filing_instructions: "Filing Instructions"
 };
 
-function composedBody(componentId, config, facts, form, feePosture, stopConditions) {
+function composedBody(componentId, config, facts, form, feePosture, stopConditions, recordRequirements) {
   const name = facts["participant.full_legal_name"];
   const court = facts["matter.court"];
   const caseNo = facts["matter.case_number"];
@@ -1054,8 +1054,8 @@ function composedBody(componentId, config, facts, form, feePosture, stopConditio
     L.push(`${ackRecord} says that after the petition is filed the petitioner must request that the Central Criminal Records Exchange electronically forward a copy of the petitioner's Virginia and national criminal history record to the circuit court where the petition is filed. This page is that request.`, "");
     L.push(`Please forward the Virginia and national criminal history record of ${name} to the ${court} Circuit Court, for the sealing petition identified above.`, "");
     L.push("The form on which the Department of State Police accepts this request, the identification it requires, and any charge for it are not stated on this page, because they are not established by the petition itself. The Department of State Police publishes the current procedure; ask the circuit court clerk if you cannot find it.", "");
-    L.push("PETITIONER'S DATE OF BIRTH .......................................................");
-    L.push("(printed on the petition; copy it here so the record can be matched)", "");
+    L.push(`PETITIONER'S DATE OF BIRTH: ${facts["participant.date_of_birth"]}`);
+    L.push("Check this against your petition so the record can be matched.", "");
     L.push("DATE OF THIS REQUEST .............................................................");
     L.push("SIGNATURE OF PETITIONER ..........................................................", "");
     L.push("File the petition first. This request is made after filing, not before.");
@@ -1069,14 +1069,18 @@ function composedBody(componentId, config, facts, form, feePosture, stopConditio
     L.push("[ ] A copy of the warrant, summons or indictment — the petition asks whether it is attached.");
     L.push("[ ] Your sex and race as they appear on the court record, and your Social Security number.");
     L.push("[ ] If an ancillary matter is included: its case number, disposition date, arrest date, agency, DCN and charging document.");
-    L.push("[ ] Your criminal history record from the Central Criminal Records Exchange, forwarded to the court after filing.", "");
+    L.push("", "RECORDS TO OBTAIN AND CHECK", "");
+    for (const line of recordRequirements.lines) L.push(`[ ] ${line}`, "");
+    L.push("AFTER FILING: Separately ask the Central Criminal Records Exchange to forward your Virginia and national criminal history record electronically to the circuit court. Your own copy gathered before filing does not replace this request.", "");
     L.push("If a record cannot be found, the petition has a box for that: it asks you to say why the information is not reasonably available. Say what you tried. Do not guess a date.");
   } else {
     L.push(`This packet is prepared for ${config.routeName}.`, "");
     L.push("WHERE THIS GOES", "");
     L.push(`File the petition with the CIRCUIT COURT for ${court}. ${form.formNumber} prints the circuit court's city or county on its own first page, and the platform has filled it in as printed above. If your case was decided in a General District Court or a Juvenile and Domestic Relations District Court, the petition still goes to the CIRCUIT COURT for that city or county, and the petition asks separately which court decided the case.`, "");
+    L.push("RECORDS TO OBTAIN AND CHECK", "");
+    for (const line of recordRequirements.lines) L.push(`- ${line}`, "");
     L.push("WHAT YOU DO, IN ORDER", "");
-    L.push("1. Complete every item this packet's participant instructions list. Each one names the page and the words printed beside the blank.");
+    L.push("1. Obtain and check the records listed above, applying each stated condition, then complete every item this packet's participant instructions list. Each one names the page and the words printed beside the blank.");
     L.push("2. Sign and date the petition yourself. The platform never signs for you and never dates a signature, so those lines are deliberately blank.");
     L.push("3. File the petition with the circuit court clerk.");
     L.push("4. Give or mail a copy to the Attorney for the Commonwealth, using the page in this packet headed for that purpose.");
@@ -1285,6 +1289,41 @@ function boundStopConditions(familyId) {
   };
 }
 
+/* FIX87: preserve the route's typed obtain/confirm actions, including the
+ * conditional FBI and restitution actions. The flattened required-before-filing
+ * string list loses both conditional acquisition and its condition. */
+function boundRecordRequirements(familyId) {
+  const registry = readBoundRecord(TRACK_REGISTRY);
+  const manifests = readBoundRecord(PACKET_SET_MANIFESTS);
+  const recordActions = (set) => (set.participantActionRequired ?? [])
+    .filter((action) => ["obtain_document", "confirm_answer"].includes(action.kind));
+  const set = registryTrack(registry, familyId).packetSet;
+  assert.equal(set?.packetSetId, familyId, `${familyId}: record requirements must bind to this packet set`);
+  const actions = recordActions(set);
+  assert.ok(actions.length > 0, `${familyId}: no record obtain/confirm actions are held`);
+  assert.deepEqual(actions, recordActions(packetSetManifest(manifests, familyId)),
+    `${familyId}: registry and packet-set manifest disagree on record obtain/confirm requirements`);
+  const lines = actions.map((action) => {
+    assert.ok(typeof action.description === "string" && action.description.trim());
+    assert.ok(["required", "conditional"].includes(action.requirement));
+    assert.equal(typeof action.requiredBeforeFiling, "boolean");
+    const condition = action.requirement === "conditional" ? action.conditionDescription : null;
+    assert.ok(action.requirement !== "conditional" || (typeof condition === "string" && condition.trim()),
+      `${familyId}: a conditional record action has no stated condition`);
+    return `${condition ? `Applies only in this situation: ${condition} ` : ""}${action.description}${action.obtainedFrom ? ` Obtain from: ${action.obtainedFrom}.` : ""}`;
+  });
+  return {
+    actions, lines,
+    records: [registry, manifests].map((record) => ({
+      path: record.path, sha256: record.sha256, byteLength: record.byteLength,
+      field: record === registry
+        ? `tracks[${trackIdOf(familyId)}].packetSet.participantActionRequired (obtain_document and confirm_answer)`
+        : `packetSets[${familyId}].participantActionRequired (obtain_document and confirm_answer)`,
+      role: "route-specific record obtain/confirm requirements, including each condition, required to agree word for word"
+    }))
+  };
+}
+
 /*
  * The component order this family's packet is assembled in.
  *
@@ -1378,6 +1417,9 @@ function composedMap(componentId, config, form) {
     { ...base("case_number", "Case number of the matter to be sealed, printed on this page"), factId: "matter.case_number", kind: "composed_text", document: componentId },
     { ...base("court", "Circuit Court city or county printed on this page"), factId: "matter.court", kind: "composed_text", document: componentId }
   ];
+  if (componentId === "ccre_forwarding_request") {
+    writes.push({ ...base("date_of_birth", "Petitioner's date of birth"), factId: "participant.date_of_birth", kind: "composed_text", document: componentId });
+  }
   const refusals = [];
   if (componentId === "commonwealth_service_and_stipulation_request" || componentId === "ccre_forwarding_request") {
     refusals.push({
@@ -1407,9 +1449,9 @@ function composedMap(componentId, config, form) {
   if (componentId === "ccre_forwarding_request") {
     refusals.push({
       ...base("request_date", "Date of the request to the Central Criminal Records Exchange"),
-      reason: "the participant supplies this before filing: the date the request to the Central Criminal Records Exchange is actually made",
-      category: null, completenessClass: null, class: null,
-      disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+      reason: "signature or date field; the participant dates this request when it is actually made, after filing",
+      category: SIGNATURE, completenessClass: SIGNATURE, class: SIGNATURE,
+      requiredBeforeFiling: false,
       identity: `${componentId} field request_date`, factId: null, routeDetermined: false,
       why: "the request is made after the petition is filed, so the date is not known when the packet is built",
       participantMustSupply: "the date you actually make the request to the Central Criminal Records Exchange, which is after the petition is filed"
@@ -1639,7 +1681,7 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components) {
+function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components, recordRequirements) {
   const form = resolved[0];
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
@@ -1681,8 +1723,12 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
   for (const componentId of components) out.push(`| \`${componentId}\` | ${componentBlurb[componentId]} |`);
   out.push("");
 
+  out.push("## Records to obtain and check", "");
+  for (const line of recordRequirements.lines) out.push(`- ${line}`, "");
+  out.push("Your own CCRE copy and court case papers are needed before filing. The separate CCRE request to forward Virginia and national criminal history to the court is made after filing. Apply each conditional record requirement only in its stated situation.", "");
+
   out.push("## What you must do", "");
-  out.push("1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
+  out.push("1. **Obtain and check the records above, applying each stated condition, then fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
   const selectionCount = routeSelections.length;
   out.push(selectionCount === 0
     ? "2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you on this route."
@@ -1739,7 +1785,7 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
   const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
-    rasterSkipped, feePosture, stopConditions, components, componentOrderBinding } = ctx;
+    rasterSkipped, feePosture, stopConditions, recordRequirements, composedWriteProofs, components, componentOrderBinding } = ctx;
   const form = resolved[0];
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
 
@@ -1775,6 +1821,7 @@ function writeArtifacts(ctx) {
     committedRecordsBound: [
       ...(feePosture ? feePosture.records.map((r) => ({ recordId: `fee-and-waiver:${r.path}`, ...r })) : []),
       ...stopConditions.records.map((r) => ({ recordId: `self-help-stop:${r.path}`, ...r })),
+      ...recordRequirements.records.map((r) => ({ recordId: `record-obtain-confirm:${r.path}`, ...r })),
       ...(componentOrderBinding ? [{ recordId: `page-order:${componentOrderBinding.path}`, ...componentOrderBinding }] : [])
     ],
     ...(feePosture ? { feeAndWaiverAsDelivered: {
@@ -1787,6 +1834,7 @@ function writeArtifacts(ctx) {
       citedAs: feePosture.citedAs
     } } : {}),
     selfHelpStopConditionsAsDelivered: stopConditions.conditions,
+    recordObtainAndConfirmActionsAsDelivered: recordRequirements.actions,
     composedComponentsAuthoredByThisBuild: components.filter((c) => c !== "primary_filing"),
     commercialRoutesOpened: 0
   }, null, 2)}\n`);
@@ -1804,6 +1852,7 @@ function writeArtifacts(ctx) {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId,
     derivedFromArtifactBytes: true,
     documents: writeProofs,
+    composedDocuments: composedWriteProofs,
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture, formNumber: p.formNumber,
       valuesReportedByFinalizer: p.valuesReportedByFinalizer,
@@ -1884,6 +1933,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   await assertRouteLabel(config);
   const feePosture = boundFeePosture(config, familyId);
   const stopConditions = boundStopConditions(familyId);
+  const recordRequirements = boundRecordRequirements(familyId);
   const { components, boundTo: componentOrderBinding } = boundComponentOrder(familyId, config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
@@ -1933,6 +1983,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const maps = [];
   const artifacts = [];
   const writeProofs = [];
+  const composedWriteProofs = [];
   const rasterPages = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
@@ -1966,7 +2017,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     documents.push("primary_filing", source.formNumber);
 
     for (const componentId of components.filter((c) => c !== "primary_filing")) {
-      const body = composedBody(componentId, config, facts, source, feePosture, stopConditions);
+      const body = composedBody(componentId, config, facts, source, feePosture, stopConditions, recordRequirements);
       const composedBytes = await renderComposedPdf(body, COMPOSED_TITLES[componentId]);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
@@ -1980,6 +2031,25 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${outDir}/fixtures/${fixtureName}.pdf`;
     fs.writeFileSync(path.join(ROOT, file), packetBytes);
+
+    // Read the assembled artifact's own content streams, not the body string
+    // handed to the renderer, for every held fact on every composed component.
+    const delivered = await PDFDocument.load(packetBytes, { ignoreEncryption: true });
+    const normalize = (value) => sanitizePdfText(String(value)).replace(/\s+/g, "");
+    for (const componentId of components.filter((c) => c !== "primary_filing")) {
+      const pages = pageManifest.filter((page) => page.component === componentId);
+      const text = pages.map((page) => groupIntoLines(extractTextItems(delivered.getPage(page.packetPage - 1)))
+        .map((line) => line.text).join("\n")).join("\n");
+      const actualWrites = composedMap(componentId, config, source).canonicalWrites.map((write) => {
+        const value = facts[write.factId];
+        assert.ok(typeof value === "string" && value.length > 0, `${componentId}: missing held ${write.factId}`);
+        assert.ok(normalize(text).includes(normalize(value)),
+          `${fixtureName} ${componentId}: held ${write.factId} not readable in the assembled PDF`);
+        return { field: write.field, factId: write.factId, value, presentInOutputBytes: true };
+      });
+      composedWriteProofs.push({ fixture: fixtureName, componentId, packetPages: pages.map((page) => page.packetPage),
+        proofMethod: "held fact read back from this component's content streams in the assembled PDF", actualWrites });
+    }
 
     const primaryFile = `${outDir}/fixtures/${fixtureName}--${source.formNumber}-primary-filing.pdf`;
     fs.writeFileSync(path.join(ROOT, primaryFile), marked);
@@ -2044,7 +2114,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     .filter((c) => c.disposition === "selected_by_route")
     .map((c) => ({ field: c.field, page: c.page, printedLabel: c.effectiveLabel, why: c.why }))
     .sort((a, b) => (a.page - b.page) || a.printedLabel.localeCompare(b.printedLabel));
-  const instructions = instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components);
+  const instructions = instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components, recordRequirements);
   const audit = builderCounters(mapDoc, {
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture,
@@ -2056,8 +2126,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   }, instructions);
 
   writeArtifacts({
-    familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages,
-    rbf, instructions, audit, rasterSkipped: skipRaster, feePosture, stopConditions,
+    familyId, config, outDir, resolved, maps, artifacts, writeProofs, composedWriteProofs, rasterPages,
+    rbf, instructions, audit, rasterSkipped: skipRaster, feePosture, stopConditions, recordRequirements,
     components, componentOrderBinding
   });
 
