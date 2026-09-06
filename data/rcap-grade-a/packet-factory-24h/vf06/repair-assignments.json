@@ -522,7 +522,46 @@
         "No change to unrelated families or shared acceptance gates.",
         "Do not substitute different source bytes merely to fit a receipt."
       ]
-    }
+    },
+  {
+    "assignmentId": "VF06-REPAIR-NE-SETASIDE-CUSTODIAL-DISCLOSURE-AND-HELD-FACTS",
+    "itemId": "ne-setaside-custodial-set",
+    "lane": "VF06",
+    "raisedBy": "VF06 independent verification at base b70ec78ef",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+    "failedProofObligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING"
+    ],
+    "decisiveDefect": "The packet declares 'Required before filing: 21 field(s)' while four of the eleven items the committed packet-set manifest declares required-before-filing are named nowhere in participant-instructions.md, and the field map carries nine further requiredBeforeFiling rows the packet never discloses. The two most consequential omissions are the confirm steps the registry ties to saCrimeConvictedOf and saCaseNumber - obtain the Nebraska State Patrol criminal history report and the Nebraska court case search result, and check the conviction wording and the case number against them - which are precisely the blanks the packet leaves empty on CC 6:11.",
+    "whatMustChange": [
+      "Disclose in participant-instructions.md the four manifest-declared required-before-filing items now absent from it: the State Patrol criminal history confirm step, the court case search confirm step, the probation discharge confirm step, and 'The date and judge lines on the proposed order - CC 6:11.2'. The registry already carries the wording under participantFilingRequirements and manualCompletionItems.",
+      "Reconcile the printed count with the field map. The declared array holds 21 rows while the canonical fixture carries 24 requiredBeforeFiling rows and the boundary fixture 27. Disclose DC-1-15 Text52, Text64 and Text65, or stop marking them requiredBeforeFiling.",
+      "Stop declaring role-protected fields required-before-filing. DC-1-15 Text59.0 and Text64 are classified_unwritable_by_role and still carry requiredBeforeFiling true, which the contract's PARTICIPANT-COMPLETABLE condition forbids; one of them is currently disclosed to the participant as an item they must complete.",
+      "Give every disclosed item a label a participant can find on the page. The current list tells them to complete 'CRIMINAL CONVICTION - r', 'SERVICE - To', 'same may be heard', 'changes, you must complete a Change of Contact Information F' and - for DC-1-15 field `plaintiff`, whose printedLabel is null - 'DC1:15 NEW 08/19', which is the form's own revision stamp. These fail the contract's IDENTIFIED condition.",
+      "Write the plaintiff on DC 1:15. The Plaintiff/Petitioner caption line is blank in both fixtures although STATE OF NEBRASKA is printed by the source on CC 6:11 and CC 6:11.2 in the same packet, and the contract's own words are that a fact written anywhere else in the same packet is available.",
+      "Resolve the boundary-fixture case number rather than reclassifying it. matter.case_number is refused on CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38 as 'narrative_exceeds_the_printed_lines_at_minimum_font'. The fit claim is arithmetically correct - '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt of Helvetica at the 6pt floor in a 129.34pt box - but the platform holds the fact, so it is a missing known fact, and today it is disclosed nowhere at all.",
+      "Restore a county marker on the caption. The build erased the source hint 'Choose the county' at x 291.79-351.35, y 120.19, which is 11.86pt beyond the right edge of its own declared write box at x 43.31-279.93, so the delivered caption shows bare whitespace between 'OF' and 'COUNTY, NEBRASKA' while the guide tells the participant to 'write it in the county blank'."
+    ],
+    "alsoObservedNotFailing": [
+      "The caption write 'IN THE DISTRICT COURT OF' is drawn in non-embedded Helvetica while every source font on the page is embedded Times New Roman, so the primary filing's caption line reads in two typefaces. The same mismatch runs through every written value in the packet. Recorded as an appearance observation, not as a failed obligation.",
+      "One word falls outside the page box on DC-1-15 page 1, a 64-character underscore rule at x 293.00-613.00 against a 612pt page. It is present at identical coordinates in the official source form and was not added by this build."
+    ],
+    "standingItemsConfirmedRepaired": [
+      "KNOWN_PREFILLS TYPEOFCOURTDROPDOWN: all four delivered caption instances now print the court type from matter.court.",
+      "REQUIRED_BEFORE_FILING false CC 6:11a blanks and interactive-dropdown direction: the CC-6-11A section is gone and both flattening statements are present."
+    ],
+    "doNotDoThis": [
+      "Do not substitute a county for the intentionally unmatched synthetic counties 'Example County' and 'Saint Bartholomew and the Northern Reaches County'.",
+      "Do not write the signature, the signature date, the CC 6:11.2 date or judge lines, or any certificate-of-service field; all are correctly blank today.",
+      "Do not resolve the boundary case number by shrinking below the 6pt legibility floor."
+    ],
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsNothing": "This is a verification finding. It approves no output and opens no commercial route."
+  }
   ],
      "vf06ReDispatchWaveBlockedFamilies": {
         "whatThisIs": "families this lane read and could not score PASS or FAIL, because an obligation depends on a legal input no record the family binds answers. Not repair assignments; the work here is a decision, not an edit.",

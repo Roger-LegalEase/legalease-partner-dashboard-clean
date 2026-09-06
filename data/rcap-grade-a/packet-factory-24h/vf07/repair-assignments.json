@@ -471,7 +471,41 @@
         "The fixtures have not moved. No rebuild of the PDFs is implied — the repair is to participant-facing prose."
       ],
       "suggestedRepairScope": "participant-instructions.md for this family, and the official_pdf_fill builder path that generates it. This lane verifies and does not repair; no file in the family was edited."
-    }
+    },
+  {
+    "assignmentId": "VF07-REPAIR-IL-MISTAKEN-IDENTITY-VERIFIED-PETITION",
+    "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+    "lane": "VF07",
+    "raisedBy": "VF07 independent verification at base b70ec78ef",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+    "failedProofObligations": [
+      "COMPONENT_SET"
+    ],
+    "decisiveDefect": "The committed route contract names this route's first packet component 'Verified petition' and records its timing anchor as 'no elapsed waiting period; the verified petition may be filed upon learning of the record'. The composed pleading prints the word VERIFIED in its running title on all four pages and contains no verification of any kind. Its entire execution block is 'DATE ............ SIGNATURE OF PETITIONER ............'. A search of the full text of both fixtures for verif|perjury|oath|affirm|swear|notar returns only the instrument's own title and the quoted contract text. A participant who signs this signs an unverified pleading that calls itself verified.",
+    "whatMustChange": [
+      "Either compose the verification the named component requires, so that the pleading the packet calls verified is verified, or stop calling it verified on the face of the document. The two cannot both stand.",
+      "If the verification wording cannot be composed from the committed records this family binds, record that as an open legal input on the family rather than shipping the mismatch silently: build-findings.json currently records blocking [] and names no verification question, so this reads today as an unnoticed gap rather than a declared block."
+    ],
+    "whereToLook": [
+      "src/lib/legal-authority/routes/route-splits.json routes[6]: packetComponents[0] 'Verified petition', packetFamily 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2', timing.anchorText.",
+      "The delivered execution block is on packet page 2 of both fixtures, immediately after section D. THE REQUEST.",
+      "Packet page 3 restates the component list and says 'This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition' - which is the packet's own acknowledgement that the verified petition is the pleading it composes."
+    ],
+    "doNotDoThis": [
+      "Do not resolve this by deleting the component from the committed route contract; the contract is the authority the packet is measured against.",
+      "Do not sign, date or notarise anything for the participant. The signature line, the signature date and the case number are correctly blank today and must stay blank.",
+      "Do not disturb the arrest-circuit caption or the seven required-before-filing disclosures; both standing defects on this family are repaired and measured repaired here."
+    ],
+    "standingItemsConfirmedRepaired": [
+      "SOURCE_IDENTITY: all three committed-record pins recompute byte-exact here, byte length included, including the census pin that previously disagreed.",
+      "REQUIRED_BEFORE_FILING: the 'IN THE ... COURT' caption is now classified as arrest_circuit_caption, disclosed in participant-instructions.md and again on packet page 3, and the petition page prints a parenthetical saying what to write. An independent blank census here accounts for all 10 logical fields with nothing unclassified."
+    ],
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": "NO",
+    "grantsNothing": "This is a verification finding. It approves no output and opens no commercial route."
+  }
   ],
   "fableVcAppend": {
     "worker": "FABLE-VC",

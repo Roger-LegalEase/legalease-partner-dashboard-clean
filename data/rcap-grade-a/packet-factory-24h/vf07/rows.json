@@ -15705,7 +15705,146 @@
       "commercialRoutesOpened": 0,
       "productionTouched": "NO",
       "grantReleased": false
-    }
+    },
+  {
+    "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+    "lane": "VF07",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+    "verifiedAtBase": "b70ec78ef",
+    "worker": "VF06-VF07-NE-IL",
+    "verifiedBy": "VF06/VF07 independent verification, measured in this worktree against the committed bytes at b70ec78ef. This reader did not build or repair this family.",
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. FAIL private_is_git_ignored is an artefact of the assignment's mandated `private` symlink: `git check-ignore private/` refuses a pathspec beyond a symbolic link, while `private` itself IS ignored and `git ls-files private/` returns 0 tracked paths, so no source binary can enter a commit. FAIL corpus_matches_committed_index is 1 absent of 24 sampled, the absent entry being 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which neither family under read binds. family_sources_bind passed for this family as a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT).",
+    "rasterState": "rendered_locally_pending_central_acceptance",
+    "rasterWorkflowRunId": null,
+    "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. RASTER_QUEUE currentRasterState is RASTER_PASS, but rasterReceipt.workflow is null, rasterReceipt.workflowRunId is null, executionEnvironment is 'Codespaces local calibrated raster runner' and githubDispatch records 'Not dispatched: existing credential denied workflow_dispatch with HTTP403. Local acceptance only.' The pass is a local render bound to canonical 3bed5cd2 and boundary 1d5162ef at rendered commit 338ccb48f; it is not the central acceptance gate. The one superseded receipt does carry workflow run id 33605354695, but it binds different fixture bytes than the ones delivered here. The builder's own reports/completeness-counters.json says the same thing in its own words: PASS_COMPLETE 'additionally requires a hash-bound RASTER_PASS from the central raster workflow'.",
+    "digestsConfirmedOnDiskBeforeMeasuring": "canonical.pdf sha256 3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf and boundary.pdf sha256 1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf, both recomputed here and both equal to the RASTER_QUEUE row and to reports/rendered-artifacts.json.",
+    "verdictCeilingApplied": null,
+    "standingFailedObligationsRuledOnCurrentBytes": [
+      {
+        "standingItem": "SOURCE_IDENTITY - census receipt pins 4d0eb74bba... while the current file rehashes f6fc0814...",
+        "ruling": "REPAIRED",
+        "evidence": "All three committed records the receipt pins recompute byte-exact here, byteLength included: src/lib/legal-authority/routes/route-splits.json c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df / 127996; src/lib/rcap-engine/compiled/profiles/IL-illinois.json 7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914 / 355244; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290. The census pin is now the current bytes."
+      },
+      {
+        "standingItem": "REQUIRED_BEFORE_FILING - an unclassified 'IN THE ........ COURT' caption blank in both fixtures, undisclosed in the instructions",
+        "ruling": "REPAIRED",
+        "evidence": "The caption is now classified as il-mistaken-identity-primary-filing-1.arrest_circuit_caption in reports/blanks-left-for-the-participant.json requiredBeforeFiling, with a real disclosureLabel and participantMustSupply text; it is disclosed in participant-instructions.md as the first row of 'The items you must supply'; it is disclosed a second time on the packet's own page 3 under 'WHAT YOU DO'; and the petition page itself now prints the parenthetical '(the Illinois judicial circuit where the arrest occurred, addressed to its chief judge)' directly beneath the caption line. An independent blank census run here on the current bytes accounts for every dotted span in both fixtures: 1 caption + 1 case number + 6 two-line fact items + 1 date + 1 signature = 10 logical fields, against 7 requiredBeforeFiling plus 3 protectedBlanks. Nothing is left unclassified."
+      }
+    ],
+    "nineCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "allZero": true,
+      "measuredHere": true,
+      "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this worktree on the committed bytes; reported PASS_COMPLETE, 6/16 written",
+      "countersAreGreenAndTheFamilyStillFails": "All nine counters are zero here, including requiredComponentsMissing. That counter tests the family's own component list, which names two composed components and finds both rendered; it does not test the composed pleading against the instrument the committed route contract names, and that is where this family fails."
+    },
+    "proofObligations": {
+      "ROUTE_IDENTITY": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "the packet is built for the route the record names, and that route key exists in the committed census",
+        "evidence": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief occurs 6 times in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, is the single routeKey on the MASTER_QUEUE row and on source-receipt.json, and is printed at the foot of both the petition and the filing-instructions pages of both fixtures"
+      },
+      "SOURCE_IDENTITY": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "every source binds by exact SHA-256, recomputed here from the bytes; 3/3 committed records match on both hash and byte length. This family binds no document bytes: it is a zero-source composition from codified text, and no official form was substituted or invented.",
+        "evidence": "sha256 and stat -c%s recomputed in this worktree for all three committedRecords in source-receipt.json against the receipt's own declared values; source-receipt.json formIdentityNote and sourceBinaryCommitted false"
+      },
+      "COMPONENT_SET": {
+        "measured": true,
+        "result": "FAIL",
+        "finding": "the committed route contract names this route's first packet component 'Verified petition', names the packet family 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2', and records the route's timing anchor as 'no elapsed waiting period; the verified petition may be filed upon learning of the record'. What is rendered is not a verified petition. The composed pleading carries the word VERIFIED in its own running title on all four pages and contains no verification anywhere: its entire execution block is the single line 'DATE ............ SIGNATURE OF PETITIONER ............' followed by '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. A search of the full extracted text of both fixtures for verif/perjury/oath/affirm/swear/notar returns only the six occurrences of the instrument's own title and the contract quotations - no verification clause, no certification, no affirmation. A participant who signs this signs an unverified pleading that calls itself verified. The other two named components, the identity-theft report and mismatched identifier evidence, are participant-obtained records rather than pages and are correctly handled: both are named in the guide's 'Documents you must obtain before filing' table and on packet page 3.",
+        "evidence": "src/lib/legal-authority/routes/route-splits.json routes[6] packetComponents ['Verified petition','Identity-theft report','Mismatched identifier evidence'], packetFamily and timing.anchorText; grep of /tmp raster-side full text extraction of both fixtures for verif|perjury|oath|affirm|swear|notar; 300 dpi pdftoppm read of all four pages of both fixtures; the family's own build-findings.json records blocking [] and no open legal input on verification, so this is an unnoticed gap rather than a recorded legal block"
+      },
+      "KNOWN_PREFILLS": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "every fact the platform holds is written and visible on the page it belongs to, in both fixtures: petitioner name in the IN RE caption and in section B and on the instructions page, date of birth, mailing address, telephone and email. Long boundary values are handled without loss - the boundary address wraps cleanly onto a continuation line and the apostrophe in O'Shaughnessy-Whitfield renders correctly.",
+        "evidence": "reports/actual-writes.json 6 writes per fixture; confirmed by 300 dpi pdftoppm read of pages 1-4 of both fixtures rather than from the write record alone; knownRequiredFieldsMissing 0 measured here"
+      },
+      "REQUIRED_BEFORE_FILING": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "all seven declared items are named in participant-instructions.md, checked against the file, and each carries usable 'what to write' text rather than a fragment. The arrest-circuit caption, C1 identity theft report and mismatched identifiers, C2 arrest circuit, C3 exact prostitution statute/class, C4 sentence completion, C5 trafficking/victimization facts and C6 automatic-seal status all appear as rows of 'The items you must supply'. The independent blank census found no eighth blank.",
+        "evidence": "reports/blanks-left-for-the-participant.json requiredBeforeFiling (7 items) checked one by one against participant-instructions.md; independent dotted-span census of all four pages of both fixtures reconciling 10 logical fields against 7 requiredBeforeFiling plus 3 protectedBlanks"
+      },
+      "ROUTE_OPTIONS": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "requiredOptionsMissing=0 measured here; this composed pleading presents no route-determined election to the participant, and the packet states the route's own branch rather than asking - it tells the participant not to file an ordinary expungement or sealing petition first, and not to fill in the other person's name unless actually known, because the recorded remedy substitutes the offender's name 'if known'",
+        "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, run without --write in this worktree on the committed bytes; packet page 3 'WHAT YOU DO NOT DO'"
+      },
+      "REPEATING_ROWS": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "incompleteRows=0 measured here; the six C-items are uniform two-line blanks and every one is left blank, so no row carries written cells beside required cells left blank",
+        "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs, run without --write in this worktree on the committed bytes, confirmed against the 300 dpi read of pages 1-2 of both fixtures"
+      },
+      "PROTECTED_FIELDS": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. All three protected blanks are empty in both fixtures - the case number, the petition signature and the signature date - and the page states in terms that nothing on it is signed or dated for the petitioner.",
+        "evidence": "300 dpi pdftoppm read of pages 1-4 of both fixtures; reports/blanks-left-for-the-participant.json protectedBlanks (case_number refusalClass court_prosecutor_clerk_or_agency_owned, petition_signature and petition_signature_date refusalClass signature_or_date_participant_completion); protectedWrites counter 0 measured here"
+      },
+      "ARTIFACTS": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "both canonical and boundary bytes hash to what the record names, and the fixtures directory holds nothing the record does not name",
+        "evidence": "sha256 recomputed on disk before measuring: canonical 3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf and boundary 1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf, each equal to the RASTER_QUEUE documents entries, the canonicalPdfSha256/boundaryPdfSha256 fields, reports/rendered-artifacts.json and the rasterReceipt binding; fixtures/ contains exactly those two PDFs"
+      },
+      "PAGE_ORDER": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "the rendered page order matches the packet manifest: four contiguous rows, il-mistaken-identity-primary-filing-1 on pages 1-2 then il-mistaken-identity-filing-instructions-2 on pages 3-4, in the composedComponentsAuthoredByThisBuild order, and pdfinfo reports 4 pages on both fixtures",
+        "evidence": "reports/rendered-artifacts.json pageManifest against pdfinfo, and against source-receipt.json composedComponentsAuthoredByThisBuild"
+      },
+      "CLIPPING_AND_OVERLAP": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "no ink outside a measured write box and none outside the page box: 933 words on the canonical fixture and 938 on the boundary fixture, 0 outside the page box on either, across all four pages of each. Nothing overlaps: the dotted blanks, the labels and the written values occupy distinct lines at 300 dpi, and the boundary fixture's long values wrap rather than collide.",
+        "evidence": "pdftotext -bbox-layout word extraction of every page of both fixtures with each word rectangle tested against that page's own MediaBox; 300 dpi pdftoppm read of all four pages of both fixtures"
+      },
+      "FILING_DESTINATION": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "the instructions name the office the route names: the office of the chief judge of the Illinois judicial circuit where the arrest occurred. The packet is candid that the census records this route's destination field as not recorded and that the compiled profile answers it, and it states the same destination on the caption, on the instructions page and in the guide.",
+        "evidence": "participant-instructions.md FILING_DESTINATION row and step 5, packet pages 1 and 3, against the compiled Illinois profile statement bound by hash in source-receipt.json and the family's build-findings.json finding on DET-FEE-AND-WAIVER-001-A2"
+      },
+      "FEE_AND_WAIVER": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "the fee and any waiver route are stated in the only terms the bound records support: no committed record this packet binds states either, and the office that answers both is named - the office of the chief judge of the circuit where the arrest occurred - with the instruction to ask before going. No figure is invented.",
+        "evidence": "participant-instructions.md FEE_AND_WAIVER row and packet page 3 'WHAT IT COSTS, AND WHETHER A WAIVER EXISTS', against the three committedRecords in source-receipt.json, none of which carries a fee or waiver field for this route"
+      },
+      "SERVICE": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "who must be served and how are addressed honestly: no committed record this packet binds states them for this route, and the packet names the office that answers it rather than inventing a service rule",
+        "evidence": "participant-instructions.md SERVICE row and packet page 4 'WHO MUST BE SERVED, AND WHO IS NOTIFIED', against the bound committed records"
+      },
+      "SELF_HELP_STOP": {
+        "measured": true,
+        "result": "PASS",
+        "finding": "the packet states where self-help ends, twice - in the guide and on packet page 4 - with five conditions carried identically in both places, including the route's own premise, the wrong-route case, automatic sealing, the prostitution branch and any immigration question",
+        "evidence": "participant-instructions.md SELF_HELP_STOP row and 'When to stop and get help instead of filing', compared bullet by bullet against packet page 4 'WHEN TO STOP AND GET HELP INSTEAD' read at 300 dpi"
+      }
+    },
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": "NO",
+    "grantReleased": false,
+    "repairAssignmentId": "VF07-REPAIR-IL-MISTAKEN-IDENTITY-VERIFIED-PETITION"
+  }
   ],
   "obligationSet": [
     "ROUTE_IDENTITY",
