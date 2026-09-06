@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "rcap-packet-build-environment-preflight/v1",
+  "generatedBy": "scripts/verify-packet-build-environment.mjs",
+  "question": "Can this container build an official-form packet, or will it stop at the source gate?",
+  "family": "ne-setaside-custodial-set",
+  "branch": "fix91-ne-custodial-prefills",
+  "mode": "codespaces-or-local-clone",
+  "checks": 17,
+  "registeredChecks": 17,
+  "passed": 13,
+  "failed": 4,
+  "skipped": 0,
+  "skippedAreNotPasses": "A not-applicable check proves nothing and is excluded from both the numerator and the denominator.",
+  "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+  "mayLaunchPacketWorker": false,
+  "whatAPassDoesNotEstablish": [
+    "that any packet is built, or that any artifact is proven",
+    "that any route may open, or that any output is approved for participant delivery",
+    "that the held sources are the current official editions"
+  ],
+  "results": [
+    {
+      "id": "repo_identity",
+      "title": "The checkout is the packet repository, at a commit, on a named branch",
+      "because": "A worker that builds in the wrong clone pushes work nobody reads.",
+      "ok": true,
+      "remote": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
+      "head": "b9de3cca5562d168aa43d83ce724bac954db19f7",
+      "branch": "fix91-ne-custodial-prefills",
+      "detail": "fix91-ne-custodial-prefills at b9de3cca"
+    },
+    {
+      "id": "clone_is_complete",
+      "title": "The clone is not shallow and not single-branch",
+      "because": "A shallow single-branch clone cannot see the branch it is meant to resume, so a resumed worker silently rebuilds from scratch and loses the committed research on its own tip.",
+      "ok": true,
+      "shallow": "false",
+      "refspecs": [
+        "+refs/heads/*:refs/remotes/origin/*"
+      ],
+      "fetchesAllHeads": true,
+      "detail": "full clone, all heads fetchable"
+    },
+    {
+      "id": "assigned_branch_tip_visible",
+      "title": "The assigned branch and its pushed tip are visible locally",
+      "because": "Five returns are branches to RESUME, not to rebuild. A container that cannot resolve origin/<branch> will start over and throw away committed source and local-variation research.",
+      "ok": true,
+      "branch": "fix91-ne-custodial-prefills",
+      "resolvedTip": "529841ff1e321e748506cc05ebaec303168e55b3",
+      "recordedTip": null,
+      "detail": "origin/fix91-ne-custodial-prefills at 529841ff"
+    },
+    {
+      "id": "worktree_clean",
+      "title": "The worktree carries no uncommitted change",
+      "because": "A verifier batch launched on a dirty tree has already produced two false regression diagnoses in this sprint. A build that starts dirty cannot attribute its own output.",
+      "ok": false,
+      "dirtyPaths": [
+        "M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-01.png",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-01.png",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+        " M data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+        " M scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "detail": "9 uncommitted path(s)"
+    },
+    {
+      "id": "node_toolchain",
+      "title": "Node is present at a version the factory runs on",
+      "because": "The factory is ESM and uses node:crypto, node:fs promises and structuredClone.",
+      "ok": true,
+      "node": "24.14.0",
+      "detail": "node 24.14.0"
+    },
+    {
+      "id": "pdf_lib_importable",
+      "title": "node_modules is installed and pdf-lib imports",
+      "because": "ak-courtview-set named this explicitly: node_modules was absent in its container, so scripts/rcap-all50-overlay-factory-lib.mjs could not import pdf-lib. Without it nothing can be filled, measured or rastered.",
+      "ok": true,
+      "nodeModules": true,
+      "pdfLib": true,
+      "version": "1.17.1",
+      "detail": "pdf-lib 1.17.1"
+    },
+    {
+      "id": "browser_environment_exported",
+      "title": "the governed browser cache and exact executable are exported",
+      "because": "A browser found only by accident in one shell is not a worker runtime. Setup must persist both values and every worker must source them before preflight. Like its sibling below, this is NOT APPLICABLE unless the caller says it is about to render: the central raster split moved the render off the builders, and a builder that opens no PDF needs no browser exported. Requiring it here was the other half of the same contradiction -- page_rasterizer_available became opt-in while the check demanding that exact executable be exported and persisted stayed mandatory, so every PF, FIX, DISC, SRC, ACQ and PROMO lane still failed preflight for a browser it never opens. A skipped check is never counted as a pass, and PASS_COMPLETE still requires a hash-bound RASTER_PASS, so this cannot inflate a verdict.",
+      "ok": false,
+      "missing": [
+        "PLAYWRIGHT_BROWSERS_PATH",
+        "RCAP_CHROMIUM_PATH"
+      ],
+      "unpersisted": [
+        "/workspaces/legalease-fix91/private/source-corpus-environment.txt is missing",
+        "/home/codespace/.legalease-corpus-env is missing"
+      ],
+      "detail": "PLAYWRIGHT_BROWSERS_PATH is not exported; RCAP_CHROMIUM_PATH is not exported; /workspaces/legalease-fix91/private/source-corpus-environment.txt is missing; /home/codespace/.legalease-corpus-env is missing"
+    },
+    {
+      "id": "build_time_rasterizer_available",
+      "title": "the Poppler rasterizer the build hosts call can start and identify itself",
+      "because": "The preflight probed Chromium and the build hosts do not use it. Both call popplerRasterIdentity()/rasterizeWithPoppler() and neither imports the browser rasterizer -- 25 Poppler references in the west host and 13 in the east, against zero imports of scripts/raster/pdf-page-raster.mjs. So --require-rasterizer reported a working rasterizer while the one the build was about to use was absent, and FIX-A read READY, built, and died on 'spawnSync pdftoppm ENOENT' at popplerRasterIdentity with the family's output directory ALREADY CLEARED. That is the one dependency this preflight appeared to cover while covering something else, and the lane contract's promise that a lane which cannot raster learns before it builds rather than after did not hold for this host pair. This check probes the same executable, by the same environment variable, with the same -v call the hosts make.",
+      "ok": true,
+      "executable": "pdftoppm",
+      "version": "24.02.0",
+      "detail": "pdftoppm 24.02.0 — the rasterizer the build hosts actually call"
+    },
+    {
+      "id": "page_rasterizer_available",
+      "title": "the calibrated Chromium page rasterizer renders a page (only where a lane actually renders)",
+      "because": "Four lanes returned STOPPED after passing this preflight at 14/14: PF09 and PF15 on 'pdftoppm ENOENT', PF11 and PF12 on 'Playwright cannot find Chromium'. The first fix made this check launch a browser and render a page -- right about what to ask, wrong about where. ENV-RAS01 then established that Codex cannot obtain a browser at all, because the Playwright CDN answers HTTP 403 from inside it, so requiring one here made every lane in that environment unrunnable: DISC, SRC, ACQ and PROMO settle identity, fetch bytes and write custody records, and not one of them opens a PDF. Rendering moved to a runner that has a browser. This check is NOT APPLICABLE unless the caller says it is about to render, which only the central raster workflow does. A skipped check is never counted as a pass, so this cannot inflate a verdict.",
+      "ok": true,
+      "executablePath": "/home/codespace/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+      "resolvedBy": "playwright_executable_path",
+      "paper": {
+        "x0": 204,
+        "y0": 3,
+        "x1": 2243,
+        "y1": 2642,
+        "width": 2040,
+        "height": 2640
+      },
+      "detail": "chromium at /home/codespace/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome (playwright_executable_path) rendered a page: paper 2040x2640px"
+    },
+    {
+      "id": "private_is_git_ignored",
+      "title": "private/ is git-ignored, so source bytes cannot be committed",
+      "because": "The bootstrap refuses to extract into a tracked tree, and it is right to. Source binaries must never enter a commit.",
+      "ok": true,
+      "ignored": true,
+      "trackedBeneathPrivate": 0,
+      "detail": "private/ is ignored and tracks nothing"
+    },
+    {
+      "id": "master_library_mounted",
+      "title": "The Master Library corpus root exists and is a directory",
+      "because": "This is the check the whole first wave failed. Five workers found no root and stopped. An absent root is a positive finding of absence, not an empty corpus.",
+      "ok": true,
+      "root": "../../tmp/fix91-recovery/exact-source-tree",
+      "exists": true,
+      "detail": "mounted at ../../tmp/fix91-recovery/exact-source-tree"
+    },
+    {
+      "id": "master_library_complete",
+      "title": "The mounted corpus carries at least the declared file, PDF and jurisdiction counts",
+      "because": "A short extract is worse than no extract: every field map keyed to a missing binary would report a form with no source. This gate enforces immutable minimums while allowing governed recovery files to extend the corpus.",
+      "ok": false,
+      "walkable": true,
+      "files": 4,
+      "pdfs": 4,
+      "jurisdictions": 1,
+      "expected": {
+        "files": 499,
+        "pdfs": 329
+      },
+      "detail": "below immutable minimum: 4/499 files, 4/329 PDFs"
+    },
+    {
+      "id": "corpus_matches_committed_index",
+      "title": "A sample of the committed index verifies byte-exact against the mounted corpus",
+      "because": "A corpus that looks recovered and is not is worse than no corpus. The index is the committed record of what the corpus contained; if the bytes disagree, every measurement keyed to them describes a document that no longer exists.",
+      "ok": false,
+      "sampled": 24,
+      "absent": 23,
+      "mismatched": 0,
+      "absentPaths": [
+        "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+        "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+        "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
+        "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-402__prosecuting-agency-response-to-petition-application-under-health-and-safety-code-section-1__REV-2024-01-01__EN.pdf"
+      ],
+      "mismatchedPaths": [],
+      "custodiesNotMountedHere": [
+        "human_source_returns",
+        "d_source_packs",
+        "nationwide_recovery_pool_2026_09_02"
+      ],
+      "detail": "23 absent, 0 mismatched of 24 sampled"
+    },
+    {
+      "id": "family_sources_bind",
+      "title": "Every source this family names is present and hashes to its pinned digest",
+      "because": "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
+      "ok": true,
+      "family": "ne-setaside-custodial-set",
+      "tier": "custody_reconciliation",
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "commissionAcquisition": false,
+      "sources": [
+        {
+          "sourceId": "official-form:CC-6-11",
+          "present": true,
+          "bound": true,
+          "pinned": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "observed": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "resolvedBy": "declared path"
+        },
+        {
+          "sourceId": "official-form:CC-6-11.2",
+          "present": true,
+          "bound": true,
+          "pinned": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "observed": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "resolvedBy": "declared path"
+        },
+        {
+          "sourceId": "official-form:CC-6-11a",
+          "present": true,
+          "bound": true,
+          "pinned": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+          "observed": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+          "resolvedBy": "declared path"
+        },
+        {
+          "sourceId": "official-form:DC-1-15",
+          "present": true,
+          "bound": true,
+          "pinned": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "observed": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "resolvedBy": "declared path"
+        }
+      ],
+      "boundByContentHashRatherThanDeclaredPath": 0,
+      "detail": "4/4 source(s) bind by exact SHA-256 (custody_reconciliation)"
+    },
+    {
+      "id": "master_library_not_at_operational_path",
+      "title": "The Master Library is not mounted at, or pointed to by, the operational path",
+      "because": "operational-corpus-precondition.mjs refuses a Master Library mounted at the operational path by name, and is right to: the two trees answer different questions. Substituting one for the other would make a retirement mean something nobody intended.",
+      "ok": true,
+      "officialFormsSourceDir": null,
+      "collides": false,
+      "shapedLikeMasterLibrary": false,
+      "detail": "the operational path does not resolve to the Master Library"
+    },
+    {
+      "id": "absent_is_not_empty",
+      "title": "This preflight distinguishes an absent corpus from an empty one",
+      "because": "An adjudication once walked an empty file list from a missing directory and read the silence as the condition passing. Twelve assets flipped from held to passing on the strength of a missing directory. A preflight that cannot tell those apart reproduces exactly that.",
+      "ok": true,
+      "absentReturns": "null",
+      "emptyReturns": "[] (0)",
+      "detail": "an absent tree returns null; an empty tree returns []"
+    },
+    {
+      "id": "stale_artifact_block_consulted",
+      "title": "The stale-artifact block loads, is internally consistent, and no artifact this family owns carries a blocked hash",
+      "because": "Blocked hashes cannot satisfy artifact approval, packet-family completion, launch authority or commercial admission. A worker that cannot read the block, or reads a truncated one, could render onto a blocked artifact and call it proven.",
+      "ok": true,
+      "family": "ne-setaside-custodial-set",
+      "ownedPath": null,
+      "artifactsScanned": 0,
+      "blockedHashes": 12,
+      "blockedFamilies": 6,
+      "blockedProductionDirectoriesPresent": 6,
+      "carryingABlockedHash": [],
+      "detail": "block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear"
+    }
+  ],
+  "discriminationProof": null,
+  "cloudDiscriminationProof": null
+}

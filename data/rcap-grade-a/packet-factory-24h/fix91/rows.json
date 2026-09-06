@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX91",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "baseSha": "b9de3cca5562d168aa43d83ce724bac954db19f7",
+  "completedAt": "2026-09-06T04:24:57.219687+00:00",
+  "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "lane": "FIX91",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "buildHost": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "branch": "fix91-ne-custodial-prefills",
+      "baseSha": "b9de3cca5562d168aa43d83ce724bac954db19f7",
+      "selectedCaptainSha": "ba7f95cf3dedffc503efc7ec077e05803f45ac6d",
+      "savedCheckpoint": "529841ff1e321e748506cc05ebaec303168e55b3",
+      "recovery": "Resumed the saved WIP in /workspaces/legalease-fix91. Worktree was clean at the saved checkpoint. Ordinary merged Captain; no reset, rebase, branch recreation, duplicate claim or sibling output writes. The WIP prefills, moved PDFs, field maps and other outputs were preserved and then rebuilt from exact sources.",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX91 ne-setaside-custodial-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK FIX91 ne-setaside-custodial-set (repair, grant set b24b2e95fda9fe70); existing grant, no reissue or release"
+      },
+      "verdictRepaired": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "bb0963c0d",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "CENTRAL RASTER: moved fixture bytes require a new exact-byte central raster; run 34000834003 binds older bytes.",
+        "INDEPENDENT VERIFICATION: this lane repaired these bytes, so it issues no independent verdict. All inspectable obligations must be reread by an independent worker.",
+        "LEGAL APPROVAL / COMMERCIAL DELIVERY: no approval record or release authority is authored."
+      ],
+      "whatChanged": {
+        "preservedPrefills": "Retained the five saved WIP writes: participant.full_legal_name on CC 6:11 defendant, CC 6:11.2 defendant and DC 1:15 defendant; participant.street_address and participant.email on CC 6:11 streetaddress and emailaddress.",
+        "visibleDefectRepaired": "300dpi inspection found the saved WIP CC 6:11 boundary name clipped at its widget edge despite the report claiming a 6pt fit. The actual appearance uses a widget-level 12pt /DA. For this single-line caption, the existing ordinary name writer plus alignWidgetFontSizeToFit now emits the chosen 10pt canonical/6pt boundary size.",
+        "falseRefusalRepaired": "DC 1:15 boundary defendant was blank even though the full held name measures 184.302pt at 6pt in 185pt usable width. The narrative wrapper reserves a trailing separator; the existing ordinary single-line writer needs none. It now writes the complete name at 6pt.",
+        "narrowScope": "Only the NE configuration opts CC 6:11 and DC 1:15 defendant into standardNamedFactWrites. The descriptor must still be writable and match the exact declared fact ID, and the prior caption exemption may lift only the measured caption-gate reason. All other named facts retain their channel. Shared finalizer and semantic rules are unchanged.",
+        "staleReceiptDisclosure": "The existing NE-only carriedProductBinding now refreshes its own current-artifact clause when the receipt is already null, preserving the old receipt identity. It no longer calls an older WIP digest this build's output. No receipt is issued."
+      },
+      "sourceRecovery": {
+        "method": "Direct HTTPS GET of the four already-recorded officialSourceUrl bindings from NE.memo.json. Exact SHA-256 and byte lengths all match the committed source receipt and corpus index; no source pin, revision or form changed.",
+        "sources": [
+          {
+            "formNumber": "CC-6-11",
+            "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+            "expectedSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "status": 200,
+            "byteLength": 3003355,
+            "actualSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "matchesExactSource": true
+          },
+          {
+            "formNumber": "CC-6-11.2",
+            "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+            "expectedSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "status": 200,
+            "byteLength": 2766067,
+            "actualSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "matchesExactSource": true
+          },
+          {
+            "formNumber": "CC-6-11a",
+            "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11a.pdf",
+            "expectedSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "status": 200,
+            "byteLength": 821244,
+            "actualSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "matchesExactSource": true
+          },
+          {
+            "formNumber": "DC-1-15",
+            "url": "https://nebraskajudicial.gov/sites/default/files/DC-1-15.pdf",
+            "expectedSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "status": 200,
+            "byteLength": 8485306,
+            "actualSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "matchesExactSource": true
+          }
+        ],
+        "localSourceTree": "/tmp/fix91-recovery/exact-source-tree",
+        "localDownloadedPdfs": "/tmp/fix91-recovery/source-probes",
+        "missingAssignedSources": [],
+        "globalCorpusRestored": false,
+        "globalPreflightPassed": false,
+        "captainDirection": "Captain authorized exact-source family repair/rebuild after all four bindings matched, with the full corpus/environment refusal preserved separately."
+      },
+      "artifactDigests": {
+        "savedWip": {
+          "canonical": "3171922f5979f1f7fcd6bbc01d80ffdcb688f0546f1ab700c8bdd4873e031b58",
+          "boundary": "2ced3f71c75f3c43c9c8a3323586eb42b723a5c736eb53e5327bcd6db91dcc6f"
+        },
+        "current": {
+          "canonical": "97ff54012fce9ada8cbf44ce78c9bac24b60c9b21f211dd7d87156aafac2d317",
+          "boundary": "fb758b77503f00160f3e47b5da740bfe1ab3722362b2ffc037250f5a3c678e4e"
+        }
+      },
+      "determinism": {
+        "status": "PASS",
+        "filesCompared": 22,
+        "differentFiles": [],
+        "evidence": "recovery/determinism.json"
+      },
+      "actualWrites": {
+        "status": "PASS",
+        "checks": 10,
+        "evidence": "recovery/actual-font-fit.json",
+        "negativeControl": "recovery/wip-negative-control.log"
+      },
+      "localVisualInspection": {
+        "dpi": 300,
+        "pagesInspected": 10,
+        "images": "recovery/local-300dpi/",
+        "evidence": "recovery/local-visual-evidence.json",
+        "isIndependentVerdict": false,
+        "isCentralRasterReceipt": false,
+        "canonicalChangesFromSavedWipPages": [
+          1
+        ],
+        "boundaryChangesFromSavedWipPages": [
+          1,
+          4
+        ]
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterBasis": "Current family-only completeness verifier exited 0; all assigned writes additionally checked against actual PDF operators/font sizes and current 300dpi pixels. Counters are repair evidence, not an independent acceptance verdict.",
+      "unchangedMeasurementsAndLegalQuestion": "Preserved the measured court/county dropdown/read-only refusals, boundary overlong case-number refusals, FIX68 appearance-to-rectangle scaling, signatures/dates/elections and unperformed service-act blanks. VF02 separately disclosed CC 6:11 Text5 conviction description and Text6 conviction date as a legal-design question; this lane does not invent authorization to prefill those protected categories. Their existing treatment is unchanged and the question remains for Captain/counsel.",
+      "commands": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX91 ne-setaside-custodial-set",
+          "exitCode": 0,
+          "result": "CLAIM_OK FIX91 ne-setaside-custodial-set (repair, grant set b24b2e95fda9fe70); existing grant, no reissue or release"
+        },
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set --branch fix91-ne-custodial-prefills --require-rasterizer",
+          "exitCode": 1,
+          "result": "Initial full environment refusal: 11/17, all four sources absent. Preserved in recovery/environment-initial.json."
+        },
+        {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree NODE_PATH=/tmp/fix91-tools/node_modules node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set --branch fix91-ne-custodial-prefills --require-rasterizer",
+          "exitCode": 1,
+          "result": "During repair: 13/17. Family source binding 4/4 and actual Chromium page render pass. Full corpus, exported browser-environment declaration, and clean-worktree checks still fail; no preflight pass claimed."
+        },
+        {
+          "command": "NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+          "exitCode": 0,
+          "result": "CENTRAL self-test OK (13 families)"
+        },
+        {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree NODE_PATH=/tmp/fix91-tools/node_modules nice -n 10 node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "runs": 2,
+          "exitCodes": [
+            0,
+            0
+          ],
+          "result": "Final source-bound rebuilds: all 22 family output files byte-identical; no sibling builder invoked",
+          "logs": [
+            "recovery/build-1.log",
+            "recovery/build-2.log"
+          ]
+        },
+        {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+          "exitCode": 0,
+          "result": "--check OK (10 raster pages)"
+        },
+        {
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+          "exitCode": 0,
+          "result": "10/10 actual PDF writes: full expected text, correct source widget, actual font size equals map, 6pt minimum and usable width respected"
+        },
+        {
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs /tmp/fix91-recovery/wip-before",
+          "exitCode": 1,
+          "expectedFailure": true,
+          "result": "Discriminating negative control: saved WIP CC 6:11 caption actually renders 12pt where the map reports 10pt canonical/6pt boundary"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, 16/165 written, all nine counters zero; no central --write"
+        },
+        {
+          "command": "pdftoppm -r 300 -png <current canonical.pdf|boundary.pdf> <output-prefix>",
+          "runs": 2,
+          "exitCodes": [
+            0,
+            0
+          ],
+          "result": "10 full-page images, each 2550x3300; repairing worker actually inspected pixels through view_image"
+        },
+        {
+          "command": "npx eslint scripts/build-census-v1-ne-setaside-custodial-set.mjs data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+          "exitCode": 0,
+          "result": "Exit 0; two pre-existing unused-variable warnings for x1/y1 in the shared host, no errors"
+        },
+        {
+          "command": "git diff --check",
+          "exitCode": 0,
+          "result": "No whitespace errors"
+        }
+      ],
+      "runtimeAndCommercial": {
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "paymentEligible": false,
+        "sponsorshipEligible": false,
+        "routesOpened": 0,
+        "approvalRecordsEdited": false,
+        "productionTouched": "NO"
+      },
+      "nextAction": "Captain integrates the completed repair, regenerates current central records, obtains a new raster bound to these exact fixtures, and assigns an independent reread. No old receipt or WIP commit is treated as acceptance."
+    }
+  ]
+}

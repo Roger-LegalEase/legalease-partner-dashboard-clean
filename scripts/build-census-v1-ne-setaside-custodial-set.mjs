@@ -344,6 +344,17 @@ const FAMILY_CONFIGS = Object.freeze({
         { factId: "participant.phone", fields: ["telephone number"] }
       ]
     },
+    /* FIX91 recovery. CC 6:11's defendant widget has its own 12pt /DA.
+     * The narrative fitter reports 6pt for the boundary name, but that pass
+     * does not align widget /DA sizes: the saved WIP clips the name at 12pt.
+     * Its ordinary descriptor already resolves participant.full_legal_name.
+     * Keep the same measured caption exemption, and use the existing ordinary
+     * text writer with widget-size alignment. DC 1:15's caption also uses the
+     * ordinary writer: its boundary name needs 184.302pt at 6pt in 185pt usable
+     * width, but the narrative wrapper reserves a trailing space and refuses
+     * it. One single-line name needs no narrative separator. Other named facts
+     * retain their existing narrative channel. No source bytes change. */
+    standardNamedFactWrites: { "CC-6-11": ["defendant"], "DC-1-15": ["defendant"] },
     /*
      * FIX81, KNOWN_PREFILLS. The caption court and county, said as the widget is.
      *
@@ -2302,6 +2313,23 @@ async function renderOneDocument(source, config, fixture) {
   if (source.indexEntry.structuralClassObserved === "acroform") {
     const census = await censusAcro(source);
     const policyData = prepareAcroPolicy(census, policy, namedFactWrites);
+    const standardNamedFields = new Set((config.standardNamedFactWrites ?? {})[source.formNumber] ?? []);
+    const narrativeWrites = namedFactWrites.filter((entry) => {
+      if (!(entry.fields ?? []).some((field) => standardNamedFields.has(field))) return true;
+      assert.equal(entry.fields.length, 1, "standard named facts must name exactly one field");
+      const field = census.fields.find((item) => item.name === entry.fields[0]);
+      assert.ok(field, `${source.formNumber}/${entry.fields[0]}: standard named field missing`);
+      const decision = decideBinding({
+        name: field.name, pdfType: field.type,
+        effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading
+      }, { explicitMappings: policyData.explicitMappings, captionOnly: policy.captionOnly,
+        documentAcceptsFill: policy.documentAcceptsFill });
+      assert.equal(decision.writable, true, `${source.formNumber}/${field.name}: ordinary writer refused`);
+      assert.equal(decision.factId, entry.factId, `${source.formNumber}/${field.name}: fact binding changed`);
+      const exemption = policyData.namedFactExemptions.find((item) => item.field === field.name);
+      if (exemption) exemption.writtenBy = "ordinary_text_with_widget_font_size_alignment";
+      return false;
+    });
     const result = await finalizeOfficialForm({
       sourceBytes: source.bytes,
       expectedSha256: source.sha256,
@@ -2337,7 +2365,11 @@ async function renderOneDocument(source, config, fixture) {
       /* FIX81, KNOWN_PREFILLS. See `namedFactWrites` in FAMILY_CONFIGS: the
        * caller names fact ids and field names only, and the shared module
        * resolves, protects, fits and refuses. Empty for every other family. */
-      narrativeAcrossFields: namedFactWrites,
+      narrativeAcrossFields: narrativeWrites,
+      ...(standardNamedFields.size ? {
+        alignWidgetFontSizeToFit: true,
+        evaluateDeclaredMinimumSize: true
+      } : {}),
       title: source.formNumber
     });
     const proof = await verifyAcroBytes(source, census, policyData, result.bytes, result.report, facts, fixture);
@@ -2644,6 +2676,13 @@ function carriedProductBinding(familyId, config, canonicalSha256) {
       `The receipt was bound to canonical ${receipt.boundToCanonicalSha256}`
       + ` (workflow run ${receipt.workflowRunId ?? "unknown"}), and this build wrote ${canonicalSha256}.`
       + " A central raster of the new bytes is owed; nothing here is that receipt.";
+  }
+  // A later rebuild must not retain the WIP digest as "this build wrote".
+  // Preserve the superseded receipt identity while refreshing only this
+  // builder-authored current-artifact clause. The receipt remains null.
+  if (!binding.acceptanceReceipt && canonicalSha256 && typeof binding.whyTheAcceptanceReceiptIsNull === "string") {
+    binding.whyTheAcceptanceReceiptIsNull = binding.whyTheAcceptanceReceiptIsNull
+      .replace(/this build wrote [a-f0-9]{64}/, `this build wrote ${canonicalSha256}`);
   }
   return binding;
 }
