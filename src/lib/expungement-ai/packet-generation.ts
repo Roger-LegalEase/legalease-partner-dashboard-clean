@@ -34,7 +34,9 @@ import {
   entitlementContext,
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext,
-  governCommercialAdmission,
+  governGenerationAdmission,
+  governProviderDispatch,
+  governArtifactAttachment,
   governPacketDownloadAdmission
 } from "@/lib/rcap/render/commercial-admission";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
@@ -209,7 +211,7 @@ export async function generatePaidConsumerPacket({
         verificationHash: verification.hash, snapshot: verification.snapshot });
       const identity = commercialRouteIdentity({ jurisdiction: verification.snapshot.jurisdiction,
         pathwayId: verification.snapshot.pathwayId });
-      governCommercialAdmission("provider_dispatch", identity, fulfillmentRequestContext({
+      governProviderDispatch(identity, fulfillmentRequestContext({
         participantUserId: userId, matterId: sponsorship.matterId, matterOwnerUserId: userId,
         finalVerification: finalVerificationSnapshotFrom({ snapshot: verification.snapshot,
           verificationHash: verification.hash, matterId: sponsorship.matterId,
@@ -543,7 +545,7 @@ export async function attachPacketToBriefcaseItem({
     jurisdiction: attachVerification.snapshot.jurisdiction,
     pathwayId: attachVerification.snapshot.pathwayId
   });
-  governCommercialAdmission("artifact_commercial_attachment", attachIdentity, fulfillmentRequestContext({
+  governArtifactAttachment(attachIdentity, fulfillmentRequestContext({
     participantUserId: userId,
     matterId: attachMatterId,
     matterOwnerUserId: userId,
@@ -753,7 +755,8 @@ export async function assertPacketGenerationAllowed(
   });
   const regeneration = generationIdentity.routeId === PERSONALIZED_DELIVERY_ROUTE
     && await hasFinalizedPersonalizedRender(userId, item.id, !paymentRequired);
-  governCommercialAdmission(regeneration ? "provider_dispatch" : "generation_admission", generationIdentity, fulfillmentRequestContext({
+  const admitGeneration = regeneration ? governProviderDispatch : governGenerationAdmission;
+  admitGeneration(generationIdentity, fulfillmentRequestContext({
     participantUserId: userId,
     matterId: generationMatterId,
     matterOwnerUserId: userId,
