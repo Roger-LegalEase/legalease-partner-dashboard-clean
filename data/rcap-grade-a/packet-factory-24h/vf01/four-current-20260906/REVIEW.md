@@ -40,3 +40,11 @@ The initial readback diagnostic treated eight composed-certificate facts as miss
 Use `repair-assignments.json` in this directory. Preserve all existing successful repair work: CO FIX86 stop text; PA FIX84 components, rules and measured refusals; PA FIX85 text underlines; VA FIX89 visibly rendered stops. Repair all current findings together, then obtain acceptance on the resulting current bytes and a separate independent reviewer. The source/form/registry conflict is for the legal owner; this review neither approves a population nor rewrites the source.
 
 Routes opened: **0**. Production touched: **NO**. No hosted authentication, payment or storage boundary was exercised or replaced by a test double; this was a repository packet review only.
+
+## Publication follow-through
+
+Review checkpoint `ccb7a1ae0fe0d559a0a1f33f9e3901c9c4575cae` was pushed first. An ordinary merge of fetched Captain `51c01bd48929f5549edde24ec8cf4e9cacfc88d4` produced `df85db8266a18ad36003fdb57f3d057e27d3d2d2` to recover the integrated NM review rows for the separately requested format correction. None of the four reviewed family directories changed between the review base and that Captain input; the four reviews were not restarted or rebound to a different packet.
+
+NM schema-only correction `2e1d00235ca155a67ad8d2a7f7a6257bcfc2fd0c` adds the extractor's `result` token and copies the existing detail into its `finding` key. All existing NM statuses, details, verdicts, hashes and evidence remain unchanged. Partial visual and source-dependent findings stay unmeasured; no new NM acceptance was performed.
+
+Four post-publication environment checks were then executed on clean pushed HEAD `2e1d00235ca155a67ad8d2a7f7a6257bcfc2fd0c`. Branch visibility now passes. CO remains11/14 with three failures (complete corpus, sampled corpus, its two source bindings); PA490, PA790 and VA remain12/14 with only complete/sampled corpus failures. Every command exits1. `post-publication-preflight.json` records the actual output. The applicable family source bindings for the seven recovered PA/VA sources pass. No gate was waived.
