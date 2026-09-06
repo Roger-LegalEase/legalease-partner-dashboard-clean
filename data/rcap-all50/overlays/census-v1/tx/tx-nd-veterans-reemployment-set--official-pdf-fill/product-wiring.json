@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "tx_nd_veterans_reemployment-set",
+  "routeKey": "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route",
+  "routeKeys": [
+    "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route",
+    "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "tx_nd_veterans_reemployment-set",
+    "jurisdiction": "TX",
+    "routeKeys": [
+      "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route",
+      "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "OCA model petition where the court requires one or did not act (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:tx_nd_veterans_reemployment-fee-waiver-statement-4",
+      "component:tx_nd_veterans_reemployment-petition-2",
+      "component:tx_nd_veterans_reemployment-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0729",
+        "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+        "tier": "exact_statute_section_and_document_kind"
+      },
+      {
+        "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+        "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+        "tier": "exact_statute_section_and_document_kind"
+      },
+      {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "tx_nd_veterans_reemployment-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "tx_nd_veterans_reemployment-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "tx_nd_veterans_reemployment-petition-2",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "tx_nd_veterans_reemployment-proposed-order-3",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "requirement": "required"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "tx_nd_veterans_reemployment-after-order-instructions-5",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "requirement": "required"
+      }
+    ]
+  }
+}
