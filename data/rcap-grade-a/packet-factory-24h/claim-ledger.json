@@ -5992,10 +5992,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T17:47:12.071Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7866,10 +7866,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "VF01 is not executing; the grant predates the PF25 build (34c5d3f9f) it would read"
     },
     {
       "subjectType": "packet-family",
@@ -8082,10 +8083,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "VF02 is not executing; the grant predates the PF25 build (34c5d3f9f) it would read"
     },
     {
       "subjectType": "packet-family",
@@ -13784,7 +13786,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "052ed8a3631cc571135d3e3068f3d60a4234c4a11947007b0437dced83f421d9",
+  "claimsDigest": "495bca7d0ad7b2853a8edcecb592fa8d453903e1cf970c951d10b471d6ad0821",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32510,6 +32512,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T18:46:31.728Z",
       "reason": "FIX102 returned COMPLETED at 95d587940: both failed obligations repaired, nine counters zero, bytes moved (canonical dd1cde67, boundary 07a9b4ab); central raster and independent re-read owed; the dropNonDisplayedWidgets question in rcap-active-content.mjs is recorded for the module owner"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_deferred_other-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T19:07:01.545Z",
+      "reason": "VF01 is not executing; the grant predates the PF25 build (34c5d3f9f) it would read"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_reemployment-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T19:07:01.677Z",
+      "reason": "VF02 is not executing; the grant predates the PF25 build (34c5d3f9f) it would read"
     }
   ],
   "reissues": [
@@ -47873,6 +47893,39 @@
       "previouslyReleasedAt": "2026-09-05T18:14:17.762Z",
       "transferredAt": "2026-09-06T19:03:36.370Z",
       "reason": "FIX109 carries the 2026-09-06 research handoff's Rhode Island fee answer into the four Chapter 12-1.3 packets as a bounded repair; independent re-read owed"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_deferred_other-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-06T19:07:01.545Z",
+      "transferredAt": "2026-09-06T19:07:01.798Z",
+      "reason": "VF08 independently reads the new Texas 411.0725 build after central raster run 34052191592"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_reemployment-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-06T19:07:01.677Z",
+      "transferredAt": "2026-09-06T19:07:01.923Z",
+      "reason": "VF08 independently reads the new Texas 411.0729 build after central raster run 34052191592"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-06T17:47:12.071Z",
+      "transferredAt": "2026-09-06T19:07:02.056Z",
+      "reason": "VF08 independently re-reads Nebraska custodial after FIX102's full repair (95d587940) and central raster run 34052906161"
     }
   ],
   "grants": [
