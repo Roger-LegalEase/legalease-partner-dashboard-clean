@@ -1,6 +1,6 @@
 # National Route Obligation Census
 
-Evidence date: 2026-08-29. Source fingerprint: `sha256:9c46294768b9d13e603588cb9833435da934f39784fd1fc5759c427a76c93879`.
+Evidence date: 2026-08-29. Source fingerprint: `sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d`.
 
 Source-inventory limitation: `private/Nationwide Record Clearing/` is absent from this exact worktree. This run therefore uses the current repository registries, ledgers, compiled profiles, contracts, packet specifications, and legal-decision records as its source evidence and does not claim direct Nationwide-folder ingestion. The Captain request requires an exact reconciliation when that inventory is attached.
 

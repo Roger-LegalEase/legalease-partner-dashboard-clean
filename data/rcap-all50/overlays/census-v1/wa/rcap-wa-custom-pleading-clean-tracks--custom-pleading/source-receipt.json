@@ -78,7 +78,7 @@
       ],
       "recordId": "route-obligation-census:2-route(s)",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
       "byteLength": 2629290,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
@@ -100,6 +100,14 @@
           "anchorsCompared": 2,
           "anchorsUnchanged": 2,
           "reason": "After the final census regeneration, compared the same bound route objects against the preserved historical census before refreshing only whole-file identity. The subsequent reconciliation regenerates dependent state without rewriting this source snapshot.",
+          "newPacketAcceptances": 0
+        },
+        "integrationSnapshotReconciliation": {
+          "previousWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+          "currentWholeFileSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "anchorsCompared": 2,
+          "anchorsUnchanged": 2,
+          "reason": "Final worker integrations changed generated fulfillment bookkeeping fingerprints. After settling those inputs at one unchanged Captain commit, regenerate the census and verify every bound historical route object before refreshing only this whole-file reference. Packet bytes and approval verdicts are unchanged.",
           "newPacketAcceptances": 0
         }
       }
