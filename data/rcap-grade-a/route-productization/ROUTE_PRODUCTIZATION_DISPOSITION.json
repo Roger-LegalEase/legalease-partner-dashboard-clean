@@ -18,7 +18,7 @@
     "routesOperationallySellable": 0,
     "fulfillmentAuthorityRecordsGeneratedByThisLane": 0,
     "productPathPendingFamiliesClosedByThisLane": 0,
-    "routesHoldingACommerciallyEligibleFulfillmentRecord": 2,
+    "routesHoldingACommerciallyEligibleFulfillmentRecord": 1,
     "productPathPendingFamiliesRemeasuredAgainstTodaysBytes": 20,
     "productPathPendingSubClaimsMeasuredClosed": 4,
     "productPathPendingSubClaimsStillOpen": 1,
@@ -26,12 +26,12 @@
     "why": "No route clears all seven conditions. Five routes across four packet families hold a commercially eligible fulfillment record and have closed every in-repository link; each is blocked on a hosted consumer canary and a hosted sponsored canary that cannot be run from this repository, and beyond that on owner-controlled launch gates. Separately, a commercial-delivery gate is currently red for exactly those routes, so opening any of them, or minting another record, would widen an open delivery admission rather than close one."
   },
   "inputs": {
-    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "8bc508ad68115d85bd2dacbd86b670df0f8431e5ffe15b1d4f9bd76d24b74f3c",
-    "data/rcap-ledger/launch-graph.json": "8f863f62cdcd4f49446a285106a2fc44bb9615b4fde36183e2ad2d5da68912cc",
+    "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json": "f7f3a5180e7086e27ff12d5ceb2b53fda092dca3aaa0cfa8d41e3816eef34d0f",
+    "data/rcap-ledger/launch-graph.json": "96e4ba1a042e61db96dd773a92b3780e01769067015ec088c6ff415552752567",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "data/rcap-grade-a/fulfillment-authority-registry.json": "83b9c4ed1e17c5d2c9932e809c0ad1bd05f2aa568d6c008a0791870be38edcaf",
-    "data/rcap-grade-a/fulfillment-authority-projection.json": "cce81bcca35195a3e6bdce4855071e3709c72945eaedad1e80d52eda2da6e2fd",
-    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "068009ca00c619aca389699ad4a856ed66791f8c8b3ee6ff19990f0a3b743123",
+    "data/rcap-grade-a/fulfillment-authority-registry.json": "8d24d455476b1baec2dd351934b14c64fa230f19c992be5c04860ecdee0b4e27",
+    "data/rcap-grade-a/fulfillment-authority-projection.json": "4dbd9c6746662404fa081d3d5dedda8ca1e81989c3ff1d932ebc46be004ed570",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json": "2d125e9c4737bb194a6c30165f2f2dd7b16e12e52f54ac04e06e2cdcd7b12a97",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
     "data/rcap-ledger/public-witness-fixtures.json": "a1152d0363cf0299733a8d868794fa7572ed734b5d7fc76418aaad0ae0fd29e2",
@@ -60,7 +60,7 @@
       "measurement": "data/rcap-grade-a/fulfillment-authority-registry.json binds the exact route",
       "routesSatisfying": 14,
       "outOf": 262,
-      "ofWhichCommerciallyEligible": 2
+      "ofWhichCommerciallyEligible": 1
     },
     {
       "requirement": "a hosted consumer canary",
@@ -135,15 +135,6 @@
         "artifact_commercial_attachment",
         "briefcase_ready",
         "private_download"
-      ],
-      "WY:felony-conviction-expungement-w-s-7-13-1502": [
-        "sponsored_entitlement",
-        "packet_credit_admission",
-        "generation_admission",
-        "provider_dispatch",
-        "artifact_commercial_attachment",
-        "briefcase_ready",
-        "private_download"
       ]
     },
     "detectedBy": "scripts/verify-rcap-census-v1-money-credit-gate.mjs",
@@ -159,54 +150,6 @@
         "launchGraphUnmetOperationalGates": [
           "paymentAllowed",
           "ownerApprovedLegalDesign",
-          "technicalApprovalCurrent"
-        ],
-        "admissionSurface": {
-          "launch_graph_commercial_status": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "consumer_checkout": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "sponsored_entitlement": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "packet_credit_admission": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "generation_admission": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "provider_dispatch": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "artifact_commercial_attachment": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "briefcase_ready": {
-            "admitted": true,
-            "denialCode": null
-          },
-          "private_download": {
-            "admitted": true,
-            "denialCode": null
-          }
-        }
-      },
-      {
-        "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-        "resolverSellable": false,
-        "resolverCreditConsumable": false,
-        "launchGraphOperationallySellable": false,
-        "launchGraphUnmetOperationalGates": [
-          "paymentAllowed",
           "technicalApprovalCurrent"
         ],
         "admissionSurface": {
@@ -269,23 +212,6 @@
       "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
       "secondaryBlockers": [
         "launch-graph gates still unmet: paymentAllowed, ownerApprovedLegalDesign, technicalApprovalCurrent"
-      ]
-    },
-    {
-      "routeId": "WY:felony-conviction-expungement-w-s-7-13-1502",
-      "familyId": "wy_fel_1502-set",
-      "fulfillmentRecordId": "grade-a-wy-felony-conviction-expungement-w-s-7-13-1502-v1",
-      "projectedState": null,
-      "commercialStatus": "commercially_eligible",
-      "launchGraphAvailability": "MAINTENANCE_HOLD",
-      "launchGraphUnmetOperationalGates": [
-        "paymentAllowed",
-        "technicalApprovalCurrent"
-      ],
-      "operationallySellable": false,
-      "exactCurrentBlocker": "no hosted consumer canary and no hosted sponsored canary exist for this route, and the hosted acceptance workflow cannot be dispatched from this repository (missing hosted credentials, named but not carried here)",
-      "secondaryBlockers": [
-        "launch-graph gates still unmet: paymentAllowed, technicalApprovalCurrent"
       ]
     }
   ],
@@ -1262,7 +1188,7 @@
       "decision": "Adopt the completed output of the families that hold no completed-output owner approval, naming their exact shipping-artifact digests",
       "whoDecides": "Roger",
       "record": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json (OWN-ADOPT-2026-09-02-BATCH-53) or a successor record",
-      "blocks": "56 proven families, including ct-cleanslate-petition-set and rcap-ks-custom-pleading",
+      "blocks": "57 proven families, including ct-cleanslate-petition-set and rcap-ks-custom-pleading",
       "generatorPreconditionItCloses": "P08"
     },
     {

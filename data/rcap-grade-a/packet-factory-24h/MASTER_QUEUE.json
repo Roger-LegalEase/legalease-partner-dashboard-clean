@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "39c9d5f43b46caba1d11d2f50d326829e0e52c23",
+  "minimumCaptainSha": "513f43c82ef3dcf14264298cff3d44b4e0e497b4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -28,7 +28,7 @@
     "data/rcap-all50/local-source-corpus-index.json": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
-    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "b46e7163dbc57e235749049ff3e29f755ec1aabcc1b7af76cf264c1ff9b5a576",
+    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "7caa56533f328df4c2a9182f2da3b865ebc761f18d2d4acf4c890780a713f6c1",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "353884cfc41485601e95906d4c06d2b78e40720dbb5aaadbcbb03e482b9f704d"
   },
   "stateVocabulary": [
@@ -8563,7 +8563,26 @@
         "theQuestionAsked": "Counsel's ratification registry records this route as built with a corrected waiting period, anchor and gates that counsel has not reconfirmed. Does the completed output implement the corrected rule counsel intended?",
         "ownerDecision": "NO ADOPTION YET. The corrected waiting period, anchor, and gates require route-specific counsel reconfirmation. Keep the family blocked and checkout disabled until that reconfirmation is recorded.",
         "correctionRequired": "Obtain and record route-specific counsel reconfirmation of the corrected waiting period, anchor and gates. The family stays blocked and checkout disabled until that reconfirmation is recorded.",
-        "live": true
+        "live": true,
+        "researchNarrowing": {
+          "on": "2026-09-06",
+          "basis": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+            "researchHandoffSha256Prefix": "c58932150c17",
+            "preparedBy": "ChatGPT, legal research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotExamined": "ca6158a5314c277594c63ee0619fd0787163b49a",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "Official forms were read and, where noted, visually inspected through web page images; original PDF downloads failed in the research container, so no newly acquired issuer PDF or issuer-file hash is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes."
+          },
+          "what": "The corrected rule is now stated on the record: entry date, 61 days under Rule 45 with the entry date excluded and last-day extension, the whole-case disposition requirement, and the exclusion 'the case was appealed' (any appeal history flagged, not only a pending appeal). The enforcement packet composition (notice of motion, brief, declaration, proposed order, proof of service under Rules 3.2, 47 and 49) and the administrative clerk request are recorded as the proposed design.",
+          "stillOwed": "Route-specific counsel reconfirmation of the corrected waiting period, anchor and gates, and adoption of the custom letter and enforcement design and the appeal-exclusion handling; the family stays blocked and checkout disabled until that is recorded. A bounded packet repair may carry the corrected computation, the exclusions and the enforcement components before that reconfirmation without lifting the block."
+        }
       },
       "legalHoldReclassification": null,
       "laneReturnLegalHold": null,
