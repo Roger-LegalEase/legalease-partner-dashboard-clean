@@ -307,13 +307,13 @@
         "A dismissal resulting from a plea agreement involving conviction on another offence.",
         "A dismissal on a fitness-to-proceed finding under Chapter 12.1-04.",
         "A verdict of not guilty by reason of lack of criminal responsibility under Chapter 12.1-04.1.",
-        "Any case that was appealed.",
+        "Any case that was appealed. The statute says 'The case was appealed', not only 'an appeal is pending': any appeal history, including a concluded appeal, is flagged for legal review under this workflow and is never automatically admitted (research correction of 2026-09-06).",
         "Partial dispositions."
       ],
       "waitingPeriods": [
         {
-          "condition": "Order of nonconviction entered on or after 1 August 2025",
-          "duration": "sixty-one days from the date the court entered the order"
+          "condition": "Order of nonconviction entered on or after 1 August 2025 (all criminal charges in the case dismissed, or acquittal of all charges; a mixed disposition does not fit by selecting a favorable count)",
+          "duration": "Sixty-one days from the date the court entered the order, computed under N.D.R.Crim.P. 45: the entry date is excluded, calendar days are counted, and a last day falling on a weekend or legal holiday extends to the next day that is not; no mail-service days are added to an entry-date clock. The product's first administrative check falls on the next business day after the adjusted period expires; that check-day delay is a product choice, not a statutory waiting period. Calendar examples from the research, assuming no legal holiday: entered August 1, 2025 → day 61 October 1 (Wednesday) → first check October 2; entered August 4, 2025 → day 61 October 4 (Saturday) → adjusted October 6 → first check October 7. Implementation supplies the applicable holiday calendar rather than inferring it."
         }
       ],
       "outputStrategy": "process_guidance",
@@ -409,7 +409,14 @@
         "notice": "none",
         "service": "none",
         "participantSignature": "none",
-        "notarization": "none"
+        "notarization": "none",
+        "researchProductMechanismVersusLaw": "The nonfiled clerk-correction request is a proposed administrative step; the five-business-day interval after confirmed receipt is an optional LegalEase cure interval, not a statutory prerequisite, and an express refusal or an instruction to seek a judicial order may allow the product to advance earlier. The statute prescribes no letter, interval or specially named enforcement motion; counsel or design adoption is still required for the custom escalation strategy. The proposed escalation is a motion in the original case requesting performance of the statutory closing duty, not a discretionary conviction-sealing petition or an appellate challenge; relief is restricted to court-controlled records and never promises removal of prosecutor, police, federal or private database records.",
+        "researchEnforcementPacket": "An approved enforcement design includes the original caption, the motion, a notice of motion and short supporting brief (N.D.R.Ct. 3.2 requires notice and a brief; its note allows a liberal understanding of what constitutes a brief; a concise legal-grounds section suffices), a factual declaration and exhibits where needed, a proposed order, and proof of service. N.D.R.Crim.P. 47(c) generally requires a written motion and hearing notice at least 21 days before a hearing unless another rule or court order sets a different time; no automatic 21-day delay is hardcoded for a motion submitted on briefs and the five-day administrative interval never satisfies hearing notice. Rule 3.2 supplies a 14-day answer-brief period and a seven-day reply period and allows a hearing request. Rule 49 requires service on the other parties, ordinarily through the prosecuting attorney, by permitted methods with proof filed. The official six-page packet (Rev. April 2026) is principally the petition and order package for pre-August-2025 nonconvictions; its earlier-case petition is never populated as the post-period letter and its note about a judge possibly requiring a prosecutor copy is not imported into the Rule 49 motion.",
+        "researchClerkRequestDraft": {
+          "path": "docs/rcap/grade-a/research/2026-09-06-batch-03/North_Dakota_Clerk_Request_Draft.md",
+          "sha256Prefix": "baf443d20f65",
+          "use": "Administrative correspondence only, for legal and design adoption: not an official form, not a filed motion, not a sworn declaration; no case-specific fact is generated automatically; the actual sent and received dates are recorded separately; the original letter and response are kept as evidence; no certificate of service is prefilled for an act that has not occurred."
+        }
       },
       "selfHelpStopConditions": [
         "Any of the four statutory exceptions.",
@@ -418,18 +425,6 @@
         "A participant who expects the BCI record or prosecutor and law enforcement records to change."
       ],
       "unresolvedQuestions": [
-        {
-          "question": "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails.",
-          "impact": "release_blocker",
-          "affectedElement": "filing_process",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "https://ndlegis.gov/cencode (North Dakota Century Code, current official host)",
-            "sourceHeading": "N.D.C.C. § 12-60.1-05(1)",
-            "sourceStatement": "The court shall close the court record upon the expiration of sixty-one days, without stating a remedy for non-compliance.",
-            "counselQuestion": "What remedy does a participant have where the court has not closed a nonconviction record sixty-one days after the order?"
-          }
-        },
         {
           "question": "Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead.",
           "impact": "release_blocker",
@@ -481,7 +476,41 @@
             }
           }
         ]
-      }
+      },
+      "researchResolvedQuestions": [
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails.",
+            "impact": "release_blocker",
+            "affectedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "counsel_confirmation_required",
+              "sourceFile": "https://ndlegis.gov/cencode (North Dakota Century Code, current official host)",
+              "sourceHeading": "N.D.C.C. § 12-60.1-05(1)",
+              "sourceStatement": "The court shall close the court record upon the expiration of sixty-one days, without stating a remedy for non-compliance.",
+              "counselQuestion": "What remedy does a participant have where the court has not closed a nonconviction record sixty-one days after the order?"
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+            "researchHandoffSha256Prefix": "c58932150c17",
+            "preparedBy": "ChatGPT, legal research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotExamined": "ca6158a5314c277594c63ee0619fd0787163b49a",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "Official forms were read and, where noted, visually inspected through web page images; original PDF downloads failed in the research container, so no newly acquired issuer PDF or issuer-file hash is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "A nonfiled clerk-correction request, then a bounded original-case motion requesting performance of the statutory closing duty with Rule 3.2 notice and brief and Rule 47 and 49 service and hearing treatment. This is the proposed design; counsel or design adoption of the custom escalation strategy remains required.",
+            "support": "N.D.C.C. §§ 12-60.1-01 and 12-60.1-05 (ND1); official nonconviction instructions Rev. April 2026 (ND2); N.D.R.Crim.P. 45 (ND3); N.D.R.Ct. 3.2 (ND4); N.D.R.Crim.P. 47 (ND5), 49 (ND6); N.D.R.Ct. 1.1 (ND7).",
+            "provenanceLimit": "The owner correction of 2026-09-02 (no adoption until counsel reconfirms the corrected waiting period, anchor and gates) stays live; this research narrows it and supplies the corrected computation and the enforcement packet composition, and it is not the reconfirmation."
+          }
+        }
+      ]
     },
     {
       "trackId": "nd-seal-misdemeanor-conviction",

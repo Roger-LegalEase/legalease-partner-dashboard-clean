@@ -1051,6 +1051,66 @@
           "requirement": "required",
           "outputStrategy": "process_guidance",
           "notes": "KRS 431.079(1) requires a certification on every petition or application seeking expungement of a conviction and states no pardon exception. The Clerks' Manual applies the same rule to pardoned convictions."
+        },
+        {
+          "conditionDescription": null,
+          "officialSourceUrl": null,
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "componentId": "ky_felony_expungement_after_pardon-verification-on-application",
+          "role": "verification",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.3",
+          "notes": "The official application carries the applicant's sworn verification on its own face, signed in the presence of a notary or the Circuit Court Clerk as the form directs; no separate duplicative affidavit is created merely to repeat it."
+        },
+        {
+          "conditionDescription": "Only where the particular court requires the applicant to supply one; the statewide clerk workflow uses AOC-496.4 and no statewide requirement that the applicant create an additional bespoke proposed order was found.",
+          "officialSourceUrl": null,
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "componentId": "ky_felony_expungement_after_pardon-proposed-order-aoc-496-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.4",
+          "notes": "AOC-496.4 REV-2023-06 is held in the Master Library."
+        },
+        {
+          "conditionDescription": "Performed by the clerk.",
+          "officialSourceUrl": null,
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "componentId": "ky_felony_expungement_after_pardon-clerk-notice",
+          "role": "notice",
+          "requirement": "not_by_participant",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "notes": "The clerk performs statutory notice to the prosecuting Commonwealth's or county attorney and the county attorney where judgment was entered, as applicable; the prosecutor handles victim notification. AOC-496.3's clerk-use notice certification is left blank and never assigned to the applicant."
+        },
+        {
+          "conditionDescription": "Where the form's space is insufficient for the charges of the original case.",
+          "officialSourceUrl": null,
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "componentId": "ky_felony_expungement_after_pardon-continuation-sheets",
+          "role": "continuation",
+          "requirement": "conditional",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "notes": "Labeled continuation sheets; unrelated case captions are never combined and charges are never omitted merely because they were not felonies."
+        },
+        {
+          "conditionDescription": "Only where the applicant asks to proceed in forma pauperis.",
+          "officialSourceUrl": null,
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "componentId": "ky_felony_expungement_after_pardon-ifp-aoc-026",
+          "role": "fee_waiver_application",
+          "requirement": "conditional",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-026",
+          "notes": "AOC-026 revision 10-22 (financial information, affidavit and proposed ruling) is filed with AOC-496.3 and the pardon; the Clerks' Manual expressly permits acceptance without the fee or the certification while an IFP motion is pending; the judge decides the request; the applicant seeks an express ruling on the later $250 expungement fee and is never told it has been waived by filing. Only supplied financial values and soundly calculated totals are written; missing amounts are never sworn as zeros; the judge's grant/denial boxes and signature are not participant elections. AOC-026 is not yet held in custody and must be acquired before that branch is built."
         }
       ],
       "participantInputs": [
@@ -1151,13 +1211,31 @@
         }
       ],
       "rules": {
-        "filing": "File the verified application in the original criminal case with the circuit court clerk.",
-        "fees": "$50 non-refundable at filing; $250 expungement fee after a grant.",
-        "feeWaiver": "As for any KRS 431.073 application; instalments under KRS 534.020 for the post-order fee.",
-        "notice": "The clerk serves the prosecuting attorney and the county attorney where judgment was entered.",
-        "service": "Effected by the clerk.",
+        "filing": "File AOC-496.3, Application to Vacate and Expunge Felony Conviction (printed revision 6-23), as a motion in the original criminal case with the Circuit Court Clerk of the court of conviction, using the full-pardon election only under KRS 431.073(1)(c). One operative filing per original criminal case; related underlying District Court case information is included where the form asks for it. The applicant appears pro se unless represented; attorney signature language is never used for a pro-se filer.",
+        "fees": "Ordinary branch: $40 certification, $50 application fee at filing, and $250 upon issuance of relief, subject to the statutory instalment mechanism under KRS 534.020. IFP branch: AOC-026 with AOC-496.3 and the pardon; the clerk accepts the application without the fee or the certification while the IFP motion is considered; the judge decides; an express ruling on the later $250 is sought and no waiver is promised by the filing.",
+        "feeWaiver": "AOC-026 (revision 10-22) filed with the application; the Clerks' Manual expressly permits acceptance without fee or certification when an IFP motion is filed. The judge decides the request; the actual waiver order governs fee relief.",
+        "notice": "The clerk performs statutory notice to the prosecuting Commonwealth's or county attorney and to the county attorney where judgment was entered, as applicable; the prosecutor handles victim notification. AOC-496.3's clerk-use notice certification is left blank and is not assigned to the applicant.",
+        "service": "None by the applicant: effected by the clerk. No certificate of service is prepared by the applicant.",
         "participantSignature": "The applicant signs before a notary or the circuit court clerk.",
-        "notarization": "Required."
+        "notarization": "Required.",
+        "serviceTiming": "None required of the applicant; the prosecutor's 60-day response period runs from the clerk's service, with any extension and the statutory 120-day provisions tracked after filing.",
+        "filingMethod": "Deliver to the proper Circuit Court Clerk by a channel that office accepts. Official guidance permits attorney electronic filing; universal pro-se eFiling or mail acceptance is not inferred from that statement.",
+        "filingDeadline": "No special outer deadline running from the pardon was identified in KRS 431.073(1)(c). In the ordinary certification branch the application is filed while the certification remains valid; court guidance says it expires in 30 days.",
+        "coverSheet": "None: no statewide civil cover sheet is identified for this original-case filing, and none is inserted by default; genuinely applicable local administrative requirements are checked.",
+        "proposedOrder": "The statewide clerk workflow uses AOC-496.4; the applicant supplies a proposed order only when the particular court requires it.",
+        "affidavitOrVerification": "The official application's own sworn verification, signed before a notary or the Circuit Court Clerk; no separate duplicative affidavit.",
+        "schedulesOrContinuationPages": "Labeled continuation sheets where needed; unrelated captions never combined; no charge omitted for not being a felony.",
+        "postFilingInstructions": "Track the prosecutor's 60-day response period from service, any extension and the statutory 120-day provisions. The court may grant without a hearing after a no-objection response or after 120 days with no response from prosecutor or victim; this is not automatic relief on day 120. Obtain the actual order and complete its payment or waiver and distribution steps.",
+        "uncontestedHearingTreatment": "The court may grant without a hearing after a no-objection response or after the statutory 120 days with no response from the prosecutor or victim; relief is never presented as automatic on day 120.",
+        "contestedHearingOrOppositionHandoff": "Self-help stops on prosecutor or victim opposition, a disputed pardon or identity, or a contested evidentiary proceeding (product policy recorded from the research).",
+        "eligibilityAnchor": "Full pardon covering the conviction under KRS 431.073(1)(c); five years after sentence completion or successful completion of probation or parole, whichever is later; no felony or misdemeanor conviction during the preceding five years; no pending or newly instituted felony or misdemeanor proceeding. The pardon is not itself an expungement and its date is never substituted for the anchor without records establishing that it ended the sentence.",
+        "formMappingCorrections": "AOC-496.3's full-pardon category is separate from the discretionary Class-D category; Section 7's rehabilitation narrative is expressly limited to KRS 431.073(1)(d) and is never required of a pardoned applicant. The pardon is attached as the selected category directs; mutually exclusive alternatives are never both checked. Applicant execution signature and date, notarial attestation and clerk notice date and signature remain completion fields; the applicant's printed identifying facts may be filled from supplied information. AOC-496.3's ordinary certification instruction is never erased or falsified; the Clerks' Manual IFP exception is explained in companion instructions and the branching contract.",
+        "statuteCurrency": "The statute consulted is labeled effective until April 30, 2027; this version is not silently reused for filings governed by a later version.",
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+          "text": "Use the full-pardon selection on the official application and attach your pardon. Do not sign the sworn application in advance. For an ordinary paid filing, include the current certification and application fee. If you are asking to proceed without paying costs, submit AOC-026 with the application and pardon; the clerk's statewide instructions permit acceptance without the fee or certification while that request is considered. Ask for an express ruling on the later expungement fee. Filing a waiver request does not mean the judge has granted it."
+        }
       },
       "selfHelpStopConditions": [
         "Any pardon instrument that is not plainly full and unconditional on its face.",
