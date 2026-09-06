@@ -14,6 +14,52 @@
   "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
   "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
   "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "componentDisposition": [
+    {
+      "componentId": "ne-setaside-custodial-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 1 (CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-proposed-order-2",
+      "role": "proposed_order",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 2 (CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-notice-and-certificate-of-service-3",
+      "role": "notice_and_certificate_of_service",
+      "requirement": "conditional",
+      "disposition": "delivered_conditional_and_explained",
+      "where": "packet pages 4 and 5 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
+      "conditionStatedTo": "participant-instructions.md, \"Who must receive a copy, and how\": district court cases only; in county court the clerk schedules the hearing and mails the notice."
+    },
+    {
+      "componentId": "ne-setaside-custodial-instructions-4",
+      "role": "instructions",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 3 (CC 6:11a, Completing the Petition, Rev. 06/2024)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-fee-waiver-5",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "disposition": "not_generated_with_a_reason",
+      "where": null,
+      "reason": "No fitting official form exists: DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type, and no county-court application form exists at all. The absence and the reason are stated to the participant in participant-instructions.md, \"What it costs, and what to do if you cannot pay\", and the mismatch is carried as a release blocker rather than papered over."
+    },
+    {
+      "componentId": "ne-setaside-custodial-local-rules-check-6",
+      "role": "local_rules_check",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "participant-instructions.md, section \"Confirm what the filing court requires before you file\" (process guidance; the manifest gives this component no form)"
+    }
+  ],
   "binding": {
     "family": "ne-setaside-custodial-set",
     "jurisdiction": "NE",
@@ -31,6 +77,7 @@
     ],
     "packetComponents": [
       "component:ne-setaside-custodial-instructions-4",
+      "component:ne-setaside-custodial-local-rules-check-6",
       "component:ne-setaside-custodial-notice-and-certificate-of-service-3",
       "component:ne-setaside-custodial-primary-filing-1",
       "component:ne-setaside-custodial-proposed-order-2"
@@ -61,14 +108,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33994313031",
-      "jobId": "101382341824",
-      "artifactId": null,
-      "boundToCanonicalSha256": "64988e33de00260de483e839b0507f9635ab358393a608dcb19bfd9812012ead",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
@@ -82,6 +122,7 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "whyTheAcceptanceReceiptIsNull": "The receipt was bound to canonical 64988e33de00260de483e839b0507f9635ab358393a608dcb19bfd9812012ead (workflow run 33994313031), and this build wrote 90ecf1eebe9f1d5d8a32ebc0ac9e134a8442547d3f6d968b256c9cf379e5842e. A central raster of the new bytes is owed; nothing here is that receipt."
   }
 }

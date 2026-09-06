@@ -7,11 +7,10 @@ platform does not hold the value, and it is not guessed: a guessed arresting
 agency is worse than a blank one, because the blank is visible and the guess is
 not. Complete each one by hand before you file.
 
-Required before filing: 73 field(s).
+Required before filing: 67 field(s).
 
 ## CC-6-11
 
-- ,  CasNe o (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - 1.I was convicted of on (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - changes, you must complete a Change of Contact Information F (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · 1.I was convicted of (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
@@ -20,23 +19,22 @@ Required before filing: 73 field(s).
 - CRIMINAL CONVICTION · r (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · Street Address/P.O. Box (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · Telephone Num (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- DROPDOWNCOUNTY2 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- enter the county (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- enter the type of court (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- fullcountystatementRIGHT (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- TYPEOFCOURTDROPDOWN (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- TYPEOFCOURTRESULTS (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
+- enter the county (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, "(Enter the county name)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
+- enter the type of court (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [137.76 658.82 241.29 685.66]) that already carries the form's own words, "(Enter the type of court)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
+- fullcountystatementRIGHT (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, "COUNTY, NEBRASKA", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
+- TYPEOFCOURTDROPDOWN (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [142.33 659.22 221.75 673.62]) whose list holds 5 entr(ies), 3 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field. The value it holds ("District Court") does correspond to the option "DISTRICT", so the obstacle is the widget type and nothing else.
+- TYPEOFCOURTRESULTS (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, "IN THE COURT OF", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - vs (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 ## CC-6-11.2
 
-- ,  Cas (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- DROPDOWNCOUNTY2 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- enter the county (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- enter the type of court (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- fullcountystatementRIGHT (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
+- enter the county (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, "(Enter the county name)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
+- enter the type of court (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [137.76 658.82 241.29 685.66]) that already carries the form's own words, "(Enter the type of court)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
+- fullcountystatementRIGHT (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, "COUNTY, NEBRASKA", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - Text4 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- TYPEOFCOURTDROPDOWN (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- TYPEOFCOURTRESULTS (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- TYPEOFCOURTDROPDOWN (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [142.33 659.22 221.75 673.62]) whose list holds 5 entr(ies), 3 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field. The value it holds ("District Court") does correspond to the option "DISTRICT", so the obstacle is the widget type and nothing else.
+- TYPEOFCOURTRESULTS (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, "IN THE COURT OF", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - vs (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 ## CC-6-11A
 
@@ -56,14 +54,12 @@ Required before filing: 73 field(s).
 - Button63.1 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - Button63.2 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - Button63.3 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- Case (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- City/State/ZIP C (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DC1:15 NEW 08/19 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DC1:15 NEW 08/19 · DC1:15 NEW (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - defendant (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- DROPDOWNCOUNTY2 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
 - fourthkid (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- fullcountystatementRIGHT (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- fullcountystatementRIGHT (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, "______________ COUNTY, NEBRASKA", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - in the above entitled case will beheard before the Honorable (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - namechange (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - NOTICE OF HEARING (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
@@ -72,8 +68,6 @@ Required before filing: 73 field(s).
 - SERVICE (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - SERVICE · _______________ County, Courtroom No. ________ on the ______ (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - SERVICE · __________________ County Courthouse or Justice Center, ____ (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- SERVICE · City/State/ZIP C (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- SERVICE · City/State/ZIP Code (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - SERVICE · in the above entitled case will beheard (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - SERVICE · To (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - SERVICE · You are hereby notified thata hearing on the _______________ (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
@@ -139,6 +133,12 @@ completed after mailing has happened.
 
 Say SET ASIDE, never expunge, clear or erase. Neb. Rev. Stat. § 29-2264(5) nullifies the conviction and removes civil disabilities and disqualifications. It does not seal, erase or remove the record, and § 29-2264(6) lists the many purposes for which the conviction still counts.
 
-## Where these four answers come from
+## Confirm what the filing court requires before you file
 
-Every statement in the sections above is taken from the committed track registry entry for track ne-setaside-custodial (data/record-clearing/legal-design-track-registry.json), which is a held source under DET-FEE-AND-WAIVER-001 amendments A1 and A2. Where the registry records that a fact is NOT established, that is said in terms and an office you can actually reach is named, per the same determination. Nothing here is inferred from a neighbouring Nebraska route.
+**Local practice varies, and the Nebraska judiciary warns about it twice.** Before you file, ask the clerk of the court you are filing in — the county court or district court that imposed the sentence — what that court requires for this filing, and do what that clerk tells you the court requires.
+
+This is the packet's local-rules check: component `ne-setaside-custodial-local-rules-check-6` of the committed packet-set manifest, role local_rules_check, requirement required, delivered as process guidance because the manifest gives it no form to fill. It carries the committed legal-design memo's own words for that component — data/record-clearing/legal-design-intake/NE.memo.json, track ne-setaside-custodial, components[5]: "The judiciary warns twice that local practice varies. The packet tells the participant to confirm with the clerk what that court requires before filing." Nothing beyond that is stated here, because the memo states nothing beyond it.
+
+## Where these answers come from
+
+Every statement in the sections above is taken from the committed track registry entry for track ne-setaside-custodial (data/record-clearing/legal-design-track-registry.json), which is a held source under DET-FEE-AND-WAIVER-001 amendments A1 and A2. Where the registry records that a fact is NOT established, that is said in terms and an office you can actually reach is named, per the same determination. Nothing here is inferred from a neighbouring Nebraska route. The one exception is the local-rules check, which names its own source inside that section: the committed legal-design memo for track ne-setaside-custodial, quoted there in full.
