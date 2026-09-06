@@ -279,12 +279,66 @@ const FAMILY_CONFIGS = Object.freeze({
      * DC 1:15 pages ("Street Address/P.O. Box:" x 111.01-232.38, "City/State/ZIP
      * Code:" x 111.01-212.42 and "Telephone Number:" x 111.01-207.26, every
      * caption ending at least 3.5pt left of the widget it labels).
+     *
+     * FIX91, KNOWN_PREFILLS, the five widgets FIX81 left blank. VF02 read the
+     * delivered pages and found the platform holding, and printing elsewhere in
+     * this same packet, five facts the forms ask for and this build refused:
+     * the caption defendant name on all three case-captioned documents, and the
+     * street address and the email address in CC 6:11's own signature block.
+     * They are added to this same channel, and to no other, so the shared
+     * semantics module is untouched.
+     *
+     * RULED ON FROM THE PINNED FORM'S OWN LABEL, not from the field name. None
+     * of the five is court-only or prosecutor-only:
+     *   - CC 6:11 `defendant` (/Rect x 109.31 y 575.21 w 197.94 h 14.40, page
+     *     1) sits on the caption line the delivered page prints as ", " above
+     *     "(your full name)  Defendant." -- the form names the writer of this
+     *     line as the participant, in those words.
+     *   - CC 6:11.2 `defendant` (x 108.00 y 550.44 w 197.05) and DC 1:15
+     *     `defendant` (x 106.32 y 562.72 w 189.00) are the same caption line on
+     *     the proposed order and the notice of hearing; the caption of a filing
+     *     into an existing criminal case names the same defendant.
+     *   - CC 6:11 `streetaddress` (x 235.64 y 297.29 w 268.36) and
+     *     `emailaddress` (x 193.09 y 248.40 w 310.91) are two lines of the
+     *     six-line identity block under "Signature:", of which this build
+     *     already writes `printedname`, `citystatezip` and "telephone number".
+     *     The delivered page prints, immediately under the blank email line,
+     *     "*Nebraska Supreme Court Rule § 2-208 requires individuals who are
+     *     not attorneys and representing themselves to provide their email
+     *     address" -- the form asks the participant for it by rule, and
+     *     Neb. Ct. R. § 2-208 is in this track's authority list in
+     *     data/record-clearing/legal-design-track-registry.json.
+     *
+     * The obstacle was never the widget. All six CC 6:11 identity fields are
+     * /FT /Tx carrying the identical flag word Ff 8388608 (read-only clear,
+     * required clear), /F 4, no /MaxLen and no /V, and the build wrote three of
+     * the six. The refusal these five carried was
+     * `binding_not_approved_by_exact_caption_gate`: CC 6:11 harvests
+     * `defendant`'s caption as "vs", `streetaddress`'s as
+     * "CRIMINAL CONVICTION · Street Address/P.O. Box" and `emailaddress`'s one
+     * line high as "CRIMINAL CONVICTION · Telephone Num", and DC 1:15
+     * `defendant` harvests no caption at all. That is a statement about this
+     * build's allowlist, and `prepareAcroPolicy` still lifts nothing else: a
+     * target whose reason were role, signature-date or forbidden-fact-class
+     * stops the build.
+     *
+     * FIX81's local-rules check, its three case-number writes and its
+     * measuredRefusals are unchanged by this repair.
      */
     namedFactWrites: {
-      "CC-6-11": [{ factId: "matter.case_number", fields: ["Text2"] }],
-      "CC-6-11.2": [{ factId: "matter.case_number", fields: ["Text2"] }],
+      "CC-6-11": [
+        { factId: "matter.case_number", fields: ["Text2"] },
+        { factId: "participant.full_legal_name", fields: ["defendant"] },
+        { factId: "participant.street_address", fields: ["streetaddress"] },
+        { factId: "participant.email", fields: ["emailaddress"] }
+      ],
+      "CC-6-11.2": [
+        { factId: "matter.case_number", fields: ["Text2"] },
+        { factId: "participant.full_legal_name", fields: ["defendant"] }
+      ],
       "DC-1-15": [
         { factId: "matter.case_number", fields: ["Text38"] },
+        { factId: "participant.full_legal_name", fields: ["defendant"] },
         { factId: "participant.street_address", fields: ["streetaddress"] },
         { factId: "participant.city_state_zip", fields: ["citystatezip"] },
         { factId: "participant.phone", fields: ["telephone number"] }

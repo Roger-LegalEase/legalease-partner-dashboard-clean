@@ -7,7 +7,7 @@ platform does not hold the value, and it is not guessed: a guessed arresting
 agency is worse than a blank one, because the blank is visible and the guess is
 not. Complete each one by hand before you file.
 
-Required before filing: 67 field(s).
+Required before filing: 62 field(s).
 
 ## CC-6-11
 
@@ -17,15 +17,12 @@ Required before filing: 67 field(s).
 - CRIMINAL CONVICTION · By checking this box, I  am letting the court know (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · Date (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · r (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- CRIMINAL CONVICTION · Street Address/P.O. Box (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- CRIMINAL CONVICTION · Telephone Num (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
 - enter the county (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, "(Enter the county name)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - enter the type of court (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [137.76 658.82 241.29 685.66]) that already carries the form's own words, "(Enter the type of court)", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - fullcountystatementRIGHT (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, "COUNTY, NEBRASKA", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
 - TYPEOFCOURTDROPDOWN (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [142.33 659.22 221.75 673.62]) whose list holds 5 entr(ies), 3 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field. The value it holds ("District Court") does correspond to the option "DISTRICT", so the obstacle is the widget type and nothing else.
 - TYPEOFCOURTRESULTS (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, "IN THE COURT OF", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
-- vs (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 ## CC-6-11.2
 
 - DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
@@ -35,7 +32,6 @@ Required before filing: 67 field(s).
 - Text4 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - TYPEOFCOURTDROPDOWN (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [142.33 659.22 221.75 673.62]) whose list holds 5 entr(ies), 3 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field. The value it holds ("District Court") does correspond to the option "DISTRICT", so the obstacle is the widget type and nothing else.
 - TYPEOFCOURTRESULTS (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, "IN THE COURT OF", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.
-- vs (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 ## CC-6-11A
 
 - bnter the original (page 1) — this document is completed by hand on this route (official instructions, not a participant-completed filing); the fields the filing still needs are required before filing
@@ -56,7 +52,6 @@ Required before filing: 67 field(s).
 - Button63.3 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DC1:15 NEW 08/19 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DC1:15 NEW 08/19 · DC1:15 NEW (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- defendant (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DROPDOWNCOUNTY2 (page 1) — this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [289.79 659.22 368.77 673.62]) whose list holds 95 entr(ies), 93 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field; and the value it holds in these review fixtures ("Example County", "Saint Bartholomew and the Northern Reaches County") is not one of the 93 the list offers, so no option corresponds to it.
 - fourthkid (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - fullcountystatementRIGHT (page 1) — this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, "______________ COUNTY, NEBRASKA", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.

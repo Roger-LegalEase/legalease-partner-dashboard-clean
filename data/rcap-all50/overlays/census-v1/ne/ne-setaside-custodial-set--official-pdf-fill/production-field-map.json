@@ -11,7 +11,7 @@
     "participant_sworn_narrative_or_legal_election",
     "not_supported_by_exact_participant_fact_map"
   ],
-  "requiredBeforeFilingCount": 67,
+  "requiredBeforeFilingCount": 62,
   "requiredBeforeFiling": [
     {
       "document": "CC-6-11",
@@ -57,20 +57,6 @@
     },
     {
       "document": "CC-6-11",
-      "field": "streetaddress",
-      "page": 1,
-      "printedContext": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-      "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-    },
-    {
-      "document": "CC-6-11",
-      "field": "emailaddress",
-      "page": 1,
-      "printedContext": "CRIMINAL CONVICTION · Telephone Num",
-      "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-    },
-    {
-      "document": "CC-6-11",
       "field": "DROPDOWNCOUNTY2",
       "page": 1,
       "printedContext": "DROPDOWNCOUNTY2",
@@ -110,13 +96,6 @@
       "page": 1,
       "printedContext": "TYPEOFCOURTRESULTS",
       "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, \"IN THE COURT OF\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank."
-    },
-    {
-      "document": "CC-6-11",
-      "field": "defendant",
-      "page": 1,
-      "printedContext": "vs",
-      "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
     },
     {
       "document": "CC-6-11.2",
@@ -166,13 +145,6 @@
       "page": 1,
       "printedContext": "TYPEOFCOURTRESULTS",
       "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [43.31 672.45 279.93 690.45]) that already carries the form's own words, \"IN THE COURT OF\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank."
-    },
-    {
-      "document": "CC-6-11.2",
-      "field": "defendant",
-      "page": 1,
-      "printedContext": "vs",
-      "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
     },
     {
       "document": "CC-6-11A",
@@ -284,13 +256,6 @@
       "field": "divorce",
       "page": 1,
       "printedContext": "DC1:15 NEW 08/19 · DC1:15 NEW",
-      "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-    },
-    {
-      "document": "DC-1-15",
-      "field": "defendant",
-      "page": 1,
-      "printedContext": "defendant",
       "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
     },
     {
@@ -496,22 +461,6 @@
       "explicitMappings": {},
       "roleRefusals": [
         {
-          "field": "defendant",
-          "class": null,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "printedLabel": "vs",
-          "sectionHeading": null,
-          "regionHeading": "vs",
-          "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "binding_not_approved_by_exact_caption_gate",
-          "buildPolicyCategory": "binding_not_approved_by_exact_caption_gate",
-          "completenessClass": null,
-          "category": null,
-          "requiredBeforeFiling": true,
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
           "field": "datesigned",
           "class": null,
           "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
@@ -522,38 +471,6 @@
           "page": 1,
           "buildPolicyReason": "fact_class_is_not_permitted_for_prefill_in_this_lane",
           "buildPolicyCategory": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "completenessClass": null,
-          "category": null,
-          "requiredBeforeFiling": true,
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "streetaddress",
-          "class": null,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "printedLabel": "Street Address/P.O. Box",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "effectiveLabel": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "page": 1,
-          "buildPolicyReason": "binding_not_approved_by_exact_caption_gate",
-          "buildPolicyCategory": "binding_not_approved_by_exact_caption_gate",
-          "completenessClass": null,
-          "category": null,
-          "requiredBeforeFiling": true,
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "emailaddress",
-          "class": null,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "printedLabel": "Telephone Num",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Telephone Num",
-          "effectiveLabel": "CRIMINAL CONVICTION · Telephone Num",
-          "page": 1,
-          "buildPolicyReason": "binding_not_approved_by_exact_caption_gate",
-          "buildPolicyCategory": "binding_not_approved_by_exact_caption_gate",
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": true,
@@ -815,9 +732,49 @@
           "fields": [
             "Text2"
           ]
+        },
+        {
+          "factId": "participant.full_legal_name",
+          "fields": [
+            "defendant"
+          ]
+        },
+        {
+          "factId": "participant.street_address",
+          "fields": [
+            "streetaddress"
+          ]
+        },
+        {
+          "factId": "participant.email",
+          "fields": [
+            "emailaddress"
+          ]
         }
       ],
-      "namedFactExemptions": [],
+      "namedFactExemptions": [
+        {
+          "field": "defendant",
+          "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
+          "printedLabelHarvested": "vs",
+          "writtenBy": "narrativeAcrossFields",
+          "why": "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        },
+        {
+          "field": "streetaddress",
+          "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
+          "printedLabelHarvested": "Street Address/P.O. Box",
+          "writtenBy": "narrativeAcrossFields",
+          "why": "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        },
+        {
+          "field": "emailaddress",
+          "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
+          "printedLabelHarvested": "Telephone Num",
+          "writtenBy": "narrativeAcrossFields",
+          "why": "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        }
+      ],
       "canonicalWrites": [
         {
           "field": "printedname",
@@ -872,25 +829,54 @@
           "regionHeading": ",  CasNe o",
           "effectiveLabel": ",  CasNe o",
           "page": 1
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
           "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
+          "factId": "participant.full_legal_name",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1,
           "printedLabel": "vs",
           "sectionHeading": null,
           "regionHeading": "vs",
           "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
+          "page": 1
         },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1,
+          "printedLabel": "Street Address/P.O. Box",
+          "sectionHeading": "CRIMINAL CONVICTION",
+          "regionHeading": "CRIMINAL CONVICTION · Street Address/P.O. Box",
+          "effectiveLabel": "CRIMINAL CONVICTION · Street Address/P.O. Box",
+          "page": 1
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1,
+          "printedLabel": "Telephone Num",
+          "sectionHeading": "CRIMINAL CONVICTION",
+          "regionHeading": "CRIMINAL CONVICTION · Telephone Num",
+          "effectiveLabel": "CRIMINAL CONVICTION · Telephone Num",
+          "page": 1
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "Text5",
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
@@ -979,38 +965,6 @@
           "sectionHeading": "CRIMINAL CONVICTION",
           "regionHeading": "CRIMINAL CONVICTION · Date",
           "effectiveLabel": "CRIMINAL CONVICTION · Date",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "streetaddress",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": "Street Address/P.O. Box",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "effectiveLabel": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "emailaddress",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": "Telephone Num",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Telephone Num",
-          "effectiveLabel": "CRIMINAL CONVICTION · Telephone Num",
           "page": 1,
           "buildPolicyReason": "classified_unwritable_by_role",
           "buildPolicyCategory": "role",
@@ -1276,25 +1230,54 @@
           "regionHeading": "CRIMINAL CONVICTION · Telephone Number",
           "effectiveLabel": "CRIMINAL CONVICTION · Telephone Number",
           "page": 1
-        }
-      ],
-      "boundaryRefusals": [
+        },
         {
           "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
+          "factId": "participant.full_legal_name",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 6,
+          "outcome": "fit",
+          "lines": 1,
           "printedLabel": "vs",
           "sectionHeading": null,
           "regionHeading": "vs",
           "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
+          "page": 1
         },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 7,
+          "outcome": "fit",
+          "lines": 1,
+          "printedLabel": "Street Address/P.O. Box",
+          "sectionHeading": "CRIMINAL CONVICTION",
+          "regionHeading": "CRIMINAL CONVICTION · Street Address/P.O. Box",
+          "effectiveLabel": "CRIMINAL CONVICTION · Street Address/P.O. Box",
+          "page": 1
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 7,
+          "outcome": "fit",
+          "lines": 1,
+          "printedLabel": "Telephone Num",
+          "sectionHeading": "CRIMINAL CONVICTION",
+          "regionHeading": "CRIMINAL CONVICTION · Telephone Num",
+          "effectiveLabel": "CRIMINAL CONVICTION · Telephone Num",
+          "page": 1
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "Text5",
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
@@ -1383,38 +1366,6 @@
           "sectionHeading": "CRIMINAL CONVICTION",
           "regionHeading": "CRIMINAL CONVICTION · Date",
           "effectiveLabel": "CRIMINAL CONVICTION · Date",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "streetaddress",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": "Street Address/P.O. Box",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "effectiveLabel": "CRIMINAL CONVICTION · Street Address/P.O. Box",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "emailaddress",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": "Telephone Num",
-          "sectionHeading": "CRIMINAL CONVICTION",
-          "regionHeading": "CRIMINAL CONVICTION · Telephone Num",
-          "effectiveLabel": "CRIMINAL CONVICTION · Telephone Num",
           "page": 1,
           "buildPolicyReason": "classified_unwritable_by_role",
           "buildPolicyCategory": "role",
@@ -1845,22 +1796,6 @@
       "explicitMappings": {},
       "roleRefusals": [
         {
-          "field": "defendant",
-          "class": null,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "printedLabel": "vs",
-          "sectionHeading": null,
-          "regionHeading": "vs",
-          "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "binding_not_approved_by_exact_caption_gate",
-          "buildPolicyCategory": "binding_not_approved_by_exact_caption_gate",
-          "completenessClass": null,
-          "category": null,
-          "requiredBeforeFiling": true,
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
           "field": "TYPEOFCOURTDROPDOWN",
           "class": null,
           "why": "this is not a typed blank: it is a PDF drop-down (/FT /Ch, page 1, /Rect [142.33 659.22 221.75 673.62]) whose list holds 5 entr(ies), 3 of them values. Choose the value from the list in a PDF viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here because the shared filler writes text fields and makes no selection on a choice field. The value it holds (\"District Court\") does correspond to the option \"DISTRICT\", so the obstacle is the widget type and nothing else.",
@@ -2083,9 +2018,23 @@
           "fields": [
             "Text2"
           ]
+        },
+        {
+          "factId": "participant.full_legal_name",
+          "fields": [
+            "defendant"
+          ]
         }
       ],
-      "namedFactExemptions": [],
+      "namedFactExemptions": [
+        {
+          "field": "defendant",
+          "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
+          "printedLabelHarvested": "vs",
+          "writtenBy": "narrativeAcrossFields",
+          "why": "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        }
+      ],
       "canonicalWrites": [
         {
           "field": "Text2",
@@ -2101,25 +2050,24 @@
           "regionHeading": ",  Cas",
           "effectiveLabel": ",  Cas",
           "page": 1
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
           "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
+          "factId": "participant.full_legal_name",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1,
           "printedLabel": "vs",
           "sectionHeading": null,
           "regionHeading": "vs",
           "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
+          "page": 1
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "Text4",
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
@@ -2354,24 +2302,24 @@
           }
         }
       ],
-      "boundaryWrites": [],
-      "boundaryRefusals": [
+      "boundaryWrites": [
         {
           "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
+          "factId": "participant.full_legal_name",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 6,
+          "outcome": "fit",
+          "lines": 1,
           "printedLabel": "vs",
           "sectionHeading": null,
           "regionHeading": "vs",
           "effectiveLabel": "vs",
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
+          "page": 1
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "Text4",
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
@@ -3824,22 +3772,6 @@
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
         },
         {
-          "field": "defendant",
-          "class": null,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "printedLabel": null,
-          "sectionHeading": null,
-          "regionHeading": null,
-          "effectiveLabel": null,
-          "page": 1,
-          "buildPolicyReason": "binding_not_approved_by_exact_caption_gate",
-          "buildPolicyCategory": "binding_not_approved_by_exact_caption_gate",
-          "completenessClass": null,
-          "category": null,
-          "requiredBeforeFiling": true,
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
           "field": "Text44",
           "class": "court_prosecutor_clerk_or_agency_owned",
           "why": "court-owned field: the court, clerk or prosecutor completes it, not the participant",
@@ -4239,6 +4171,12 @@
           ]
         },
         {
+          "factId": "participant.full_legal_name",
+          "fields": [
+            "defendant"
+          ]
+        },
+        {
           "factId": "participant.street_address",
           "fields": [
             "streetaddress"
@@ -4258,6 +4196,13 @@
         }
       ],
       "namedFactExemptions": [
+        {
+          "field": "defendant",
+          "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
+          "printedLabelHarvested": null,
+          "writtenBy": "narrativeAcrossFields",
+          "why": "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        },
         {
           "field": "streetaddress",
           "liftedBuildPolicyReason": "binding_not_approved_by_exact_caption_gate",
@@ -4320,6 +4265,21 @@
           "sectionHeading": null,
           "regionHeading": "Case",
           "effectiveLabel": "Case",
+          "page": 1
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text_narrative_line",
+          "narrativeLine": 1,
+          "narrativeLines": 1,
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1,
+          "printedLabel": null,
+          "sectionHeading": null,
+          "regionHeading": null,
+          "effectiveLabel": null,
           "page": 1
         },
         {
@@ -4700,22 +4660,6 @@
           "page": 1,
           "buildPolicyReason": "no_allowlisted_fact_matches",
           "buildPolicyCategory": null,
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
-          "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": null,
-          "sectionHeading": null,
-          "regionHeading": null,
-          "effectiveLabel": null,
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": true,
@@ -5954,22 +5898,6 @@
           "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
         },
         {
-          "field": "defendant",
-          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
-          "category": null,
-          "printedLabel": null,
-          "sectionHeading": null,
-          "regionHeading": null,
-          "effectiveLabel": null,
-          "page": 1,
-          "buildPolicyReason": "classified_unwritable_by_role",
-          "buildPolicyCategory": "role",
-          "completenessClass": null,
-          "class": null,
-          "requiredBeforeFiling": true,
-          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
-        },
-        {
           "field": "parent",
           "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
           "category": null,
@@ -6799,6 +6727,23 @@
           "sectionHeading": null,
           "regionHeading": "Case",
           "effectiveLabel": "Case",
+          "page": 1,
+          "buildPolicyReason": "narrative_exceeds_the_printed_lines_at_minimum_font",
+          "buildPolicyCategory": "unfittable",
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": true,
+          "why": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing"
+        },
+        {
+          "field": "defendant",
+          "reason": "a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing",
+          "category": null,
+          "factId": "participant.full_legal_name",
+          "printedLabel": null,
+          "sectionHeading": null,
+          "regionHeading": null,
+          "effectiveLabel": null,
           "page": 1,
           "buildPolicyReason": "narrative_exceeds_the_printed_lines_at_minimum_font",
           "buildPolicyCategory": "unfittable",
