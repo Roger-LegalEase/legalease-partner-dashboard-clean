@@ -201,3 +201,18 @@ fix*/rows.json returns named in §3.
 - Unresolved exception: none. If VF05 pushes rows after this note, they sit on `vf05-va-four-reread` for Codex.
 
 Production touched: NO. Live Stripe touched: NO. No route opened. No approval record edited.
+
+## Takeover back to Claude — 2026-09-06T17:10Z (owner-directed)
+
+Codex credits are exhausted and Codex could not respond; the owner authorized this Claude session to
+resume as sole operational Captain without a Codex acknowledgment. Read-only inspection first: the
+origin tip was c6b497cbee9f2c8fdf9567366d3bc26a89da68f4 (Codex's last push, 12:02Z), the Captain
+worktree was clean at ba7f95cf3 and fast-forwarded to that tip; no Codex process, callback or Routine
+exists in this container; the only scheduled Routine on the account is an unrelated, disabled one.
+Codex's 89 commits after the handoff are retained as they are. Codex's dispatch records name
+"Codex Cloud" as executor on every lane; those lanes cannot run, so their live claims are re-executed
+by Claude workers on the same lane ids and branches, rebalanced through claim.mjs where one lane holds
+more than one worker's load. The container restart before this takeover wiped the local docker image
+state (DEL-D's `rcap-render-worker:del-d` no longer exists locally); IMAGE_BUILD_RECORD.json stands as
+the record of that build. Counts at takeover: proven 149, FAIL 40, VERIFY_PENDING 9, BUILT_RASTER_PENDING 6,
+LEGAL_BLOCKED 18, SOURCE_READY 81.
