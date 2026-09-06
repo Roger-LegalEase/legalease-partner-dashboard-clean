@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "3ff99137caf540602d1e124f68525f9d9039e2a1",
+  "generatedAtCommit": "2f2e5f27d7ed05320042a397bacaac48c39fd734",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2521,7 +2521,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:17:37.225Z"
@@ -2836,7 +2836,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:29:28.542Z"
@@ -3648,7 +3648,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:55:47.271Z"
@@ -3724,7 +3724,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T18:24:39.380Z"
@@ -5599,11 +5599,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T22:43:23.964Z",
-      "releaseReason": "VF01 read at 5326f747d on the FIX66 bytes: PASS_COMPLETE_INDEPENDENT, fifteen obligations pass, nine counters zero, sweep 188/188, 0 of 120 selection widgets differ from the pinned form; rows.json at 30a36c4bd"
+      "releasedAt": "2026-09-05T22:43:23.964Z"
     },
     {
       "subjectType": "packet-family",
@@ -5676,11 +5675,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T18:26:02.263Z",
-      "releaseReason": "VF07 PASS_COMPLETE_INDEPENDENT at c8dd4f751: fifteen of fifteen obligations pass on the FIX55 bytes (canonical 135dc7b9, boundary 5597a281); zero differing pixels at all 14 AOC-CR-288 widget rects in both fixtures; nine counters zero; central raster owed on these bytes (the standing receipt binds the superseded pair). Return at data/rcap-grade-a/packet-factory-24h/vf07/rows.json (Captain release after integrating VF07 commit c1449549c)."
+      "releasedAt": "2026-09-05T18:26:02.263Z"
     },
     {
       "subjectType": "packet-family",
@@ -6934,7 +6932,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T19:12:30.630Z"
@@ -6979,7 +6977,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:14:05.146Z"
@@ -7009,7 +7007,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T11:12:05.873Z"
@@ -7131,7 +7129,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T11:12:06.147Z"
@@ -7220,7 +7218,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:17:36.989Z"
@@ -7297,7 +7295,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T11:12:06.286Z"
@@ -7868,6 +7866,21 @@
         "tx_nd_deferred_other-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_deferred_other-set",
+      "familyId": "tx_nd_deferred_other-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_deferred_other-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF25",
       "laneKind": "packet-build",
@@ -8059,6 +8072,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T22:35:46.519Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_veterans_reemployment-set",
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "itemId": null,
+      "familyIds": [
+        "tx_nd_veterans_reemployment-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13757,7 +13785,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6bb849329fd5726196e544a831a1114fc5feb3c1b1d4d1cfb24e938d484da06c",
+  "claimsDigest": "f6d25c8b180efa1c6ed5ae5a961fbbd4e475d546643132e37dadda6a6df3c101",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -51837,6 +51865,14 @@
       "operation": "packet-build",
       "lane": "PF07",
       "withdrawnAt": "2026-09-06T07:16:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-06T18:57:57Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
