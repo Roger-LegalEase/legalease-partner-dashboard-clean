@@ -6,7 +6,7 @@ import { getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
-import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
+import { composeParticipantDeliveryPacket } from "@/lib/rcap/grade-a/participant-packet";
 import { composablePacketSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { renderGradeAPacketPdf, GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION } from "@/lib/rcap/grade-a/renderer";
 import { stableStringify } from "@/lib/rcap/fulfillment/grade-a-registry";
@@ -46,7 +46,7 @@ export function preparePersonalizedPacket(input: {
     const value = merged[factId];
     if (typeof value === "string" || typeof value === "number") facts[factId] = String(value);
   }
-  const packet = composeGradeAPacket(specification, {
+  const packet = composeParticipantDeliveryPacket(specification, {
     routeKey: routeId, jurisdiction: snapshot.jurisdiction, pathwayId: snapshot.pathwayId ?? "",
     facts, verificationHash: input.verificationHash, verifiedAt: snapshot.verifiedAt
   });
