@@ -28,9 +28,12 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(here, "../..");
 process.chdir(ROOT); // every reader resolves against process.cwd()
 
+const stage = process.argv.find((arg) => arg.startsWith("--stage="))?.split("=")[1] ?? "all";
+if (!["all", "preflight", "authority"].includes(stage)) throw new Error(`unknown stage: ${stage}`);
 let failures = 0;
 const fail = (m) => { failures += 1; console.error(`FAIL ${m}`); };
 
+if (stage !== "authority") {
 // 1. The packaged bytes are exactly what the manifest names.
 const manifest = JSON.parse(fs.readFileSync(path.join(here, "runtime-data-manifest.json"), "utf8"));
 let missing = 0, mismatched = 0;
@@ -42,16 +45,21 @@ for (const entry of manifest.files) {
 }
 console.log(`data manifest: ${manifest.files.length} files declared, ${missing} missing, ${mismatched} mismatched`);
 
+}
+
 // 2. The worker's module graph loads. This is what proves the ESM JSON imports
 //    (@/../data/...) are present: without them the import throws here.
 register(pathToFileURL(path.join(ROOT, "scripts/lib/ts-esm-loader.mjs")).href);
 const { getAllJurisdictionProfiles } = await import(path.join(ROOT, "src/lib/rcap-engine/profile-registry.ts"));
+const { getCurrentFulfillmentRecord } = await import(path.join(ROOT, "src/lib/rcap/fulfillment/grade-a-registry.ts"));
 const { packetFulfillmentAuthority } = await import(path.join(ROOT, "src/lib/expungement-ai/packet-fulfillment-authority.ts"));
 const { composablePacketSpecificationFor } = await import(path.join(ROOT, "src/lib/rcap/grade-a/packet-specification.ts"));
 await import(path.join(ROOT, "src/lib/rcap/render/personalized-packet.ts"));
 await import(path.join(ROOT, "src/lib/rcap/render/render-worker.ts"));
+await import(path.join(ROOT, "scripts/rcap-render-worker.mjs"));
 console.log(`module graph: loaded; ${getAllJurisdictionProfiles().length} compiled jurisdiction profiles`);
 
+if (stage !== "preflight") {
 // 3. The authority gate reaches a reasoned decision per record, reading the
 //    packaged registry, observation snapshot and specification directory.
 const registryPath = "data/rcap-grade-a/fulfillment-authority-registry.json";
@@ -70,16 +78,22 @@ for (const record of registry.records) {
   }
   if (!decision) { undecided += 1; fail(`${record.routeId}: no decision returned`); continue; }
   if (decision.allowed) allowed += 1; else refused += 1;
+  if (getCurrentFulfillmentRecord(record.routeId)?.revocation?.revoked && decision.allowed) fail(`${record.routeId}: revoked record was allowed`);
   if (!decision.allowed && !decision.reason) { undecided += 1; fail(`${record.routeId}: refused with no reason`); }
   console.log(`  ${record.routeId} -> ${decision.allowed ? "ALLOWED" : `refused: ${String(decision.reason).slice(0, 110)}`}`);
 }
 console.log(`authority gate: ${registry.records.length} records, ${allowed} allowed, ${refused} reasoned refusals, ${undecided} undecided`);
 
+}
+
+if (stage !== "authority") {
 // 4. The specification binding really opened the packaged directory.
 const specDir = path.join(ROOT, "data/record-clearing/packet-specifications");
 const specCount = fs.readdirSync(specDir).filter((f) => f.endsWith(".json")).length;
 if (specCount !== 19) fail(`expected 19 packaged specifications, found ${specCount}`);
 console.log(`specification directory: ${specCount} files scannable at ${path.relative(ROOT, specDir)}`);
 
+}
+
 if (failures) { console.error(`\nPREFLIGHT FAILED: ${failures} problem(s)`); process.exit(1); }
-console.log("\nPREFLIGHT OK: packaged data complete and the worker reached a reasoned decision for every Grade-A record");
+console.log(`\n${stage.toUpperCase()} OK: ${stage === "authority" ? "packaged registry decisions checked without test authority" : stage === "preflight" ? "packaged assets and actual worker imports verified" : "packaged assets, worker imports and registry decisions verified"}`);
