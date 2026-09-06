@@ -1540,10 +1540,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX86",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T22:14:45.472Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6620,10 +6620,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX85",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T23:15:21.536Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13634,7 +13634,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a0b0bc3e13c57a795a0e7c1fef5ba255131c544828fef7955acc55af920c78ab",
+  "claimsDigest": "463af235a7f9b04bdd206e299e65a3106f95f9c1b429a1d6a5bd80a79d08e8e3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44716,6 +44716,28 @@
       "previouslyReleasedAt": "2026-09-05T22:43:24.310Z",
       "transferredAt": "2026-09-06T00:08:44.979Z",
       "reason": "Independent read owed after FIX78 (city on NHJB-2317, the name parts and the derived address line on NHJB-2956, name.2 left to the participant; the lane flags the boundary address line at 6.0pt for judgement) and the central raster receipt from run 33999550366 on a1970c52e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF01's pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX85",
+      "previouslyReleasedAt": "2026-09-05T23:15:21.536Z",
+      "transferredAt": "2026-09-06T00:12:20.626Z",
+      "reason": "FIX85 extends the shared finalizer border suppression to written fields (PA 490 order DocketNumber/Defendant); the East-host opt-in follows FIX84."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX86",
+      "previouslyReleasedAt": "2026-09-05T22:14:45.472Z",
+      "transferredAt": "2026-09-06T00:12:31.432Z",
+      "reason": "FIX86 prints the three Colorado motion self-help stop conditions from CO.memo.json that VF02 measured missing; one writer on the co_motion builder."
     }
   ],
   "grants": [
