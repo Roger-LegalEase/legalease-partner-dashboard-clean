@@ -20,13 +20,13 @@
     "whoDecides": "merging workflow changes to the default branch is Roger's decision"
   },
   "lastBatch": {
-    "workflowRunId": "33999550366",
-    "renderedCommitSha": "a1970c52e883ea511c547c0cbf87915da35b5e69",
-    "familyJobs": 2,
+    "workflowRunId": "34000217746",
+    "renderedCommitSha": "8f942b3b9e5d3a0e32d99253bc8306e0e99131d3",
+    "familyJobs": 1,
     "allGreen": true,
-    "liveReceipts": 2,
+    "liveReceipts": 1,
     "supersededReceipts": 0,
-    "ingestedOn": "2026-09-06T00:04:38.112Z"
+    "ingestedOn": "2026-09-06T00:15:31.570Z"
   },
   "whatRasterPassDoesNotMean": "RASTER_PASS is one gate. It does not make a family PASS_COMPLETE, does not promote it, does not open a commercial route, and does not substitute for an independent read by a worker that did not build it.",
   "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
@@ -4394,7 +4394,7 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS04",
       "supersededReceipts": [
         {
@@ -4442,7 +4442,26 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-06T00:01:05Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34000217746",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "8f942b3b9e5d3a0e32d99253bc8306e0e99131d3",
+        "jobId": "101398011444",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de",
+        "boundToBoundarySha256": "ff74f8da50629aedd6eff550902ab831d19a9be3268bb88fc7cac62d87523fd1",
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "whatThisGateDidNotRender": [],
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101397622111); the family matrix depends on that job, so no family verdict exists without it",
+        "ingestedOn": "2026-09-06T00:15:31.569Z"
+      }
     },
     {
       "familyId": "co_pardoned_conviction_seal-set",
