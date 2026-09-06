@@ -1,0 +1,379 @@
+{
+  "schemaVersion": "codex-captain-review-supplement/v1",
+  "workerReturnRecovered": "c7453670c9e3252cdd9118977a0a59b6b6a2ae09",
+  "savedCheckpoint": "984d98f252cb2dad0c09226b334bbcd4928f84e9",
+  "currentBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "workerOwnership": "Completed remote return proves saved VF05 finished. No replacement was started.",
+  "inspection": {
+    "dpi": 144,
+    "pdfCommands": 8,
+    "commandExitCodes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "totalPages": 80,
+    "uniquePageImagesActuallyViewed": 58,
+    "contactSheetsActuallyViewed": 15,
+    "mapping": "image-index.json",
+    "note": "Original completed worker 300 dpi source pixel comparison remains prior evidence, not this supplemental read."
+  },
+  "newFailures": [
+    "Held DOB omitted from all eight composed CCRE requests.",
+    "Own CCRE before-filing obtain/confirm step omitted; required case-record and applicable conditional FBI obtain/confirm steps need complete reconciliation."
+  ],
+  "repairScope": [
+    "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
+    "four exact VA sealing family directories",
+    "FIX87 return/evidence; exact four default generator rows only"
+  ],
+  "rows": [
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "canonicalSha256": "e3f8c0b59bef21c9e8b780634b13c7ee70eafbd4a0628d93d512818756d99530",
+      "boundarySha256": "ffc3d5f8230dec88b855bcade76bbf84ead44037303db998ecfdbec742197c48",
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "lane": "VF05",
+      "wave": "CODEX-CAPTAIN-VF05-SUPPLEMENT-20260906",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
+      "verifier": "Codex Captain; did not author these VA packet bytes. Independent supplemental actual-page review after recovering completed c7453670c9e3252cdd9118977a0a59b6b6a2ae09.",
+      "claim": "Existing LIVE VF05 grant asserted before current read; grant 7fa71fd1020d2260.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Rehashed both current fixtures and compared to the completed VF05 row. Exact track, family, case and participant headers were read on current official and composed page images. Only product-wiring metadata changed since the reviewed base; packet bytes match."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE",
+          "detail": "Captain lacks the two exact original CC-1201/CC-1203 sources locally. Preserved the completed worker source-identity and pixel measurements without relabeling them as this environment's measurements. New defects are independently decidable from current output, held fixture facts and committed track requirements."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Read all delivered page images: correct four/six-page petition, CCRE request, Commonwealth copy/request, records checklist and filing instructions. Their order matches current component list. Missing checklist content is scored under REQUIRED_BEFORE_FILING."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "Both fixtures print the held DOB on official petition page 1 but leave PETITIONER'S DATE OF BIRTH blank on the composed CCRE request (packet page 7 for CC-1203; page 5 for CC-1201), instructing the participant to copy it. These eight omitted writes fall outside the previous review's declared 10 official + 12 composed write denominator. Held DOB must be rendered here; signature and request date remain participant acts."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "The current registry packetSet.requiredBeforeFiling requires obtaining the participant's OWN CCRE record before filing and checking answers against it, separately from requesting court forwarding after filing. Current records checklist only names the after-filing forwarded court copy; its fee paragraph mentions the own-copy price without an obtain/confirm step. The same required list names the circuit/district case record and confirm/correct steps; three tracks additionally carry conditional FBI history/confirmation (not ancillary-only). Read all current instructions and checklist pages; label coverage alone missed these prerequisites. Render the existing route-specific requirements without making conditional items unconditional or changing legal rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Actual current images show the existing route-derived CC-1203 Section A/B election and misdemeanor election, with felony class-5/6 versus larceny alternatives, participant histories, offense circumstances and acknowledgments left for the participant. No new unsupported selector observed in this supplemental read."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No partial or invented case/charge repeating group was observed in the current page images. Additional-charge and ancillary disclosures remain blank and conditional."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Current page images retain blank participant signature/date and no court decision, judge act, service act or sworn history is supplied. This visual observation does not repeat the original worker's automated source-pixel mask test."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "All eight current hashes equal the completed worker and saved checkpoint hashes. Eight pdftoppm commands at 144 dpi exited 0 for 80 pages; inspected 58 exact-image-deduplicated pages in 15 contact sheets. Existing central raster binds the unchanged fixtures. This is local inspection, not a new hosted raster receipt."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read all 80 current pages through exact image deduplication: official petition first, CCRE request second, Commonwealth request third, records checklist fourth, filing instructions last. No duplicated or reversed component observed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "No new visibly lost participant text was observed at 144 dpi. Prior worker measured source/participant pixel fidelity at 300 dpi; that measurement is retained as prior evidence, not repeated here. Existing dotted rule extends slightly beyond the Commonwealth address column but remains on page. Missing DOB is explicit under KNOWN_PREFILLS."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Current guide and composed filing instructions identify circuit court of the case locality, including district-court-origin charges. Compared against committed track venue and destination; no venue election changed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Read current filing pages against committed fee posture: no court fee, nothing to waive, separate own-copy CCRE charge. This does not cure the missing own-record prerequisite and does not constitute new legal approval."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Current Commonwealth page and guide distinguish actual delivery/first-class-mail act from this prepared request; signature/date remain blank. Court forwarding explicitly follows filing. No guessed deadline was added."
+        },
+        "SELF_HELP_STOP": {
+          "result": "NOT_MEASURABLE",
+          "detail": "All current stop sections were visually read. The original worker's 4/4, 4/4, 9/9, 9/9 exact current-registry comparisons are preserved. Captain did not repeat that full normalized comparison in this supplemental read, so does not claim a second quantified pass or resolve existing legal holds."
+        }
+      },
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf05/va-four-captain-20260906/RETURN.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "va_seal_enumerated_seven_year-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "canonicalSha256": "e885a3cd8a4c6390f1a85472fa9a48ed88a34595c5b2e702077eb0f317e30503",
+      "boundarySha256": "291fc81a7fc0cb86bd973ad99279bded775ffb862d9f53f5c401c2e6c2abbd1d",
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "lane": "VF05",
+      "wave": "CODEX-CAPTAIN-VF05-SUPPLEMENT-20260906",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
+      "verifier": "Codex Captain; did not author these VA packet bytes. Independent supplemental actual-page review after recovering completed c7453670c9e3252cdd9118977a0a59b6b6a2ae09.",
+      "claim": "Existing LIVE VF05 grant asserted before current read; grant 7fa71fd1020d2260.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Rehashed both current fixtures and compared to the completed VF05 row. Exact track, family, case and participant headers were read on current official and composed page images. Only product-wiring metadata changed since the reviewed base; packet bytes match."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE",
+          "detail": "Captain lacks the two exact original CC-1201/CC-1203 sources locally. Preserved the completed worker source-identity and pixel measurements without relabeling them as this environment's measurements. New defects are independently decidable from current output, held fixture facts and committed track requirements."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Read all delivered page images: correct four/six-page petition, CCRE request, Commonwealth copy/request, records checklist and filing instructions. Their order matches current component list. Missing checklist content is scored under REQUIRED_BEFORE_FILING."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "Both fixtures print the held DOB on official petition page 1 but leave PETITIONER'S DATE OF BIRTH blank on the composed CCRE request (packet page 7 for CC-1203; page 5 for CC-1201), instructing the participant to copy it. These eight omitted writes fall outside the previous review's declared 10 official + 12 composed write denominator. Held DOB must be rendered here; signature and request date remain participant acts."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "The current registry packetSet.requiredBeforeFiling requires obtaining the participant's OWN CCRE record before filing and checking answers against it, separately from requesting court forwarding after filing. Current records checklist only names the after-filing forwarded court copy; its fee paragraph mentions the own-copy price without an obtain/confirm step. The same required list names the circuit/district case record and confirm/correct steps; three tracks additionally carry conditional FBI history/confirmation (not ancillary-only). Read all current instructions and checklist pages; label coverage alone missed these prerequisites. Render the existing route-specific requirements without making conditional items unconditional or changing legal rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Actual current images show the existing route-derived CC-1203 Section A/B election and misdemeanor election, with felony class-5/6 versus larceny alternatives, participant histories, offense circumstances and acknowledgments left for the participant. No new unsupported selector observed in this supplemental read."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No partial or invented case/charge repeating group was observed in the current page images. Additional-charge and ancillary disclosures remain blank and conditional."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Current page images retain blank participant signature/date and no court decision, judge act, service act or sworn history is supplied. This visual observation does not repeat the original worker's automated source-pixel mask test."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "All eight current hashes equal the completed worker and saved checkpoint hashes. Eight pdftoppm commands at 144 dpi exited 0 for 80 pages; inspected 58 exact-image-deduplicated pages in 15 contact sheets. Existing central raster binds the unchanged fixtures. This is local inspection, not a new hosted raster receipt."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read all 80 current pages through exact image deduplication: official petition first, CCRE request second, Commonwealth request third, records checklist fourth, filing instructions last. No duplicated or reversed component observed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "No new visibly lost participant text was observed at 144 dpi. Prior worker measured source/participant pixel fidelity at 300 dpi; that measurement is retained as prior evidence, not repeated here. Existing dotted rule extends slightly beyond the Commonwealth address column but remains on page. Missing DOB is explicit under KNOWN_PREFILLS."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Current guide and composed filing instructions identify circuit court of the case locality, including district-court-origin charges. Compared against committed track venue and destination; no venue election changed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Read current filing pages against committed fee posture: no court fee, nothing to waive, separate own-copy CCRE charge. This does not cure the missing own-record prerequisite and does not constitute new legal approval."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Current Commonwealth page and guide distinguish actual delivery/first-class-mail act from this prepared request; signature/date remain blank. Court forwarding explicitly follows filing. No guessed deadline was added."
+        },
+        "SELF_HELP_STOP": {
+          "result": "NOT_MEASURABLE",
+          "detail": "All current stop sections were visually read. The original worker's 4/4, 4/4, 9/9, 9/9 exact current-registry comparisons are preserved. Captain did not repeat that full normalized comparison in this supplemental read, so does not claim a second quantified pass or resolve existing legal holds."
+        }
+      },
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf05/va-four-captain-20260906/RETURN.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "va_seal_petition_felony-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "canonicalSha256": "f18bf62aaedd77bd7ba422f0a17dfd242a5b4c9fc05c904da151255fd21b3ef9",
+      "boundarySha256": "4df72f0ec6a883cf0bb8f9f243a27ce680478b7e39a88b484cd19db0f65b8da5",
+      "familyId": "va_seal_petition_felony-set",
+      "lane": "VF05",
+      "wave": "CODEX-CAPTAIN-VF05-SUPPLEMENT-20260906",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
+      "verifier": "Codex Captain; did not author these VA packet bytes. Independent supplemental actual-page review after recovering completed c7453670c9e3252cdd9118977a0a59b6b6a2ae09.",
+      "claim": "Existing LIVE VF05 grant asserted before current read; grant 7fa71fd1020d2260.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Rehashed both current fixtures and compared to the completed VF05 row. Exact track, family, case and participant headers were read on current official and composed page images. Only product-wiring metadata changed since the reviewed base; packet bytes match."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE",
+          "detail": "Captain lacks the two exact original CC-1201/CC-1203 sources locally. Preserved the completed worker source-identity and pixel measurements without relabeling them as this environment's measurements. New defects are independently decidable from current output, held fixture facts and committed track requirements."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Read all delivered page images: correct four/six-page petition, CCRE request, Commonwealth copy/request, records checklist and filing instructions. Their order matches current component list. Missing checklist content is scored under REQUIRED_BEFORE_FILING."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "Both fixtures print the held DOB on official petition page 1 but leave PETITIONER'S DATE OF BIRTH blank on the composed CCRE request (packet page 7 for CC-1203; page 5 for CC-1201), instructing the participant to copy it. These eight omitted writes fall outside the previous review's declared 10 official + 12 composed write denominator. Held DOB must be rendered here; signature and request date remain participant acts."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "The current registry packetSet.requiredBeforeFiling requires obtaining the participant's OWN CCRE record before filing and checking answers against it, separately from requesting court forwarding after filing. Current records checklist only names the after-filing forwarded court copy; its fee paragraph mentions the own-copy price without an obtain/confirm step. The same required list names the circuit/district case record and confirm/correct steps; three tracks additionally carry conditional FBI history/confirmation (not ancillary-only). Read all current instructions and checklist pages; label coverage alone missed these prerequisites. Render the existing route-specific requirements without making conditional items unconditional or changing legal rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Actual current images show the existing route-derived CC-1203 Section A/B election and misdemeanor election, with felony class-5/6 versus larceny alternatives, participant histories, offense circumstances and acknowledgments left for the participant. No new unsupported selector observed in this supplemental read."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No partial or invented case/charge repeating group was observed in the current page images. Additional-charge and ancillary disclosures remain blank and conditional."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Current page images retain blank participant signature/date and no court decision, judge act, service act or sworn history is supplied. This visual observation does not repeat the original worker's automated source-pixel mask test."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "All eight current hashes equal the completed worker and saved checkpoint hashes. Eight pdftoppm commands at 144 dpi exited 0 for 80 pages; inspected 58 exact-image-deduplicated pages in 15 contact sheets. Existing central raster binds the unchanged fixtures. This is local inspection, not a new hosted raster receipt."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read all 80 current pages through exact image deduplication: official petition first, CCRE request second, Commonwealth request third, records checklist fourth, filing instructions last. No duplicated or reversed component observed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "No new visibly lost participant text was observed at 144 dpi. Prior worker measured source/participant pixel fidelity at 300 dpi; that measurement is retained as prior evidence, not repeated here. Existing dotted rule extends slightly beyond the Commonwealth address column but remains on page. Missing DOB is explicit under KNOWN_PREFILLS."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Current guide and composed filing instructions identify circuit court of the case locality, including district-court-origin charges. Compared against committed track venue and destination; no venue election changed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Read current filing pages against committed fee posture: no court fee, nothing to waive, separate own-copy CCRE charge. This does not cure the missing own-record prerequisite and does not constitute new legal approval."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Current Commonwealth page and guide distinguish actual delivery/first-class-mail act from this prepared request; signature/date remain blank. Court forwarding explicitly follows filing. No guessed deadline was added."
+        },
+        "SELF_HELP_STOP": {
+          "result": "NOT_MEASURABLE",
+          "detail": "All current stop sections were visually read. The original worker's 4/4, 4/4, 9/9, 9/9 exact current-registry comparisons are preserved. Captain did not repeat that full normalized comparison in this supplemental read, so does not claim a second quantified pass or resolve existing legal holds."
+        }
+      },
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf05/va-four-captain-20260906/RETURN.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "canonicalSha256": "febcd0eb7d9ec997fea44db872f9fdf88f5f34dfec76b56a0ab3e41ea0dab58a",
+      "boundarySha256": "80f11d3a9038f22ffc0efef856e2c61075fc658f132365b7f21d80783d8267c2",
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "lane": "VF05",
+      "wave": "CODEX-CAPTAIN-VF05-SUPPLEMENT-20260906",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "75ca76ab9a6fa1a4f60f33d0cd1ea6ca45170cd5",
+      "verifier": "Codex Captain; did not author these VA packet bytes. Independent supplemental actual-page review after recovering completed c7453670c9e3252cdd9118977a0a59b6b6a2ae09.",
+      "claim": "Existing LIVE VF05 grant asserted before current read; grant 7fa71fd1020d2260.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Rehashed both current fixtures and compared to the completed VF05 row. Exact track, family, case and participant headers were read on current official and composed page images. Only product-wiring metadata changed since the reviewed base; packet bytes match."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE",
+          "detail": "Captain lacks the two exact original CC-1201/CC-1203 sources locally. Preserved the completed worker source-identity and pixel measurements without relabeling them as this environment's measurements. New defects are independently decidable from current output, held fixture facts and committed track requirements."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Read all delivered page images: correct four/six-page petition, CCRE request, Commonwealth copy/request, records checklist and filing instructions. Their order matches current component list. Missing checklist content is scored under REQUIRED_BEFORE_FILING."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "Both fixtures print the held DOB on official petition page 1 but leave PETITIONER'S DATE OF BIRTH blank on the composed CCRE request (packet page 7 for CC-1203; page 5 for CC-1201), instructing the participant to copy it. These eight omitted writes fall outside the previous review's declared 10 official + 12 composed write denominator. Held DOB must be rendered here; signature and request date remain participant acts."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "detail": "The current registry packetSet.requiredBeforeFiling requires obtaining the participant's OWN CCRE record before filing and checking answers against it, separately from requesting court forwarding after filing. Current records checklist only names the after-filing forwarded court copy; its fee paragraph mentions the own-copy price without an obtain/confirm step. The same required list names the circuit/district case record and confirm/correct steps; three tracks additionally carry conditional FBI history/confirmation (not ancillary-only). Read all current instructions and checklist pages; label coverage alone missed these prerequisites. Render the existing route-specific requirements without making conditional items unconditional or changing legal rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Actual current images show the existing route-derived CC-1203 Section A/B election and misdemeanor election, with felony class-5/6 versus larceny alternatives, participant histories, offense circumstances and acknowledgments left for the participant. No new unsupported selector observed in this supplemental read."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No partial or invented case/charge repeating group was observed in the current page images. Additional-charge and ancillary disclosures remain blank and conditional."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Current page images retain blank participant signature/date and no court decision, judge act, service act or sworn history is supplied. This visual observation does not repeat the original worker's automated source-pixel mask test."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "All eight current hashes equal the completed worker and saved checkpoint hashes. Eight pdftoppm commands at 144 dpi exited 0 for 80 pages; inspected 58 exact-image-deduplicated pages in 15 contact sheets. Existing central raster binds the unchanged fixtures. This is local inspection, not a new hosted raster receipt."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read all 80 current pages through exact image deduplication: official petition first, CCRE request second, Commonwealth request third, records checklist fourth, filing instructions last. No duplicated or reversed component observed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "No new visibly lost participant text was observed at 144 dpi. Prior worker measured source/participant pixel fidelity at 300 dpi; that measurement is retained as prior evidence, not repeated here. Existing dotted rule extends slightly beyond the Commonwealth address column but remains on page. Missing DOB is explicit under KNOWN_PREFILLS."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Current guide and composed filing instructions identify circuit court of the case locality, including district-court-origin charges. Compared against committed track venue and destination; no venue election changed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Read current filing pages against committed fee posture: no court fee, nothing to waive, separate own-copy CCRE charge. This does not cure the missing own-record prerequisite and does not constitute new legal approval."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Current Commonwealth page and guide distinguish actual delivery/first-class-mail act from this prepared request; signature/date remain blank. Court forwarding explicitly follows filing. No guessed deadline was added."
+        },
+        "SELF_HELP_STOP": {
+          "result": "NOT_MEASURABLE",
+          "detail": "All current stop sections were visually read. The original worker's 4/4, 4/4, 9/9, 9/9 exact current-registry comparisons are preserved. Captain did not repeat that full normalized comparison in this supplemental read, so does not claim a second quantified pass or resolve existing legal holds."
+        }
+      },
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf05/va-four-captain-20260906/RETURN.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "testDoubles": [],
+  "routesOpened": 0,
+  "productionTouched": false,
+  "legalApprovalGranted": false,
+  "priorIndependentWorkPreserved": true
+}
