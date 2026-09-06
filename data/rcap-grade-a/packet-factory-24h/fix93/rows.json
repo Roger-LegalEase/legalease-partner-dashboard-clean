@@ -1,0 +1,335 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "FIX93",
+  "laneKind": "shared-host-repair",
+  "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+  "repairedByThisLane": false,
+  "repairedByThisLaneIsFalseBecause": "Repair means the delivered packet is repaired. This lane repaired the builders and could not run them, so not one delivered byte moved.",
+  "generatedAtBase": "b70ec78ef",
+  "branch": "fix93-il-exp-pardon-host",
+  "grantsAsserted": [
+    "CLAIM_OK FIX93 il-exp-pardon-set (repair, grant set 67cf9be4da69e86d)",
+    "CLAIM_OK FIX93 il-exp-precompletion-set (repair, grant set 67cf9be4da69e86d)",
+    "CLAIM_OK FIX93 il-seal-nonconv-set (repair, grant set 67cf9be4da69e86d)",
+    "CLAIM_OK FIX93 il-seal-edu-set (repair, grant set 67cf9be4da69e86d)"
+  ],
+  "grantsReleased": false,
+  "blocker": {
+    "refusal": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind FAIL - 1 of 4 source(s) do not bind",
+    "refusedBy": "node scripts/verify-packet-build-environment.mjs --family <id>, and resolveSources in the builder itself",
+    "builderRefusalText": "source custody is not mounted: LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf (custody nationwide_recovery_pool_2026_09_02)",
+    "absentSource": {
+      "sourceId": "official-form:EXP-AD Case List",
+      "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+      "byteLength": 744328,
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "componentKind": "attachment",
+      "requiredByAllFourFamilies": true
+    },
+    "whatWasTried": [
+      "The custody tree is absent from the shared private/ mount: private/source-imports holds only Expungement_AI_RCAP_Master_Library_Edition_1.",
+      "No file of 744,328 bytes exists anywhere on this container's filesystem, and no other committed index entry carries that sha256.",
+      "The 2026-09-02 recovery kit scripts/rcap-corpus/stage-nationwide-recovery-pool.mjs restages from is not present either (/tmp/legalease-nationwide-recovery is absent), and the kit is carried by no release.",
+      "The official publisher binary named by data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json is refused by the egress proxy: CONNECT to ilcourtsaudio.blob.core.windows.net:443 returns 403, connect_rejected by organization policy.",
+      "The acquisition record's private artifact receipt (Google Drive 1AYe4toOzEBUp9AyONsV-5o9-NSC7QjhU) is recorded as visibility owner_only, shared false."
+    ],
+    "consequence": "No fixture could be rebuilt for any of the four families, so no delivered byte was repaired, no digest changed, no determinism pair was produced from the exact sources and no counter was measured on a delivered artifact. Substituting a different binary for the absent one was never an option: the builder hash-pins all four sources.",
+    "whatUnblocksThis": "Mount nationwide_recovery_pool_2026_09_02 (or otherwise place the exact 744,328-byte b72d30d2... binary in a declared custody), then run each family's builder twice, its --self-test, verify-packet-completeness, and a fresh raster."
+  },
+  "harnessNote": "Every measurement below was taken on output built by a harness copy of the repaired builder in /tmp/fix93, with a synthetic one-page stand-in carrying the Case List's own 78 field names in place of the absent binary. It exercises the repaired code end to end. It is NOT a delivered artifact, its digests are meaningless, and it discharges no obligation. Nothing it produced was written into any family directory except transiently, to run the shipped verifier, after which each directory was restored and re-hashed byte-identical.",
+  "whatChangedInThisCommit": [
+    "scripts/build-census-v1-il-exp-pardon-set.mjs - the shared host for il-exp-pardon-set, il-exp-precompletion-set and il-seal-nonconv-set, rewritten to answer every obligation those three verdicts failed, with a --self-test that reads delivered artifacts rather than sources.",
+    "scripts/build-census-v1-il-exp-precompletion-set.mjs and scripts/build-census-v1-il-seal-nonconv-set.mjs - the wrappers now also expose --self-test.",
+    "scripts/build-census-v1-il-seal-edu-set.mjs - its own builder, repaired for the one obligation its selected verdict failed plus the three defects that verdict recorded without scoring."
+  ],
+  "overlayBytesMoved": 0,
+  "siblingIdentity": {
+    "method": "sha256 over every file under data/rcap-all50/overlays, sorted, before and after this lane's work",
+    "digest": "33eb7681f7dea2b383303f61570f96d7f5c2ed6bec79eee6db1e7e3ec3b8e6c0",
+    "result": "Identical to base b70ec78ef. No family directory moved - not the four this lane holds, and not one other family. git diff against HEAD under data/ is empty.",
+    "provenFamiliesOnThisHost": "il-exp-supervision-set and il-prostitution-j-vacate-set are the Illinois families in COMPLETE_PACKET_PROVEN. Neither is built by this host or by any file this lane touched, and neither moved."
+  },
+  "whatWasInspected": {
+    "rastersAt300Dpi": "Every page of both fixtures of all four families, built by the harness, rendered at 300 dpi under /tmp/fix93 and inspected, then deleted.",
+    "confirmedOnThePages": [
+      "Request item 1 answered Yes on both expungement routes and No on both sealing routes; item 12 answered the other way on each. Both boxes render cleanly and only the answered one is marked.",
+      "il-exp-pardon-set: Request page 2 item 3(b), 'I received a pardon from the Governor of the State of Illinois allowing expungement', is the only box ticked in item 3.",
+      "il-exp-precompletion-set: item 6 ticked with sub-option b, 'anticipating the successful completion of this program within 61 days', and 6(a) blank.",
+      "il-seal-edu-set: item 22 ticked, items 15, 17, 19b, 19c and 21 blank.",
+      "il-seal-nonconv-set: no box in Sections 15 to 24 ticked, and the guide says why.",
+      "The active route's arrest table carries all five cells of row 1 and rows 2 to 10 are wholly blank; the table the route does not use is wholly blank on every page.",
+      "The charge cell carries an actual charge, not a direction to the participant. The boundary fixture's long charge, agency and outcome wrap inside their cells with no ellipsis and no clipping.",
+      "The proposed Order carries the case number in this route's own half only, and its page 2 item 3 delivery block carries Name, Address, Email and Telephone.",
+      "Signature, Judge's Name, Entered Date, both 'is GRANTED' boxes and every clerk-assigned case-number caption are blank.",
+      "Print name, phone, email, address and the self-represented control are complete on Request page 6."
+    ],
+    "structural": "pdftotext opens all eight harness fixtures with no diagnostic. Against the delivered bytes it still reports 'Couldn't find trailer dictionary' and 'Invalid XRef entry' for every Illinois family on these forms.",
+    "shippedVerifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> returned PASS_COMPLETE with all nine counters zero for each of the four, run over harness output staged transiently into the family directory and restored byte-identical afterwards. This measures the repaired builder, not a delivered artifact."
+  },
+  "counselQuestions": {
+    "decided": "none",
+    "noted": "The registry records two release blockers for all four tracks (a county fee table, and county e-filing availability for self-represented filers) and two more for il-seal-edu. None is a build blocker; buildBlockers, openLegalQuestions, counselQuestions and awaitingCounselClassification are all empty for all four, and counselConfirmationRequired is false. This lane decided nothing and printed the record's words."
+  },
+  "grantsNothing": "This return approves no output, promotes no family, opens no commercial route and sets no price. Every family it names is still FAIL_REPAIR_REQUIRED on its delivered bytes.",
+  "rows": [
+    {
+      "lane": "FIX93",
+      "familyId": "il-exp-pardon-set",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "repaired": false,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf07",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInTheBuilderOnly": [
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "Nine zeros here would mean the delivered artifact was measured after repair. It was not rebuilt at all, so its counters are the ones the verifier already reports over the unrepaired bytes.",
+      "countersOnHarnessOutputNotOnDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "deliveredDigestsUnchanged": {
+        "canonical": "8e7db8e17eab613b11ae25dfe08c526bf34d82d17673e58e7447a4903beaf697",
+        "boundary": "48dfd074c86cf4c590f8291d8ea52c184ed21a9af169d72e3da180a634102677"
+      },
+      "newDigests": null,
+      "determinism": "Not measurable on delivered bytes. The repaired builder produced byte-identical output across two consecutive harness runs.",
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "ROUTE_IDENTITY",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "whyItDischargesNothing": "The delivered packet is the packet the verifiers failed. A repair that never reached the bytes discharges no obligation, including the six this lane was dealt."
+    },
+    {
+      "lane": "FIX93",
+      "familyId": "il-exp-precompletion-set",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "repaired": false,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf08",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInTheBuilderOnly": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "The delivered artifact was not rebuilt, so nothing was measured after repair.",
+      "countersOnHarnessOutputNotOnDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "deliveredDigestsUnchanged": {
+        "canonical": "094606faeb8e3e22d320c14ec2c4afcb27063adee79f52861befcb4734cadc30",
+        "boundary": "14c928815215021a21bcc6a5ebab5faec6cc1853264560e9a25170e53dabb53e"
+      },
+      "newDigests": null,
+      "determinism": "Not measurable on delivered bytes. Byte-identical across two consecutive harness runs.",
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "whyItDischargesNothing": "Same reason: the repair is in the builder, not in the delivered packet."
+    },
+    {
+      "lane": "FIX93",
+      "familyId": "il-seal-nonconv-set",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "repaired": false,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      },
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInTheBuilderOnly": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "The delivered artifact was not rebuilt, so nothing was measured after repair.",
+      "countersOnHarnessOutputNotOnDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "deliveredDigestsUnchanged": {
+        "canonical": "97c7841e99268ff82ee95d3e3e298688d8021b09cd77789aa0242ccd4937b155",
+        "boundary": "638633e6b2f5627b21c0eb9e926b03a70ae0a507d4a68c0394435b045da90050"
+      },
+      "newDigests": null,
+      "determinism": "Not measurable on delivered bytes. Byte-identical across two consecutive harness runs.",
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "ROUTE_IDENTITY",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP",
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "whyItDischargesNothing": "Same reason. The delivered PDFs still carry the dangling cross-reference entries VF04 measured; poppler still cannot find their trailer."
+    },
+    {
+      "lane": "FIX93",
+      "familyId": "il-seal-edu-set",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "repaired": false,
+      "ownBuilder": "scripts/build-census-v1-il-seal-edu-set.mjs",
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInTheBuilderOnly": [
+        "KNOWN_PREFILLS"
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "The delivered artifact was not rebuilt, so nothing was measured after repair.",
+      "countersOnHarnessOutputNotOnDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "deliveredDigestsUnchanged": {
+        "canonical": "3863ab5409c5b95420f2dbaf7c4ac0c6d72dce7247ef7858158c4fad309d89e5",
+        "boundary": "9ed754037a2ec668375ef45cdb7b81599fabb37ee99c3fd55c3a38c739eef494"
+      },
+      "newDigests": null,
+      "determinism": "Not measurable on delivered bytes. Byte-identical across two consecutive harness runs.",
+      "alsoAnsweredInTheBuilder": [
+        "The unscored xref observation VF03 recorded: /Size 954 over subsections covering 808 objects, 39 undeclared numbers still referenced from page /Annots.",
+        "The unscored REQUIRED_BEFORE_FILING observation: interior AcroForm ids such as 'Complete arrest60 on EXP-AD Case List page 1' named as required items.",
+        "Item 1, 'I am requesting to expunge records', left unanswered on a sealing route."
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP",
+        "REQUIRED_BEFORE_FILING",
+        "KNOWN_PREFILLS"
+      ],
+      "whyItDischargesNothing": "Same reason. VF03's SOURCE_IDENTITY was already NOT_MEASURABLE_HERE for the same absent custody, which is the same wall this lane hit."
+    }
+  ]
+}
