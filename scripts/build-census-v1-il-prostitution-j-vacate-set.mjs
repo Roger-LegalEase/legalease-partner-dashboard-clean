@@ -50,6 +50,12 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import {
+  IL_PROSTITUTION_J_VACATE_COMPONENTS,
+  IL_PROSTITUTION_J_VACATE_TITLES,
+  composedBody,
+  participantFromCensusFacts
+} from "./lib/il-prostitution-j-vacate-composition.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -72,15 +78,12 @@ const ROUTE = Object.freeze({
   statute: "20 ILCS 2630/5.2(j)(3)"
 });
 
-const COMPONENTS = ["primary_filing", "proposed_order"];
+const COMPONENTS = [...IL_PROSTITUTION_J_VACATE_COMPONENTS];
 const COMPONENT_ROUTES = Object.freeze(
   Object.fromEntries(COMPONENTS.map((componentId) => [componentId, ROUTE.primaryRouteKey]))
 );
 
-const COMPOSED_TITLES = {
-  primary_filing: "Motion to Vacate and Expunge Conviction for Class 4 Felony Prostitution Under 20 ILCS 2630/5.2(j)(3)",
-  proposed_order: "Proposed Order (Tendered for the Court's Consideration)"
-};
+const COMPOSED_TITLES = IL_PROSTITUTION_J_VACATE_TITLES;
 
 const COMPONENT_CONDITIONS = {};
 
@@ -106,63 +109,9 @@ const FIXTURES = {
   }
 };
 
-const DOTS = (n = 84) => ".".repeat(n);
-
-function composedBody(componentId, facts) {
-  const name = facts["participant.full_legal_name"];
-  const address = facts["participant.street_address"];
-  const phone = facts["participant.phone"];
-  const email = facts["participant.email"];
-  const L = [];
-  L.push(COMPOSED_TITLES[componentId].toUpperCase(), "");
-  const caption = () => {
-    L.push("IN THE CIRCUIT COURT OF .......................................... COUNTY, ILLINOIS");
-    L.push("(THE COUNTY OF THE CONVICTION - the motion is filed with the circuit court with jurisdiction over the underlying conviction, the Chief Judge of that judicial circuit, or a judge designated by the Chief Judge)", "");
-    L.push("PEOPLE OF THE STATE OF ILLINOIS", "");
-    L.push("v.", "");
-    L.push(`${name}, DEFENDANT-MOVANT`, "");
-    L.push("Case No. " + DOTS(44) + "  (the EXISTING criminal case number)", "");
-  };
-  if (componentId === "primary_filing") {
-    caption();
-    L.push("MOTION TO VACATE AND EXPUNGE CONVICTION FOR CLASS 4 FELONY PROSTITUTION", "");
-    L.push(`1. The movant, ${name}, moves under 20 ILCS 2630/5.2(j)(3) to vacate and expunge a prior Class 4 felony prostitution conviction entered in this case, and states the following from the court record (nothing on these lines is written for you):`, "");
-    L.push("Date of conviction:");
-    L.push(DOTS(), "");
-    L.push("The conviction as the court record words it (copy it exactly; file this motion only if the record shows a Class 4 felony prostitution conviction, and stop if it does not):");
-    L.push(DOTS());
-    L.push(DOTS(), "");
-    L.push("Date the sentence and every condition imposed by the conviction was completed:");
-    L.push(DOTS(), "");
-    L.push("2. The movant has completed any sentence and every condition imposed by the conviction, as 20 ILCS 2630/5.2(j)(3) requires before the motion may be brought.", "");
-    L.push("3. Your own statement of the specific problems this conviction has caused you, in your own words (these lines are yours alone; this packet composes none of this showing and asserts nothing about the circumstances of the offense):");
-    L.push(DOTS());
-    L.push(DOTS());
-    L.push(DOTS());
-    L.push(DOTS(), "");
-    L.push("4. The movant therefore asks the court to vacate the conviction and to order expungement of the associated records in the manner provided by 20 ILCS 2630/5.2(d)(9)(A), with the effect provided by 20 ILCS 2630/5.2(j)(8). The State's Attorney may object within 60 days after notice.", "");
-    L.push("DATE " + DOTS(30) + "   SIGNATURE OF MOVANT " + DOTS(42), "");
-    L.push("(The movant signs and dates this motion personally. No verification language appears on this motion because 20 ILCS 2630/5.2(j)(3) requires none, and none may be added.)", "");
-    L.push(`PRINTED NAME: ${name}  (self-represented)`);
-    L.push(`MAILING ADDRESS: ${address}`);
-    L.push(`TELEPHONE: ${phone}`);
-    L.push(`EMAIL: ${email}`);
-  } else {
-    caption();
-    L.push("PROPOSED ORDER", "");
-    L.push(`THIS CAUSE coming before the court on the motion of ${name} to vacate and expunge a conviction for Class 4 felony prostitution under 20 ILCS 2630/5.2(j)(3), and the court being fully advised, the following order is TENDERED FOR THE COURT'S CONSIDERATION. (Every decision below belongs to the court; nothing here asserts a finding, and this order takes effect only if and when a judge signs it.)`, "");
-    L.push("IT IS ORDERED that the conviction identified below is vacated, and that expungement of the associated records proceed in the manner provided by 20 ILCS 2630/5.2(d)(9)(A).", "");
-    L.push("The conviction as the court record words it (copied exactly from the record, by the movant, before tendering):");
-    L.push(DOTS());
-    L.push(DOTS(), "");
-    L.push("ENTERED this ...... day of .................., 20......", "");
-    L.push("...................................................");
-    L.push("JUDGE");
-    L.push("", "(The date of entry and the judge's signature are the Court's. They are left blank.)");
-  }
-  L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
-  return L.join("\n");
-}
+/* The composed page text of both components lives in
+ * scripts/lib/il-prostitution-j-vacate-composition.mjs, so the participant
+ * renderer and these fixtures are built from the same approved sentences. */
 
 function composedMap(componentId) {
   const writes = [];
@@ -694,7 +643,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const documents = [];
 
     for (const componentId of COMPONENTS) {
-      const body = composedBody(componentId, facts);
+      const body = composedBody(componentId, participantFromCensusFacts(facts), ROUTE.routeKeys);
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
       const composedBytes = await renderComposedPdf(body, COMPOSED_TITLES[componentId]);
