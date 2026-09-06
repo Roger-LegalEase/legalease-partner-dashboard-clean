@@ -54,6 +54,7 @@ const {
   PDFDropdown,
   PDFOptionList,
   PDFRawStream,
+  PDFName,
   decodePDFRawStream
 } = require("pdf-lib");
 const sharp = require("sharp");
@@ -89,6 +90,22 @@ function assertPopplerAvailable() {
   });
 }
 
+/*
+ * FIX81. The Nebraska local-rules check, in the memo's own words.
+ *
+ * Quoted verbatim from data/record-clearing/legal-design-intake/NE.memo.json,
+ * track ne-setaside-custodial, components[5].notes. `assertLocalRulesCheckIsTheMemos`
+ * re-reads the memo on every build and throws if this string and the memo's
+ * have drifted by one character, so the packet cannot go on quoting a sentence
+ * the record no longer carries.
+ */
+const LOCAL_RULES_CHECK_NOTE =
+  "The judiciary warns twice that local practice varies. "
+  + "The packet tells the participant to confirm with the clerk what that court requires before filing.";
+
+const LEGAL_DESIGN_MEMO = "data/record-clearing/legal-design-intake/NE.memo.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+
 const UT_COMMON_SOURCES = [
   "official-form:1000EX",
   "official-form:1020EX",
@@ -122,7 +139,9 @@ const FAMILY_CONFIGS = Object.freeze({
         + "ne-setaside-custodial (data/record-clearing/legal-design-track-registry.json), which is a held source "
         + "under DET-FEE-AND-WAIVER-001 amendments A1 and A2. Where the registry records that a fact is NOT "
         + "established, that is said in terms and an office you can actually reach is named, per the same "
-        + "determination. Nothing here is inferred from a neighbouring Nebraska route.",
+        + "determination. Nothing here is inferred from a neighbouring Nebraska route. The one exception is the "
+        + "local-rules check, which names its own source inside that section: the committed legal-design memo for "
+        + "track ne-setaside-custodial, quoted there in full.",
       whereYouFile: [
         "**File the petition and the proposed order in your EXISTING criminal case, with the clerk of the sentencing court.** "
         + "This is not a new case: it goes into the case file that already exists.",
@@ -168,8 +187,154 @@ const FAMILY_CONFIGS = Object.freeze({
       whatThisReliefIsNot:
         "Say SET ASIDE, never expunge, clear or erase. Neb. Rev. Stat. § 29-2264(5) nullifies the conviction and removes "
         + "civil disabilities and disqualifications. It does not seal, erase or remove the record, and § 29-2264(6) lists "
-        + "the many purposes for which the conviction still counts."
-    }
+        + "the many purposes for which the conviction still counts.",
+      /*
+       * FIX81, COMPONENT_SET. The sixth component this route names.
+       *
+       * The committed packet-set manifest declares six components for
+       * ne-setaside-custodial-set. Five of them are a form or a stated absence.
+       * The sixth, `ne-setaside-custodial-local-rules-check-6`, has role
+       * local_rules_check, requirement REQUIRED and outputStrategy
+       * process_guidance -- it is guidance rather than paper, and it reached no
+       * delivered surface at all: participant-instructions.md contained no
+       * occurrence of "local", "varies", "vary" or "practice", and CC 6:11a,
+       * the judiciary's own instruction page, carries no local-practice warning
+       * either.
+       *
+       * The content is the memo's, not this builder's. LOCAL_RULES_CHECK_NOTE
+       * below is asserted at build time to equal NE.memo.json, track
+       * ne-setaside-custodial, components[5].notes character for character, so
+       * this section cannot drift from the record it carries, and nothing is
+       * said here that the memo does not say. The memo attaches no statute to
+       * this component and none is invented for it.
+       */
+      localRulesCheck: [
+        "**Local practice varies, and the Nebraska judiciary warns about it twice.** Before you file, ask the clerk of "
+        + "the court you are filing in — the county court or district court that imposed the sentence — what that court "
+        + "requires for this filing, and do what that clerk tells you the court requires.",
+        "This is the packet's local-rules check: component `ne-setaside-custodial-local-rules-check-6` of the committed "
+        + "packet-set manifest, role local_rules_check, requirement required, delivered as process guidance because the "
+        + "manifest gives it no form to fill. It carries the committed legal-design memo's own words for that component "
+        + "— data/record-clearing/legal-design-intake/NE.memo.json, track ne-setaside-custodial, components[5]: "
+        + "\"" + LOCAL_RULES_CHECK_NOTE + "\" Nothing beyond that is stated here, because the memo states nothing beyond it."
+      ]
+    },
+    /*
+     * FIX81. Every component the route names, and what became of it.
+     *
+     * Asserted at build time against data/record-clearing/legal-design-packet-set-manifests.json:
+     * the componentIds, roles and requirements below must equal that manifest's
+     * six rows exactly, in order. A component may be delivered, conditional and
+     * explained, or not generated with a reason -- and nothing else.
+     */
+    componentDisposition: [
+      { componentId: "ne-setaside-custodial-primary-filing-1", role: "primary_filing", requirement: "required",
+        disposition: "delivered", where: "packet page 1 (CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024)" },
+      { componentId: "ne-setaside-custodial-proposed-order-2", role: "proposed_order", requirement: "required",
+        disposition: "delivered", where: "packet page 2 (CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020)" },
+      { componentId: "ne-setaside-custodial-notice-and-certificate-of-service-3", role: "notice_and_certificate_of_service",
+        requirement: "conditional", disposition: "delivered_conditional_and_explained",
+        where: "packet pages 4 and 5 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
+        conditionStatedTo: "participant-instructions.md, \"Who must receive a copy, and how\": district court cases only; in county court the clerk schedules the hearing and mails the notice." },
+      { componentId: "ne-setaside-custodial-instructions-4", role: "instructions", requirement: "required",
+        disposition: "delivered", where: "packet page 3 (CC 6:11a, Completing the Petition, Rev. 06/2024)" },
+      { componentId: "ne-setaside-custodial-fee-waiver-5", role: "fee_waiver", requirement: "conditional",
+        disposition: "not_generated_with_a_reason",
+        where: null,
+        reason: "No fitting official form exists: DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type, and no county-court application form exists at all. The absence and the reason are stated to the participant in participant-instructions.md, \"What it costs, and what to do if you cannot pay\", and the mismatch is carried as a release blocker rather than papered over." },
+      { componentId: "ne-setaside-custodial-local-rules-check-6", role: "local_rules_check", requirement: "required",
+        disposition: "delivered",
+        where: "participant-instructions.md, section \"Confirm what the filing court requires before you file\" (process guidance; the manifest gives this component no form)" }
+    ],
+    /*
+     * FIX81, KNOWN_PREFILLS. Facts the platform holds, written at the widget
+     * the pinned form prints the caption for.
+     *
+     * Each entry names a FACT ID and a field, and the shared finalizer's
+     * `narrativeAcrossFields` channel resolves it from the same `facts` set
+     * every other write is resolved from. No text from this file can reach the
+     * page through it, the value is fitted to that widget's own /Rect, and a
+     * value that will not fit at the minimum readable size is refused whole
+     * rather than truncated.
+     *
+     * Why the channel is needed at all: the shared descriptor list matches
+     * nothing at these widgets. CC 6:11 harvests its Case No. caption from a
+     * scrambled text stream as ",  CasNe o", CC 6:11.2 as ",  Cas" and DC 1:15
+     * as "Case", so `decideBinding` returns no_allowlisted_fact_matches on all
+     * three; and DC 1:15's certificate-of-service identity block harvests the
+     * caption of the line BELOW each widget, so `streetaddress` reads
+     * "City/State/ZIP Code" and the exact-caption gate refuses it. Both are
+     * statements about this build's allowlist, and the completeness contract's
+     * first condition for leaving a blank -- that the platform holds no value
+     * -- is false: the packet writes the same participant's name and email
+     * address in the same block.
+     *
+     * Measured on the pinned bytes before any write was made: each Case No.
+     * widget sits immediately right of its own printed "Case No." caption
+     * (CC 6:11 caption x 326.00-369.92 y 631.93-648.10 against widget
+     * x 377.28-506.62 y 633.39-647.79; CC 6:11.2 x 325.34-369.26 y 614.41-630.58
+     * against x 374.40-504.00 y 616.20-630.60; DC 1:15 x 347.88-391.52
+     * y 619.05-635.21 against x 396.69-495.69 y 621.86-636.26), and each
+     * identity-block widget sits right of its own printed caption on both
+     * DC 1:15 pages ("Street Address/P.O. Box:" x 111.01-232.38, "City/State/ZIP
+     * Code:" x 111.01-212.42 and "Telephone Number:" x 111.01-207.26, every
+     * caption ending at least 3.5pt left of the widget it labels).
+     */
+    namedFactWrites: {
+      "CC-6-11": [{ factId: "matter.case_number", fields: ["Text2"] }],
+      "CC-6-11.2": [{ factId: "matter.case_number", fields: ["Text2"] }],
+      "DC-1-15": [
+        { factId: "matter.case_number", fields: ["Text38"] },
+        { factId: "participant.street_address", fields: ["streetaddress"] },
+        { factId: "participant.city_state_zip", fields: ["citystatezip"] },
+        { factId: "participant.phone", fields: ["telephone number"] }
+      ]
+    },
+    /*
+     * FIX81, KNOWN_PREFILLS. The caption court and county, said as the widget is.
+     *
+     * VF02 read the delivered page 1 as "IN THE ______ COURT OF ______ COUNTY,
+     * NEBRASKA" with both blanks unwritten while the platform holds
+     * matter.court and matter.county, and faulted the refusals for describing
+     * build policy. They are named here so the row states the measurement
+     * instead: two of them are PDF drop-downs, and the words of the caption
+     * itself live in read-only display fields the form's own script rewrites.
+     * `measuredWidgetFacts` re-reads each one from the pinned binary on every
+     * build, and `assertMeasuredRefusalsAreMeasurable` throws if a declared
+     * field stops being a drop-down or stops being read-only, so the sentence
+     * cannot outlive the widget it describes.
+     */
+    measuredRefusals: {
+      "CC-6-11": {
+        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
+        DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
+        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
+        fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" },
+        "enter the type of court": { holds: ["matter.court"], expect: "read_only_text" },
+        "enter the county": { holds: ["matter.county"], expect: "read_only_text" }
+      },
+      "CC-6-11.2": {
+        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
+        DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
+        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
+        fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" },
+        "enter the type of court": { holds: ["matter.court"], expect: "read_only_text" },
+        "enter the county": { holds: ["matter.county"], expect: "read_only_text" }
+      },
+      "DC-1-15": {
+        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
+        DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
+        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
+        fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" }
+      }
+    },
+    /*
+     * FIX81. The Captain maintains `binding` inside this family's
+     * product-wiring.json and this builder does not author it; a rebuild that
+     * simply rewrote the file would delete a record nobody meant to delete.
+     * Opt-in, per family, so no other family on this host changes behaviour.
+     */
+    carryProductBinding: true
   },
   "ne-setaside-noncustodial-set": {
     state: "ne",
@@ -1454,6 +1619,10 @@ export function participantGuidanceMarkdown(guidance) {
   section("Who must receive a copy, and how", guidance.whoYouServe);
   bullets("Stop, and take this to a lawyer, if any of these is true", guidance.whereSelfHelpEnds);
   section("What this relief is, and is not", guidance.whatThisReliefIsNot);
+  /* FIX81. The route's local_rules_check component, delivered as the process
+   * guidance the packet-set manifest declares it to be. A family that declares
+   * none renders none and its bytes do not move. */
+  section("Confirm what the filing court requires before you file", guidance.localRulesCheck);
   if (guidance.heldSourceNote) out.push("## Where these answers come from", "", guidance.heldSourceNote, "");
   return out;
 }
@@ -1462,7 +1631,24 @@ function chargeMappingFor(subject, fieldName = subject) {
   return approvedFactLabel("matter.charge", subject) ? { [fieldName]: "matter.charge" } : {};
 }
 
-function prepareAcroPolicy(census, policy) {
+/*
+ * FIX81. The refusals a named-fact write replaces, and the ones it may not.
+ *
+ * A field this family writes through the finalizer's `narrativeAcrossFields`
+ * channel must not also be declared unwritable by role: the role gate is not
+ * overridable inside the shared module, and a field on both lists is written
+ * nowhere and refused twice. Only ONE build-policy reason may be lifted this
+ * way -- `binding_not_approved_by_exact_caption_gate`, which says the harvested
+ * caption did not match the descriptor the field name already bound, and says
+ * nothing about who owns the field. Anything else (an actor-owned field, a
+ * signature or event date, a fact class this lane may not prefill) stops the
+ * build, so this cannot become a way around a protect rule.
+ */
+const CAPTION_GATE_REASON = "binding_not_approved_by_exact_caption_gate";
+
+function prepareAcroPolicy(census, policy, namedFactWrites = []) {
+  const namedFactFields = new Set(namedFactWrites.flatMap((entry) => entry.fields ?? []));
+  const namedFactExemptions = [];
   const explicitMappings = {};
   for (const field of census.fields) {
     const subject = field.effectiveLabel ?? field.name;
@@ -1487,6 +1673,18 @@ function prepareAcroPolicy(census, policy) {
     if (!policy.documentAcceptsFill) reason = policy.reason ?? "document_role_does_not_accept_prefill";
     if (!reason) reason = unsafeReason(subject, field.regionHeading, decision.factId);
     if (!reason && decision.writable && !approvedFactLabel(decision.factId, subject)) reason = "binding_not_approved_by_exact_caption_gate";
+    if (reason && namedFactFields.has(field.name)) {
+      assert.equal(reason, CAPTION_GATE_REASON,
+        `${field.name}: a named-fact write may only lift ${CAPTION_GATE_REASON}, not ${reason}`);
+      namedFactExemptions.push({
+        field: field.name,
+        liftedBuildPolicyReason: reason,
+        printedLabelHarvested: field.effectiveLabel ?? null,
+        writtenBy: "narrativeAcrossFields",
+        why: "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+      });
+      reason = null;
+    }
     if (reason) {
       const context = contextOf(field);
       unwritableFields.push(withCompletenessDisposition({ field: field.name, class: reason, why: reason }, {
@@ -1518,7 +1716,7 @@ function prepareAcroPolicy(census, policy) {
       })
     });
   });
-  return { explicitMappings, unwritableFields, preclassification, selectionControls };
+  return { explicitMappings, unwritableFields, preclassification, selectionControls, namedFactWrites, namedFactExemptions };
 }
 
 /**
@@ -1887,15 +2085,169 @@ async function verifyFlatBytes(source, policyData, artifactBytes, report, facts,
     addedGlyphs: added.length, addedPaintedPaths: addedPaths.length };
 }
 
+/*
+ * FIX81, KNOWN_PREFILLS. A blank the platform holds a value for and does not
+ * write, described by MEASURING THE WIDGET rather than by naming build policy.
+ *
+ * The caption of the Nebraska petition, order and notice -- "IN THE ______
+ * COURT OF ______ COUNTY, NEBRASKA" -- is not four blanks. It is two PDF
+ * DROP-DOWNS and two READ-ONLY display fields that the form's own script
+ * rewrites from them, and the shared filler writes text fields: it selects no
+ * option on a choice field, and a value written into a read-only display field
+ * would replace the caption's own printed words rather than fill a blank.
+ * Those are facts about the widget, and they are what the row should say. The
+ * refusals they replace said "the platform does not write it here", which is a
+ * statement about this build.
+ *
+ * Every number below is READ FROM THE PINNED BINARY on each build -- field
+ * type, /Ff, /F, /Rect, the option list and the source-carried value -- and the
+ * declared expectation is asserted against it, so this cannot go on describing
+ * a widget the form no longer has.
+ */
+async function measuredWidgetFacts(source, fieldNames) {
+  const facts = new Map();
+  if (fieldNames.length === 0) return facts;
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+  const form = doc.getForm();
+  const pages = doc.getPages();
+  for (const name of fieldNames) {
+    let field;
+    try { field = form.getField(name); } catch { field = null; }
+    assert.ok(field, `${source.formNumber}: measured-refusal field ${name} is absent from the pinned form`);
+    const dict = field.acroField.dict;
+    const ff = dict.get(PDFName.of("Ff"))?.asNumber?.() ?? 0;
+    const widget = field.acroField.getWidgets()[0];
+    const rect = widget.getRectangle();
+    let page = null;
+    pages.forEach((candidate, index) => { if (candidate.ref === widget.P?.()) page = index + 1; });
+    const flags = widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? null;
+    let value = null;
+    try {
+      const raw = field.acroField.dict.get(PDFName.of("V"));
+      value = raw ? String(doc.context.lookup(raw)).replace(/^\(|\)$/g, "") : null;
+    } catch { value = null; }
+    let options = null;
+    try { options = typeof field.getOptions === "function" ? field.getOptions() : null; } catch { options = null; }
+    facts.set(name, {
+      field: name,
+      pdfType: field.constructor.name === "PDFDropdown" ? "choice_dropdown"
+        : field.constructor.name === "PDFTextField" ? "text" : field.constructor.name,
+      fieldFlags: ff,
+      readOnly: (ff & 1) === 1,
+      multiline: (ff & 4096) === 4096,
+      annotationFlags: flags,
+      noView: flags !== null && (flags & 32) === 32,
+      page,
+      rect: { x: round(rect.x), y: round(rect.y), width: round(rect.width), height: round(rect.height) },
+      sourceCarriedValue: value,
+      optionCount: options ? options.length : null,
+      options: options ?? null
+    });
+  }
+  return facts;
+}
+
+/**
+ * A choice option that is a real value rather than a prompt or a ruled line.
+ *
+ * The Nebraska caption lists open with "Choose the court" / "Choose the county"
+ * and, on the court list, a rule of underscores. Counting those as values would
+ * overstate what the list offers by two, and the whole point of this sentence
+ * is that the count is measured.
+ */
+const REAL_OPTION = (option) => {
+  const text = String(option ?? "").trim();
+  return text !== "" && !/^_+$/.test(text) && !/^choose the\b/i.test(text);
+};
+
+/** A held value the list actually offers, matched on the option's own words. */
+function optionOffering(options, value) {
+  const target = normalized(value);
+  if (!target) return null;
+  for (const option of options) {
+    const candidate = normalized(option);
+    if (!candidate) continue;
+    if (candidate === target) return option;
+    if (target.startsWith(`${candidate} `)) return option;
+  }
+  return null;
+}
+
+/** A PDF string as a reader sees it, not as the file escapes it. */
+const readablePdfString = (value) => String(value ?? "")
+  .replace(/\\([()\\])/g, "$1")
+  .replace(/\\r|\\n/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+/** The participant-facing sentence a measured refusal earns, from the measurement. */
+function measuredRefusalWhy(measured, held) {
+  const box = `page ${measured.page}, /Rect [${measured.rect.x} ${measured.rect.y} `
+    + `${round(measured.rect.x + measured.rect.width)} ${round(measured.rect.y + measured.rect.height)}]`;
+  if (measured.pdfType === "choice_dropdown") {
+    const offered = (measured.options ?? []).filter(REAL_OPTION);
+    const notOffered = held.filter((value) => optionOffering(offered, value) === null);
+    const matched = held
+      .map((value) => ({ value, option: optionOffering(offered, value) }))
+      .filter((row) => row.option !== null);
+    return `this is not a typed blank: it is a PDF drop-down (/FT /Ch, ${box}) whose list holds `
+      + `${measured.optionCount} entr(ies), ${offered.length} of them values. Choose the value from the list in a PDF `
+      + `viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here `
+      + `because the shared filler writes text fields and makes no selection on a choice field`
+      + (notOffered.length
+        ? `; and the value it holds in these review fixtures (${notOffered.map((value) => `"${value}"`).join(", ")}) `
+          + `is not one of the ${offered.length} the list offers, so no option corresponds to it.`
+        : `. The value it holds (${matched.map((row) => `"${row.value}"`).join(", ")}) does correspond to the option `
+          + `${matched.map((row) => `"${row.option}"`).join(", ")}, so the obstacle is the widget type and nothing else.`);
+  }
+  if (measured.readOnly) {
+    return `this is not a blank: it is a READ-ONLY field (/Ff ${measured.fieldFlags}, read-only bit set`
+      + (measured.noView ? `; annotation /F ${measured.annotationFlags}, NoView` : "")
+      + `, ${box}) that already carries the form's own words, "${readablePdfString(measured.sourceCarriedValue)}", `
+      + `which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace `
+      + `the form's printed text rather than fill a blank.`;
+  }
+  return null;
+}
+
+/**
+ * A measured refusal, written onto the refusal rows a reader will actually meet.
+ *
+ * Applied identically by `buildOfficial` and by `--check`, so a stored map and
+ * a live recomputation stay comparable -- the same reason `dispositionRowsFor`
+ * enriches in one place rather than two.
+ */
+export function applyMeasuredRefusalRows(rows, measuredRefusals) {
+  const byField = new Map((measuredRefusals ?? []).map((row) => [row.field, row]));
+  for (const row of rows ?? []) {
+    const measured = byField.get(row.field);
+    if (!measured) continue;
+    row.why = measured.why;
+    row.reason = measured.why;
+    row.measurementBasis = "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build";
+    row.measuredWidget = {
+      pdfType: measured.pdfType, fieldFlags: measured.fieldFlags, readOnly: measured.readOnly,
+      annotationFlags: measured.annotationFlags, noView: measured.noView,
+      page: measured.page, rect: measured.rect,
+      optionCount: measured.optionCount, optionsSample: measured.optionsSample,
+      sourceCarriedValue: measured.sourceCarriedValue
+    };
+  }
+  return rows;
+}
+
 async function renderOneDocument(source, config, fixture) {
   // The route the packet is built for travels with the document policy, so a
   // selection control can say whether the election is one the ROUTE determines
   // or one that genuinely belongs to the participant.
   const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null };
   const facts = factsFor(config, fixture);
+  /* FIX81. Facts this family writes at a named widget, per document. A family
+   * that declares none passes an empty list and is byte-unaffected. */
+  const namedFactWrites = (config.namedFactWrites ?? {})[source.formNumber] ?? [];
   if (source.indexEntry.structuralClassObserved === "acroform") {
     const census = await censusAcro(source);
-    const policyData = prepareAcroPolicy(census, policy);
+    const policyData = prepareAcroPolicy(census, policy, namedFactWrites);
     const result = await finalizeOfficialForm({
       sourceBytes: source.bytes,
       expectedSha256: source.sha256,
@@ -1928,10 +2280,42 @@ async function renderOneDocument(source, config, fixture) {
        * is routed to buildStop and never reaches this call, so its directory
        * is unaffected. */
       fitAppearancesToRect: true,
+      /* FIX81, KNOWN_PREFILLS. See `namedFactWrites` in FAMILY_CONFIGS: the
+       * caller names fact ids and field names only, and the shared module
+       * resolves, protects, fits and refuses. Empty for every other family. */
+      narrativeAcrossFields: namedFactWrites,
       title: source.formNumber
     });
     const proof = await verifyAcroBytes(source, census, policyData, result.bytes, result.report, facts, fixture);
-    return { source, policy, census, policyData, fixture, bytes: result.bytes, report: result.report, proof };
+    /* FIX81. The measurement each declared caption widget earns, read from the
+     * pinned binary on this build and asserted against the declaration. */
+    const declared = (config.measuredRefusals ?? {})[source.formNumber] ?? {};
+    const measured = await measuredWidgetFacts(source, Object.keys(declared));
+    const measuredRefusals = [];
+    for (const [field, expectation] of Object.entries(declared)) {
+      const row = measured.get(field);
+      if (expectation.expect === "choice_dropdown") {
+        assert.equal(row.pdfType, "choice_dropdown",
+          `${source.formNumber}/${field}: declared a drop-down, measured ${row.pdfType}`);
+        assert.ok((row.optionCount ?? 0) > 0, `${source.formNumber}/${field}: a drop-down with no options`);
+      } else {
+        assert.equal(row.pdfType, "text", `${source.formNumber}/${field}: declared a text field, measured ${row.pdfType}`);
+        assert.equal(row.readOnly, true, `${source.formNumber}/${field}: declared read-only, measured writable`);
+      }
+      /* Both personas, not this fixture's: the sentence lands in a map and a
+       * disclosure table shared by both fixtures, so a value named in it must
+       * be true of both. It is also what makes the row identical whichever
+       * fixture is being rendered, which `--check` then compares. */
+      const heldEverywhere = ["canonical", "boundary"]
+        .flatMap((persona) => (expectation.holds ?? []).map((factId) => resolveFact(factsFor(config, persona), factId)))
+        .filter((value) => typeof value === "string" && value.trim());
+      const held = [...new Set(heldEverywhere)];
+      const why = measuredRefusalWhy(row, held);
+      assert.ok(why, `${source.formNumber}/${field}: no measurement sentence could be composed`);
+      measuredRefusals.push({ ...row, holdsFactIds: expectation.holds ?? [], heldValues: held, why,
+        optionsSample: row.options ? row.options.slice(0, 6) : null, options: undefined });
+    }
+    return { source, policy, census, policyData, fixture, bytes: result.bytes, report: result.report, proof, measuredRefusals };
   }
   if (source.indexEntry.structuralClassObserved !== "flat_pdf") throw new Error(`${source.formNumber}: unsupported structural class ${source.indexEntry.structuralClassObserved}`);
   const census = await censusFlat(source);
@@ -2168,7 +2552,50 @@ async function freshRasterEvidence(file, dpi) {
   }
 }
 
-function commonClosedProductRecord(familyId, config) {
+/*
+ * FIX81. The `binding` block a rebuild would otherwise delete.
+ *
+ * This builder does not author product-wiring.json's `binding`: the Captain
+ * writes it after a family terminalizes, and it carries the route keys, the
+ * source versions, the last independent verification and the raster acceptance
+ * receipt. Rewriting the file from scratch on every rebuild silently removed
+ * all of it, which is a deletion nobody decided on.
+ *
+ * Carried forward here, with exactly two changes, both of them forced by the
+ * bytes this build just wrote:
+ *
+ *   - an acceptance receipt bound to a canonical digest this build did not
+ *     produce is set to null, with the superseded digest named, because a
+ *     receipt that names a file the tree no longer carries is worse than none;
+ *   - `packetComponents` becomes the componentIds this build actually
+ *     delivers, so the record and the packet name the same components.
+ *
+ * Opt-in per family (`carryProductBinding`), so no other family on this shared
+ * host changes behaviour.
+ */
+function carriedProductBinding(familyId, config, canonicalSha256) {
+  if (config.carryProductBinding !== true) return null;
+  const existing = readJson(`${outputRoot(familyId, config)}/product-wiring.json`)?.binding ?? null;
+  if (!existing) return null;
+  const binding = JSON.parse(JSON.stringify(existing));
+  const delivered = (config.componentDisposition ?? [])
+    .filter((row) => String(row.disposition).startsWith("delivered"))
+    .map((row) => `component:${row.componentId}`)
+    .sort();
+  if (delivered.length) binding.packetComponents = delivered;
+  const receipt = binding.acceptanceReceipt ?? null;
+  if (receipt && canonicalSha256 && receipt.boundToCanonicalSha256 !== canonicalSha256) {
+    binding.acceptanceReceipt = null;
+    binding.whyTheAcceptanceReceiptIsNull =
+      `The receipt was bound to canonical ${receipt.boundToCanonicalSha256}`
+      + ` (workflow run ${receipt.workflowRunId ?? "unknown"}), and this build wrote ${canonicalSha256}.`
+      + " A central raster of the new bytes is owed; nothing here is that receipt.";
+  }
+  return binding;
+}
+
+function commonClosedProductRecord(familyId, config, canonicalSha256 = null) {
+  const binding = carriedProductBinding(familyId, config, canonicalSha256);
   return {
     schemaVersion: "rcap-family-product-wiring/v1",
     familyId,
@@ -2182,7 +2609,12 @@ function commonClosedProductRecord(familyId, config) {
     opensCommercialRoute: false,
     assignmentOwnedPath: config.assignmentOwnedPath,
     evidenceOutputPath: outputRoot(familyId, config),
-    note: "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane."
+    note: "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+    /* FIX81. Every component the route names, and what became of it: delivered,
+     * conditional and explained, or not generated with a reason. Absent for a
+     * family that declares none. */
+    ...(config.componentDisposition ? { componentDisposition: config.componentDisposition } : {}),
+    ...(binding ? { binding } : {})
   };
 }
 
@@ -2254,7 +2686,91 @@ async function buildStop(familyId, config) {
   console.log(`${familyId}: STOP evidence written (${config.stopCode})`);
 }
 
+/*
+ * FIX81. The three things this repair can be wrong about, checked in the build.
+ *
+ * Each of these has a live negative case: change the quoted sentence and the
+ * first throws; add, drop or re-role a component and the second throws; write
+ * the section and fail to render it and the third throws. A check that cannot
+ * fail proves nothing, so none of them is written as a comment.
+ */
+function assertLocalRulesCheckIsTheMemos() {
+  const memo = readJson(LEGAL_DESIGN_MEMO);
+  const track = (memo?.tracks ?? []).find((row) => row.trackId === "ne-setaside-custodial");
+  assert.ok(track, `${LEGAL_DESIGN_MEMO}: track ne-setaside-custodial is absent`);
+  const component = (track.components ?? []).find((row) => row.role === "local_rules_check");
+  assert.ok(component, "NE.memo.json: track ne-setaside-custodial declares no local_rules_check component");
+  assert.equal(component.requirement, "required");
+  assert.equal(component.outputStrategy, "process_guidance");
+  assert.equal(component.notes, LOCAL_RULES_CHECK_NOTE,
+    "the local-rules check quoted in this builder has drifted from NE.memo.json components[5].notes");
+}
+
+function assertComponentDispositionMatchesTheManifest(familyId, config) {
+  if (!config.componentDisposition) return;
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const rows = Array.isArray(manifests) ? manifests : (manifests.packetSets ?? Object.values(manifests));
+  const set = rows.find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${PACKET_SET_MANIFESTS}: no packet set ${familyId}`);
+  assert.equal(config.componentDisposition.length, set.components.length,
+    `${familyId}: the component table names ${config.componentDisposition.length} of the route's ${set.components.length} components`);
+  set.components.forEach((component, index) => {
+    const declared = config.componentDisposition[index];
+    assert.equal(declared.componentId, component.componentId, `${familyId}: component ${index + 1} identity drift`);
+    assert.equal(declared.role, component.role, `${familyId}/${component.componentId}: role drift`);
+    assert.equal(declared.requirement, component.requirement, `${familyId}/${component.componentId}: requirement drift`);
+    assert.ok(["delivered", "delivered_conditional_and_explained", "not_generated_with_a_reason"].includes(declared.disposition),
+      `${familyId}/${component.componentId}: ${declared.disposition} is not a component disposition`);
+    if (declared.disposition === "not_generated_with_a_reason") {
+      assert.ok(String(declared.reason ?? "").length > 40,
+        `${familyId}/${component.componentId}: a component that is not generated must say why`);
+    } else {
+      assert.ok(String(declared.where ?? "").length > 0,
+        `${familyId}/${component.componentId}: a delivered component must name where it is delivered`);
+    }
+  });
+}
+
+/** The delivered guidance really carries the section, not just the config. */
+function assertGuidanceReachesTheDeliveredFile(familyId, config, markdown) {
+  if (!config.participantGuidance?.localRulesCheck) return;
+  assert.ok(markdown.includes("## Confirm what the filing court requires before you file"),
+    `${familyId}: the local-rules check section is not in participant-instructions.md`);
+  assert.ok(markdown.includes(LOCAL_RULES_CHECK_NOTE),
+    `${familyId}: participant-instructions.md does not carry the memo's local-rules sentence`);
+  assert.ok(/local practice varies/i.test(markdown),
+    `${familyId}: participant-instructions.md never tells the participant that local practice varies`);
+}
+
+/** A named-fact write that reached no page is a claim the paper contradicts. */
+function assertNamedFactWritesLanded(familyId, item, fixture) {
+  const declared = item.policyData.namedFactWrites ?? [];
+  for (const entry of declared) {
+    for (const field of entry.fields ?? []) {
+      const written = item.report.written.find((row) => row.field === field);
+      const refused = item.report.refused.find((row) => row.field === field);
+      assert.ok(written || refused,
+        `${familyId}/${fixture}/${item.source.formNumber}: named-fact target ${field} is neither written nor refused`);
+      if (written) {
+        assert.equal(written.factId, entry.factId,
+          `${familyId}/${fixture}/${item.source.formNumber}/${field}: written from ${written.factId}, declared ${entry.factId}`);
+        const proof = item.proof.actualWrites.find((row) => row.field === field);
+        assert.ok(proof?.everyWidgetVisibleInArtifactBytes === true,
+          `${familyId}/${fixture}/${item.source.formNumber}/${field}: the write is reported but not visible at every measured widget`);
+      } else {
+        /* A refusal here is only acceptable when the fitter measured it: the
+         * value does not fit the printed line at the minimum readable size.
+         * Any other refusal means the channel never reached the widget. */
+        assert.equal(refused.reason, "narrative_exceeds_the_printed_lines_at_minimum_font",
+          `${familyId}/${fixture}/${item.source.formNumber}/${field}: refused as ${refused.reason}, which is not a measurement`);
+      }
+    }
+  }
+}
+
 async function buildOfficial(familyId, config) {
+  assertLocalRulesCheckIsTheMemos();
+  assertComponentDispositionMatchesTheManifest(familyId, config);
   const out = outputRoot(familyId, config);
   const resolved = resolveSources(familyId, config);
   const blockedHashes = new Set(readJson(STALE_BLOCK).hashes ?? []);
@@ -2263,6 +2779,7 @@ async function buildOfficial(familyId, config) {
   for (const fixture of ["canonical", "boundary"]) {
     for (const source of resolved.sources) {
       const rendered = await renderOneDocument(source, config, fixture);
+      assertNamedFactWritesLanded(familyId, rendered, fixture);
       byFixture[fixture].push(rendered);
       findings.push(...rendered.proof.findings);
       console.log(`${familyId}/${fixture}/${source.formNumber}: writes=${rendered.report.written.length} refusals=${rendered.report.refused.length}`);
@@ -2335,6 +2852,12 @@ async function buildOfficial(familyId, config) {
       selectionControls: item.policyData.selectionControls,
       offeredAnchors: item.policyData.anchors ?? null,
       protectedRules: item.policyData.protectedRules ?? null,
+      /* FIX81. What this family writes by fact id at a named widget, and which
+       * build-policy refusal each such write replaced. Omitted entirely for a
+       * document that declares none, so no other family's map gains a key. */
+      ...((item.policyData.namedFactWrites ?? []).length
+        ? { namedFactWrites: item.policyData.namedFactWrites, namedFactExemptions: item.policyData.namedFactExemptions ?? [] }
+        : {}),
       canonicalWrites: canonical.written,
       canonicalRefusals: canonical.refused,
       boundaryWrites: boundaryRows.written,
@@ -2345,6 +2868,20 @@ async function buildOfficial(familyId, config) {
   // required-before-filing blank is permitted only because the packet says it
   // must be supplied; nothing in these families said so, so the fact was simply
   // missing from the filing.
+  /*
+   * FIX81. A refusal that was measured says the measurement, in every place a
+   * reader of this family can meet it: the canonical rows, the boundary rows,
+   * the role-refusal list, and -- through requiredBeforeFilingItems below --
+   * the participant's own disclosure table.
+   */
+  for (const map of maps) {
+    const measuredForForm = byFixture.canonical.find((item) => item.source.formNumber === map.formNumber)?.measuredRefusals ?? [];
+    if (!measuredForForm.length) continue;
+    map.measuredRefusals = measuredForForm;
+    for (const rows of [map.canonicalRefusals, map.boundaryRefusals, map.roleRefusals]) {
+      applyMeasuredRefusalRows(rows, measuredForForm);
+    }
+  }
   const requiredBeforeFiling = requiredBeforeFilingItems(maps);
   const actualWrites = ["canonical", "boundary"].flatMap((fixture) => byFixture[fixture].map((item) => ({
     fixture,
@@ -2374,8 +2911,9 @@ async function buildOfficial(familyId, config) {
     documents: censusDocuments
   });
   fs.mkdirSync(path.join(rootDir, out), { recursive: true });
-  fs.writeFileSync(path.join(rootDir, out, "participant-instructions.md"),
-    participantInstructionsMarkdown(familyId, config, requiredBeforeFiling));
+  const instructions = participantInstructionsMarkdown(familyId, config, requiredBeforeFiling);
+  assertGuidanceReachesTheDeliveredFile(familyId, config, instructions);
+  fs.writeFileSync(path.join(rootDir, out, "participant-instructions.md"), instructions);
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
     familyId,
@@ -2404,7 +2942,8 @@ async function buildOfficial(familyId, config) {
     everyPageRastered: artifacts.every((artifact) => artifact.rasterPages.length === artifact.pageCount),
     byteDerivedHashes: true
   });
-  writeJson(`${out}/product-wiring.json`, commonClosedProductRecord(familyId, config));
+  writeJson(`${out}/product-wiring.json`, commonClosedProductRecord(familyId, config,
+    artifacts.find((artifact) => artifact.fixture === "canonical")?.sha256 ?? null));
   writeJson(`${out}/approval-request.json`, {
     schemaVersion: "rcap-output-approval-request/v1",
     familyId,
@@ -2429,7 +2968,13 @@ async function buildOfficial(familyId, config) {
       "Court, prosecutor, clerk, agency, victim, notary, and judicial-officer fields are refused by role.",
       "Flat-form anchors are authored from first-hand CTM geometry and admitted only through an exact caption gate.",
       "No checkbox or radio election is made by this builder; an election the route determines is named as unmade rather than described as the participant's.",
-      `${requiredBeforeFiling.length} field(s) the filing needs are classified required-before-filing and surfaced in participant-instructions.md rather than guessed.`
+      `${requiredBeforeFiling.length} field(s) the filing needs are classified required-before-filing and surfaced in participant-instructions.md rather than guessed.`,
+      ...(config.componentDisposition
+        ? [`Every one of the route's ${config.componentDisposition.length} declared components is delivered, conditional and explained, or recorded as not generated with a reason; product-wiring.json componentDisposition carries the table and it is asserted against the committed packet-set manifest on every build.`]
+        : []),
+      ...(config.namedFactWrites
+        ? [`Facts the platform holds are written at the widget the pinned form prints the caption for, through the shared finalizer's fact-id channel, where the shared descriptor list matches the harvested caption and nothing else does; production-field-map.json namedFactWrites and namedFactExemptions name each one and the build-policy refusal it replaced.`]
+        : [])
     ]
   });
   writeJson(`${out}/build-status.json`, {
@@ -2661,6 +3206,10 @@ export async function checkFamily(familyId) {
       assert.deepEqual(fresh.policyData.protectedRules ?? null, storedMap.protectedRules,
         `${familyId}/${source.formNumber}: live protected-rule map drift`);
       const freshRows = dispositionRowsFor(fresh, fresh.report);
+      /* FIX81. The same measurement pass the build applies, so a measured
+       * refusal is not read as drift. */
+      applyMeasuredRefusalRows(freshRows.refused, fresh.measuredRefusals ?? []);
+      applyMeasuredRefusalRows(fresh.policyData.unwritableFields, fresh.measuredRefusals ?? []);
       assert.deepEqual(freshRows.written,
         fixture === "canonical" ? storedMap.canonicalWrites : storedMap.boundaryWrites,
       `${familyId}/${source.formNumber}/${fixture}: live write disposition drift`);
@@ -2922,6 +3471,56 @@ export async function runSelfTests() {
     assert.equal(config.sourceIds.length > 0, true, `${familyId}: source ids required`);
     assert.equal(outputRoot(familyId, config), config.assignmentOwnedPath,
       `${familyId}: output root must equal the exact assignment-owned path`);
+  }
+  /*
+   * FIX81 self-tests. Each one is run against its own negative case, because a
+   * check that passes whatever it is given is not a check.
+   */
+  assertLocalRulesCheckIsTheMemos();
+  assertComponentDispositionMatchesTheManifest("ne-setaside-custodial-set", FAMILY_CONFIGS["ne-setaside-custodial-set"]);
+  {
+    const family = FAMILY_CONFIGS["ne-setaside-custodial-set"];
+    // The section is rendered and carries the memo's sentence.
+    const markdown = participantGuidanceMarkdown(family.participantGuidance).join("\n");
+    assertGuidanceReachesTheDeliveredFile("ne-setaside-custodial-set", family, markdown);
+    // Negative case: guidance without the section must be caught.
+    assert.throws(() => assertGuidanceReachesTheDeliveredFile("ne-setaside-custodial-set", family,
+      markdown.replace("## Confirm what the filing court requires before you file", "## Something else")),
+      /local-rules check section is not in participant-instructions.md/);
+    // Negative case: a component table that drops a component must be caught.
+    assert.throws(() => assertComponentDispositionMatchesTheManifest("ne-setaside-custodial-set",
+      { ...family, componentDisposition: family.componentDisposition.slice(0, 5) }),
+      /component table names 5 of the route's 6 components/);
+    // Negative case: a re-roled component must be caught.
+    assert.throws(() => assertComponentDispositionMatchesTheManifest("ne-setaside-custodial-set",
+      { ...family, componentDisposition: family.componentDisposition.map((row, index) =>
+        index === 5 ? { ...row, role: "instructions" } : row) }),
+      /role drift/);
+    // Every fact a named-fact write names is held for BOTH personas.
+    for (const fixture of ["canonical", "boundary"]) {
+      const facts = factsFor(family, fixture);
+      for (const entries of Object.values(family.namedFactWrites)) {
+        for (const entry of entries) {
+          const value = facts[entry.factId];
+          assert.equal(typeof value, "string", `${entry.factId} is not held for the ${fixture} persona`);
+          assert.ok(value.trim().length > 0, `${entry.factId} is empty for the ${fixture} persona`);
+        }
+      }
+    }
+    // The option matcher: a held value the list really offers, and one it does not.
+    assert.equal(optionOffering(["DISTRICT", "COUNTY", "JUVENILE"], "District Court"), "DISTRICT");
+    assert.equal(optionOffering(["ADAMS", "ANTELOPE", "BUFFALO"], "Adams County"), "ADAMS");
+    assert.equal(optionOffering(["ADAMS", "ANTELOPE", "BUFFALO"], "Example County"), null);
+    // The bug this replaced: a blank option must not swallow every value.
+    assert.equal(optionOffering([" ", ""], "Example County"), null);
+    assert.deepEqual(["Choose the county", " ", "ADAMS", "____"].filter(REAL_OPTION), ["ADAMS"]);
+    assert.equal(readablePdfString("\\r   \\(Enter the county name\\)"), "(Enter the county name)");
+    // A named-fact target may only lift the caption gate.
+    assert.throws(() => prepareAcroPolicy(
+      { fields: [{ name: "datesigned", type: "text", effectiveLabel: "Date", regionHeading: null, widgets: [] }], selectionControls: [] },
+      { captionOnly: false, documentAcceptsFill: true, routeKey: null },
+      [{ factId: "matter.case_number", fields: ["datesigned"] }]),
+      /may only lift binding_not_approved_by_exact_caption_gate/);
   }
   console.log(`CENTRAL self-test OK (${Object.keys(FAMILY_CONFIGS).length} families)`);
 }
