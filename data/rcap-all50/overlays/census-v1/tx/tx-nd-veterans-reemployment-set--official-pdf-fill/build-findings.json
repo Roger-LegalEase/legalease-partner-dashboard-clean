@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "tx_nd_veterans_reemployment-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Three sources bind, in TWO different custodies: the OCA model petition and order are Master Library assets, and the Statement of Inability is held in human_source_returns, a custody carried by no release and writing its paths relative to the repository root rather than a corpus root.",
+      "consequence": "Custody roots are resolved through the shared resolver, which follows what the corpus index declares rather than the shape of the path. Each source binds by exact SHA-256 against the index entry, the mounted bytes and this family's own pin, and any disagreement is a source stop that writes nothing."
+    },
+    {
+      "finding": "Section 411.0729 NAMES NO FILING PARTY and imposes no petition requirement. Read at source, the court holds a hearing and, unless it finds issuance is not in the best interest of justice, enters the order. There is no waiting period and no fee on that route. OCA publishes a model petition anyway, because in practice courts may require one or may not hold the hearing.",
+      "consequence": "The packet is ORDERED around that fact rather than around the forms it happens to bind. The no-filing-route guidance is component 1 and is required; the petition and the proposed order are components 2 and 3 and ship CONDITIONAL, with the condition stating in terms that the participant should ask the clerk before filing anything. Shipping a petition first, on a section that requires none, would sell a filing to someone the court already owes an order."
+    },
+    {
+      "finding": "Under § 411.0729(b) the section applies REGARDLESS of whether the person meets the other eligibility criteria in the subchapter, so the Gov't Code § 411.074 basic conditions that gate almost every sibling section do not gate this one. The petition says so on its own face at paragraph 3.",
+      "consequence": "No § 411.074 condition is imported into this packet's guidance or its stop conditions from a sibling family. The four things the section does require — a misdemeanour, community supervision, successful completion of all its conditions and of a court-approved Subchapter H-1 programme, and veteran status — are each named with the record that proves them."
+    },
+    {
+      "finding": "The petition's fee election at paragraph 6 HAS NO ACROFORM CONTROL BEHIND IT. Read first-hand from the pinned binary: 13 widgets over 3 pages, and none on those two printed lines. The cause number on the caption line of page 1 is the same — a printed rule with no widget.",
+      "consequence": "There is nothing for this build to write into and nothing to declare in the field map, so both are named explicitly in the participant instructions as marks to make by hand. A blank with no field behind it is invisible to every field-level counter, which is exactly why it is stated in prose instead of being allowed to pass silently."
+    },
+    {
+      "finding": "Read first-hand from the pinned binary, NO field on this petition ships a value — unlike the sibling § 411.0727 petition, whose is/is-not dropdown arrives carrying OCA's own \"is not\". Every widget on all three pinned sources was read for the annotation Hidden flag and none carries it: 0 of 13 widgets on the petition, 0 of 11 on the order, 0 of 141 on the Statement.",
+      "consequence": "The absence was measured here rather than inherited from the sibling's finding, and each pinned source is additionally flattened UNWRITTEN and compared, so a source-authored value could not be counted as a write by this build. No write in this family lands in a widget that would carry no ink."
+    },
+    {
+      "finding": "The proposed order carries NO hearing checkboxes. Its recitals are unconditional — the State was given notice, the Court conducted a hearing on a named date, and after consideration and a hearing the Court FINDS — which is consistent with a section under which the court holds a hearing as a matter of course rather than on the State's request.",
+      "consequence": "There is nothing on this order for anyone to elect. Its only blanks are caption facts, the offence, the cause number, and the dates and blocks the court enters, and every one of the latter is refused as court-owned so that nothing in the rendered order asserts that a court has acted."
+    },
+    {
+      "finding": "The fee has TWO answers on this track and the first one is that there is no fee. No fee arises on the no-filing route. On the petition route Gov't Code § 411.0745(b) requires the fee that generally applies to filing a civil case, which the committed record states is county-specific; OCA describes the total as typically about $280, varying by county.",
+      "consequence": "The guidance states both halves in that order, and names the clerk of the court being filed in as the authority who answers the second. No figure is published as though it were the fee."
+    },
+    {
+      "finding": "The committed record warns in terms that the $28 figure belongs ONLY to the no-petition route under Gov't Code § 411.072(c) and is not a filing fee. It is not this section's figure on either of this track's two routes.",
+      "consequence": "The guidance names the $28 explicitly in order to tell the participant it is not theirs. Staying silent about a widely-circulated wrong number is not neutrality: a participant who has read it elsewhere arrives at the clerk's window with the wrong money, and the packet is the only thing that could have told them."
+    },
+    {
+      "finding": "The Statement of Inability carries 132 AcroForm fields, almost all of them sworn financial and household facts, and it is sworn under penalty of perjury. It is the SAME BINARY, by SHA-256, that several sibling Texas families enclose, and its three source-authored values (Value / Valor 11 = \"0\", Amount Cantidad 15 = \"0\", Today = \"12/15/2022\") were measured first-hand here.",
+      "consequence": "It is classified by an ordered rule table with an exhaustiveness assertion in both directions: a field no rule reaches fails the build, and a rule no field matches fails it too. Nothing financial is prefilled anywhere on it. This family carries its OWN entry in the appearance-semantics registry under its own family key, so the two sworn zeroes and the 2022 declaration date contribute nothing unless this run wrote them — which it never does. No other family's entry is changed."
+    },
+    {
+      "finding": "The address is written on the Statement, which asks for the whole address in one blank, and withheld on the petition, whose signature block splits it across Address and City/State/Zip.",
+      "consequence": "The rule applied is the SHAPE OF THE BLANK, not the document. The build asserts both fixtures write the same set of fields, so a long address the fitter refuses cannot be written for one participant and silently dropped for another."
+    },
+    {
+      "finding": "The registry carries one UNRESOLVED QUESTION for this route, with impact release_blocker: the OCA models carry a February 2022 revision and have not been revised for the 2023 recodification of expunction into Chapter 55A or the 2025 amendment to § 411.0728.",
+      "consequence": "It is read from the committed registry at build time and carried verbatim into this findings file and the approval request. It is not this lane's to resolve, and a packet that did not carry it would read as though the record were settled."
+    }
+  ]
+}

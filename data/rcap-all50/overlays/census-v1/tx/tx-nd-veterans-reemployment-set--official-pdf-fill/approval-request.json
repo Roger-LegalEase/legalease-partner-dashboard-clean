@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "tx_nd_veterans_reemployment-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "counselQuestionsRaised": [
+    "Confirm the packet is right to lead with the NO-FILING route and to ship the OCA model petition and order as conditional components, given that § 411.0729 names no filing party and imposes no petition requirement while OCA publishes a model petition anyway.",
+    "Confirm the primary route key being the petition unit — chosen because every component that fills a form belongs to it — is the right stamp for documentPolicy.routeKey while both units are carried in routeKeys and both are printed on the composed pages.",
+    "Confirm that stating no § 411.074 condition applies, on the authority of § 411.0729(b) and the petition's own paragraph 3, is right and that no sibling section's conditions should be imported.",
+    "Confirm the fee treatment: that no fee arises on the no-filing route, and that on the petition route stating § 411.0745(b) fixes the TYPE of fee rather than an amount, reporting OCA's about-$280-varying-by-county description, and naming the clerk as the authority is the right answer.",
+    "Confirm the packet is right to name the $28 figure in order to exclude it on both routes.",
+    "Confirm that naming the paragraph 6 fee election and the caption cause number in prose, as marks to make by hand, is the right treatment for printed blanks that carry no AcroForm control.",
+    "Confirm the Statement of Inability's rule-based classification is acceptable as a declaration: 132 fields, an ordered table with a stated reason per rule, exhaustiveness asserted in both directions, and every resulting row emitted individually into the field map."
+  ],
+  "mattersForTheReviewersAttention": [
+    "The component order is the packet's main legal claim. Guidance for the no-filing route is component 1 and required; the petition and proposed order are components 2 and 3 and conditional; the fee-waiver Statement is conditional twice over, on there being a filing at all and on inability to pay.",
+    "The proposed order is generated unexecuted. It carries no hearing checkboxes at all, and every date and block on it that records a judicial act is refused as court-owned.",
+    "Two printed blanks on the petition have no AcroForm control behind them — the caption cause number and the paragraph 6 fee election — so no field-level counter can see them. Both are named in participant-instructions.md.",
+    "Nothing financial is prefilled on the Statement of Inability. Its identity fields are, because they are the platform's own facts about the participant and the form asks for them in the shape the platform holds them.",
+    "The build asserts that the canonical and boundary fixtures write an identical set of fields, so a value that fits one participant's blank and not another's cannot be written for one and dropped for the other unnoticed.",
+    "The registry's unresolved question for this route is a release blocker and is carried verbatim in build-findings.json. It was not resolved by this lane."
+  ]
+}
