@@ -14,7 +14,7 @@
   ],
   "routeDeterminedSelections": [],
   "routeSelectionNote": "The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5. Nothing on the certification page is a route election: each box there is a statement the applicant swears to under penalties of law about their own record, several of them legal characterisations of their own matters, and a packet that ticked one would be swearing for them. Which court, whether to ask for a hearing, and every financial answer on the waiver papers are the participant's too, and each is disclosed by name.",
-  "requiredBeforeFilingCount": 82,
+  "requiredBeforeFilingCount": 88,
   "requiredBeforeFiling": [
     {
       "document": "NHJB-2317",
@@ -835,6 +835,108 @@
       "identity": "NHJB-2956 field license",
       "why": "the platform holds no value for this and the participant supplies it before filing: your driver licence number",
       "participantMustSupply": "your driver licence number"
+    },
+    {
+      "document": "NHJB-2317",
+      "field": "NHJB-2317/telnum.1",
+      "page": 1,
+      "section": "Applicant's Information",
+      "disclosureLabel": "Telephone Number",
+      "identity": "NHJB-2317 field telnum.1",
+      "why": "the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 15 characters and the value the platform holds is 24, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 15,
+      "valueLengthThatDidNotFit": 24,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
+    },
+    {
+      "document": "NHJB-2317",
+      "field": "NHJB-2317/case number1",
+      "page": 2,
+      "section": "Page Header",
+      "disclosureLabel": "Case Number repeated in the page header",
+      "identity": "NHJB-2317 field case number1",
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 17,
+      "valueLengthThatDidNotFit": 33,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
+    },
+    {
+      "document": "NHJB-2317",
+      "field": "NHJB-2317/case number",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Case Number",
+      "identity": "NHJB-2317 field case number",
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 17,
+      "valueLengthThatDidNotFit": 33,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
+    },
+    {
+      "document": "NHJB-2311",
+      "field": "NHJB-2311/case number",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Case Number",
+      "identity": "NHJB-2311 field case number",
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 17,
+      "valueLengthThatDidNotFit": 33,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
+    },
+    {
+      "document": "NHJB-2328",
+      "field": "NHJB-2328/case number",
+      "page": 1,
+      "section": "Caption",
+      "disclosureLabel": "Case Number",
+      "identity": "NHJB-2328 field case number",
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 17,
+      "valueLengthThatDidNotFit": 33,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
+    },
+    {
+      "document": "NHJB-2328",
+      "field": "NHJB-2328/case number1",
+      "page": 2,
+      "section": "Page Header",
+      "disclosureLabel": "Case Number repeated in the page header",
+      "identity": "NHJB-2328 field case number1",
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+      "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it.",
+      "conditional": true,
+      "conditionDescription": "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is delivered blank rather than truncated",
+      "declaredMaxLength": 17,
+      "valueLengthThatDidNotFit": 33,
+      "fixturesInWhichThisBoxIsBlank": [
+        "boundary"
+      ]
     }
   ],
   "maps": [
@@ -2568,66 +2670,6 @@
           "kind": "text"
         },
         {
-          "field": "NHJB-2317/telnum.1",
-          "fieldName": "NHJB-2317/telnum.1",
-          "acroFieldName": "telnum.1",
-          "page": 1,
-          "rect": {
-            "x": 393,
-            "y": 416.56,
-            "width": 175.88,
-            "height": 15.37
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Telephone Number",
-          "printedLine": "Telephone Number",
-          "sectionHeading": "Applicant's Information",
-          "regionHeading": "Telephone Number",
-          "effectiveLabel": "Telephone Number",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 402,
-              "extracted": "E-mail Address: (optional)"
-            }
-          ],
-          "document": "NHJB-2317",
-          "factId": "participant.phone",
-          "kind": "text"
-        },
-        {
-          "field": "NHJB-2317/case number1",
-          "fieldName": "NHJB-2317/case number1",
-          "acroFieldName": "case number1",
-          "page": 2,
-          "rect": {
-            "x": 105.21,
-            "y": 746.88,
-            "width": 473.98,
-            "height": 14.34
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Case Number repeated in the page header",
-          "printedLine": "Case Number repeated in the page header",
-          "sectionHeading": "Page Header",
-          "regionHeading": "Case Number repeated in the page header",
-          "effectiveLabel": "Case Number repeated in the page header",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 750,
-              "extracted": "Case Number:"
-            },
-            {
-              "y": 736,
-              "extracted": "PETITION TO ANNUL RECORD"
-            }
-          ],
-          "document": "NHJB-2317",
-          "factId": "matter.case_number",
-          "kind": "text"
-        },
-        {
           "field": "NHJB-2317/DOB",
           "fieldName": "NHJB-2317/DOB",
           "acroFieldName": "DOB",
@@ -2681,41 +2723,95 @@
           "document": "NHJB-2317",
           "factId": "participant.email",
           "kind": "text"
-        },
-        {
-          "field": "NHJB-2317/case number",
-          "fieldName": "NHJB-2317/case number",
-          "acroFieldName": "case number",
-          "page": 1,
-          "rect": {
-            "x": 127.73,
-            "y": 649.84,
-            "width": 196.93,
-            "height": 14.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Case Number",
-          "printedLine": "Case Number",
-          "sectionHeading": "Caption",
-          "regionHeading": "Case Number",
-          "effectiveLabel": "Case Number",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 654,
-              "extracted": "Case Number: Charge ID:"
-            },
-            {
-              "y": 643,
-              "extracted": "(if known)"
-            }
-          ],
-          "document": "NHJB-2317",
-          "factId": "matter.case_number",
-          "kind": "text"
         }
       ],
       "boundaryRefusals": [
+        {
+          "field": "NHJB-2317/telnum.1",
+          "fieldName": "NHJB-2317/telnum.1",
+          "acroFieldName": "telnum.1",
+          "page": 1,
+          "rect": {
+            "x": 393,
+            "y": 416.56,
+            "width": 175.88,
+            "height": 15.37
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Telephone Number",
+          "printedLine": "Telephone Number",
+          "sectionHeading": "Applicant's Information",
+          "regionHeading": "Telephone Number",
+          "effectiveLabel": "Telephone Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 402,
+              "extracted": "E-mail Address: (optional)"
+            }
+          ],
+          "document": "NHJB-2317",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2317 field telnum.1",
+          "factId": "participant.phone",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 15,
+          "valueLength": 24,
+          "why": "the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 15 characters and the value the platform holds is 24, so the platform leaves it blank rather than shortening it."
+        },
+        {
+          "field": "NHJB-2317/case number1",
+          "fieldName": "NHJB-2317/case number1",
+          "acroFieldName": "case number1",
+          "page": 2,
+          "rect": {
+            "x": 105.21,
+            "y": 746.88,
+            "width": 473.98,
+            "height": 14.34
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number repeated in the page header",
+          "printedLine": "Case Number repeated in the page header",
+          "sectionHeading": "Page Header",
+          "regionHeading": "Case Number repeated in the page header",
+          "effectiveLabel": "Case Number repeated in the page header",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 750,
+              "extracted": "Case Number:"
+            },
+            {
+              "y": 736,
+              "extracted": "PETITION TO ANNUL RECORD"
+            }
+          ],
+          "document": "NHJB-2317",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2317 field case number1",
+          "factId": "matter.case_number",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it."
+        },
         {
           "field": "NHJB-2317/rsa",
           "fieldName": "NHJB-2317/rsa",
@@ -3110,6 +3206,51 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a button in the PDF viewer, not a place anything is filed"
+        },
+        {
+          "field": "NHJB-2317/case number",
+          "fieldName": "NHJB-2317/case number",
+          "acroFieldName": "case number",
+          "page": 1,
+          "rect": {
+            "x": 127.73,
+            "y": 649.84,
+            "width": 196.93,
+            "height": 14.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "Caption",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 654,
+              "extracted": "Case Number: Charge ID:"
+            },
+            {
+              "y": 643,
+              "extracted": "(if known)"
+            }
+          ],
+          "document": "NHJB-2317",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2317 field case number",
+          "factId": "matter.case_number",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it."
         },
         {
           "field": "NHJB-2317/top page",
@@ -4129,38 +4270,6 @@
       ],
       "boundaryWrites": [
         {
-          "field": "NHJB-2311/case number",
-          "fieldName": "NHJB-2311/case number",
-          "acroFieldName": "case number",
-          "page": 1,
-          "rect": {
-            "x": 127.47,
-            "y": 644.25,
-            "width": 447.14,
-            "height": 15.79
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Case Number",
-          "printedLine": "Case Number",
-          "sectionHeading": "Caption",
-          "regionHeading": "Case Number",
-          "effectiveLabel": "Case Number",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 645,
-              "extracted": "Case Number:"
-            },
-            {
-              "y": 634,
-              "extracted": "(if known)"
-            }
-          ],
-          "document": "NHJB-2311",
-          "factId": "matter.case_number",
-          "kind": "text"
-        },
-        {
           "field": "NHJB-2311/name",
           "fieldName": "NHJB-2311/name",
           "acroFieldName": "name",
@@ -4335,6 +4444,51 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the same case name you put on the petition",
           "participantMustSupply": "the same case name you put on the petition"
+        },
+        {
+          "field": "NHJB-2311/case number",
+          "fieldName": "NHJB-2311/case number",
+          "acroFieldName": "case number",
+          "page": 1,
+          "rect": {
+            "x": 127.47,
+            "y": 644.25,
+            "width": 447.14,
+            "height": 15.79
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "Caption",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 645,
+              "extracted": "Case Number:"
+            },
+            {
+              "y": 634,
+              "extracted": "(if known)"
+            }
+          ],
+          "document": "NHJB-2311",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2311 field case number",
+          "factId": "matter.case_number",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it."
         },
         {
           "field": "NHJB-2311/tr.reasons",
@@ -5073,7 +5227,7 @@
             }
           ],
           "disposition": "explicit_refusal",
-          "reason": "the certificate states what you did on the day you signed; service has not happened when the packet is prepared",
+          "reason": "this route requires no service by the participant — the record's rule is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank; the box is on the form because the same form serves routes where the filer does serve somebody",
           "category": "signature_or_date_participant_completion",
           "completenessClass": "signature_or_date_participant_completion",
           "class": "signature_or_date_participant_completion",
@@ -8489,38 +8643,6 @@
       ],
       "boundaryWrites": [
         {
-          "field": "NHJB-2328/case number",
-          "fieldName": "NHJB-2328/case number",
-          "acroFieldName": "case number",
-          "page": 1,
-          "rect": {
-            "x": 124.69,
-            "y": 650.51,
-            "width": 453.31,
-            "height": 15.49
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Case Number",
-          "printedLine": "Case Number",
-          "sectionHeading": "Caption",
-          "regionHeading": "Case Number",
-          "effectiveLabel": "Case Number",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 654,
-              "extracted": "Case Number:"
-            },
-            {
-              "y": 643,
-              "extracted": "(if known)"
-            }
-          ],
-          "document": "NHJB-2328",
-          "factId": "matter.case_number",
-          "kind": "text"
-        },
-        {
           "field": "NHJB-2328/1.1",
           "fieldName": "NHJB-2328/1.1",
           "acroFieldName": "1.1",
@@ -8615,38 +8737,6 @@
           "document": "NHJB-2328",
           "factId": "participant.street_address",
           "kind": "text"
-        },
-        {
-          "field": "NHJB-2328/case number1",
-          "fieldName": "NHJB-2328/case number1",
-          "acroFieldName": "case number1",
-          "page": 2,
-          "rect": {
-            "x": 106.46,
-            "y": 745.16,
-            "width": 473.98,
-            "height": 17.34
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Case Number repeated in the page header",
-          "printedLine": "Case Number repeated in the page header",
-          "sectionHeading": "Page Header",
-          "regionHeading": "Case Number repeated in the page header",
-          "effectiveLabel": "Case Number repeated in the page header",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 750,
-              "extracted": "Case Number:"
-            },
-            {
-              "y": 736,
-              "extracted": "STATEMENT OF ASSETS AND LIABILITIES FOR INDIVIDUALS AND SOLE PROPRIETORS"
-            }
-          ],
-          "document": "NHJB-2328",
-          "factId": "matter.case_number",
-          "kind": "text"
         }
       ],
       "boundaryRefusals": [
@@ -8727,6 +8817,51 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the same case name you put on the petition",
           "participantMustSupply": "the same case name you put on the petition"
+        },
+        {
+          "field": "NHJB-2328/case number",
+          "fieldName": "NHJB-2328/case number",
+          "acroFieldName": "case number",
+          "page": 1,
+          "rect": {
+            "x": 124.69,
+            "y": 650.51,
+            "width": 453.31,
+            "height": 15.49
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number",
+          "printedLine": "Case Number",
+          "sectionHeading": "Caption",
+          "regionHeading": "Case Number",
+          "effectiveLabel": "Case Number",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 654,
+              "extracted": "Case Number:"
+            },
+            {
+              "y": 643,
+              "extracted": "(if known)"
+            }
+          ],
+          "document": "NHJB-2328",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2328 field case number",
+          "factId": "matter.case_number",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it."
         },
         {
           "field": "NHJB-2328/tr.support",
@@ -11441,6 +11576,51 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a button in the PDF viewer, not a place anything is filed"
+        },
+        {
+          "field": "NHJB-2328/case number1",
+          "fieldName": "NHJB-2328/case number1",
+          "acroFieldName": "case number1",
+          "page": 2,
+          "rect": {
+            "x": 106.46,
+            "y": 745.16,
+            "width": 473.98,
+            "height": 17.34
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Number repeated in the page header",
+          "printedLine": "Case Number repeated in the page header",
+          "sectionHeading": "Page Header",
+          "regionHeading": "Case Number repeated in the page header",
+          "effectiveLabel": "Case Number repeated in the page header",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 750,
+              "extracted": "Case Number:"
+            },
+            {
+              "y": 736,
+              "extracted": "STATEMENT OF ASSETS AND LIABILITIES FOR INDIVIDUALS AND SOLE PROPRIETORS"
+            }
+          ],
+          "document": "NHJB-2328",
+          "reason": "the value the platform holds is longer than this box: the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2328 field case number1",
+          "factId": "matter.case_number",
+          "routeDetermined": false,
+          "unfittable": true,
+          "declaredMaxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one.",
+          "participantMustSupply": "write this in by hand if the box is blank on your packet. The box accepts at most 17 characters and the value the platform holds is 33, so the platform leaves it blank rather than shortening it."
         },
         {
           "field": "NHJB-2328/sig.1",
