@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c15e6317efc321d54fc92fda545e8dbae66f3bee",
+  "minimumCaptainSha": "e4f648b538834345e7741d632e96bc2a14a5451e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,29 +66,29 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 10,
+    "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
-    "remaining": 336,
+    "remaining": 335,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 6,
-    "repairRequired": 40,
+    "verifyPending": 4,
+    "repairRequired": 36,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 146,
-    "FAIL_REPAIR_REQUIRED": 50,
+    "COMPLETE_PACKET_PROVEN": 147,
+    "FAIL_REPAIR_REQUIRED": 47,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 6,
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 3,
-    "WRONG_DELIVERY_TYPE": 1
+    "BUILT_RASTER_PENDING": 7,
+    "WRONG_DELIVERY_TYPE": 1,
+    "VERIFY_PENDING": 4
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -111,6 +111,7 @@
     "families": [
       "il-seal-edu-set",
       "nc_146_dismissal_petition-set",
+      "ne-setaside-custodial-set",
       "nh_petition_nonconviction_pre2019-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
@@ -7836,9 +7837,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "ebe931e4e",
+        "verifiedAtBase": "bb0963c0d",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -7870,19 +7871,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL. Packet page 4 of both fixtures delivers 8,344 dark pixels of black rectangle that JDF-641 does not print, at three widgets the field map itself dispositions as participant elections and leaves unmade, outside every declared write box, and it deletes the form's own rule underneath. REPAIR: the three appearances are regenerated because their widgets carry /MK /BC and no usable /FT-specific appearance of their own, so pdf-lib synthesises a bordered text/choice appearance in place of the form's rule; the fix belongs with the shared finalizer -- either preserving a source /AP that already exists, or neutralising /MK /BC for a field the packet does not write, in the same family as FIX50's suppressSynthesizedAppearances -- and then a rebuild and a fresh central raster, because the fixture bytes will move. DISCLOSED AND NOT SCORED, so the repairer sees the whole shape: (1) the same regeneration boxes all sixteen WRITTEN values on pages 1, 5 and 6, but those borders land inside their own declared write boxes and so are not ink outside one; co_decriminalized_conduct_seal-set carries that half of the behaviour and passes on it. (2) INNER-BOX DOUBLING at nine selection rects on pages 1, 2 and 7, 3,382 dark pixels per fixture, all of it the form's own printed checkbox becoming visible when the shared background neutralization strips the /Off appearance's opaque white fill -- the same divergence VF02 measured on Vermont's 600-00228, adding no ink of the packet's own.",
-          "evidence": "THE PLACEMENT SWEEP, RUN HERE, NOT CARRIED. For every flattened widget appearance in each fixture the page-content cm chain was composed through q/Q, the placed XObject's /BBox and /Matrix read, the BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it translates to, and cmScale x requiredScale required to equal 1, judged as |transformedSize x cmScale - rectSize| <= 0.05pt on each axis. Result: 141 of 141 pass in canonical and 141 of 141 in boundary, 0 fail, 0 unmatched, every matched placement at origin distance 0.00pt. 141 matches FIX68's count, and the same script returns 6 failures per fixture on the superseded pre-repair bytes (11.1 product 0.990909 overhang 3.6pt, plus five sub-0.2pt), so the 12.5.5 repair itself is discharged at the appearance level. THE DEFECT IS SOMEWHERE ELSE, AND IT IS IN THE INK. Every page of both fixtures was rendered greyscale at 300 dpi and compared pixel for pixel with the pinned source page the manifest names, rendered by the same rasterizer. On PACKET PAGE 4 (JDF-641 source page 4) the delivered page carries 8,344 dark pixels that the pinned form does not, in BOTH fixtures, and every one of them lies OUTSIDE every declared write box. They are not the form's own ink: rendering the pinned JDF-641 with its /Annots and /AcroForm removed shows 0 of the 8,344 in the form's page content. They fall in exactly three clusters -- 4,082 px at x[254.40,472.08] y[142.32,155.04]; 2,154 px at x[404.88,506.88] y[205.20,217.92]; 2,108 px at x[322.32,424.08] y[72.24,85.20] -- which are the /Rects of widgets 9B.2 (Appellate Court), 9B.0 (Did you appeal any of these cases) and 9C.0 (Do you still owe restitution). READ FROM THE BYTES, NOT FROM A PICTURE: each of the three flattened appearances in the delivered fixture is a REGENERATED stream that strokes a full rectangle, e.g. FlatWidget-7759683746 (9B.2) is '1 0 0 1 0 0 cm ... 0 0 0 RG / 1 w / [] 0 d / 1 0 0 1 0.5 0.5 cm ... 0 0 m / 0 13.109 l / 216.896 13.109 l / 216.896 0 l / h / S ... /Helvetica 10 Tf ... <> Tj', while the PINNED widget's own /AP /N for the same field is 29 bytes and draws a single rule, '0 G / 0 0.5 m / 217.8954 0.5 l / s'. The border colour is /MK /BC [0 0 0] on the source widget, which the form's own appearance suppresses and pdf-lib's updateFieldAppearances does not. The three fields carry no value, so what the participant is handed is three empty black boxes the Colorado Judicial Department's own form does not print, where the form prints a rule -- and the form's rule is gone, which is the 9 lost pixels recorded under SOURCE_IDENTITY. The other four pages are clean: outside-write-box added ink is 1606 on page 1, 1563 on page 2, 0 on pages 3, 5 and 6 and 213 on page 7, and every one of those pixels IS the form's own page content (the inner-box doubling described below). NO SYNTHESIZED SELECTION SQUARE: the twenty-one selection widgets were compared with the pinned form at their own rects and the packet stamps no square of its own at any of them."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
@@ -29683,10 +29676,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf02",
-        "verifiedAtBase": "ebe931e4e",
+        "verifiedAtBase": "bb0963c0d",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29716,26 +29711,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
         "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": "A component the route names as REQUIRED is not present. The packet never tells the Nebraska participant that local practice varies and to confirm what that court requires before filing, which is the whole of what the component is for and which the memo records the judiciary warning about twice. REPAIR: the builder owns participant-instructions.md and should carry the local-rules check from NE.memo.json components[5].notes, and then have the component re-read independently. No counter sees this, because no counter reads the packet-set manifest or the memo.",
-          "evidence": "THE ROUTE NAMES SIX COMPONENTS, FOUR ARE DELIVERED, ONE IS CONDITIONAL AND EXPLAINED, AND ONE IS REQUIRED AND ABSENT. data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ne-setaside-custodial-set, and data/record-clearing/legal-design-track-registry.json name: primary-filing-1 (CC-6-11, required) -> packet page 1; proposed-order-2 (CC-6-11.2, required) -> page 2; notice-and-certificate-of-service-3 (DC-1-15, conditional, district court only) -> pages 4-5; instructions-4 (CC-6-11a, required) -> page 3; fee-waiver-5 (conditional, custom_pleading); and local-rules-check-6, role local_rules_check, requirement REQUIRED, outputStrategy process_guidance. The four form components reach a page and each page was token-compared against the source page it names with 0 missing printed tokens. The fee waiver is conditional and its absence is stated in terms in participant-instructions.md, with the reason ('the official DC 6:7.1 form does not fit this filing, and that mismatch is recorded as a release blocker'), which is what a conditional component owes. THE SIXTH IS NOT DELIVERED ANYWHERE. NE.memo.json, track ne-setaside-custodial, components[5].notes defines its contents in one sentence: 'The judiciary warns twice that local practice varies. The packet tells the participant to confirm with the clerk what that court requires before filing.' Measured against the delivered surfaces: participant-instructions.md contains 0 occurrences of 'local', 'varies', 'vary' or 'practice'; its only two directions to the clerk are about COST ('Ask the clerk of the sentencing court what this filing costs, before you file') and about the WAIVER ('Ask the clerk how to apply for the waiver on this petition'). Neither is a statement that local practice varies or a direction to confirm what that court requires. The delivered CC-6-11A page (packet page 3) was read in full with pdftotext and carries no local-practice warning either -- it lists the eligible sentences, the facts to have to hand, the record sources and a set of pointer captions, and nothing else. The family directory holds approval-request.json, build-findings.json, build-status.json, field-census.census-v1.json, fixtures/, participant-instructions.md, product-wiring.json, production-field-map.json, raster/, reports/ and source-receipt.json, and no other guidance surface exists."
-        },
-        {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "Held facts a delivered field asks for are left blank on three of the four documents, excused by reasons that state build policy rather than unavailability. This is the same defect VF05 raised on Michigan's dinfo box and FIX69 repaired, in a family that holds the values just as plainly. REPAIR: write matter.case_number into the three Case No. fields and the caption court and county where the widget will take them, or -- if a dropdown genuinely cannot be written -- say THAT, with the measurement, rather than that the platform does not write it here; and complete the DC-1-15 certificate-of-service identity block from the same facts it already half-fills. Nothing here asks for a guess: every value named is in the builder's own fixtures.",
-          "evidence": "FACTS THE PLATFORM HOLDS ARE LEFT BLANK ON THE FILING, ON REASONS THAT DESCRIBE THE BUILD. The builder's own factsFor() in scripts/build-census-v1-ne-setaside-custodial-set.mjs holds, for both personas, matter.case_number ('24-CR-001234' canonical), matter.county ('Example County'), matter.court ('District Court'), participant.full_legal_name, participant.street_address, participant.city_state_zip, participant.phone, participant.email and participant.date_of_birth. The packet writes FIVE of them, at seven widgets: printedname, citystatezip and telephone number on CC-6-11 page 1, and printedname and emailaddress on both pages of DC-1-15. Read off the delivered page at 300 dpi and with pdftotext: (1) THE CASE NUMBER IS BLANK ON ALL THREE CASE-NUMBERED DOCUMENTS. production-field-map.json refuses CC-6-11 field Text2 (printed context ',  CasNe o' -- the form's scrambled 'Case No.'), CC-6-11.2 field Text2 and DC-1-15 field Text38 ('Case'), every one under buildPolicyReason `no_allowlisted_fact_matches`, and prints to the participant 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. That reason states what this build's allowlist offers and what this build does; this builder's own header comment says so in terms -- 'no_allowlisted_fact_matches and binding_not_approved_by_exact_caption_gate state what this build's allowlist offers. Neither says anything about whether the filing needs the value, and a statement of build policy is not a reason for a blank on a court filing.' A petition filed into an existing criminal case with no case number on it is the case-identifying fact missing from the filing. (2) THE CAPTION IS EMPTY. The delivered page 1 reads 'IN THE ______ COURT OF ______ COUNTY, NEBRASKA' with both blanks unwritten, while the platform holds matter.court and matter.county; the widgets (TYPEOFCOURTDROPDOWN, TYPEOFCOURTRESULTS, 'enter the type of court', 'enter the county', DROPDOWNCOUNTY2, fullcountystatementRIGHT) are refused under `classified_unwritable_by_role` or `no_allowlisted_fact_matches`, and the same six recur on CC-6-11.2. (3) A FACT THE PACKET WRITES ELSEWHERE IS REFUSED HERE. CC-6-11 field 'defendant' (printed label 'vs', the caption defendant line) is blank while participant.full_legal_name is written at printedname lower on the SAME page; CC-6-11 'streetaddress' is blank while participant.city_state_zip is written eight lines below it; and on the DC-1-15 certificate-of-service block on packet page 5 the delivered page prints 'Printed Name: Jordan Avery Reyes' and 'Email address: jordan.reyes@example.com' with 'Street Address/P.O. Box', 'City/State/ZIP Code' and 'Telephone Number' left blank, all three of which the platform holds and two of which it writes on page 1. The completeness contract's REQUIRED_BEFORE_FILING conditions are explicit on this: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The writes that ARE made are correct: all seven were located by pdftotext on their own packet page in both fixtures and each sits inside its own /Rect at 300 dpi with positive margins on all four sides (tightest 0.72pt left on emailaddress, 1.68pt bottom on printedname)."
+          "finding": "FAIL. Three facts the platform holds and prints elsewhere in this same packet are left blank on the petition it asks them of -- the caption defendant line on all three case-captioned documents, and the street address and email address on CC 6:11's own identity block -- excused by a sentence that says what the build does rather than that the value is unavailable. A petition whose caption does not name the defendant, filed into an existing criminal case, is the identifying fact missing from the filing; and Nebraska Supreme Court Rule § 2-208, printed on the delivered page immediately under the blank, requires a self-represented filer to give the court an email address. REPAIR: write participant.full_legal_name into CC-6-11 `defendant`, CC-6-11.2 `defendant` and DC-1-15 `defendant`, and participant.street_address and participant.email into CC-6-11 `streetaddress` and `emailaddress`, through the same named-fact channel FIX81 already built and already uses for the identical five facts on DC-1-15 -- all five widgets are ordinary writable /Tx fields carrying the same flag word as the three CC-6-11 fields the packet already writes, so nothing here needs a new mechanism and nothing here asks for a guess. DISCLOSED WITH THE MEASUREMENT, FOR THE REPAIRER TO RULE ON RATHER THAN FOR THIS ROW TO DECIDE: CC-6-11 Text5 ('1. I was convicted of') and Text6 ('on ____, (Date of conviction)') are refused under buildPolicyReason `protected_category`, buildPolicyCategory `disposition_or_hearing`, while factsFor() holds matter.charge and matter.conviction_date ('2019-11-02') for both personas; both are ordinary /Tx fields, Ff 8388608, not read-only, /Rect [218.99 463.83 434.99 478.23] and [118.33 442.30 262.11 456.70]. Whether the conviction description and date on a petition sworn under § 29-2264 may be prefilled from held facts is a legal-design call, not a build-policy one, and it is recorded here with the measurement rather than scored.",
+          "evidence": "THE PRIOR FAILURE IS PART REPAIRED AND PART NOT, AND THE PART THAT IS NOT IS THE SAME DEFECT. WHAT WAS REPAIRED, CONFIRMED ON THE BYTES. (1) The case number is now written on all three case-captioned documents in the canonical fixture: 'Case No. 24-CR-001234' reads back from packet page 1 (CC-6-11 Text2), page 2 (CC-6-11.2 Text2) and page 4 (DC-1-15 Text38); at ebe931e4e those three read 'Case No.' followed by nothing, recovered from history and confirmed here. (2) The DC-1-15 certificate-of-service identity block is complete on packet pages 4 and 5: 'Printed Name: Jordan Avery Reyes', 'Street Address/P.O. Box: 118 Maple Street', 'City/State/ZIP Code: Springfield, NE 01234', 'Telephone Number: 555-0142', 'Email address: jordan.reyes@example.com', where before only the printed name and the email were written. (3) The caption court and county refusals now carry a MEASUREMENT rather than a policy sentence, which is what the assignment asks of a dropdown that cannot take the value: production-field-map.json measuredRefusals records, for each of the six caption widgets on each form, the PDF field type, the flag word, the /Rect read from the pinned binary, the option count, the fact ids the platform holds and the held values -- TYPEOFCOURTDROPDOWN is /FT /Ch, Ff 67239936, /Rect [142.33 659.22 221.75 673.62], 5 options of which 3 are values, and it states that the held 'District Court' DOES correspond to the option 'DISTRICT' so 'the obstacle is the widget type and nothing else'; DROPDOWNCOUNTY2 is /FT /Ch with 95 options of which 93 are values and neither persona's county is among them; TYPEOFCOURTRESULTS and fullcountystatementRIGHT are read-only (/Ff 1) fields already carrying the form's own words; 'enter the type of court' and 'enter the county' are read-only and NoView (/Ff 8392705, /F 36). Each row also tells the participant what to do instead. That is an honest, checkable refusal and it is accepted. (4) The boundary fixture's three case-number refusals are measured too: '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt at the 6pt readable minimum against 125.34, 125.60 and 95.00pt of usable width, and the shared fitter refuses whole rather than truncating -- which is the behaviour the boundary fixture exists to prove. WHAT WAS NOT REPAIRED, AND WHY IT FAILS. Three held facts are still refused at fields the form asks them of, on the primary filing, under a sentence that describes the build: production-field-map.json CC-6-11 canonicalRefusals carries `defendant` (printed label 'vs', the caption defendant line), `streetaddress` (printed label 'Street Address/P.O. Box') and `emailaddress` (the '*Email address:' line, harvested one line off as 'Telephone Num'), all three with buildPolicyReason `classified_unwritable_by_role`, buildPolicyCategory `role`, and the participant-facing why 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. READ OFF THE DELIVERED PAGE: canonical packet page 1 prints the caption as '________ , (your full name) Defendant.' with the line blank, then 'Printed Name: Jordan Avery Reyes' fourteen lines below it, then 'Street Address/P.O. Box:' blank, 'City/State/ZIP Code: Springfield, NE 01234', 'Telephone Number: 555-0142' and '*Email address:' blank. THE PLATFORM HOLDS ALL THREE AND WRITES ALL THREE ELSEWHERE IN THIS SAME PACKET: factsFor() in scripts/build-census-v1-ne-setaside-custodial-set.mjs holds participant.full_legal_name, participant.street_address and participant.email for both personas; the name is written at printedname on the SAME PAGE and on DC-1-15 pages 4 and 5; the street address and the email address are written at streetaddress and emailaddress on DC-1-15 pages 4 and 5, by this same repair. THE WIDGET IS NOT THE OBSTACLE, MEASURED FROM THE PINNED BINARY: CC-6-11's six identity fields -- defendant, printedname, streetaddress, citystatezip, telephone number, emailaddress -- are byte-for-byte the same kind of field, /FT /Tx with the identical flag word Ff 8388608 (read-only bit clear, required bit clear), annotation /F 4 (Print), no /MaxLen and no /V, and the packet WRITES THREE OF THE SIX AND REFUSES THE OTHER THREE. CC-6-11.2 `defendant` (/FT /Tx, Ff 8388608, /Rect [108.00 550.44 305.05 564.84]) and DC-1-15 `defendant` (/FT /Tx, no /Ff at all, /Rect [106.32 562.72 295.32 577.12]) are refused the same way, so the proposed order and the notice of hearing also go to the clerk with an unnamed defendant in the caption. The completeness contract states the test this fails, in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' THE WRITES THAT ARE MADE ARE CORRECT: all 16 canonical and 13 boundary write widgets were located by pdftotext on their own packet page with the exact expected string, each sits inside its own /Rect at 300 dpi with positive margin on all four sides (tightest 0.72pt left on emailaddress, 1.68pt bottom on printedname), and 0 added pixels fall in the 6pt halo outside any of them."
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX91",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29751,7 +29740,8 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
@@ -41970,9 +41960,7 @@
         "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42013,7 +42001,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
@@ -42095,9 +42083,7 @@
         "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42138,7 +42124,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
@@ -42220,9 +42206,7 @@
         "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42263,7 +42247,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
@@ -42345,9 +42329,7 @@
         "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42388,7 +42370,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs",
