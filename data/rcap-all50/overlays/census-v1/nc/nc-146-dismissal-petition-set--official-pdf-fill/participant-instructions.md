@@ -150,17 +150,15 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 6. **Answer paragraph 3 if you were charged with multiple offences**: box a if all of them were dismissed, box b if some resulted in a conviction on the day of dismissal or had not reached final disposition — and if box b, write the file numbers and offence descriptions of the charges that were NOT dismissed on the lines provided.
 7. **Tick the civil-revocation box only if a civil revocation of your driver's licence resulted from the offence.**
 8. **Read the deferred-prosecution box carefully.** Tick it only if no charge listed was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge. Ticking it truthfully is what tells the clerk not to assess the $175.00 fee.
-9. **Write your ZIP code and your date of birth on Side One yourself** — see the table below for why they are blank.
-10. **Sign and date the petition where it says Signature Petitioner, and print your name beside it.**
-11. **Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.
-12. **File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two.
+9. **Sign and date the petition where it says Signature Petitioner, and print your name beside it.**
+10. **Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.
+11. **File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two.
 
 ## Things the platform deliberately left blank
 
 - **Everything on Side Two of AOC-CR-287.** The FINDINGS OF FACT, the ORDER, the presiding judge's name, signature and date, and the CERTIFICATION BY CLERK all belong to the court and the clerk.
 - **The whole offence table on Side One**, for the reason set out above: four of its five columns can be bound and the fifth cannot, and a part-filled row reads as finished when it is not.
 - **Every agency name and address.** The form's own note makes these the petitioner's, and says the clerk will not provide addresses for you.
-- **Your ZIP code and date of birth on Side One**, refused by the shared rules on a caption-capture defect described in the table below. The platform holds both and writes them on AOC-CV-226.
 - **Your driver's licence number, your Social Security number, your race, your sex and your age at the time of the offence.** Government identifiers and personal descriptors the platform does not write onto any form.
 - **The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.
 - **Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.
