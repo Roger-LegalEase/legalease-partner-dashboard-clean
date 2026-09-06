@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0a1577634215ad532906cb9246d19ebfca72e105",
+  "minimumCaptainSha": "95da94165072a547a21c576acdc33af91a4fc7e3",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "ef6c780ff2db3624f9a105e7b7cf74dfdc6d07a9b318ad50bf535641db97aef3",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "d11b530e34d42e91c17882d6b77b97b929b41e25e593edd2f7f988f9cb779ba6",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,24 +66,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 23,
+    "activeFamiliesExcluded": 22,
     "guidanceOnly": 0,
-    "remaining": 323,
+    "remaining": 324,
     "sourceReady": 81,
     "sourceBlocked": 6,
-    "legalBlocked": 20,
+    "legalBlocked": 21,
     "verifyPending": 0,
     "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 155,
-    "FAIL_REPAIR_REQUIRED": 46,
+    "FAIL_REPAIR_REQUIRED": 45,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 81,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 20,
+    "LEGAL_BLOCKED": 21,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "WRONG_DELIVERY_TYPE": 1,
@@ -115,7 +115,6 @@
       "co_motion_seal_conviction-set",
       "co_motion_seal_nonconviction-set",
       "co_petition_seal_arrest-set",
-      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "ne-setaside-custodial-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
@@ -183,7 +182,7 @@
     "familiesPerBuilder": 3.2,
     "targetPerBuilder": "15 to 25",
     "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 81 do, so a full roster of 25 builders averages 3.2 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 26 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 27 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -9158,17 +9157,27 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
+        "an open legal input"
       ],
-      "legalInputStatus": "SETTLED",
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "foundBy": [
+          "FIX103 (repair lane stopped on a legal input)"
+        ],
+        "why": "COMPONENT_SET: By what form is the Illinois mistaken-identity petition under 20 ILCS 2630/5.2 verified: (a) an unsworn certification by the participant under 735 ILCS 5/1-109, or (b) an affidavit sworn before a notary with a jurat? The committed record names the instrument a 'Verified petition' but nowhere states which of the two it takes, and the two impose materially different burdens on the participant - (a) is self-executing at the kitchen table, (b) requires personal appearance before a notary. Composing either one would be this lane choosing the legal form, which the assignment forbids.",
+        "unrepaired": [
+          "COMPONENT_SET"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix103/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -9200,9 +9209,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX103",
-      "activeOwnerLane": "rapid-repair",
+      "state": "LEGAL_BLOCKED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -9213,8 +9222,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -40305,9 +40313,7 @@
         "verifiedAtBase": "6fb6e391bd4ef24254b5232997fdf2bcb6551371",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "nonvisual completeness counters not zero: unclassifiedBlanks"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40322,12 +40328,12 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "FAIL_MISSING_PREFILLS",
-      "allNineCountersZero": false,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 1,
+        "unclassifiedBlanks": 0,
         "incompleteRows": 0,
         "requiredOptionsMissing": 0,
         "requiredComponentsMissing": 0,
@@ -40335,9 +40341,7 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "failingCounters": [
-        "unclassifiedBlanks"
-      ],
+      "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",

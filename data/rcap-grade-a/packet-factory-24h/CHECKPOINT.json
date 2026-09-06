@@ -10,14 +10,14 @@
   "states": {
     "SOURCE_BLOCKED": 6,
     "SOURCE_READY": 81,
-    "LEGAL_BLOCKED": 20,
+    "LEGAL_BLOCKED": 21,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 1,
     "PASS_COMPLETE": 0,
     "VERIFY_PENDING": 0,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 46,
+    "FAIL_REPAIR_REQUIRED": 45,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
@@ -82,6 +82,12 @@
     },
     {
       "family": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"
