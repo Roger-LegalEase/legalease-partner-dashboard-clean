@@ -8723,9 +8723,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "VF01 is not executing; the grant is stale"
     },
     {
       "subjectType": "packet-family",
@@ -13801,7 +13803,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "071925142f8fd3cef5ed1ccdc62de0e96c7b03814ab1a37ad5eb4523df5477a8",
+  "claimsDigest": "ed07daac17d8a4aaf6c7a4da19cc088595910021d6f34bfc70d09f842a783987",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32617,6 +32619,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T20:29:21.015Z",
       "reason": "FIX107 returned COMPLETED at 9b2b3553d carrying the record (revisions, certificate language, blanks preserved, open question printed); SERVICE not discharged, family stays LEGAL_BLOCKED; bytes moved"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T20:32:06.406Z",
+      "reason": "VF01 is not executing; the grant is stale"
     }
   ],
   "reissues": [
@@ -48025,6 +48036,17 @@
       "previouslyReleasedAt": "2026-09-06T17:47:12.071Z",
       "transferredAt": "2026-09-06T19:07:02.056Z",
       "reason": "VF08 independently re-reads Nebraska custodial after FIX102's full repair (95d587940) and central raster run 34052906161"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-06T20:32:06.406Z",
+      "transferredAt": "2026-09-06T20:32:06.518Z",
+      "reason": "VF03 independently re-reads Vermont DUI sealing after the research answered the fee input and FIX107 restated the guide (fixtures unchanged)"
     }
   ],
   "grants": [
