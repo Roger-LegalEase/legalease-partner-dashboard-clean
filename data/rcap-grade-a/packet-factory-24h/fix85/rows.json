@@ -1,0 +1,305 @@
+{
+ "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX85",
+ "status": "COMPLETED",
+ "laneKind": "shared-host-repair",
+ "repairedByThisLane": true,
+ "obligationsRepaired": [
+  "CLIPPING_AND_OVERLAP"
+ ],
+ "oneSharedImplementationChange": "Both rows are discharged by ONE change to the shared finalizer and one per-family opt-in each. No family outside the two this lane holds grants for moves a byte.",
+ "rows": [
+  {
+   "itemId": "pa_490_nonconviction-set",
+   "familyId": "pa_490_nonconviction-set",
+   "jurisdiction": "PA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "shared-host-repair",
+   "repairedByThisLane": true,
+   "lane": "FIX85",
+   "branch": "fix85-written-field-borders",
+   "baseSha": "f0edbef22",
+   "mergedCaptainSha": "b7444933e (ordinary merge, taken to assert the second grant)",
+   "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared EAST host, runEastFamily)",
+   "builderEntryPoint": "node scripts/build-census-v1-pa_490_nonconviction-set.mjs",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX85 pa_490_nonconviction-set -> CLAIM_OK FIX85 pa_490_nonconviction-set (repair, grant set fe2a00e63abcdd5a), exit 0, re-asserted after the merge. NOTE ON THE FIRST ASSERTION: the same command run in /home/user/legalease-partner-dashboard-clean before the worktree existed returned 'NOT_GRANTED: no repair lane holds pa_490_nonconviction-set', exit 6. That was a stale checkout, not a refusal: claim.mjs chdirs to the root of the tree it lives in, and that tree's ledger is pinned at generatedAtCommit a3dc426e4 with 878 claims and no FIX85 row at all. The ledger at the assigned base f0edbef22 carries 922 claims including this grant, live and unreleased. The grant was asserted in the worktree before any family artifact was opened.",
+   "verdictRepaired": {
+    "lane": "VF02",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "0ed47bb50",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ]
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "mechanism": "honorWidgetBorderStyle, one new option in the shared finalizer, default off, adjacent to suppressSynthesizedWidgetBorders rather than an extension of it. THE ROOT CAUSE, WHICH IS NARROWER AND MORE SPECIFIC THAN THE ASSIGNMENT'S PREMISE AND IS WHAT THE BYTES SAY. /BS /S is a widget's border STYLE (ISO 32000-1 12.5.4, Table 166): it says WHERE the border colour in /MK /BC is painted. /S and the three decorated styles bound the whole rectangle, /N paints nothing, and /U means one thing only -- 'a single line along the bottom of the annotation rectangle'. pdf-lib's default text appearance provider never reads /BS /S and strokes a full rectangle from /MK /BC whatever the style says. On the pinned PA-RCRIM-P-490-ORDER, enumerated here from the binary, EIGHT widgets carry /MK /BC [0 0 0]: six declare NO /BS -- so the default solid style -- and each ships an /AP /N of the form '0 G 0.5 0.5 W H re s', a stroked rectangle, so regenerating one coincides with the form; the other TWO are exactly the two the packet writes into, DocketNumber and Defendant on page 1, both declaring /BS << /S /U >> and both shipping an /AP /N of the form '0 G 0 0.5 m <width> 0.5 l s', one horizontal rule and nothing else. The source is entirely self-consistent; pdf-lib is what disagrees with it. WHY THE OPTION IS NOT A DELETION OF /MK /BC, MEASURED BEFORE THE MECHANISM WAS CHOSEN RATHER THAN ASSUMED. The pinned order page 1 was rendered twice at 300 dpi, once whole and once with /Annots and /AcroForm removed. In the window of DocketNumber the page content carries 0 dark pixels against 2,680 whole, and at Defendant 0 against 2,856. The court's writing rule at those two blanks exists ONLY inside the widget's own appearance stream. Since regeneration replaces that stream, dropping /MK /BC alone would remove the box AND the rule -- trading a border the form does not print for the loss of a rule the form does. The same measurement explains the control: at DefendantName on the same page, which carries no /BC, the rule IS page content (4,686 pixels with and without annotations), which is why that widget never showed the defect. SO THE OPTION HONOURS THE DECLARED STYLE IN TWO HALVES. Before form.updateFieldAppearances(), /MK /BC is removed from the eligible widget so pdf-lib synthesises no rectangle -- verified in the generated stream, which then ends its path 'h h' with no stroke operator instead of 'h S'. After it, and before any placement, the underline the style declares is drawn back into the regenerated appearance in its own /BBox space from that same /MK /BC and the widget's /BS /W: 'q <colour> RG <W> w [] 0 d 0 <W/2> m <bbox width> <W/2> l S Q'. What that reconstructs is the source's own stream: /BS /W defaults to 1 under 12.5.4, the stroke is centred at W/2, and the two Pennsylvania widgets ship exactly '0 G 0 0.5 m <bbox width> 0.5 l s'. TWO INDEPENDENT SIGNALS MUST AGREE BEFORE A WIDGET IS TOUCHED, which is also why this satisfies the assignment's own framing. The widget must DECLARE an underline in /BS /S, and its shipped /AP /N must paint no box -- decided by counting the segments of each painted subpath rather than by a substring, because a box is 're' or a painted subpath of three or more segments while a rule is one, and because 's' (closepath-stroke) on a two-point line is a rule and not a box. Where the two signals contradict each other the widget is refused and counted, never repaired, and an /AP that cannot be read is refused on the same terms. WHY NOT suppressSynthesizedWidgetBorders. Its contract, in its own words in three places, is that it acts only on 'a field this run did NOT write' and that 'a written value must keep whatever the pipeline draws for it'. Widening it would have broken that documented promise and would have moved the bytes of co_multiple_conviction_seal-set, the one family already opted into it. The new option never reaches an unwritten field and the old one never reaches a written one, so the two cannot overlap; control 13 of the test measures exactly that. Scope: only a TEXT field, only a field this run wrote, only a widget declaring /S /U whose own appearance agrees, and only under the opt-in -- so every caller that does not pass it is byte-unaffected.",
+   "whatChanged": {
+    "scripts/rcap-official-forms/rcap-active-content.mjs": [
+     "contentStreamOperators: a small content-stream tokenizer that skips strings, hex strings, names, numbers and comments, so 're' inside /Frame or inside '(a re b)' is never read as the rectangle operator.",
+     "sourceAppearancePaintsRectangle (exported): does the appearance the SOURCE ships paint a box? Decided by counting the segments of each painted subpath -- 're', or a painted subpath of three or more segments, is a box; one segment is a rule. Returns null for no /AP, a state dictionary, or an undecodable stream, and every caller treats null as 'paints a box'.",
+     "declaredUnderlineBorder (exported): the underline a widget DECLARES, from /BS /S, /BS /W and /MK /BC only. A /BS /W of 0 paints no border under 12.5.4 and a /BC that sets no colour paints none under 12.5.6.19; both return null. Handles 1, 3 and 4 component colours as G, RG and K.",
+     "takeDeclaredUnderlineBordersOffWidgets (exported): before appearances are generated, removes /MK /BC from every widget of a WRITTEN text field that declares an underline and ships an appearance agreeing there is no box, and returns what must be drawn back. Refusals are counted in two named buckets.",
+     "drawDeclaredUnderlineBorders (exported): after appearances are generated and before any placement, draws the declared underline into each regenerated appearance in its own /BBox space, last so no text clip can remove it, inside its own q/Q so the graphics state is left as found.",
+     "sanitizeAndFlatten gains honorWidgetBorderStyle, default false, calling the two halves either side of form.updateFieldAppearances() and reporting under report.declaredWidgetBorderStyles.",
+     "NOT CHANGED: restrictWidgetContributions and its report shape, suppressSynthesizedWidgetBorders and both its halves, suppressSynthesizedAppearances, fitAppearancesToRect, detachNestedControlFields, or any default."
+    ],
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs": [
+     "honorWidgetBorderStyle, default false, documented with the measurement that chose the mechanism, and passed through to sanitizeAndFlatten. No other option's default or behaviour is touched."
+    ],
+    "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs": [
+     "probe() takes borderStyle and borderColor and sets or deletes /BS explicitly rather than leaving whatever pdf-lib's widget builder put there; finalize() takes the new option; inkInWidgetRect additionally returns the left-edge, top-edge and rule bands; a pdfText helper reads the delivered page with pdftotext; seven new controls, 7 to 13. The six existing controls are unchanged."
+    ],
+    "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs": [
+     "--written: the mirror population, written to fix85/WRITTEN_MK_BORDER_COHORT.json, measured with the finalizer's own exported predicates rather than a copy so a cohort cannot drift from what the option does.",
+     "writtenFieldsBySourceDigest learns the shared EAST host's write-proof schema (artifacts[] keyed by artifact digest and naming the source by documentId, resolved back to the source digest through the receipt's own documentId). Without it every family on that host, including both families repaired here, was NOT_MEASURABLE_HERE and this cohort would have omitted its own subject.",
+     "builderOptsIn follows a three-line entry point one level into its shared host and looks for the option inside that family's OWN configuration block, found by matching braces, so an option read out of it belongs to that family and not the one declared after it.",
+     "The default (FIX80) mode is otherwise untouched and its output is unchanged in every measured total and in cohort membership."
+    ],
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": [
+     "honorWidgetBorderStyle plumbed as a per-document flag at the two finalize sites, exactly as fitTextPerWidget and alignWidgetFontSizeToFit already are: 'honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true'.",
+     "pa_490_nonconviction-set: the flag set true on the PA_490_ORDER clone ONLY. The petition is not opted in because it carries no such widget -- the scan measured its 13 written fields and 0 of them carry /MK /BC at all -- so opting it in would be a declaration with no referent.",
+     "NOT CHANGED: no other family's configuration, no shared text fitter, no field census, no source pin, no queue, no legal record, no product wiring."
+    ],
+    "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill": [
+     "Rebuilt through its own entry point. Only the two order fixtures moved. Their page-01 rasters and contact sheets, both already tracked by the family, moved with them; page-02 did not, the defect being on page 1 only. reports/actual-writes.json and reports/rendered-artifacts.json regenerated."
+    ]
+   },
+   "fixtureDigestsBefore": {
+    "rule-490-order-canonical.pdf": "0bd6acb1539ad3e0bb9f2db84ed40de5ca6ea4487ee559325781e1f29d6bef5d",
+    "rule-490-order-boundary.pdf": "5a1137cc752667c943a9eaed777f21b5a708e77988d451839c98ecb09c33a89b",
+    "rule-490-petition-canonical.pdf": "c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b",
+    "rule-490-petition-boundary.pdf": "bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9",
+    "certificate-of-service-canonical.pdf": "2fa87df1916ae4d9feb88a3fecb9a60d82d99ec7eadccf7cec7af9b55ddd4b17",
+    "certificate-of-service-boundary.pdf": "cb9ce703674ca360c2bb6f95ff3f3f5b31de1260b752268f3b0c17a7200e80e2"
+   },
+   "fixtureDigestsAfter": {
+    "certificate-of-service-boundary.pdf": "cb9ce703674ca360c2bb6f95ff3f3f5b31de1260b752268f3b0c17a7200e80e2",
+    "certificate-of-service-canonical.pdf": "2fa87df1916ae4d9feb88a3fecb9a60d82d99ec7eadccf7cec7af9b55ddd4b17",
+    "rule-490-order-boundary.pdf": "aa5520a16b9dcf7258bfe9a97a58cf6b11300a05eb1be59fecd224eb7f86adee",
+    "rule-490-order-canonical.pdf": "3d4cc7861b3aed7517d4f2a50adba4b4dbac95d9f644d682f58d07897d1e1a25",
+    "rule-490-petition-boundary.pdf": "bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9",
+    "rule-490-petition-canonical.pdf": "c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b"
+   },
+   "newCanonicalAndBoundaryDigests": {
+    "canonical (rule-490-order-canonical.pdf)": "3d4cc7861b3aed7517d4f2a50adba4b4dbac95d9f644d682f58d07897d1e1a25",
+    "boundary (rule-490-order-boundary.pdf)": "aa5520a16b9dcf7258bfe9a97a58cf6b11300a05eb1be59fecd224eb7f86adee",
+    "unmovedByThisRepair": "The two petition fixtures and the two composed certificate fixtures are byte-identical to the digests VF02 read; only the order moved, which is where the defect was."
+   },
+   "determinism": "Built twice on the final merged tree and once before the merge; all three runs produce identical digests for all six fixtures.",
+   "pixelMeasurements": {
+    "method": "pdftoppm at 300 dpi, greyscale, threshold <200, page 1 of each order fixture compared pixel for pixel with the pinned PA-RCRIM-P-490-ORDER (sha256 ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90) rendered at the same resolution, in a 2pt-padded window of each widget's own /Rect. Every raster was written under /tmp and deleted after measuring.",
+    "DocketNumber (/Rect 384.826,664.472 160.747x14.904, page 1)": {
+     "canonical": "added dark pixels vs the pinned form 6,403 before -> 3,237 after; 3,166 REMOVED",
+     "boundary": "7,957 before -> 4,791 after; 3,166 REMOVED",
+     "writingRuleIntact": "the 1.5pt rule band reads 2,689 before and 2,680 after on BOTH fixtures, against the pinned form's own 2,680 -- an EXACT match after the repair, and the page content alone carries 0 there",
+     "vf02Predicted": "about 3,157 pixels"
+    },
+    "Defendant (/Rect 101.95,689.954 171.281x13.992, page 1)": {
+     "canonical": "7,545 before -> 4,353 after; 3,192 REMOVED",
+     "boundary": "0 before and 0 after -- the value is withheld here, the appearance is never regenerated and there was never a box, which is VF02's own Control B reproduced",
+     "writingRuleIntact": "the rule band reads 2,852 on the pinned form, 2,852 on the boundary fixture before and after (exact), and 2,860 before / 2,866 after on the canonical. The 14-pixel excess over the pinned form on the canonical is the participant value's own descenders crossing a 1.5pt band the empty pinned form has nothing in, plus the redrawn rule spanning the full /BBox width where the box's bottom edge was inset 0.5pt at each end -- which is the source's own geometry, as the exact boundary reading shows",
+     "vf02Predicted": "about 3,244 pixels"
+    },
+    "controlSamePageNoBC (DefendantName)": "0 added and 0 removed on both fixtures. Untouched, as it must be: it carries no /MK /BC and its rule is page content (4,686 pixels with and without annotations).",
+    "controlSamePageBCWithBoxStyle (NameAddrOfJudge)": "0 added vs the pinned form before AND after on both fixtures. One of the six widgets that declare no /BS and ship a stroked rectangle; the option leaves them exactly as they are.",
+    "wholePage1": "added ink vs the pinned form falls from 19,909 to 13,551 on the canonical (6,358 removed) and from 16,095 to 12,929 on the boundary (3,166 removed). What remains is the participant's own values.",
+    "sourceInkLost": "0 on the boundary fixture before and after. 4 pixels on the canonical before and after -- IDENTICAL, so not introduced and not repaired here; it is the same one-pixel-wide run at the left edge of the Defendant rectangle that FIX84 recorded on the sibling order.",
+    "valuesLegible": "pdftotext -layout on the delivered bytes reads 'Jordan Avery Reyes' and '24-CR-001234' on the canonical and the long boundary docket '0123-45-2026-CR-900123.00-AB-CDE/2201' on the boundary, complete and unabbreviated."
+   },
+   "siblingByteIdentity": "PROVED BY REBUILDING, not by not touching. Every fixture of every family on this host was hashed before and after. Exactly FOUR fixtures moved in the whole census tree: the two order fixtures of this family and the two of pa_790_nonconviction-set, both of which this lane holds grants for. The nj_* five (nj_arrest_no_conviction-set, nj_clean_slate-set, nj_disorderly_persons-set, nj_indictable_conviction-set, nj_ordinance-set) and pa_6308_underage-set show 0 differing digests, and so do the New York, Rhode Island and remaining Pennsylvania families on this host. All seven named siblings were additionally REBUILT with this lane's change in place, and every digest they produce is identical to the digest they produce with the finalizer and host reverted to HEAD.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set -> PASS_COMPLETE, 24/206 written, exit 0, run on the committed bytes of this branch after the rebuild.",
+    "whyNineZerosDoesNotDischargeTheDefect": "The counters were nine zeros on the bytes the verifier failed and they are nine zeros on the repaired bytes. The border was ink INSIDE a declared write box, so no counter, no glyph check and no raster receipt could ever see it. The discharge below rests on the 300 dpi measurements, not on these nine."
+   },
+   "testsRun": {
+    "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "exit 0. Run on the final tree. 5 controls, unchanged by this lane, all pass.",
+    "scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "exit 0. Run on the final tree. Unchanged by this lane, all controls pass.",
+    "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs": "exit 0, 13 controls, all PASS. Controls 1-6 are FIX80's and are unmodified in substance; controls 7-13 are new here and are measured as ink at 300 dpi, not as report counts. 7 is the NEGATIVE control: with the option off a written underline-styled widget is delivered inside a stroked rectangle (196 dark pixels in the 1.2pt left-edge band, which the participant's own value cannot reach because pdf-lib insets its text by 2pt). 8: with the option on that band and the top-edge band are both 0. 9 IS THE CONTROL THAT MATTERS MOST and it is why this option is not a deletion: it compares the rule band against a third document built with /MK /BC simply removed, and FAILS if the underline is not drawn back. 10: the value is still read back by pdftotext and the widget is reported with the geometry it was drawn at. 11: a written widget declaring no /BS keeps its box and is byte-identical either way. 12: a widget declaring /U whose own appearance draws a box is refused, counted, and byte-identical. 13: the option never reaches an unwritten field and performs neither half of the other option's remedy. PROVED TO FAIL BEFORE THE CHANGE: the two finalizer modules were reverted to HEAD with the extended test left in place, and it fails at control 8 with 'with the option on the left edge of the rect still carries 196 dark pixels, 196 !== 0', exit 1. Restored and re-run: exit 0.",
+    "node scripts/build-census-v1-pa_490_nonconviction-set.mjs --check": "CHECK PASS (6 PDFs; 8 rasters), exit 0.",
+    "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check": "CHECK PASS (6 PDFs; 8 rasters), exit 0."
+   },
+   "cohort": {
+    "file": "data/rcap-grade-a/packet-factory-24h/fix85/WRITTEN_MK_BORDER_COHORT.json",
+    "deliveringFamilyDirectoriesScanned": 230,
+    "familiesInCohort": 11,
+    "widgetsInCohort": 70,
+    "widgetsDeclaringAnUnderline": 59,
+    "widgetsUndeclaredMismatchTheOptionRefuses": 11,
+    "familiesOptedInByThisLane": 2,
+    "thisFamily": "exactly the two widgets VF02 named and no third, while returning none of the six /MK /BC widgets on the same page whose own appearance strokes a rectangle -- which is how the scan was proved to measure the right thing.",
+    "grantsNothing": "Report only. It opts in nobody beyond the two families this lane holds grants for."
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "CENTRAL RASTER ON THE NEW BYTES. Every raster this lane measured was rendered locally under /tmp with poppler at 300 dpi and deleted after measuring; the only raster PNGs committed are the page-01 files each family already tracks, regenerated by its own builder. Both families' acceptance receipts are bound by content hash to order digests this repair supersedes, so those receipts stop binding and a fresh central raster is owed for both. RASTER_QUEUE.json, MASTER_QUEUE.json and product-wiring.json were NOT opened for writing here: repairing an acceptance receipt is not a repair lane's authority.",
+    "INDEPENDENT VERIFICATION. This lane changed the shared finalizer, changed both families' configuration and rebuilt both sets of bytes, so it verifies none of them. No verdict was written or replaced and no obligation is scored here. An independent re-read of the obligation this row claims to repair, on the new digests, is owed for both families, by a lane that is neither their builder nor this repairer. This row records a repair; it does not score it.",
+    "THE OTHER NINE FAMILIES IN THIS LANE'S OWN COHORT. WRITTEN_MK_BORDER_COHORT.json records 11 delivering families and 70 widgets in this condition. Two are opted in here because this lane holds grants for exactly those two. The other nine -- three Colorado, one Kentucky, and pa_6308_underage-set, pa_9122_1_limited_access-set, pa_age70_deceased-set, pa_pardon_expungement-set and pa_summary_conviction-set -- are measured and left untouched. A cohort is a measurement and authorizes no rebuild.",
+    "THE 11 UNDECLARED_MISMATCH WIDGETS. All 11 are Kentucky's ky_felony_vacatur_expungement-set (AOC-496.3 and AOC-496.4): written, carrying /MK /BC, shipping an appearance that paints no box, yet declaring a box style or no style at all. The form contradicts itself there and the option refuses them by design. They are reported and adjudicated by nobody here. That family is OUT_OF_SCOPE in MASTER_QUEUE.",
+    "THE SHARED HOST'S --self-test, WHICH FAILS AND FAILED BEFORE THIS LANE. node scripts/build-census-v1-pa_490_nonconviction-set.mjs --self-test exits 1 on 'NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip'. Confirmed pre-existing by stashing this lane's script edits and re-running at the same base: the identical assertion fails at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2482 before the edit and at :2496 after it, the difference being only the lines this lane inserted above it. FIX84 reported the same failure. It is neither introduced nor repaired here. --check passes for both families.",
+    "THE TWO SIBLING FAMILIES THAT ALREADY DRIFT FROM THE COMMITTED TREE. pa_6308_underage-set and nj_clean_slate-set rebuild to bytes other than the committed ones on this host. Proved pre-existing rather than asserted: both were rebuilt WITH this lane's change and again with the finalizer and host reverted to HEAD, and every drifted digest is identical both ways -- nj_clean_slate cn-10557-canonical 2b5033961bfc5806acadac7d1897f9e4797dd40d599eaad4231a6383e1c1af1c and -boundary 1e1a7aef8f5eb56a1e404862a0d73e9ae66e6a6afcaa43b388520aeba94a2728; pa_6308 rule-490-order-canonical 2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea, rule-490-petition-canonical c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b, rule-790-order-boundary b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c and rule-790-petition-boundary 6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab. Their working trees were reverted and NOTHING of theirs is committed here. Neither is repaired.",
+    "fix80/MK_BORDER_COHORT.json, WHICH THIS LANE DID NOT REWRITE. The scan's write-proof reader was extended to read the shared EAST host's schema, and its opt-in detector to follow a three-line entry point into its host. Both change what the DEFAULT mode would now report: 37 documents across 18 families move out of NOT_MEASURABLE_HERE. Verified not to change a single finding -- FIX80's cohort is still exactly the same 5 families and 121 widgets with the same 105/16 split and the same 4-still-on-the-old-default -- so FIX80's file is left exactly as FIX80 wrote it, and the delta is reported here instead of being written into another lane's record.",
+    "THE POPPLER WARNING ON THE PA 790 ORDER FIXTURES. pdftoppm emits 'Syntax Error (4878): XObject subtype is missing or wrong type' on both PA 790 order fixtures. It is present on the COMMITTED pre-repair bytes and on the rebuilt bytes identically, absent on both PA 490 order fixtures, and it does not stop the page rendering. Pre-existing, not introduced here, not repaired here.",
+    "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. Nothing here promotes a route, opens commercial authority, changes a live RCAP route or clears MASTER_QUEUE. The claim ledger was asserted and is NOT released and NOT committed."
+   ]
+  },
+  {
+   "itemId": "pa_790_nonconviction-set",
+   "familyId": "pa_790_nonconviction-set",
+   "jurisdiction": "PA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "shared-host-repair",
+   "repairedByThisLane": true,
+   "lane": "FIX85",
+   "branch": "fix85-written-field-borders",
+   "baseSha": "f0edbef22",
+   "mergedCaptainSha": "b7444933e (ordinary merge, taken to assert the second grant)",
+   "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared EAST host, runEastFamily)",
+   "builderEntryPoint": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX85 pa_790_nonconviction-set -> CLAIM_OK FIX85 pa_790_nonconviction-set (repair, grant set fe2a00e63abcdd5a), exit 0. This grant was dealt mid-lane at Captain commit bc85b0c77 and could only be asserted after origin/claude/legalease-sprint-captain-utucnw was merged into this branch with an ordinary merge, which is what the merge commit on this branch is for. Asserted before this family's configuration was edited or its bytes rebuilt.",
+   "verdictRepaired": {
+    "lane": "VF05",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "7307b0e34",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "asMeasuredByVF05": "9,504 packet-owned dark pixels across the two order fixtures, at the Defendant and DocketNumber caption fields where the pinned PA-RCRIM-P-790-ORDER declares /BS << /S /U /W 1 >> and draws only an underline."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "mechanism": "honorWidgetBorderStyle, one new option in the shared finalizer, default off, adjacent to suppressSynthesizedWidgetBorders rather than an extension of it. THE ROOT CAUSE, WHICH IS NARROWER AND MORE SPECIFIC THAN THE ASSIGNMENT'S PREMISE AND IS WHAT THE BYTES SAY. /BS /S is a widget's border STYLE (ISO 32000-1 12.5.4, Table 166): it says WHERE the border colour in /MK /BC is painted. /S and the three decorated styles bound the whole rectangle, /N paints nothing, and /U means one thing only -- 'a single line along the bottom of the annotation rectangle'. pdf-lib's default text appearance provider never reads /BS /S and strokes a full rectangle from /MK /BC whatever the style says. On the pinned PA-RCRIM-P-490-ORDER, enumerated here from the binary, EIGHT widgets carry /MK /BC [0 0 0]: six declare NO /BS -- so the default solid style -- and each ships an /AP /N of the form '0 G 0.5 0.5 W H re s', a stroked rectangle, so regenerating one coincides with the form; the other TWO are exactly the two the packet writes into, DocketNumber and Defendant on page 1, both declaring /BS << /S /U >> and both shipping an /AP /N of the form '0 G 0 0.5 m <width> 0.5 l s', one horizontal rule and nothing else. The source is entirely self-consistent; pdf-lib is what disagrees with it. WHY THE OPTION IS NOT A DELETION OF /MK /BC, MEASURED BEFORE THE MECHANISM WAS CHOSEN RATHER THAN ASSUMED. The pinned order page 1 was rendered twice at 300 dpi, once whole and once with /Annots and /AcroForm removed. In the window of DocketNumber the page content carries 0 dark pixels against 2,680 whole, and at Defendant 0 against 2,856. The court's writing rule at those two blanks exists ONLY inside the widget's own appearance stream. Since regeneration replaces that stream, dropping /MK /BC alone would remove the box AND the rule -- trading a border the form does not print for the loss of a rule the form does. The same measurement explains the control: at DefendantName on the same page, which carries no /BC, the rule IS page content (4,686 pixels with and without annotations), which is why that widget never showed the defect. SO THE OPTION HONOURS THE DECLARED STYLE IN TWO HALVES. Before form.updateFieldAppearances(), /MK /BC is removed from the eligible widget so pdf-lib synthesises no rectangle -- verified in the generated stream, which then ends its path 'h h' with no stroke operator instead of 'h S'. After it, and before any placement, the underline the style declares is drawn back into the regenerated appearance in its own /BBox space from that same /MK /BC and the widget's /BS /W: 'q <colour> RG <W> w [] 0 d 0 <W/2> m <bbox width> <W/2> l S Q'. What that reconstructs is the source's own stream: /BS /W defaults to 1 under 12.5.4, the stroke is centred at W/2, and the two Pennsylvania widgets ship exactly '0 G 0 0.5 m <bbox width> 0.5 l s'. TWO INDEPENDENT SIGNALS MUST AGREE BEFORE A WIDGET IS TOUCHED, which is also why this satisfies the assignment's own framing. The widget must DECLARE an underline in /BS /S, and its shipped /AP /N must paint no box -- decided by counting the segments of each painted subpath rather than by a substring, because a box is 're' or a painted subpath of three or more segments while a rule is one, and because 's' (closepath-stroke) on a two-point line is a rule and not a box. Where the two signals contradict each other the widget is refused and counted, never repaired, and an /AP that cannot be read is refused on the same terms. WHY NOT suppressSynthesizedWidgetBorders. Its contract, in its own words in three places, is that it acts only on 'a field this run did NOT write' and that 'a written value must keep whatever the pipeline draws for it'. Widening it would have broken that documented promise and would have moved the bytes of co_multiple_conviction_seal-set, the one family already opted into it. The new option never reaches an unwritten field and the old one never reaches a written one, so the two cannot overlap; control 13 of the test measures exactly that. Scope: only a TEXT field, only a field this run wrote, only a widget declaring /S /U whose own appearance agrees, and only under the opt-in -- so every caller that does not pass it is byte-unaffected.",
+   "whatChanged": {
+    "scripts/rcap-official-forms/rcap-active-content.mjs": [
+     "contentStreamOperators: a small content-stream tokenizer that skips strings, hex strings, names, numbers and comments, so 're' inside /Frame or inside '(a re b)' is never read as the rectangle operator.",
+     "sourceAppearancePaintsRectangle (exported): does the appearance the SOURCE ships paint a box? Decided by counting the segments of each painted subpath -- 're', or a painted subpath of three or more segments, is a box; one segment is a rule. Returns null for no /AP, a state dictionary, or an undecodable stream, and every caller treats null as 'paints a box'.",
+     "declaredUnderlineBorder (exported): the underline a widget DECLARES, from /BS /S, /BS /W and /MK /BC only. A /BS /W of 0 paints no border under 12.5.4 and a /BC that sets no colour paints none under 12.5.6.19; both return null. Handles 1, 3 and 4 component colours as G, RG and K.",
+     "takeDeclaredUnderlineBordersOffWidgets (exported): before appearances are generated, removes /MK /BC from every widget of a WRITTEN text field that declares an underline and ships an appearance agreeing there is no box, and returns what must be drawn back. Refusals are counted in two named buckets.",
+     "drawDeclaredUnderlineBorders (exported): after appearances are generated and before any placement, draws the declared underline into each regenerated appearance in its own /BBox space, last so no text clip can remove it, inside its own q/Q so the graphics state is left as found.",
+     "sanitizeAndFlatten gains honorWidgetBorderStyle, default false, calling the two halves either side of form.updateFieldAppearances() and reporting under report.declaredWidgetBorderStyles.",
+     "NOT CHANGED: restrictWidgetContributions and its report shape, suppressSynthesizedWidgetBorders and both its halves, suppressSynthesizedAppearances, fitAppearancesToRect, detachNestedControlFields, or any default."
+    ],
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs": [
+     "honorWidgetBorderStyle, default false, documented with the measurement that chose the mechanism, and passed through to sanitizeAndFlatten. No other option's default or behaviour is touched."
+    ],
+    "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs": [
+     "probe() takes borderStyle and borderColor and sets or deletes /BS explicitly rather than leaving whatever pdf-lib's widget builder put there; finalize() takes the new option; inkInWidgetRect additionally returns the left-edge, top-edge and rule bands; a pdfText helper reads the delivered page with pdftotext; seven new controls, 7 to 13. The six existing controls are unchanged."
+    ],
+    "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs": [
+     "--written: the mirror population, written to fix85/WRITTEN_MK_BORDER_COHORT.json, measured with the finalizer's own exported predicates rather than a copy so a cohort cannot drift from what the option does.",
+     "writtenFieldsBySourceDigest learns the shared EAST host's write-proof schema (artifacts[] keyed by artifact digest and naming the source by documentId, resolved back to the source digest through the receipt's own documentId). Without it every family on that host, including both families repaired here, was NOT_MEASURABLE_HERE and this cohort would have omitted its own subject.",
+     "builderOptsIn follows a three-line entry point one level into its shared host and looks for the option inside that family's OWN configuration block, found by matching braces, so an option read out of it belongs to that family and not the one declared after it.",
+     "The default (FIX80) mode is otherwise untouched and its output is unchanged in every measured total and in cohort membership."
+    ],
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": [
+     "honorWidgetBorderStyle plumbed as a per-document flag at the two finalize sites, exactly as fitTextPerWidget and alignWidgetFontSizeToFit already are.",
+     "pa_790_nonconviction-set: the flag set true on the PA_790_ORDER clone ONLY, alongside the fitTextPerWidget FIX84 set there. PA_790_ORDER is a shared constant and cloneDoc returns a new object, so pa_pardon_expungement-set and every other family binding the same form is unaffected -- proved by rebuilding, not by reading.",
+     "NOT CHANGED: no other family's configuration, no shared text fitter, no field census, no source pin, no queue, no legal record, no product wiring. product-wiring.json for this family moved in the merge, by Captain, and was not opened here."
+    ],
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill": [
+     "Rebuilt through its own entry point. Only the two order fixtures moved, with their page-01 rasters and contact sheets, all already tracked. Page 2 did not move. reports/actual-writes.json and reports/rendered-artifacts.json regenerated."
+    ]
+   },
+   "fixtureDigestsBefore": {
+    "rule-790-order-canonical.pdf": "435351d34ed581dc768bd3333ee408e5e9f2886facc31ee932d0cb4664fe28c9",
+    "rule-790-order-boundary.pdf": "b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c",
+    "rule-790-petition-canonical.pdf": "f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127",
+    "rule-790-petition-boundary.pdf": "6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab",
+    "certificate-of-service-canonical.pdf": "22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5",
+    "certificate-of-service-boundary.pdf": "c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5"
+   },
+   "fixtureDigestsAfter": {
+    "certificate-of-service-boundary.pdf": "c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5",
+    "certificate-of-service-canonical.pdf": "22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5",
+    "rule-790-order-boundary.pdf": "bbcc29e540e7c9b127c49600ba19fbc344859cf1de6c0f2bbac3c62f153b2e1a",
+    "rule-790-order-canonical.pdf": "313a733583d73e4a38fd481b00ff45936ac3c2bd08eb99bab3d45427894c0803",
+    "rule-790-petition-boundary.pdf": "6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab",
+    "rule-790-petition-canonical.pdf": "f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127"
+   },
+   "newCanonicalAndBoundaryDigests": {
+    "canonical (rule-790-order-canonical.pdf)": "313a733583d73e4a38fd481b00ff45936ac3c2bd08eb99bab3d45427894c0803",
+    "boundary (rule-790-order-boundary.pdf)": "bbcc29e540e7c9b127c49600ba19fbc344859cf1de6c0f2bbac3c62f153b2e1a",
+    "unmovedByThisRepair": "The two petition fixtures and the two composed certificate fixtures FIX84 built are byte-identical; only the order moved."
+   },
+   "determinism": "Built twice on the final merged tree; both runs produce identical digests for all six fixtures.",
+   "pixelMeasurements": {
+    "method": "pdftoppm at 300 dpi, greyscale, threshold <200, page 1 of each order fixture compared pixel for pixel with the pinned PA-RCRIM-P-790-ORDER (sha256 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95) rendered at the same resolution, in a 2pt-padded window of each widget's own /Rect. Rasters under /tmp, deleted after measuring.",
+    "sourceStructure": "Enumerated from the pinned binary and identical in shape to the Rule 490 order: EIGHT widgets carry /MK /BC; six (NameAddrOfJudge, AddressOfAffiant, ReasonForExpunge, AgenciesServed, DateAndArrestingAgency, Text15) declare no /BS and each ships '0 G 0.5 0.5 W H re s'; the two the packet writes, Defendant (/Rect 104.577,688.903 164.45x15.043) and DocketNumber (/Rect 384.826,664.472 160.747x14.904), declare /BS << /S /U /W 1 >> and each ships one rule, '0 G 0 0.5 m <width> 0.5 l s'.",
+    "Defendant": {
+     "canonical": "added dark pixels vs the pinned form 7,511 before -> 4,361 after; 3,150 REMOVED",
+     "boundary": "0 before and 0 after -- the value is withheld, so the appearance is never regenerated",
+     "writingRuleIntact": "the 1.5pt rule band reads 3,433 before and 3,425 after on the canonical and 3,425 before and after on the boundary, against the pinned form's own 3,425 -- an exact match; the page content alone carries 0 there"
+    },
+    "DocketNumber": {
+     "canonical": "6,403 before -> 3,237 after; 3,166 REMOVED",
+     "boundary": "7,957 before -> 4,791 after; 3,166 REMOVED",
+     "writingRuleIntact": "the rule band reads 2,689 before and 2,680 after on both fixtures against the pinned form's own 2,680 -- exact"
+    },
+    "totalRemoved": "9,482 dark pixels across the two order fixtures, against the 9,504 VF05 measured; the difference is window and threshold, not bytes.",
+    "controlSamePageBCWithBoxStyle (NameAddrOfJudge)": "0 added vs the pinned form before AND after on both fixtures.",
+    "wholePage1": "added ink falls from 16,951 to 10,635 on the canonical (6,316 removed) and from 7,957 to 4,791 on the boundary (3,166 removed).",
+    "sourceInkLost": "0 on the boundary before and after; 5 pixels on the canonical before and after -- identical, the pre-existing left-edge run FIX84 recorded and did not repair.",
+    "valuesLegible": "pdftotext -layout reads 'Jordan Avery Reyes' and '24-CR-001234' on the canonical and the long boundary docket '0123-45-2026-CR-900123.00-AB-CDE/2201' on the boundary, complete and unabbreviated."
+   },
+   "siblingByteIdentity": "PROVED BY REBUILDING, not by not touching. Every fixture of every family on this host was hashed before and after. Exactly FOUR fixtures moved in the whole census tree: the two order fixtures of this family and the two of pa_790_nonconviction-set, both of which this lane holds grants for. The nj_* five (nj_arrest_no_conviction-set, nj_clean_slate-set, nj_disorderly_persons-set, nj_indictable_conviction-set, nj_ordinance-set) and pa_6308_underage-set show 0 differing digests, and so do the New York, Rhode Island and remaining Pennsylvania families on this host. All seven named siblings were additionally REBUILT with this lane's change in place, and every digest they produce is identical to the digest they produce with the finalizer and host reverted to HEAD.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set -> PASS_COMPLETE, 24/207 written, exit 0, run on the committed bytes of this branch after the rebuild.",
+    "whyNineZerosDoesNotDischargeTheDefect": "The counters were nine zeros on the bytes the verifier failed and they are nine zeros on the repaired bytes. The border was ink INSIDE a declared write box, so no counter, no glyph check and no raster receipt could ever see it. The discharge below rests on the 300 dpi measurements, not on these nine."
+   },
+   "testsRun": {
+    "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "exit 0. Run on the final tree. 5 controls, unchanged by this lane, all pass.",
+    "scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "exit 0. Run on the final tree. Unchanged by this lane, all controls pass.",
+    "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs": "exit 0, 13 controls, all PASS. Controls 1-6 are FIX80's and are unmodified in substance; controls 7-13 are new here and are measured as ink at 300 dpi, not as report counts. 7 is the NEGATIVE control: with the option off a written underline-styled widget is delivered inside a stroked rectangle (196 dark pixels in the 1.2pt left-edge band, which the participant's own value cannot reach because pdf-lib insets its text by 2pt). 8: with the option on that band and the top-edge band are both 0. 9 IS THE CONTROL THAT MATTERS MOST and it is why this option is not a deletion: it compares the rule band against a third document built with /MK /BC simply removed, and FAILS if the underline is not drawn back. 10: the value is still read back by pdftotext and the widget is reported with the geometry it was drawn at. 11: a written widget declaring no /BS keeps its box and is byte-identical either way. 12: a widget declaring /U whose own appearance draws a box is refused, counted, and byte-identical. 13: the option never reaches an unwritten field and performs neither half of the other option's remedy. PROVED TO FAIL BEFORE THE CHANGE: the two finalizer modules were reverted to HEAD with the extended test left in place, and it fails at control 8 with 'with the option on the left edge of the rect still carries 196 dark pixels, 196 !== 0', exit 1. Restored and re-run: exit 0.",
+    "node scripts/build-census-v1-pa_490_nonconviction-set.mjs --check": "CHECK PASS (6 PDFs; 8 rasters), exit 0.",
+    "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check": "CHECK PASS (6 PDFs; 8 rasters), exit 0."
+   },
+   "cohort": {
+    "file": "data/rcap-grade-a/packet-factory-24h/fix85/WRITTEN_MK_BORDER_COHORT.json",
+    "deliveringFamilyDirectoriesScanned": 230,
+    "familiesInCohort": 11,
+    "widgetsInCohort": 70,
+    "widgetsDeclaringAnUnderline": 59,
+    "widgetsUndeclaredMismatchTheOptionRefuses": 11,
+    "familiesOptedInByThisLane": 2,
+    "thisFamily": "exactly the two widgets VF05 named and no third; the six box-styled /MK /BC widgets on the same page are correctly not counted.",
+    "grantsNothing": "Report only. It opts in nobody beyond the two families this lane holds grants for."
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "CENTRAL RASTER ON THE NEW BYTES. Every raster this lane measured was rendered locally under /tmp with poppler at 300 dpi and deleted after measuring; the only raster PNGs committed are the page-01 files each family already tracks, regenerated by its own builder. Both families' acceptance receipts are bound by content hash to order digests this repair supersedes, so those receipts stop binding and a fresh central raster is owed for both. RASTER_QUEUE.json, MASTER_QUEUE.json and product-wiring.json were NOT opened for writing here: repairing an acceptance receipt is not a repair lane's authority.",
+    "INDEPENDENT VERIFICATION. This lane changed the shared finalizer, changed both families' configuration and rebuilt both sets of bytes, so it verifies none of them. No verdict was written or replaced and no obligation is scored here. An independent re-read of the obligation this row claims to repair, on the new digests, is owed for both families, by a lane that is neither their builder nor this repairer. This row records a repair; it does not score it.",
+    "THE OTHER NINE FAMILIES IN THIS LANE'S OWN COHORT. WRITTEN_MK_BORDER_COHORT.json records 11 delivering families and 70 widgets in this condition. Two are opted in here because this lane holds grants for exactly those two. The other nine -- three Colorado, one Kentucky, and pa_6308_underage-set, pa_9122_1_limited_access-set, pa_age70_deceased-set, pa_pardon_expungement-set and pa_summary_conviction-set -- are measured and left untouched. A cohort is a measurement and authorizes no rebuild.",
+    "THE 11 UNDECLARED_MISMATCH WIDGETS. All 11 are Kentucky's ky_felony_vacatur_expungement-set (AOC-496.3 and AOC-496.4): written, carrying /MK /BC, shipping an appearance that paints no box, yet declaring a box style or no style at all. The form contradicts itself there and the option refuses them by design. They are reported and adjudicated by nobody here. That family is OUT_OF_SCOPE in MASTER_QUEUE.",
+    "THE SHARED HOST'S --self-test, WHICH FAILS AND FAILED BEFORE THIS LANE. node scripts/build-census-v1-pa_490_nonconviction-set.mjs --self-test exits 1 on 'NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip'. Confirmed pre-existing by stashing this lane's script edits and re-running at the same base: the identical assertion fails at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2482 before the edit and at :2496 after it, the difference being only the lines this lane inserted above it. FIX84 reported the same failure. It is neither introduced nor repaired here. --check passes for both families.",
+    "THE TWO SIBLING FAMILIES THAT ALREADY DRIFT FROM THE COMMITTED TREE. pa_6308_underage-set and nj_clean_slate-set rebuild to bytes other than the committed ones on this host. Proved pre-existing rather than asserted: both were rebuilt WITH this lane's change and again with the finalizer and host reverted to HEAD, and every drifted digest is identical both ways -- nj_clean_slate cn-10557-canonical 2b5033961bfc5806acadac7d1897f9e4797dd40d599eaad4231a6383e1c1af1c and -boundary 1e1a7aef8f5eb56a1e404862a0d73e9ae66e6a6afcaa43b388520aeba94a2728; pa_6308 rule-490-order-canonical 2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea, rule-490-petition-canonical c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b, rule-790-order-boundary b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c and rule-790-petition-boundary 6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab. Their working trees were reverted and NOTHING of theirs is committed here. Neither is repaired.",
+    "fix80/MK_BORDER_COHORT.json, WHICH THIS LANE DID NOT REWRITE. The scan's write-proof reader was extended to read the shared EAST host's schema, and its opt-in detector to follow a three-line entry point into its host. Both change what the DEFAULT mode would now report: 37 documents across 18 families move out of NOT_MEASURABLE_HERE. Verified not to change a single finding -- FIX80's cohort is still exactly the same 5 families and 121 widgets with the same 105/16 split and the same 4-still-on-the-old-default -- so FIX80's file is left exactly as FIX80 wrote it, and the delta is reported here instead of being written into another lane's record.",
+    "THE POPPLER WARNING ON THE PA 790 ORDER FIXTURES. pdftoppm emits 'Syntax Error (4878): XObject subtype is missing or wrong type' on both PA 790 order fixtures. It is present on the COMMITTED pre-repair bytes and on the rebuilt bytes identically, absent on both PA 490 order fixtures, and it does not stop the page rendering. Pre-existing, not introduced here, not repaired here.",
+    "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. Nothing here promotes a route, opens commercial authority, changes a live RCAP route or clears MASTER_QUEUE. The claim ledger was asserted and is NOT released and NOT committed."
+   ]
+  }
+ ]
+}

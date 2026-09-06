@@ -22,8 +22,8 @@
   "totals": {
     "deliveringFamilyDirectoriesScanned": 230,
     "familiesInCohort": 11,
-    "familiesInCohortStillOnTheOldDefault": 11,
-    "familiesInCohortAlreadyOptedIn": 0,
+    "familiesInCohortStillOnTheOldDefault": 9,
+    "familiesInCohortAlreadyOptedIn": 2,
     "widgetsInCohort": 70,
     "widgetsInCohortDeclaredUnderline": 59,
     "widgetsInCohortUndeclaredMismatch": 11,
@@ -1964,8 +1964,9 @@
       "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "builder": {
         "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
-        "optsIn": false,
-        "why": "does not pass honorWidgetBorderStyle"
+        "optsIn": true,
+        "sharedHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "why": "passes honorWidgetBorderStyle: true inside its own configuration block in the shared host scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
       },
       "documentsDeclared": 3,
       "documentsMeasured": 2,
@@ -2260,11 +2261,12 @@
       "jurisdiction": "PA",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
       "implementationStrategy": "official_pdf_fill_with_custom_service_certificate",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "builder": {
         "buildScript": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
-        "optsIn": false,
-        "why": "does not pass honorWidgetBorderStyle"
+        "optsIn": true,
+        "sharedHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "why": "passes honorWidgetBorderStyle: true inside its own configuration block in the shared host scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
       },
       "documentsDeclared": 3,
       "documentsMeasured": 2,
@@ -5429,7 +5431,7 @@
     {
       "familyId": "nc_146_dismissal_petition-set",
       "jurisdiction": "NC",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 3,
@@ -5501,7 +5503,7 @@
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
       "jurisdiction": "NH",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5519,11 +5521,11 @@
     {
       "familyId": "nj_arrest_no_conviction-set",
       "jurisdiction": "NJ",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
-      "builderOptsIn": false
+      "builderOptsIn": true
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -5537,7 +5539,7 @@
     {
       "familyId": "nj_disorderly_persons-set",
       "jurisdiction": "NJ",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5546,7 +5548,7 @@
     {
       "familyId": "nj_indictable_conviction-set",
       "jurisdiction": "NJ",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5555,7 +5557,7 @@
     {
       "familyId": "nj_ordinance-set",
       "jurisdiction": "NJ",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5573,7 +5575,7 @@
     {
       "familyId": "nm_conviction-set",
       "jurisdiction": "NM",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "masterQueueState": "BUILT_RASTER_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5582,7 +5584,7 @@
     {
       "familyId": "nm_identity_theft-set",
       "jurisdiction": "NM",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "masterQueueState": "BUILT_RASTER_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5591,7 +5593,7 @@
     {
       "familyId": "nm_release_without_conviction-set",
       "jurisdiction": "NM",
-      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "masterQueueState": "BUILT_RASTER_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,
@@ -5721,7 +5723,7 @@
       "inCohort": true,
       "widgetsExposed": 2,
       "documentsNotMeasurableHere": 1,
-      "builderOptsIn": false
+      "builderOptsIn": true
     },
     {
       "familyId": "pa_6308_underage-set",
@@ -5735,11 +5737,11 @@
     {
       "familyId": "pa_790_nonconviction-set",
       "jurisdiction": "PA",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": true,
       "widgetsExposed": 2,
       "documentsNotMeasurableHere": 1,
-      "builderOptsIn": false
+      "builderOptsIn": true
     },
     {
       "familyId": "pa_9122_1_limited_access-set",
@@ -5987,7 +5989,7 @@
     {
       "familyId": "ut_pet_dismissed_with_prejudice-set",
       "jurisdiction": "UT",
-      "masterQueueState": "BUILT_RASTER_PENDING",
+      "masterQueueState": "VERIFY_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 9,
@@ -5996,7 +5998,7 @@
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
       "jurisdiction": "UT",
-      "masterQueueState": "BUILT_RASTER_PENDING",
+      "masterQueueState": "VERIFY_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 9,
@@ -6005,7 +6007,7 @@
     {
       "familyId": "ut_pet_limitations-set",
       "jurisdiction": "UT",
-      "masterQueueState": "BUILT_RASTER_PENDING",
+      "masterQueueState": "VERIFY_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 9,
@@ -6014,7 +6016,7 @@
     {
       "familyId": "ut_pet_no_charges-set",
       "jurisdiction": "UT",
-      "masterQueueState": "BUILT_RASTER_PENDING",
+      "masterQueueState": "VERIFY_PENDING",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 9,
@@ -6050,7 +6052,7 @@
     {
       "familyId": "va_exp_nonconviction-set",
       "jurisdiction": "VA",
-      "masterQueueState": "VERIFY_PENDING",
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
       "inCohort": false,
       "widgetsExposed": 0,
       "documentsNotMeasurableHere": 0,

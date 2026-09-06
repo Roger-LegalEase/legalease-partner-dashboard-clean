@@ -298,15 +298,52 @@ async function measureWritten(bytes, writtenFieldNames) {
 }
 
 /** Whether this family's own builder passes the opt-in option, as committed. */
-function builderOptsIn(buildScript, option = OPT_IN_OPTION) {
+/**
+ * The body of one family's own configuration object in a shared host, found by
+ * matching braces from `"<familyId>": {`, so an option read out of it belongs to
+ * that family and not to the family declared after it.
+ */
+function familyConfigBlock(text, familyId) {
+  const start = text.indexOf(`"${familyId}": {`);
+  if (start < 0) return null;
+  let depth = 0;
+  for (let i = text.indexOf("{", start); i < text.length; i += 1) {
+    if (text[i] === "{") depth += 1;
+    else if (text[i] === "}") { depth -= 1; if (depth === 0) return text.slice(start, i + 1); }
+  }
+  return null;
+}
+
+function builderOptsIn(buildScript, option = OPT_IN_OPTION, familyId = null) {
   if (!buildScript) return { buildScript: null, optsIn: false, why: "MASTER_QUEUE records no build script for this family" };
   const full = path.join(rootDir, buildScript);
   if (!fs.existsSync(full)) return { buildScript, optsIn: false, why: "the build script MASTER_QUEUE names is not in this tree" };
   const text = fs.readFileSync(full, "utf8");
   // Read as the caller passes it, so a mention in a comment is not mistaken for
   // a call site.
-  const optsIn = new RegExp(`${option}\\s*:\\s*true`).test(text);
-  return { buildScript, optsIn, why: optsIn ? `passes ${option}: true` : `does not pass ${option}` };
+  const passes = (body) => new RegExp(`${option}\\s*:\\s*true`).test(body);
+  if (passes(text)) return { buildScript, optsIn: true, why: `passes ${option}: true` };
+  /*
+   * A family built on a SHARED HOST declares nothing in its own entry point,
+   * which is three lines importing the host and naming the family. Reading only
+   * that file reports every such family as being on the old default however it
+   * is configured -- and the whole EAST host is such a family, including both
+   * families this option was written for. So the import is followed one level,
+   * and the option is looked for inside that family's OWN configuration block
+   * in the host rather than anywhere in it, which is what the builder actually
+   * passes for this family.
+   */
+  const imported = [...text.matchAll(/from\s+"\.\/(build-census-v1-[^"]+\.mjs)"/g)].map((m) => m[1]);
+  for (const name of imported) {
+    const hostPath = path.join(rootDir, "scripts", name);
+    if (!fs.existsSync(hostPath) || !familyId) continue;
+    const block = familyConfigBlock(fs.readFileSync(hostPath, "utf8"), familyId);
+    if (block && passes(block)) {
+      return { buildScript, optsIn: true, sharedHost: `scripts/${name}`,
+        why: `passes ${option}: true inside its own configuration block in the shared host scripts/${name}` };
+    }
+  }
+  return { buildScript, optsIn: false, why: `does not pass ${option}` };
 }
 
 /**
@@ -436,7 +473,7 @@ async function main() {
         familyDirectory: path.relative(rootDir, dir),
         implementationStrategy: receipt.implementationStrategy ?? null,
         masterQueueState: queueByFamily.get(familyId)?.state ?? "NOT_IN_MASTER_QUEUE",
-        builder: builderOptsIn(queueByFamily.get(familyId)?.buildScript ?? null, option),
+        builder: builderOptsIn(queueByFamily.get(familyId)?.buildScript ?? null, option, familyId),
         documentsDeclared: documents.length,
         documentsMeasured: measured.length,
         documentsNotMeasurableHere: notMeasurable.length,
