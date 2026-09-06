@@ -52,6 +52,14 @@ COPY data/rcap-codex/release-readiness.json data/rcap-codex/
 COPY data/rcap-all50/problematic-pdf-register.json data/rcap-all50/
 COPY data/rcap-all50/review-artifacts/f2-dispositions.json data/rcap-all50/review-artifacts/
 COPY data/rcap-all50/guidance-packets/ data/rcap-all50/guidance-packets/
+# loadComponentDeferrals and loadTerminalTreatments FAIL OPEN: an absent
+# directory yields an empty map, and resolvePacketRoute — reached from
+# buildRenderJobSpec on the worker's own graph — then stops suppressing a
+# component-deferred or terminally-treated track instead of failing. The build
+# context is filtered to route.json under composed-routes (the only file that
+# loader opens), so the COPY below carries exactly the manifest set.
+COPY data/rcap-all50/composed-routes/ data/rcap-all50/composed-routes/
+COPY data/rcap-all50/terminalization-treatments/ data/rcap-all50/terminalization-treatments/
 COPY data/rcap-ledger/packet-fulfillment-records.json data/rcap-ledger/packet-correction-required.json \
      data/rcap-ledger/route-kind-adjudications.json data/rcap-ledger/route-presentation-conflicts.json \
      data/rcap-ledger/track-pathway-crosswalk.json data/rcap-ledger/
