@@ -16,9 +16,9 @@ The Vermont Judiciary's own filing instructions (form 200-00130A, *Filing a Peti
 
 > There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees.
 
-So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** That section is Vermont's driving-under-the-influence offence. Whether your own conviction is one is a fact about your docket rather than about this packet, and the clerk of the unit above will tell you from the docket number.
+So: **the filing fee for this DUI-sealing petition is $90.** 23 V.S.A. § 1201(a) is Vermont's driving-under-the-influence offence, and sealing a conviction of it is exactly what this packet asks the court to do, so the exception the rule above states is this route rather than something to check against your docket. **If you cannot afford the fee, file an Application to Waive Filing Fees and Service Costs with your petition. The judge decides whether to waive the fee; submitting the application does not mean it has been granted.**
 
-**The waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, is the "Application to Waive Filing fees" those instructions name. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply.
+**That waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, revision 04/2026, is the "Application to Waive Filing fees" those instructions name; it is the application the Judiciary's own fee-waiver page serves. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply. **It is not notarised.** It carries its own declaration and you sign under that declaration - there is no notary block on it and none is needed.
 
 ## Who must receive a copy, and how
 
@@ -37,7 +37,7 @@ The State’s Attorney’s signature on the stipulation (200-00132) is not servi
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.
 3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.
-4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.
+4. **There IS a fee on this route: $90. File the fee waiver (600-00228) if you cannot pay it.** Read *What it costs* above first. The waiver does not remove the fee by itself - the judge decides - so file it together with the petition rather than waiting, and be ready to pay if it is refused. If you receive public assistance you may stop after Section 1 of 600-00228 and go straight to the signature block. You sign it under its own declaration; it is not notarised.
 
 ## What has to be true before this petition can succeed
 

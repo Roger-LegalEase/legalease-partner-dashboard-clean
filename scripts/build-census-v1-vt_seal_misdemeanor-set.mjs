@@ -335,6 +335,32 @@ const VT_FILING_INSTRUCTIONS = Object.freeze({
   supports: ["filing-fee-and-waiver-route", "service-recipient-and-method"]
 });
 
+/*
+ * The fee-waiver application, by the identity the record names.
+ *
+ * The Vermont Judiciary's dedicated fee-waiver page and the actual two-page
+ * PDF both identify 600-00228, Application to Waive Filing Fees & Service
+ * Costs, revision 04/2026. The criminal-record webpage's explanatory prose
+ * still prints 600-00229 for the same document; the 2026-09-06 owner-relayed
+ * research directs the packet to use the actual form identity and not the
+ * inconsistent prose number, and vt-600-00228-source-identity-resolution
+ * records the same finding. The digest is the one the family's own
+ * source-receipt binds, and the fee-bearing route checks the delivered
+ * component against it before naming the form to a participant.
+ */
+const WAIVER_FORM = Object.freeze({
+  formNumber: "600-00228",
+  printedRevision: "04/2026",
+  pinnedSha256: "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+  notCarried: "600-00229, the number the Judiciary's criminal-record narrative prints for this same document"
+});
+
+/* The corpus path spells a revision YYYY-MM; a form prints it MM/YYYY. */
+function printedRevision(fromPath) {
+  const m = /^([0-9]{4})-([0-9]{2})$/.exec(String(fromPath ?? ""));
+  return m ? `${m[2]}/${m[1]}` : null;
+}
+
 function resolveFilingInstructions() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
   const raw = index.entries ?? index.files ?? index;
@@ -1116,11 +1142,71 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
    * whether the participant's own conviction falls under it: that is a fact
    * about their docket, and the clerk reads it off the docket.
    */
+  /*
+   * Whether the fee applies is a property of the ROUTE, and of no other fact.
+   * It is true on exactly one of the five families -- the one whose relief is
+   * the sealing of a 23 V.S.A. Sec. 1201(a) conviction, which is the conviction
+   * the Judiciary's quoted rule charges $90 to seal. It is never read off the
+   * participant's age, and the four other families take the else branch below
+   * and print exactly the bytes they printed before.
+   */
+  const feeApplies = config.registryGuidanceTrackId === "vt_seal_dui";
+  const waiver = resolved.find((r) => r.formNumber === WAIVER_FORM.formNumber);
+  const waiverRevision = waiver ? printedRevision(waiver.revision) : null;
+  if (feeApplies) {
+    /* The record names the waiver by the identity of a specific document, so
+     * the packet may only name it if the bytes it delivers ARE that document.
+     * Both are checked against the delivered component here rather than
+     * asserted from the receipt, and either failing stops this family. */
+    assert.ok(waiver, `${WAIVER_FORM.formNumber}: the fee-bearing route names the waiver but the component is not in this packet`);
+    assert.equal(waiver.sha256, WAIVER_FORM.pinnedSha256,
+      `${WAIVER_FORM.formNumber}: this route names the waiver by revision ${WAIVER_FORM.printedRevision} and the record pins `
+      + `sha256 ${WAIVER_FORM.pinnedSha256}; the delivered component hashes to ${waiver.sha256}, so the packet would name a `
+      + "document it does not deliver");
+    assert.equal(waiverRevision, WAIVER_FORM.printedRevision,
+      `${WAIVER_FORM.formNumber}: the delivered component is revision ${waiverRevision} and the record names `
+      + `${WAIVER_FORM.printedRevision}`);
+  }
   out.push("## What it costs, and how to ask for a waiver", "");
   out.push(`The Vermont Judiciary's own filing instructions (form ${VT_FILING_INSTRUCTIONS.formNumber}, *${VT_FILING_INSTRUCTIONS.title}*, ${VT_FILING_INSTRUCTIONS.revision}) state the fee rule:`, "");
   out.push("> There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees.", "");
-  out.push("So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** That section is Vermont's driving-under-the-influence offence. Whether your own conviction is one is a fact about your docket rather than about this packet, and the clerk of the unit above will tell you from the docket number.", "");
-  out.push("**The waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, is the \"Application to Waive Filing fees\" those instructions name. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply.", "");
+  if (feeApplies) {
+    /*
+     * FIX107, FEE_AND_WAIVER, and on this route only.
+     *
+     * The sentence this replaces was the conditional one -- "filing this
+     * petition is free unless you are sealing a conviction under 23 V.S.A.
+     * Sec. 1201(a)" -- and it sent the participant to the clerk to find out
+     * whether their own case was the exception. On THIS route it is not an
+     * exception to check: the route IS the sealing of a 23 V.S.A. Sec. 1201(a)
+     * conviction, which is what the quoted rule above charges $90 for, so the
+     * packet states the fee instead of asking the participant to discover it.
+     *
+     * The record is the owner-relayed research of 2026-09-06:
+     * data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json,
+     * carrying docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md
+     * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad),
+     * and the track registry's vt_seal_dui.rules.researchParticipantText.fee
+     * holds the exact participant sentences printed below. It is research
+     * relayed by the owner, not counsel approval.
+     *
+     * Two things the record is explicit about and this text obeys. The fee is
+     * keyed to the RELIEF ROUTE and the offence, never to how old the
+     * participant is today: the Judiciary's 25-or-older gloss has no anchor in
+     * the current Sec. 7602 text, so no age condition is asserted here and the
+     * separate under-25 route keeps its own no-fee treatment on its own family.
+     * And the waiver is named by the identity of the actual form -- 600-00228,
+     * revision 04/2026, the two-page application the Judiciary's own fee-waiver
+     * page serves -- not by the 600-00229 the criminal-record webpage's prose
+     * still prints, which is inconsistent prose about the same document and is
+     * not carried.
+     */
+    out.push("So: **the filing fee for this DUI-sealing petition is $90.** 23 V.S.A. § 1201(a) is Vermont's driving-under-the-influence offence, and sealing a conviction of it is exactly what this packet asks the court to do, so the exception the rule above states is this route rather than something to check against your docket. **If you cannot afford the fee, file an Application to Waive Filing Fees and Service Costs with your petition. The judge decides whether to waive the fee; submitting the application does not mean it has been granted.**", "");
+    out.push(`**That waiver is a form already in this packet.** ${waiver.formNumber}, the *${FORM_FIELDS[waiver.formNumber].title}*, revision ${waiverRevision}, is the "Application to Waive Filing fees" those instructions name; it is the application the Judiciary's own fee-waiver page serves. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply. **It is not notarised.** It carries its own declaration and you sign under that declaration - there is no notary block on it and none is needed.`, "");
+  } else {
+    out.push("So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** That section is Vermont's driving-under-the-influence offence. Whether your own conviction is one is a fact about your docket rather than about this packet, and the clerk of the unit above will tell you from the docket number.", "");
+    out.push("**The waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, is the \"Application to Waive Filing fees\" those instructions name. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply.", "");
+  }
   out.push("## Who must receive a copy, and how", "");
   out.push("**You do not serve the petition yourself. The court does.** The same judiciary instructions state:", "");
   out.push("> Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step.", "");
@@ -1142,7 +1228,17 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.");
   out.push("3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.");
-  out.push("4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.");
+  /* FIX107. Step 4 read "only if there is a fee AND you cannot pay it", with
+   * "for most routes there is no fee to waive" behind it. On the one route
+   * where the fee is not conditional, that told the participant to go and find
+   * out something the packet already knows, and pointed them away from the
+   * waiver as probably unnecessary. It now reads for the route it is on. The
+   * other four families keep their sentence unchanged. */
+  if (feeApplies) {
+    out.push(`4. **There IS a fee on this route: $90. File the fee waiver (${WAIVER_FORM.formNumber}) if you cannot pay it.** Read *What it costs* above first. The waiver does not remove the fee by itself - the judge decides - so file it together with the petition rather than waiting, and be ready to pay if it is refused. If you receive public assistance you may stop after Section 1 of ${WAIVER_FORM.formNumber} and go straight to the signature block. You sign it under its own declaration; it is not notarised.`);
+  } else {
+    out.push("4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.");
+  }
   out.push("");
   if (track) {
     /*
