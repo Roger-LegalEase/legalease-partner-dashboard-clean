@@ -992,7 +992,10 @@ export async function finalizeOfficialForm({
    *
    * CAPTAIN DECISION: this is the tenth flag carrying that paragraph.
    */
-  honorWidgetBorderStyle = false
+  honorWidgetBorderStyle = false,
+  // Keep authored blank-state paint only on unwritten selections. This remains
+  // opt-in; written fields, other field types and the default path are unchanged.
+  preserveUnwrittenSelectionBackgrounds = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1520,7 +1523,8 @@ export async function finalizeOfficialForm({
     suppressSynthesizedAppearances,
     fitAppearancesToRect,
     suppressSynthesizedWidgetBorders,
-    honorWidgetBorderStyle
+    honorWidgetBorderStyle,
+    preserveUnwrittenSelectionBackgrounds
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 

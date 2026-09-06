@@ -481,7 +481,7 @@ function bboxOf(stream) {
  * appearance stream the form shipped. Both have to go — clearing only the first
  * leaves thirty-four white boxes standing.
  */
-function stripWidgetBackground(pdfDoc, acroField) {
+function stripWidgetBackground(pdfDoc, acroField, { preserveAuthoredPaint = false } = {}) {
   let stripped = 0;
   for (const widget of acroField.getWidgets()) {
     const mk = widget.dict.lookup(PDFName.of("MK"));
@@ -489,6 +489,10 @@ function stripWidgetBackground(pdfDoc, acroField) {
       mk.delete(PDFName.of("BG"));
       stripped += 1;
     }
+    // An unwritten selection can intentionally cover page art with the source's
+    // own blank-state paint. Keep that authored paint only on the caller's opt-in;
+    // MK/BG was still removed above, so this never requests a new background.
+    if (preserveAuthoredPaint) continue;
     const ap = widget.dict.lookup(PDFName.of("AP"));
     if (!(ap instanceof PDFDict)) continue;
     for (const [stateKey, ref] of ap.entries()) {
@@ -1210,7 +1214,7 @@ export function drawDeclaredUnderlineBorders(pdfDoc, pending) {
  * the participant answered and one still showing the form's prompt.
  */
 export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map(),
-  detachOptions = {}, { suppressSynthesizedWidgetBorders = false } = {}) {
+  detachOptions = {}, { suppressSynthesizedWidgetBorders = false, preserveUnwrittenSelectionBackgrounds = false } = {}) {
   const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
     sourceAppearancesPreserved: [], backgroundsNeutralized: 0, nonDisplayedWidgetsDropped: 0,
     fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {},
@@ -1275,7 +1279,13 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
     // A written participant input and preserved source text are treated alike
     // from here: the appearance stays, and only an opaque background painted
     // over the page is removed from it.
-    report.backgroundsNeutralized += stripWidgetBackground(pdfDoc, acroField);
+    const preserveAuthoredPaint = preserveUnwrittenSelectionBackgrounds
+      && unwritten && (field instanceof PDFCheckBox || field instanceof PDFRadioGroup)
+      && disposition === APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE;
+    if (preserveAuthoredPaint) {
+      (report.sourceSelectionBackgroundsPreserved ??= []).push(name);
+    }
+    report.backgroundsNeutralized += stripWidgetBackground(pdfDoc, acroField, { preserveAuthoredPaint });
   }
   return report;
 }
@@ -1375,7 +1385,12 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    * specification, not a judgement about ink, and a court's writing rule
    * delivered as a boxed field is wrong wherever it occurs.
    */
-  honorWidgetBorderStyle = false } = {}) {
+  honorWidgetBorderStyle = false,
+  // Preserve only source-authored paint in unwritten checkbox/radio appearances.
+  // PA490/790 use a white blank-state rectangle to cover a smaller printed box;
+  // stripping it reveals two frames. Defaults remain unchanged for other callers.
+  // Dynamic actions and MK/BG characteristics are still removed; no mark is added.
+  preserveUnwrittenSelectionBackgrounds = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -1397,7 +1412,7 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
-        { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders });
+        { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders, preserveUnwrittenSelectionBackgrounds });
       // Before appearances are generated, for the same reason the two steps
       // around it run there: pdf-lib builds the border into the stream it
       // generates from `/MK /BC`, so the colour comes off first and the line
