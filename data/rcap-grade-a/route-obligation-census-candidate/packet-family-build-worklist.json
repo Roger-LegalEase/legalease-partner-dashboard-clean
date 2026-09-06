@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:c74ea837266aeef2d80df55ca9ef3d44480ff9f428f26e3c30d6989ba6d7d27e",
+    "sourceFingerprint": "sha256:ed0f49d87bedecc0cb4d087bc1c7ba54a5c93d2e0c232c8873495184c248c349",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -25403,9 +25403,11 @@
     },
     {
       "worklistGroupId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "packetFamilyId": null,
-      "packetSetId": null,
-      "packetSetIds": [],
+      "packetFamilyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "packetSetId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "packetSetIds": [
+        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+      ],
       "implementationStrategy": "custom_pleading",
       "routeKeys": [
         "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
@@ -25429,6 +25431,14 @@
           "requiredSourceIds": [
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
             "compiled-source-ref:section:169-177; corpus-unit:56",
+            "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
+            "packet-spec-source:compiled-profile:IL-illinois#criminal-identity-theft-mistaken-identity-relief",
+            "packet-spec-source:composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief-production-field-map@census-v1",
+            "packet-spec-source:composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief-source-receipt@census-v1",
+            "packet-spec-source:route-contract:IL:criminal-identity-theft-mistaken-identity-relief",
+            "packet-spec-source:route-obligation-census:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+            "packet-spec-source:route-ratification:IL:criminal-identity-theft-mistaken-identity-relief",
+            "packet-specification:data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json#il-criminal-identity-theft-mistaken-identity-relief",
             "route-contract:src/lib/legal-authority/routes/route-splits.json#IL:criminal-identity-theft-mistaken-identity-relief"
           ],
           "existingArtifactIds": [],
@@ -25446,21 +25456,13 @@
             "Record certificateOfService; current evidence is not recorded.",
             "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
             "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
             "Record filingDeadline; current evidence is not recorded.",
-            "Record filingDestination; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
             "Record filingMethod; current evidence is not recorded.",
-            "Record laterCompletionFields; current evidence is not recorded.",
             "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
             "Record proposedOrder; current evidence is not recorded.",
             "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
             "Record serviceRecipients; current evidence is not recorded.",
             "Record serviceTiming; current evidence is not recorded.",
-            "Record signatureRequirements; current evidence is not recorded.",
             "Record uncontestedHearingTreatment; current evidence is not recorded.",
             "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
           ],
@@ -25475,8 +25477,7 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
-                "Verified petition"
+                "il-mistaken-identity-primary-filing-1 \n primary_filing \n Petition - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2 \n custom_pleading \n pleading \n required \n Caption for the chief judge of the circuit where the arrest occurred, the route's statutory ground stated in the title and body, Items C1 to C6, and the participant's signature \n approved_shipping_component \n participant_full_legal_name \n date_of_birth \n contact_information \n identity_theft_report_and_mismatched_identifiers \n arrest_circuit \n exact_prostitution_statute_class \n sentence_completion_date \n trafficking_status \n automatic_seal_status"
               ]
             },
             "proposedOrder": {
@@ -25492,9 +25493,9 @@
               ]
             },
             "notice": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "il-mistaken-identity-filing-instructions-2 \n filing_instructions \n Filing Instructions \n process_guidance \n guidance \n required \n What this set is, where it goes, what the record establishes about cost and notice, the documents to obtain, and when to stop \n approved_shipping_component"
               ]
             },
             "certificateOfService": {
@@ -25518,19 +25519,27 @@
             "requiredParticipantAttachments": {
               "status": "recorded",
               "entries": [
-                "Mismatched identifier evidence"
+                "Mismatched identifier evidence",
+                "The identity-theft report"
               ]
             },
             "laterCompletionFields": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Ask the office of the chief judge of that circuit what it charges, how it accepts filings and who, if anyone, must be served before filing; no committed record establishes any of them.",
+                "Confirm that the record was made in the participant's name by another person; an ordinary arrest or conviction of the participant's own is a different Illinois route with a different instrument.",
+                "Fill Items C1 to C6 of the petition from the identity-theft report, the arrest record and the participant's own identity documents, never from memory.",
+                "Identify the Illinois judicial circuit where the arrest occurred; the petition goes to the chief judge of that circuit.",
+                "Obtain the identity-theft report and the mismatched-identifier evidence the route contract names as packet components and file them with the petition.",
+                "The participant signs and dates the petition personally; the case number, if the court assigns one, is assigned at filing and never pre-filled."
               ]
             },
             "signatureRequirements": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Sign and date the petition personally; leave the case number for the court to assign at filing.",
+                "il-mistaken-identity-primary-filing-1 \n primary_filing \n Petition - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2 \n custom_pleading \n pleading \n required \n Caption for the chief judge of the circuit where the arrest occurred, the route's statutory ground stated in the title and body, Items C1 to C6, and the participant's signature \n approved_shipping_component \n participant_full_legal_name \n date_of_birth \n contact_information \n identity_theft_report_and_mismatched_identifiers \n arrest_circuit \n exact_prostitution_statute_class \n sentence_completion_date \n trafficking_status \n automatic_seal_status",
+                "sign_personally"
               ]
             },
             "notarizationRequirements": {
@@ -25540,9 +25549,11 @@
               ]
             },
             "filingDestination": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Office of the chief judge of the Illinois judicial circuit where the arrest occurred",
+                "compiled Illinois profile pathway criminal-identity-theft-mistaken-identity-relief, ruleClauses; route contract LD-IL-04",
+                "confirm_with_the_office_of_the_chief_judge_of_the_arrest_circuit"
               ]
             },
             "filingMethod": {
@@ -25552,15 +25563,18 @@
               ]
             },
             "filingFee": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "No committed record this family binds establishes a fee waiver for this route; the participant asks the office of the chief judge of the arrest circuit.",
+                "No committed record this family binds states a filing fee for this route.",
+                "the adopted filing-instructions page, which records that no bound committed record states a fee or waiver, and the compiled profile's chief-judge destination"
               ]
             },
             "feeWaiverTreatment": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "No committed record this family binds establishes a fee waiver for this route; the participant asks the office of the chief judge of the arrest circuit.",
+                "the adopted filing-instructions page, which records that no bound committed record states a fee or waiver, and the compiled profile's chief-judge destination"
               ]
             },
             "serviceRecipients": {
@@ -25570,9 +25584,9 @@
               ]
             },
             "serviceMethod": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "the adopted filing-instructions page and the route contract, which records no service actor"
               ]
             },
             "serviceTiming": {
@@ -25590,13 +25604,15 @@
             "waitingPeriodCalculation": {
               "status": "recorded",
               "entries": [
-                "event_trigger \n no elapsed waiting period; the verified petition may be filed upon learning of the record"
+                "Read the filing-instructions page, fill Items C1 to C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally. — before filing; the route contract records no elapsed waiting period, so the verified petition may be filed upon learning of the record"
               ]
             },
             "postFilingInstructions": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "File the petition and its attachments with the office of the chief judge of the Illinois judicial circuit where the arrest occurred, after asking that office what it charges, how it accepts filings and who must be served. — at filing",
+                "Read the filing-instructions page, fill Items C1 to C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally. — before filing; the route contract records no elapsed waiting period, so the verified petition may be filed upon learning of the record",
+                "The chief judge may order the arrest or conviction and the official records corrected by removing the participant's name and substituting the offender's name if known. — after filing, at the court's direction; the record establishes no fixed decision timeline"
               ]
             },
             "uncontestedHearingTreatment": {
@@ -25618,8 +25634,7 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
-            "Verified petition"
+            "il-mistaken-identity-primary-filing-1 \n primary_filing \n Petition - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2 \n custom_pleading \n pleading \n required \n Caption for the chief judge of the circuit where the arrest occurred, the route's statutory ground stated in the title and body, Items C1 to C6, and the participant's signature \n approved_shipping_component \n participant_full_legal_name \n date_of_birth \n contact_information \n identity_theft_report_and_mismatched_identifiers \n arrest_circuit \n exact_prostitution_statute_class \n sentence_completion_date \n trafficking_status \n automatic_seal_status"
           ]
         },
         "proposedOrder": {
@@ -25635,9 +25650,9 @@
           ]
         },
         "notice": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "il-mistaken-identity-filing-instructions-2 \n filing_instructions \n Filing Instructions \n process_guidance \n guidance \n required \n What this set is, where it goes, what the record establishes about cost and notice, the documents to obtain, and when to stop \n approved_shipping_component"
           ]
         },
         "certificateOfService": {
@@ -25661,19 +25676,27 @@
         "requiredParticipantAttachments": {
           "status": "recorded",
           "entries": [
-            "Mismatched identifier evidence"
+            "Mismatched identifier evidence",
+            "The identity-theft report"
           ]
         },
         "laterCompletionFields": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Ask the office of the chief judge of that circuit what it charges, how it accepts filings and who, if anyone, must be served before filing; no committed record establishes any of them.",
+            "Confirm that the record was made in the participant's name by another person; an ordinary arrest or conviction of the participant's own is a different Illinois route with a different instrument.",
+            "Fill Items C1 to C6 of the petition from the identity-theft report, the arrest record and the participant's own identity documents, never from memory.",
+            "Identify the Illinois judicial circuit where the arrest occurred; the petition goes to the chief judge of that circuit.",
+            "Obtain the identity-theft report and the mismatched-identifier evidence the route contract names as packet components and file them with the petition.",
+            "The participant signs and dates the petition personally; the case number, if the court assigns one, is assigned at filing and never pre-filled."
           ]
         },
         "signatureRequirements": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Sign and date the petition personally; leave the case number for the court to assign at filing.",
+            "il-mistaken-identity-primary-filing-1 \n primary_filing \n Petition - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2 \n custom_pleading \n pleading \n required \n Caption for the chief judge of the circuit where the arrest occurred, the route's statutory ground stated in the title and body, Items C1 to C6, and the participant's signature \n approved_shipping_component \n participant_full_legal_name \n date_of_birth \n contact_information \n identity_theft_report_and_mismatched_identifiers \n arrest_circuit \n exact_prostitution_statute_class \n sentence_completion_date \n trafficking_status \n automatic_seal_status",
+            "sign_personally"
           ]
         },
         "notarizationRequirements": {
@@ -25683,9 +25706,11 @@
           ]
         },
         "filingDestination": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Office of the chief judge of the Illinois judicial circuit where the arrest occurred",
+            "compiled Illinois profile pathway criminal-identity-theft-mistaken-identity-relief, ruleClauses; route contract LD-IL-04",
+            "confirm_with_the_office_of_the_chief_judge_of_the_arrest_circuit"
           ]
         },
         "filingMethod": {
@@ -25695,15 +25720,18 @@
           ]
         },
         "filingFee": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "No committed record this family binds establishes a fee waiver for this route; the participant asks the office of the chief judge of the arrest circuit.",
+            "No committed record this family binds states a filing fee for this route.",
+            "the adopted filing-instructions page, which records that no bound committed record states a fee or waiver, and the compiled profile's chief-judge destination"
           ]
         },
         "feeWaiverTreatment": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "No committed record this family binds establishes a fee waiver for this route; the participant asks the office of the chief judge of the arrest circuit.",
+            "the adopted filing-instructions page, which records that no bound committed record states a fee or waiver, and the compiled profile's chief-judge destination"
           ]
         },
         "serviceRecipients": {
@@ -25713,9 +25741,9 @@
           ]
         },
         "serviceMethod": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "the adopted filing-instructions page and the route contract, which records no service actor"
           ]
         },
         "serviceTiming": {
@@ -25733,13 +25761,15 @@
         "waitingPeriodCalculation": {
           "status": "recorded",
           "entries": [
-            "event_trigger \n no elapsed waiting period; the verified petition may be filed upon learning of the record"
+            "Read the filing-instructions page, fill Items C1 to C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally. — before filing; the route contract records no elapsed waiting period, so the verified petition may be filed upon learning of the record"
           ]
         },
         "postFilingInstructions": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "File the petition and its attachments with the office of the chief judge of the Illinois judicial circuit where the arrest occurred, after asking that office what it charges, how it accepts filings and who must be served. — at filing",
+            "Read the filing-instructions page, fill Items C1 to C6 of the petition from the record itself, obtain the identity-theft report and the mismatched-identifier evidence, and sign and date the petition personally. — before filing; the route contract records no elapsed waiting period, so the verified petition may be filed upon learning of the record",
+            "The chief judge may order the arrest or conviction and the official records corrected by removing the participant's name and substituting the offender's name if known. — after filing, at the court's direction; the record establishes no fixed decision timeline"
           ]
         },
         "uncontestedHearingTreatment": {
@@ -41134,7 +41164,7 @@
     },
     {
       "worklistGroupId": "ga-misd-j4-set",
-      "packetFamilyId": null,
+      "packetFamilyId": "ga-misd-j4-set",
       "packetSetId": "ga-misd-j4-set",
       "packetSetIds": [
         "ga-misd-j4-set"
@@ -41162,6 +41192,11 @@
           "requiredSourceIds": [
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
             "compiled-source-ref:section:273-294; pathways:68-115; section:68-115; section:116-150; corpus-unit:67; waiting_periods:116-150; corpus-unit:32; corpus-unit:57",
+            "packet-spec-source:GA.memo:ga-misd-j4",
+            "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
+            "packet-spec-source:ga-misd-j4-set-production-field-map@census-v1",
+            "packet-spec-source:ga-misd-j4-set-source-receipt@census-v1",
+            "packet-spec-source:ga-misd-j4-set@1.0.0",
             "source-url:https://gbi.georgia.gov/document/document/gcic-fees/download",
             "source-url:https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions",
             "source-url:https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/",
@@ -41185,9 +41220,7 @@
             "Record filingDeadline; current evidence is not recorded.",
             "Record filingFee; current evidence is not recorded.",
             "Record filingMethod; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
             "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
             "Record schedulesOrContinuationPages; current evidence is not recorded.",
             "Record serviceTiming; current evidence is not recorded.",
             "Record uncontestedHearingTreatment; current evidence is not recorded.",
@@ -41204,14 +41237,14 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "composed pleading for ga-misd-j4",
-                "primary_filing: ga-misd-j4-primary-filing-1"
+                "primary_filing \n primary_filing \n Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction \n custom_pleading \n pleading \n required \n ga-misd-j4-primary-filing-1 \n Caption in the existing criminal case, the numbered eligibility statements under § 35-3-37(j)(4)(A) to (C), the defendant's own statement, and the request for restriction and sealing under subsection (m) \n approved_shipping_component \n court \n county \n case_number \n otn \n participant_full_legal_name \n arrest_date \n disposition_date \n charge \n sentence_completion_date \n criminal_history \n pending_cases \n prior_relief \n participant_narrative"
               ]
             },
             "proposedOrder": {
               "status": "recorded",
               "entries": [
-                "proposed_order: ga-misd-j4-proposed-order-2"
+                "exhibit_c_sentence_completion \n attachment \n Exhibit C - Proof of sentence completion \n custom_pleading \n guidance \n conditional \n Attach this only where you have it, such as a probation termination order. \n ga-misd-j4-attachment-6 \n Proof of sentence completion obtained by the participant \n approved_shipping_component",
+                "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information and Sealing the Record of the Case \n custom_pleading \n pleading \n required \n ga-misd-j4-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date"
               ]
             },
             "coverSheet": {
@@ -41229,7 +41262,7 @@
             "certificateOfService": {
               "status": "recorded",
               "entries": [
-                "certificate_of_service: ga-misd-j4-certificate-of-service-3"
+                "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ga-misd-j4-certificate-of-service-3 \n Service on the District Attorney or Solicitor-General and the clerk of court by certified mail, e-filing or hand delivery \n approved_shipping_component \n prosecuting_authority \n service_method"
               ]
             },
             "affidavitOrVerification": {
@@ -41247,40 +41280,44 @@
             "requiredParticipantAttachments": {
               "status": "recorded",
               "entries": [
-                "Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
-                "attachment: ga-misd-j4-attachment-4",
-                "attachment: ga-misd-j4-attachment-5",
-                "attachment: ga-misd-j4-attachment-6",
-                "attachment: ga-misd-j4-attachment-7"
+                "Copy of the final disposition",
+                "Participant-supplied supporting exhibits — conditional: Where the participant chooses to supply them.",
+                "Proof of sentence completion, such as a probation termination order — conditional: Where the participant has it or the court expects it.",
+                "Your own Georgia criminal history report — conditional: Where the participant relies on it or the court expects it."
               ]
             },
             "laterCompletionFields": {
               "status": "recorded",
               "entries": [
-                "Defendant's signature and date",
-                "Judge name and hearing date",
-                "Judge, clerk, prosecutor, process-server, notary, law-enforcement and agency blocks are left blank. The hearing date, judge assignment and case-number stamp are supplied by the court after filing.",
-                "OTN where the participant does not know it",
-                "Signature block of the judge on the proposed order"
+                "Confirm every term of the sentence is complete and that four conviction-free years, in any jurisdiction excluding nonserious traffic offenses, immediately precede the filing date.",
+                "Confirm the filing method, any fee, any pauper's-affidavit practice and any standing preference on proposed orders with the clerk of the convicting court before filing; the packet quotes no figure.",
+                "Confirm the prosecuting attorney and clerk of court to be served, serve by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out.",
+                "Copy the convicting court and its level, county, case number, OTN, arrest date, adjudication date and exact O.C.G.A. Code section from the final disposition, the case papers and the Georgia criminal history report, never from memory.",
+                "Read every numbered statement in the motion; each is pleaded as the defendant's own statement, and any that is not true is a reason not to file.",
+                "The defendant signs and dates the motion and certificate as Defendant, Pro Se where unrepresented; the judge's name, SO ORDERED date and signature block are never pre-filled."
               ]
             },
             "signatureRequirements": {
               "status": "recorded",
               "entries": [
-                "The petitioner signs. No verification or notarization is required by statute, and none is added."
+                "Sign and date the motion yourself, as Defendant, Pro Se where unrepresented; no notarization is required or added.",
+                "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information and Sealing the Record of the Case \n custom_pleading \n pleading \n required \n ga-misd-j4-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date",
+                "sign_pro_se"
               ]
             },
             "notarizationRequirements": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Sign and date the motion yourself, as Defendant, Pro Se where unrepresented; no notarization is required or added."
               ]
             },
             "filingDestination": {
               "status": "recorded",
               "entries": [
-                "Statewide statute. The court in which the conviction occurred, which retains jurisdiction over the case for this limited purpose. In practice a State Court or a Superior Court, and possibly a Magistrate, Probate or Municipal court where a state-law offence was tried there.",
-                "clerk \n Clerk of the convicting court \n Filed in the existing criminal case under the existing case number. E-filing where the court accepts it. Serve the prosecuting attorney; Georgia Justice Project practice also serves the clerk of court."
+                "Clerk of the convicting court",
+                "File with the clerk of the convicting court in the existing criminal case, under the existing case number, styled State of Georgia v. Defendant, by e-filing where the court accepts it. Confirm the filing method with the clerk before filing: no statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+                "GA.memo.json track ga-misd-j4, geography.venue, destination and rules.filing",
+                "existing_criminal_case_under_the_existing_case_number"
               ]
             },
             "filingMethod": {
@@ -41304,14 +41341,13 @@
             "serviceRecipients": {
               "status": "recorded",
               "entries": [
-                "Georgia Justice Project practice also serves the clerk of court.",
-                "Notice to the prosecuting attorney."
+                "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; Georgia Justice Project practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. No response or objection period is specified by statute."
               ]
             },
             "serviceMethod": {
               "status": "recorded",
               "entries": [
-                "Certified mail, e-filing or hand delivery, certified in a certificate of service."
+                "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; Georgia Justice Project practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. No response or objection period is specified by statute."
               ]
             },
             "serviceTiming": {
@@ -41329,15 +41365,16 @@
             "waitingPeriodCalculation": {
               "status": "recorded",
               "entries": [
-                "Conviction-free period \n four years immediately preceding the filing of the petition, during which the individual has not been convicted of any crime in any jurisdiction excluding nonserious traffic offences. This runs backward from the filing date and any intervening conviction resets it. It is not a period that must pass after sentence completion.",
-                "Refiling after a denial \n two years from the final order denying the previous petition on the same conviction",
-                "Sentence completion \n a separate and additional requirement: every term of the sentence, including probation, fines and restitution, must be complete"
+                "File the motion, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — after every term of the sentence is complete and four conviction-free years immediately precede the filing; a petition denied on the same conviction may not be refiled within two years of the final order",
+                "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
               ]
             },
             "postFilingInstructions": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "File the motion, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — after every term of the sentence is complete and four conviction-free years immediately precede the filing; a petition denied on the same conviction may not be refiled within two years of the final order",
+                "The court decides whether the harm to the individual clearly outweighs the public's interest and, if so, enters the order directing GCIC and the county agencies to restrict, and sealing the record of the case under subsection (m). — after any hearing; the finding is the court's",
+                "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
               ]
             },
             "uncontestedHearingTreatment": {
@@ -41349,10 +41386,7 @@
             "contestedHearingOrOppositionHandoff": {
               "status": "recorded",
               "entries": [
-                "Generation is complete when the packet is produced. Self-help stops if the prosecuting attorney opposes, a hearing becomes contested, or the offence classification is disputed.",
-                "The court sets a contested hearing or takes evidence on disputed facts.",
-                "The prosecuting attorney opposes the filing.",
-                "Where a hearing is requested it must be held within 90 days of filing, and the motion asks in the alternative that the matter be set for hearing within 90 days. There is no prosecutor objection window on this route; the 90 days is a deadline for holding a hearing, not a period for the prosecuting attorney to object."
+                "The prosecuting attorney opposes the filing, or the court sets a contested hearing or takes evidence on disputed facts. The matter has crossed the approved self-help boundary. Stop and get help."
               ]
             }
           }
@@ -41362,14 +41396,14 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "composed pleading for ga-misd-j4",
-            "primary_filing: ga-misd-j4-primary-filing-1"
+            "primary_filing \n primary_filing \n Defendant's Motion to Restrict and Seal Records of a Misdemeanor Conviction \n custom_pleading \n pleading \n required \n ga-misd-j4-primary-filing-1 \n Caption in the existing criminal case, the numbered eligibility statements under § 35-3-37(j)(4)(A) to (C), the defendant's own statement, and the request for restriction and sealing under subsection (m) \n approved_shipping_component \n court \n county \n case_number \n otn \n participant_full_legal_name \n arrest_date \n disposition_date \n charge \n sentence_completion_date \n criminal_history \n pending_cases \n prior_relief \n participant_narrative"
           ]
         },
         "proposedOrder": {
           "status": "recorded",
           "entries": [
-            "proposed_order: ga-misd-j4-proposed-order-2"
+            "exhibit_c_sentence_completion \n attachment \n Exhibit C - Proof of sentence completion \n custom_pleading \n guidance \n conditional \n Attach this only where you have it, such as a probation termination order. \n ga-misd-j4-attachment-6 \n Proof of sentence completion obtained by the participant \n approved_shipping_component",
+            "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information and Sealing the Record of the Case \n custom_pleading \n pleading \n required \n ga-misd-j4-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date"
           ]
         },
         "coverSheet": {
@@ -41387,7 +41421,7 @@
         "certificateOfService": {
           "status": "recorded",
           "entries": [
-            "certificate_of_service: ga-misd-j4-certificate-of-service-3"
+            "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ga-misd-j4-certificate-of-service-3 \n Service on the District Attorney or Solicitor-General and the clerk of court by certified mail, e-filing or hand delivery \n approved_shipping_component \n prosecuting_authority \n service_method"
           ]
         },
         "affidavitOrVerification": {
@@ -41405,40 +41439,44 @@
         "requiredParticipantAttachments": {
           "status": "recorded",
           "entries": [
-            "Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
-            "attachment: ga-misd-j4-attachment-4",
-            "attachment: ga-misd-j4-attachment-5",
-            "attachment: ga-misd-j4-attachment-6",
-            "attachment: ga-misd-j4-attachment-7"
+            "Copy of the final disposition",
+            "Participant-supplied supporting exhibits — conditional: Where the participant chooses to supply them.",
+            "Proof of sentence completion, such as a probation termination order — conditional: Where the participant has it or the court expects it.",
+            "Your own Georgia criminal history report — conditional: Where the participant relies on it or the court expects it."
           ]
         },
         "laterCompletionFields": {
           "status": "recorded",
           "entries": [
-            "Defendant's signature and date",
-            "Judge name and hearing date",
-            "Judge, clerk, prosecutor, process-server, notary, law-enforcement and agency blocks are left blank. The hearing date, judge assignment and case-number stamp are supplied by the court after filing.",
-            "OTN where the participant does not know it",
-            "Signature block of the judge on the proposed order"
+            "Confirm every term of the sentence is complete and that four conviction-free years, in any jurisdiction excluding nonserious traffic offenses, immediately precede the filing date.",
+            "Confirm the filing method, any fee, any pauper's-affidavit practice and any standing preference on proposed orders with the clerk of the convicting court before filing; the packet quotes no figure.",
+            "Confirm the prosecuting attorney and clerk of court to be served, serve by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out.",
+            "Copy the convicting court and its level, county, case number, OTN, arrest date, adjudication date and exact O.C.G.A. Code section from the final disposition, the case papers and the Georgia criminal history report, never from memory.",
+            "Read every numbered statement in the motion; each is pleaded as the defendant's own statement, and any that is not true is a reason not to file.",
+            "The defendant signs and dates the motion and certificate as Defendant, Pro Se where unrepresented; the judge's name, SO ORDERED date and signature block are never pre-filled."
           ]
         },
         "signatureRequirements": {
           "status": "recorded",
           "entries": [
-            "The petitioner signs. No verification or notarization is required by statute, and none is added."
+            "Sign and date the motion yourself, as Defendant, Pro Se where unrepresented; no notarization is required or added.",
+            "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information and Sealing the Record of the Case \n custom_pleading \n pleading \n required \n ga-misd-j4-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date",
+            "sign_pro_se"
           ]
         },
         "notarizationRequirements": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Sign and date the motion yourself, as Defendant, Pro Se where unrepresented; no notarization is required or added."
           ]
         },
         "filingDestination": {
           "status": "recorded",
           "entries": [
-            "Statewide statute. The court in which the conviction occurred, which retains jurisdiction over the case for this limited purpose. In practice a State Court or a Superior Court, and possibly a Magistrate, Probate or Municipal court where a state-law offence was tried there.",
-            "clerk \n Clerk of the convicting court \n Filed in the existing criminal case under the existing case number. E-filing where the court accepts it. Serve the prosecuting attorney; Georgia Justice Project practice also serves the clerk of court."
+            "Clerk of the convicting court",
+            "File with the clerk of the convicting court in the existing criminal case, under the existing case number, styled State of Georgia v. Defendant, by e-filing where the court accepts it. Confirm the filing method with the clerk before filing: no statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+            "GA.memo.json track ga-misd-j4, geography.venue, destination and rules.filing",
+            "existing_criminal_case_under_the_existing_case_number"
           ]
         },
         "filingMethod": {
@@ -41462,14 +41500,13 @@
         "serviceRecipients": {
           "status": "recorded",
           "entries": [
-            "Georgia Justice Project practice also serves the clerk of court.",
-            "Notice to the prosecuting attorney."
+            "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; Georgia Justice Project practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. No response or objection period is specified by statute."
           ]
         },
         "serviceMethod": {
           "status": "recorded",
           "entries": [
-            "Certified mail, e-filing or hand delivery, certified in a certificate of service."
+            "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; Georgia Justice Project practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. No response or objection period is specified by statute."
           ]
         },
         "serviceTiming": {
@@ -41487,15 +41524,16 @@
         "waitingPeriodCalculation": {
           "status": "recorded",
           "entries": [
-            "Conviction-free period \n four years immediately preceding the filing of the petition, during which the individual has not been convicted of any crime in any jurisdiction excluding nonserious traffic offences. This runs backward from the filing date and any intervening conviction resets it. It is not a period that must pass after sentence completion.",
-            "Refiling after a denial \n two years from the final order denying the previous petition on the same conviction",
-            "Sentence completion \n a separate and additional requirement: every term of the sentence, including probation, fines and restitution, must be complete"
+            "File the motion, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — after every term of the sentence is complete and four conviction-free years immediately precede the filing; a petition denied on the same conviction may not be refiled within two years of the final order",
+            "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
           ]
         },
         "postFilingInstructions": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "File the motion, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — after every term of the sentence is complete and four conviction-free years immediately precede the filing; a petition denied on the same conviction may not be refiled within two years of the final order",
+            "The court decides whether the harm to the individual clearly outweighs the public's interest and, if so, enters the order directing GCIC and the county agencies to restrict, and sealing the record of the case under subsection (m). — after any hearing; the finding is the court's",
+            "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
           ]
         },
         "uncontestedHearingTreatment": {
@@ -41507,10 +41545,7 @@
         "contestedHearingOrOppositionHandoff": {
           "status": "recorded",
           "entries": [
-            "Generation is complete when the packet is produced. Self-help stops if the prosecuting attorney opposes, a hearing becomes contested, or the offence classification is disputed.",
-            "The court sets a contested hearing or takes evidence on disputed facts.",
-            "The prosecuting attorney opposes the filing.",
-            "Where a hearing is requested it must be held within 90 days of filing, and the motion asks in the alternative that the matter be set for hearing within 90 days. There is no prosecutor objection window on this route; the 90 days is a deadline for holding a hearing, not a period for the prosecuting attorney to object."
+            "The prosecuting attorney opposes the filing, or the court sets a contested hearing or takes evidence on disputed facts. The matter has crossed the approved self-help boundary. Stop and get help."
           ]
         }
       }
@@ -42247,7 +42282,7 @@
     },
     {
       "worklistGroupId": "ga-pardon-j7-set",
-      "packetFamilyId": null,
+      "packetFamilyId": "ga-pardon-j7-set",
       "packetSetId": "ga-pardon-j7-set",
       "packetSetIds": [
         "ga-pardon-j7-set"
@@ -42275,6 +42310,11 @@
           "requiredSourceIds": [
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
             "compiled-source-ref:section:431-446; pathways:68-115; section:68-115; section:116-150; section:190-227; corpus-unit:111; case_outcomes:190-227; waiting_periods:116-150",
+            "packet-spec-source:GA.memo:ga-pardon-j7",
+            "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
+            "packet-spec-source:ga-pardon-j7-set-production-field-map@census-v1",
+            "packet-spec-source:ga-pardon-j7-set-source-receipt@census-v1",
+            "packet-spec-source:ga-pardon-j7-set@1.0.0",
             "route-contract:src/lib/legal-authority/routes/p0.json#GA:restriction-and-sealing-of-a-pardoned-felony",
             "source-url:https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/",
             "source-url:https://www.gjp.org/wp-content/uploads/2026/04/Full-Motion-Pro-se-Misd.-RS-wQR-2026.pdf",
@@ -42299,7 +42339,6 @@
             "Record filingMethod; current evidence is not recorded.",
             "Record notarizationRequirements; current evidence is not recorded.",
             "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
             "Record schedulesOrContinuationPages; current evidence is not recorded.",
             "Record serviceTiming; current evidence is not recorded.",
             "Record uncontestedHearingTreatment; current evidence is not recorded.",
@@ -42323,7 +42362,7 @@
             "proposedOrder": {
               "status": "recorded",
               "entries": [
-                "proposed_order: ga-pardon-j7-proposed-order-2"
+                "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information \n custom_pleading \n pleading \n required \n ga-pardon-j7-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date"
               ]
             },
             "coverSheet": {
@@ -42341,7 +42380,7 @@
             "certificateOfService": {
               "status": "recorded",
               "entries": [
-                "certificate_of_service: ga-pardon-j7-certificate-of-service-3"
+                "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ga-pardon-j7-certificate-of-service-3 \n Service on the District Attorney or Solicitor-General and the clerk of court by certified mail, e-filing or hand delivery \n approved_shipping_component \n prosecuting_authority \n service_method"
               ]
             },
             "affidavitOrVerification": {
@@ -42359,26 +42398,29 @@
             "requiredParticipantAttachments": {
               "status": "recorded",
               "entries": [
-                "Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
-                "Request a copy of the pardon certificate from the State Board of Pardons and Paroles and attach it to the petition.",
-                "attachment: ga-pardon-j7-attachment-4",
-                "attachment: ga-pardon-j7-attachment-5",
-                "attachment: ga-pardon-j7-attachment-6"
+                "Copy of the final disposition",
+                "Pardon certificate",
+                "Participant-supplied supporting exhibits — conditional: Where the participant chooses to supply them.",
+                "Your own Georgia criminal history report — conditional: Where the participant relies on it or the court expects it."
               ]
             },
             "laterCompletionFields": {
               "status": "recorded",
               "entries": [
-                "Judge name and hearing date",
-                "Judge, clerk, prosecutor, process-server, notary, law-enforcement and agency blocks are left blank. The hearing date, judge assignment and case-number stamp are supplied by the court after filing.",
-                "Petitioner's signature and date",
-                "Signature block of the judge on the proposed order"
+                "Confirm that a pardon exists and copy its date from the pardon certificate issued by the State Board of Pardons and Paroles; this route begins once a pardon exists.",
+                "Confirm the filing method, any fee, any pauper's-affidavit practice and any standing preference on proposed orders with the clerk of the convicting court before filing; the packet quotes no figure.",
+                "Confirm the prosecuting attorney and clerk of court to be served, serve by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out.",
+                "Copy the convicting court and its level, county, case number, OTN, arrest date and exact O.C.G.A. Code section from the final disposition, the case papers and the Georgia criminal history report, never from memory.",
+                "Read every numbered statement in the petition; each is pleaded as the petitioner's own statement, and any that is not true is a reason not to file.",
+                "The petitioner signs and dates the petition and certificate as Defendant, Pro Se where unrepresented; the judge's name, SO ORDERED date and signature block are never pre-filled."
               ]
             },
             "signatureRequirements": {
               "status": "recorded",
               "entries": [
-                "The petitioner signs. No verification or notarization is required by statute."
+                "Sign and date the petition yourself as Defendant, Pro Se where unrepresented; serve the prosecuting attorney and the clerk of court, and complete the certificate only when the copies actually go out.",
+                "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information \n custom_pleading \n pleading \n required \n ga-pardon-j7-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date",
+                "sign_serve_and_certify"
               ]
             },
             "notarizationRequirements": {
@@ -42390,8 +42432,10 @@
             "filingDestination": {
               "status": "recorded",
               "entries": [
-                "Statewide statute. The court in which the conviction occurred.",
-                "clerk \n Clerk of the convicting court \n Filed in the existing criminal case. Served on the prosecuting attorney; hearing within 90 days if requested."
+                "Clerk of the convicting court",
+                "File in the existing criminal case with the clerk of the convicting court, under the existing case number, styled State of Georgia v. Defendant. Confirm the filing method with the clerk before filing: no statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+                "GA.memo.json track ga-pardon-j7, geography.venue, destination and rules.filing",
+                "existing_criminal_case_under_the_existing_case_number"
               ]
             },
             "filingMethod": {
@@ -42415,13 +42459,13 @@
             "serviceRecipients": {
               "status": "recorded",
               "entries": [
-                "Notice to the prosecuting attorney; practice also serves the clerk of court."
+                "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days."
               ]
             },
             "serviceMethod": {
               "status": "recorded",
               "entries": [
-                "Certified mail, e-filing or hand delivery, certified in a certificate of service."
+                "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days."
               ]
             },
             "serviceTiming": {
@@ -42443,9 +42487,11 @@
               ]
             },
             "postFilingInstructions": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "File the petition, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — once the pardon exists; there is no waiting period independent of it, and there must have been no conviction of any crime in any jurisdiction, excluding nonserious traffic offenses, since it was granted",
+                "The court decides whether the harm otherwise resulting to the individual clearly outweighs the public's interest and, if so, enters the order directing GCIC and the county agencies to restrict. — after any hearing; the finding is the court's",
+                "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
               ]
             },
             "uncontestedHearingTreatment": {
@@ -42457,8 +42503,7 @@
             "contestedHearingOrOppositionHandoff": {
               "status": "recorded",
               "entries": [
-                "The court sets a contested hearing or takes evidence on disputed facts.",
-                "The prosecuting attorney opposes the filing."
+                "The prosecuting attorney opposes the filing, or the court sets a contested hearing or takes evidence on disputed facts. The matter has crossed the approved self-help boundary. Stop and get help."
               ]
             }
           }
@@ -42475,7 +42520,7 @@
         "proposedOrder": {
           "status": "recorded",
           "entries": [
-            "proposed_order: ga-pardon-j7-proposed-order-2"
+            "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information \n custom_pleading \n pleading \n required \n ga-pardon-j7-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date"
           ]
         },
         "coverSheet": {
@@ -42493,7 +42538,7 @@
         "certificateOfService": {
           "status": "recorded",
           "entries": [
-            "certificate_of_service: ga-pardon-j7-certificate-of-service-3"
+            "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ga-pardon-j7-certificate-of-service-3 \n Service on the District Attorney or Solicitor-General and the clerk of court by certified mail, e-filing or hand delivery \n approved_shipping_component \n prosecuting_authority \n service_method"
           ]
         },
         "affidavitOrVerification": {
@@ -42511,26 +42556,29 @@
         "requiredParticipantAttachments": {
           "status": "recorded",
           "entries": [
-            "Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
-            "Request a copy of the pardon certificate from the State Board of Pardons and Paroles and attach it to the petition.",
-            "attachment: ga-pardon-j7-attachment-4",
-            "attachment: ga-pardon-j7-attachment-5",
-            "attachment: ga-pardon-j7-attachment-6"
+            "Copy of the final disposition",
+            "Pardon certificate",
+            "Participant-supplied supporting exhibits — conditional: Where the participant chooses to supply them.",
+            "Your own Georgia criminal history report — conditional: Where the participant relies on it or the court expects it."
           ]
         },
         "laterCompletionFields": {
           "status": "recorded",
           "entries": [
-            "Judge name and hearing date",
-            "Judge, clerk, prosecutor, process-server, notary, law-enforcement and agency blocks are left blank. The hearing date, judge assignment and case-number stamp are supplied by the court after filing.",
-            "Petitioner's signature and date",
-            "Signature block of the judge on the proposed order"
+            "Confirm that a pardon exists and copy its date from the pardon certificate issued by the State Board of Pardons and Paroles; this route begins once a pardon exists.",
+            "Confirm the filing method, any fee, any pauper's-affidavit practice and any standing preference on proposed orders with the clerk of the convicting court before filing; the packet quotes no figure.",
+            "Confirm the prosecuting attorney and clerk of court to be served, serve by certified mail, e-filing or hand delivery, and complete the certificate only when the copies actually go out.",
+            "Copy the convicting court and its level, county, case number, OTN, arrest date and exact O.C.G.A. Code section from the final disposition, the case papers and the Georgia criminal history report, never from memory.",
+            "Read every numbered statement in the petition; each is pleaded as the petitioner's own statement, and any that is not true is a reason not to file.",
+            "The petitioner signs and dates the petition and certificate as Defendant, Pro Se where unrepresented; the judge's name, SO ORDERED date and signature block are never pre-filled."
           ]
         },
         "signatureRequirements": {
           "status": "recorded",
           "entries": [
-            "The petitioner signs. No verification or notarization is required by statute."
+            "Sign and date the petition yourself as Defendant, Pro Se where unrepresented; serve the prosecuting attorney and the clerk of court, and complete the certificate only when the copies actually go out.",
+            "proposed_order \n proposed_order \n Proposed Order Restricting Access to Criminal History Record Information \n custom_pleading \n pleading \n required \n ga-pardon-j7-proposed-order-2 \n Order naming GCIC, the arresting agency, the jail and every county agency, the OTN and arrest date, and the protected judge, SO ORDERED date and signature blocks \n approved_shipping_component \n court \n county \n case_number \n otn \n arrest_date",
+            "sign_serve_and_certify"
           ]
         },
         "notarizationRequirements": {
@@ -42542,8 +42590,10 @@
         "filingDestination": {
           "status": "recorded",
           "entries": [
-            "Statewide statute. The court in which the conviction occurred.",
-            "clerk \n Clerk of the convicting court \n Filed in the existing criminal case. Served on the prosecuting attorney; hearing within 90 days if requested."
+            "Clerk of the convicting court",
+            "File in the existing criminal case with the clerk of the convicting court, under the existing case number, styled State of Georgia v. Defendant. Confirm the filing method with the clerk before filing: no statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+            "GA.memo.json track ga-pardon-j7, geography.venue, destination and rules.filing",
+            "existing_criminal_case_under_the_existing_case_number"
           ]
         },
         "filingMethod": {
@@ -42567,13 +42617,13 @@
         "serviceRecipients": {
           "status": "recorded",
           "entries": [
-            "Notice to the prosecuting attorney; practice also serves the clerk of court."
+            "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days."
           ]
         },
         "serviceMethod": {
           "status": "recorded",
           "entries": [
-            "Certified mail, e-filing or hand delivery, certified in a certificate of service."
+            "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days."
           ]
         },
         "serviceTiming": {
@@ -42595,9 +42645,11 @@
           ]
         },
         "postFilingInstructions": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "File the petition, proposed order, certificate and exhibits with the clerk of the convicting court in the existing criminal case, and serve the prosecuting attorney and the clerk of court. — once the pardon exists; there is no waiting period independent of it, and there must have been no conviction of any crime in any jurisdiction, excluding nonserious traffic offenses, since it was granted",
+            "The court decides whether the harm otherwise resulting to the individual clearly outweighs the public's interest and, if so, enters the order directing GCIC and the county agencies to restrict. — after any hearing; the finding is the court's",
+            "Where a hearing is requested, the court holds it within 90 days of filing; the prosecuting attorney may oppose. — within 90 days of filing where a hearing is requested"
           ]
         },
         "uncontestedHearingTreatment": {
@@ -42609,8 +42661,7 @@
         "contestedHearingOrOppositionHandoff": {
           "status": "recorded",
           "entries": [
-            "The court sets a contested hearing or takes evidence on disputed facts.",
-            "The prosecuting attorney opposes the filing."
+            "The prosecuting attorney opposes the filing, or the court sets a contested hearing or takes evidence on disputed facts. The matter has crossed the approved self-help boundary. Stop and get help."
           ]
         }
       }
@@ -78622,7 +78673,7 @@
     },
     {
       "worklistGroupId": "ms-misd-1st-set",
-      "packetFamilyId": null,
+      "packetFamilyId": "ms-misd-1st-set",
       "packetSetId": "ms-misd-1st-set",
       "packetSetIds": [
         "ms-misd-1st-set"
@@ -78649,6 +78700,12 @@
           "requiredSourceIds": [
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
             "compiled-source-ref:pathways:15-155; section:15-155; corpus-unit:18",
+            "packet-spec-source:MS.memo:ms-misd-1st",
+            "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
+            "packet-spec-source:ms-misd-1st-set-production-field-map@census-v1",
+            "packet-spec-source:ms-misd-1st-set-source-receipt@census-v1",
+            "packet-spec-source:ms-misd-1st-set@1.0.0",
+            "packet-specification:data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json#ms-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
             "route-contract:src/lib/legal-authority/routes/mississippi.json#MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
             "source-url:https://billstatus.ls.state.ms.us/documents/2026/html/HB/1500-1599/HB1546SG.htm",
             "source-url:https://law.justia.com/codes/mississippi/"
@@ -78672,7 +78729,6 @@
             "Record filingMethod; current evidence is not recorded.",
             "Record notarizationRequirements; current evidence is not recorded.",
             "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
             "Record schedulesOrContinuationPages; current evidence is not recorded.",
             "Record serviceRecipients; current evidence is not recorded.",
             "Record serviceTiming; current evidence is not recorded.",
@@ -78688,14 +78744,15 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)",
-                "Petition under § 99-19-71(1)"
+                "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority",
+                "primary_filing \n primary_filing \n Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(1) \n custom_pleading \n pleading \n required \n ms-misd-1st-primary-filing-1 \n Convicting-court caption, identifying block, conviction facts, the participant's initialled first-offender and nontraffic statements, and the request \n approved_shipping_component \n court \n county \n cause_number \n participant_full_legal_name \n date_of_birth \n charge \n offense_date \n arrest_date \n arresting_agency \n agency_case_number \n disposition_date \n first_offender_status \n nontraffic_classification"
               ]
             },
             "proposedOrder": {
               "status": "recorded",
               "entries": [
-                "Proposed order"
+                "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority",
+                "proposed_order \n proposed_order \n Proposed Order of Expungement \n custom_pleading \n pleading \n required \n ms-misd-1st-proposed-order-2 \n Tendered order with the fillable agency list, the fingerprint-record exception, the restoration and perjury-protection language, and the protected entry, judicial and approved-as-to-form blocks \n approved_shipping_component \n court \n county \n cause_number \n arresting_agency \n order_record_holders"
               ]
             },
             "coverSheet": {
@@ -78713,7 +78770,7 @@
             "certificateOfService": {
               "status": "recorded",
               "entries": [
-                "certificate_of_service: ms-misd-1st-certificate-of-service-3"
+                "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority"
               ]
             },
             "affidavitOrVerification": {
@@ -78731,20 +78788,22 @@
             "requiredParticipantAttachments": {
               "status": "recorded",
               "entries": [
-                "Conviction record"
+                "Account balance sheet from the clerk showing a zero balance — conditional: Advisable everywhere; required in practice in many courts even though subsection (1) does not say so.",
+                "Certified copy of the judgment of conviction",
+                "Docket sheet for the case — conditional: Required in practice on conviction tracks; advisable on every track.",
+                "Mississippi criminal history record — conditional: Advisable on every track and effectively necessary wherever first-offender status is in issue; the first-offender statement is initialled only after checking it."
               ]
             },
             "laterCompletionFields": {
               "status": "recorded",
               "entries": [
-                "LegalEase must not generate: that the petitioner meets the criteria for expungement, which is the court's finding; that the offence is an 'Expungeable Offense', which appears in the Fourth District caption block as though it were a data field but is a legal conclusion; that the petitioner is a first offender; that the petitioner is rehabilitated; that a dismissal was 'with prejudice' unless the order says so; any statement about immigration, firearms, federal records or professional licensing consequences; or any assertion that the record will be erased everywhere.",
-                "The APPROVED AS TO FORM signature for the prosecuting authority",
-                "The assertion that the petitioner is a first offender",
-                "The cause number where the court assigns a new one",
-                "The classification of the offence as not a traffic violation",
-                "The finding that the petitioner meets the criteria for expungement",
-                "The judge's signature, the date, and the order's entry",
-                "The petitioner's signature and the date of signing"
+                "Confirm from the certified judgment that the matter is a misdemeanor conviction, not a DUI, a traffic violation, a felony or a non-conviction disposition.",
+                "Confirm the fee amount, any pauper's-affidavit route, any local form preference and any approved-as-to-form practice with the records office of the convicting court before filing; no amount is published in this packet.",
+                "Confirm the prosecuting authority and its current mailing address with the court's records office, serve by United States mail or hand delivery, and complete the certificate only after service occurs.",
+                "Copy the convicting court and its level, county or city, cause number, offence wording, code section, offence date, arrest date, arresting agency and conviction date from the court record and case papers, never from memory.",
+                "Initial the nontraffic statement only if it is true; an uncertain classification is a reason to stop and get advice.",
+                "Obtain the Mississippi criminal history record from the Mississippi Criminal Information Center and initial the first-offender statement only if it shows no other conviction and no prior expungement.",
+                "The participant signs and dates the petition and certificate; the judge's entry and signing block and the prosecutor's approved-as-to-form block are never pre-filled."
               ]
             },
             "signatureRequirements": {
@@ -78762,8 +78821,10 @@
             "filingDestination": {
               "status": "recorded",
               "entries": [
-                "The justice, county, circuit or municipal court in which the conviction was had, per subsection (1).",
-                "clerk \n Clerk of the court of conviction \n File with the clerk of the court that entered the conviction. In municipal court the prosecuting authority is the city prosecutor, not the district attorney."
+                "Clerk of the justice, county, circuit or municipal court of conviction",
+                "File the petition and proposed order with the clerk of the justice, county, circuit or municipal court in which the conviction was had. Call that court's records office first: Mississippi has no statewide expungement form, municipal and justice courts are the least standardized courts in the state, and districts maintain their own petition and order preferences.",
+                "MS.memo.json track ms-misd-1st, geography.venue, destination and rules.filing",
+                "confirm_with_the_clerk_of_the_convicting_court"
               ]
             },
             "filingMethod": {
@@ -78781,7 +78842,7 @@
             "feeWaiverTreatment": {
               "status": "recorded",
               "entries": [
-                "A pauper's affidavit under general Mississippi practice. The participant asks the clerk."
+                "A pauper's affidavit under general Mississippi practice, where the participant cannot pay; the participant asks the clerk which affidavit or waiver process that court accepts."
               ]
             },
             "serviceRecipients": {
@@ -78811,13 +78872,16 @@
             "waitingPeriodCalculation": {
               "status": "recorded",
               "entries": [
-                "event_trigger \n no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
+                "File the petition and proposed order with the clerk of the convicting court and pay the fee the clerk confirms, or file the pauper's affidavit that court accepts. — after every required-before-filing item is complete; subsection (1) states no waiting period"
               ]
             },
             "postFilingInstructions": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "After the order issues, obtain certified copies and distribute them to every agency named in the order. Fingerprint records are excepted, the Criminal Information Center keeps a nonpublic record for first-offender determinations, and an employer may still ask whether an order of expunction was entered. — after entry of the order",
+                "File the petition and proposed order with the clerk of the convicting court and pay the fee the clerk confirms, or file the pauper's affidavit that court accepts. — after every required-before-filing item is complete; subsection (1) states no waiting period",
+                "Serve the prosecuting authority by United States mail or hand delivery and keep the completed certificate of service. — at or after filing, under the local mechanics confirmed with the clerk",
+                "Some districts expect the prosecuting authority to approve the order as to form before the judge signs; the participant does not negotiate that step and the packet never pre-signs the block. — after service, at the court's or prosecutor's direction"
               ]
             },
             "uncontestedHearingTreatment": {
@@ -78839,14 +78903,15 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)",
-            "Petition under § 99-19-71(1)"
+            "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority",
+            "primary_filing \n primary_filing \n Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(1) \n custom_pleading \n pleading \n required \n ms-misd-1st-primary-filing-1 \n Convicting-court caption, identifying block, conviction facts, the participant's initialled first-offender and nontraffic statements, and the request \n approved_shipping_component \n court \n county \n cause_number \n participant_full_legal_name \n date_of_birth \n charge \n offense_date \n arrest_date \n arresting_agency \n agency_case_number \n disposition_date \n first_offender_status \n nontraffic_classification"
           ]
         },
         "proposedOrder": {
           "status": "recorded",
           "entries": [
-            "Proposed order"
+            "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority",
+            "proposed_order \n proposed_order \n Proposed Order of Expungement \n custom_pleading \n pleading \n required \n ms-misd-1st-proposed-order-2 \n Tendered order with the fillable agency list, the fingerprint-record exception, the restoration and perjury-protection language, and the protected entry, judicial and approved-as-to-form blocks \n approved_shipping_component \n court \n county \n cause_number \n arresting_agency \n order_record_holders"
           ]
         },
         "coverSheet": {
@@ -78864,7 +78929,7 @@
         "certificateOfService": {
           "status": "recorded",
           "entries": [
-            "certificate_of_service: ms-misd-1st-certificate-of-service-3"
+            "certificate_of_service \n certificate_of_service \n Certificate of Service \n custom_pleading \n pleading \n required \n ms-misd-1st-certificate-of-service-3 \n Service of the petition and proposed order on the prosecuting authority by United States mail or hand delivery \n approved_shipping_component \n court \n county \n cause_number \n prosecuting_authority"
           ]
         },
         "affidavitOrVerification": {
@@ -78882,20 +78947,22 @@
         "requiredParticipantAttachments": {
           "status": "recorded",
           "entries": [
-            "Conviction record"
+            "Account balance sheet from the clerk showing a zero balance — conditional: Advisable everywhere; required in practice in many courts even though subsection (1) does not say so.",
+            "Certified copy of the judgment of conviction",
+            "Docket sheet for the case — conditional: Required in practice on conviction tracks; advisable on every track.",
+            "Mississippi criminal history record — conditional: Advisable on every track and effectively necessary wherever first-offender status is in issue; the first-offender statement is initialled only after checking it."
           ]
         },
         "laterCompletionFields": {
           "status": "recorded",
           "entries": [
-            "LegalEase must not generate: that the petitioner meets the criteria for expungement, which is the court's finding; that the offence is an 'Expungeable Offense', which appears in the Fourth District caption block as though it were a data field but is a legal conclusion; that the petitioner is a first offender; that the petitioner is rehabilitated; that a dismissal was 'with prejudice' unless the order says so; any statement about immigration, firearms, federal records or professional licensing consequences; or any assertion that the record will be erased everywhere.",
-            "The APPROVED AS TO FORM signature for the prosecuting authority",
-            "The assertion that the petitioner is a first offender",
-            "The cause number where the court assigns a new one",
-            "The classification of the offence as not a traffic violation",
-            "The finding that the petitioner meets the criteria for expungement",
-            "The judge's signature, the date, and the order's entry",
-            "The petitioner's signature and the date of signing"
+            "Confirm from the certified judgment that the matter is a misdemeanor conviction, not a DUI, a traffic violation, a felony or a non-conviction disposition.",
+            "Confirm the fee amount, any pauper's-affidavit route, any local form preference and any approved-as-to-form practice with the records office of the convicting court before filing; no amount is published in this packet.",
+            "Confirm the prosecuting authority and its current mailing address with the court's records office, serve by United States mail or hand delivery, and complete the certificate only after service occurs.",
+            "Copy the convicting court and its level, county or city, cause number, offence wording, code section, offence date, arrest date, arresting agency and conviction date from the court record and case papers, never from memory.",
+            "Initial the nontraffic statement only if it is true; an uncertain classification is a reason to stop and get advice.",
+            "Obtain the Mississippi criminal history record from the Mississippi Criminal Information Center and initial the first-offender statement only if it shows no other conviction and no prior expungement.",
+            "The participant signs and dates the petition and certificate; the judge's entry and signing block and the prosecutor's approved-as-to-form block are never pre-filled."
           ]
         },
         "signatureRequirements": {
@@ -78913,8 +78980,10 @@
         "filingDestination": {
           "status": "recorded",
           "entries": [
-            "The justice, county, circuit or municipal court in which the conviction was had, per subsection (1).",
-            "clerk \n Clerk of the court of conviction \n File with the clerk of the court that entered the conviction. In municipal court the prosecuting authority is the city prosecutor, not the district attorney."
+            "Clerk of the justice, county, circuit or municipal court of conviction",
+            "File the petition and proposed order with the clerk of the justice, county, circuit or municipal court in which the conviction was had. Call that court's records office first: Mississippi has no statewide expungement form, municipal and justice courts are the least standardized courts in the state, and districts maintain their own petition and order preferences.",
+            "MS.memo.json track ms-misd-1st, geography.venue, destination and rules.filing",
+            "confirm_with_the_clerk_of_the_convicting_court"
           ]
         },
         "filingMethod": {
@@ -78932,7 +79001,7 @@
         "feeWaiverTreatment": {
           "status": "recorded",
           "entries": [
-            "A pauper's affidavit under general Mississippi practice. The participant asks the clerk."
+            "A pauper's affidavit under general Mississippi practice, where the participant cannot pay; the participant asks the clerk which affidavit or waiver process that court accepts."
           ]
         },
         "serviceRecipients": {
@@ -78962,13 +79031,16 @@
         "waitingPeriodCalculation": {
           "status": "recorded",
           "entries": [
-            "event_trigger \n no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
+            "File the petition and proposed order with the clerk of the convicting court and pay the fee the clerk confirms, or file the pauper's affidavit that court accepts. — after every required-before-filing item is complete; subsection (1) states no waiting period"
           ]
         },
         "postFilingInstructions": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "After the order issues, obtain certified copies and distribute them to every agency named in the order. Fingerprint records are excepted, the Criminal Information Center keeps a nonpublic record for first-offender determinations, and an employer may still ask whether an order of expunction was entered. — after entry of the order",
+            "File the petition and proposed order with the clerk of the convicting court and pay the fee the clerk confirms, or file the pauper's affidavit that court accepts. — after every required-before-filing item is complete; subsection (1) states no waiting period",
+            "Serve the prosecuting authority by United States mail or hand delivery and keep the completed certificate of service. — at or after filing, under the local mechanics confirmed with the clerk",
+            "Some districts expect the prosecuting authority to approve the order as to form before the judge signs; the participant does not negotiate that step and the packet never pre-signs the block. — after service, at the court's or prosecutor's direction"
           ]
         },
         "uncontestedHearingTreatment": {
@@ -79997,6 +80069,7 @@
             "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
             "Close Grade-A proof gap: final_verification: state is unbound",
             "Close Grade-A proof gap: official_sources: no official source is bound to this route",
+            "Close Grade-A proof gap: provider: a provider identity, renderer version and image digest are required",
             "Complete route-output artifact review; a held source file is not an output artifact.",
             "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
             "Implement or confirm the composed pleading and every required companion component.",
