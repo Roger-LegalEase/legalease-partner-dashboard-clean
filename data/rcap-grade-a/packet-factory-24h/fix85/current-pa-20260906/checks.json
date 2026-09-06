@@ -1,0 +1,93 @@
+[
+  {
+    "name": "pa_490_nonconviction-set-check",
+    "command": [
+      "node",
+      "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
+      "--check"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/pa_490_nonconviction-set-check.log",
+    "output": "build-census-v1-pa_490_nonconviction-set: CHECK PASS (6 PDFs; 8 rasters)\n"
+  },
+  {
+    "name": "pa_490_nonconviction-set-completeness",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "pa_490_nonconviction-set"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/pa_490_nonconviction-set-completeness.log",
+    "output": "  ok   pa_490_nonconviction-set                       PASS_COMPLETE                24/206 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+  },
+  {
+    "name": "pa_790_nonconviction-set-check",
+    "command": [
+      "node",
+      "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+      "--check"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/pa_790_nonconviction-set-check.log",
+    "output": "build-census-v1-pa_790_nonconviction-set: CHECK PASS (6 PDFs; 8 rasters)\n"
+  },
+  {
+    "name": "pa_790_nonconviction-set-completeness",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "pa_790_nonconviction-set"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/pa_790_nonconviction-set-completeness.log",
+    "output": "  ok   pa_790_nonconviction-set                       PASS_COMPLETE                24/180 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+  },
+  {
+    "name": "va_exp_nonconviction-set-check",
+    "command": [
+      "node",
+      "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "--check",
+      "--no-raster"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/va_exp_nonconviction-set-check.log",
+    "output": "{\n  \"familyId\": \"va_exp_nonconviction-set\",\n  \"status\": \"CHECK_ONLY\",\n  \"officialForm\": \"CC-1473\",\n  \"sha256\": \"6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219\",\n  \"widgets\": 42,\n  \"write\": 6,\n  \"supply\": 13,\n  \"protect\": 5,\n  \"election\": 8,\n  \"select\": 4,\n  \"offroute\": 6\n}\n"
+  },
+  {
+    "name": "va_exp_nonconviction-set-completeness",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "va_exp_nonconviction-set"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/va_exp_nonconviction-set-completeness.log",
+    "output": "  ok   va_exp_nonconviction-set                       PASS_COMPLETE                15/56 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+  },
+  {
+    "name": "existing-widget-borders",
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs"
+    ],
+    "exitCode": 0,
+    "log": "/tmp/fix85-fix89-current/existing-widget-borders.log",
+    "output": "PASS  1-with-the-option-off-an-unwritten-widget-with-MK-BC-and-no-AP-is-delivered-as-a-stroked-rectangle\nPASS  2-with-the-option-on-the-same-widget-flattens-to-zero-ink-at-its-rect\nPASS  3-the-count-is-reported-per-document-and-is-zero-when-the-option-is-off\nPASS  4-a-chooser-whose-source-appearance-draws-only-a-rule-keeps-that-rule-and-loses-the-box\nPASS  5-a-written-field-is-byte-identical-either-way-and-keeps-its-value\nPASS  6-a-chooser-whose-source-appearance-shows-a-prompt-is-still-dropped-whole-with-the-option-on\nPASS  7-with-the-option-off-a-written-underline-styled-widget-is-delivered-inside-a-stroked-rectangle\nPASS  8-with-the-option-on-the-box-is-gone-from-every-side-the-underline-style-does-not-declare\nPASS  9-the-writing-rule-the-underline-style-declares-is-drawn-back-and-a-bare-BC-deletion-loses-it\nPASS  10-the-value-is-still-legible-and-the-widget-is-reported-with-the-geometry-it-was-drawn-at\nPASS  11-a-written-widget-that-declares-no-border-style-keeps-its-box-and-not-a-byte-moves\nPASS  12-a-widget-declaring-an-underline-whose-own-appearance-draws-a-box-is-refused-and-counted\nPASS  13-the-new-option-never-reaches-an-unwritten-field-and-the-two-remedies-do-not-overlap\n{\n  \"control\": \"synthesized widget borders from /MK\",\n  \"dpi\": 300,\n  \"results\": [\n    {\n      \"control\": \"1-with-the-option-off-an-unwritten-widget-with-MK-BC-and-no-AP-is-delivered-as-a-stroked-rectangle\",\n      \"darkPixelsInWidgetRect\": 1452,\n      \"synthesizedBy\": \"pdf-lib defaultTextFieldAppearanceProvider via form.updateFieldAppearances(), reading /MK /BC\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"2-with-the-option-on-the-same-widget-flattens-to-zero-ink-at-its-rect\",\n      \"darkPixelsInWidgetRect\": 0,\n      \"wasBefore\": 1452,\n      \"matchesAConformingViewer\": \"ISO 32000-1 12.5.6.19: /MK is consulted only to CONSTRUCT an appearance, and a widget carrying no value has nothing to show\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"3-the-count-is-reported-per-document-and-is-zero-when-the-option-is-off\",\n      \"withOptionOn\": 1,\n      \"withOptionOff\": 0,\n      \"pass\": true\n    },\n    {\n      \"control\": \"4-a-chooser-whose-source-appearance-draws-only-a-rule-keeps-that-rule-and-loses-the-box\",\n      \"withOptionOff\": {\n        \"darkPixelsInWidgetRect\": 1452,\n        \"aboveTheRuleBand\": 762\n      },\n      \"withOptionOn\": {\n        \"darkPixelsInWidgetRect\": 2668,\n        \"aboveTheRuleBand\": 0\n      },\n      \"covering\": \"the delivered page draws what the pinned form draws at that widget, and nothing else\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"5-a-written-field-is-byte-identical-either-way-and-keeps-its-value\",\n      \"bytes\": 1465,\n      \"identical\": true,\n      \"darkPixelsInWidgetRect\": 4052,\n      \"covering\": \"both halves of the remedy are reached only for a field this run did not write\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"6-a-chooser-whose-source-appearance-shows-a-prompt-is-still-dropped-whole-with-the-option-on\",\n      \"darkPixelsInWidgetRect\": 0,\n      \"keptAsSilent\": 0,\n      \"covering\": \"the unwritten-input drop is narrowed by the option, never widened\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"7-with-the-option-off-a-written-underline-styled-widget-is-delivered-inside-a-stroked-rectangle\",\n      \"darkPixelsInWidgetRect\": 8316,\n      \"leftEdgeBand\": 196,\n      \"topEdgeBand\": 2664,\n      \"synthesizedBy\": \"pdf-lib defaultTextFieldAppearanceProvider reads /MK /BC and never reads /BS /S\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"8-with-the-option-on-the-box-is-gone-from-every-side-the-underline-style-does-not-declare\",\n      \"leftEdgeBand\": {\n        \"before\": 196,\n        \"after\": 0\n      },\n      \"topEdgeBand\": {\n        \"before\": 2664,\n        \"after\": 0\n      },\n      \"matchesAConformingViewer\": \"ISO 32000-1 12.5.4 Table 166: /S /U is 'a single line along the bottom of the annotation rectangle', not a border around it\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"9-the-writing-rule-the-underline-style-declares-is-drawn-back-and-a-bare-BC-deletion-loses-it\",\n      \"ruleBand\": {\n        \"withTheOptionOn\": 2664,\n        \"withTheBorderColourSimplyDeleted\": 0\n      },\n      \"covering\": \"at the Pennsylvania widgets the court's rule is drawn ONLY by the widget's own appearance stream and not by the page, so removing /MK /BC alone trades a border the form does not print for the loss of a rule the form does\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"10-the-value-is-still-legible-and-the-widget-is-reported-with-the-geometry-it-was-drawn-at\",\n      \"valueReadBackWithPdftotext\": \"Jordan Reyes\",\n      \"reported\": {\n        \"field\": \"the.field\",\n        \"fromPt\": [\n          0,\n          0.5\n        ],\n        \"toPt\": [\n          160,\n          0.5\n        ],\n        \"widthPt\": 1\n      },\n      \"withOptionOff\": \"no declaredWidgetBorderStyles key at all\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"11-a-written-widget-that-declares-no-border-style-keeps-its-box-and-not-a-byte-moves\",\n      \"bytes\": 1465,\n      \"identical\": true,\n      \"leftEdgeBand\": 49,\n      \"covering\": \"the default style is solid, and a solid border is a border around the rectangle\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"12-a-widget-declaring-an-underline-whose-own-appearance-draws-a-box-is-refused-and-counted\",\n      \"identical\": true,\n      \"refusedContradictoryAppearance\": [\n        \"the.field\"\n      ],\n      \"covering\": \"two signals must agree; where the form contradicts itself, honouring either would change what the court's own form shows\",\n      \"pass\": true\n    },\n    {\n      \"control\": \"13-the-new-option-never-reaches-an-unwritten-field-and-the-two-remedies-do-not-overlap\",\n      \"honorWidgetBorderStyleTouched\": 0,\n      \"suppressSynthesizedWidgetBordersTouched\": 0,\n      \"covering\": \"suppressSynthesizedWidgetBorders acts only on a field this run did not write; honorWidgetBorderStyle acts only on a field this run did write\",\n      \"pass\": true\n    }\n  ]\n}\n"
+  },
+  {
+    "name": "east-self-test",
+    "command": [
+      "node",
+      "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
+      "--self-test"
+    ],
+    "exitCode": 1,
+    "log": "/tmp/fix85-fix89-current/east-self-test.log",
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip\n    at selfTest (file:///workspaces/legalease-vf03/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2547:14)\n    at runEastFamily (file:///workspaces/legalease-vf03/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6557:45)\n    at file:///workspaces/legalease-vf03/scripts/build-census-v1-pa_490_nonconviction-set.mjs:3:7 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+  }
+]

@@ -1,0 +1,11 @@
+# Current PA repair evidence — 2026-09-06
+
+The exact PA 490 and PA 790 repairs are complete locally. This is author evidence, with current central raster and independent reread still required.
+
+Both default generators ran twice with byte-identical complete family directories (29 files each). Their checks and completeness verifiers exit 0. The original 13-control border regression exits 0. The new exact-source selector regression proves enabled source pixels match, omitted/false output bytes match, written true/false bytes match, and active actions/MK background characteristics are removed. Its direct-finalizer PA 790 diagnostic PDFs still reproduce the source missing-Subtype warnings, intentionally outside the selector test; the actual host adds only the missing Form subtype and all 34 current delivered pages render at 300 dpi with empty stderr. Existing underline fixes remain.
+
+Current page inspection covers 34 pages in seven overviews, a full PA 790 order page, a full VA checklist page, and two source/current selector crops. All 90 declared text writes read back. All 12 PA official-page comparisons have zero differences outside reported write rectangles. Four VA official-page comparisons differ only at the already-removed Clear All Data button on page 1. The VA official intermediates are unchanged at the selected base. Long required values remain explicit refusals with measured dimensions.
+
+Failures retained: initial build lacked sharp (exit 1, then supplied the already-installed local tooling path); initial regression harness dereferenced detached widgets after flatten (exit 1, fixed by retaining source widget handles, all assertions preserved). EAST self-test exits 1 on unchanged NJ fixture state_zip mapping. Clean preflight exits 1 because the complete source corpus is absent; exact family source bindings pass. No national preflight, central raster or hosted acceptance is claimed.
+
+Historical rows remain unchanged. Current returns use separate top-level rows.current-pa-va-20260906.json files so the existing shape-based generator can read them. No legal registry, approval request, source pin, route or unrelated family output changed. Routes opened 0; Production touched NO.
