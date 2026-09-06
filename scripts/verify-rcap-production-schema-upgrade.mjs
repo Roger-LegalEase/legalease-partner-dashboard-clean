@@ -114,6 +114,167 @@ const REVIEWED_DESTRUCTIVE_DISPOSITIONS = [
       "in neither the Production baseline nor the pre-remediation schema, so the drop can " +
       "remove nothing that was there before.",
   })),
+  // Reviewed 2026-09-06 for the migrations added to FORWARD_CHAIN by DEL-E. Each drop below
+  // is either replaced by the next statement of the same file, or re-added inside the same
+  // statement, or names an object that exists in neither the recovered Production baseline
+  // nor any earlier step of the chain. Where a rule is re-stated it is relaxed or narrowed,
+  // never widened, so no row can be removed and no existing row can be rejected. Two further
+  // destructive statements in 20260823171000_internal_admin_authority_hardening.sql redefine
+  // policies that DO exist in the Production baseline, changing who may read internal safety
+  // telemetry and the support queue. That is an authorization decision on live data, so they
+  // are deliberately left unreviewed here and referred to the owner.
+  {
+    file: "20260822180000_rcap_prefill_reproposal.sql",
+    statement:
+      "drop index if exists public.partner_onboarding_prefill_values_active_field_unique;",
+    why:
+      "the same step replaces this index with two narrower partial unique indexes over the same " +
+      "three columns — one for the actionable statuses, one for applied — so the uniqueness " +
+      "rule is split and relaxed, never removed. Dropping an index removes no row, and a " +
+      "relaxed rule can reject no row that the old index allowed.",
+  },
+  {
+    file: "20260822180000_rcap_prefill_reproposal.sql",
+    statement:
+      "drop trigger if exists rcap_onboarding_prefill_supersede_prior_applied_trg on public.partner_onboarding_prefill_values;",
+    why:
+      "idempotency drop of a trigger the next statement creates on the same table with the same " +
+      "function. The name appears in neither the Production baseline nor any earlier step of " +
+      "the chain, so the drop can remove nothing that was there before.",
+  },
+  {
+    file: "20260822180000_rcap_prefill_reproposal.sql",
+    statement:
+      "alter table public.partner_onboarding_activity drop constraint if exists partner_onboarding_activity_event_type_check;",
+    why:
+      "re-added in the same step accepting 35 event types instead of 34 — it adds " +
+      "prefill_conflict_override_recorded and removes none — so no existing row can be " +
+      "rejected.",
+  },
+  {
+    file: "20260825122000_clinic_mode_accounting_reporting.sql",
+    statement:
+      "drop policy if exists clinic_assisted_sessions_scoped_read on public.clinic_assisted_sessions;",
+    why:
+      "recreated by the next statement. The table and its first policy are both created earlier " +
+      "in this same chain (20260825120000 and 20260825121000) and exist in no Production " +
+      "baseline, so the drop can only remove what this chain just made. The replacement " +
+      "predicate is a strict subset of the one it replaces: the same three branches, with the " +
+      "participant and assist-staff branches additionally requiring a live, unexpired session.",
+  },
+  {
+    file: "20260825122000_clinic_mode_accounting_reporting.sql",
+    statement:
+      "alter table public.clinic_packet_reservations drop constraint if exists clinic_packet_reservations_clinic_case_id_key;",
+    why:
+      "the implicit unique constraint of `clinic_case_id uuid not null unique` in " +
+      "20260825120000, the step that creates this table; the next statement replaces it with a " +
+      "partial unique index on the same column limited to status in ('reserved','consumed'), so " +
+      "a released reservation can be retried. Uniqueness is relaxed, no row is removed, and no " +
+      "existing row can be rejected.",
+  },
+  {
+    file: "20260825122000_clinic_mode_accounting_reporting.sql",
+    statement:
+      "drop trigger if exists clinic_sync_packet_reservation_after_job on public.packet_render_jobs;",
+    why:
+      "idempotency drop of a trigger the next statement creates on the same table with the same " +
+      "function. The name appears in neither the Production baseline nor any earlier step of " +
+      "the chain.",
+  },
+  {
+    file: "20260828100000_shared_pending_result_and_atomic_claim.sql",
+    statement:
+      "drop trigger if exists participant_claim_events_no_update on public.participant_claim_events;",
+    why:
+      "idempotency drop of a trigger the next statement creates on " +
+      "public.participant_claim_events, a table created earlier in this same file and absent " +
+      "from the Production baseline. The append-only guard is never left off.",
+  },
+  {
+    file: "20260830120000_participant_data_rights.sql",
+    statement:
+      "drop policy if exists \"participant reads own privacy requests\" on public.participant_privacy_requests;",
+    why:
+      "the table is created earlier in this same file and exists in no Production baseline; the " +
+      "next statement recreates the policy with the same select-own-rows predicate. The drop " +
+      "can remove nothing that was there before.",
+  },
+  {
+    file: "20260830120000_participant_data_rights.sql",
+    statement:
+      "drop trigger if exists reject_tombstoned_consumer_briefcase_writes on public.consumer_briefcase_items;",
+    why:
+      "idempotency drop of a trigger the next statement creates. The name appears in neither " +
+      "the Production baseline nor anywhere else in the chain, so the drop can remove nothing; " +
+      "the guard on consumer_briefcase_items is established, not withdrawn, by this pair.",
+  },
+  {
+    file: "20260830120000_participant_data_rights.sql",
+    statement:
+      "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_error_code_check;",
+    why:
+      "re-added in the same step accepting 12 error codes instead of 11 — it adds " +
+      "participant_deletion_cancelled and removes none — so no existing row can be rejected.",
+  },
+  {
+    file: "20260830120000_participant_data_rights.sql",
+    statement:
+      "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;",
+    why:
+      "idempotency drop of a trigger the next statement creates, on a table created earlier in " +
+      "this same file and absent from the Production baseline. The before-update immutability " +
+      "guard is never left off.",
+  },
+  {
+    file: "20260901115000_consumer_packet_artifact_provenance.sql",
+    statement:
+      "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;",
+    why:
+      "this step re-establishes the same provenance prerequisite for the Clinic Preview " +
+      "sequence: the table is created with `create table if not exists` earlier in the same " +
+      "file, and the next statement recreates the same before-update trigger on it. The name is " +
+      "absent from the Production baseline, and the guard is never left off.",
+  },
+  {
+    file: "20260901120000_dtc_consumer_launch_rails.sql",
+    statement:
+      "alter table public.consumer_pending_screening_results drop constraint if exists consumer_pending_screening_results_claimed_matter_id_fkey;",
+    why:
+      "this constraint name exists in neither the Production baseline nor anywhere else in the " +
+      "chain — 20260828100000 named its foreign key " +
+      "consumer_pending_screening_results_claimed_matter_fkey, without the _id_ — so the drop " +
+      "can remove nothing; the next statement adds a constraint of this exact name on " +
+      "claimed_matter_id.",
+  },
+  {
+    file: "20260901120000_dtc_consumer_launch_rails.sql",
+    statement:
+      "drop trigger if exists consumer_render_job_verification_guard_trg on public.packet_render_jobs;",
+    why:
+      "idempotency drop of a trigger the next statement creates on the same table with the same " +
+      "function. The name appears in neither the Production baseline nor anywhere else in the " +
+      "chain.",
+  },
+  {
+    file: "20260901130000_consumer_private_delivery.sql",
+    statement:
+      "drop trigger if exists publish_validated_consumer_render_artifact_trg on public.packet_render_jobs;",
+    why:
+      "idempotency drop of a trigger the next statement creates on the same table with the same " +
+      "function. The name appears in neither the Production baseline nor anywhere else in the " +
+      "chain.",
+  },
+  {
+    file: "20260906120000_sponsored_route_render_transaction.sql",
+    statement:
+      "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_sponsored_verification_hash_check, add constraint packet_render_jobs_sponsored_verification_hash_check check (sponsored_verification_hash is null or sponsored_verification_hash ~ '^[a-f0-9]{64}$');",
+    why:
+      "one statement that drops and re-adds the same check. The column it constrains, " +
+      "sponsored_verification_hash, is added by the immediately preceding statement of this " +
+      "same file, so the drop can only match a constraint an earlier run of this same step " +
+      "created.",
+  },
 ];
 
 // A browser role gaining access to a table Production already has is the change most
