@@ -20,6 +20,7 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
     "data/runtime/authority.json": "{}", "data/specifications/a.json": "{}",
     "deploy/rcap-render-worker/runtime-data-manifest.json": "{}",
     "deploy/rcap-render-worker/preflight.mjs": "export {};",
+    "deploy/rcap-render-worker/Dockerfile.dockerignore": "private/\n",
     "deploy/rcap-render-worker/Dockerfile": [
       "FROM node:22-slim AS deps", "COPY package.json package-lock.json ./",
       "FROM node:22-slim", "COPY --from=deps /app/node_modules ./node_modules",
@@ -51,7 +52,8 @@ test("image reuse follows committed Docker COPY data and executable inputs", (t)
 
   const changed = [
     "data/runtime/authority.json", "data/specifications/new.json",
-    "deploy/rcap-render-worker/runtime-data-manifest.json", "deploy/rcap-render-worker/preflight.mjs"
+    "deploy/rcap-render-worker/runtime-data-manifest.json", "deploy/rcap-render-worker/preflight.mjs",
+    "deploy/rcap-render-worker/Dockerfile.dockerignore"
   ];
   for (const name of changed) {
     write(name, "changed copied input");

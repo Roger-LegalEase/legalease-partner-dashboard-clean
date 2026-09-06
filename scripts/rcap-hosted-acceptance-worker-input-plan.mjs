@@ -33,6 +33,8 @@ const FIXED_FILE_INPUTS = new Set([
 function dockerCopyInputs(rootDir, sourceSha) {
   const dockerfile = String(git(rootDir, ["show", `${sourceSha}:deploy/rcap-render-worker/Dockerfile`]));
   const inputs = new Set(CANONICAL_WORKER_INPUTS);
+  const contextIgnore = "deploy/rcap-render-worker/Dockerfile.dockerignore";
+  if (String(git(rootDir, ["ls-tree", "--name-only", sourceSha, "--", contextIgnore])).trim()) inputs.add(contextIgnore);
   for (const line of dockerfile.replace(/\\\r?\n/g, " ").split(/\r?\n/)) {
     const match = /^\s*COPY\s+(.+)$/i.exec(line);
     if (!match) continue;
