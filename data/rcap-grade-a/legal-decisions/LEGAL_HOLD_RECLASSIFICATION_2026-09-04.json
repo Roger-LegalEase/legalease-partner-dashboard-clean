@@ -135,8 +135,77 @@
       "executionOwner": "CAPTAIN",
       "nextExecutableAction": "Build the JDF-2371 and JDF-2374 official-form packet from the committed mapping, retain every fail-closed election guard, then raster changed bytes and obtain an independent fifteen-obligation verdict before any output-level approval request.",
       "whyNotPass": "No packet artifacts, current raster receipt, or independent verdict exist for this family."
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "9b2b3553d67db203717fdb5993e1467803eaf622",
+      "repairLane": "FIX107",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix107/rows.json",
+        "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+        "canonicalSha256Prefix": "c360eac4",
+        "boundarySha256Prefix": "21fa17be",
+        "what": "fee sentence and waiver step restated in participant-instructions.md; fixtures unchanged"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf05",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "158f37310",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on a legal input the record now answers; its base predates the repair that carried the answer into the packet."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the legal input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "9b2b3553d67db203717fdb5993e1467803eaf622",
+      "repairLane": "FIX107",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix107/rows.json",
+        "directory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+        "canonicalSha256Prefix": "732e7f47",
+        "boundarySha256Prefix": "87e4bf90",
+        "what": "the specification VERIFICATION rendered on its own sheet under the caption with blank jurat and notarial fields; cover and stop line restated; 10 to 11 pages"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf01",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "30a8b3b71",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on a legal input the record now answers; its base predates the repair that carried the answer into the packet."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the legal input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
     }
   ],
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "amendments": [
+    {
+      "on": "2026-09-06",
+      "by": "Captain",
+      "what": "Two POST_REPAIR_REREAD_REQUIRED entries added for vt_seal_dui-set and ms-nonconv-set after the owner-relayed research answered their legal inputs and FIX107 carried the answers into the packets. nh_petition_vacated-set is deliberately not added: its SERVICE question stays open."
+    }
+  ]
 }
