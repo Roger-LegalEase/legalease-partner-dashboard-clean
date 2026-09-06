@@ -1,4 +1,75 @@
 #!/usr/bin/env node
+// il-exp-nonconv-set.
+//
+// WHAT THIS REPAIR ANSWERS. The independent read
+// data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json
+// failed five obligations on the delivered bytes:
+//
+//   KNOWN_PREFILLS. knownValue opened with `/case number/ && !/arrest/`. Every
+//     field named "List all charges for each case number - N" contains "case
+//     number" and not "arrest", so all 27 charge cells -- ten on Request page 2,
+//     ten on Request page 4 and seven on the Additional Cases continuation --
+//     received the CASE NUMBER where the form asks for the charge. The charge
+//     is a held fact; it is now written where the form asks for it.
+//
+//   REPEATING_ROWS. The same line inked the charge column of rows 2-10 of both
+//     Request tables and of all seven continuation rows while the case, agency,
+//     date and outcome cells of those rows stayed blank. A row is complete or it
+//     is untouched: unused rows are now wholly blank and disclosed as optional
+//     unused slots. The Case List was also treated as one row of five columns and
+//     given case number, agency, charge, date and outcome across arrest1..arrest5.
+//     Those are not columns. arrest1..arrest70 are the first cell of seventy
+//     SUCCESSIVE rows, each asking only for another arrest or case number -- the
+//     same reading FIX20 proved from the delivered bytes for this identical form,
+//     where all five written values shared xMin 54.1 and stepped in y. The
+//     delivered packet therefore told the court this participant had five eligible
+//     offences whose case numbers were "2021-CF-004217", "Chicago Police
+//     Department", "Charge exactly as shown o...", "03/12/2021" and "Dismissed".
+//     Only arrest1 is written now.
+//
+//   PROTECTED_FIELDS. The participant's criminal case number was written into
+//     five clerk-reserved caption fields -- Request 7, Case List 7, Additional
+//     Cases 7, Order 7 and FW-CIV 4 -- each of which the form reserves for the
+//     Circuit Clerk. They are refused as court-owned now.
+//
+//   CLIPPING_AND_OVERLAP. safeSet sliced to /MaxLen, shrank to 6pt, then chopped
+//     characters and appended an ellipsis, so the Case List charge was delivered
+//     as "Charge exactly as shown o…". setComplete replaces it: it fits the whole
+//     value or refuses to write at all.
+//
+//   REQUIRED_BEFORE_FILING. The guide did not reconcile the already-inked
+//     malformed rows with the facts the participant still owes. It now prints
+//     data/record-clearing/legal-design-track-registry.json
+//     tracks[trackId=il-exp-nonconv].packetSet.requiredBeforeFiling in the
+//     record's own words, together with that track's own fee, waiver, service,
+//     notice and filing sentences.
+//
+// ONE READING THIS LANE DID NOT DECIDE. Request page 2 is the expungement case
+// table and Request page 4 is the sealing case table. For a sealing route the
+// repaired il-seal-2yr-set and il-seal-3yr-set builders blank the page-2
+// expungement table as an inactive branch. By symmetry an expungement route
+// would blank the page-4 sealing table -- and VF01 faulted exactly that in
+// il-exp-qualprob-set ("the inactive sealing table is populated"). But
+// il-exp-supervision-set, the one family on these forms that an independent
+// read has passed COMPLETE_PACKET_PROVEN, writes the first row of BOTH tables,
+// and so does this family today. Two independent readers therefore disagree
+// about what section 4 of this form asks of an expungement petitioner, and the
+// question cannot be settled from the records in the repository. This repair
+// changes none of that: row 1 of both tables is written exactly as it is today,
+// so nothing here turns on the unsettled reading. The question is recorded in
+// this lane's return for whoever holds the form.
+//
+// NOT RUN IN THE CONTAINER THAT WROTE IT. EXP-AD Case List (sha256 b72d30d2...)
+// and EXP-AD Additional Cases Expungement (sha256 36ad55c6...) exist only in the
+// nationwide_recovery_pool_2026_09_02 custody
+// (private/source-imports/Nationwide_Recovery_Pool_2026-09-02), which is not
+// mounted here and is carried by no release; the issuing host
+// ilcourtsaudio.blob.core.windows.net is refused by this session's egress
+// policy. resolveSources therefore stops at "source custody is not mounted" and
+// THE DELIVERED FIXTURES UNDER THIS FAMILY'S DIRECTORY ARE STILL THE DEFECTIVE
+// ONES. Mount the pool, run this builder, then run `--self-test`, which reads
+// the delivered artifacts rather than the sources and fails loudly while those
+// bytes remain unrepaired.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -55,6 +126,18 @@ function resolveSources() {
   });
 }
 
+// The controlling record's own words, read at build time rather than copied, so the
+// guide can never drift from the record it claims to quote.
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "il-exp-nonconv";
+
+function controllingRecord() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY_PATH), "utf8"));
+  const track = registry.tracks.find((entry) => entry.trackId === TRACK_ID);
+  assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
+  return track;
+}
+
 function pageOf(field, pages) {
   const widget = field.acroField.getWidgets()[0];
   if (!widget) return 1;
@@ -64,28 +147,37 @@ function pageOf(field, pages) {
   return index < 0 ? 1 : index + 1;
 }
 
+const clerkCaseNumber = (name) => /^\d+ - Case Number$/i.test(name);
+
+// The row number of a Request or Additional Cases grid cell, or null when the
+// field is not part of a grid. Row 1 is the first row of a table; every higher
+// row is an unused slot this packet leaves wholly blank.
+function gridRow(documentId, name) {
+  if (documentId !== "EXP-AD Request" && documentId !== "EXP-AD Additional Cases Expungement") return null;
+  const match = name.match(/(?:Arrest or Case Number|Arresting Agency|List all charges for each case number|Date of Arrest|Outcome(?: - For example RV S or P)?|4 - Outcome) - (\d+)$/i);
+  return match ? Number(match[1]) : null;
+}
+
 function knownValue(documentId, name, fixture, config) {
   const key = name.toLowerCase();
+  // Request, first row of each case table. The charge goes in the charge cell.
+  if (documentId === "EXP-AD Request" && /arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
+  if (documentId === "EXP-AD Request" && /arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
+  if (documentId === "EXP-AD Request" && /list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
+  if (documentId === "EXP-AD Request" && /date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
+  if (documentId === "EXP-AD Request" && /(?:outcome.*|4 - outcome) - 1$/i.test(name)) return [fixture.outcome, "matter.outcome"];
+  // Case List: arrest1..arrest70 are seventy successive rows, each asking only for
+  // another arrest or case number. This fixture carries one record, so only the
+  // first row is written.
+  if (documentId === "EXP-AD Case List" && name === "arrest1") return [fixture.caseNumber, "matter.case_number"];
+  if (documentId === "EXP-AD Order Granting" && config.mode === "expunge" && name === "arrest/case number 1") return [fixture.caseNumber, "matter.case_number"];
+  if (documentId === "EXP-AD Order Granting" && config.mode === "seal" && name === "arrest/case number - Sealing 1") return [fixture.caseNumber, "matter.case_number"];
   if (/county/.test(key) && name === "1 - County") return [fixture.county, "matter.filing_county"];
   if (/your name|plaintiff\/petitioner or in re/.test(key)) return [fixture.full, "participant.full_legal_name"];
   if (/other name/.test(key)) return [fixture.other, "participant.other_names"];
   if (/date of birth/.test(key)) return [fixture.dob, "participant.date_of_birth"];
   if (/race/.test(key)) return [fixture.race, "participant.race"];
   if (/gender/.test(key)) return [fixture.gender, "participant.gender"];
-  if (/case number/.test(key) && !/arrest/.test(key)) return [fixture.caseNumber, "matter.case_number"];
-  if (documentId === "EXP-AD Request" && /arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
-  if (documentId === "EXP-AD Request" && /arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
-  if (documentId === "EXP-AD Request" && /list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
-  if (documentId === "EXP-AD Request" && /date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
-  if (documentId === "EXP-AD Request" && /outcome.* - 1$/i.test(name)) return [fixture.outcome, "matter.outcome"];
-  if (documentId === "EXP-AD Case List" && /^arrest[1-5]$/.test(name)) {
-    const values = [fixture.caseNumber, fixture.arrestAgency, fixture.charge, fixture.arrestDate, fixture.outcome];
-    const facts = ["matter.case_number", "matter.arresting_agency", "matter.charge", "matter.arrest_date", "matter.outcome"];
-    const index = Number(name.slice(6)) - 1;
-    return [values[index], facts[index]];
-  }
-  if (documentId === "EXP-AD Order Granting" && config.mode === "expunge" && name === "arrest/case number 1") return [fixture.caseNumber, "matter.case_number"];
-  if (documentId === "EXP-AD Order Granting" && config.mode === "seal" && name === "arrest/case number - Sealing 1") return [fixture.caseNumber, "matter.case_number"];
   if (/print name/.test(key)) return [fixture.full, "participant.full_legal_name"];
   if (/telephone/.test(key) && !/lawyer/.test(key)) return [fixture.phone, "participant.phone"];
   if (/email/.test(key) && !/lawyer/.test(key)) return [fixture.email, "participant.email"];
@@ -93,8 +185,19 @@ function knownValue(documentId, name, fixture, config) {
   return null;
 }
 
+// A blank the packet leaves blank on purpose: an unused additional-record row.
+// The Additional Cases form is a continuation used only when the Request has no
+// remaining row, so with one held record its whole grid stays blank.
+function optionalUnusedSlot(documentId, name) {
+  if (documentId === "EXP-AD Request") return (gridRow(documentId, name) ?? 0) > 1;
+  if (documentId === "EXP-AD Additional Cases Expungement") return gridRow(documentId, name) !== null;
+  if (documentId === "EXP-AD Case List") return /^arrest(?:[2-9]|[1-6]\d|70)$/.test(name);
+  return false;
+}
+
 function protectedField(documentId, name, page) {
   const key = name.toLowerCase();
+  if (clerkCaseNumber(name)) return true;
   if (documentId === "EXP-AD Order Granting" && page >= 2) return true;
   return /signature|judge|entered date/.test(key);
 }
@@ -115,20 +218,26 @@ function participantSelfControl(documentId, name) {
     (documentId === "FW-CIV-APPLICATION" && name === "Last - Completing this form myself checkbox");
 }
 
-function safeSet(field, value, font) {
+// Writes the WHOLE value or does not write it. The value is never sliced to
+// /MaxLen and never ellipsized: an exact participant fact on a document filed
+// with a court is complete or it is refused and named as owed.
+function setComplete(field, value, font) {
   const max = typeof field.getMaxLength === "function" ? field.getMaxLength() : undefined;
-  let drawnText = max ? value.slice(0, max) : value;
-  const widths = field.acroField.getWidgets().map((widget) => Math.max(1, widget.getRectangle().width - 4));
-  const available = widths.length ? Math.min(...widths) : 100;
+  if (max && value.length > max && typeof field.removeMaxLength === "function") field.removeMaxLength();
+  const rectangles = field.acroField.getWidgets().map((widget) => widget.getRectangle());
+  const available = rectangles.length ? Math.min(...rectangles.map((rect) => Math.max(1, rect.width - 4))) : 100;
+  const height = rectangles.length ? Math.min(...rectangles.map((rect) => rect.height)) : 12;
   let size = 8;
-  while (size > 6 && font.widthOfTextAtSize(drawnText, size) > available) size -= 0.25;
-  if (font.widthOfTextAtSize(drawnText, size) > available) {
-    while (drawnText.length && font.widthOfTextAtSize(`${drawnText}…`, size) > available) drawnText = drawnText.slice(0, -1);
-    drawnText = `${drawnText}…`;
+  while (size > 5.5 && font.widthOfTextAtSize(value, size) > available) size -= 0.25;
+  if (font.widthOfTextAtSize(value, size) > available) {
+    assert.ok(height >= 24, `complete value cannot fit safely in ${field.getName()}`);
+    field.enableMultiline();
+    size = 6;
   }
   field.setFontSize(size);
-  field.setText(drawnText);
-  return { drawnText, fontSize: size };
+  field.setText(value);
+  assert.equal(field.getText(), value, `complete value did not survive in ${field.getName()}`);
+  return { drawnText: value, fontSize: size };
 }
 
 async function fillDocument(source, fixtureName, fixture, config) {
@@ -164,12 +273,15 @@ async function fillDocument(source, fixtureName, fixture, config) {
       continue;
     }
     if (!(field instanceof PDFTextField)) continue;
+    if (protectedField(source.documentId, name, page)) {
+      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Court or later-completion field: ${name}`, documentId: source.documentId, page, reason: clerkCaseNumber(name) ? "The form reserves this case number for the Circuit Clerk" : "Signature, judge, clerk, or post-filing field; never prefilled", refusalClass: clerkCaseNumber(name) ? "court_prosecutor_clerk_or_agency_owned" : "signature_or_date_participant_completion", role: clerkCaseNumber(name) ? "court" : "protected" });
+      continue;
+    }
     const known = knownValue(source.documentId, name, fixture, config);
-    if (known && !protectedField(source.documentId, name, page)) {
-      const fitted = safeSet(field, known[0], font);
-      writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], ...fitted });
-    } else if (protectedField(source.documentId, name, page)) {
-      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Signature, court, or later-completion field: ${name}`, documentId: source.documentId, page, reason: "Signature, judge, clerk, or post-filing field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" });
+    if (known) {
+      writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], ...setComplete(field, known[0], font) });
+    } else if (optionalUnusedSlot(source.documentId, name)) {
+      refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Unused additional-record slot: ${name}`, documentId: source.documentId, page, reason: "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", factAvailable: false, routeDetermined: false, role: "participant" });
     } else if (attorneyField(name)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Attorney field: ${name}`, documentId: source.documentId, page, reason: "Attorney-only; the fixture is self-represented", role: "attorney" });
     } else {
@@ -214,6 +326,7 @@ export async function buildIllinoisFamily(familyId) {
   const config = { familyId, ...base };
   const outRel = `data/rcap-all50/overlays/census-v1/il/${familyId}--official-pdf-fill`;
   const out = path.join(ROOT, outRel);
+  const track = controllingRecord();
   const sources = resolveSources();
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, WORKLIST_PATH), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === familyId);
@@ -229,10 +342,47 @@ export async function buildIllinoisFamily(familyId) {
   writeJson(path.join(out, "reports", "rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId, rasterState: "BUILT_RASTER_PENDING", packets: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(out, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${outRel}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and the pardon, eligibility certificate, educational proof, or other route-specific evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
-  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order and later-completion fields.\n`);
+  const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
+  fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${familyId}\n\n## Route selected\n\n${config.routeSummary}\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nEvery unused case row on the Request, on the Case List and on the Additional Cases continuation has been left wholly blank rather than partly filled. Add a further case only by completing every cell of that row -- the arrest or case number, the arresting agency, the charge exactly as the certified disposition prints it, the date of arrest and the outcome -- and check each one against the Illinois State Police transcript and the certified disposition before filing. The clerk-assigned case-number captions are left blank for the Circuit Clerk.\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and any eligibility certificate or other route-specific evidence identified above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\nDo not complete court-owned service or order fields.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
+  fs.writeFileSync(path.join(out, "filing-instructions.md"), `# Filing instructions - ${familyId}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(out, "reports", "build-summary.json"), { familyId, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount })), selfVerified: false });
   console.log(`${familyId}: BUILT_RASTER_PENDING; ${packets.canonical.writes.length} writes, ${packets.canonical.refusals.length} classified blanks; canonical=${sha256(packets.canonical.bytes)} boundary=${sha256(packets.boundary.bytes)}`);
 }
 
-if (pathToFileURL(process.argv[1]).href === import.meta.url) await buildIllinoisFamily("il-exp-nonconv-set");
+// Reads the DELIVERED artifacts, not the sources, so it runs without the corpus and
+// fails while the delivered bytes are still the ones the independent read faulted.
+function selfTest() {
+  const out = path.join(ROOT, "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill");
+  const track = controllingRecord();
+  const actual = JSON.parse(fs.readFileSync(path.join(out, "reports", "actual-writes.json"), "utf8"));
+  const writes = actual.documents.flatMap((document) => document.actualWrites);
+  assert.equal(writes.filter((row) => /List all charges/i.test(row.fieldName) && row.factId === "matter.case_number").length, 0,
+    "charge cells must never receive the case number");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /list all charges.* - 1$/i.test(row.fieldName) && row.factId === "matter.charge").length, 2,
+    "the first row of each Request case table must carry the held charge");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && / - (?:[2-9]|10)$/.test(row.fieldName)).length, 0,
+    "unused Request rows must remain wholly blank");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Additional Cases Expungement" && / - \d+$/.test(row.fieldName)).length, 0,
+    "the Additional Cases continuation grid must remain wholly blank while one record fits the Request");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Case List" && /^arrest(?:[2-9]|[1-6]\d|70)$/.test(row.fieldName)).length, 0,
+    "the Case List rows after the first must remain wholly blank");
+  assert.equal(writes.filter((row) => /^\d+ - Case Number$/i.test(row.fieldName)).length, 0,
+    "Circuit Clerk case-number captions must remain blank");
+  assert.equal(writes.filter((row) => String(row.drawnText ?? "").endsWith("…")).length, 0,
+    "held values must not be ellipsized");
+  const fieldMap = JSON.parse(fs.readFileSync(path.join(out, "production-field-map.json"), "utf8"));
+  assert.equal(fieldMap.refusals.filter((row) => /^\d+ - Case Number$/i.test(row.fieldName) && row.refusalClass === "court_prosecutor_clerk_or_agency_owned").length, 5,
+    "all five clerk-assigned case-number captions must be declared court-owned");
+  const instructions = fs.readFileSync(path.join(out, "participant-instructions.md"), "utf8");
+  for (const line of track.packetSet.requiredBeforeFiling) {
+    assert.ok(instructions.includes(line), `participant-instructions.md must carry the required-before-filing step: ${line.slice(0, 60)}`);
+  }
+  for (const [label, sentence] of [["fees", track.rules.fees], ["feeWaiver", track.rules.feeWaiver],
+    ["service", track.rules.service], ["notice", track.rules.notice], ["filing", track.rules.filing]]) {
+    assert.ok(instructions.includes(sentence), `participant-instructions.md must carry the record's ${label} sentence`);
+  }
+  console.log("il-exp-nonconv-set self-test passed");
+}
+
+if (process.argv.includes("--self-test")) selfTest();
+else await buildIllinoisFamily("il-exp-nonconv-set");
