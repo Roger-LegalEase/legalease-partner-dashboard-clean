@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-packet-approval-request/v2",
+  "familyId": "al-misd-nonconviction-90-set",
+  "status": "BUILT_RASTER_PENDING",
+  "approvalStatus": "NOT_APPROVED",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-only:AL:al-misd-nonconviction-90"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "CR-65"
+    },
+    {
+      "kind": "certificate_of_service",
+      "documentId": "CR-65"
+    },
+    {
+      "kind": "fee_waiver",
+      "documentId": "C-10-CRIMINAL",
+      "requirement": "conditional",
+      "condition": "Participant explicitly claims inability to pay and requests waiver."
+    },
+    {
+      "kind": "continuation",
+      "documentId": "CR-65",
+      "requirement": "conditional",
+      "condition": "Required-information statement overflows; not triggered in these fixtures."
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "a78e750dbfab51d1c78da841c09e02e2a095f12110879cf430a21de8d0a58d86",
+      "byteLength": 900220,
+      "pageCount": 11
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "92e03761acd5adb3c7b503c3373f14c36a4c09e038b6c107c940b6823059a06b",
+      "byteLength": 900755,
+      "pageCount": 11
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
