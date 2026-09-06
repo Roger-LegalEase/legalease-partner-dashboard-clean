@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX107",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "assignedBase": "035241721",
+  "branch": "fix107-research-vt-ms-nh",
+  "worktree": "/home/user/fix107-worktree",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX107 vt_seal_dui-set -> CLAIM_OK FIX107 vt_seal_dui-set (repair, grant set a0234bcd1aa0e33b), exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX107 ms-nonconv-set -> CLAIM_OK FIX107 ms-nonconv-set (repair, grant set a0234bcd1aa0e33b), exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX107 nh_petition_vacated-set -> CLAIM_OK FIX107 nh_petition_vacated-set (repair, grant set a0234bcd1aa0e33b), exit 0"
+  ],
+  "grantsReleased": false,
+  "claimLedgerCommitted": false,
+  "selfVerificationPerformed": false,
+  "whyNoSelfVerification": "this lane built these repairs and may not verify its own packets; every row names the independent re-read it still owes",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralStateEdits": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json, the legal-design track registry, the intake memos, the packet specification and the 2026-09-06 decision record were read and not written.",
+  "buildersModified": [
+    "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared Vermont host; the fee change is gated on the vt_seal_dui track)",
+    "scripts/build-census-v1-ms-nonconv-set.mjs",
+    "scripts/build-census-v1-nh_petition_vacated-set.mjs"
+  ],
+  "hostChanged": {
+    "file": "scripts/rcap-custom-pleading/composed-family-host.mjs",
+    "what": "an opt-in KEEP_ON_ONE_PAGE sentinel (start a new page; fail the build if the block that follows will not fit on it) and an optional resolvedLegalQuestions passthrough on specificationConformance",
+    "inertForEveryoneElse": "both are opt-in. All twelve other families built by this host were rebuilt here and not one fixture byte moved. Nine of them refreshed source-receipt.json because shared records they hash have changed since those families were last built - drift unrelated to this lane - and those nine files were reverted rather than carried in this commit.",
+    "otherComposedFamiliesRebuilt": 12
+  },
+  "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family <id>",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/13 for all three, one failure",
+    "theOneFailure": "corpus_matches_committed_index: 1 absent of 24 sampled, LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. It is an Alabama pardon-board form and is a source of none of these three families. family_sources_bind passed for all three: Vermont 3/3 by exact SHA-256, New Hampshire 4/4, Mississippi a zero-source composition that binds committed legal records by hash inside its builder.",
+    "privateIsGitIgnored": "passes. private/ is a real directory of symlinks to the read-only source tree rather than a symlink, because git check-ignore cannot see through a symlink; git ls-files private/ is empty and nothing under it was opened for writing."
+  },
+  "notDone": [
+    "no independent verification of any of these three families - this lane built them",
+    "no central raster run; Mississippi and New Hampshire both owe one because their fixture bytes moved",
+    "New Hampshire's SERVICE obligation is carried, not discharged; the family stays LEGAL_BLOCKED",
+    "no claim released and no claim-ledger commit",
+    "no PR opened"
+  ],
+  "observationRecordedNotRepaired": {
+    "what": "the committed raster PNGs of nh_petition_vacated-set pages 4, 6 and 7 did not match the committed fixture bytes",
+    "detail": "page 4 of the committed canonical and boundary rasters still shows the grey 'Enter /s/ before name' placeholder on the NHJB-2311 Signature of Filer line - the defect VF03 named - while the committed fixture PDF no longer carries that text at all. A later lane added nh_petition_vacated-set:NHJB-2311 to data/rcap-all50/shared/field-appearance-semantics.json and rebuilt the fixtures, and the rasters were never regenerated. Pages 6 and 7 differ in a few pixels of the same vintage. This lane's rebuild regenerates all of them from the current bytes, so the committed rasters and the committed fixtures now agree. The extracted text of those three pages is byte-identical before and after, so no delivered form page changed.",
+    "whoShouldAct": "recorded for the independent reader and the central raster gate; this lane changed no appearance registry and repaired no appearance"
+  },
+  "recordBasis": {
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+    "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+    "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+    "handoffSha256RecomputedHere": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+    "preparedBy": "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon and not counsel of record",
+    "createsApproval": false,
+    "whatThisLaneDidWithIt": "carried the record into the packet text and nothing more; no approval, no promotion, no delivery"
+  },
+  "rows": [
+    {
+      "itemId": "vt_seal_dui-set",
+      "lane": "FIX107",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "priorVerifierRow": "VF05 PASS_COMPLETE_INDEPENDENT at data/rcap-grade-a/packet-factory-24h/vf05/rows.json (read at 158f37310); FEE_AND_WAIVER passed there on the conditional sentence, and the 2026-09-06 record replaces that sentence with the route's own answer",
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "whatChanged": {
+        "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/participant-instructions.md",
+        "routeScoped": "the edit is gated on config.registryGuidanceTrackId === 'vt_seal_dui' in the shared host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs; the other four families take the unchanged branch",
+        "removed": [
+          "So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** ... the clerk of the unit above will tell you from the docket number.",
+          "**The waiver is a form already in this packet.** 600-00228 ... (the paragraph that named the form without its revision)",
+          "4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** ... for most routes there is no fee to waive ..."
+        ],
+        "added": [
+          "So: **the filing fee for this DUI-sealing petition is $90.** ... **If you cannot afford the fee, file an Application to Waive Filing Fees and Service Costs with your petition. The judge decides whether to waive the fee; submitting the application does not mean it has been granted.**",
+          "**That waiver is a form already in this packet.** 600-00228 ... revision 04/2026 ... **It is not notarised.** It carries its own declaration and you sign under that declaration - there is no notary block on it and none is needed.",
+          "4. **There IS a fee on this route: $90. File the fee waiver (600-00228) if you cannot pay it.** ... The waiver does not remove the fee by itself - the judge decides ..."
+        ],
+        "quotationKept": "the 200-00130A (07/2025) fee-rule quotation is unchanged and still precedes the disposition",
+        "feeKeyedTo": "the relief route and the offence (a motion to seal a 23 V.S.A. § 1201(a) conviction), never to the applicant's age today",
+        "ageStatements": "none; the string 'age' appears in this file only inside the word 'page' and in the generic 'date of birth' sentence about what the platform fills, and no age condition is asserted anywhere",
+        "waiverNumber": "600-00228, revision 04/2026; 600-00229 appears nowhere in the file (grep count 0)",
+        "notarization": "the form's own declaration and signature treatment; the packet states expressly that the waiver is not notarised"
+      },
+      "deliveredWaiverComponentCheck": {
+        "required": "the delivered 600-00228 component must be the revision 04/2026 bytes the family binds, sha256 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "result": "CONFIRMED",
+        "how": "recomputed with sha256sum from the mounted corpus bytes the build resolves, and asserted in the builder on every build of this route: WAIVER_FORM.pinnedSha256 against the resolved component's sha256, and the printed revision against the corpus path revision. Both equal.",
+        "recomputedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "printedRevision": "04/2026"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set, run in this worktree after the repair: PASS_COMPLETE, nine counters zero, measured here",
+      "determinism": "built twice; the second build produced a byte-identical family directory. Across two full rebuilds of all five Vermont families the only tracked file that differs from the committed tree is this family's participant-instructions.md.",
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256Before": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+          "sha256After": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256Before": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+          "sha256After": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+        }
+      ],
+      "fixtureBytesMoved": false,
+      "rasterPagesMoved": "none; no fixture page byte moved, so no raster PNG changed and no page needed rastering for this family",
+      "siblingProof": {
+        "claim": "the three proven siblings (and vt_seal_misdemeanor, the host's own family) did not move",
+        "method": "all five Vermont families rebuilt from the edited host and their whole directories compared against the committed tree at 035241721",
+        "siblings": [
+          {
+            "family": "vt_seal_misdemeanor_set",
+            "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+            "rebuiltHere": true,
+            "trackedFilesChangedAfterRebuild": 0,
+            "canonicalSha256Before": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "canonicalSha256After": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "boundarySha256Before": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "boundarySha256After": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+          },
+          {
+            "family": "vt_seal_felony_set",
+            "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+            "rebuiltHere": true,
+            "trackedFilesChangedAfterRebuild": 0,
+            "canonicalSha256Before": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "canonicalSha256After": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "boundarySha256Before": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "boundarySha256After": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+          },
+          {
+            "family": "vt_seal_18_to_21_set",
+            "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+            "rebuiltHere": true,
+            "trackedFilesChangedAfterRebuild": 0,
+            "canonicalSha256Before": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "canonicalSha256After": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "boundarySha256Before": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "boundarySha256After": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+          },
+          {
+            "family": "vt_seal_pardon_set",
+            "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+            "rebuiltHere": true,
+            "trackedFilesChangedAfterRebuild": 0,
+            "canonicalSha256Before": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "canonicalSha256After": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "boundarySha256Before": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "boundarySha256After": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+          }
+        ],
+        "note": "the five families deliver the same three official forms, so their fixture digests are equal to one another as well as to the committed bytes; the routes differ only in participant-instructions.md",
+        "sibblingDirectoriesCommitted": false
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ - this lane built the repair and may not verify it; an independent reader owes a fresh read of this family",
+        "SOURCE_IDENTITY, ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, SERVICE, SELF_HELP_STOP - not measured by this lane and not discharged by it",
+        "counsel approval and output-level approval on exact hashes; the record this lane carried is owner-relayed research and creates neither"
+      ],
+      "centralRasterOwed": false,
+      "centralRasterNote": "no fixture byte moved, so the existing hash-bound raster receipt still binds to the delivered bytes",
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256RecomputedHere": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "preparedBy": "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon and not counsel of record",
+        "createsApproval": false,
+        "whatThisLaneDidWithIt": "carried the record into the packet text and nothing more; no approval, no promotion, no delivery"
+      }
+    },
+    {
+      "itemId": "ms-nonconv-set",
+      "lane": "FIX107",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+      "priorVerifierRow": "VF01 BLOCKED_LEGAL_INPUT at data/rcap-grade-a/packet-factory-24h/vf01/rows.json, verifiedAtBase 30a8b3b71: COMPONENT_SET blocked because the specification's required VERIFICATION section of the required document ms-petition-for-expungement reached no page and carried no disposition",
+      "obligationsRepaired": [
+        "COMPONENT_SET"
+      ],
+      "whatChanged": {
+        "verificationNowRendered": "the specification's VERIFICATION section (kind verification_on_oath, notarisationRequired true) is rendered on its own sheet of the petition, under the petition's caption, in both fixtures. The body and the jurat are read out of the specification on every build, not restated: the only substitution is {{participant_full_legal_name}}, and a second placeholder stops the build.",
+        "whatIsOnTheSheet": [
+          "the petition's caption (court, State of Mississippi v. participant, PETITIONER, cause number) so the sheet is unmistakably part of this petition",
+          "the specification's verification body with the participant's name from the held facts",
+          "the participant's verification signature line, blank",
+          "the venue: STATE OF ......, COUNTY OF ......, both blank and never inferred from the participant's residence",
+          "the specification's jurat, blank: 'Signed and sworn to or affirmed before me on this ______ day of ____________________, 20____, by <name>.'",
+          "the notary's signature, printed name, commission expiry, commission identification number and seal space, all blank"
+        ],
+        "wholeOnOnePage": "yes, in both fixtures, and enforced: the composed host now carries an opt-in KEEP_ON_ONE_PAGE sentinel that starts a new page and fails the build if the block that follows does not fit on it. A page count could not express this, because a longer name moves the sheet's page number between fixtures.",
+        "nothingSwornIsAnswered": "every factual statement in the verification is the participant's own and unsigned; no signature, no date and no notarial field is written",
+        "coverParagraphReplaced": "the paragraph that said the records disagree and the point is an open counsel question is replaced by the record's settled answer: notarization is required, the specification and the owner's direction of 3 September 2026 settle it, and the older intake note is not permission to omit the verification",
+        "stopLineReplaced": "the 'WHAT THIS PACKET DOES NOT TELL YOU' bullet that said verification/notarization is unresolved now says the opposite, and the handoff's signing instructions are printed verbatim as their own section on the filing instructions page and in participant-instructions.md",
+        "openQuestionBlockRemoved": "the builder's specificationConformance.openLegalQuestions entry asking which record governs is gone; openLegalQuestions is now [] and a resolvedLegalQuestions entry carries the answer and the record that settled it",
+        "fieldMapRows": "eleven new declared refusals on the petition (the verification signature, the two venue blanks, the notarial date, the five notary-owned fields) plus two required-before-filing caption blanks, all disclosed in participant-instructions.md",
+        "clinicDemoUntouched": "no Clinic Demo artefact, approval or delivery record was read for writing or changed; docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md and data/rcap-ledger/ are unmodified"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set, run in this worktree after the repair: PASS_COMPLETE, 10/52 written, nine counters zero, measured here",
+      "countersAreNotTheFinding": "the same nine zeros stood at VF01's base while the VERIFICATION section was missing from the packet entirely, because the counter compares delivered pages against the build's own componentSet. What changed is measurable on the page, not in the counter.",
+      "determinism": "built twice; the second build produced a byte-identical family directory (all files, not only the fixtures)",
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256Before": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+          "sha256After": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845"
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256Before": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+          "sha256After": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58"
+        }
+      ],
+      "pageCounts": {
+        "before": {
+          "canonical": 10,
+          "boundary": 10
+        },
+        "after": {
+          "canonical": 11,
+          "boundary": 11
+        }
+      },
+      "fixtureBytesMoved": true,
+      "whyBytesMoved": "the petition gained the verification sheet, the cover's signing paragraph was rewritten, and the filing instructions gained the signing section; the packet is 11 pages where it was 10",
+      "appearanceCheck": "every page of the canonical fixture and the verification sheet of the boundary fixture rastered at 300 dpi under /tmp and read as images: no clipping, no overlap, no stranded heading, the verification whole on one sheet in both fixtures, every notarial field blank. Two pagination defects found during the repair and fixed before this row: the verification split across two sheets, and a delivered page carrying only the machine route trailer. Rasters deleted after measuring; this family tracks no raster PNG and none was committed.",
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ - this lane built the repair and may not verify it; an independent reader owes a fresh read of this family, at section granularity against the specification",
+        "CENTRAL_RASTER - the fixture bytes moved and the page count changed, so the hash-bound raster receipt no longer binds; central raster acceptance is owed on the new bytes",
+        "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP - not measured by this lane and not discharged by it",
+        "the packet-set manifest still declares five components and none of them is the specification's order-1 cover; that gap is unchanged and is owed to the productization lane",
+        "counsel approval and output-level approval on exact hashes"
+      ],
+      "centralRasterOwed": true,
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256RecomputedHere": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "preparedBy": "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon and not counsel of record",
+        "createsApproval": false,
+        "whatThisLaneDidWithIt": "carried the record into the packet text and nothing more; no approval, no promotion, no delivery"
+      }
+    },
+    {
+      "itemId": "nh_petition_vacated-set",
+      "lane": "FIX107",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+      "priorVerifierRow": "VF03 FAIL_REPAIR_REQUIRED at data/rcap-grade-a/packet-factory-24h/vf03/rows.json, verifiedAtBase d7e293f81 (read at d974bcdd8): SERVICE BLOCKED_LEGAL_INPUT because no record settled who must be served with the NHJB-2328 fee-waiver papers, or how",
+      "obligationsRepaired": [],
+      "legalStatusAfterThisRepair": "LEGAL_BLOCKED",
+      "serviceNotDischarged": "SERVICE is NOT discharged by this row. The open question is: for an RSA 651:5 annulment filing, is the held NHJB-2328-DFPe* (01/01/2018), marked 'For e-Filing only', the accepted financial statement for the relevant court and filing channel; and if so must the applicant serve the underlying prosecutor with both NHJB-2311 and the complete NHJB-2328, or is the fee-waiver submission handled ex parte or under another rule? The record carries it as a release blocker, ready for Lawrence Blackmon or the appropriate clerk.",
+      "carriedRecordWithoutDischarging": {
+        "formIdentitiesRecorded": "NHJB-2311-Se (07/01/2018) named as the waiver request and NHJB-2328-DFPe* (01/01/2018, three pages, 'For e-Filing only' on page 1) as the statement that supports it, with those printed revisions, on the guidance page and in participant-instructions.md. Both revisions were read first-hand here out of the held source bytes with pdftotext.",
+        "certificateQuoted": "the statement's third page carries its own service certification and the packet now quotes it verbatim, lifted out of the committed record (rules.serviceCertificateOnNhjb2328) by the builder rather than retyped, so it cannot drift from the record",
+        "itIsServiceText": "the packet states that this is service text and not evidence that service has occurred, and that the certificate's checkbox, signature and date stay blank until service actually occurs",
+        "noSilenceClaim": "the packet nowhere says the held statement has no service instruction; the previous 'the certificate states what you did on the day you signed' line is replaced by a full account",
+        "eServiceNotTransplanted": "the packet states that the certificate's wording is the court's electronic-filing wording and that it does not describe a paper filing, and it does not tell a paper filer to sign it as though it did",
+        "petitionServiceAnswerUnchanged": "the petition's own service answer stands - none by the participant, the court transmits the petition to the prosecutor under RSA 651:5, IX - and the packet repeats the record's statement that RSA 651:5, IX does not settle service of the separate financial statement",
+        "openQuestionPrinted": "the outstanding question is printed in the record's own words, on the delivered guidance page and in participant-instructions.md, with the direction to ask the clerk of the filing court before filing",
+        "buildGate": "loadServiceGrounding() asserts the memo and the track registry agree on the rule, that the certificate is still quoted verbatim in it, and that the registry still carries the question as a release_blocker; the build stops rather than letting the packet fall silent"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurement": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set, run in this worktree after the repair: PASS_COMPLETE, nine counters zero, measured here. Nine zeros do not answer SERVICE, which is a legal question no counter reaches.",
+      "determinism": "built twice with the final code; the second build produced a byte-identical family directory including every raster PNG",
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256Before": "65071de41d72dd4f2a90da4e4f27a375014457a1eccc37695578d23bed9dd151",
+          "sha256After": "436ed4d5ddff113fbed55aa7b58370745a31a38ce9083e49a84f00372ed9e376"
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256Before": "9fff552aa6347035c781a04efd8ac44ff4f8b80644a414fff96528d80e756a36",
+          "sha256After": "f53a1a29120ce9bea9c0c5d049846898909bdb29e36358a659021f9ccb1b56c2"
+        }
+      ],
+      "pageCounts": {
+        "before": {
+          "canonical": 14,
+          "boundary": 14
+        },
+        "after": {
+          "canonical": 15,
+          "boundary": 15
+        }
+      },
+      "fixtureBytesMoved": true,
+      "whyBytesMoved": "a disclosed page changed: the post-filing guidance component gained the fee-waiver-papers section, taking it from three delivered pages to four, so the packet is 15 pages where it was 14. The form pages themselves are unchanged - pages 4, 6 and 7 extract byte-identical text before and after.",
+      "obligationsThisRowDoesNotDischarge": [
+        "SERVICE - explicitly not discharged; the family stays LEGAL_BLOCKED on the court-and-channel question named above",
+        "INDEPENDENT_RE_READ - this lane built the repair and may not verify it; an independent reader owes a fresh read",
+        "CENTRAL_RASTER - the fixture bytes moved and the page count changed, so central raster acceptance is owed on the new bytes",
+        "COMPONENT_SET, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP and SELF_HELP_STOP were the other four VF03 failures; other lanes repaired them and this lane neither measured nor re-verified them",
+        "counsel approval and output-level approval on exact hashes"
+      ],
+      "centralRasterOwed": true,
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256RecomputedHere": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "preparedBy": "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon and not counsel of record",
+        "createsApproval": false,
+        "whatThisLaneDidWithIt": "carried the record into the packet text and nothing more; no approval, no promotion, no delivery"
+      }
+    }
+  ]
+}
