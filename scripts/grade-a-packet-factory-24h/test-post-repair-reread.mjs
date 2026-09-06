@@ -113,6 +113,18 @@ const negativeBookkeepingCases = [
   })],
   ["partial raster coverage", replaceRaster({ coversTheWholeFamily: false })],
   ["different raster run", replaceRaster({ workflowRunId: "older-run" })],
+  ["missing acceptance workflow run", replaceAcceptance({ workflowRunId: null })],
+  ["missing raster workflow run", replaceRaster({ workflowRunId: null })],
+  ["matching null local workflow runs", replaceBookkeeping({
+    productWiring: {
+      ...artifactsOnly.artifactBookkeeping.productWiring,
+      acceptanceReceipt: {
+        ...artifactsOnly.artifactBookkeeping.productWiring.acceptanceReceipt,
+        workflowRunId: null
+      }
+    },
+    rasterReceipt: { ...artifactsOnly.artifactBookkeeping.rasterReceipt, workflowRunId: null }
+  })],
   ["pre-verdict repair evidence", { ...artifactsOnly, repairEvidenceChangedAfterVerdict: false }],
   ["unreleased repair grant", { ...artifactsOnly, releasedRepairGrantExists: false }],
   ["live repair grant", { ...artifactsOnly, liveRepairGrantExists: true }],

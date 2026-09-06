@@ -17,7 +17,9 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   artifactsOnlyBookkeepingRepairsFailure,
-  canRereadAfterRepair
+  canRereadAfterRepair,
+  repairRowDischargesFailure,
+  repairRowsJointlyDischargeFailure
 } from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
 
@@ -75,6 +77,99 @@ const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 
 const gitOk = (args) => { try { execFileSync("git", args, { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
+
+const nineCounterNames = [
+  "knownRequiredFieldsMissing", "requiredFactsNotCollected", "unclassifiedBlanks",
+  "incompleteRows", "requiredOptionsMissing", "requiredComponentsMissing",
+  "invisibleWrites", "protectedWrites", "visualDefects"
+];
+const hasExactlyNineZeroCounters = (counters) => Boolean(counters)
+  && Object.keys(counters).length === nineCounterNames.length
+  && nineCounterNames.every((name) => Number(counters[name]) === 0);
+const completedRepairRow = (row) => row?.status === "COMPLETED"
+  && row.repairedByThisLane === true
+  && (!row.laneKind || row.laneKind === "repair" || row.laneKind === "shared-host-repair");
+
+/* Match generate.mjs's laneReturnDocuments contract: direct-lane JSON files
+ * with a nonempty family/status rows array. A later cohort preserves rows.json
+ * and writes beside it; its filename is not evidence of whether work finished. */
+function readRepairCompletions(root) {
+  const completions = new Map();
+  for (const laneRoot of [DIR, "data/rcap-grade-a/codex-cloud"]) {
+    const absoluteRoot = path.join(root, laneRoot);
+    if (!fs.existsSync(absoluteRoot)) continue;
+    for (const entry of fs.readdirSync(absoluteRoot, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      for (const file of fs.readdirSync(path.join(absoluteRoot, entry.name))) {
+        if (!file.endsWith(".json")) continue;
+        const evidencePath = `${laneRoot}/${entry.name}/${file}`;
+        let doc;
+        try { doc = JSON.parse(fs.readFileSync(path.join(root, evidencePath), "utf8")); }
+        catch { continue; }
+        if (!Array.isArray(doc?.rows) || doc.rows.length === 0
+          || !doc.rows.every((row) => (row?.itemId ?? row?.familyId) && row?.status)) continue;
+        for (const row of doc.rows) {
+          if (!completedRepairRow(row)) continue;
+          const familyId = row.itemId ?? row.familyId;
+          if (!completions.has(familyId)) completions.set(familyId, []);
+          completions.get(familyId).push({ row, evidencePath });
+        }
+      }
+    }
+  }
+  return completions;
+}
+
+function repairCompletionAfterVerdict(root, completions, substantive) {
+  const familyId = substantive?.familyId;
+  const base = substantive?.verifiedAtBase;
+  const failed = substantive?.failedObligationNames ?? [];
+  if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !failed.length) return null;
+  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: root, stdio: "ignore" }); }
+  catch { return null; }
+  const ordered = [];
+  for (const candidate of completions.get(familyId) ?? []) {
+    if (!hasExactlyNineZeroCounters(candidate.row.countersAfter)) continue;
+    let priorDocument;
+    try {
+      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+        { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    } catch {
+      try { execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`], { cwd: root, stdio: "ignore" }); }
+      catch { ordered.push(candidate); }
+      continue; // Only a missing file proves new evidence; an unreadable file does not.
+    }
+    let before;
+    try { before = JSON.parse(priorDocument); } catch { continue; }
+    if (!Array.isArray(before?.rows)) continue;
+    const alreadyPresent = before.rows.some((row) => completedRepairRow(row)
+      && (row.itemId ?? row.familyId) === familyId
+      && JSON.stringify(row) === JSON.stringify(candidate.row));
+    if (!alreadyPresent) ordered.push(candidate);
+  }
+  if (!repairRowsJointlyDischargeFailure(ordered.map(({ row }) => row), failed)) return null;
+  // Keep a real contributing row for the strict ARTIFACTS-only evidence check.
+  return ordered.findLast(({ row }) => failed.some((name) => repairRowDischargesFailure(row, [name]))) ?? null;
+}
+
+// Exercise the real reader against temporary Git fixtures, without generating
+// or mutating any repository dispatch data.
+const repairReaderIndex = process.argv.indexOf("--check-post-repair-return-evidence");
+if (repairReaderIndex >= 0) {
+  const root = process.argv[repairReaderIndex + 1];
+  const casesPath = process.argv[repairReaderIndex + 2];
+  if (!root || !casesPath) {
+    console.error("usage: verify.mjs --check-post-repair-return-evidence <repository> <cases.json>");
+    process.exit(2);
+  }
+  const cases = JSON.parse(fs.readFileSync(path.resolve(casesPath), "utf8"));
+  const completions = readRepairCompletions(path.resolve(root));
+  console.log(JSON.stringify(cases.map((substantive) => {
+    const completion = repairCompletionAfterVerdict(path.resolve(root), completions, substantive);
+    return { familyId: substantive.familyId, evidencePath: completion?.evidencePath ?? null };
+  })));
+  process.exit(0);
+}
 
 /*
  * A verifier assignment is executable only when claim.mjs --assert can accept
@@ -675,26 +770,7 @@ function run() {
     }
     const hasVerificationDispatch = (familyId) => vf.some((assignment) =>
       (assignment.items ?? []).includes(familyId));
-    const repairCompletions = new Map();
-    for (const root of [DIR, "data/rcap-grade-a/codex-cloud"]) {
-      const absoluteRoot = path.join(ROOT, root);
-      if (!fs.existsSync(absoluteRoot)) continue;
-      for (const entry of fs.readdirSync(absoluteRoot, { withFileTypes: true })) {
-        if (!entry.isDirectory()) continue;
-        const evidencePath = `${root}/${entry.name}/rows.json`;
-        if (!fs.existsSync(path.join(ROOT, evidencePath))) continue;
-        let doc = null;
-        try { doc = read(evidencePath); } catch { continue; }
-        for (const row of doc.rows ?? []) {
-          if (row.status !== "COMPLETED" || row.repairedByThisLane !== true) continue;
-          if (row.laneKind && row.laneKind !== "repair" && row.laneKind !== "shared-host-repair") continue;
-          const familyId = row.itemId ?? row.familyId;
-          if (!familyId) continue;
-          if (!repairCompletions.has(familyId)) repairCompletions.set(familyId, []);
-          repairCompletions.get(familyId).push({ row, evidencePath });
-        }
-      }
-    }
+    const repairCompletions = readRepairCompletions(ROOT);
     const validBase = (base) => {
       if (!/^[0-9a-f]{7,40}$/.test(String(base ?? ""))) return false;
       try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); return true; }
@@ -709,41 +785,9 @@ function run() {
       if (!rel || !fs.existsSync(path.join(ROOT, rel))) return null;
       return crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
     };
-    const nineCounterNames = [
-      "knownRequiredFieldsMissing",
-      "requiredFactsNotCollected",
-      "unclassifiedBlanks",
-      "incompleteRows",
-      "requiredOptionsMissing",
-      "requiredComponentsMissing",
-      "invisibleWrites",
-      "protectedWrites",
-      "visualDefects"
-    ];
-    const hasExactlyNineZeroCounters = (counters) => Boolean(counters)
-      && Object.keys(counters).length === nineCounterNames.length
-      && nineCounterNames.every((name) => Number(counters[name]) === 0);
-    const repairRowChangedSince = (base, candidate, familyId) => {
-      if (!validBase(base)) return false;
-      let before = null;
-      try {
-        before = JSON.parse(execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
-          { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
-      } catch { return true; /* the exact return file did not exist at the verdict base */ }
-      const prior = (before.rows ?? []).find((row) => (row.itemId ?? row.familyId) === familyId
-        && (row.laneKind === "repair" || row.laneKind === "shared-host-repair"));
-      return !prior || JSON.stringify(prior) !== JSON.stringify(candidate.row);
-    };
     const postVerdictRepairEvidence = (familyId, family, substantive) => {
       const base = substantive.verifiedAtBase;
-      const failed = substantive.failedObligationNames ?? [];
-      const candidates = (repairCompletions.get(familyId) ?? []).filter(({ row }) => {
-        const evidence = JSON.stringify(row);
-        const countersZero = row.countersAfter
-          && Object.values(row.countersAfter).every((value) => Number(value) === 0);
-        return countersZero && failed.length > 0 && failed.every((name) => evidence.includes(name));
-      });
-      const completion = candidates.find((candidate) => repairRowChangedSince(base, candidate, familyId));
+      const completion = repairCompletionAfterVerdict(ROOT, repairCompletions, { ...substantive, familyId });
       const artifactPaths = [family.directory, family.buildScript,
         `:(exclude)${family.directory}/product-wiring.json`,
         `:(exclude)${family.directory}/build-status.json`,
