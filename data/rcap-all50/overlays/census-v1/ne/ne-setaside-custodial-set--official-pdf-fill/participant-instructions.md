@@ -8,7 +8,7 @@ against the existing case: the available county value could not be matched
 to an official county option, so no substitute is printed. These PDFs have no
 interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete.
 
-Required before filing: 23 field(s).
+Required before filing: 21 field(s).
 
 ## CC-6-11
 
@@ -16,13 +16,11 @@ Required before filing: 23 field(s).
 - changes, you must complete a Change of Contact Information F (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · 1.I was convicted of (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · By checking this box, I  am letting the court know (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
-- CRIMINAL CONVICTION · Date (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - CRIMINAL CONVICTION · r (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 - DROPDOWNCOUNTY2 (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.
 ## CC-6-11.2
 
 - DROPDOWNCOUNTY2 (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.
-- Text4 (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
 ## DC-1-15
 
 - ______________ (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing

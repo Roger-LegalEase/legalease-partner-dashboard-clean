@@ -80,6 +80,8 @@ assert.ok(!guide.includes('## CC-6-11A'));
 assert.ok(!guide.includes('Choose the value from the list in a PDF viewer'));
 assert.ok(!guide.includes('both blanks are yours to'));
 assert.ok(!map.requiredBeforeFiling.some(row => /^Button63\./.test(row.field ?? '')));
+assert.ok(!map.requiredBeforeFiling.some(row => row.field === 'datesigned'
+  || (row.document === 'CC-6-11.2' && row.field === 'Text4')), 'protected execution dates must not be in the pre-filing blank checklist');
 assert.ok(guide.includes('no\ninteractive form fields'));
 assert.ok(guide.includes('DC 6:7.1'), 'existing fee-waiver mismatch must remain disclosed');
 evidence.requiredBeforeFilingCount = map.requiredBeforeFiling.length;

@@ -378,6 +378,11 @@ const FAMILY_CONFIGS = Object.freeze({
     completedCaptionTemplates: { "DC-1-15": ["plaintiffdefendant"] },
     manualCaptionTemplates: ["fullcountystatementRIGHT", "enter the county"],
     preservePrintedSourceButtons: { "DC-1-15": ["Button63.0"] },
+    sourceProtectedFields: {
+      "CC-6-11": { datesigned: "signature_or_date_participant_completion" },
+      "CC-6-11.2": { Text4: "court_prosecutor_clerk_or_agency_owned" },
+      "DC-1-15": { datesigned: "signature_or_date_participant_completion" }
+    },
     flattenedCaptionGuidance: true,
     beforeFilingIntroduction: [
       "Complete the applicable unresolved filing items below by hand before filing.",
@@ -2373,6 +2378,16 @@ async function sourceChoiceCaption(source, binding, heldFacts) {
 
 function applyDocumentFilingDispositions(rows, policy) {
   for (const row of rows ?? []) {
+    const protectedRole = policy.sourceProtectedFields?.[row.field];
+    if (protectedRole) {
+      row.requiredBeforeFiling = false;
+      row.completenessClass = row.category = row.class = protectedRole;
+      row.completenessDisposition = "PROTECTED_FIELD";
+      row.reason = row.why = protectedRole === "signature_or_date_participant_completion"
+        ? "date beside the participant signature; complete only when signing, and on the certificate only after the mailing act"
+        : "date of the court's proposed order beside BY THE COURT / JUDGE; completed by the court";
+      continue;
+    }
     const completedCaption = policy.completedCaptionFields?.includes(row.field);
     const nonprintingControl = policy.nonprintingSourceControls?.includes(row.field);
     const nonFilingControl = policy.nonFilingSourceControls?.find((item) => item.field === row.field);
@@ -2407,6 +2422,7 @@ async function renderOneDocument(source, config, fixture) {
   const nonprintingControls = (config.nonprintingSourceControls ?? {})[source.formNumber] ?? [];
   const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null,
     ...(config.classifyNonFilingSourceControls ? { sourceSha256: source.sha256, manualCaptionTemplates: config.manualCaptionTemplates } : {}),
+    ...(config.sourceProtectedFields?.[source.formNumber] ? { sourceProtectedFields: config.sourceProtectedFields[source.formNumber] } : {}),
     ...(config.referenceOnlyDocuments?.includes(source.formNumber) ? { referenceOnly: true } : {}),
     ...(nonprintingControls.length ? { nonprintingSourceControls: nonprintingControls } : {}),
     ...(caption ? { completedCaptionFields: [caption.choiceField, "enter the type of court"] } : {}) };
