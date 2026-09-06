@@ -1511,8 +1511,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:06:42.297Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5641,10 +5641,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T03:22:12.987Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6601,10 +6601,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:06:42.190Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6632,10 +6632,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T03:29:39.101Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8232,10 +8232,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T03:22:12.864Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13629,7 +13629,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "db09a7aa49410ee40828dc69e8675be4598de25c950ac5b469d2046fcabceb14",
+  "claimsDigest": "a29bfdca2753b825a069c03d630df13414b452434e673ec734549fc1b09af6dd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38507,6 +38507,16 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-06T03:45:42Z",
       "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-06T00:06:42.297Z",
+      "reissuedAt": "2026-09-06T04:39:58.000Z",
+      "reason": "Captain assigns independent current reread after integrated repairs to recovered VF03 reviewer acting as VF01; all prior grants were released. No new raster is requested because current hashes retain ingested receipts."
     }
   ],
   "transfers": [
@@ -45417,6 +45427,50 @@
       "previouslyReleasedAt": "2026-09-06T00:21:54.821Z",
       "transferredAt": "2026-09-06T03:51:02.692Z",
       "reason": "Fresh read on the FIX87 bytes after the central raster passed (run 34009473933): registry-order page assembly on the three siblings and the synthesized CC-1201 square suppressed on the host; FIX73's fee, stops and route keys expected to hold; the four Virginia reads consolidated on VF05 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-06T03:22:12.987Z",
+      "transferredAt": "2026-09-06T04:39:58.289Z",
+      "reason": "Captain assigns independent current reread after integrated repairs to recovered VF03 reviewer acting as VF01; all prior grants were released. No new raster is requested because current hashes retain ingested receipts."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-06T00:06:42.190Z",
+      "transferredAt": "2026-09-06T04:39:58.539Z",
+      "reason": "Captain assigns independent current reread after integrated repairs to recovered VF03 reviewer acting as VF01; all prior grants were released. No new raster is requested because current hashes retain ingested receipts."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-06T03:29:39.101Z",
+      "transferredAt": "2026-09-06T04:39:58.986Z",
+      "reason": "Captain assigns independent current reread after integrated repairs to recovered VF03 reviewer acting as VF01; all prior grants were released. No new raster is requested because current hashes retain ingested receipts."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-06T03:22:12.864Z",
+      "transferredAt": "2026-09-06T04:39:59.336Z",
+      "reason": "Captain assigns independent current reread after integrated repairs to recovered VF03 reviewer acting as VF01; all prior grants were released. No new raster is requested because current hashes retain ingested receipts."
     }
   ],
   "grants": [
