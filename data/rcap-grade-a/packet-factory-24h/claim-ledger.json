@@ -167,10 +167,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX106",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T17:09:54.318Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -197,10 +197,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX106",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
     },
     {
       "subjectType": "packet-family",
@@ -907,10 +908,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX106",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
     },
     {
       "subjectType": "packet-family",
@@ -2337,10 +2339,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX106",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T11:34:40.209Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4310,9 +4312,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX106",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "FIX06 returned on 2026-09-04 (FIX-B cohort) and is not executing; its grant stayed live after the return"
     },
     {
       "subjectType": "packet-family",
@@ -13736,7 +13740,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1afe1bd10b739078ea5234608deabd6b1c6b0407e8a284ecc3425f3dc91c4ee4",
+  "claimsDigest": "4161c3aa45907f0950a5bebcf3c0840e59ad46079c322f3469a166ff6a3dd99f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32363,6 +32367,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T18:25:21.930Z",
       "reason": "FIX104 returned COMPLETED at 3de5e74c5: the 1020EX paragraph-5 court finding is refused on the court/prosecutor role class, bytes unchanged, nine counters zero; central raster now enrols"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T18:28:16.742Z",
+      "reason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T18:28:16.855Z",
+      "reason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T18:28:16.967Z",
+      "reason": "FIX06 returned on 2026-09-04 (FIX-B cohort) and is not executing; its grant stayed live after the return"
     }
   ],
   "reissues": [
@@ -47550,6 +47581,61 @@
       "previouslyReleasedAt": "2026-09-06T07:19:24.041Z",
       "transferredAt": "2026-09-06T18:16:27.171Z",
       "reason": "FIX88's repair returned and VF03 read it at bc63f6bbc: one defect left (the withdrawn row keeps its election checkbox marked) and nj_ordinance owes its twelve stop conditions; FIX105 takes the four on the shared host as one writer"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-felony-seal-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX106",
+      "previouslyReleasedAt": "2026-09-06T18:28:16.742Z",
+      "transferredAt": "2026-09-06T18:28:17.090Z",
+      "reason": "x"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX03",
+      "toLane": "FIX106",
+      "previouslyReleasedAt": "2026-09-06T18:28:16.855Z",
+      "transferredAt": "2026-09-06T18:28:17.301Z",
+      "reason": "x"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX106",
+      "previouslyReleasedAt": "2026-09-06T18:28:16.967Z",
+      "transferredAt": "2026-09-06T18:28:37.172Z",
+      "reason": "the earlier lane returned and released; the standing verdict fails only SOURCE_IDENTITY, ARTIFACTS or a stale raster receipt on committed records that drifted underneath an exact pin while the family's own entries and bytes are unchanged; FIX106 re-pins them as one lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX106",
+      "previouslyReleasedAt": "2026-09-04T17:09:54.318Z",
+      "transferredAt": "2026-09-06T18:28:37.287Z",
+      "reason": "the earlier lane returned and released; the standing verdict fails only SOURCE_IDENTITY, ARTIFACTS or a stale raster receipt on committed records that drifted underneath an exact pin while the family's own entries and bytes are unchanged; FIX106 re-pins them as one lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX106",
+      "previouslyReleasedAt": "2026-09-05T11:34:40.209Z",
+      "transferredAt": "2026-09-06T18:28:37.406Z",
+      "reason": "the earlier lane returned and released; the standing verdict fails only SOURCE_IDENTITY, ARTIFACTS or a stale raster receipt on committed records that drifted underneath an exact pin while the family's own entries and bytes are unchanged; FIX106 re-pins them as one lane"
     }
   ],
   "grants": [
