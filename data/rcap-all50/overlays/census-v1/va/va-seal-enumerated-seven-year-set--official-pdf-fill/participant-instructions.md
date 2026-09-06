@@ -36,9 +36,25 @@ One thing this packet does **not** tell you, because it is not established by th
 | `records_checklist` | the records you need in front of you to complete the petition |
 | `filing_instructions` | where the packet goes and in what order |
 
+## Records to obtain and check
+
+- Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters. Obtain from: Virginia State Police, Central Criminal Records Exchange.
+
+- Check your answer to "How did the case end, and on what date?" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.
+
+- Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge. Obtain from: Clerk of the circuit court of the county or city where the case was disposed of.
+
+- Check your answer to "How did the case end, and on what date?" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.
+
+- Applies only in this situation: Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test. Obtain FBI Identity History Summary. Request your Identity History Summary from the FBI. Virginia relief reaches Virginia records only, but the felony-history bars and the clean-period test look at convictions anywhere, so this is how you check them. Obtain from: Federal Bureau of Investigation.
+
+- Applies only in this situation: Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test. Check your answer to "Have you been convicted of anything since that date, anywhere? Virginia traffic infractions under Title 46.2 do not count." against FBI Identity History Summary, and correct the packet if they disagree.
+
+Your own CCRE copy and court case papers are needed before filing. The separate CCRE request to forward Virginia and national criminal history to the court is made after filing. Apply each conditional record requirement only in its stated situation.
+
 ## What you must do
 
-1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
+1. **Obtain and check the records above, applying each stated condition, then fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
 2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 7 boxes the statutory route decides — set out under *What the packet answered for you* below.
 3. **Sign and date the petition yourself.** The platform never signs and never dates a signature. Those lines are blank on purpose.
 4. **File the petition, then give or mail a copy to the Attorney for the Commonwealth**, using the page in this packet headed for that purpose.
@@ -71,12 +87,6 @@ One thing this packet does **not** tell you, because it is not established by th
 | 3 | City or county of the court of final disposition for the ancillary matter | the city or county of the court that decided the ancillary matter |
 | 3 | Why the charging document for the ancillary matter is not reasonably available | why the charging document for the ancillary matter is not reasonably available — only if you ticked that box |
 | 6 | How many CC-1203(A) or CC-1203(B) addendum pages are attached | how many addendum pages you are attaching — only if you ticked the ADDENDUM box |
-
-### ccre_forwarding_request — Request to the Central Criminal Records Exchange to Forward a Criminal History Record
-
-| Page | The blank on the document | What to write |
-| --- | --- | --- |
-| 1 | Date of the request to the Central Criminal Records Exchange | the date you actually make the request to the Central Criminal Records Exchange, which is after the petition is filed |
 
 ### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
 
