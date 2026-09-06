@@ -26,9 +26,13 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | Docket sheet for the case — copy its exact wording; 'passed to the file' or 'retired to the file' is a reason to stop and get advice | the records office of the court that heard the case |
 | Your own Mississippi criminal history record — advisable, so you see every case before you file | Mississippi Criminal Information Center |
 
-## The items you must supply
+## Signing the petition and the verification
 
-Each is printed on its page as a labelled dotted blank. Fill every one from the records.
+**Do not sign the Petition or Verification in advance. Complete and check the factual information first. Bring the packet and satisfactory identification to a notary. Take the oath or affirmation and sign in the notary's presence. Have the notary complete the certificate and affix the official stamp. Keep the verification attached to the petition. The packet is not ready for filing until the required signatures and notarial act are complete.**
+
+The verification is the last sheet of the petition and it carries the petition's caption, so it stays with the petition and is filed attached to it. Everything sworn in it is your statement about your own case; nothing in it is answered for you and nothing on it is signed or dated for you.
+
+A notary who only watches you sign has not done what this petition needs. Mississippi's notary rules require personal appearance, identification, and an oath or affirmation before you sign; an acknowledgment is a different notarial act and does not satisfy a verification. The notary states the state and county where the act happens — that is the place you are standing in, not where you live, and it is left blank in this packet for that reason.
 
 ### primary_filing — Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(4)
 
@@ -43,6 +47,8 @@ Each is printed on its page as a labelled dotted blank. Fill every one from the 
 | Where a grand jury returned an indictment, its date and court, stated from the record | the indictment's date and court, ONLY where a grand jury actually returned an indictment - leave the line blank where the case was never indicted; most are not |
 | Date of the offence alleged, from the record | the date of the offence alleged, taken from the case papers |
 | Court in which the case was pending, named in the caption with its county or city | which court the case was pending in - justice, county, circuit or municipal - and its county, or for a municipal court its city; the records office of that court can confirm both |
+| Cause number in the caption above the verification | the same cause number as the petition's caption |
+| Court named in the caption above the verification, with its county or city | the same court and county (or city) as the petition's caption |
 
 ### proposed_order — Proposed Order of Expungement
 
@@ -66,7 +72,8 @@ Each is printed on its page as a labelled dotted blank. Fill every one from the 
 ## Things the platform deliberately left blank
 
 - **The four statutory disposition marks.** Only you know how your case ended, only the true category is pleaded, and no 'with prejudice' qualifier is added unless your order itself says so.
-- **Your signature and every date beside a signature.**
+- **Your signature and every date beside a signature**, including your signature on the verification, which you write in the notary's presence and not before.
+- **The whole notarial certificate on the verification** — the state and county of the venue, the day, month and year of the notarial act, the notary's signature and printed name, the commission expiry, the commission identification number and the seal space. Those belong to the notary, who completes them after administering the oath or affirmation. The venue is the place the act happens and is never taken from your address.
 - **The finding paragraph's adoption, the entry line, and the judicial signing block of the proposed order.** The order is the Court's.
 - **The APPROVED AS TO FORM block.** Some districts expect prosecutor sign-off; it is never pre-signed.
 - **The certificate of service's date, manner marks and signature**, completed only when the copy actually goes out.

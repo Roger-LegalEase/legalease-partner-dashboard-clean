@@ -93,6 +93,26 @@
       "participantMustSupply": "which court the case was pending in - justice, county, circuit or municipal - and its county, or for a municipal court its city; the records office of that court can confirm both"
     },
     {
+      "document": "primary_filing",
+      "field": "primary_filing.verification_cause_number",
+      "page": 1,
+      "printedContext": "Cause number in the caption above the verification",
+      "disclosureLabel": "Cause number in the caption above the verification",
+      "identity": "primary_filing field verification_cause_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the same cause number as the petition's caption"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.verification_court",
+      "page": 1,
+      "printedContext": "Court named in the caption above the verification, with its county or city",
+      "disclosureLabel": "Court named in the caption above the verification, with its county or city",
+      "identity": "primary_filing field verification_court",
+      "why": "the court the case was pending in is a case fact the participant establishes from the record",
+      "participantMustSupply": "the same court and county (or city) as the petition's caption"
+    },
+    {
       "document": "proposed_order",
       "field": "proposed_order.order_arresting_agency",
       "page": 1,
@@ -225,6 +245,69 @@
       "label": "Date beside the petitioner's signature on the petition",
       "refusalClass": "signature_or_date_participant_completion",
       "why": "a date written before the petition is signed would be false"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.petition_verification_signature",
+      "label": "Signature of the petitioner on the verification",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the specification places petition_verification_signature among the participant-at-signing fields; the petitioner signs the verification in the notary's presence, after the oath or affirmation, and never in advance"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notarial_venue_state",
+      "label": "State of - the venue of the notarial act, in the notarial certificate",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the venue is the place where the notarial act happens, which the notary states; it is never taken from the petitioner's residence"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notarial_venue_county",
+      "label": "County of - the venue of the notarial act, in the notarial certificate",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the venue is the place where the notarial act happens, which the notary states; it is never taken from the petitioner's residence"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notarial_date",
+      "label": "Day, month and year on the jurat - the date of the notarial act",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the date of a notarial act is the day it is performed; the notary enters it then, and a date written in advance would be false"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notary_signature",
+      "label": "Signature of the notary public on the jurat",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary signs their own certificate after administering the oath or affirmation"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notary_printed_name",
+      "label": "Printed name of the notary public",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary prints their own name on their own certificate"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notary_commission_expiration",
+      "label": "My commission expires - the notary's commission expiry",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary's commission details are the notary's own and are entered by them"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notary_commission_identification_number",
+      "label": "Commission identification number of the notary public",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary's commission details are the notary's own and are entered by them"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.notary_official_stamp",
+      "label": "Seal - the space for the notary's official stamp",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "Miss. Code Ann. Sec. 25-34-31 requires the notary's official stamp on the certificate; the notary affixes it"
     },
     {
       "document": "proposed_order",
