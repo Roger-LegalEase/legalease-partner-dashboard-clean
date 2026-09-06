@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "2620f5ca8224a5c1fade9eca903c2d235ebadc0e",
+  "minimumCaptainSha": "8624b6fef02351625557771bf4c85c07b8928bff",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -29,7 +29,7 @@
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "b46e7163dbc57e235749049ff3e29f755ec1aabcc1b7af76cf264c1ff9b5a576",
-    "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "88ba08162919cae2635742950d341a882f869bb47d19cba94bad1aeedb88eb2c"
+    "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "353884cfc41485601e95906d4c06d2b78e40720dbb5aaadbcbb03e482b9f704d"
   },
   "stateVocabulary": [
     "SOURCE_BLOCKED",
@@ -71,7 +71,7 @@
     "remaining": 323,
     "sourceReady": 80,
     "sourceBlocked": 6,
-    "legalBlocked": 18,
+    "legalBlocked": 14,
     "verifyPending": 3,
     "repairRequired": 18,
     "sumsToDenominator": true
@@ -83,10 +83,10 @@
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 80,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 18,
+    "LEGAL_BLOCKED": 14,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 1,
+    "BUILT_RASTER_PENDING": 5,
     "VERIFY_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -184,7 +184,7 @@
     "familiesPerBuilder": 3.3,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 80 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 24 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -36632,17 +36632,42 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "legalHoldReclassification": null,
+      "legalHoldReclassification": {
+        "familyId": "ri_deferred_sentence-set",
+        "disposition": "POST_REPAIR_REREAD_REQUIRED",
+        "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+        "legalInputAnsweredBy": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          "relayedBy": "Roger Roman (owner), 2026-09-06",
+          "isCounselApproval": false
+        },
+        "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+        "repairLane": "FIX109",
+        "repairEvidence": {
+          "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+          "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+        },
+        "priorIndependentVerdict": {
+          "lane": "vf03",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+          "bindsCurrentBytes": false,
+          "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+        },
+        "confirmedOn": "2026-09-06",
+        "nextState": "VERIFY_PENDING",
+        "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed.",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+      },
       "laneReturnLegalHold": {
         "familyId": "ri_deferred_sentence-set",
         "foundBy": [
@@ -36674,7 +36699,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
@@ -36770,17 +36795,42 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "legalHoldReclassification": null,
+      "legalHoldReclassification": {
+        "familyId": "ri_first_offender_felony-set",
+        "disposition": "POST_REPAIR_REREAD_REQUIRED",
+        "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+        "legalInputAnsweredBy": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          "relayedBy": "Roger Roman (owner), 2026-09-06",
+          "isCounselApproval": false
+        },
+        "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+        "repairLane": "FIX109",
+        "repairEvidence": {
+          "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+          "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+        },
+        "priorIndependentVerdict": {
+          "lane": "vf03",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+          "bindsCurrentBytes": false,
+          "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+        },
+        "confirmedOn": "2026-09-06",
+        "nextState": "VERIFY_PENDING",
+        "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed.",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+      },
       "laneReturnLegalHold": {
         "familyId": "ri_first_offender_felony-set",
         "foundBy": [
@@ -36812,7 +36862,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -36908,17 +36958,42 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "legalHoldReclassification": null,
+      "legalHoldReclassification": {
+        "familyId": "ri_first_offender_misdemeanor-set",
+        "disposition": "POST_REPAIR_REREAD_REQUIRED",
+        "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+        "legalInputAnsweredBy": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          "relayedBy": "Roger Roman (owner), 2026-09-06",
+          "isCounselApproval": false
+        },
+        "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+        "repairLane": "FIX109",
+        "repairEvidence": {
+          "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+          "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+        },
+        "priorIndependentVerdict": {
+          "lane": "vf03",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+          "bindsCurrentBytes": false,
+          "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+        },
+        "confirmedOn": "2026-09-06",
+        "nextState": "VERIFY_PENDING",
+        "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed.",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+      },
       "laneReturnLegalHold": {
         "familyId": "ri_first_offender_misdemeanor-set",
         "foundBy": [
@@ -36950,7 +37025,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -37136,17 +37211,42 @@
         "verifiedAtBase": "5727d573f",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "legalHoldReclassification": null,
+      "legalHoldReclassification": {
+        "familyId": "ri_multiple_misdemeanors-set",
+        "disposition": "POST_REPAIR_REREAD_REQUIRED",
+        "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+        "legalInputAnsweredBy": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          "relayedBy": "Roger Roman (owner), 2026-09-06",
+          "isCounselApproval": false
+        },
+        "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+        "repairLane": "FIX109",
+        "repairEvidence": {
+          "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+          "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+        },
+        "priorIndependentVerdict": {
+          "lane": "vf03",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+          "bindsCurrentBytes": false,
+          "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+        },
+        "confirmedOn": "2026-09-06",
+        "nextState": "VERIFY_PENDING",
+        "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed.",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+      },
       "laneReturnLegalHold": {
         "familyId": "ri_multiple_misdemeanors-set",
         "foundBy": [
@@ -37178,7 +37278,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
