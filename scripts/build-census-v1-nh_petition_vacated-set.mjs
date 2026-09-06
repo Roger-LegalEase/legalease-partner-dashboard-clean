@@ -301,6 +301,72 @@ function loadSelfHelpStops(memo) {
 }
 
 /*
+ * THE SERVICE RECORD FOR THE FEE-WAIVER PAPERS, READ RATHER THAN RESTATED.
+ *
+ * VF03 returned SERVICE as BLOCKED_LEGAL_INPUT on this family: the packet
+ * enclosed NHJB-2328, whose Certificate of Service the participant must
+ * complete, and named neither a recipient nor a method, because no record
+ * under data/record-clearing/ settled either.
+ *
+ * The 2026-09-06 owner-relayed research narrowed that, and what it narrowed is
+ * now recorded -- in the intake memo at rules.serviceCertificateOnNhjb2328 and
+ * in the track registry, both read here. What is settled: the printed
+ * revisions of the two papers, which of them is the waiver request and which
+ * the supporting statement, and the fact that the statement's third page
+ * carries a service certification of its own, quoted verbatim. What is NOT
+ * settled, and stays a release blocker: whom that certificate reaches on an
+ * annulment filing and through which channel.
+ *
+ * So this build carries the record and discharges nothing. It states the
+ * certificate exists and quotes it; it says the text is service text and not
+ * evidence that service happened; it leaves the checkbox, the signature and
+ * the date blank; it does not say the held statement has no service
+ * instruction; it does not transplant the form's e-service representation into
+ * paper-filing guidance; and it prints the outstanding question in the
+ * record's own words with the clerk of the filing court as the person to ask.
+ * The family stays LEGAL_BLOCKED on SERVICE after this repair.
+ *
+ * Record: data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json,
+ * carrying docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md
+ * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad),
+ * research relayed by the owner and not counsel approval.
+ */
+const SERVICE_CERTIFICATE_RULE = "serviceCertificateOnNhjb2328";
+const SERVICE_QUESTION_MARKER = "the accepted financial statement for the relevant court and filing channel";
+
+function loadServiceGrounding(memo, registryTrack) {
+  const track = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  const rule = track?.rules?.[SERVICE_CERTIFICATE_RULE];
+  assert.ok(typeof rule === "string" && rule.trim().length > 0,
+    `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} carries no rules.${SERVICE_CERTIFICATE_RULE}, so the packet cannot `
+    + "state what the held statement's own certificate says");
+  assert.equal(registryTrack.rules?.[SERVICE_CERTIFICATE_RULE], rule,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on rules.${SERVICE_CERTIFICATE_RULE}`);
+
+  /* The certificate's own words are quoted inside the rule. They are lifted
+   * out of it rather than retyped here, so the packet quotes the record and a
+   * future edit to the record reaches the page. */
+  const quoted = /verbatim: "([^"]+)"/.exec(rule);
+  assert.ok(quoted, `${GROUNDING_RECORDS.memo} rules.${SERVICE_CERTIFICATE_RULE} no longer carries the certificate verbatim`);
+  const certificate = quoted[1];
+  assert.ok(certificate.includes("electronically sending this document"),
+    `the quoted certificate does not read like the held statement's page-3 text: ${certificate}`);
+
+  /* The one question that is still open, in the record's words, and it is a
+   * release blocker. If the registry stops carrying it the build stops too,
+   * rather than letting the packet fall silent about an unsettled point. */
+  const openQuestion = (registryTrack.openLegalQuestions ?? [])
+    .find((row) => String(row.question ?? "").includes(SERVICE_QUESTION_MARKER));
+  assert.ok(openQuestion,
+    `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} no longer records the court-and-channel service question; `
+    + "this family is blocked on it and the packet must say so");
+  assert.equal(openQuestion.impact, "release_blocker",
+    `${GROUNDING_RECORDS.trackRegistry} records the service question as ${openQuestion.impact}, not a release blocker`);
+
+  return { rule, certificate, openQuestion, notSettledBy: registryTrack.rules?.service };
+}
+
+/*
  * THE COMPONENT SET THE PACKET IS MEASURED AGAINST, READ OUT OF THE MANIFEST.
  *
  * legal-design-packet-set-manifests.json names six components for this packet
@@ -564,7 +630,7 @@ const FORM_FIELDS = {
     case1: { section: "Page Header", label: "Case Name repeated in the page header", ...SUPPLY("the same case name as the caption, repeated in the header of the later pages") },
     "case number1": { section: "Page Header", label: "Case Number repeated in the page header", ...WRITE("matter.case_number") },
 
-    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service — certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the certificate states what you did on the day you signed; service has not happened when the packet is prepared") },
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service on page 3 - certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the form's own page-3 certification states that you sent a copy on that date; it is service text, not evidence that service has occurred, and no copy has gone out when the packet is prepared, so the box, the signature and the date stay blank until service actually happens. Whom it must reach on an annulment filing, and by which channel, is recorded as an open question") },
     "sig.1": { section: "Signature Block", label: "Name of Filer, entered at signature", ...PROTECT(SIGNATURE, "the whole block is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N; the packet does not present a signature block as further along than it is") },
     "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
     "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
@@ -1160,7 +1226,61 @@ function stopConditionLines(stops) {
   return L;
 }
 
-function postFilingInstructionsBody({ facts, fee, stops }) {
+/*
+ * The two fee-waiver papers, and the one thing about them that is still open.
+ *
+ * Everything below is quoted from or stated out of the committed record; the
+ * page settles nothing. NHJB-2311-Se is the request and NHJB-2328-DFPe* is the
+ * statement that supports it, both by their printed revisions. The statement's
+ * page 3 carries a service certification of its own, and the packet quotes it
+ * rather than saying the statement has no service instruction -- which was
+ * never true and which the record forbids saying. It is service TEXT: nothing
+ * has been served, so the checkbox, the signature and the date stay blank.
+ * Its wording is the e-filing wording the form itself prints, and this page
+ * does not turn that into an instruction for a paper filing. Whom the
+ * certificate must reach on an annulment filing, and through which channel, is
+ * the question the record leaves open, and the clerk of the filing court is
+ * who the participant asks before filing.
+ */
+function feeWaiverServiceLines(service) {
+  const L = [];
+  /* Heading and opening paragraph are pushed as ONE block - no blank line
+   * between them - because this host keeps a run of consecutive non-blank rows
+   * whole on a page and starts a new page for a run that will not fit. A
+   * heading pushed with its own trailing blank is a two-row block of its own,
+   * and a two-row block fits in the two rows left at the foot of a page while
+   * its body does not: that is exactly how this section first shipped, with
+   * the heading stranded at the bottom of page 10 and its text on page 11. */
+  L.push("THE TWO FEE-WAIVER PAPERS, AND THE ONE THING ABOUT THEM NOBODY HAS SETTLED YET.");
+  L.push("NHJB-2311-Se (07/01/2018) is the request: it is the Motion for Waiver of Filing Fee, and it is the paper "
+    + "that asks the court to waive the fee. NHJB-2328-DFPe* (01/01/2018) is the Statement of Assets and "
+    + "Liabilities that supports it - three pages, and its first page is headed \"For e-Filing only\". The motion "
+    + "says on its own face that a Statement of Assets and Liabilities is filed with it. Both are in this packet, "
+    + "at those printed revisions.", "");
+  L.push("The statement's third page carries a service certification of its own. This is what it says, word for "
+    + `word: "${service.certificate}"`, "");
+  L.push("Read that carefully, because of what it is and what it is not. It is SERVICE TEXT - the sentence you "
+    + "would be signing to certify that you sent a copy. It is not evidence that anything has been served, and "
+    + "nothing has: the copy has not gone out when this packet is prepared. So its checkbox, its signature and its "
+    + "date are delivered blank, and they stay blank until you have actually sent the copy. Do not tick it, sign it "
+    + "or date it in advance.", "");
+  L.push("Notice also that the wording is the court's ELECTRONIC filing wording - sending the document through the "
+    + "court's electronic filing system to parties who have entered electronic service contacts. If you are filing "
+    + "on paper, that sentence does not describe what you did, and this packet will not tell you to sign it as "
+    + "though it did.", "");
+  L.push("WHAT IS STILL OPEN, AND WHO ANSWERS IT.");
+  L.push("Who that certificate must reach on an annulment filing, and by which route, is not settled by any record "
+    + `this packet is built on. The question is recorded in these words: "${service.openQuestion.question}"`, "");
+  L.push("Nothing in this packet answers it, and this packet does not guess at an answer. ASK THE CLERK OF THE "
+    + "COURT YOU ARE FILING IN, BEFORE YOU FILE: ask whether that court accepts this version of the statement, "
+    + "whether the fee-waiver papers have to be served on the prosecutor at all, and if so how and in what form. "
+    + "Note that the petition itself is a different question and is already answered: you do not serve the "
+    + "petition on anybody, because the court transmits it to the prosecutor under RSA 651:5, IX. That statute "
+    + "does not settle the service of this separate financial statement, and it should not be read as if it did.", "");
+  return L;
+}
+
+function postFilingInstructionsBody({ facts, fee, stops, service }) {
   const name = facts["participant.full_legal_name"];
   const L = [];
   L.push("WHAT HAPPENS AFTER YOU FILE", ROUTE.publicLabel, "");
@@ -1184,7 +1304,12 @@ function postFilingInstructionsBody({ facts, fee, stops }) {
     + "will charge you.", "");
   L.push(`If you cannot pay, the record names the papers to file instead: "${fee.feeWaiver}" Both of those papers `
     + "are in this packet, and both are filed with the petition rather than sent anywhere afterwards.", "");
-  L.push("IF THE COURT GRANTS THE PETITION.", "");
+  L.push(...feeWaiverServiceLines(service));
+  /* FIX107. Bound to its paragraph for the same reason as the two headings
+   * above: inserting the fee-waiver-papers section moved this heading to the
+   * foot of a page, where a two-row heading block fits and its body does not,
+   * and it shipped stranded from the text it introduces. */
+  L.push("IF THE COURT GRANTS THE PETITION.");
   L.push("Page 3 of NHJB-2317 is the court's own page: it is marked FOR COURT USE ONLY, it is where the court "
     + "records granting the annulment on one of the three grounds printed there, and it carries the list of who "
     + "the court sends copies to - the prosecutor, the Department of Safety Criminal Records, the Division of "
@@ -1205,7 +1330,7 @@ function postFilingInstructionsBody({ facts, fee, stops }) {
   return L.join("\n");
 }
 
-function effectAndLimitsBody({ facts, fee, stops }) {
+function effectAndLimitsBody({ facts, fee, stops, service }) {
   const name = facts["participant.full_legal_name"];
   const track = stops.track;
   const L = [];
@@ -1430,7 +1555,7 @@ async function renderComposedPdf(fullText, title) {
   };
 }
 
-function participantInstructions(maps, rbf, fee, stops) {
+function participantInstructions(maps, rbf, fee, stops, service) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -1517,6 +1642,45 @@ function participantInstructions(maps, rbf, fee, stops) {
     + "superior court you are not in.", ""
   );
 
+  /* FIX107, carrying the 2026-09-06 record. The two papers by their printed
+   * revisions, the statement's own service certification quoted from the
+   * record, what that text is and is not, and the one question still open --
+   * which stays open, and which the participant takes to the clerk. */
+  out.push("## The two fee-waiver papers, and the one thing about them nobody has settled yet", "");
+  out.push(
+    "**NHJB-2311-Se (07/01/2018)** is the request - the *Motion for Waiver of Filing Fee*, the paper that asks the "
+    + "court to waive the fee. **NHJB-2328-DFPe\\* (01/01/2018)** is the *Statement of Assets and Liabilities* that "
+    + "supports it: three pages, with \"For e-Filing only\" printed at the head of page 1. The motion says on its own "
+    + "face that a Statement of Assets and Liabilities is filed with it. Both are in this packet, at those printed "
+    + "revisions.", ""
+  );
+  out.push(
+    "**The statement's third page carries a service certification of its own.** Word for word, from the committed "
+    + `record: "${service.certificate}"`, ""
+  );
+  out.push(
+    "**That is service text, not evidence of service.** It is the sentence you would sign to certify that you sent a "
+    + "copy - and nothing has been sent when this packet is prepared. Its checkbox, its signature and its date are "
+    + "delivered blank and stay blank until the copy has actually gone out. Do not tick, sign or date it in advance.", ""
+  );
+  out.push(
+    "**Its wording is the court's electronic-filing wording** - sending the document through the court's electronic "
+    + "filing system to parties with entered electronic service contacts. If you are filing on paper, that sentence "
+    + "does not describe what you did, and this packet does not tell you to sign it as though it did.", ""
+  );
+  out.push(
+    "**What is still open.** Who that certificate must reach on an annulment filing, and by which route, is not "
+    + "settled by any record this packet is built on. The question is recorded in these words: "
+    + `“${service.openQuestion.question}”`, ""
+  );
+  out.push(
+    "Nothing here answers it and nothing here guesses. **Ask the clerk of the court you are filing in, before you "
+    + "file:** whether that court accepts this version of the statement, whether the fee-waiver papers must be served "
+    + "on the prosecutor at all, and if so how. The petition itself is a different question and is already answered - "
+    + "you serve it on nobody, because the court transmits it to the prosecutor under RSA 651:5, IX. That statute "
+    + "does not settle the service of this separate financial statement and is not read as if it did.", ""
+  );
+
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item in the tables below.** Each names the form, the section and the blank.");
   out.push("2. **Get the charge facts from the court record.** NHJB-2317 asks for the RSA you were charged under, the charge, the charge date, the date of conviction or other disposition, the date every term of the sentence was completed, and a description of the sentence. The clerk of the court that handled the matter holds all of them; do not estimate any of them.");
@@ -1544,7 +1708,7 @@ function participantInstructions(maps, rbf, fee, stops) {
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and the date beside it, on every form that has one.** You sign them yourself, on the day you sign.");
   out.push("- **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.");
-  out.push("- **The certificate of service box on NHJB-2328.** It states what you did on the day you signed; service has not happened when this packet is prepared.");
+  out.push("- **The certificate of service on page 3 of NHJB-2328** - its checkbox, and the signature and date beside it. The certification is printed on the form and is quoted in full above; it states that you sent a copy on that date, and no copy has gone out when this packet is prepared. It stays blank until service actually happens, and whom it must reach on this filing is the open question above.");
   out.push("- **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.");
   out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
   out.push("- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.");
@@ -1616,6 +1780,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * that stopped declaring the two guidance components, stops the build rather
    * than producing a packet that quietly omits them again. */
   const stops = loadSelfHelpStops(fee.record);
+
+  /* Bound before anything is composed, for the same reason: this family is
+   * blocked on the service of the fee-waiver papers, and a record that stopped
+   * carrying the certificate text or the outstanding question must stop the
+   * build rather than let the packet fall silent about either. */
+  const service = loadServiceGrounding(fee.record, stops.track);
   const packetSet = loadPacketSetComponents();
 
   const censuses = [];
@@ -1717,7 +1887,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
      * says so on its own face.
      */
     for (const page of GUIDANCE_PAGES) {
-      const text = page.body({ facts: FIXTURES[fixtureName], fee, stops });
+      const text = page.body({ facts: FIXTURES[fixtureName], fee, stops, service });
       const composed = await renderComposedPdf(text, `${page.title} — ${ROUTE.publicLabel}`);
       const doc = await PDFDocument.load(composed.bytes, { ignoreEncryption: true });
       const copied = await packet.copyPages(doc, doc.getPageIndices());
@@ -1785,7 +1955,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, fee, stops);
+  const instructionsText = participantInstructions(maps, rbf, fee, stops, service);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {

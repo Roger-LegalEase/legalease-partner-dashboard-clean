@@ -46,6 +46,20 @@ This packet does not take payment and cannot confirm what a particular clerk or 
 
 **A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If your case is in a circuit court district division — which is where most pre-2019 annulment petitions go — that list cannot name your court, so write the court's name on the form by hand. This packet will not choose a superior court you are not in.
 
+## The two fee-waiver papers, and the one thing about them nobody has settled yet
+
+**NHJB-2311-Se (07/01/2018)** is the request - the *Motion for Waiver of Filing Fee*, the paper that asks the court to waive the fee. **NHJB-2328-DFPe\* (01/01/2018)** is the *Statement of Assets and Liabilities* that supports it: three pages, with "For e-Filing only" printed at the head of page 1. The motion says on its own face that a Statement of Assets and Liabilities is filed with it. Both are in this packet, at those printed revisions.
+
+**The statement's third page carries a service certification of its own.** Word for word, from the committed record: "I state that on this date I am sending a copy of this document as required by the rules of the Circuit Court. I am electronically sending this document through the court's electronic filing system to all attorneys and to all other parties who have entered electronic service contacts (email addresses) in this case. I am mailing or hand-delivering copies to all other interested parties."
+
+**That is service text, not evidence of service.** It is the sentence you would sign to certify that you sent a copy - and nothing has been sent when this packet is prepared. Its checkbox, its signature and its date are delivered blank and stay blank until the copy has actually gone out. Do not tick, sign or date it in advance.
+
+**Its wording is the court's electronic-filing wording** - sending the document through the court's electronic filing system to parties with entered electronic service contacts. If you are filing on paper, that sentence does not describe what you did, and this packet does not tell you to sign it as though it did.
+
+**What is still open.** Who that certificate must reach on an annulment filing, and by which route, is not settled by any record this packet is built on. The question is recorded in these words: “For an RSA 651:5 annulment filing, is the held NHJB-2328-DFPe* (01/01/2018), marked "For e-Filing only," the accepted financial statement for the relevant court and filing channel? If yes, must the applicant serve the underlying prosecutor with both NHJB-2311 and the complete NHJB-2328, using the form's electronic-service/mail-or-delivery treatment, or is the fee-waiver submission handled ex parte or under another rule? Please identify the authority and any redaction/confidential-filing treatment. If that version is unsuitable, identify the accepted version and service instructions. The statute's court transmission of the annulment petition should not be assumed to answer this separate question.”
+
+Nothing here answers it and nothing here guesses. **Ask the clerk of the court you are filing in, before you file:** whether that court accepts this version of the statement, whether the fee-waiver papers must be served on the prosecutor at all, and if so how. The petition itself is a different question and is already answered - you serve it on nobody, because the court transmits it to the prosecutor under RSA 651:5, IX. That statute does not settle the service of this separate financial statement and is not read as if it did.
+
 ## What you must do before you file
 
 1. **Fill in every item in the tables below.** Each names the form, the section and the blank.
@@ -183,7 +197,7 @@ This packet does not take payment and cannot confirm what a particular clerk or 
 | NHJB-2328 | Who You Are | Marital status — single, married, separated or widowed (selection) | your marital status is yours to state and the platform holds no marital fact for you |
 | NHJB-2328 | Work | Whether your own work is full-time or part-time (selection) | only you can say which your work is |
 | NHJB-2328 | Work | Whether your spouse's work is full-time or part-time (selection) | only you can say which your spouse's work is |
-| NHJB-2328 | Certificate of Service | Certificate of service — certifying you sent a copy on the date you sign (selection) | the certificate states what you did on the day you signed; service has not happened when the packet is prepared |
+| NHJB-2328 | Certificate of Service | Certificate of service on page 3 - certifying you sent a copy on the date you sign (selection) | the form's own page-3 certification states that you sent a copy on that date; it is service text, not evidence that service has occurred, and no copy has gone out when the packet is prepared, so the box, the signature and the date stay blank until service actually happens. Whom it must reach on an annulment filing, and by which channel, is recorded as an open question |
 | NHJB-2328 | Caption | Court Name (selection) | pick the court your case is in; the platform holds no court assignment for you |
 | NHJB-2956 | Section II — Third-Party Release | Name of the person or entity to receive the record (selection) | Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts |
 
@@ -191,7 +205,7 @@ This packet does not take payment and cannot confirm what a particular clerk or 
 
 - **Your signature and the date beside it, on every form that has one.** You sign them yourself, on the day you sign.
 - **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.
-- **The certificate of service box on NHJB-2328.** It states what you did on the day you signed; service has not happened when this packet is prepared.
+- **The certificate of service on page 3 of NHJB-2328** - its checkbox, and the signature and date beside it. The certification is printed on the form and is quoted in full above; it states that you sent a copy on that date, and no copy has gone out when this packet is prepared. It stays blank until service actually happens, and whom it must reach on this filing is the open question above.
 - **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.
 - **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.
 - **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.
