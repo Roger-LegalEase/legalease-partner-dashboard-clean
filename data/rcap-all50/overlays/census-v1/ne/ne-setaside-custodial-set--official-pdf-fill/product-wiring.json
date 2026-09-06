@@ -77,6 +77,7 @@
     ],
     "packetComponents": [
       "component:ne-setaside-custodial-instructions-4",
+      "component:ne-setaside-custodial-local-rules-check-6",
       "component:ne-setaside-custodial-notice-and-certificate-of-service-3",
       "component:ne-setaside-custodial-primary-filing-1",
       "component:ne-setaside-custodial-proposed-order-2"
@@ -107,13 +108,7 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": null,
-      "artifactId": null,
-      "boundToCanonicalSha256": "dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
@@ -127,6 +122,7 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "whyTheAcceptanceReceiptIsNull": "The receipt was bound to canonical dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc (workflow run unknown), and this build wrote dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb. A central raster of the new bytes is owed; nothing here is that receipt."
   }
 }
