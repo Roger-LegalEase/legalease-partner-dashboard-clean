@@ -213,7 +213,12 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth "
     + "Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial "
     + "district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court "
-    + "named on it.", ""
+    + "named on it.", "",
+    "**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then "
+    + "county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, "
+    + "and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as "
+    + "you correct the court line, or take your own district's copy of the form and complete its caption from the "
+    + "start. The same is true of the county line on the order bound at the back of it.", ""
   );
 
   out.push("## Boxes you tick with a pen", "");
@@ -348,8 +353,9 @@ const FAMILY = {
   whatToLookAt: [
     "Form 4-953 page 1, the caption and paragraph 1: county, judicial district and name in the caption; date of birth, "
       + "mailing address, city, state and ZIP on their own rules; all three phone boxes and all three alias lines empty.",
-    "Form 4-953 page 1, paragraph 2: the judicial district written on all three of its lines, and both printed boxes "
-      + "unmarked.",
+    "Form 4-953 page 1, paragraph 2: the judicial district written on ONE line only -- the \"has no pending "
+      + "expungement cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch "
+      + "EMPTY and both printed boxes unmarked.",
     "Form 4-953 page 2, paragraph 4: the district court case number written and the other three record lines empty.",
     "Form 4-953 page 2, paragraph 6 and paragraph 9: every conviction detail empty and every one of the five waiting-"
       + "period boxes unmarked. Nothing in this packet asserts a waiting period.",
@@ -372,7 +378,9 @@ const FAMILY = {
       + "than not-applicable, and they are listed in the instructions.",
     "The Order on Petition to Expunge: the caption written on page 1 and NOTHING ELSE on the four pages.",
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
-      + "this build cannot change."
+      + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank now left EMPTY. It used "
+      + "to carry the participant's county, which composed with the printed district into a caption naming a court "
+      + "they have not chosen; both blanks are the participant's to complete on the copy they file."
   ],
   blockingFindings: [PRINTED_DISTRICT_FINDING],
   findings: [
@@ -461,7 +469,15 @@ const FAMILY = {
     }
   ],
   mattersForTheReviewersAttention: [
-    "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over it.",
+    "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over "
+      + "it. The build no longer writes the participant's county into the blank one line above it on either caption; "
+      + "both are left for the participant, who is told to complete that caption by hand or to use their own "
+      + "district's copy. Whether the component may ship statewide on this binary at all is still open and is "
+      + "counsel's.",
+    "Item 2 of Form 4-953 is an either/or about OTHER pending expungement cases. The two blanks on the branch that "
+      + "asserts such cases exist used to carry the district this petition is filed in; the platform holds no "
+      + "pending-expungement fact and they are now empty and the participant's, with both printed boxes unmarked as "
+      + "before.",
     "Twenty blanks on Form 4-960.1 page 2 are REQUIRED_BEFORE_FILING here and NOT_APPLICABLE_ON_THIS_ROUTE on "
       + "nm_identity_theft-set. The difference is that this track serves three parties and that one serves nobody. The "
       + "two dispositions should be read together, and the shared dictionary that produces both is "

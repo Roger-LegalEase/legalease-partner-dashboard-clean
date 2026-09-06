@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e68c51ed31bc32caff037dcf8d1562d6ce588ac9",
+  "generatedAtCommit": "071e68095f904d08d619d7a7e4b8c6426c6cfc05",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1509,11 +1509,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-06T00:06:42.297Z",
-      "releaseReason": "VF02 read at 0ed47bb50 on the FIX70 bytes: FAIL_REPAIR_REQUIRED on SELF_HELP_STOP only, no stop section and CO.memo.json's three declared conditions absent; CLIPPING_AND_OVERLAP discharged, sweep 75/75, the five radios pixel-identical, no /MK /BC widgets; rows.json at b59df7176"
+      "releasedAt": "2026-09-06T00:06:42.297Z"
     },
     {
       "subjectType": "packet-family",
@@ -1540,11 +1539,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX86",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-06T03:24:06.128Z",
-      "releaseReason": "FIX86 repaired SELF_HELP_STOP: the three registry stop conditions are printed verbatim in participant-instructions.md, read from the track registry at build time; fixture bytes unchanged (canonical 9761a68d, boundary d10f3bb8) so the live RASTER_PASS receipt still binds; nine counters zero, two rebuilds byte-identical; independent re-read still owed; return at fix86/rows.json, lane commit cc0c20fbc"
+      "releasedAt": "2026-09-06T03:24:06.128Z"
     },
     {
       "subjectType": "packet-family",
@@ -1558,8 +1556,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:32:57.924Z",
+      "releaseReason": "VF02 read at base bb0963c0d on the FIX80 bytes: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 143/143 both fixtures; packet page 4 pixel-identical to the pinned JDF-641; row in vf02/rows.json, lane commit 195e579f3"
     },
     {
       "subjectType": "packet-family",
@@ -5914,8 +5913,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:32:58.036Z",
+      "releaseReason": "VF02 read at base bb0963c0d on the FIX81 bytes: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS only (caption defendant on CC 6:11, CC 6:11.2 and DC 1:15 plus CC 6:11 streetaddress and emailaddress held and printed elsewhere but refused under classified_unwritable_by_role while sibling fields with the identical /Tx Ff 8388608 are written); COMPONENT_SET discharged; sweep 79/79, nine counters zero; row in vf02/rows.json, lane commit 195e579f3"
     },
     {
       "subjectType": "packet-family",
@@ -5927,10 +5927,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX81",
+      "lane": "FIX91",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T00:06:41.481Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX81 repaired both VF02 findings in one rebuild: the local_rules_check component is now delivered in participant-instructions.md in the memo's own words with a six-row component table in product-wiring, and matter.case_number plus the DC 1:15 certificate-of-service street address, city/state/ZIP and telephone are written at their own /Rect while the caption court and county carry a measured dropdown/read-only reason; a central raster of the new bytes 90ecf1ee../8b9f5cda.. and independent verification are both still owed; return at data/rcap-grade-a/packet-factory-24h/fix81/rows.json (Replayed by Captain from FIX81 commit b60382f5e.)"
     },
     {
@@ -6218,11 +6218,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:09.630Z",
-      "releaseReason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: KNOWN_PREFILLS and CLIPPING_AND_OVERLAP -- page 20 (and 24) writes COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT (Bernalillo is Second, boundary Sierra is Seventh); matter.court written into both blanks of 4-953 item 2's unelected branch. Verdict extracted; source-identity question recorded for the district-printed form."
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain bookkeeping: the generator packed this read onto a roster lane with no worker; consolidated with the other two New Mexico reads on VF03"
     },
     {
       "subjectType": "packet-family",
@@ -6251,9 +6251,9 @@
       "operation": "rapid-repair",
       "lane": "FIX79",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Consolidated onto FIX79 so the shared New Mexico host has one writer; no work was done on FIX02."
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:29.898Z",
+      "releaseReason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-953 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
     },
     {
       "subjectType": "packet-family",
@@ -6265,11 +6265,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:10.025Z",
-      "releaseReason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: the same 4-222 wrong-court caption (page 11) and item-2 branch writes as nm_conviction-set. Verdict extracted."
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain bookkeeping: the generator packed this read onto a roster lane with no worker; consolidated with the other two New Mexico reads on VF03"
     },
     {
       "subjectType": "packet-family",
@@ -6298,9 +6298,9 @@
       "operation": "rapid-repair",
       "lane": "FIX79",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Consolidated onto FIX79 so the shared New Mexico host has one writer; no work was done on FIX03."
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:30.111Z",
+      "releaseReason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-951 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
     },
     {
       "subjectType": "packet-family",
@@ -6312,11 +6312,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:14:22.026Z",
-      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS (held case number whose prefix names its court is not written though rwcOriginatingCourt is required; field-map rows excuse it as unheld against build-findings), REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP (judicial district written onto the District Court branch of paragraph 12 on the magistrate fixture). San Juan refusal correct, COMPONENT_SET complete. Open counsel note: pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under Second and Seventh district counties. Verdict extracted; to repair."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6346,9 +6344,9 @@
       "operation": "rapid-repair",
       "lane": "FIX79",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Consolidated onto FIX79 so the shared New Mexico host has one writer; no work was done on FIX02."
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:30.307Z",
+      "releaseReason": "FIX79 repaired KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and CLIPPING_AND_OVERLAP: Form 4-952's paragraph 4 and paragraph 12 are now written from the held originating-court answer instead of onto branches the case does not use, the two paragraph-4 rows no longer claim an unavailable fact the platform holds, item 2's unelected branch and the county above Form 4-222's printed Sixth District caption are blank, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
     },
     {
       "subjectType": "packet-family",
@@ -6558,7 +6556,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6606,8 +6604,7 @@
       "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-06T00:06:42.190Z",
-      "releaseReason": "VF02 read at 0ed47bb50 on the FIX77 bytes: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP only, the flatten strokes a 1pt black rectangle at the written DocketNumber and Defendant widgets of the order, whose source /AP is a single rule and whose /MK /BC pdf-lib regenerates (3157 and 3244 pixels), absent where the value is withheld; COMPONENT_SET and KNOWN_PREFILLS discharged; sweep 78/78 and 29/30; rows.json at b59df7176"
+      "releasedAt": "2026-09-06T00:06:42.190Z"
     },
     {
       "subjectType": "packet-family",
@@ -6621,8 +6618,9 @@
       "operation": "rapid-repair",
       "lane": "FIX85",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:43:29.412Z",
+      "releaseReason": "FIX85 added the finalizer option honorWidgetBorderStyle (default off): a written widget declaring /BS /S /U keeps its underline and loses the synthesized /MK /BC rectangle; PA 490 and PA 790 opted in on the East host; PA 490 order 3,166/3,192 px removed, PA 790 9,482 px removed, rule bands restored to the pinned form, nine counters zero for both, nj_* five and pa_6308 byte-identical; cohort 11 families / 70 widgets recorded, opted in nobody else; central raster and independent re-read owed; return at fix85/rows.json, lane commit c19d672c9"
     },
     {
       "subjectType": "packet-family",
@@ -6634,11 +6632,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain bookkeeping: the generator packed this read onto VF01 while VF01's worker is reading Virginia, North Carolina and New Hampshire; nothing was measured here; the read moves to VF05"
+      "released": true,
+      "releasedAt": "2026-09-06T03:29:39.101Z"
     },
     {
       "subjectType": "packet-family",
@@ -6650,11 +6647,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX84",
+      "lane": "FIX85",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-06T00:26:26.504Z",
-      "releaseReason": "Repaired all nine VF09 obligations on pa_790_nonconviction-set: the fee/waiver and service sentences replaced with the record's own cited statements, the required certificate of service composed, all four components dispositioned, the five synthesized squares gone, the eight unfittable boundary values disclosed with their measurements, the filing destination, both Rule 790 attachments and all seven self-help boundaries carried into the guide; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix84/rows.json (lane release c35cb5d33 replayed by the Captain)"
+      "releasedAt": "2026-09-06T03:43:29.529Z",
+      "releaseReason": "FIX85 added the finalizer option honorWidgetBorderStyle (default off): a written widget declaring /BS /S /U keeps its underline and loses the synthesized /MK /BC rectangle; PA 490 and PA 790 opted in on the East host; PA 490 order 3,166/3,192 px removed, PA 790 9,482 px removed, rule bands restored to the pinned form, nine counters zero for both, nj_* five and pa_6308 byte-identical; cohort 11 families / 70 widgets recorded, opted in nobody else; central raster and independent re-read owed; return at fix85/rows.json, lane commit c19d672c9"
     },
     {
       "subjectType": "packet-family",
@@ -6756,7 +6753,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6997,7 +6994,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7270,7 +7267,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -8235,11 +8232,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-06T03:22:12.864Z",
-      "releaseReason": "VF01 read at base 7e01df1d8 on the FIX74/FIX82 bytes: FAIL_REPAIR_REQUIRED on SELF_HELP_STOP only (the registry names five stop conditions, the packet states none, including the Dotson hard gate while page 6 directs the filer to tick otherwise dismissed); fee sentence and square suppression discharged; sweep 41/41, nine counters zero; row in vf01/rows.json, lane commit 9ef6fb11e"
+      "releasedAt": "2026-09-06T03:22:12.864Z"
     },
     {
       "subjectType": "packet-family",
@@ -8266,10 +8262,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX89",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:37:36.802Z"
     },
     {
       "subjectType": "packet-family",
@@ -8281,11 +8277,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:21:54.478Z",
-      "releaseReason": "VF04 read at base 158f37310 on the FIX73 bytes: FAIL_REPAIR_REQUIRED on PAGE_ORDER only (the disclosed registry-order swap ruled a defect against the manifest); FIX73's fee, stops and route key hold; sweep clean, nine counters zero; row in vf04/rows.json, lane commit e82087287"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8312,10 +8307,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX87",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:24.923Z"
     },
     {
       "subjectType": "packet-family",
@@ -8327,11 +8322,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:21:54.606Z",
-      "releaseReason": "VF04 read at base 158f37310 on the FIX73 bytes: FAIL_REPAIR_REQUIRED on PAGE_ORDER only (the disclosed registry-order swap ruled a defect against the manifest); FIX73's fee, stops and route key hold; sweep clean, nine counters zero; row in vf04/rows.json, lane commit e82087287"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8358,10 +8352,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX87",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:25.042Z"
     },
     {
       "subjectType": "packet-family",
@@ -8373,11 +8367,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:21:54.713Z",
-      "releaseReason": "VF04 read at base 158f37310 on the FIX73 bytes: FAIL_REPAIR_REQUIRED on PAGE_ORDER only (the disclosed registry-order swap ruled a defect against the manifest); FIX73's fee, stops and route key hold; sweep clean, nine counters zero; row in vf04/rows.json, lane commit e82087287"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8404,10 +8397,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX87",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:25.164Z"
     },
     {
       "subjectType": "packet-family",
@@ -8419,11 +8412,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:21:54.821Z",
-      "releaseReason": "VF04 read at base 158f37310 on the FIX73 bytes: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP only (56/56 unmarked selection widgets carry a synthesized square on the host family; the FIX63 suppression covers the three siblings, not the host); PAGE_ORDER repaired; nine counters zero; row in vf04/rows.json, lane commit e82087287"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8450,10 +8442,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX87",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T03:26:25.287Z"
     },
     {
       "subjectType": "packet-family",
@@ -13637,7 +13629,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fee594417e8c953263cea95bcf06eedfd6923bf4e699e8c681ef310e6d42326e",
+  "claimsDigest": "b24b2e95fda9fe7075690a366d12677aff9c72b6876f34ca69966c56319c460d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -31112,6 +31104,141 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T03:24:06.128Z",
       "reason": "FIX86 repaired SELF_HELP_STOP: the three registry stop conditions are printed verbatim in participant-instructions.md, read from the track registry at build time; fixture bytes unchanged (canonical 9761a68d, boundary d10f3bb8) so the live RASTER_PASS receipt still binds; nine counters zero, two rebuilds byte-identical; independent re-read still owed; return at fix86/rows.json, lane commit cc0c20fbc"
+    },
+    {
+      "lane": "FIX87",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:24.923Z",
+      "reason": "FIX87 repaired the four Virginia sealing families together on the shared Virginia host (lane commit 5f853c99a): registryComponentOrder on the three siblings so the pages follow the manifest (two pages moved, pixel-identical at their new positions) and suppressSynthesizedAppearances on the host (56/56 squares to 0/56); nine counters zero, two builds byte-identical, all other overlay files byte-identical; central raster and independent re-read still owed; return at fix87/rows.json"
+    },
+    {
+      "lane": "FIX87",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:25.042Z",
+      "reason": "FIX87 repaired the four Virginia sealing families together on the shared Virginia host (lane commit 5f853c99a): registryComponentOrder on the three siblings so the pages follow the manifest (two pages moved, pixel-identical at their new positions) and suppressSynthesizedAppearances on the host (56/56 squares to 0/56); nine counters zero, two builds byte-identical, all other overlay files byte-identical; central raster and independent re-read still owed; return at fix87/rows.json"
+    },
+    {
+      "lane": "FIX87",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:25.164Z",
+      "reason": "FIX87 repaired the four Virginia sealing families together on the shared Virginia host (lane commit 5f853c99a): registryComponentOrder on the three siblings so the pages follow the manifest (two pages moved, pixel-identical at their new positions) and suppressSynthesizedAppearances on the host (56/56 squares to 0/56); nine counters zero, two builds byte-identical, all other overlay files byte-identical; central raster and independent re-read still owed; return at fix87/rows.json"
+    },
+    {
+      "lane": "FIX87",
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:25.287Z",
+      "reason": "FIX87 repaired the four Virginia sealing families together on the shared Virginia host (lane commit 5f853c99a): registryComponentOrder on the three siblings so the pages follow the manifest (two pages moved, pixel-identical at their new positions) and suppressSynthesizedAppearances on the host (56/56 squares to 0/56); nine counters zero, two builds byte-identical, all other overlay files byte-identical; central raster and independent re-read still owed; return at fix87/rows.json"
+    },
+    {
+      "lane": "FIX79",
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:29.898Z",
+      "reason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-953 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+    },
+    {
+      "lane": "FIX79",
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:30.111Z",
+      "reason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-951 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+    },
+    {
+      "lane": "FIX79",
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:26:30.307Z",
+      "reason": "FIX79 repaired KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and CLIPPING_AND_OVERLAP: Form 4-952's paragraph 4 and paragraph 12 are now written from the held originating-court answer instead of onto branches the case does not use, the two paragraph-4 rows no longer claim an unavailable fact the platform holds, item 2's unelected branch and the county above Form 4-222's printed Sixth District caption are blank, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T03:29:39.101Z",
+      "reason": "VF05 read at base 7307b0e34 on the FIX84 bytes: FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP only (the order regenerates /MK /BC as a closed rectangle on the Defendant and DocketNumber caption fields where the pinned PA-RCRIM-P-790-ORDER draws only an underline, 9,504 packet-owned dark pixels across the two order fixtures; the same East-host signature as PA 490); the eight other prior failures repaired and ruled item by item; sweep 219/222 with zero misplaced ink, nine counters zero; row in vf05/rows.json, lane commit 0de2b1004"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T03:32:57.924Z",
+      "reason": "VF02 read at base bb0963c0d on the FIX80 bytes: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 143/143 both fixtures; packet page 4 pixel-identical to the pinned JDF-641; row in vf02/rows.json, lane commit 195e579f3"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T03:32:58.036Z",
+      "reason": "VF02 read at base bb0963c0d on the FIX81 bytes: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS only (caption defendant on CC 6:11, CC 6:11.2 and DC 1:15 plus CC 6:11 streetaddress and emailaddress held and printed elsewhere but refused under classified_unwritable_by_role while sibling fields with the identical /Tx Ff 8388608 are written); COMPONENT_SET discharged; sweep 79/79, nine counters zero; row in vf02/rows.json, lane commit 195e579f3"
+    },
+    {
+      "lane": "FIX89",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:37:36.802Z",
+      "reason": "FIX89 repaired SELF_HELP_STOP: the five registry stop conditions print verbatim in the composed filing-instructions page and participant-instructions.md, read from the track registry at build time, with the Dotson screen as the hard gate beside the Part 1 basis election; canonical 5bd8aa7b to b638124a, boundary 24b8dbc1 to eefa407b (7 to 8 pages), official CC-1473 pages pixel-identical, nine counters zero, two builds byte-identical; central raster and independent re-read owed; the twenty-one-day objection window remains unstated as the lane disclosed; return at fix89/rows.json, lane commit 8291c2b03"
+    },
+    {
+      "lane": "FIX85",
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:43:29.412Z",
+      "reason": "FIX85 added the finalizer option honorWidgetBorderStyle (default off): a written widget declaring /BS /S /U keeps its underline and loses the synthesized /MK /BC rectangle; PA 490 and PA 790 opted in on the East host; PA 490 order 3,166/3,192 px removed, PA 790 9,482 px removed, rule bands restored to the pinned form, nine counters zero for both, nj_* five and pa_6308 byte-identical; cohort 11 families / 70 widgets recorded, opted in nobody else; central raster and independent re-read owed; return at fix85/rows.json, lane commit c19d672c9"
+    },
+    {
+      "lane": "FIX85",
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T03:43:29.529Z",
+      "reason": "FIX85 added the finalizer option honorWidgetBorderStyle (default off): a written widget declaring /BS /S /U keeps its underline and loses the synthesized /MK /BC rectangle; PA 490 and PA 790 opted in on the East host; PA 490 order 3,166/3,192 px removed, PA 790 9,482 px removed, rule bands restored to the pinned form, nine counters zero for both, nj_* five and pa_6308 byte-identical; cohort 11 families / 70 widgets recorded, opted in nobody else; central raster and independent re-read owed; return at fix85/rows.json, lane commit c19d672c9"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T03:46:55.447Z",
+      "reason": "Captain bookkeeping: the generator packed this read onto a roster lane with no worker; consolidated with the other two New Mexico reads on VF03"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T03:46:55.692Z",
+      "reason": "Captain bookkeeping: the generator packed this read onto a roster lane with no worker; consolidated with the other two New Mexico reads on VF03"
     }
   ],
   "reissues": [
@@ -38332,6 +38459,36 @@
       "previouslyReleasedAt": "2026-09-03T19:45:06.184Z",
       "reissuedAt": "2026-09-06T00:54:15.873Z",
       "reason": "Fresh read on the FIX83 bytes after the central raster passed (run 34001777533): page order, route options, filing destination, service, prefills and selection-mark placement were repaired together on the shared Utah host; the four Utah reads are consolidated on VF04 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "dispatchNames": "VF03",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -45154,6 +45311,94 @@
       "previouslyReleasedAt": "2026-09-05T23:45:00.066Z",
       "transferredAt": "2026-09-06T03:24:06.446Z",
       "reason": "FIX90 records the MaxLen-unfittable boundary case number and phone on New Hampshire pre-2019 as refusals with measurements, removes them from boundaryWrites, adds them to requiredBeforeFiling, makes the platform-filled sentence conditional, and states the no-service-by-participant rule under its own heading (VF01 at 7e01df1d8: KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, SERVICE); paired with the NC 146 dismissal instruction repair on the same lane, one writer per builder"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX84",
+      "toLane": "FIX85",
+      "previouslyReleasedAt": "2026-09-06T00:26:26.504Z",
+      "transferredAt": "2026-09-06T03:29:39.212Z",
+      "reason": "FIX85 already owns the written-field /MK /BC border extension in the shared finalizer and the PA 490 opt-in on the East host; VF05 at 7307b0e34 measured the identical defect on the PA 790 order, so the PA 790 opt-in and rebuild are bundled into the same host change and the same lane (one writer on build-census-v1-nj_arrest_no_conviction-set.mjs)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX81",
+      "toLane": "FIX91",
+      "previouslyReleasedAt": "2026-09-06T00:06:41.481Z",
+      "transferredAt": "2026-09-06T03:33:24.807Z",
+      "reason": "FIX91 writes the held caption defendant on CC 6:11, CC 6:11.2 and DC 1:15 and the CC 6:11 street address and email address where the forms ask for them, or measures their refusal honestly (VF02 at bb0963c0d, KNOWN_PREFILLS: three of six identical /Tx Ff 8388608 identity fields written and three refused under classified_unwritable_by_role); one writer on build-census-v1-ne-setaside-custodial-set.mjs"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-06T03:46:55.447Z",
+      "transferredAt": "2026-09-06T03:46:55.566Z",
+      "reason": "Fresh read on the FIX79 bytes after the central raster passed (run 34009091546): the unelected-branch writes removed, the release-without-conviction paragraphs written from the held originating-court answer, the 4-222/4-223 county write removed, placements 161/161; the three New Mexico reads consolidated on VF03 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-06T03:46:55.692Z",
+      "transferredAt": "2026-09-06T03:46:55.807Z",
+      "reason": "Fresh read on the FIX79 bytes after the central raster passed (run 34009091546): the unelected-branch writes removed, the release-without-conviction paragraphs written from the held originating-court answer, the 4-222/4-223 county write removed, placements 161/161; the three New Mexico reads consolidated on VF03 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_ancillary_matter_only-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-06T00:21:54.478Z",
+      "transferredAt": "2026-09-06T03:51:02.323Z",
+      "reason": "Fresh read on the FIX87 bytes after the central raster passed (run 34009473933): registry-order page assembly on the three siblings and the synthesized CC-1201 square suppressed on the host; FIX73's fee, stops and route keys expected to hold; the four Virginia reads consolidated on VF05 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_enumerated_seven_year-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-06T00:21:54.606Z",
+      "transferredAt": "2026-09-06T03:51:02.445Z",
+      "reason": "Fresh read on the FIX87 bytes after the central raster passed (run 34009473933): registry-order page assembly on the three siblings and the synthesized CC-1201 square suppressed on the host; FIX73's fee, stops and route keys expected to hold; the four Virginia reads consolidated on VF05 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-06T00:21:54.713Z",
+      "transferredAt": "2026-09-06T03:51:02.569Z",
+      "reason": "Fresh read on the FIX87 bytes after the central raster passed (run 34009473933): registry-order page assembly on the three siblings and the synthesized CC-1201 square suppressed on the host; FIX73's fee, stops and route keys expected to hold; the four Virginia reads consolidated on VF05 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_seal_petition_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-06T00:21:54.821Z",
+      "transferredAt": "2026-09-06T03:51:02.692Z",
+      "reason": "Fresh read on the FIX87 bytes after the central raster passed (run 34009473933): registry-order page assembly on the three siblings and the synthesized CC-1201 square suppressed on the host; FIX73's fee, stops and route keys expected to hold; the four Virginia reads consolidated on VF05 with the full obligation list"
     }
   ],
   "grants": [

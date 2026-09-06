@@ -2054,7 +2054,21 @@ Object.assign(FAMILY, {
       cloneDoc(PA_490_PETITION, {
         allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, declarations: PA_490_PETITION_DECLARATIONS,
       }),
-      cloneDoc(PA_490_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS } }),
+      /*
+       * FIX85. On order page 1 the two caption blanks this packet writes --
+       * DocketNumber and Defendant -- each declare `/BS << /S /U >>`, an
+       * underline, and each ship an appearance drawing the one writing rule
+       * that style means. pdf-lib's text provider never reads `/BS /S`, so
+       * regenerating the appearance for the value stroked a one-point black
+       * rectangle around both: about 3,157 and 3,244 dark pixels per fixture at
+       * 300 dpi, ink inside a declared write box that no counter and no raster
+       * receipt can see. This honours the declared style instead. The other six
+       * `/MK /BC` widgets on that page declare no style, so they default to
+       * solid and each ship an appearance that strokes a rectangle; they are
+       * untouched, as is the petition, which carries no such widget at all.
+       */
+      cloneDoc(PA_490_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS },
+        honorWidgetBorderStyle: true }),
       PA_IFP_MDJ,
     ],
     supplementalDocuments: [PA_490_SERVICE_CERTIFICATE],
@@ -2104,7 +2118,18 @@ Object.assign(FAMILY, {
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     documents: [
       cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, fitTextPerWidget: true }),
-      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, fitTextPerWidget: true }),
+      /*
+       * FIX85, on the second family dealt to this lane. VF05 measured the same
+       * defect on this order that VF02 measured on the Rule 490 one, and the
+       * pinned PA-RCRIM-P-790-ORDER has the same shape: eight widgets carry
+       * `/MK /BC`, six declare no `/BS` and ship an appearance that strokes a
+       * rectangle, and the two the packet writes -- Defendant and DocketNumber
+       * on page 1 -- declare `/BS << /S /U /W 1 >>` and ship an appearance
+       * drawing one rule. 9,504 packet-owned dark pixels across the two order
+       * fixtures. Same option, same reason, and it reaches nothing else here.
+       */
+      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, fitTextPerWidget: true,
+        honorWidgetBorderStyle: true }),
       PA_IFP_CCP,
     ],
     supplementalDocuments: [PA_790_SERVICE_CERTIFICATE],
@@ -4460,6 +4485,7 @@ async function buildOfficial(familyId, config) {
         documentTextLines: census.documentTextLines,
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         fitTextPerWidget: doc.fitTextPerWidget === true,
+        honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
       let finalized = await finalizeWith(mappings, new Set());
@@ -5187,6 +5213,7 @@ async function checkOfficial(familyId, config) {
       documentTextLines: liveCensus.documentTextLines,
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       fitTextPerWidget: doc.fitTextPerWidget === true,
+      honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     let finalized = await finalizeWith(mappings, new Set());

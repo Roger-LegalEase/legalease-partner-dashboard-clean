@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 895,
+    "rows": 898,
     "independentVerdicts": 240,
-    "failRepairRequired": 57,
-    "passIndependent": 164
+    "failRepairRequired": 56,
+    "passIndependent": 165
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -55,7 +55,6 @@
     "az_marijuana_expungement_arrest_no_charges-set",
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
-    "co_multiple_conviction_seal-set",
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
@@ -4247,6 +4246,20 @@
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bb0963c0d",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
@@ -11851,6 +11864,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "bb0963c0d",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL. Three facts the platform holds and prints elsewhere in this same packet are left blank on the petition it asks them of -- the caption defendant line on all three case-captioned documents, and the street address and email address on CC 6:11's own identity block -- excused by a sentence that says what the build does rather than that the value is unavailable. A petition whose caption does not name the defendant, filed into an existing criminal case, is the identifying fact missing from the filing; and Nebraska Supreme Court Rule § 2-208, printed on the delivered page immediately under the blank, requires a self-represented filer to give the court an email address. REPAIR: write participant.full_legal_name into CC-6-11 `defendant`, CC-6-11.2 `defendant` and DC-1-15 `defendant`, and participant.street_address and participant.email into CC-6-11 `streetaddress` and `emailaddress`, through the same named-fact channel FIX81 already built and already uses for the identical five facts on DC-1-15 -- all five widgets are ordinary writable /Tx fields carrying the same flag word as the three CC-6-11 fields the packet already writes, so nothing here needs a new mechanism and nothing here asks for a guess. DISCLOSED WITH THE MEASUREMENT, FOR THE REPAIRER TO RULE ON RATHER THAN FOR THIS ROW TO DECIDE: CC-6-11 Text5 ('1. I was convicted of') and Text6 ('on ____, (Date of conviction)') are refused under buildPolicyReason `protected_category`, buildPolicyCategory `disposition_or_hearing`, while factsFor() holds matter.charge and matter.conviction_date ('2019-11-02') for both personas; both are ordinary /Tx fields, Ff 8388608, not read-only, /Rect [218.99 463.83 434.99 478.23] and [118.33 442.30 262.11 456.70]. Whether the conviction description and date on a petition sworn under § 29-2264 may be prefilled from held facts is a legal-design call, not a build-policy one, and it is recorded here with the measurement rather than scored.",
+          "evidence": "THE PRIOR FAILURE IS PART REPAIRED AND PART NOT, AND THE PART THAT IS NOT IS THE SAME DEFECT. WHAT WAS REPAIRED, CONFIRMED ON THE BYTES. (1) The case number is now written on all three case-captioned documents in the canonical fixture: 'Case No. 24-CR-001234' reads back from packet page 1 (CC-6-11 Text2), page 2 (CC-6-11.2 Text2) and page 4 (DC-1-15 Text38); at ebe931e4e those three read 'Case No.' followed by nothing, recovered from history and confirmed here. (2) The DC-1-15 certificate-of-service identity block is complete on packet pages 4 and 5: 'Printed Name: Jordan Avery Reyes', 'Street Address/P.O. Box: 118 Maple Street', 'City/State/ZIP Code: Springfield, NE 01234', 'Telephone Number: 555-0142', 'Email address: jordan.reyes@example.com', where before only the printed name and the email were written. (3) The caption court and county refusals now carry a MEASUREMENT rather than a policy sentence, which is what the assignment asks of a dropdown that cannot take the value: production-field-map.json measuredRefusals records, for each of the six caption widgets on each form, the PDF field type, the flag word, the /Rect read from the pinned binary, the option count, the fact ids the platform holds and the held values -- TYPEOFCOURTDROPDOWN is /FT /Ch, Ff 67239936, /Rect [142.33 659.22 221.75 673.62], 5 options of which 3 are values, and it states that the held 'District Court' DOES correspond to the option 'DISTRICT' so 'the obstacle is the widget type and nothing else'; DROPDOWNCOUNTY2 is /FT /Ch with 95 options of which 93 are values and neither persona's county is among them; TYPEOFCOURTRESULTS and fullcountystatementRIGHT are read-only (/Ff 1) fields already carrying the form's own words; 'enter the type of court' and 'enter the county' are read-only and NoView (/Ff 8392705, /F 36). Each row also tells the participant what to do instead. That is an honest, checkable refusal and it is accepted. (4) The boundary fixture's three case-number refusals are measured too: '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt at the 6pt readable minimum against 125.34, 125.60 and 95.00pt of usable width, and the shared fitter refuses whole rather than truncating -- which is the behaviour the boundary fixture exists to prove. WHAT WAS NOT REPAIRED, AND WHY IT FAILS. Three held facts are still refused at fields the form asks them of, on the primary filing, under a sentence that describes the build: production-field-map.json CC-6-11 canonicalRefusals carries `defendant` (printed label 'vs', the caption defendant line), `streetaddress` (printed label 'Street Address/P.O. Box') and `emailaddress` (the '*Email address:' line, harvested one line off as 'Telephone Num'), all three with buildPolicyReason `classified_unwritable_by_role`, buildPolicyCategory `role`, and the participant-facing why 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. READ OFF THE DELIVERED PAGE: canonical packet page 1 prints the caption as '________ , (your full name) Defendant.' with the line blank, then 'Printed Name: Jordan Avery Reyes' fourteen lines below it, then 'Street Address/P.O. Box:' blank, 'City/State/ZIP Code: Springfield, NE 01234', 'Telephone Number: 555-0142' and '*Email address:' blank. THE PLATFORM HOLDS ALL THREE AND WRITES ALL THREE ELSEWHERE IN THIS SAME PACKET: factsFor() in scripts/build-census-v1-ne-setaside-custodial-set.mjs holds participant.full_legal_name, participant.street_address and participant.email for both personas; the name is written at printedname on the SAME PAGE and on DC-1-15 pages 4 and 5; the street address and the email address are written at streetaddress and emailaddress on DC-1-15 pages 4 and 5, by this same repair. THE WIDGET IS NOT THE OBSTACLE, MEASURED FROM THE PINNED BINARY: CC-6-11's six identity fields -- defendant, printedname, streetaddress, citystatezip, telephone number, emailaddress -- are byte-for-byte the same kind of field, /FT /Tx with the identical flag word Ff 8388608 (read-only bit clear, required bit clear), annotation /F 4 (Print), no /MaxLen and no /V, and the packet WRITES THREE OF THE SIX AND REFUSES THE OTHER THREE. CC-6-11.2 `defendant` (/FT /Tx, Ff 8388608, /Rect [108.00 550.44 305.05 564.84]) and DC-1-15 `defendant` (/FT /Tx, no /Ff at all, /Rect [106.32 562.72 295.32 577.12]) are refused the same way, so the proposed order and the notice of hearing also go to the clerk with an unnamed defendant in the caption. The completeness contract states the test this fails, in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' THE WRITES THAT ARE MADE ARE CORRECT: all 16 canonical and 13 boundary write widgets were located by pdftotext on their own packet page with the exact expected string, each sits inside its own /Rect at 300 dpi with positive margin on all four sides (tightest 0.72pt left on emailaddress, 1.68pt bottom on printedname), and 0 added pixels fall in the 6pt halo outside any of them."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": false
     },
     {
@@ -15098,6 +15133,28 @@
     {
       "familyId": "pa_790_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7307b0e34",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The order regenerates the source widget's /MK /BC border as a full rectangle on two written caption fields where Pa.R.Crim.P. 790's own form specifies /BS /S /U and draws only an underline, adding 9504 packet-owned dark pixels across the two order fixtures. It is the single failing obligation on these bytes, it is invisible to all nine counters, and the same East host carries it on PA 490's order.",
+          "evidence": "ALL EIGHT PAGES OF ALL SIX DOCUMENTS RENDERED AT 300 DPI GRAYSCALE AND DIFFERENCED TWICE -- once against the pinned form as published and once against the pinned form with its /Annots and /AcroForm removed -- so every added pixel is attributed to the packet or to the form rather than guessed at. THE FAILURE: THE ORDER DRAWS A CLOSED BOX AROUND TWO WRITTEN FIELDS WHERE THE OFFICIAL FORM DRAWS A SINGLE UNDERLINE. The pinned PA-RCRIM-P-790-ORDER declares those two widgets with /MK << /BC [0 0 0] >> and /BS << /S /U /W 1 >> -- border style U, an UNDERLINE -- and the form's own appearance stream draws exactly that: '0 G / 0 0.5 m / 164.4496 0.5 l / s' for Defendant and the same for DocketNumber. The delivered appearance regenerated over the write draws a rectangle instead: /FlatWidget-578830786 opens '0 0 0 RG / 1 w / [] 0 d / 1 0 0 1 0.5 0.5 cm' and strokes '0 0 m / 0 14.043 l / 163.45 14.043 l / 163.45 0 l / h / S'. IN INK, AND ATTRIBUTED: on rule-790-order-canonical page 1 the Defendant /Rect carries 2764 packet-only dark pixels along its top edge, 240 along its left and 244 along its right -- three sides the form does not draw -- 3172 in the 2pt perimeter ring in total; DocketNumber carries 2707, 298 and 244, 3166 in the ring. On rule-790-order-boundary the same DocketNumber box is present, 3166; its Defendant box is absent only because that value was refused as unfittable and no appearance was regenerated. 9504 packet-only dark pixels across the two order fixtures, none of which appears in the pinned form as published or in its page content with annotations removed. The two boxed fields are the petitioner's NAME and the DOCKET NUMBER in the caption of the proposed order the packet tells the participant to hand up to a judge, and on the boundary fixture the docket text sits 0.5pt from the drawn left rule. THIS IS THE SHARED-HOST DEFECT THE ASSIGNMENT NAMED, AND I CHECKED THE SIBLING RATHER THAN ASSUMING IT: rule-490-order-canonical.pdf in data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures carries the identical '0 0 0 RG ... 1 0 0 1 0.5 0.5 cm ... 0 0 m' signature on its own written fields. PA 790's order shows it. The petition does not and cannot: its own /MK dictionaries are empty, with no /BC, so no border is regenerated there, and the pixel measurement agrees. WHAT IS SOUND, MEASURED AND NOT SCORED AGAINST THE PACKET. (1) Zero source pixels are missing on any of the six official pages, so nothing is overpainted. (2) The five synthesized squares the prior read scored are gone: petition Checkbox2 in both states and order Checkbox1, Checkbox2 and Checkbox3 each add 0 dark pixels in every fixture. (3) Packet-owned added ink lying OUTSIDE every declared write rectangle is 0 on all six official pages -- measured as delivered AND NOT published AND NOT the stripped page content, with each declared write rectangle padded 1pt. (4) The two petition 'Check Box1' widgets add 298 and 384 pixels against the pinned form as published, and 100 per cent of that is the SOURCE'S OWN: in those two windows the delivered ink is EXACTLY the union of the published form's ink and the form's own page content, zero pixels either way, in both fixtures -- the widget's /Off appearance opens with an opaque white fill that hides part of the form's printed box, the shared background neutralization strips it, and the form's own box shows through. Nothing there is the packet's. (5) Every one of the 32 declared writes was isolated (its own added ink, with every other declared rectangle masked out) and measured against its own /Rect: no glyph overflows, the tightest margin that is not the border stroke is -0.136pt on the petition boundary's Addr2, which is the antialiased descender edge at just over half a pixel. (6) The composed certificates carry ink only between 72.24pt and 527.52pt horizontally and 64.80pt and 396.24pt from the top of a 612 x 792pt page, so nothing is clipped and nothing reaches a margin, in either fixture."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
       "verifiedAtBase": "3a2f1cf3d",
@@ -15163,7 +15220,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_790_nonconviction-set",

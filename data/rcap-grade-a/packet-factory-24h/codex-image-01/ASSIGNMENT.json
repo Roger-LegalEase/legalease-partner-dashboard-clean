@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "packet-factory-24h/codex-assignment/v1",
+  "recordedBy": "Captain",
+  "recordedOn": "2026-09-06T03:50:00Z",
+  "authorizedBy": "Owner instruction of 2026-09-06 (ADD THREE CODEX WORKERS — KEEP THE CURRENT CLAUDE OPERATION RUNNING)",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "captainBaseSha": "85e9d69e851705b43b1a73b93db6158e40bb02ea",
+  "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+  "rules": [
+    "one unique branch cut from captainBaseSha; never rebase, force-push, push to main or the Captain branch, or open a pull request",
+    "the Captain is the sole integrator; push the branch only",
+    "never git add ., -A or --all; commit by file name",
+    "no Production, hosted, Stripe, RLS, auth or session change; no route opened; no approval record edited; no historical approval frozen as current",
+    "no secrets, private corpus, participant data or test-authority overrides in any artifact",
+    "if the assignment's first gate fails, stop and report the exact text rather than working around it"
+  ],
+  "assignmentId": "CODEX-IMAGE-01",
+  "lane": "CXI01",
+  "laneKind": "runtime-image",
+  "branch": "codex/image-01-render-worker",
+  "status": "PREPARED_AWAITING_LAUNCH",
+  "launchedBy": "not launched from the Captain environment (no Codex launch tool here); Roger launches the Codex Cloud task with the prompt in ASSIGNMENT.md",
+  "ownershipCheck": "DEL-D (Claude, integrated at e3fa459e2) traced 67 runtime files, wrote deploy/rcap-render-worker/runtime-data-manifest.json, build-runtime-data-manifest.mjs, preflight.mjs, Dockerfile.dockerignore and IMAGE_BUILD_RECORD.json, built image sha256:1e3eebe5aeaf… on base cba72cf5a and smoke-tested preflight in-container. That snapshot predates DEL-A (0fcedd773) and DEL-B (7307b0e34) and no render ran inside the container. DEL-D's worktree is removed; no lane holds these paths now.",
+  "whatRemains": [
+    "rebuild the image on the integrated worker-code snapshot captainBaseSha, which carries DEL-A's participant renderer and DEL-B's migration",
+    "regenerate the runtime-data manifest with the existing script and reconcile it with the traced import graph after DEL-A (new modules under src/lib/rcap/grade-a/families/** and scripts/lib/il-prostitution-j-vacate-composition.mjs)",
+    "regenerate data/rcap-staging-action.json imageInputs with scripts/generate-rcap-staging-action.mjs so scripts/verify-rcap-image-input-fingerprint.mjs passes on this snapshot (DEL-D found it stale since 3285b660)",
+    "run the in-container smoke test in three separately reported stages: (1) startup/import/asset preflight (deploy/rcap-render-worker/preflight.mjs), (2) authority gate decisions for every registry record, (3) an actual render attempt of il-prostitution-j-vacate-set through composeParticipantDeliveryPacket with two synthetic participants against a disposable local PostgreSQL and filesystem storage inside the container; a render refusal (e.g. composer.ts approved_shipping_component unimplemented on the Mississippi routes) stays visible as a failure of stage 3, never folded into stage 1 or 2"
+  ],
+  "writablePaths": [
+    "deploy/rcap-render-worker/**",
+    "data/rcap-staging-action.json (regenerated only by scripts/generate-rcap-staging-action.mjs)",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/RETURN.json"
+  ],
+  "readOnlyDependencies": [
+    "scripts/rcap-render-worker.mjs",
+    "src/lib/rcap/render/**",
+    "src/lib/rcap/grade-a/**",
+    "src/lib/rcap/fulfillment/**",
+    "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+    "data/rcap-grade-a/fulfillment-authority-registry.json and -observation.json",
+    "data/record-clearing/packet-specifications/**",
+    "supabase/migrations/** (apply to the disposable database only)",
+    "scripts/test-rcap-il-delivery-loader.mjs and test-rcap-il-delivery-ephemeral.mjs (how the ephemeral database is set up)"
+  ],
+  "prohibitedPaths": [
+    "scripts/rcap-render-worker.mjs, src/**, supabase/**, any packet family, any legal record, the canonical registry, verifier pins, .env*, .github/workflows/**"
+  ],
+  "environmentGate": "Run `docker info` first. If the Codex environment cannot build and run containers, do everything up to the build (manifest, Dockerfile, fingerprint regeneration, a build script that the Captain can execute) and record in the return that the build and smoke stages were NOT run there; the Captain executes them in the authorized build-capable environment (this repository's Captain container has docker 29.3.1 and mirror.gcr.io reachable for node:22-slim). A test that runs from the source checkout is not an image smoke test and must not be reported as one.",
+  "acceptance": {
+    "mustPass": [
+      "node scripts/verify-rcap-image-input-fingerprint.mjs",
+      "node deploy/rcap-render-worker/build-runtime-data-manifest.mjs --check (or the script's own verification mode; add one if it has none)",
+      "docker build -f deploy/rcap-render-worker/Dockerfile -t rcap-render-worker:codex-image-01 . (where docker exists)",
+      "docker run --rm --network none rcap-render-worker:codex-image-01 node deploy/rcap-render-worker/preflight.mjs (where docker exists)",
+      "npx tsc --noEmit -p ."
+    ],
+    "outcome": "An image built from captainBaseSha carrying exactly the traced read-only runtime data, its input fingerprint regenerated and verified, its startup/import/asset and authority stages passing in-container, and the render stage reported truthfully (pass or exact refusal). No image is pushed anywhere and no older image is claimed to contain this work."
+  },
+  "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-image-01/RETURN.json: {schemaVersion 'packet-factory-24h/lane-return/v1', assignmentId, branch, base, commit, dockerAvailable, filesPackaged, manifestSha256, imageId, imageDigest, fingerprintVerifier {command, exitCode}, stages {preflight, authority, render} each {ran, command, exitCode, outputTail}, notDone, productionTouched false, routesOpened 0}",
+  "doNot": [
+    "copy data/ wholesale, private/, secrets or test-authority fixtures into the image",
+    "edit approval records or bind d4cb7659 or any unapproved digest as approved",
+    "publish or push the image; claim a hosted run",
+    "touch the worker script or application code — report a needed change instead"
+  ]
+}

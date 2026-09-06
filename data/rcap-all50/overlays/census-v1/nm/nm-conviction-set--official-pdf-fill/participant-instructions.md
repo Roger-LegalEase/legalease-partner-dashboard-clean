@@ -49,6 +49,8 @@ There is **no statewide Supreme Court order form** in the mandatory 4-951 to 4-9
 
 **Form 4-222 and the order bound with it print `SIXTH JUDICIAL DISTRICT COURT` in the caption.** That is printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court named on it.
 
+**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as you correct the court line, or take your own district's copy of the form and complete its caption from the start. The same is true of the county line on the order bound at the back of it.
+
 ## Boxes you tick with a pen
 
 These New Mexico forms draw their tick boxes as **printed characters, not as fillable fields**, so nothing can mark them for you. Mark these by hand, and only the ones that are true for you **on the day you sign that form**:
@@ -248,6 +250,8 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 1. Information about Petitioner | Cell # | your mobile telephone number, if you have one |
 | 1. Information about Petitioner | Home Phone # | your home telephone number, if you have one |
 | 1. Information about Petitioner | Other names or aliases by which Petitioner has been known, first line | every other name your records might be under: a former name, a nickname, an alias |
+| 2. Pending expungement cases | Judicial district in which Petitioner has pending expungement cases | the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty |
+| 2. Pending expungement cases | Judicial district court the pending expungement cases are before | the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending |
 | 2. Pending expungement cases | Pending expungement case numbers, first line | the case number of any other expungement case of yours pending in this judicial district |
 | 2. Pending expungement cases | Pending expungement case numbers, second line | a second pending expungement case number, if you have one |
 | 3. Prior expungement applications | Expungement case numbers in which Petitioner was denied, first line | the case number of any expungement you were denied |
@@ -366,6 +370,7 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
+| Caption of the application | COUNTY OF | the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed "SIXTH JUDICIAL DISTRICT COURT" line, write your own judicial district, and write your county here |
 | Marital status and interpretation | Interpretation services needed, first line | what interpretation you need, and in what language, if you asked for an interpreter |
 | Marital status and interpretation | Interpretation services needed, second line | the second line of what interpretation you need, if the first line is not enough |
 | Marital status and interpretation | Interpretation services needed, third line | the third line of what interpretation you need, if you need it |
@@ -450,7 +455,7 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 6, Employment | the employment of household member 6, if you have that many |
 | F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-| Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the same county as page 1, on the caption of the order you give the judge |
+| Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
 | Caption of Form 4-223, Order on Application for Free Process | Name of the Petitioner in the caption of the order for free process | your name, the same as page 1, on the caption of the order you give the judge |
 
 ## What the platform deliberately left blank

@@ -1164,5 +1164,33 @@
   "assignmentsAppended": [
    "in_arrest_no_charges-set"
   ]
+ },
+ "vf02CoNeRereadAssignments20260906":{
+  "worker": "VF02 independent re-read at bb0963c0d",
+  "note": "Appended as a new key so every earlier assignment stays byte-unchanged. One family only: the Colorado multiple-conviction family this lane also re-read at this base now PASSES and carries no repair assignment.",
+  "assignments": [
+   {
+    "itemId": "ne-setaside-custodial-set",
+    "lane": "VF02",
+    "verifiedAtBase": "bb0963c0d",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+    "canonicalSha256": "90ecf1eebe9f1d5d8a32ebc0ac9e134a8442547d3f6d968b256c9cf379e5842e",
+    "boundarySha256": "8b9f5cda337196e0ffd64accd430b2aa21fc9b58d53d7ac84baae47fea2bf646",
+    "supersedes": "VF02's assignment on this family at ebe931e4e. Its COMPONENT_SET half is DISCHARGED on these bytes and is not reassigned. Its KNOWN_PREFILLS half is part discharged and part not; only the part that is not appears below.",
+    "decisiveDefect": "Three facts the platform holds, and prints elsewhere in this same packet, are left blank at the fields the forms ask them of, excused by a sentence that states what the build does. production-field-map.json refuses CC-6-11 `defendant` (printed label 'vs', the caption defendant line), CC-6-11 `streetaddress` ('Street Address/P.O. Box'), CC-6-11 `emailaddress` (the '*Email address:' line), CC-6-11.2 `defendant` and DC-1-15 `defendant`, all under buildPolicyReason `classified_unwritable_by_role`, buildPolicyCategory `role`, with the participant-facing reason 'a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing'. On the delivered canonical page 1 the caption reads '________ , (your full name) Defendant.' with the line blank, 'Street Address/P.O. Box:' blank and '*Email address:' blank, while 'Printed Name: Jordan Avery Reyes', 'City/State/ZIP Code: Springfield, NE 01234' and 'Telephone Number: 555-0142' are written on the same block, and participant.street_address and participant.email are written by this same build at DC-1-15 streetaddress and emailaddress on packet pages 4 and 5. The widget is not the obstacle: measured from the pinned CC 6:11 binary, all six identity fields -- defendant, printedname, streetaddress, citystatezip, telephone number, emailaddress -- are /FT /Tx with the identical flag word Ff 8388608 (read-only clear, required clear), annotation /F 4, no /MaxLen and no /V, and the packet writes three of the six and refuses the other three. CC-6-11.2 `defendant` is /FT /Tx Ff 8388608 at /Rect [108.00 550.44 305.05 564.84] and DC-1-15 `defendant` is /FT /Tx with no /Ff at all at /Rect [106.32 562.72 295.32 577.12]. The completeness contract states the test this fails: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.'",
+    "failedProofObligations": [
+     "KNOWN_PREFILLS"
+    ],
+    "theRepair": "Write participant.full_legal_name into CC-6-11 `defendant`, CC-6-11.2 `defendant` and DC-1-15 `defendant`, and participant.street_address and participant.email into CC-6-11 `streetaddress` and `emailaddress`, through the narrativeAcrossFields named-fact channel FIX81 already built and already uses for the identical facts on DC 1:15. No new mechanism is needed and no value is guessed: every value is in the builder's own factsFor(). Then a rebuild and a fresh central raster, because both fixture digests will move and the acceptance receipt bound to 90ecf1ee.../8b9f5cda... stops binding; then an independent re-read by a lane that did not make the repair.",
+    "whyItMatters": "A petition filed into an existing criminal case whose caption does not name the defendant is missing the fact that identifies the filer, on the primary filing, the proposed order and the notice of hearing alike. And Nebraska Supreme Court Rule § 2-208, printed on the delivered page immediately under the blank email line, requires a self-represented filer to give the court an email address.",
+    "alsoDisclosedNotScored": [
+     "CC-6-11 Text5 ('I was convicted of ____') and Text6 ('on ____ (Date of conviction)') are refused as protected_category / disposition_or_hearing while factsFor() holds matter.charge and matter.conviction_date; both are ordinary writable /Tx fields, Ff 8388608, at /Rect [218.99 463.83 434.99 478.23] and [118.33 442.30 262.11 456.70]. Whether a conviction description and date on a petition sworn under § 29-2264 may be prefilled from held facts is a legal-design call. Rule on it; do not simply write them because this row named them.",
+     "product-wiring.json binding.packetComponents lists four component ids and omits fee-waiver-5 and local-rules-check-6, while FIX81's row states it now lists five. The componentDisposition table in the same file does carry all six. The document is DECLARED_NOT_INSTALLED and grants nothing; reconcile the record with the row rather than the other way round.",
+     "The four DC 1:15 'Add next person' pushbuttons are regenerated rather than preserved: the court's own /AP /N draws a grey fill, a black border and the caption in /Arial 6, and the delivered appearance draws the fill and the caption in /Helvetica 6 with no border (2,604 pixels lost, 254 added, all inside the button's own /Rect). Viewer chrome, not filing content, and the mirror image of the Colorado defect FIX80 repaired. Not part of this repair."
+    ],
+    "doNotRepairInThisLane": "This lane verifies and does not edit. Nothing in this family was written, rebuilt, opted in or touched, and no grant was released.",
+    "grantsNothing": "A repair assignment approves no output, opens no commercial route and creates no fulfillment record."
+   }
+  ]
  }
 }
