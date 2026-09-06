@@ -37,21 +37,22 @@
       ],
       "recordId": "route-obligation-census:NY-160-55-transmission-correction",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-      "byteLength": 2625273,
+      "sha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+      "byteLength": 2629290,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: this branch's exact key, its recorded destination and its recorded participant-facing instrument",
       "anchorStatementsVerified": 3,
       "identityRefresh": {
-        "refreshedOn": "2026-09-05",
         "was": {
-          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-          "byteLength": 2607149
+          "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+          "byteLength": 2625273
         },
-        "why": "The shared route-obligation census was regenerated at the five-route runtime head (2d01b84f7), a commit that gave five other jurisdictions' routes a runtime identity of their own and touched no row this family binds. Every route row this receipt binds, keyed by exact routeKey, was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
+        "recoveredFromCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+        "comparedAtCaptainCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
         "anchorsCompared": 1,
         "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "ecd2bde79"
+        "method": "Recovered exact historical census blob and compared every bound route object, selected by the receipt family route keys, object-for-object against the current default-generated census. Only whole-file identity changed for these anchors.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json"
       }
     }
   ],

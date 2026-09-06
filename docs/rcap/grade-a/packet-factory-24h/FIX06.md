@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `bdc1e7461e8d13df337ac7aecdc4077c4f6d2f89` (or the newer dispatch base)
+**Minimum required ancestor:** `40b03f499f47450e7e9fa4e1f64ba9debddf0807` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-exp-nonconv-set' \
   --codex-cloud \
-  --minimum-captain-sha bdc1e7461e8d13df337ac7aecdc4077c4f6d2f89
+  --minimum-captain-sha 40b03f499f47450e7e9fa4e1f64ba9debddf0807
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-exp-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-seal-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'in_infraction_nondisclosure-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'nm_identity_theft-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-wv-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'al-misd-dwop-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-nv-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'pa_pardon_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,14 +63,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 7 families
 
 - `il-exp-nonconv-set`
 - `il-seal-nonconv-set`
 - `in_infraction_nondisclosure-set`
+- `nm_identity_theft-set`
 - `rcap-wv-custom-pleading`
 - `al-misd-dwop-set`
-- `rcap-nv-custom-pleading`
+- `pa_pardon_expungement-set`
 
 ## What you receive
 
@@ -85,15 +87,17 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-seal-nonconv-set.mjs`
 - `scripts/build-census-v1-in_infraction_nondisclosure-set.mjs`
+- `scripts/build-census-v1-nm_identity_theft-set.mjs`
 - `scripts/build-census-v1-rcap-wv-custom-pleading.mjs`
 - `scripts/build-census-v1-al-misd-dwop-set.mjs`
-- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
+- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 
 ## Never write here
 

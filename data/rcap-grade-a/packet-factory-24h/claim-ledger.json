@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "bdc1e7461e8d13df337ac7aecdc4077c4f6d2f89",
+  "generatedAtCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1751,6 +1751,21 @@
         "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -1890,7 +1905,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:10:40.625Z"
@@ -1920,7 +1935,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:17:36.865Z"
@@ -1950,7 +1965,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:41:40.189Z"
@@ -1980,7 +1995,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:41:40.355Z"
@@ -2010,7 +2025,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:41:40.517Z"
@@ -2145,7 +2160,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:41:41.111Z"
@@ -2265,7 +2280,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T11:34:40.209Z"
@@ -2447,7 +2462,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:17:37.225Z"
@@ -2762,7 +2777,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:29:28.542Z"
@@ -3574,7 +3589,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF09",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:55:47.271Z"
@@ -3650,7 +3665,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF10",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T18:24:39.380Z"
@@ -3856,7 +3871,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:17:14.694Z"
@@ -3977,7 +3992,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:17:14.601Z"
@@ -6251,11 +6266,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX79",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T03:26:29.898Z",
-      "releaseReason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-953 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6298,11 +6311,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX79",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T03:26:30.111Z",
-      "releaseReason": "FIX79 repaired KNOWN_PREFILLS and CLIPPING_AND_OVERLAP: the two matter.court writes on the unelected pending-expungement branch of Form 4-951 item 2 and the county write above Form 4-222's printed Sixth District caption are gone, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6346,11 +6357,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX79",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T03:26:30.307Z",
-      "releaseReason": "FIX79 repaired KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and CLIPPING_AND_OVERLAP: Form 4-952's paragraph 4 and paragraph 12 are now written from the held originating-court answer instead of onto branches the case does not use, the two paragraph-4 rows no longer claim an unavailable fact the platform holds, item 2's unelected branch and the county above Form 4-222's printed Sixth District caption are blank, and the shared host now fits flattened appearances to their Rects; raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix79/rows.json (lane release f47156c96 replayed by the Captain)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6560,7 +6569,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6759,7 +6768,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6848,7 +6857,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF11",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T19:12:30.630Z"
@@ -6893,7 +6902,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF12",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:14:05.146Z"
@@ -6923,11 +6932,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T11:12:05.873Z",
-      "releaseReason": "VF06 PASS_COMPLETE_INDEPENDENT at f7f114c51 on 2fd78d89/52464ec1: 70 pages read, nothing orphaned, no hard split. Verdict extracted."
+      "releasedAt": "2026-09-05T11:12:05.873Z"
     },
     {
       "subjectType": "packet-family",
@@ -7000,7 +7008,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7045,11 +7053,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T11:12:06.147Z",
-      "releaseReason": "VF07 PASS_COMPLETE_INDEPENDENT at f7f114c51 on cf302fc3/c7340a25: 160 pages read, the eight pre-FIX23 orphaned blocks gone, all 16 printed route keys carried by the census. Verdict extracted."
+      "releasedAt": "2026-09-05T11:12:06.147Z"
     },
     {
       "subjectType": "packet-family",
@@ -7135,7 +7142,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:17:36.989Z"
@@ -7212,11 +7219,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T11:12:06.286Z",
-      "releaseReason": "VF08 PASS_COMPLETE_INDEPENDENT at f7f114c51 on 78910c46/587838be; page 9 ruled PASS under CLIPPING_AND_OVERLAP as a self-identifying continuation of the page-8 list. Verdict extracted."
+      "releasedAt": "2026-09-05T11:12:06.286Z"
     },
     {
       "subjectType": "packet-family",
@@ -7273,7 +7279,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -13644,7 +13650,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d9557e578a65284840b24e5d8e984c3162b57698231bbee1acc03eccd7a04051",
+  "claimsDigest": "215d347145d64c70ccadd52148812b28a4e7c1ad46f424a7af992f706e73dcbc",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38905,6 +38911,36 @@
       "previouslyReleasedAt": "2026-09-06T04:48:40.873Z",
       "reissuedAt": "2026-09-06T05:11:46.428Z",
       "reason": "Codex Captain independently rereads current FIX83 bytes at 915526295; did not author repair; prior full-page review retained and changed pages freshly rendered."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "dispatchNames": "FIX05",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-06T05:17:16Z",
+      "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "dispatchNames": "FIX06",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-06T05:17:16Z",
+      "reason": "the current dispatch names FIX06 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-06T05:17:16Z",
+      "reason": "the current dispatch names FIX07 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -49945,6 +49981,30 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "withdrawnAt": "2026-09-05T18:47:15Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-06T05:33:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-06T05:33:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-06T05:33:54Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
