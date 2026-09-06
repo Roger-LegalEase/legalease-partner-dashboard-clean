@@ -47,6 +47,9 @@ export type GradeABlock =
       court: string;
       plaintiff: string;
       defendant: string;
+      /** The designation printed opposite the defendant. Families that do not
+       * name one keep the renderer's generic DEFENDANT/PETITIONER. */
+      defendantRole?: string;
       caseNumber: string;
       title: string;
     }
