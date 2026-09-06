@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-rows/v1",
+  "lane": "FIX90",
+  "laneKind": "repair",
+  "status": "PARTIAL",
+  "rows": [
+    {
+      "itemId": "nc_146_dismissal_petition-set",
+      "lane": "FIX90",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+      "recoveredFrom": "e03e19151691af26f1e9451ce3ab18987cfc61bc",
+      "selectedCaptainSha": "ba7f95cf3dedffc503efc7ec077e05803f45ac6d",
+      "postMergeBase": "c5d2800d646fcc2ddf4460419b7b3eb7493f8dba",
+      "claim": "Both current FIX90 claims asserted with claim.mjs --assert at the post-merge base: CLAIM_OK (repair, grant set b24b2e95fda9fe70), exit 0. No grant released or reissued here.",
+      "repair": "Preserved the saved deletion of the false ZIP/date-of-birth filing step and deliberately-blank bullet in the NC builder and generated participant-instructions.md. The list now runs from 1 through 11. The existing accurate statement that both fields are filled remains.",
+      "inspection": {
+        "instructionAssertions": "Both false source and emitted strings absent; accurate filled sentence present; sequential steps 1\u201311 verified.",
+        "visibleWriteCheck": "Current canonical and boundary page 1 rendered with pdftoppm at 300 dpi and visually inspected in this session. The ZIP and date of birth are printed legibly inside their own caption cells in both. pdftotext -layout also matches the four expected values. This is repair-scoped inspection, not an independent verdict.",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
+            "bytes": 765177,
+            "identicalToCaptainBase": true,
+            "page1VisibleZip": "27601",
+            "page1VisibleDateOfBirth": "1991-04-17"
+          },
+          {
+            "fixture": "boundary",
+            "sha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
+            "bytes": 765379,
+            "identicalToCaptainBase": true,
+            "page1VisibleZip": "27101-2214",
+            "page1VisibleDateOfBirth": "1968-12-31"
+          }
+        ],
+        "changedPdfBytes": false,
+        "instructionSha256": "e491d6075b081e2d41885140fc1e2fe96662682d76b09d4812eeae2ac54fc7d4"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterEvidence": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+        "exitCode": 0,
+        "output": "  ok   nc_146_dismissal_petition-set                  PASS_COMPLETE                17/197 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+      },
+      "determinism": {
+        "currentRebuildExecuted": false,
+        "reason": "This is an instruction-only deletion; all delivered PDFs are byte-identical to the selected Captain base. The governed private source corpus is absent, so no current full rebuild or source preflight pass is claimed.",
+        "savedHistoricalEvidence": "Commit e03e19151691af26f1e9451ce3ab18987cfc61bc records two byte-identical family rebuilds and a completeness pass in the outgoing environment. That historical evidence is preserved, not relabelled as execution in this environment."
+      },
+      "verificationCorrections": [
+        {
+          "command": "node scripts/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+          "exitCode": 1,
+          "reason": "Initial invocation used the wrong script path and crashed MODULE_NOT_FOUND. Correct path below was actually run and exited 0."
+        }
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ: a different reviewer must rule on the repaired instruction obligation. This repair row is not a verdict or approval.",
+        "No route promotion, commercial authority, source-freshness acceptance, or hosted acceptance."
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+        "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/fix90/rows.json"
+      ],
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "remainingWork": "NH WIP recovery remains in progress on the same branch; no NH completion is claimed by this checkpoint."
+}
