@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+  "generatedAtCommit": "2a2258e7f8cc39bce3912b41316e54ad59842371",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -640,6 +640,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:41.603Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "al-misd-nonconviction-90-set",
+      "familyId": "al-misd-nonconviction-90-set",
+      "itemId": null,
+      "familyIds": [
+        "al-misd-nonconviction-90-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1955,8 +1970,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T11:36:21.637Z",
+      "releaseReason": "Integrated source-pin and undeclared-caption findings 797192734; separate repairer next"
     },
     {
       "subjectType": "packet-family",
@@ -4101,10 +4117,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX39",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "No FIX39 worker executing; resume exact KNOWN_PREFILLS repair through current roster while preserving grant history"
     },
     {
       "subjectType": "packet-family",
@@ -5677,9 +5694,9 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "No VF02 worker executing; transfer pending source-recovered read to independent VF06 reader"
+      "released": true,
+      "releasedAt": "2026-09-06T11:36:21.150Z",
+      "releaseReason": "Integrated exact-source independent legal hold 1bdb28ff1; no packet repair is authorized to resolve legal waiver mismatch"
     },
     {
       "subjectType": "packet-family",
@@ -6023,8 +6040,9 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-06T11:36:21.409Z",
+      "releaseReason": "Integrated current independent failed prefill findings 1bdb28ff1; separate repairer next"
     },
     {
       "subjectType": "packet-family",
@@ -6051,10 +6069,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX90",
+      "lane": "FIX92",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T07:18:31.431Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Completed source-bound repair and current evidence integrated; worker finished. Prior failed verdict retained; fresh central raster acceptance and independent reread required."
     },
     {
@@ -13676,7 +13694,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4e10cc2e62c2942e57e7d7a4828b20220807bfe61ad9ee2d61ef919b403f283f",
+  "claimsDigest": "de2d57e0e0454273f49adc23821e74abb07969707ca599b0cdb964632202239e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -31700,6 +31718,42 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-06T11:26:43.674Z",
       "reason": "Integrated current independent verdict already proves family; no worker executing, stale grant released"
+    },
+    {
+      "lane": "FIX39",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-06T11:32:14.347Z",
+      "reason": "No FIX39 worker executing; resume exact KNOWN_PREFILLS repair through current roster while preserving grant history"
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T11:36:21.150Z",
+      "reason": "Integrated exact-source independent legal hold 1bdb28ff1; no packet repair is authorized to resolve legal waiver mismatch"
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T11:36:21.409Z",
+      "reason": "Integrated current independent failed prefill findings 1bdb28ff1; separate repairer next"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T11:36:21.637Z",
+      "reason": "Integrated source-pin and undeclared-caption findings 797192734; separate repairer next"
     }
   ],
   "reissues": [
@@ -46223,6 +46277,28 @@
       "previouslyReleasedAt": "2026-09-06T03:22:13.095Z",
       "transferredAt": "2026-09-06T11:22:21.699Z",
       "reason": "Integrated FIX90 repair; exact sources recovered, new independent reviewer on unchanged valid raster bytes"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX39",
+      "toLane": "FIX02",
+      "previouslyReleasedAt": "2026-09-06T11:32:14.347Z",
+      "transferredAt": "2026-09-06T11:32:14.463Z",
+      "reason": "Resume unfinished family-exclusive Illinois education sealing repair in current generated roster; no source or legal gate waived"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX90",
+      "toLane": "FIX92",
+      "previouslyReleasedAt": "2026-09-06T07:18:31.431Z",
+      "transferredAt": "2026-09-06T11:36:21.788Z",
+      "reason": "New VF06 findings only: printed waiver-order header and full residence address; previously integrated FIX90 repairs preserved"
     }
   ],
   "grants": [
