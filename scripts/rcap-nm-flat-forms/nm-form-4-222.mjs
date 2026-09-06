@@ -28,6 +28,14 @@
  *    participant-instructions.md to correct the court line by hand or to obtain
  *    their own district's copy.
  *
+ *    And it no longer WRITES INTO that caption. The county blank one line above
+ *    the printed district, on page 1 and again on Form 4-223's caption, is left
+ *    empty: a county composed above a district the case does not use makes a
+ *    caption that reads as a whole and is false as a whole, and the build's own
+ *    ink is the half of it the build controls. Leaving it empty cures nothing
+ *    about the printed district -- that question is open below -- and it stops
+ *    the build from adding to a statement it cannot make true.
+ *
  * 2. THE CASE NUMBER IS PRINTED AS A TEMPLATE. The caption reads "No. D- - -"
  *    with three small fields between the dashes. On an expungement petition
  *    there is no case number until the clerk assigns one at filing, so all
@@ -78,7 +86,11 @@ export const PRINTED_DISTRICT_FINDING = Object.freeze({
     + "application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build "
     + "does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and "
     + "stated to the participant in participant-instructions.md, which tells them to strike the printed line and write "
-    + "their own district or to obtain their district's copy of Form 4-222 NMRA. Counsel should decide whether the "
+    + "their own district or to obtain their district's copy of Form 4-222 NMRA. It also no longer writes the "
+    + "participant's county into the blank one line above the printed district, on page 1 or on Form 4-223's caption: "
+    + "that write composed with this printed ink into a caption naming a court the participant has not chosen, and the "
+    + "build's half of it is the half the build can withhold. The two blanks are left for the participant to complete on "
+    + "the copy they actually file. Counsel should decide whether the "
     + "fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth "
     + "Judicial District the way the retained local order is conditioned on the district that published it.",
   measuredFrom: "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
@@ -125,8 +137,39 @@ const HOUSEHOLD_BOX = (n) => ({
 });
 
 export const DICTIONARY_4_222 = Object.freeze({
-  /* ---- page 1, the caption ------------------------------------------------ */
-  "COUNTY OF": { section: CAPTION, label: "COUNTY OF", ...WRITE("matter.county") },
+  /* ---- page 1, the caption ------------------------------------------------ *
+   *
+   * THE COUNTY IS NOT WRITTEN ABOVE A DISTRICT THIS BUILD CANNOT MAKE TRUE.
+   *
+   * This blank sits one line above the printed "SIXTH JUDICIAL DISTRICT COURT"
+   * described at the head of this file, and the caption reads down the page:
+   * STATE OF NEW MEXICO / COUNTY OF ______ / SIXTH JUDICIAL DISTRICT COURT.
+   * Writing the participant's county there composed the build's own ink with
+   * the form's into a caption naming a court the participant has not chosen and
+   * cannot file in -- "COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT",
+   * where Bernalillo is in the Second -- on a document sworn on oath. The
+   * printed district is page content that no widget covers, so the build cannot
+   * correct it; what it can do is stop sharpening it.
+   *
+   * The county a Sixth District caption asks for is a county in the Sixth
+   * Judicial District, and the platform holds no such value for a participant
+   * filing anywhere else. The participant obtains their own district's copy of
+   * Form 4-222 NMRA, or strikes the printed line and completes the caption by
+   * hand, and the instructions say so in those words. The whole caption is then
+   * in one hand rather than half-machine and half-corrected.
+   *
+   * This is not a cure for the printed district and is not offered as one: the
+   * statewide-source question -- whether the fee-waiver component may ship at
+   * all on a binary that prints one district's caption -- is open in
+   * PRINTED_DISTRICT_FINDING and is counsel's, not this build's.
+   */
+  "COUNTY OF": {
+    section: CAPTION, label: "COUNTY OF",
+    ...SUPPLY(
+      "the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+      "the caption of this pinned binary prints SIXTH JUDICIAL DISTRICT COURT immediately below this blank as page content that no widget covers. A county written above it composes with that ink into a caption naming a court the participant has not chosen, on a document sworn on oath. The county this caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. See PRINTED_DISTRICT_FINDING: whether this component may ship statewide on this binary is an open legal-design question and is not settled by leaving the blank empty."
+    )
+  },
   "Petitioner": { section: CAPTION, label: "Name of the Petitioner in the caption", ...WRITE("participant.full_legal_name") },
   "Respondent": {
     section: CAPTION, label: "Name of the Respondent in the caption",
@@ -376,7 +419,7 @@ export const DICTIONARY_4_222 = Object.freeze({
    */
   "STATE OF NEW MEXICO": {
     section: ORDER_CAPTION, label: "COUNTY OF, in the caption of the order for free process",
-    ...SUPPLY("the same county as page 1, on the caption of the order you give the judge", "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
+    ...SUPPLY("the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file", "two reasons, either of which is enough. The caption of Form 4-223 prints SIXTH JUDICIAL DISTRICT COURT below this blank exactly as page 1 does, so a county written here composes into the same caption naming a court the participant has not chosen; the county blank on page 1 is left empty for that reason and this one is left empty with it. And the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county; the guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
   },
   "SIXTH JUDICIAL DISTRICT COURT": {
     section: ORDER_CAPTION, label: "Name of the Petitioner in the caption of the order for free process",
