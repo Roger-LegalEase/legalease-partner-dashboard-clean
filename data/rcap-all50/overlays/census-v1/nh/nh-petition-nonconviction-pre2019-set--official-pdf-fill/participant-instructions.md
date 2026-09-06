@@ -87,6 +87,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 | --- | --- | --- |
 | Caption | Case Name, as the court styles it | the same case name you put on the petition |
 | The Motion | Explain why you cannot pay the filing fee | your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you |
+| Page 2 printed header above FOR COURT USE ONLY | Case Name in the printed page 2 header | the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY |
 | Caption (form pages 1) | Case Number | write this in by hand if the box is blank on your packet. The box accepts at most 17 characters; a longer value is left blank rather than shortened. |
 
 ## NHJB-2328 — Statement of Assets and Liabilities for Individuals and Sole Proprietors: the items you must supply
@@ -201,7 +202,7 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 - **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.
 - **The certificate of service box on NHJB-2328.** **This route requires no service by you** — the record says service is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank. It is on the form because the same form is used where a filer does have to serve somebody; on this route you have nobody to certify sending a copy to.
 - **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.
-- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.
+- **The ruling sections marked FOR COURT USE ONLY on page 3 of NHJB-2317 and page 2 of NHJB-2311.** These carry the court's own order. The Case Name and Case Number headers above that section are case captions: copy the case name into NHJB-2311's printed page 2 header; its held case number is filled in above the court section.
 - **Section II of NHJB-2956** — complete it for a mailed request or third-party release; all mailed requests require Section II notarized. Only an in-person request for your own record needs Section I alone. See step 8 for the recipient-name dropdown limitation and the completion steps.
 
 ## Where self-help ends

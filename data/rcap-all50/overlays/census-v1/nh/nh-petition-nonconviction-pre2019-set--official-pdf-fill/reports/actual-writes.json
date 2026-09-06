@@ -2,13 +2,13 @@
   "schemaVersion": "rcap-actual-writes-byte-proof/v1",
   "familyId": "nh_petition_nonconviction_pre2019-set",
   "derivedFromArtifactBytes": true,
-  "note": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report.",
+  "note": "Read back from the finalized PDF bytes at every measured widget rectangle and printed-header write box, not from the finalizer's own report.",
   "documents": [
     {
       "fixture": "canonical",
       "formNumber": "NHJB-2317",
       "sourceSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 10,
       "flattenedWidgetAppearancesReadFromOutputBytes": 39,
       "addedGlyphsReadFromOutputBytes": 156,
@@ -232,10 +232,10 @@
       "fixture": "canonical",
       "formNumber": "NHJB-2311",
       "sourceSha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
-      "valuesReportedByFinalizer": 2,
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
+      "valuesReportedByFinalizer": 3,
       "flattenedWidgetAppearancesReadFromOutputBytes": 16,
-      "addedGlyphsReadFromOutputBytes": 35,
+      "addedGlyphsReadFromOutputBytes": 52,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "documentAuthoredAppearances": [],
@@ -278,6 +278,25 @@
           ],
           "expected": "Jordan Avery Reyes",
           "matchesExpected": true
+        },
+        {
+          "field": "printed-page2-case-number",
+          "factId": "matter.case_number",
+          "page": 2,
+          "rect": {
+            "x": 108.56,
+            "y": 750.7,
+            "width": 465.44,
+            "height": 13
+          },
+          "section": "Page 2 printed header above FOR COURT USE ONLY",
+          "effectiveLabel": "Case Number in the printed page 2 header",
+          "writtenThrough": "shared_flat_overlay_finalizer",
+          "drawnText": [
+            "473-2016-CR-00218"
+          ],
+          "expected": "473-2016-CR-00218",
+          "matchesExpected": true
         }
       ]
     },
@@ -285,10 +304,10 @@
       "fixture": "canonical",
       "formNumber": "NHJB-2328",
       "sourceSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 5,
       "flattenedWidgetAppearancesReadFromOutputBytes": 93,
-      "addedGlyphsReadFromOutputBytes": 106,
+      "addedGlyphsReadFromOutputBytes": 125,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "documentAuthoredAppearances": [],
@@ -353,7 +372,7 @@
         },
         {
           "field": "2.1",
-          "factId": "participant.street_address",
+          "factId": "participant.residence_address",
           "page": 1,
           "rect": {
             "x": 158.11,
@@ -363,11 +382,11 @@
           },
           "section": "Who You Are",
           "effectiveLabel": "Residence Address",
-          "writtenThrough": "shared_descriptor_channel",
+          "writtenThrough": "finalizer_named_fact_channel",
           "drawnText": [
-            "412 Elm Street, Apartment 3"
+            "412 Elm Street, Apartment 3, Concord, NH 03301"
           ],
-          "expected": "412 Elm Street, Apartment 3",
+          "expected": "412 Elm Street, Apartment 3, Concord, NH 03301",
           "matchesExpected": true
         },
         {
@@ -414,7 +433,7 @@
       "fixture": "canonical",
       "formNumber": "NHJB-2956",
       "sourceSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 5,
       "flattenedWidgetAppearancesReadFromOutputBytes": 11,
       "addedGlyphsReadFromOutputBytes": 68,
@@ -524,14 +543,42 @@
       "fixture": "boundary",
       "formNumber": "NHJB-2317",
       "sourceSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 7,
       "flattenedWidgetAppearancesReadFromOutputBytes": 39,
       "addedGlyphsReadFromOutputBytes": 174,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "documentAuthoredAppearances": [],
-      "unfittable": [],
+      "unfittable": [
+        {
+          "field": "telnum.1",
+          "factId": "participant.phone",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 15,
+          "valueLength": 24,
+          "why": "the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        },
+        {
+          "field": "case number1",
+          "factId": "matter.charges[0].case_number",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        },
+        {
+          "field": "case number",
+          "factId": "matter.case_number",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        }
+      ],
       "actualWrites": [
         {
           "field": "name.1",
@@ -672,14 +719,24 @@
       "fixture": "boundary",
       "formNumber": "NHJB-2311",
       "sourceSha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
-      "valuesReportedByFinalizer": 1,
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
+      "valuesReportedByFinalizer": 2,
       "flattenedWidgetAppearancesReadFromOutputBytes": 16,
-      "addedGlyphsReadFromOutputBytes": 39,
+      "addedGlyphsReadFromOutputBytes": 72,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "documentAuthoredAppearances": [],
-      "unfittable": [],
+      "unfittable": [
+        {
+          "field": "case number",
+          "factId": "matter.case_number",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        }
+      ],
       "actualWrites": [
         {
           "field": "name",
@@ -699,6 +756,25 @@
           ],
           "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
           "matchesExpected": true
+        },
+        {
+          "field": "printed-page2-case-number",
+          "factId": "matter.case_number",
+          "page": 2,
+          "rect": {
+            "x": 108.56,
+            "y": 750.7,
+            "width": 465.44,
+            "height": 13
+          },
+          "section": "Page 2 printed header above FOR COURT USE ONLY",
+          "effectiveLabel": "Case Number in the printed page 2 header",
+          "writtenThrough": "shared_flat_overlay_finalizer",
+          "drawnText": [
+            "218-2018-CR-00119821-SUPPLEMENTAL"
+          ],
+          "expected": "218-2018-CR-00119821-SUPPLEMENTAL",
+          "matchesExpected": true
         }
       ]
     },
@@ -706,14 +782,33 @@
       "fixture": "boundary",
       "formNumber": "NHJB-2328",
       "sourceSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 3,
       "flattenedWidgetAppearancesReadFromOutputBytes": 93,
-      "addedGlyphsReadFromOutputBytes": 94,
+      "addedGlyphsReadFromOutputBytes": 121,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": [],
       "documentAuthoredAppearances": [],
-      "unfittable": [],
+      "unfittable": [
+        {
+          "field": "case number",
+          "factId": "matter.case_number",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        },
+        {
+          "field": "case number1",
+          "factId": "matter.charges[0].case_number",
+          "reason": "value_exceeds_form_max_length",
+          "category": "unfittable",
+          "maxLength": 17,
+          "valueLength": 33,
+          "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+        }
+      ],
       "actualWrites": [
         {
           "field": "1.1",
@@ -755,7 +850,7 @@
         },
         {
           "field": "2.1",
-          "factId": "participant.street_address",
+          "factId": "participant.residence_address",
           "page": 1,
           "rect": {
             "x": 158.11,
@@ -765,11 +860,11 @@
           },
           "section": "Who You Are",
           "effectiveLabel": "Residence Address",
-          "writtenThrough": "shared_descriptor_channel",
+          "writtenThrough": "finalizer_named_fact_channel",
           "drawnText": [
-            "1188 Upper Notch Crossing Road, Apartment 14B"
+            "1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, NH 03801-2214"
           ],
-          "expected": "1188 Upper Notch Crossing Road, Apartment 14B",
+          "expected": "1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, NH 03801-2214",
           "matchesExpected": true
         }
       ]
@@ -778,7 +873,7 @@
       "fixture": "boundary",
       "formNumber": "NHJB-2956",
       "sourceSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
-      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "proofMethod": "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
       "valuesReportedByFinalizer": 5,
       "flattenedWidgetAppearancesReadFromOutputBytes": 11,
       "addedGlyphsReadFromOutputBytes": 132,
@@ -898,8 +993,8 @@
     {
       "fixture": "canonical",
       "formNumber": "NHJB-2311",
-      "valuesReportedByFinalizer": 2,
-      "addedGlyphsReadFromOutputBytes": 35,
+      "valuesReportedByFinalizer": 3,
+      "addedGlyphsReadFromOutputBytes": 52,
       "flattenedWidgetAppearancesReadFromOutputBytes": 16,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
@@ -908,7 +1003,7 @@
       "fixture": "canonical",
       "formNumber": "NHJB-2328",
       "valuesReportedByFinalizer": 5,
-      "addedGlyphsReadFromOutputBytes": 106,
+      "addedGlyphsReadFromOutputBytes": 125,
       "flattenedWidgetAppearancesReadFromOutputBytes": 93,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
@@ -934,8 +1029,8 @@
     {
       "fixture": "boundary",
       "formNumber": "NHJB-2311",
-      "valuesReportedByFinalizer": 1,
-      "addedGlyphsReadFromOutputBytes": 39,
+      "valuesReportedByFinalizer": 2,
+      "addedGlyphsReadFromOutputBytes": 72,
       "flattenedWidgetAppearancesReadFromOutputBytes": 16,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []
@@ -944,7 +1039,7 @@
       "fixture": "boundary",
       "formNumber": "NHJB-2328",
       "valuesReportedByFinalizer": 3,
-      "addedGlyphsReadFromOutputBytes": 94,
+      "addedGlyphsReadFromOutputBytes": 121,
       "flattenedWidgetAppearancesReadFromOutputBytes": 93,
       "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
       "refusedFieldsWithInk": []

@@ -1,0 +1,33 @@
+{
+  "familyId": "nh_petition_nonconviction_pre2019-set",
+  "status": "SELF_TEST_PASS",
+  "syntheticControls": 2,
+  "syntheticWidgetInstances": 3,
+  "syntheticPrintedHeaders": 2,
+  "printedHeaderFixturesReadBack": 2,
+  "duplicatePrintedCaptionRejected": true,
+  "courtSectionUnchanged": true,
+  "canonicalWrites": 2,
+  "boundaryMaxLenRefusals": [
+    {
+      "field": "case number",
+      "factId": "matter.case_number",
+      "reason": "value_exceeds_form_max_length",
+      "category": "unfittable",
+      "maxLength": 17,
+      "valueLength": 33,
+      "why": "the widget declares /MaxLen 17 and the value this fixture holds is 33 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+    },
+    {
+      "field": "telnum.1",
+      "factId": "participant.phone",
+      "reason": "value_exceeds_form_max_length",
+      "category": "unfittable",
+      "maxLength": 15,
+      "valueLength": 24,
+      "why": "the widget declares /MaxLen 15 and the value this fixture holds is 24 characters, so the form itself will not hold it. The packet refuses the write rather than truncating it, because a shortened case number or telephone number on a court filing reads as a complete one."
+    }
+  ],
+  "familyArtifactsWritten": false,
+  "limitation": "Synthetic control regression only; exact-source rebuild, visual review and determinism remain separate."
+}

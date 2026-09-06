@@ -6,6 +6,7 @@
   ],
   "routeSelectionId": "nh-petition-nonconviction-pre2019-set-nhjb-2317-2311-2328-2956",
   "renderStrategy": "acroform_fill",
+  "supplementalRenderStrategy": "shared_flat_overlay_for_measured_printed_header",
   "captionBasis": "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
   "dispositionVocabulary": [
     "signature_or_date_participant_completion",
@@ -14,7 +15,7 @@
   ],
   "routeDeterminedSelections": [],
   "routeSelectionNote": "The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5. Nothing on the certification page is a route election: each box there is a statement the applicant swears to under penalties of law about their own record, several of them legal characterisations of their own matters, and a packet that ticked one would be swearing for them. Which court, whether to ask for a hearing, and every financial answer on the waiver papers are the participant's too, and each is disclosed by name.",
-  "requiredBeforeFilingCount": 89,
+  "requiredBeforeFilingCount": 90,
   "requiredBeforeFiling": [
     {
       "document": "NHJB-2317",
@@ -135,6 +136,16 @@
       "identity": "NHJB-2311 field tr.reasons",
       "why": "the platform holds no value for this and the participant supplies it before filing: your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you",
       "participantMustSupply": "your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you"
+    },
+    {
+      "document": "NHJB-2311",
+      "field": "NHJB-2311/printed-page2-case-name",
+      "page": 2,
+      "section": "Page 2 printed header above FOR COURT USE ONLY",
+      "disclosureLabel": "Case Name in the printed page 2 header",
+      "identity": "NHJB-2311 field printed-page2-case-name",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY",
+      "participantMustSupply": "the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY"
     },
     {
       "document": "NHJB-2328",
@@ -3689,7 +3700,8 @@
       "structuralClass": "acroform",
       "explicitMappings": {
         "NHJB-2311/case number": "matter.case_number",
-        "NHJB-2311/name": "participant.full_legal_name"
+        "NHJB-2311/name": "participant.full_legal_name",
+        "NHJB-2311/printed-page2-case-number": "matter.case_number"
       },
       "roleRefusals": [],
       "selectionControls": [
@@ -3812,6 +3824,48 @@
           "document": "NHJB-2311",
           "factId": "participant.full_legal_name",
           "kind": "text"
+        },
+        {
+          "field": "NHJB-2311/printed-page2-case-number",
+          "fieldName": "NHJB-2311/printed-page2-case-number",
+          "acroFieldName": null,
+          "printedHeader": true,
+          "sourceRule": {
+            "operator": "re",
+            "x": 106.56,
+            "y": 748.2,
+            "width": 469.44,
+            "height": 1.080000000000041,
+            "paintedBy": "f*",
+            "stream": "page_content",
+            "depth": 0,
+            "pathIndex": 1
+          },
+          "courtSectionStartsAt": 716.5,
+          "page": 2,
+          "rect": {
+            "x": 108.56,
+            "y": 750.7,
+            "width": 465.44,
+            "height": 13
+          },
+          "rectBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedLabel": "Case Number in the printed page 2 header",
+          "printedLine": "Case Number in the printed page 2 header",
+          "sectionHeading": "Page 2 printed header above FOR COURT USE ONLY",
+          "regionHeading": "Case Number in the printed page 2 header",
+          "effectiveLabel": "Case Number in the printed page 2 header",
+          "captionBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedTextAtCoordinate": [
+            {
+              "y": 750.4,
+              "extracted": "Case Number:"
+            }
+          ],
+          "document": "NHJB-2311",
+          "factId": "matter.case_number",
+          "kind": "flat_text",
+          "writeChannel": "shared_flat_overlay_finalizer"
         }
       ],
       "canonicalRefusals": [
@@ -4402,6 +4456,57 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a navigation button in the PDF viewer, not a place anything is filed"
+        },
+        {
+          "field": "NHJB-2311/printed-page2-case-name",
+          "fieldName": "NHJB-2311/printed-page2-case-name",
+          "acroFieldName": null,
+          "printedHeader": true,
+          "sourceRule": {
+            "operator": "re",
+            "x": 96,
+            "y": 762.72,
+            "width": 480,
+            "height": 1.080000000000041,
+            "paintedBy": "f*",
+            "stream": "page_content",
+            "depth": 0,
+            "pathIndex": 0
+          },
+          "courtSectionStartsAt": 716.5,
+          "page": 2,
+          "rect": {
+            "x": 98,
+            "y": 765.22,
+            "width": 476,
+            "height": 13
+          },
+          "rectBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedLabel": "Case Name in the printed page 2 header",
+          "printedLine": "Case Name in the printed page 2 header",
+          "sectionHeading": "Page 2 printed header above FOR COURT USE ONLY",
+          "regionHeading": "Case Name in the printed page 2 header",
+          "effectiveLabel": "Case Name in the printed page 2 header",
+          "captionBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedTextAtCoordinate": [
+            {
+              "y": 764.9,
+              "extracted": "Case Name:"
+            }
+          ],
+          "document": "NHJB-2311",
+          "reason": "the participant supplies this before filing: the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2311 field printed-page2-case-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY",
+          "participantMustSupply": "the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY"
         }
       ],
       "boundaryWrites": [
@@ -4436,6 +4541,48 @@
           "document": "NHJB-2311",
           "factId": "participant.full_legal_name",
           "kind": "text"
+        },
+        {
+          "field": "NHJB-2311/printed-page2-case-number",
+          "fieldName": "NHJB-2311/printed-page2-case-number",
+          "acroFieldName": null,
+          "printedHeader": true,
+          "sourceRule": {
+            "operator": "re",
+            "x": 106.56,
+            "y": 748.2,
+            "width": 469.44,
+            "height": 1.080000000000041,
+            "paintedBy": "f*",
+            "stream": "page_content",
+            "depth": 0,
+            "pathIndex": 1
+          },
+          "courtSectionStartsAt": 716.5,
+          "page": 2,
+          "rect": {
+            "x": 108.56,
+            "y": 750.7,
+            "width": 465.44,
+            "height": 13
+          },
+          "rectBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedLabel": "Case Number in the printed page 2 header",
+          "printedLine": "Case Number in the printed page 2 header",
+          "sectionHeading": "Page 2 printed header above FOR COURT USE ONLY",
+          "regionHeading": "Case Number in the printed page 2 header",
+          "effectiveLabel": "Case Number in the printed page 2 header",
+          "captionBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedTextAtCoordinate": [
+            {
+              "y": 750.4,
+              "extracted": "Case Number:"
+            }
+          ],
+          "document": "NHJB-2311",
+          "factId": "matter.case_number",
+          "kind": "flat_text",
+          "writeChannel": "shared_flat_overlay_finalizer"
         }
       ],
       "boundaryRefusals": [
@@ -5082,6 +5229,57 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a navigation button in the PDF viewer, not a place anything is filed"
+        },
+        {
+          "field": "NHJB-2311/printed-page2-case-name",
+          "fieldName": "NHJB-2311/printed-page2-case-name",
+          "acroFieldName": null,
+          "printedHeader": true,
+          "sourceRule": {
+            "operator": "re",
+            "x": 96,
+            "y": 762.72,
+            "width": 480,
+            "height": 1.080000000000041,
+            "paintedBy": "f*",
+            "stream": "page_content",
+            "depth": 0,
+            "pathIndex": 0
+          },
+          "courtSectionStartsAt": 716.5,
+          "page": 2,
+          "rect": {
+            "x": 98,
+            "y": 765.22,
+            "width": 476,
+            "height": 13
+          },
+          "rectBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedLabel": "Case Name in the printed page 2 header",
+          "printedLine": "Case Name in the printed page 2 header",
+          "sectionHeading": "Page 2 printed header above FOR COURT USE ONLY",
+          "regionHeading": "Case Name in the printed page 2 header",
+          "effectiveLabel": "Case Name in the printed page 2 header",
+          "captionBasis": "printed_caption_and_rule_measured_from_exact_source_page_content",
+          "printedTextAtCoordinate": [
+            {
+              "y": 764.9,
+              "extracted": "Case Name:"
+            }
+          ],
+          "document": "NHJB-2311",
+          "reason": "the participant supplies this before filing: the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NHJB-2311 field printed-page2-case-name",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY",
+          "participantMustSupply": "the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY"
         }
       ]
     },
@@ -5100,7 +5298,7 @@
         "NHJB-2328/case number": "matter.case_number",
         "NHJB-2328/1.1": "participant.full_legal_name",
         "NHJB-2328/1.2": "participant.date_of_birth",
-        "NHJB-2328/2.1": "participant.street_address",
+        "NHJB-2328/2.1": "participant.residence_address",
         "NHJB-2328/case number1": "matter.case_number"
       },
       "roleRefusals": [],
@@ -5562,8 +5760,10 @@
             }
           ],
           "document": "NHJB-2328",
-          "factId": "participant.street_address",
-          "kind": "text"
+          "factId": "participant.residence_address",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "The generic Residence Address caption binds street only. The complete address is composed from held street, city, state abbreviation and ZIP facts and fitted whole through the existing named-fact channel."
         },
         {
           "field": "NHJB-2328/case number1",
@@ -8882,8 +9082,10 @@
             }
           ],
           "document": "NHJB-2328",
-          "factId": "participant.street_address",
-          "kind": "text"
+          "factId": "participant.residence_address",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "The generic Residence Address caption binds street only. The complete address is composed from held street, city, state abbreviation and ZIP facts and fitted whole through the existing named-fact channel."
         }
       ],
       "boundaryRefusals": [

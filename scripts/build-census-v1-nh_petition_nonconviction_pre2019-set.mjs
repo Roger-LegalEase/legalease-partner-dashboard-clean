@@ -61,8 +61,8 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { extractTextItems, extractPathSegments, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { finalizeOfficialForm, finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
@@ -356,7 +356,8 @@ const NOT_ON_ROUTE = (why) => ({ policy: "not_on_route", why });
  * the value to that widget's own rectangle, and refuses it WHOLE rather than
  * truncating. No caller text can reach the page through it. The ordinary pass
  * skips a named field entirely, so the wrong fact cannot be written there
- * first. It is named here for five fields and five facts and for nothing else:
+ * first. It also carries the complete held residence address into NHJB-2328's
+ * numeric field 2.1, whose generic address caption otherwise binds street only.
  * NHJB-2956 "name.2" (maiden name or alias) is NOT named and stays the
  * participant's, as does every other box on these forms.
  */
@@ -478,7 +479,7 @@ const FORM_FIELDS = {
     "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
     "1.1": { section: "Who You Are", label: "Name", ...WRITE("participant.full_legal_name") },
     "1.2": { section: "Who You Are", label: "DOB", ...WRITE("participant.date_of_birth") },
-    "2.1": { section: "Who You Are", label: "Residence Address", ...WRITE("participant.street_address") },
+    "2.1": { section: "Who You Are", label: "Residence Address", ...NARRATIVE("participant.residence_address", "the complete held residence address") },
     "3.1": { section: "Who You Are", label: "Mailing Address, if different from the residence address", ...OPTIONAL("your mailing address, only if it is different from where you live") },
     "cb.1": { section: "Who You Are", selection: true, label: "Marital status — single, married, separated or widowed (selection)", ...ELECTION("your marital status is yours to state and the platform holds no marital fact for you") },
     "tr.support": { section: "Who You Are", label: "The names, ages and relationships of the dependents you support", ...SUPPLY("the names, ages and relationships of everyone who depends on you for support") },
@@ -673,14 +674,17 @@ const FIXTURES = {
  * channel refuses it, measured here on the pinned binary.
  *
  * So the line is derived here, from the two facts this packet already holds and
- * already writes elsewhere -- participant.street_address on NHJB-2317 and
- * NHJB-2328, and participant.city_state_zip, which is a fact the shared
+ * already writes elsewhere -- participant.street_address on NHJB-2317,
+ * and participant.city_state_zip, which is a fact the shared
  * registry itself carries -- and named to the finalizer as a single fact id.
  * NOTHING IS AUTHORED: the value is a function of held facts, computed by
  * joining them in the order the form's own caption prints them, and if either
  * part is missing the fact is simply absent and the line stays blank for the
  * participant rather than carrying a fraction of an address.
  *
+ * NHJB-2328's Residence Address uses the held street, city, state abbreviation
+ * and ZIP facts. This avoids expanding an already-held state abbreviation on
+ * its shorter line; NHJB-2956's existing combined-address fact stays unchanged.
  * The registry has no descriptor and no single fact for this line. That gap is
  * in scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does
  * not open, and it is reported in build-findings.json.
@@ -690,6 +694,11 @@ const COMPOSED_FACTS = {
     from: ["participant.street_address", "participant.city_state_zip"],
     join: ", ",
     printedCaption: "STREET/CITY/STATE/ZIP CODE"
+  },
+  "participant.residence_address": {
+    from: ["participant.street_address", "participant.city", "participant.state", "participant.zip"],
+    separators: [", ", ", ", " "],
+    printedCaption: "Residence Address"
   }
 };
 
@@ -699,7 +708,10 @@ function factsFor(fixtureName) {
   for (const [factId, spec] of Object.entries(COMPOSED_FACTS)) {
     const parts = spec.from.map((f) => held[f]);
     if (parts.every((v) => typeof v === "string" && v.trim() !== "")) {
-      facts[factId] = parts.map((v) => v.trim()).join(spec.join);
+      const values = parts.map((v) => v.trim());
+      facts[factId] = spec.separators
+        ? values.map((v, i) => `${i === 0 ? "" : spec.separators[i - 1]}${v}`).join("")
+        : values.join(spec.join);
     }
   }
   return facts;
@@ -753,6 +765,43 @@ function resolveSources() {
 }
 
 /* ---- census --------------------------------------------------------------- */
+// The second-page caption is printed page content, not an AcroForm control.
+// Inventory both blanks and bind the write box to the original source rule.
+function printedHeaderRows(source, pages) {
+  if (source.formNumber !== "NHJB-2311") return [];
+  const page = pages[1];
+  assert.ok(page, "NHJB-2311 must retain its second page");
+  const lines = groupIntoLines(extractTextItems(page));
+  const heading = lines.find((line) => line.text.trim() === "FOR COURT USE ONLY");
+  assert.ok(heading, "NHJB-2311 court-section boundary is absent");
+  const rules = extractPathSegments(page).filter((segment) => segment.operator === "re"
+    && segment.width > 400 && segment.height > 0 && segment.height < 1.5);
+  return [
+    { key: "printed-page2-case-name", label: "Case Name:",
+      ...SUPPLY("the same case name as the petition, copied into the printed Case Name header on page 2 above FOR COURT USE ONLY") },
+    { key: "printed-page2-case-number", label: "Case Number:", ...WRITE("matter.case_number") }
+  ].map((entry) => {
+    const captions = lines.filter((line) => line.text.trim() === entry.label && line.y > heading.y);
+    assert.equal(captions.length, 1, `NHJB-2311 printed ${entry.label} must occur once above the ruling`);
+    const caption = captions[0];
+    const matches = rules.filter((rule) => Math.abs(rule.y - (caption.y - 2.2)) < 0.2 && rule.x > caption.x);
+    assert.equal(matches.length, 1, `NHJB-2311 printed ${entry.label} must have its original rule`);
+    const rule = matches[0];
+    const rect = { x: rule.x + 2, y: rule.y + 2.5, width: rule.width - 4, height: 13 };
+    assert.ok(rect.y > heading.y + 20, "printed caption must remain above the court-owned section");
+    return {
+      ...entry, name: entry.key, page: 2, widgets: [], rect,
+      rectBasis: "printed_caption_and_rule_measured_from_exact_source_page_content",
+      printedHeader: true, type: "flat_text", sourceValue: null,
+      hiddenUntilTheFormRevealsIt: false, isSelectionControl: false, multiline: false, maxLength: null,
+      section: "Page 2 printed header above FOR COURT USE ONLY",
+      effectiveLabel: `${entry.label.slice(0, -1)} in the printed page 2 header`,
+      printedTextAtCoordinate: [{ y: caption.y, extracted: caption.text }],
+      sourceRule: rule, courtSectionStartsAt: heading.y
+    };
+  });
+}
+
 async function censusOf(source) {
   const spec = FORM_FIELDS[source.formNumber];
   const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
@@ -833,27 +882,29 @@ async function censusOf(source) {
 
   const dictionaryKeys = new Set(Object.keys(spec));
   for (const r of rows) dictionaryKeys.delete(r.key);
+  rows.push(...printedHeaderRows(source, pages));
   return { rows, unmapped, stale: [...dictionaryKeys], pageText, pageCount: pages.length };
 }
 
 /* ---- render ---------------------------------------------------------------- */
 async function renderDocument(source, census, fixtureName) {
   const facts = factsFor(fixtureName);
-  const writable = census.rows.filter((r) => r.policy === "write");
+  const widgetRows = census.rows.filter((r) => !r.printedHeader);
+  const writable = widgetRows.filter((r) => r.policy === "write");
   /* Fields written through the finalizer's named-fact channel. See NARRATIVE.
    * They are deliberately NOT in unwritableFields -- the narrative pass refuses
    * a field classified unwritable by role -- and deliberately NOT in
    * explicitMappings either, because the ordinary pass skips a named field
    * entirely and never reaches a binding decision for it. */
-  const narrativeRows = census.rows.filter((r) => r.policy === "narrative");
+  const narrativeRows = widgetRows.filter((r) => r.policy === "narrative");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
   const writableNames = new Set([...writable, ...narrativeRows].map((r) => r.name));
-  const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
+  const unwritableFields = widgetRows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
 
-  const { bytes, report } = await finalizeOfficialForm({
+  let { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
-    census: census.rows.map((r) => ({
+    census: widgetRows.map((r) => ({
       name: r.name, type: r.type, effectiveLabel: r.effectiveLabel, regionHeading: r.section,
       widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
@@ -876,6 +927,22 @@ async function renderDocument(source, census, fixtureName) {
     suppressSynthesizedAppearances: true,
     title: source.title
   });
+  const printedWrites = census.rows.filter((row) => row.printedHeader && row.policy === "write");
+  if (printedWrites.length) {
+    const intermediateSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+    const flat = await finalizeFlatOverlay({
+      sourceBytes: bytes, expectedSha256: intermediateSha256, facts,
+      anchors: printedWrites.map((row) => ({ label: row.label, page: row.page, writeBox: row.rect, factId: row.fact, fontSize: 11 })),
+      documentTextLines: census.pageText.flatMap((page) => page.lines.map((line) => line.text)),
+      minFontSize: 11, title: source.title
+    });
+    assert.equal(flat.report.refused.length, 0, "the held printed header must fit its measured source rule");
+    assert.equal(flat.report.written.length, printedWrites.length);
+    report.printedHeaderOverlay = { ...flat.report, originalSourceSha256: source.sha256, intermediateSha256 };
+    report.written.push(...flat.report.written.map((write) => ({ ...write,
+      field: printedWrites.find((row) => row.label === write.anchor).name })));
+    bytes = flat.bytes;
+  }
   if (process.env.CO_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
@@ -948,7 +1015,23 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
   const refusedFieldsWithInk = [];
   const documentAuthoredAppearances = [];
   let glyphs = 0;
+  const output = await PDFDocument.load(artifactBytes, { ignoreEncryption: true });
   for (const r of census.rows) {
+    if (r.printedHeader) {
+      const readBack = extractTextItems(output.getPage(r.page - 1)).filter((item) =>
+        item.text.trim() && item.x >= r.rect.x - 0.1 && item.x + item.width <= r.rect.x + r.rect.width + 0.1
+        && Math.abs(item.y - r.rect.y) < 0.2).map((item) => fromWinAnsi(item.text));
+      const ink = readBack.join("").trim();
+      if (written.has(r.name)) {
+        const expected = factsFor(fixtureName)[r.fact];
+        assert.equal(ink, expected, "printed header value must read back from the delivered page content");
+        glyphs += ink.length;
+        actualWrites.push({ field: r.key, factId: r.fact, page: r.page, rect: r.rect,
+          section: r.section, effectiveLabel: r.effectiveLabel, writtenThrough: "shared_flat_overlay_finalizer",
+          drawnText: readBack, expected, matchesExpected: ink === expected });
+      } else if (ink) refusedFieldsWithInk.push({ fieldId: r.key, page: r.page, drawnText: readBack });
+      continue;
+    }
     for (const wdg of r.widgets) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
       const text = drawn.map((d) => d.text).filter(Boolean);
@@ -1056,12 +1139,13 @@ function sideOf(source, census, report) {
     const base = {
       field: `${source.formNumber}/${r.key}`,
       fieldName: `${source.formNumber}/${r.key}`.replace(/\[\d+\]/g, ""),
-      acroFieldName: r.name,
+      acroFieldName: r.printedHeader ? null : r.name,
+      ...(r.printedHeader ? { printedHeader: true, sourceRule: r.sourceRule, courtSectionStartsAt: r.courtSectionStartsAt } : {}),
       page: r.page, rect: r.rect, rectBasis: r.rectBasis,
       printedLabel: r.effectiveLabel, printedLine: r.effectiveLabel,
       sectionHeading: r.section, regionHeading: r.effectiveLabel,
       effectiveLabel: r.effectiveLabel,
-      captionBasis: "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+      captionBasis: r.printedHeader ? r.rectBasis : "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
       printedTextAtCoordinate: r.printedTextAtCoordinate,
       document: source.formNumber
     };
@@ -1070,11 +1154,14 @@ function sideOf(source, census, report) {
       if (writtenNames.has(r.name)) {
         canonicalWrites.push({
           ...base, factId: r.fact, kind: r.type,
+          ...(r.printedHeader ? { writeChannel: "shared_flat_overlay_finalizer" } : {}),
           ...(r.policy === "narrative"
             ? {
               writeChannel: "finalizer_named_fact_channel",
               whyNotTheDescriptorChannel:
-                "New Hampshire names this box for the line above it rather than for what it collects, so the shared "
+                r.name === "2.1"
+                  ? "The generic Residence Address caption binds street only. The complete address is composed from held street, city, state abbreviation and ZIP facts and fitted whole through the existing named-fact channel."
+                  : "New Hampshire names this box for the line above it rather than for what it collects, so the shared "
                 + "binder resolves the wrong fact from its NAME before its printed line is consulted. See "
                 + "build-findings.json; the fact is written at this widget's own rectangle through the finalizer's "
                 + "opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
@@ -1460,7 +1547,7 @@ function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE
   out.push("- **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.");
   out.push("- **The certificate of service box on NHJB-2328.** **This route requires no service by you** — the record says service is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank. It is on the form because the same form is used where a filer does have to serve somebody; on this route you have nobody to certify sending a copy to.");
   out.push("- **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.");
-  out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
+  out.push("- **The ruling sections marked FOR COURT USE ONLY on page 3 of NHJB-2317 and page 2 of NHJB-2311.** These carry the court's own order. The Case Name and Case Number headers above that section are case captions: copy the case name into NHJB-2311's printed page 2 header; its held case number is filled in above the court section.");
   out.push("- **Section II of NHJB-2956** — complete it for a mailed request or third-party release; all mailed requests require Section II notarized. Only an in-person request for your own record needs Section I alone. See step 8 for the recipient-name dropdown limitation and the completion steps.");
   out.push("");
 
@@ -1568,8 +1655,42 @@ async function selfTest() {
   const changedMemo = structuredClone(fee.record);
   changedMemo.data.tracks.find((t) => t.trackId === MEMO_TRACK_ID).rules.service = "";
   assert.throws(() => loadServiceRule(changedMemo), /disagree/);
+
+  // A printed header has no widget. Exercise its source-rule binding and the
+  // actual shared overlay/read-back path independently of the live queue.
+  const printedPdf = await PDFDocument.create();
+  printedPdf.addPage([612, 792]);
+  const printedPage = printedPdf.addPage([612, 792]);
+  for (const [text, y] of [["Case Name:", 764.9], ["Case Number:", 750.4], ["FOR COURT USE ONLY", 716.5]]) {
+    printedPage.drawText(text, { x: 36, y, size: 10 });
+  }
+  const { rectangle, fill } = require("pdf-lib");
+  printedPage.pushOperators(rectangle(96, 762.72, 480, 1.08), fill(), rectangle(106.56, 748.2, 469.44, 1.08), fill());
+  const printedBytes = await printedPdf.save();
+  const printedSource = { formNumber: "NHJB-2311", instrumentKind: "primary_filing", title: "SYNTHETIC PRINTED HEADER TEST",
+    bytes: printedBytes, sha256: crypto.createHash("sha256").update(printedBytes).digest("hex") };
+  const printedCensus = { rows: printedHeaderRows(printedSource, (await PDFDocument.load(printedBytes)).getPages()), pageText: [] };
+  assert.equal(printedCensus.rows.length, 2);
+  assert.ok(printedCensus.rows.every((r) => r.widgets.length === 0));
+  assert.equal(printedCensus.rows.find((r) => r.key.endsWith("case-name")).policy, "supply");
+  for (const fixture of ["canonical", "boundary"]) {
+    const rendered = await renderDocument(printedSource, printedCensus, fixture);
+    const proof = await byteProof(printedSource, printedCensus, rendered.bytes, rendered.report, fixture);
+    assert.equal(proof.actualWrites.length, 1);
+    assert.equal(proof.refusedFieldsWithInk.length, 0);
+    assert.equal(rendered.report.printedHeaderOverlay.written[0].fontSize, 11);
+    const outputPage = (await PDFDocument.load(rendered.bytes)).getPage(1);
+    assert.deepEqual(extractTextItems(outputPage).filter((item) => item.y < 730).map((item) => item.text),
+      ["FOR COURT USE ONLY"], "the court section must receive no participant ink");
+  }
+  const moved = await PDFDocument.load(printedBytes);
+  moved.getPage(1).drawText("Case Number:", { x: 36, y: 735, size: 10 });
+  const movedReadBack = await PDFDocument.load(await moved.save());
+  assert.throws(() => printedHeaderRows(printedSource, movedReadBack.getPages()), /must occur once/);
   return { familyId: FAMILY_ID, status: "SELF_TEST_PASS", syntheticControls: 2,
     syntheticWidgetInstances: 3,
+    syntheticPrintedHeaders: 2, printedHeaderFixturesReadBack: 2,
+    duplicatePrintedCaptionRejected: true, courtSectionUnchanged: true,
     canonicalWrites: 2, boundaryMaxLenRefusals: refused, familyArtifactsWritten: false,
     limitation: "Synthetic control regression only; exact-source rebuild, visual review and determinism remain separate." };
 }
@@ -1625,8 +1746,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     assert.equal(writesOntoHidden.length, 0,
       `${source.formNumber}: ${writesOntoHidden.length} write(s) land on a widget the form hides: ${JSON.stringify(writesOntoHidden.map((r) => r.key))}`);
     if (source.acroFieldCount != null) {
-      assert.equal(census.rows.length, source.acroFieldCount,
-        `${source.formNumber}: censused ${census.rows.length} fields, the committed corpus index declares ${source.acroFieldCount}`);
+      assert.equal(census.rows.filter((row) => !row.printedHeader).length, source.acroFieldCount,
+        `${source.formNumber}: source AcroForm count must match ${source.acroFieldCount}; printed headers are inventoried separately`);
     }
     censuses.push({ source, census });
   }
@@ -1674,7 +1795,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const proof = await byteProof(source, census, bytes, report, fixtureName, sourceInkByForm.get(source.formNumber) ?? []);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
-        proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+        proofMethod: "flattened widget appearances and printed-header page content read back at every measured write box of the finalized bytes",
         valuesReportedByFinalizer: report.written.length,
         flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
         addedGlyphsReadFromOutputBytes: proof.glyphs,
@@ -1805,9 +1926,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     documents: censuses.map(({ source, census }) => ({
       documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
       pageCount: census.pageCount, fieldCount: census.rows.length,
+      acroFormFieldCount: census.rows.filter((r) => !r.printedHeader).length,
+      printedHeaderCount: census.rows.filter((r) => r.printedHeader).length,
       corpusIndexDeclaresFieldCount: source.acroFieldCount,
       fields: census.rows.map((r) => ({
         field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, pdfType: r.type,
+        ...(r.printedHeader ? { printedHeader: true, sourceRule: r.sourceRule, courtSectionStartsAt: r.courtSectionStartsAt } : {}),
         hiddenUntilTheFormRevealsIt: r.hiddenUntilTheFormRevealsIt === true,
         isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
         section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
@@ -1874,6 +1998,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
             : null;
         return {
           field: r.key, type: r.type, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+          ...(r.printedHeader ? { printedHeader: true } : {}),
           isSelectionControl: r.isSelectionControl, policy: r.policy, factId: r.fact ?? null,
           effectiveLabel: r.effectiveLabel, section: r.section,
           sourceValuePresentInBlankForm: structurallyAnswered === null ? carried : null,
@@ -1913,6 +2038,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: FAMILY_ID,
     routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill",
+    supplementalRenderStrategy: "shared_flat_overlay_for_measured_printed_header",
     captionBasis: "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
     routeDeterminedSelections: [],
@@ -1937,7 +2063,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/reports/actual-writes.json`, {
     schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID, derivedFromArtifactBytes: true,
-    note: "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report.",
+    note: "Read back from the finalized PDF bytes at every measured widget rectangle and printed-header write box, not from the finalizer's own report.",
     documents: writeProofs,
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture, formNumber: p.formNumber,
@@ -1969,7 +2095,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID,
     required: true, granted: false, reviewedBy: null,
     note:
-      "Every page of both fixtures is rastered for a human who did not build this family. On these four forms the "
+      "Every page of both current fixtures requires raster review by a human who did not build this family; the actual current raster coverage is recorded in reports/rendered-artifacts.json. On these four forms the "
       + "printed captions do extract cleanly, and each label in the dictionary was written by reading the line at the "
       + "widget's own rectangle -- but several boxes are NAMED for the line above them rather than for what they "
       + "collect, so a reader of the paper is the check that a value sits under the heading it belongs to.",
@@ -1993,7 +2119,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "name, address, city, state, zip, telephone, e-mail, signature and date. The source's placeholder "
         + "'Enter /s/ before name' is removed under the recorded participant-input appearance disposition; "
         + "the signature line must be empty.",
-      "NHJB-2328 page 1: name, date of birth, residence address and case number written; every financial line and both "
+      "NHJB-2311 page 2 (packet page 5): the complete held Case Number is printed above FOR COURT USE ONLY in both fixtures. The separate printed Case Name line is blank and required before filing. The ruling section remains blank.",
+      "NHJB-2328 page 1: name, date of birth, complete residence address (street, city, state and ZIP) and case number written where the form permits; every financial line and both "
         + "take-home columns blank. The three Total lines on pages 1 and 2 must be blank: the source's "
         + "precomputed zero values are removed under the recorded participant-input appearance dispositions. "
         + "No financial figures or totals are held for this participant.",
