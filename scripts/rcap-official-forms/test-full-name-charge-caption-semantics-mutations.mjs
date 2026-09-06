@@ -22,6 +22,7 @@ process.chdir(rootDir);
 const VERIFIER = "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs";
 const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
 const DIFF = "data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-diff.json";
+const AL_RECEIPT = "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/shared-semantics-expectations.json";
 
 /** True when the verifier passes. */
 function verifierPasses() {
@@ -64,6 +65,20 @@ const must = (name, caught) => {
   console.log(`  ${caught ? "detected " : "UNDETECTED"} ${name}`);
   if (!caught) undetected += 1;
 };
+
+must("removing the exact AL arresting-agency correction is caught",
+  !underMutation(SEMANTICS, (s) => s.replace(
+    /^  \{\n    id: "al_cr65_participant_arresting_agency",[\s\S]*?^  \},\n/m, "")));
+must("the AL supplement cannot make a protected agency certification writable",
+  !underMutation(SEMANTICS, (s) => s.replace(
+    "export function protectCategoryOf(name) {",
+    'export function protectCategoryOf(name) {\n  if (name === "Agency certification") return null;')));
+must("an AL receipt claiming a new automatic write is rejected",
+  !underMutation(AL_RECEIPT, (s) => {
+    const record = JSON.parse(s);
+    record.projections.charge.rows[0].after.bindingWritable = true;
+    return `${JSON.stringify(record, null, 2)}\n`;
+  }));
 
 // 10. Reintroducing the defective behaviour.
 must("the predicate returning false for everything is caught",
