@@ -164,6 +164,20 @@ const ROUTES = [
     overlayRoot: "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading",
     migrated: true,
     components: ["primary_filing", "proposed_order"],
+    // APPROVAL PIN, FAILING ON PURPOSE. These are the bytes the decision owner
+    // approved on 2026-09-02 (OWN-ADOPT-2026-09-02-BATCH-53), under the
+    // condition that any shipping-artifact digest change requires re-review.
+    // Commit 42defabe4 (FIX02) added one court-owned-fields line to the
+    // proposed order and moved the bytes to d4cb7659… / ea728bba…, which no
+    // legal decision names. The loop below therefore fails at the rendered
+    // report and again at the bytes on disk, and both failures are true.
+    // Do not repair this by moving the pin: a changed pin would be a renewed
+    // approval written by a verifier. The route is already REVOKED and denied
+    // (this file still asserts sellable=false and MAINTENANCE_HOLD for it), so
+    // the red is a stale-approval signal, not a commercial exposure. Moving the
+    // pin needs a NEW legal-decision record naming the moved bytes, from the
+    // decision owner, and a lane holding that record.
+    // Disposition: docs/rcap/grade-a/captain/IL_PIN_DISPOSITION_2026-09-06.md
     artifacts: {
       canonical: ["7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d", 7802, 3],
       boundary: ["714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b", 7980, 3]
