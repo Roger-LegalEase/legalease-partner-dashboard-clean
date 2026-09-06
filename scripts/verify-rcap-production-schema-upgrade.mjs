@@ -38,6 +38,22 @@ const FORWARD_CHAIN = [
   "20260818207000_rcap_upgrade_07_grants.sql",
   "20260818208000_rcap_upgrade_08_storage_buckets.sql",
   "20260818209000_rcap_upgrade_09_security_hardening.sql",
+  "20260819120000_rcap_partner_provisioning.sql",
+  "20260822180000_rcap_prefill_reproposal.sql",
+  "20260823171000_internal_admin_authority_hardening.sql",
+  "20260825120000_clinic_mode_core.sql",
+  "20260825121000_clinic_mode_security.sql",
+  "20260825122000_clinic_mode_accounting_reporting.sql",
+  "20260828100000_shared_pending_result_and_atomic_claim.sql",
+  "20260830120000_participant_data_rights.sql",
+  "20260901115000_consumer_packet_artifact_provenance.sql",
+  "20260901120000_dtc_consumer_launch_rails.sql",
+  "20260901130000_consumer_private_delivery.sql",
+  "20260901140000_tighten_consumer_artifact_authorization.sql",
+  "20260903120000_clinic_event_jurisdiction_lock.sql",
+  "20260903130000_atomic_sponsored_packet_finalization.sql",
+  "20260906120000_sponsored_route_render_transaction.sql",
+  "20260906130000_verified_artifact_regeneration.sql",
 ];
 
 /** Codified by step 09. Named here so the checks below cannot drift from the intent. */

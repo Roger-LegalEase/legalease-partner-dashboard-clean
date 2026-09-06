@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "DEL-E",
+  "title": "Forward-chain list in the production schema-upgrade verifier brought up to date with the committed migrations",
+  "recordedOn": "2026-09-06",
+  "commit": "PLACEHOLDER",
+  "base": "40f3d7b84",
+  "branch": "del-e-forward-chain",
+  "worktree": "/home/user/dele-worktree",
+  "changedPaths": [
+    "scripts/verify-rcap-production-schema-upgrade.mjs",
+    "data/rcap-grade-a/packet-factory-24h/del-e/RETURN.json"
+  ],
+  "verifierBefore": {
+    "command": "node scripts/verify-rcap-production-schema-upgrade.mjs",
+    "exitCode": 1,
+    "failedCheck": "forward_chain_is_exactly_the_committed_migrations",
+    "tail": "  ok   recovered_baseline_is_untouched\n  FAIL forward_chain_is_exactly_the_committed_migrations\n         migration set changed\n  ok   no_unreviewed_destructive_operation\n\nverify-rcap-production-schema-upgrade FAILED\n  - forward_chain_is_exactly_the_committed_migrations: migration set changed\n+ actual - expected\n... Skipped lines\n\n  [\n    '20260728213131_remote_schema.sql',\n    '20260818200000_rcap_upgrade_00_roles.sql',\n    '20260818201000_rcap_upgrade_01_tables_and_columns.sql',\n    '20260818202000_rcap_upgrade_02_functions.sql',\n...\n    '20260818209000_rcap_upgrade_09_security_hardening.sql',\n+   '20260819120000_rcap_partner_provisioning.sql',\n+   '20260822180000_rcap_prefill_reproposal.sql',\n+   '20260823171000_internal_admin_authority_hardening.sql',\n+   '20260825120000_clinic_mode_core.sql',\n+   '20260825121000_clinic_mode_security.sql',\n+   '20260825122000_clinic_mode_accounting_reporting.sql',\n+   '20260828100000_shared_pending_result_and_atomic_claim.sql',\n+   '20260830120000_participant_data_rights.sql',\n+   '20260901115000_consumer_packet_artifact_provenance.sql',\n+   '20260901120000_dtc_consumer_launch_rails.sql',\n+   '20260901130000_consumer_private_delivery.sql',\n+   '20260901140000_tighten_consumer_artifact_authorization.sql',\n+   '20260903120000_clinic_event_jurisdiction_lock.sql',\n+   '20260903130000_atomic_sponsored_packet_finalization.sql',\n+   '20260906120000_sponsored_route_render_transaction.sql',\n+   '20260906130000_verified_artifact_regeneration.sql'\n  ]\n\n"
+  },
+  "migrationsAddedToChain": [
+    "20260819120000_rcap_partner_provisioning.sql",
+    "20260822180000_rcap_prefill_reproposal.sql",
+    "20260823171000_internal_admin_authority_hardening.sql",
+    "20260825120000_clinic_mode_core.sql",
+    "20260825121000_clinic_mode_security.sql",
+    "20260825122000_clinic_mode_accounting_reporting.sql",
+    "20260828100000_shared_pending_result_and_atomic_claim.sql",
+    "20260830120000_participant_data_rights.sql",
+    "20260901115000_consumer_packet_artifact_provenance.sql",
+    "20260901120000_dtc_consumer_launch_rails.sql",
+    "20260901130000_consumer_private_delivery.sql",
+    "20260901140000_tighten_consumer_artifact_authorization.sql",
+    "20260903120000_clinic_event_jurisdiction_lock.sql",
+    "20260903130000_atomic_sponsored_packet_finalization.sql",
+    "20260906120000_sponsored_route_render_transaction.sql",
+    "20260906130000_verified_artifact_regeneration.sql"
+  ],
+  "derivation": "readdirSync-equivalent listing of supabase/migrations/*.sql at 40f3d7b84, sorted by filename (= timestamp order), with the baseline 20260728213131_remote_schema.sql excluded. No filename was typed from memory; nothing under supabase/migrations/** was edited, renamed or deleted.",
+  "verifierAfter": {
+    "command": "node scripts/verify-rcap-production-schema-upgrade.mjs",
+    "exitCode": 1,
+    "passedChecks": [
+      "recovered_baseline_is_untouched",
+      "forward_chain_is_exactly_the_committed_migrations"
+    ],
+    "failedCheck": "no_unreviewed_destructive_operation",
+    "tail": "  ok   recovered_baseline_is_untouched\n  ok   forward_chain_is_exactly_the_committed_migrations\n  FAIL no_unreviewed_destructive_operation\n         destructive statement with no reviewed disposition in 20260822180000_rcap_prefill_reproposal.sql:\n\nverify-rcap-production-schema-upgrade FAILED\n  - no_unreviewed_destructive_operation: destructive statement with no reviewed disposition in 20260822180000_rcap_prefill_reproposal.sql:\n    drop index if exists public.partner_onboarding_prefill_values_active_field_unique\n"
+  },
+  "stoppedHere": {
+    "reason": "With the chain correct, the verifier's next static check surfaces a pre-existing, previously hidden condition: 18 destructive statements across 9 of the newly listed migrations have no entry in REVIEWED_DESTRUCTIVE_DISPOSITIONS. The stale list had been concealing them. Writing a disposition is a review act (each entry pins a statement AND asserts in prose why it cannot lose data), not the mechanical list update this lane was scoped to, so no disposition was invented, no migration was edited, and no assertion was weakened or removed.",
+    "unreviewedDestructiveStatements": [
+      {
+        "file": "20260822180000_rcap_prefill_reproposal.sql",
+        "statement": "drop index if exists public.partner_onboarding_prefill_values_active_field_unique;"
+      },
+      {
+        "file": "20260822180000_rcap_prefill_reproposal.sql",
+        "statement": "drop trigger if exists rcap_onboarding_prefill_supersede_prior_applied_trg on public.partner_onboarding_prefill_values;"
+      },
+      {
+        "file": "20260822180000_rcap_prefill_reproposal.sql",
+        "statement": "alter table public.partner_onboarding_activity drop constraint if exists partner_onboarding_activity_event_type_check;"
+      },
+      {
+        "file": "20260823171000_internal_admin_authority_hardening.sql",
+        "statement": "drop policy if exists \"consumer wilma telemetry internal safety select\" on public.consumer_wilma_telemetry;"
+      },
+      {
+        "file": "20260823171000_internal_admin_authority_hardening.sql",
+        "statement": "drop policy if exists legalease_os_support_items_internal_admin_all on public.legalease_os_support_items;"
+      },
+      {
+        "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+        "statement": "drop policy if exists clinic_assisted_sessions_scoped_read on public.clinic_assisted_sessions;"
+      },
+      {
+        "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+        "statement": "alter table public.clinic_packet_reservations drop constraint if exists clinic_packet_reservations_clinic_case_id_key;"
+      },
+      {
+        "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+        "statement": "drop trigger if exists clinic_sync_packet_reservation_after_job on public.packet_render_jobs;"
+      },
+      {
+        "file": "20260828100000_shared_pending_result_and_atomic_claim.sql",
+        "statement": "drop trigger if exists participant_claim_events_no_update on public.participant_claim_events;"
+      },
+      {
+        "file": "20260830120000_participant_data_rights.sql",
+        "statement": "drop policy if exists \"participant reads own privacy requests\" on public.participant_privacy_requests;"
+      },
+      {
+        "file": "20260830120000_participant_data_rights.sql",
+        "statement": "drop trigger if exists reject_tombstoned_consumer_briefcase_writes on public.consumer_briefcase_items;"
+      },
+      {
+        "file": "20260830120000_participant_data_rights.sql",
+        "statement": "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_error_code_check;"
+      },
+      {
+        "file": "20260830120000_participant_data_rights.sql",
+        "statement": "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;"
+      },
+      {
+        "file": "20260901115000_consumer_packet_artifact_provenance.sql",
+        "statement": "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;"
+      },
+      {
+        "file": "20260901120000_dtc_consumer_launch_rails.sql",
+        "statement": "alter table public.consumer_pending_screening_results drop constraint if exists consumer_pending_screening_results_claimed_matter_id_fkey;"
+      },
+      {
+        "file": "20260901120000_dtc_consumer_launch_rails.sql",
+        "statement": "drop trigger if exists consumer_render_job_verification_guard_trg on public.packet_render_jobs;"
+      },
+      {
+        "file": "20260901130000_consumer_private_delivery.sql",
+        "statement": "drop trigger if exists publish_validated_consumer_render_artifact_trg on public.packet_render_jobs;"
+      },
+      {
+        "file": "20260906120000_sponsored_route_render_transaction.sql",
+        "statement": "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_sponsored_verification_hash_check, add constraint packet_render_jobs_sponsore ..."
+      }
+    ],
+    "shape": "Every one is an `if exists` idempotency drop or a constraint dropped and re-added in the same step \u2014 i.e. they look dispositionable \u2014 but that judgement belongs to whoever owns the security lineage, on the record, statement by statement.",
+    "owner": "Captain / security-lineage owner"
+  },
+  "replayNotReached": "The static checks fail fast, so the three-database replay (build/catalog/RLS/grant/storage/remediation checks) never ran. It also could not have run here: scripts/rcap-schema-upgrade-lab.sh requires PostgreSQL 17 (the baseline grants MAINTAIN, which is 17+ syntax and cannot replay on 16); this container has only /usr/lib/postgresql/16 and no provisioned lab cluster. So this lane makes NO claim that the 16 added migrations apply cleanly, that the replay is deterministic, or that the upgrade reaches the accepted target schema.",
+  "stagingActionCheck": {
+    "command": "node scripts/generate-rcap-staging-action.mjs --check",
+    "before": {
+      "exitCode": 1,
+      "failures": [
+        "imageInputFingerprintBaseSha 3285b660 is not image-input-equivalent to HEAD; the fingerprint is stale and must be regenerated",
+        "worker publication evidence was built from b680a4e4, which is not image-input-equivalent to the fingerprint base 40f3d7b8; the published image is for other bytes and must be republished at the freeze"
+      ]
+    },
+    "after": {
+      "exitCode": 1,
+      "failures": "byte-identical to before; this lane's edit changed neither failure",
+      "unchangedByThisLane": true
+    },
+    "agreesWithChain": false,
+    "agreementNote": "data/rcap-staging-action.json migrationsInApplyOrder is not the same list and is not comparable entry-for-entry: it names 7 supabase/phase-49..55-*.sql authorization-scoped inputs, while the verifier's FORWARD_CHAIN names the 26 post-baseline supabase/migrations/*.sql files. Neither the staging action nor its generator's SEQUENCE mentions supabase/migrations/** at all, so the staging action carries no forward chain to agree or disagree with. securityCheckpointSha 13e356c49bd484e6f946ba604076718d904bca86 was read, not changed. The staging action was NOT regenerated: its image inputs belong to another lane.",
+    "regenerated": false
+  },
+  "notDone": [
+    "Did not write reviewed dispositions for the 18 destructive statements, did not relax or delete any BANNED pattern, and did not edit any migration to make a check pass.",
+    "Did not reach or run the database replay portion of the verifier; no PostgreSQL 17 lab cluster exists in this container and no database of any kind was created.",
+    "Did not regenerate data/rcap-staging-action.json or touch its image inputs.",
+    "The verifier still exits 1, so nonproduction forward-chain acceptance cannot yet be requested truthfully on the strength of a green run; what changed is that the run now fails for a real, named, reviewable reason instead of a stale literal."
+  ],
+  "hostedTouched": false,
+  "productionTouched": false
+}
