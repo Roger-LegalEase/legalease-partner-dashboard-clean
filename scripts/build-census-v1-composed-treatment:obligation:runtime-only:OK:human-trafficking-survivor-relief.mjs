@@ -5,12 +5,31 @@
  *
  * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
  *
- * A COMPOSED TREATMENT that IS a court filing, and one whose FORM of process
- * the record deliberately leaves open: the compiled profile says relief 'can
- * be by court motion or petition'. This packet composes the petition, says a
- * motion is the recorded alternative, and names the clerk's office as the
- * authority on which the court takes — rather than picking one and printing
- * it as though the record had chosen.
+ * A COMPOSED TREATMENT that IS a court filing. The compiled profile says
+ * relief 'can be by court motion or petition'; the relayed research record
+ * carried into the repository on 2026-09-06 states that a defendant obtains it
+ * by petition in an Oklahoma district court, the court may also act on its own
+ * motion, and the remedy is a limited one. This packet composes that petition
+ * and the proposed order the record names, and it states the remedy's limits
+ * rather than implying general vacatur.
+ *
+ * WHAT THE RECORD SETTLED, AND WHAT IT DID NOT.
+ *
+ * Settled and carried onto the pages: the destination (an Oklahoma district
+ * court, Title 22 § 4A), the ordinary venue (the district or county holding
+ * the relevant arrest information, read from the § 19(A) structure while § 19c
+ * incorporates § 19(B)-(M) — an interpretation, and the pages say so), the
+ * remedy limits, and the court-directed 30-day notice under § 19(B) as amended
+ * by the enacted 2026 SB 2030.
+ *
+ * NOT settled, and not asserted anywhere: the clerk's filing fee, any
+ * route-specific fee waiver, the county and case type for a particular record,
+ * and the protected-filing procedure for sensitive evidence. Those stay
+ * questions for the clerk or counsel. HB 3835 is a proposal, not law, and no
+ * page treats it as one.
+ *
+ * The research was relayed by the owner and is not counsel approval. The family
+ * stays legally blocked until counsel confirms statutory currency.
  *
  * The compiled profile's own instruction is that this route goes to legal aid
  * or an attorney because the petition needs sensitive facts and supporting
@@ -71,6 +90,37 @@ const SPEC = {
         "obligation:runtime-only:OK:human-trafficking-survivor-relief",
         "Oklahoma Trafficking-Survivor Relief Petition under § 19c"
       ]
+    },
+    {
+      "recordId": "legal-design-intake:OK#ok-ls-1",
+      "path": "data/record-clearing/legal-design-intake/OK.memo.json",
+      "role": "the controlling legal-design record for this matter, track ok-ls-1: the destination, the venue reading, the notice rule, the separate fee sourcing and the participant wording this packet carries",
+      "mustContain": [
+        "\"trackId\": \"ok-ls-1\"",
+        "Title 22 § 4A defines 'court' as the Oklahoma district court unless a contrary intention appears",
+        "the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, OSBI and other relevant persons or agencies",
+        "OSBI distinguishes its arrest-record processing charge from court-record processing",
+        "An order under this route seals records from public access but does not make them unavailable to law enforcement."
+      ]
+    },
+    {
+      "recordId": "legal-decision:2026-09-06-owner-relayed-research-batch-03#OK",
+      "path": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json",
+      "role": "the decision record under which the owner relayed this research into the repository, and the entry that directs this family's repair",
+      "mustContain": [
+        "\"family\": \"composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief\"",
+        "Distinguish district-court jurisdiction, record-specific venue, and the limited § 19c remedy; do not implement HB 3835 proposals as enacted law."
+      ]
+    },
+    {
+      "recordId": "research-handoff:2026-09-06-batch-03#section-3-oklahoma",
+      "path": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+      "role": "the research handoff section 3, which states the § 19c remedy limits, the § 19 notice rule, the HB 3835 non-enactment and the participant wording",
+      "mustContain": [
+        "## 3. Oklahoma: trafficking-related expungement is not generic conviction vacatur",
+        "This route asks an Oklahoma district court to expunge specified prostitution-related records connected to human trafficking.",
+        "The enacted 2026 **SB 2030** amended §19 and renumbered its notice provision to **subsection B**."
+      ]
     }
   ],
   "components": [
@@ -83,7 +133,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE ............................................................ COURT",
-        "(the Oklahoma district court for the county in which the case was filed)",
+        "(the Oklahoma district court for the district or county holding the relevant arrest information)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -103,6 +153,10 @@ const SPEC = {
         "",
         "The committed contract records these conditions on the route: Current Oklahoma law effective July 1, 2026; Exact remedy, offense class, disposition, completion, and operational availability; Excluded offenses and clean-record rules apply.",
         "",
+        "The relayed research record states the limits of this section. On the court's own motion, or on the defendant's petition, the court may grant expungement for good cause for a prostitution-related charge or conviction resulting from human trafficking. An order under section 19c seals the identified records from public access but does not make them unavailable to law enforcement, and the order identifies section 19c. It does not cover every offense simply because trafficking occurred, relief is not automatic, and it vacates no conviction.",
+        "",
+        "Title 22 § 4A defines \"court\" as the Oklahoma district court unless a contrary intention appears, so this petition is addressed to a district court. The recorded ordinary venue is the district court for the district or county holding the relevant arrest information; the petitioner supplies that county in item C1 below.",
+        "",
         "B. THE PETITIONER",
         "",
         "Name: {{participant.full_legal_name}}",
@@ -110,7 +164,7 @@ const SPEC = {
         "",
         "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
         "",
-        "Each item below identifies this section 19c matter. Fill the court-record items from the existing court file, and fill the requested-relief and evidence-identification items only with legal aid or an attorney. Do not write a survivor narrative on this petition.",
+        "Each item below identifies this section 19c matter. Fill the court-record items from the existing court file, and fill the causal, good-cause, requested-relief, evidence-identification and agency items only with legal aid or an attorney. Do not write a survivor narrative on this petition.",
         "",
         "[C1 - existing court and county] The Oklahoma court and county where the prostitution-related case was filed.",
         "{{DOTS}}",
@@ -128,21 +182,37 @@ const SPEC = {
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C5 - relief requested under section 19c] The exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises the petitioner to request for the identified record.",
+        "[C5 - trafficking and causal connection] The statement legal aid or an attorney advises that the identified offense was committed as a result of the petitioner being a victim of human trafficking. State only the connection counsel advises stating. Do not write an account of what was done to you.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C6 - trafficking nexus evidence] Identify the trafficking-nexus evidence legal aid or an attorney selected by its document or evidence type, title or date, and issuer or holder. Do not write an account of the trafficking or attach a survivor narrative here.",
+        "[C6 - good-cause grounds] The grounds legal aid or an attorney advises the petitioner to state as good cause for expunging the identified record under section 19c.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "[C7 - relief requested under section 19c] The exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises the petitioner to request for the identified record.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "[C8 - trafficking nexus evidence] Identify the trafficking-nexus evidence legal aid or an attorney selected by its document or evidence type, title or date, and issuer or holder. Do not write an account of the trafficking or attach a survivor narrative here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "[C9 - persons and agencies to be notified] The prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other person or agency the court should notify, as counsel or the court clerk identifies them for this record.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "D. THE REQUEST",
         "",
-        "The petitioner asks the Court for the section 19c relief identified in item C5 for the prostitution-related record identified above, based on the trafficking-nexus evidence identified in item C6 and submitted as counsel advises.",
+        "The petitioner asks the Court to grant, for good cause under 22 O.S. Sec. 19c, the relief identified in item C7 for the prostitution-related record identified in items C1 to C4, on the connection stated in item C5, the grounds stated in item C6, and the evidence identified in item C8 and submitted as counsel advises.",
+        "",
+        "The petitioner asks the Court to set this matter for hearing and to provide the notice 22 O.S. Sec. 19 requires to the persons and agencies listed in item C9. The petitioner gives no notice and certifies none; the court arranges the notice.",
+        "",
+        "The petitioner does not ask the Court to vacate any conviction. An order under section 19c seals records from public access but does not make them unavailable to law enforcement. A proposed order under section 19c is submitted with this petition.",
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
-        "(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)",
+        "(The petitioner signs and dates this petition personally. Nothing on this page is signed, dated or sworn for the petitioner, and every factual statement in section C is the petitioner's own.)",
         "",
         "PRINTED NAME: {{participant.full_legal_name}}",
         "MAILING ADDRESS: {{participant.street_address}}",
@@ -207,17 +277,38 @@ const SPEC = {
         },
         {
           "kind": "rbf",
+          "id": "fact_trafficking_causal_connection",
+          "label": "Item C5 - trafficking and causal connection",
+          "supply": "the statement legal aid or an attorney advises that the identified offense was committed as a result of your being a victim of human trafficking - state only the connection counsel advises stating, and do not write an account of what was done to you",
+          "why": "section 19c reaches a prostitution-related record only where the offense resulted from trafficking, and that connection is the participant's own fact, which the platform has never seen and never asks to be narrated"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_good_cause_grounds",
+          "label": "Item C6 - good-cause grounds",
+          "supply": "the grounds legal aid or an attorney advises you to state as good cause for expunging the identified record under section 19c",
+          "why": "the bound legal-design record states that relief under section 19c is for good cause, so the filing must state grounds, and those grounds are counsel-advised rather than platform-held"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_relief_requested",
-          "label": "Item C5 - relief requested under section 19c",
-          "supply": "the exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises you to request for the identified record - do not guess, because the bound compiled pathway leaves the form of process open between motion and petition",
-          "why": "the court filing must state the relief requested, while the bound compiled pathway does not resolve the exact remedy or form of process for the participant's facts"
+          "label": "Item C7 - relief requested under section 19c",
+          "supply": "the exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises you to request for the identified record - do not guess, because section 19c is a limited sealing remedy and not vacatur",
+          "why": "the court filing must state the relief requested, and the exact remedy for the participant's facts is counsel-advised rather than platform-held"
         },
         {
           "kind": "rbf",
           "id": "fact_trafficking_nexus_evidence",
-          "label": "Item C6 - trafficking nexus evidence",
-          "supply": "identify only the trafficking-nexus evidence legal aid or an attorney selected: its document or evidence type, title or date, and issuer or holder - do not write an account of the trafficking or attach a survivor narrative here",
+          "label": "Item C8 - trafficking nexus evidence",
+          "supply": "identify only the trafficking-nexus evidence legal aid or an attorney selected: its document or evidence type, title or date, and issuer or holder - do not write an account of the trafficking or attach a survivor narrative here, and ask the clerk or counsel which protected-filing mechanism applies to anything sensitive before it is filed",
           "why": "the bound route records trafficking nexus evidence as this packet's route-specific supporting component, while the compiled pathway directs the sensitive facts and proof to legal aid or an attorney"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_persons_and_agencies_to_notify",
+          "label": "Item C9 - persons and agencies to be notified",
+          "supply": "the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other person or agency the court should notify, as counsel or the court clerk identifies them for your record - you list them so the court can direct its own notice, and you certify no notice yourself",
+          "why": "under 22 O.S. Sec. 19 as amended by the enacted 2026 Senate Bill 2030 the court provides 30 days' notice to those agencies, and the court can direct notice only to the persons and agencies the filing identifies for this record"
         },
         {
           "kind": "court",
@@ -240,7 +331,92 @@ const SPEC = {
       ]
     },
     {
-      "id": "ok-trafficking-survivor-19c-filing-instructions-2",
+      "id": "ok-trafficking-survivor-19c-proposed-order-2",
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "role": "proposed_order",
+      "title": "Proposed Order - Oklahoma Trafficking-Survivor Relief under § 19c",
+      "description": "the proposed order the record names as a component of a section 19c filing, for the Court to sign or not",
+      "condition": null,
+      "body": [
+        "IN THE ............................................................ COURT",
+        "(the Oklahoma district court for the district or county holding the relevant arrest information)",
+        "",
+        "IN RE: {{participant.full_legal_name}},",
+        "PETITIONER.",
+        "",
+        "Case number, if the court assigns one at filing:",
+        "{{DOTS}}",
+        "",
+        "PROPOSED ORDER UNDER 22 O.S. § 19C",
+        "",
+        "This is a proposed order, submitted with the petition for the Court's consideration. It has no effect unless the Court signs it, and nothing on it is signed or dated for the Court.",
+        "",
+        "On the petition brought under 22 O.S. § 19c, and on the notice provided under 22 O.S. § 19, the Court finds good cause and ORDERS as follows.",
+        "",
+        "1. This order is entered under 22 O.S. § 19c.",
+        "",
+        "[O1 - records this order covers] The records to be expunged, identified exactly as items C1 to C4 of the petition identify them, as legal aid or an attorney advises stating them here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "[O2 - persons and agencies this order is directed to] The persons and agencies the order binds, identified as item C9 of the petition identifies them, as legal aid or an attorney advises stating them here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "2. The records identified above are expunged under 22 O.S. § 19c and are sealed from public access.",
+        "",
+        "3. This order does not make those records unavailable to law enforcement.",
+        "",
+        "4. This order vacates no conviction and makes no finding beyond the expungement section 19c authorises.",
+        "",
+        "DATE {{DOTS:30}}   JUDGE OF THE DISTRICT COURT {{DOTS:30}}",
+        "",
+        "(The Court signs and dates this order, or does not. Nothing on this page is signed or dated for the Court, and nothing on it is signed for the petitioner.)"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "order_records_covered",
+          "label": "Item O1 - records this order covers",
+          "supply": "the records to be expunged, written exactly as items C1 to C4 of the petition identify them, as legal aid or an attorney advises stating them on the order",
+          "why": "an order under section 19c operates on identified records, and those records come from a court file the platform has never seen"
+        },
+        {
+          "kind": "rbf",
+          "id": "order_persons_and_agencies_directed",
+          "label": "Item O2 - persons and agencies this order is directed to",
+          "supply": "the persons and agencies the order binds, written as item C9 of the petition identifies them, as legal aid or an attorney advises stating them on the order",
+          "why": "the order reaches the persons and agencies it names, and those are per-matter facts the platform does not hold"
+        },
+        {
+          "kind": "court",
+          "id": "order_case_number",
+          "label": "Case number on the proposed order, if the court assigns one at filing",
+          "why": "if a number is assigned, the court assigns it at filing"
+        },
+        {
+          "kind": "protected",
+          "id": "order_signature",
+          "label": "Signature of the judge on the proposed order",
+          "why": "the Court signs its own order; this build never signs for a court"
+        },
+        {
+          "kind": "protected",
+          "id": "order_signature_date",
+          "label": "Date beside the signature on the proposed order",
+          "why": "a date written before the order is signed would be false"
+        }
+      ]
+    },
+    {
+      "id": "ok-trafficking-survivor-19c-filing-instructions-3",
       "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "role": "filing_instructions",
       "title": "Filing Instructions - Oklahoma Trafficking-Survivor Relief Petition under § 19c",
@@ -255,31 +431,53 @@ const SPEC = {
         "",
         "The committed route contract records this route as \"Human-trafficking survivor relief\", under 22 O.S. § 19c, with outcome mode \"participant_packet\".",
         "",
+        "What this route asks for: This route asks an Oklahoma district court to expunge specified prostitution-related records connected to human trafficking. It does not cover every offense simply because trafficking occurred, and relief is not automatic. The court must arrange the required agency notice and decides the request. An order under this route seals records from public access but does not make them unavailable to law enforcement.",
+        "",
         "The committed contract names the packet components for this route as: Petition under § 19c; Trafficking nexus evidence. This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition.",
         "",
-        "Who runs it: The participant petitions or moves, and the court decides. The compiled profile records that relief \"can be by court motion or petition\" — and it records something before that, which is the first thing this packet says: \"Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof.\"",
+        "The relayed research record names the drafting components of a section 19c filing: the identified records and offenses, your trafficking and causal facts, the good-cause grounds, the list of persons and agencies to be notified, the supporting evidence, and a proposed order under section 19c. Those are proposed drafting components, not an official statewide form inventory; no record this packet binds names an official Oklahoma form for this route.",
+        "",
+        "Who runs it: The participant petitions, or the court acts on its own motion, and the court decides. The compiled profile records something before that, which is the first thing this packet says: \"Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof.\"",
+        "",
+        "How current this is: the statutory record carried here was read on 6 September 2026 through a relayed research record. Counsel has not confirmed that no later enactment has changed section 19c or section 19, so check that before you rely on any of it.",
+        "",
+        "WHERE THIS IS FILED",
+        "",
+        "The destination is an Oklahoma district court. Title 22 § 4A defines \"court\" as the district court unless a contrary intention appears, and the petition is filed in the district court for the district or county holding the relevant arrest information.",
+        "",
+        "That venue reading follows the structure of § 19(A), while § 19c incorporates § 19(B) to § 19(M) rather than § 19(A). It is therefore a reading of the combined statutes and not a quotation from § 19c.",
+        "",
+        "You supply the county, from your own court record. If the record began in a municipal court, if it spans more than one county, or if the docketing is disputed, ask the court clerk or counsel to confirm the district filing and the case type for your exact record before you file.",
         "",
         "WHAT YOU DO",
         "",
         "- Read the stop conditions before anything else.",
         "- Take this draft to legal aid or an attorney before completing it. The bound compiled pathway directs every trafficking-survivor matter there because the petition needs sensitive facts and supporting proof.",
         "- If counsel advises you to go on, copy the existing court, county, case number, prostitution-related offense and disposition from the court file. Do not answer those items from memory.",
-        "- Complete the requested-relief and trafficking-nexus-evidence items only as counsel advises. Identify the evidence without writing an account of what happened to you on this petition.",
-        "- Obtain the trafficking nexus evidence the committed contract names as a component of this packet, and submit it only as counsel advises.",
+        "- Complete the causal, good-cause, requested-relief and evidence-identification items only as counsel advises. Identify the evidence without writing an account of what happened to you on this petition.",
+        "- List in item C9 the persons and agencies the court is asked to notify, so the court can direct its own notice.",
+        "- Obtain the trafficking nexus evidence the committed contract names as a component of this packet, and submit it only as counsel advises. If any of it is sensitive, ask the clerk or counsel which protected-filing mechanism applies before it is filed.",
+        "- Complete the proposed order so it matches the petition, and file it with the petition. The Court signs it, or does not.",
         "",
         "WHAT YOU DO NOT DO",
         "",
         "- Do not write an account of what was done to you on any page of this packet. Nothing here asks for one, and the compiled record's own instruction is that this route goes to legal aid or an attorney.",
         "- Do not file anything before you have thought about what becomes public when you do. A court file is a public record unless something makes it otherwise, and nothing in this packet makes it otherwise.",
-        "- Do not assume the ordinary Title 22 §§ 18 and 19 expungement rules apply. The compiled profile records this route as NARROWER than general expungement, while noting it can avoid some ordinary timing and prior-record barriers.",
+        "- Do not assume the whole of the ordinary Title 22 section 18 and section 19 expungement rules applies. Section 19c incorporates section 19(B) to section 19(M), and the compiled profile records this route as NARROWER than general expungement, while noting it can avoid some ordinary timing and prior-record barriers.",
+        "- Do not promise yourself a closed hearing or a confidential petition. Nothing in this packet provides either, and the subject matter alone does not make a court file private.",
+        "- Do not rely on the 2026 proposal House Bill 3835. It is not enacted: its official history records passage in the House and referral to a Senate committee, and its last published version is engrossed. Its proposals - broader coverage, no good cause, a mandated fee waiver, closed hearings, and changed proof and relief rules - are not law, and the future effective date printed on it is not evidence of enactment.",
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the court clerk of the Oklahoma district court for the county in which the case was filed. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
+        "Fees are kept separately sourced on this route. The Oklahoma State Bureau of Investigation distinguishes its own arrest-record processing charge from court-record processing; that distinction is about OSBI's charges and establishes no universal $0 clerk filing fee. No record this packet binds states a route-specific fee waiver, and none is claimed here.",
         "",
-        "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
+        "Ask the office of the court clerk of the Oklahoma district court where you file what it charges for this filing and whether it accepts a fee-waiver application. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
         "",
-        "No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the court clerk of the Oklahoma district court for the county in which the case was filed.",
+        "WHO IS NOTIFIED, AND WHO ARRANGES IT",
+        "",
+        "The court arranges the notice; you do not serve it. Under 22 O.S. § 19 as amended by the enacted 2026 Senate Bill 2030, the notice provision is subsection B: the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and other relevant persons or agencies.",
+        "",
+        "You list those persons and agencies in item C9 so the court can direct the notice to them. Ask the court clerk how the court-directed notice is carried out in that district. Never certify that notice has been given before it has been given; nothing in this packet certifies notice.",
         "",
         "WHEN TO STOP AND GET HELP INSTEAD",
         "",
@@ -316,8 +514,8 @@ const SPEC = {
       "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
     }
   },
-  "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/route-splits.json, OK:human-trafficking-survivor-relief), the compiled Oklahoma profile pathway (src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json#human-trafficking-survivor-relief) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
-  "formIdentityNote": "No committed record names an official participant form for this route, and the committed contract's own packet components are a composed petition together with records the participant obtains. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
+  "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/route-splits.json, OK:human-trafficking-survivor-relief), the compiled Oklahoma profile pathway (src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json#human-trafficking-survivor-relief), the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), the controlling legal-design record (data/record-clearing/legal-design-intake/OK.memo.json, track ok-ls-1), the decision record under which the owner relayed the research (data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json) and section 3 of the research handoff (docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md), each bound by SHA-256 and anchor-verified at build time",
+  "formIdentityNote": "No committed record names an official participant form for this route, and the relayed research record states in terms that its component list is a set of proposed drafting components rather than an official statewide form inventory. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
   "routeSelectionNote": "One route, one instrument set: the petition states this route's statutory ground in its own title, body and footer, and no election control exists on any composed page. Where a neighbouring section of the same statute is a different route, the packet says so and tells the participant to stop rather than printing a box to tick.",
   "routeSelectionsMade": [
     {
@@ -330,15 +528,15 @@ const SPEC = {
   "obligationTable": [
     [
       "FILING_DESTINATION",
-      "The committed census records the destination for this route as **not recorded**, and the compiled profile records only that relief can be by court motion or petition without naming the court. The office that answers which court takes it, and whether it takes a motion or a petition, is the office of the court clerk of the Oklahoma district court for the county in which the case was filed."
+      "The destination is an Oklahoma district court. Title 22 § 4A defines \"court\" as the district court unless a contrary intention appears, and the petition is filed in the district court for the district or county holding the relevant arrest information. That venue reading follows the structure of § 19(A), while § 19c incorporates § 19(B) to § 19(M) rather than § 19(A), so it is a reading of the combined statutes and not a quotation from § 19c. You supply the county from your own court record. A municipal-origin record, a record spanning counties, or disputed docketing needs the court clerk's or counsel's confirmation of the district filing and the case type for that exact record."
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the court clerk of the Oklahoma district court for the county in which the case was filed. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "Fees are kept separately sourced on this route. The Oklahoma State Bureau of Investigation distinguishes its own arrest-record processing charge from court-record processing; that distinction is about OSBI's charges and establishes no universal $0 clerk filing fee. No record this packet binds states a route-specific fee waiver, and none is claimed here. The office that answers what this filing costs, and whether a fee-waiver application is accepted, is the office of the court clerk of the Oklahoma district court where the petition is filed. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
     ],
     [
       "SERVICE",
-      "No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the court clerk of the Oklahoma district court for the county in which the case was filed."
+      "The court arranges the notice; the petitioner serves nothing and certifies nothing. Under 22 O.S. § 19 as amended by the enacted 2026 Senate Bill 2030 the notice provision is subsection B: the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and other relevant persons or agencies. The petitioner lists those persons and agencies in item C9 so the court can direct its notice, asks the court clerk how the court-directed notice is carried out in that district, and never certifies that notice occurred before it did."
     ],
     [
       "SELF_HELP_STOP",
@@ -347,9 +545,10 @@ const SPEC = {
   ],
   "instructionsIntro": [
     "This packet is composed from committed repository records, not from an official form: no committed record names an official Oklahoma participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Copy the existing-case items below from the court file. Complete the requested-relief and trafficking-nexus-evidence items only with legal aid or an attorney, and identify evidence without writing a survivor narrative on this petition."
+    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Copy the existing-case items below from the court file. Complete the causal, good-cause, requested-relief, evidence-identification and agency items only with legal aid or an attorney, and identify evidence without writing a survivor narrative on this petition.",
+    "The statutory record this packet carries was read on 6 September 2026 through a relayed research record, and counsel has not confirmed that no later enactment has changed 22 O.S. § 19c or 22 O.S. § 19. Nothing here is counsel's advice, and nothing here is approved for filing."
   ],
-  "requiredItemsIntro": "Each item is printed on the petition as a labelled dotted blank. Copy items C1-C4 from the existing court file. Complete items C5-C6 only as legal aid or an attorney advises; identify the trafficking-nexus evidence without writing a survivor narrative on the petition.",
+  "requiredItemsIntro": "Each item is printed on the petition, or on the proposed order, as a labelled dotted blank. Copy items C1-C4 from the existing court file. Complete items C5-C9 and items O1-O2 only as legal aid or an attorney advises; identify the trafficking-nexus evidence without writing a survivor narrative on the petition.",
   "instrumentChoice": null,
   "recordSays": [
     [
@@ -363,6 +562,18 @@ const SPEC = {
     [
       "The committed route contract",
       "This route runs on current Oklahoma law effective July 1, 2026."
+    ],
+    [
+      "The relayed research record on section 19c",
+      "This route asks an Oklahoma district court to expunge specified prostitution-related records connected to human trafficking. It does not cover every offense simply because trafficking occurred, and relief is not automatic. The court must arrange the required agency notice and decides the request. An order under this route seals records from public access but does not make them unavailable to law enforcement."
+    ],
+    [
+      "The relayed research record on section 19",
+      "Under 22 O.S. § 19 as amended by the enacted 2026 Senate Bill 2030 the notice provision is subsection B: the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and other relevant persons or agencies."
+    ],
+    [
+      "The relayed research record on House Bill 3835",
+      "The 2026 House Bill 3835 is not enacted. Its official history records passage in the House and referral to a Senate committee, its last published version is engrossed, and its proposals — broader coverage, no good cause, a mandated fee waiver, closed hearings, and changed proof and relief rules — are not law."
     ]
   ],
   "documentsToObtain": [
@@ -372,13 +583,15 @@ const SPEC = {
     ]
   ],
   "steps": [
-    "**Read the filing instructions page.** It says what this route is, who runs it, what the record establishes about cost and notice, and when to stop.",
+    "**Read the filing instructions page.** It says what this route is, where it is filed, what the record establishes about cost and notice, and when to stop.",
     "**Take this draft to legal aid or an attorney before completing it.** The bound compiled pathway directs this route there because the petition needs sensitive facts and supporting proof.",
     "**Copy the existing-case items from the court file.** Do not guess the court, county, case number, offense, disposition or date.",
-    "**Complete the requested-relief and evidence-identification items only as counsel advises.** Identify the trafficking-nexus evidence without writing a survivor narrative on this petition.",
-    "**Obtain the trafficking nexus evidence**, and submit it with the petition only as counsel advises.",
-    "**Sign and date the petition personally.** The platform never signs for you and never dates a signing line.",
-    "**File it with the office of the court clerk of the Oklahoma district court for the county in which the case was filed**, and ask that office what it charges and how it accepts filings before you go."
+    "**Complete the causal, good-cause, requested-relief and evidence-identification items only as counsel advises.** Identify the trafficking-nexus evidence without writing a survivor narrative on this petition.",
+    "**List the persons and agencies the court is asked to notify in item C9**, so the court can direct its own notice. You give no notice and certify none.",
+    "**Obtain the trafficking nexus evidence**, and submit it with the petition only as counsel advises. Ask the clerk or counsel which protected-filing mechanism applies to anything sensitive before it is filed.",
+    "**Complete the proposed order so it matches the petition**, and file it with the petition. The Court signs it, or does not.",
+    "**Sign and date the petition personally.** The platform never signs for you, never dates a signing line, and prints nothing sworn on your behalf.",
+    "**File it with the office of the court clerk of the Oklahoma district court for the district or county holding the relevant arrest information**, and ask that office what it charges, how it accepts filings, and how the court-directed notice under § 19 is carried out before you go."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
@@ -392,9 +605,11 @@ const SPEC = {
     "there are other counts on the same case, or other cases — the bound compiled pathway does not explain how section 19c applies to them;",
     "any immigration question is involved."
   ],
-  "whatThisIsNot": "This is a composed petition on one Oklahoma route. It is not an official Oklahoma form — no committed record names one for this route — it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.",
+  "whatThisIsNot": "This is a composed petition, with a proposed order, on one Oklahoma route. It is not an official Oklahoma form — no committed record names one for this route — it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for. It is not a statement that the law has been checked as current for your case: the statutory record it carries was read on 6 September 2026 and counsel has not confirmed it.",
   "receiptDoesNotEstablish": [
-    "that any Oklahoma record resulted from human trafficking"
+    "that any Oklahoma record resulted from human trafficking",
+    "that counsel has confirmed 22 O.S. § 19c or 22 O.S. § 19 is current, or that any later enactment has been ruled out",
+    "that the district, county, case type or protected-filing procedure for any particular record has been determined"
   ],
   "buildFindings": [
     {
@@ -411,15 +626,40 @@ const SPEC = {
     },
     {
       "finding": "The compiled profile records that relief can be by court MOTION or PETITION, without naming which the court takes.",
-      "consequence": "The packet composes a petition, states that a motion is the recorded alternative, and names the court clerk's office as the authority on which the court accepts. It does not choose for the participant a form of process the record leaves open."
+      "consequence": "The relayed research record resolves it: relief comes on the court's own motion or on the defendant's petition, and a defendant petitions. The packet composes that petition and no longer sends the participant to the clerk to learn which instrument is theirs."
+    },
+    {
+      "finding": "VF01 recorded FILING_DESTINATION, FEE_AND_WAIVER and SERVICE as BLOCKED_LEGAL_INPUT at base 628589374 because the legal-design record then read 'Not determined' on each. The record now states the destination, the venue reading and the notice rule, and it states the fee position separately.",
+      "consequence": "FILING_DESTINATION and SERVICE are answered on the pages from the record: an Oklahoma district court under Title 22 § 4A, filed in the district court for the district or county holding the relevant arrest information, with the court providing 30 days' notice under § 19(B) as amended by the enacted 2026 SB 2030. FEE_AND_WAIVER is NOT answered and is not written as though it were: OSBI's arrest-record processing charge is distinguished from court-record processing, no universal $0 clerk filing fee is implied, no route-specific waiver is claimed, and the clerk question stays on the page."
+    },
+    {
+      "finding": "The venue conclusion is an interpretation. § 19c expressly incorporates § 19(B)-(M) and not § 19(A), so the district-or-county-of-the-arrest-information reading comes from the combined statutory structure rather than from the words of § 19c.",
+      "consequence": "The guide says that in terms, and it tells the participant that a municipal-origin record, a record spanning counties or disputed docketing needs the clerk's or counsel's confirmation of the district filing and the case type. The participant's own county remains a fact the participant supplies, in item C1."
+    },
+    {
+      "finding": "The relayed research record names a proposed § 19c order, good-cause grounds, the participant's trafficking and causal facts and the agency list among the drafting components of a section 19c filing.",
+      "consequence": "Section C now carries the causal connection (C5), good-cause grounds (C6) and the persons and agencies to be notified (C9) alongside the record-identification items, and a third composed component, the proposed order, is rendered between the petition and the guide. The order identifies § 19c, seals from public access, preserves law-enforcement access, and vacates nothing. Nothing on it is signed or dated for the Court."
+    },
+    {
+      "finding": "The official 2026 HB 3835 history records House passage and Senate committee referral, not enactment; its printed future effective date is not evidence of enactment.",
+      "consequence": "No page implements any HB 3835 proposal. The guide names the bill once, to say it is not law and that its proposed broader coverage, removal of good cause, mandated fee waiver, closed hearings and changed proof and relief rules cannot be relied on."
+    },
+    {
+      "finding": "The research was prepared by ChatGPT and relayed by the owner on 2026-09-06. It is not counsel approval, the live OSCN § 19c endpoint failed decoding in that session, and the section's text was read from the official 2019 Senate code PDF and corroborated against the official 2026 proposed amendment.",
+      "consequence": "The packet carries the currency chain on its face: the guide and the instructions both say the statutory record was read on 6 September 2026 and that counsel has not confirmed no later enactment. This family stays legally blocked until counsel does."
     }
   ],
   "counselQuestions": [
-    "The compiled record leaves the form of process open between motion and petition. This packet composes a petition and names the clerk as the authority. Confirm, or direct which instrument.",
+    "Confirm no enactment after the enacted 2026 SB 2030 has changed 22 O.S. § 19c or 22 O.S. § 19. The § 19c text in the relayed research was read from the official 2019 Senate code PDF because the live OSCN endpoint failed to decode; that currency chain is disclosed rather than cured.",
+    "Confirm the venue reading. § 19c incorporates § 19(B)-(M) and not § 19(A), so filing in the district court for the district or county holding the relevant arrest information is an interpretation of the combined structure. The packet states it as such.",
+    "The clerk's filing fee and any waiver remain unstated, and no universal $0 clerk fee is implied from OSBI's separate arrest-record processing charge. Confirm the packet is right to leave both as clerk questions.",
+    "Confirm the proposed order's terms: entered under § 19c, sealing from public access, preserving law-enforcement access, vacating no conviction.",
     "The compiled profile routes this fact pattern to legal aid or an attorney. Confirm a composed draft is the right deliverable here at all."
   ],
   "reviewersAttention": [
-    "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT."
+    "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
+    "The legal content added in this repair is owner-relayed research, not counsel approval. The family remains LEGAL_BLOCKED until counsel confirms statutory currency; FEE_AND_WAIVER is still unanswered by any record and is still stated as a clerk question rather than a figure.",
+    "The packet grew from two composed components to three: a proposed order under § 19c now renders between the petition and the guide. Every fixture byte moved, so the family's RASTER_PASS receipt no longer covers it and a fresh whole-family central raster is required."
   ]
 };
 
