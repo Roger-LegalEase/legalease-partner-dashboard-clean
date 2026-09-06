@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c10227a9f88e7bdc04c8e72678ebdff005344e42",
+  "generatedAtCommit": "2620f5ca8224a5c1fade9eca903c2d235ebadc0e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8723,11 +8723,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T00:17:08.111Z",
-      "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: BLOCKED_LEGAL_INPUT on FEE_AND_WAIVER (32 V.S.A. 1431(e) after Act 60 release blocker still held in the registry), fourteen PASS; the packet also fails to state the fee applies on this track, repairable without counsel; row in vf05/rows.json, lane commit 120890f64"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13803,7 +13801,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "828efb59ecf892f7e754dcb1c04de9b530091273b65c5858e519d0133393de80",
+  "claimsDigest": "071925142f8fd3cef5ed1ccdc62de0e96c7b03814ab1a37ad5eb4523df5477a8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40159,6 +40157,18 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-06T18:05:17Z",
       "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T20:31:00Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
     }
   ],
   "transfers": [
