@@ -376,6 +376,8 @@ const FAMILY_CONFIGS = Object.freeze({
     },
     classifyNonFilingSourceControls: true,
     completedCaptionTemplates: { "DC-1-15": ["plaintiffdefendant"] },
+    manualCaptionTemplates: ["fullcountystatementRIGHT", "enter the county"],
+    preservePrintedSourceButtons: { "DC-1-15": ["Button63.0"] },
     flattenedCaptionGuidance: true,
     beforeFilingIntroduction: [
       "Complete the applicable unresolved filing items below by hand before filing.",
@@ -2374,10 +2376,22 @@ function applyDocumentFilingDispositions(rows, policy) {
     const completedCaption = policy.completedCaptionFields?.includes(row.field);
     const nonprintingControl = policy.nonprintingSourceControls?.includes(row.field);
     const nonFilingControl = policy.nonFilingSourceControls?.find((item) => item.field === row.field);
-    if (!policy.referenceOnly && !completedCaption && !nonprintingControl && !nonFilingControl) continue;
+    const manualTemplate = policy.manualCaptionTemplates?.includes(row.field);
+    if (!policy.referenceOnly && !completedCaption && !nonprintingControl && !nonFilingControl && !manualTemplate) continue;
     row.requiredBeforeFiling = false;
+    const kind = policy.referenceOnly ? "instruction_reference" : completedCaption ? "materialized_control"
+      : manualTemplate ? "caption_template" : nonprintingControl ? "nonprinting_panel" : nonFilingControl.kind;
+    row.sourcePresentation = {
+      kind, sourceSha256: policy.sourceSha256, sourceField: row.selectionId ?? row.field,
+      ...(completedCaption ? { representedByField: policy.sourceChoiceCaption.displayField, factId: policy.sourceChoiceCaption.factId } : {}),
+      ...(manualTemplate ? { representedByField: "DROPDOWNCOUNTY2", manualCompanion: true } : {}),
+      ...(nonFilingControl?.kind === "caption_template" ? { representedByField: "defendant", factId: "participant.full_legal_name" } : {})
+    };
+    row.completenessDisposition = kind === "materialized_control" ? "MATERIALIZED_SOURCE_CONTROL" : "NON_FILING_SOURCE_ELEMENT";
+    row.completenessClass = row.category = row.class = null;
     row.why = row.reason = policy.referenceOnly
       ? "reference-only instruction-sheet example; not a participant filing blank"
+      : manualTemplate ? "source caption template represents the county blank, which remains separately disclosed for manual completion"
       : nonprintingControl ? "source case-selector panel control is explicitly nonprinting; not a filing blank"
       : nonFilingControl ? nonFilingControl.why
       : "screen-only source court control; its known option is already rendered in the printable court caption";
@@ -2392,6 +2406,7 @@ async function renderOneDocument(source, config, fixture) {
   const caption = (config.sourceChoiceCaptions ?? {})[source.formNumber] ?? null;
   const nonprintingControls = (config.nonprintingSourceControls ?? {})[source.formNumber] ?? [];
   const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null,
+    ...(config.classifyNonFilingSourceControls ? { sourceSha256: source.sha256, manualCaptionTemplates: config.manualCaptionTemplates } : {}),
     ...(config.referenceOnlyDocuments?.includes(source.formNumber) ? { referenceOnly: true } : {}),
     ...(nonprintingControls.length ? { nonprintingSourceControls: nonprintingControls } : {}),
     ...(caption ? { completedCaptionFields: [caption.choiceField, "enter the type of court"] } : {}) };
@@ -2409,18 +2424,32 @@ async function renderOneDocument(source, config, fixture) {
       const original = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
       if (config.classifyNonFilingSourceControls) {
         policy.nonFilingSourceControls = [];
+        policy.sourceFieldEvidence = {};
         for (const field of original.getForm().getFields()) {
           const widgets = field.acroField.getWidgets();
+          policy.sourceFieldEvidence[field.getName()] = {
+            pdfType: field.constructor.name, readOnly: field.isReadOnly(),
+            annotationFlags: widgets.map((widget) => widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0),
+            sourceValue: field.getText?.() ?? null
+          };
           const hidden = widgets.length && widgets.every((widget) =>
             ((widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0) & 2) === 2);
           const button = field.constructor.name === "PDFButton";
           const captionTemplate = config.completedCaptionTemplates?.[source.formNumber]?.includes(field.getName());
           if (captionTemplate) assert.ok(field.isReadOnly() && field.getText()?.includes("Defendant/Respondent"));
           if (button || hidden || captionTemplate) policy.nonFilingSourceControls.push({ field: field.getName(),
+            kind: button ? "viewer_button" : hidden ? "hidden_widget" : "caption_template",
             why: button ? "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
               : hidden ? "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
                 : "source caption template; the defendant name is filled at the separate writable caption field" });
         }
+      }
+      for (const name of config.preservePrintedSourceButtons?.[source.formNumber] ?? []) {
+        const field = original.getForm().getField(name);
+        assert.equal(field.constructor.name, "PDFButton");
+        assert.ok(field.acroField.getWidgets().every((widget) =>
+          ((widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0) & 7) === 4));
+        appearanceDispositions.set(name, APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE);
       }
       for (const name of nonprintingControls) {
         const widgets = original.getForm().getField(name).acroField.getWidgets();
@@ -2485,6 +2514,7 @@ async function renderOneDocument(source, config, fixture) {
        * resolves, protects, fits and refuses. Empty for every other family. */
       narrativeAcrossFields: narrativeWrites,
       appearanceDispositions,
+      ...(config.preservePrintedSourceButtons?.[source.formNumber]?.length ? { detachNestedControlFields: true } : {}),
       ...(standardNamedFields.size ? {
         alignWidgetFontSizeToFit: true,
         evaluateDeclaredMinimumSize: true

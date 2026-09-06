@@ -82,6 +82,16 @@ export const PARTICIPANT_COMPLETABLE_REQUIREMENTS = new Set([
 
 /** Every blank on a rendered packet resolves to exactly one of these. */
 export const BLANK_DISPOSITIONS = {
+  NON_FILING_SOURCE_ELEMENT: {
+    allowed: true,
+    meaning: "An exact-source instruction example, viewer control or caption presentation, not a separate participant filing blank.",
+    requires: "Source census evidence verified by the reader; any caption companion must still be completed or disclosed."
+  },
+  MATERIALIZED_SOURCE_CONTROL: {
+    allowed: true,
+    meaning: "A source screen control whose held value is already printed by its source-bound companion field.",
+    requires: "The same fact, document, exact source and current printable artifact write in every fixture."
+  },
   PROTECTED_FIELD: {
     allowed: true,
     meaning: "The field must remain blank. A participant signature, a signature date, a certificate of mailing before mailing has happened, or a court-only or prosecutor-only field.",
@@ -297,6 +307,32 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
       disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
       basis: `the field map declares the refusal class "${refusalClass}", which is outside the closed vocabulary`,
       declaredRefusalClass: String(refusalClass)
+    };
+  }
+
+  // Source presentation is a distinct question from whether a filing fact is
+  // available. The reader validates the source identity and any companion write;
+  // map prose, a read-only flag alone, or a caller-supplied `verified` flag cannot
+  // grant this disposition. Ordinary undeclared blanks keep the existing path.
+  if (dec.sourcePresentation) {
+    if (cls.requirement === "PROTECTED") return { disposition: "PROTECTED_FIELD", fieldClass: cls.id, basis: "the field itself is protected" };
+    const proof = dec.sourcePresentation;
+    const expectedDisposition = proof.kind === "materialized_control" ? "MATERIALIZED_SOURCE_CONTROL" : "NON_FILING_SOURCE_ELEMENT";
+    if (dec.requiredBeforeFiling === true || dec.disposition !== expectedDisposition) return {
+      disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+      basis: "source presentation contradicts its declared filing-blank disposition"
+    };
+    if (dec.routeDetermined === true && proof.kind !== "materialized_control") return {
+      disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+      basis: "a source presentation declaration cannot excuse an unmade route-determined election"
+    };
+    if (proof.verified !== true) return {
+      disposition: proof.kind === "materialized_control" ? "KNOWN_FACT_NOT_WRITTEN" : "UNCLASSIFIED_BLANK",
+      fieldClass: cls.id, basis: proof.failure ?? "source presentation has no verified source/companion evidence"
+    };
+    return {
+      disposition: proof.kind === "materialized_control" ? "MATERIALIZED_SOURCE_CONTROL" : "NON_FILING_SOURCE_ELEMENT",
+      fieldClass: cls.id, basis: proof.basis
     };
   }
 
