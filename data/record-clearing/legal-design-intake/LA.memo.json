@@ -4692,7 +4692,16 @@
         "notice": "The Rule to Show Cause orders the district attorney to show cause why the motion should not be granted, and the motion's prayer asks for relief after a contradictory hearing with the district attorney's office. No sixty-day objection window applies; that scheme belongs to Articles 979 and 980 and governs a motion to expunge.",
         "service": "Service is on the district attorney and on the attorney for the defendant or the defendant.",
         "participantSignature": "The mover signs the Article 987 Motion in the block for an unrepresented mover. LegalEase leaves the signature and date blank.",
-        "notarization": "none"
+        "notarization": "none",
+        "researchTwoFieldResolution": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "contract": "docs/rcap/grade-a/research/2026-09-06-batch-02/Louisiana_Article_987_Repair_Contract.md",
+          "contractSha256Prefix": "feb045f14022",
+          "finding": "The 'Conviction offense wording' and 'Conviction statute' lines are not held facts: the builder's canonical and boundary FACTS objects omit both, the field map assigns both to REQUIRED_BEFORE_FILING, and primaryBody always prints dotted lines. They are participant-supplied case facts, collected before filing, written into the statutory instrument as neutral case fields when actually supplied, and truthfully tracked as missing when not. No value is guessed and no absent value is reported as written.",
+          "largerDefect": "The builder's primaryBody does not reproduce the Article 987 motion, rule to show cause and order: it substitutes a questionnaire, omits the statutory identifying and service elements (DOCKET NUMBER, CHARGE, DATE OF ARREST, ARRESTING AGENCY, CITY/PARISH OF ARREST; pro-se address, city/state/ZIP and telephone; PLEASE SERVE recipients), paraphrases the motion and replaces the order's preprinted operative wording with blank findings and decretal lines, and prints machine metadata inside the filed text. Article 986 restricts filing to the prescribed forms; Article 987 supplies the text; the LA-STATUTORY-FORMS determination (COMPOSE_FROM_AUTHORITY) already authorises composition from the codified article. One bounded repair per the contract, not a two-field patch.",
+          "sourceRequirement": "The current codified text of La. C.Cr.P. arts. 986 and 987 is not held in any custody (the Master Library's Louisiana review describes the three-part instrument but does not quote it; 05_SOURCE_GATED holds arts. 990, 993, 995, 998 and 999.1 only), and legis.la.gov is blocked from the build container. The repair cannot reproduce the statutory text faithfully until the official article text is acquired and bound."
+        }
       },
       "selfHelpStopConditions": [
         "The district attorney opposes the motion at the contradictory hearing.",
@@ -4794,7 +4803,8 @@
             }
           }
         ]
-      }
+      },
+      "researchResolvedQuestions": []
     }
   ]
 }

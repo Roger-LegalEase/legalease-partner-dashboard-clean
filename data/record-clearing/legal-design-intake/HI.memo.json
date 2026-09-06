@@ -371,8 +371,8 @@
       "exclusions": [],
       "waitingPeriods": [
         {
-          "condition": "Per the HCJDC form, for a § 712-1200 charge",
-          "duration": "Three years. The statutory authority for this period is unresolved."
+          "condition": "Where proceedings on a § 712-1200 charge were actually deferred under Chapter 853 and the person was discharged and the charge dismissed",
+          "duration": "Three years following discharge, under HRS § 712-1200(4)(c). Calculated from the discharge date; the ordinary Chapter 853 one-year period is not added. Where records show separate discharge and dismissal events, both the dismissal and the expiry of the three years after discharge are required. HRS § 712-1200(4)(b) disallows the deferral for a subsequent offense. Confirmed from the current statute and the issuer's application HCJDC 159(b) Rev. 06/03/2026 on 2026-09-06; the HCJDC general expungements webpage still uses four-year language, recorded as a discrepancy and not applied."
         }
       ],
       "outputStrategy": "official_pdf_fill",
@@ -454,36 +454,32 @@
         "notice": "HCJDC decides on the stage-2 application.",
         "service": "none",
         "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "notarization": "The source review does not state a notarization requirement.",
+        "researchFormMappingBoundaries": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "items": [
+            "Fill the current legal name, other names, date of birth, addresses and contact details only from the participant's supplied facts; preserve the form's actual field identities.",
+            "SSN is optional on the issuer form: never a required application field, never an invented value.",
+            "The form asks the person to initial the applicable application statement: use the non-conviction treatment for this route, not the first-time drug/property/DUI conviction statement; draw no fabricated checkbox over an initials field; never execute initials, signature or date for the participant.",
+            "Never assert the person is not a fugitive because the route is a deferred disposition; the person reviews and executes the statement.",
+            "Leave the HCJDC-only box blank.",
+            "The current form has no arrest/case table: collect disposition and timing facts upstream; invent no table on the issuer form.",
+            "The form's demand for a court order granting expungement of a conviction belongs to its conviction branch and is not applied to this non-conviction application; attaching the discharge-and-dismissal order is a clearly labelled LegalEase safeguard, not an issuer certification requirement.",
+            "Fees as the form states them: $35 first-time expungement, $50 non-first-time, including a $10 nonrefundable portion; valid government-issued photo-ID copy, self-addressed stamped envelope, United States-issued money order or cashier's check payable to the State of Hawaii; destination HCJDC, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813. No invented waiver process, no guarantee about every court or private copy."
+          ]
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "eligibility": "This application concerns a prostitution charge under HRS §712-1200 for which the court granted deferred proceedings under Chapter 853 and later discharged you and dismissed the charge. The special waiting period is three years after discharge. Check the discharge-and-dismissal order before applying. An ordinary conviction or probationary sentence does not qualify for this particular deferred-disposition route."
+        }
       },
       "selfHelpStopConditions": [
         "The deferred plea was not discharged and dismissed.",
         "Any immigration matter."
       ],
-      "unresolvedQuestions": [
-        {
-          "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
-          "impact": "build_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        },
-        {
-          "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "waiting_period",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        }
-      ],
+      "unresolvedQuestions": [],
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
         "rationale": "Original review: \"Additional research required.\" The amendment confirms the staging and keeps the § 712-1200 branch and waiting-period authority as true blockers. The known design is imported and the blockers preserved.",
@@ -521,7 +517,75 @@
             }
           }
         ]
-      }
+      },
+      "researchResolvedQuestions": [
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+            "impact": "build_blocker",
+            "affectedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "waiting_period",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        }
+      ]
     },
     {
       "trackId": "hi_first_time_drug_offender_expungement",

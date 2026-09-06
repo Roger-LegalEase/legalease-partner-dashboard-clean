@@ -30011,7 +30011,13 @@
         "notice": "The SBI sends a letter stating eligibility and instructions.",
         "service": "The source review does not state a service requirement for the SBI application.",
         "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement for the SBI application."
+        "notarization": "The source review does not state a notarization requirement for the SBI application.",
+        "researchSbiProcess": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "process": "The SBI page distinguishes the expungement/pardon enrollment code 27S23V from the personal-use history code 27RVGT; its linked 'Expungement Application' is a one-page service-code/enrollment instruction sheet, not a standalone court petition or an eligibility determination. Initial fee $72. After review, a mandatory-eligible applicant returns signed paperwork within 30 days of receipt with a $75 money order payable to Delaware State Police; otherwise SBI sends discretionary-process information. The second fee is conditional, never presented as unconditional; automatic-relief screening is preserved. The sheet describes online enrollment and a telephone alternative, 1-866-761-8069, requires valid unexpired photo identification and addresses name-change documentation; no unverified mail-in destination is hardcoded; a date in the sheet's URL is not a printed revision.",
+          "participantText": "For the SBI expungement application process, enroll through the State Police's linked fingerprint service using code 27S23V. The initial application fee is $72. Follow the registration instructions for the appointment or permitted mail-in option and identification. After SBI reviews the application, read its eligibility notice. If SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it, together with a $75 money order payable to Delaware State Police. If SBI instead sends discretionary-expungement information, follow that separate court process. Do not use the personal-background-check code 27RVGT as a substitute."
+        }
       },
       "generationRequirements": [
         {
@@ -30103,17 +30109,6 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
-            "sourceHeading": "Delaware operational amendments / True blockers retained",
-            "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
-          }
-        },
-        {
           "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
           "impact": "release_blocker",
           "affectedElement": "eligibility_branch",
@@ -30142,17 +30137,6 @@
         "The person wants to attack the underlying conviction rather than expunge it."
       ],
       "unresolvedQuestions": [
-        {
-          "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
-            "sourceHeading": "Delaware operational amendments / True blockers retained",
-            "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
-          }
-        },
         {
           "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
           "impact": "release_blocker",
@@ -30254,15 +30238,105 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code."
-        },
-        {
-          "kind": "release_blocker",
           "statement": "Open question blocks release (eligibility_branch): Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it."
         },
         {
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ],
+      "researchResolvedQuestions": [
+        {
+          "from": "releaseBlockers",
+          "entry": {
+            "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
+            "impact": "release_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / True blockers retained",
+              "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "State the SBI process as the SBI publishes it: code 27S23V, $72 initial fee, conditional 30-day return with a $75 money order to Delaware State Police, discretionary-process alternative; the linked sheet is an enrollment instruction, not a petition.",
+            "support": "Delaware State Police, Obtaining a Certified Delaware Criminal History, Expungements or Pardons section (DE-1); SBI/IdentoGO service-code sheet 27S23V, one page (DE-2), inspected as page images.",
+            "provenanceLimit": "dsp.delaware.gov is blocked from the build container and the researcher could not save the issuer sheet, so no issuer hash is held; the packet states the process on the recorded research with the DSP page named as its source and keeps the participant's confirmation step with SBI. The owner's earlier A4 recommendation preferred a hash-bound SBI source; the owner's 2026-09-06 direction applies the recorded code and sequence now. The remaining Cornette partial-expungement question is untouched."
+          }
+        },
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
+            "impact": "release_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / True blockers retained",
+              "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "State the SBI process as the SBI publishes it: code 27S23V, $72 initial fee, conditional 30-day return with a $75 money order to Delaware State Police, discretionary-process alternative; the linked sheet is an enrollment instruction, not a petition.",
+            "support": "Delaware State Police, Obtaining a Certified Delaware Criminal History, Expungements or Pardons section (DE-1); SBI/IdentoGO service-code sheet 27S23V, one page (DE-2), inspected as page images.",
+            "provenanceLimit": "dsp.delaware.gov is blocked from the build container and the researcher could not save the issuer sheet, so no issuer hash is held; the packet states the process on the recorded research with the DSP page named as its source and keeps the participant's confirmation step with SBI. The owner's earlier A4 recommendation preferred a hash-bound SBI source; the owner's 2026-09-06 direction applies the recorded code and sequence now. The remaining Cornette partial-expungement question is untouched."
+          }
+        },
+        {
+          "from": "blockers",
+          "entry": {
+            "kind": "release_blocker",
+            "statement": "Open question blocks release (correct_form): The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code."
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "State the SBI process as the SBI publishes it: code 27S23V, $72 initial fee, conditional 30-day return with a $75 money order to Delaware State Police, discretionary-process alternative; the linked sheet is an enrollment instruction, not a petition.",
+            "support": "Delaware State Police, Obtaining a Certified Delaware Criminal History, Expungements or Pardons section (DE-1); SBI/IdentoGO service-code sheet 27S23V, one page (DE-2), inspected as page images.",
+            "provenanceLimit": "dsp.delaware.gov is blocked from the build container and the researcher could not save the issuer sheet, so no issuer hash is held; the packet states the process on the recorded research with the DSP page named as its source and keeps the participant's confirmation step with SBI. The owner's earlier A4 recommendation preferred a hash-bound SBI source; the owner's 2026-09-06 direction applies the recorded code and sequence now. The remaining Cornette partial-expungement question is untouched."
+          }
         }
       ]
     },
@@ -43811,8 +43885,8 @@
       "exclusions": [],
       "waitingPeriods": [
         {
-          "condition": "Per the HCJDC form, for a § 712-1200 charge",
-          "duration": "Three years. The statutory authority for this period is unresolved."
+          "condition": "Where proceedings on a § 712-1200 charge were actually deferred under Chapter 853 and the person was discharged and the charge dismissed",
+          "duration": "Three years following discharge, under HRS § 712-1200(4)(c). Calculated from the discharge date; the ordinary Chapter 853 one-year period is not added. Where records show separate discharge and dismissal events, both the dismissal and the expiry of the three years after discharge are required. HRS § 712-1200(4)(b) disallows the deferral for a subsequent offense. Confirmed from the current statute and the issuer's application HCJDC 159(b) Rev. 06/03/2026 on 2026-09-06; the HCJDC general expungements webpage still uses four-year language, recorded as a discrepancy and not applied."
         }
       ],
       "outputStrategy": "official_pdf_fill",
@@ -43935,7 +44009,26 @@
         "notice": "HCJDC decides on the stage-2 application.",
         "service": "none",
         "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "notarization": "The source review does not state a notarization requirement.",
+        "researchFormMappingBoundaries": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "items": [
+            "Fill the current legal name, other names, date of birth, addresses and contact details only from the participant's supplied facts; preserve the form's actual field identities.",
+            "SSN is optional on the issuer form: never a required application field, never an invented value.",
+            "The form asks the person to initial the applicable application statement: use the non-conviction treatment for this route, not the first-time drug/property/DUI conviction statement; draw no fabricated checkbox over an initials field; never execute initials, signature or date for the participant.",
+            "Never assert the person is not a fugitive because the route is a deferred disposition; the person reviews and executes the statement.",
+            "Leave the HCJDC-only box blank.",
+            "The current form has no arrest/case table: collect disposition and timing facts upstream; invent no table on the issuer form.",
+            "The form's demand for a court order granting expungement of a conviction belongs to its conviction branch and is not applied to this non-conviction application; attaching the discharge-and-dismissal order is a clearly labelled LegalEase safeguard, not an issuer certification requirement.",
+            "Fees as the form states them: $35 first-time expungement, $50 non-first-time, including a $10 nonrefundable portion; valid government-issued photo-ID copy, self-addressed stamped envelope, United States-issued money order or cashier's check payable to the State of Hawaii; destination HCJDC, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813. No invented waiver process, no guarantee about every court or private copy."
+          ]
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "eligibility": "This application concerns a prostitution charge under HRS §712-1200 for which the court granted deferred proceedings under Chapter 853 and later discharged you and dismissed the charge. The special waiting period is three years after discharge. Check the discharge-and-dismissal order before applying. An ordinary conviction or probationary sentence does not qualify for this particular deferred-disposition route."
+        }
       },
       "generationRequirements": [
         {
@@ -43983,30 +44076,7 @@
       "scopeRestrictions": [
         "Stage 1 remains guidance because the deferred plea, discharge, and dismissal occur inside the criminal case. Stage 2 is official_pdf_fill on HCJDC 159(b)."
       ],
-      "buildBlockers": [
-        {
-          "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
-          "impact": "build_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        },
-        {
-          "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "waiting_period",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        }
-      ],
+      "buildBlockers": [],
       "releaseBlockers": [],
       "awaitingCounselClassification": [],
       "openLegalQuestions": [],
@@ -44016,30 +44086,7 @@
         "The deferred plea was not discharged and dismissed.",
         "Any immigration matter."
       ],
-      "unresolvedQuestions": [
-        {
-          "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
-          "impact": "build_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        },
-        {
-          "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "waiting_period",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-          }
-        }
-      ],
+      "unresolvedQuestions": [],
       "guidanceRationales": [],
       "guidanceRereviewCandidate": false,
       "legalDesignStatus": "legal_design_approved_with_limitations",
@@ -44080,11 +44127,7 @@
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "F_source_problem",
-      "legalDesignBlockers": [
-        "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)",
-        "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
-        "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
-      ],
+      "legalDesignBlockers": [],
       "blockers": [
         {
           "kind": "output_review_gate",
@@ -44099,20 +44142,289 @@
           "statement": "Technical proof not started."
         },
         {
-          "kind": "legal_design_blocker",
-          "statement": "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)"
-        },
-        {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
-        },
-        {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
-        },
-        {
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ],
+      "researchResolvedQuestions": [
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+            "impact": "build_blocker",
+            "affectedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "waiting_period",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "buildBlockers",
+          "entry": {
+            "question": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+            "impact": "build_blocker",
+            "affectedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "buildBlockers",
+          "entry": {
+            "question": "The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "waiting_period",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "legalDesignBlockers",
+          "entry": "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)",
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "legalDesignBlockers",
+          "entry": "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility.",
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "legalDesignBlockers",
+          "entry": "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved.",
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "blockers",
+          "entry": {
+            "kind": "legal_design_blocker",
+            "statement": "Design undetermined: Current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility. (undetermined: waiting_period)"
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "blockers",
+          "entry": {
+            "kind": "legal_design_blocker",
+            "statement": "Open question blocks the build (eligibility_branch): For HI-3, current statutory text and the qualifying § 712-1200 branch must be confirmed where it changes the wait or eligibility."
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
+        },
+        {
+          "from": "blockers",
+          "entry": {
+            "kind": "legal_design_blocker",
+            "statement": "Open question blocks the build (waiting_period): The statutory authority for the form's three-year waiting period and the current status of § 712-1200 remain unresolved."
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "HRS § 712-1200(4)(c) supplies the three-year period following discharge for an actual Chapter 853 deferral of a § 712-1200 charge; (4)(b) disallows the deferral for a subsequent offense; Chapter 853 joins successful discharge with dismissal. The issuer's HCJDC 159(b) Rev. 06/03/2026 prints the same three-year rule in its non-conviction section.",
+            "support": "HRS § 712-1200 (HI-1), HRS § 853-1 (HI-2), HCJDC 159(b) Rev. 06/03/2026 (HI-3, one page, inspected as page images), HRS § 831-3.2 (HI-5); the HCJDC general page's four-year language (HI-4) retained as a discrepancy.",
+            "provenanceLimit": "Official web text retrieval and page screenshots by the researcher; no issuer file saved. The held application bytes (sha256 1cb4f3acc20d…, custody nationwide_recovery_pool_2026_09_02) are not mounted in the build container, so the family stays source-blocked for building here. Remaining release work: the owner's adoption of this source-currency determination (relayed 2026-09-06), correct source binding, implementation, current-output review and any standing approval."
+          }
         }
       ]
     },
@@ -81429,7 +81741,16 @@
         "notice": "The Rule to Show Cause orders the district attorney to show cause why the motion should not be granted, and the motion's prayer asks for relief after a contradictory hearing with the district attorney's office. No sixty-day objection window applies; that scheme belongs to Articles 979 and 980 and governs a motion to expunge.",
         "service": "Service is on the district attorney and on the attorney for the defendant or the defendant.",
         "participantSignature": "The mover signs the Article 987 Motion in the block for an unrepresented mover. LegalEase leaves the signature and date blank.",
-        "notarization": "none"
+        "notarization": "none",
+        "researchTwoFieldResolution": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "contract": "docs/rcap/grade-a/research/2026-09-06-batch-02/Louisiana_Article_987_Repair_Contract.md",
+          "contractSha256Prefix": "feb045f14022",
+          "finding": "The 'Conviction offense wording' and 'Conviction statute' lines are not held facts: the builder's canonical and boundary FACTS objects omit both, the field map assigns both to REQUIRED_BEFORE_FILING, and primaryBody always prints dotted lines. They are participant-supplied case facts, collected before filing, written into the statutory instrument as neutral case fields when actually supplied, and truthfully tracked as missing when not. No value is guessed and no absent value is reported as written.",
+          "largerDefect": "The builder's primaryBody does not reproduce the Article 987 motion, rule to show cause and order: it substitutes a questionnaire, omits the statutory identifying and service elements (DOCKET NUMBER, CHARGE, DATE OF ARREST, ARRESTING AGENCY, CITY/PARISH OF ARREST; pro-se address, city/state/ZIP and telephone; PLEASE SERVE recipients), paraphrases the motion and replaces the order's preprinted operative wording with blank findings and decretal lines, and prints machine metadata inside the filed text. Article 986 restricts filing to the prescribed forms; Article 987 supplies the text; the LA-STATUTORY-FORMS determination (COMPOSE_FROM_AUTHORITY) already authorises composition from the codified article. One bounded repair per the contract, not a two-field patch.",
+          "sourceRequirement": "The current codified text of La. C.Cr.P. arts. 986 and 987 is not held in any custody (the Master Library's Louisiana review describes the three-part instrument but does not quote it; 05_SOURCE_GATED holds arts. 990, 993, 995, 998 and 999.1 only), and legis.la.gov is blocked from the build container. The repair cannot reproduce the statutory text faithfully until the official article text is acquired and bound."
+        }
       },
       "generationRequirements": [
         {
@@ -81761,7 +82082,8 @@
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
         }
-      ]
+      ],
+      "researchResolvedQuestions": []
     },
     {
       "jurisdiction": "MA",
@@ -135383,7 +135705,22 @@
         "notice": "Section 29-3005 states no notice requirement on its face, which is unusual for a motion of this effect and is recorded as a build blocker on the first unit. On the sealing motion the court notifies the prosecutor.",
         "service": "None by the participant on the sealing motion. The first unit's requirement is unconfirmed.",
         "participantSignature": "The movant signs each motion.",
-        "notarization": "none identified."
+        "notarization": "none identified.",
+        "researchStructure": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "firstStage": "A custom motion under Neb. Rev. Stat. § 29-3005, not CC 6:12, filed after completion of the sentence or juvenile disposition in the county, district or separate juvenile court of the county of conviction or adjudication. The statute distinguishes two branches that must not be collapsed: (a) a prostitution-related offense as defined in § 29-3005(1) committed while the movant was a victim of sex trafficking OR proximately caused by that status; (b) any other offense committed as a direct result of OR proximately caused by that status. No further multi-year waiting period in that section. Only the selected, fact-supported branch is pleaded; both alternatives are never printed as already true; the court makes the findings.",
+          "evidence": "The rebuttable presumption of victim status may rest on government documentation OR on affidavits or sworn testimony from an attorney, clergy member, medical professional, trained victim-services professional, or other professional from whom the movant sought relevant assistance; official documentation is not a prerequisite; other sufficiently credible and probative evidence may be considered. The presumption concerns victim status, not every other element. On the movant's request a hearing on this motion must be held in camera and the rules of evidence do not apply to it; this authorises no promise that all filings are confidential or that the later sealing hearing follows the same rule. No unnecessarily graphic evidence is solicited and no testimony invented.",
+          "secondStage": "After a signed trafficking-based set-aside order, an adult seeks sealing under § 29-3523(4) using CC 6:12, Motion to Seal Adult Criminal Record, Rev. 04/2024 (two pages), with companion instructions CC 6:12a Rev. 06/2024 at the non-obvious CC-6-12-a.pdf URL; the form assumes the set-aside has occurred; grounds are never all checked automatically, a charge date is never turned into a conviction date, continued public access is asserted only on the relevant fact; the second page's participant signature, contact and no-email alternative are preserved as execution fields; the court notifies the county or city attorney and schedules the matter. Juvenile adjudications use the juvenile-sealing mechanism referenced in § 29-3523(4), not the adult CC 6:12.",
+          "remainingNarrowRequirements": "First-stage local motion service and scheduling, accepted declaration execution and any sensitive-filing protections for the actual court; the second-stage clerk-notice procedure is not copied into stage one. The repository's counsel-classification requirement (counselQuestions) stands: this research supplies the corrected law and drafting structure, not that approval."
+        },
+        "researchDraftingClauses": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "prostitutionRelatedBranch": "The movant seeks relief under §29-3005(2)(a) and (3)(a). The offense identified in this motion is prostitution-related within subsection (1). The supporting account explains the applicable basis: the movant was a victim of sex trafficking at the time of the offense, or participation in the offense was proximately caused by that status.",
+          "otherOffenseBranch": "The movant seeks relief under §29-3005(2)(b) and (3)(b). The supporting account explains how participation in the identified offense was a direct result of, or proximately caused by, the movant's status as a victim of sex trafficking.",
+          "optionalHearingRequest": "The movant requests that any hearing relating to this motion be conducted in camera under §29-3005(6)."
+        }
       },
       "generationRequirements": [
         {
@@ -135710,7 +136047,8 @@
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
         }
-      ]
+      ],
+      "researchResolvedQuestions": []
     },
     {
       "jurisdiction": "NE",
@@ -232213,7 +232551,16 @@
         "notice": "Serve the prosecuting attorney for the sentencing court. The outcome is mandatory once the applicant qualifies.",
         "service": "Serve the prosecutor's office for the sentencing court and file proof of service.",
         "participantSignature": "The applicant signs as a declaration under penalty of perjury.",
-        "notarization": "none — the pattern forms use a declaration under penalty of perjury."
+        "notarization": "none — the pattern forms use a declaration under penalty of perjury.",
+        "researchApplicantVictimDistinction": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "statute": "RCW 9.96.060(7) authorises a family member to apply to the sentencing court on behalf of a deceased homicide victim with a prostitution conviction under RCW 9A.88.030; it adds no trafficking finding, estate appointment or waiting period. Municipal-ordinance convictions or disputed family relationships go to narrower review rather than a silent broadening of the listed offense.",
+          "pleading": "The applicant is the living family member; the defendant in the original caption is the deceased person. A declaration states the applicant's own identity and relationship in the first person and describes the deceased person's conviction and homicide status in the third person with a factual source identified. The applicant never adopts a living defendant's personal conviction history as their own, and the general CrRLJ vacatur forms' first-person defendant affidavit is not signed by a relative.",
+          "kitsapLocalForm": "Kitsap District Court Form 950780, revised 08/08/2024, three pages (petition, declaration, instructions): page one keeps the defendant caption and introduces the applicant separately; page two separates the applicant's name and relationship from the defendant's convictions and homicide status; its instructions name notice form 950790, same-day copies of the petition and notice to the prosecutor, and hearing attendance, and say the applicant does NOT prepare a proposed order because the judge prepares it at the hearing. It applies within Kitsap District Court only and is not promoted statewide; no mandatory proposed-order task is inserted into the Kitsap branch. The form contains a citation missing the 'A' in one reference to the prostitution statute; the original bytes are preserved when acquired and the discrepancy recorded; LegalEase's own instructions and pleadings cite RCW 9A.88.030.",
+          "nonKitsap": "Outside Kitsap, a custom pleading only through the actual court's accepted vehicle and the repository's applicable design approval, with the handoff's content outline (applicant, relationship, deceased defendant, court and cause number, exact RCW 9A.88.030 conviction, records supporting death and homicide-victim status, relief under subsection (7)); the supporting declaration states relationship, basis of knowledge, record sources and authentication facts the applicant can truthfully supply; the court decides whether the applicant qualifies; no particular death or relationship certificate is stated as universally mandated.",
+          "remaining": "Outside Kitsap: local scheduling and service, accepted declaration execution, proposed-order practice and the custom filing vehicle; the Kitsap form's bytes are not yet held and must be acquired and bound before that branch is built."
+        }
       },
       "generationRequirements": [
         {
@@ -232331,7 +232678,30 @@
         }
       ],
       "awaitingCounselClassification": [],
-      "openLegalQuestions": [],
+      "openLegalQuestions": [
+        {
+          "question": "Design approval for the non-Kitsap custom vehicle under RCW 9.96.060(7) (applicant/deceased-defendant pleading and declaration per the recorded outline), and confirmation of local scheduling, service, declaration execution and proposed-order practice for the filing court. Narrowed on 2026-09-06: the statute's applicant/victim distinction, the name placement (applicant in applicant fields, deceased in the defendant caption) and Kitsap's local form and no-proposed-order instruction are recorded and are not open.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "narrowedOn": "2026-09-06",
+          "basis": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes."
+          }
+        }
+      ],
       "counselConfirmationRequired": false,
       "counselQuestions": [],
       "selfHelpStopConditions": [

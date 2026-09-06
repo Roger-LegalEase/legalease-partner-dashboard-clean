@@ -9,7 +9,9 @@
       "legalName": "Automatic Mandatory Expungement, 11 Del. C. § 4373A",
       "publicName": "Automatic Expungement",
       "controllingAuthority": {
-        "citations": ["11 Del. C. § 4373A, added by the Clean Slate Act"],
+        "citations": [
+          "11 Del. C. § 4373A, added by the Clean Slate Act"
+        ],
         "summary": "The SBI identifies eligible cases monthly and proceeds under § 4372(e)(2), notifying every court and law enforcement agency holding the records, each of which must confirm completion in writing. Any case eligible for mandatory expungement under § 4373 is eligible for automatic expungement."
       },
       "effectiveDates": {
@@ -17,12 +19,20 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
-      "eligibleDispositions": ["any case eligible for mandatory expungement under § 4373"],
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "any case eligible for mandatory expungement under § 4373"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "process_guidance",
-      "guidanceRationales": ["no_participant_filing_exists"],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -149,7 +159,11 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
       "eligibleDispositions": [
         "Tier A: the case was terminated in favor of the accused, as defined in § 4372(b)",
         "Tier A: one or more violations in the same case and three years since conviction",
@@ -166,10 +180,22 @@
         "No expungement while the person is serving incarceration, parole, or probation."
       ],
       "waitingPeriods": [
-        { "condition": "Tier A: one or more violations in the same case", "duration": "Three years since conviction" },
-        { "condition": "Tier B: misdemeanors, or misdemeanors combined with violations, in the same case", "duration": "Five years since conviction" },
-        { "condition": "Tier B: drug possession under 16 Del. C. § 4756", "duration": "Five years since conviction" },
-        { "condition": "Tier B: the six listed felonies", "duration": "Ten years since conviction or release from incarceration, whichever is later" }
+        {
+          "condition": "Tier A: one or more violations in the same case",
+          "duration": "Three years since conviction"
+        },
+        {
+          "condition": "Tier B: misdemeanors, or misdemeanors combined with violations, in the same case",
+          "duration": "Five years since conviction"
+        },
+        {
+          "condition": "Tier B: drug possession under 16 Del. C. § 4756",
+          "duration": "Five years since conviction"
+        },
+        {
+          "condition": "Tier B: the six listed felonies",
+          "duration": "Ten years since conviction or release from incarceration, whichever is later"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -267,7 +293,13 @@
         "notice": "The SBI sends a letter stating eligibility and instructions.",
         "service": "The source review does not state a service requirement for the SBI application.",
         "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement for the SBI application."
+        "notarization": "The source review does not state a notarization requirement for the SBI application.",
+        "researchSbiProcess": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+          "process": "The SBI page distinguishes the expungement/pardon enrollment code 27S23V from the personal-use history code 27RVGT; its linked 'Expungement Application' is a one-page service-code/enrollment instruction sheet, not a standalone court petition or an eligibility determination. Initial fee $72. After review, a mandatory-eligible applicant returns signed paperwork within 30 days of receipt with a $75 money order payable to Delaware State Police; otherwise SBI sends discretionary-process information. The second fee is conditional, never presented as unconditional; automatic-relief screening is preserved. The sheet describes online enrollment and a telephone alternative, 1-866-761-8069, requires valid unexpired photo identification and addresses name-change documentation; no unverified mail-in destination is hardcoded; a date in the sheet's URL is not a printed revision.",
+          "participantText": "For the SBI expungement application process, enroll through the State Police's linked fingerprint service using code 27S23V. The initial application fee is $72. Follow the registration instructions for the appointment or permitted mail-in option and identification. After SBI reviews the application, read its eligibility notice. If SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it, together with a $75 money order payable to Delaware State Police. If SBI instead sends discretionary-expungement information, follow that separate court process. Do not use the personal-background-check code 27RVGT as a substitute."
+        }
       },
       "selfHelpStopConditions": [
         "The person has pending criminal charges outside the three carve-outs.",
@@ -281,17 +313,6 @@
         "The person wants to attack the underlying conviction rather than expunge it."
       ],
       "unresolvedQuestions": [
-        {
-          "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Delaware-Legal-Review.md",
-            "sourceHeading": "Delaware operational amendments / True blockers retained",
-            "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
-          }
-        },
         {
           "question": "Whether the SBI or the courts publish any current guidance on partial expungement after Cornette, and whether the petition form will be revised to accommodate it.",
           "impact": "release_blocker",
@@ -374,14 +395,51 @@
             }
           }
         ]
-      }
+      },
+      "researchResolvedQuestions": [
+        {
+          "from": "unresolvedQuestions",
+          "entry": {
+            "question": "The SBI mandatory expungement request form, its current fee, and whether the SBI now issues eligibility letters automatically alongside every certified criminal history ordered under the expungement service code.",
+            "impact": "release_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+              "sourceHeading": "Delaware operational amendments / True blockers retained",
+              "sourceStatement": "Current SBI application form, fee, service code, and submission requirements must be source-approved before DE-2 release. This is a source-release gate; the output strategy is now known."
+            }
+          },
+          "resolution": {
+            "kind": "owner_relayed_narrow_research",
+            "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+            "researchHandoffSha256Prefix": "3544f6477ebf",
+            "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+            "researchSourceIndexSha256Prefix": "1cec5b10323b",
+            "preparedBy": "ChatGPT, research and proposed implementation content; not counsel of record; not Lawrence Blackmon",
+            "researchDate": "2026-09-06",
+            "repositorySnapshotCompared": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+            "relayedBy": "Roger Roman (owner), 2026-09-06",
+            "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+            "recordedOn": "2026-09-06",
+            "createsApproval": false,
+            "originalIssuerFilesIncluded": false,
+            "note": "The researcher inspected the cited official pages and PDFs on 2026-09-06 but could not save any issuer file; no new issuer hash or byte length is claimed. Not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes.",
+            "answer": "State the SBI process as the SBI publishes it: code 27S23V, $72 initial fee, conditional 30-day return with a $75 money order to Delaware State Police, discretionary-process alternative; the linked sheet is an enrollment instruction, not a petition.",
+            "support": "Delaware State Police, Obtaining a Certified Delaware Criminal History, Expungements or Pardons section (DE-1); SBI/IdentoGO service-code sheet 27S23V, one page (DE-2), inspected as page images.",
+            "provenanceLimit": "dsp.delaware.gov is blocked from the build container and the researcher could not save the issuer sheet, so no issuer hash is held; the packet states the process on the recorded research with the DSP page named as its source and keeps the participant's confirmation step with SBI. The owner's earlier A4 recommendation preferred a hash-bound SBI source; the owner's 2026-09-06 direction applies the recorded code and sequence now. The remaining Cornette partial-expungement question is untouched."
+          }
+        }
+      ]
     },
     {
       "trackId": "de_discretionary_superior_court",
       "legalName": "Petition for Expungement of Adult Record, Superior Court, 11 Del. C. § 4374",
       "publicName": "Discretionary Expungement in Superior Court",
       "controllingAuthority": {
-        "citations": ["11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10"],
+        "citations": [
+          "11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10"
+        ],
         "summary": "Discretionary expungement on petition where the petitioner shows manifest injustice from the continued existence and possible dissemination of the record, by a preponderance. The State is a party defendant. Filed in Superior Court where any charge or conviction was disposed of outside Family Court."
       },
       "effectiveDates": {
@@ -389,7 +447,11 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
       "eligibleDispositions": [
         "one or more misdemeanors not listed in § 4373(b), same case, at least 3 years since conviction or release from incarceration, whichever is later, and no prior or subsequent convictions",
         "one or more misdemeanors listed in § 4373(b), same case, at least 7 years, and no prior or subsequent convictions",
@@ -403,15 +465,31 @@
         "No expungement while the person is serving incarceration, parole, or probation."
       ],
       "waitingPeriods": [
-        { "condition": "Misdemeanors not listed in § 4373(b), same case", "duration": "3 years since conviction or release from incarceration, whichever is later" },
-        { "condition": "Misdemeanors listed in § 4373(b), same case", "duration": "7 years" },
-        { "condition": "A felony", "duration": "7 years" },
-        { "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case", "duration": "5 years since the most recent conviction or release" }
+        {
+          "condition": "Misdemeanors not listed in § 4373(b), same case",
+          "duration": "3 years since conviction or release from incarceration, whichever is later"
+        },
+        {
+          "condition": "Misdemeanors listed in § 4373(b), same case",
+          "duration": "7 years"
+        },
+        {
+          "condition": "A felony",
+          "duration": "7 years"
+        },
+        {
+          "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case",
+          "duration": "5 years since the most recent conviction or release"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "county",
-        "keys": ["new-castle", "kent", "sussex"],
+        "keys": [
+          "new-castle",
+          "kent",
+          "sussex"
+        ],
         "venue": "Superior Court for the county where the most recent case was terminated. Venue keys to the most recent termination, not the county of each conviction."
       },
       "destination": {
@@ -708,7 +786,10 @@
       "legalName": "Petition for Expungement of Adult Record, Family Court, 11 Del. C. § 4374(c)",
       "publicName": "Discretionary Expungement in Family Court",
       "controllingAuthority": {
-        "citations": ["11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10", "11 Del. C. § 4374(c)"],
+        "citations": [
+          "11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10",
+          "11 Del. C. § 4374(c)"
+        ],
         "summary": "Same statute and standard as the Superior Court track. Under § 4374(c), if all the charges and convictions sought to be expunged were disposed of in Family Court, the petition must be filed in Family Court for the county where the most recent case was terminated. Family Court Form 281 is titled \"Petition For Expungement of Adult Record\"."
       },
       "effectiveDates": {
@@ -716,7 +797,11 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["arrest", "charge", "conviction"],
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
       "eligibleDispositions": [
         "one or more misdemeanors not listed in § 4373(b), same case, at least 3 years since conviction or release from incarceration, whichever is later, and no prior or subsequent convictions",
         "one or more misdemeanors listed in § 4373(b), same case, at least 7 years, and no prior or subsequent convictions",
@@ -730,15 +815,31 @@
         "No expungement while the person is serving incarceration, parole, or probation."
       ],
       "waitingPeriods": [
-        { "condition": "Misdemeanors not listed in § 4373(b), same case", "duration": "3 years since conviction or release from incarceration, whichever is later" },
-        { "condition": "Misdemeanors listed in § 4373(b), same case", "duration": "7 years" },
-        { "condition": "A felony", "duration": "7 years" },
-        { "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case", "duration": "5 years since the most recent conviction or release" }
+        {
+          "condition": "Misdemeanors not listed in § 4373(b), same case",
+          "duration": "3 years since conviction or release from incarceration, whichever is later"
+        },
+        {
+          "condition": "Misdemeanors listed in § 4373(b), same case",
+          "duration": "7 years"
+        },
+        {
+          "condition": "A felony",
+          "duration": "7 years"
+        },
+        {
+          "condition": "Violations or non-§ 4373(b) misdemeanors in more than one case",
+          "duration": "5 years since the most recent conviction or release"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "county",
-        "keys": ["new-castle", "kent", "sussex"],
+        "keys": [
+          "new-castle",
+          "kent",
+          "sussex"
+        ],
         "venue": "Family Court for the county where the most recent case was terminated."
       },
       "destination": {
@@ -961,7 +1062,10 @@
       "legalName": "Petition for Expungement After a Pardon, 11 Del. C. § 4375",
       "publicName": "Expungement After a Pardon",
       "controllingAuthority": {
-        "citations": ["11 Del. C. § 4375", "Procedure under 11 Del. C. § 4374(c) through (h) and (j)"],
+        "citations": [
+          "11 Del. C. § 4375",
+          "Procedure under 11 Del. C. § 4374(c) through (h) and (j)"
+        ],
         "summary": "A person convicted of any crime other than the six excluded, who has since been unconditionally pardoned by the Governor, may petition. Per the enacting synopsis a § 4375 expungement is not restricted by the eligibility requirements or exclusions in § 4374, and crimes ineligible under § 4372(f) become eligible after an unconditional pardon. This is the only route for a § 4201(c) violent felony and for most of the permanent exclusions."
       },
       "effectiveDates": {
@@ -969,8 +1073,12 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["a conviction for any crime other than the six excluded, followed by an unconditional pardon by the Governor"],
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a conviction for any crime other than the six excluded, followed by an unconditional pardon by the Governor"
+      ],
       "exclusions": [
         "§ 4375(b): manslaughter (§ 632), murder in the second degree (§ 635), murder in the first degree (§ 636), rape in the second degree (§ 772), rape in the first degree (§ 773), and sexual abuse of a child by a person in a position of trust, authority, or supervision in the first degree (§ 778(1), (2), or (3))."
       ],
@@ -978,7 +1086,11 @@
       "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "county",
-        "keys": ["new-castle", "kent", "sussex"],
+        "keys": [
+          "new-castle",
+          "kent",
+          "sussex"
+        ],
         "venue": "Superior or Family Court for the county where the most recent case was terminated, following the § 4374(c) venue rule."
       },
       "destination": {
@@ -1174,7 +1286,10 @@
       "legalName": "Attorney General Expungement at Dismissal or Nolle Prosequi, 11 Del. C. § 4374(h)",
       "publicName": "Prosecutor-Initiated Expungement at Dismissal",
       "controllingAuthority": {
-        "citations": ["11 Del. C. § 4374(h)", "11 Del. C. § 4374(f)"],
+        "citations": [
+          "11 Del. C. § 4374(h)",
+          "11 Del. C. § 4374(f)"
+        ],
         "summary": "At the time of a state motion to dismiss or entry of a nolle prosequi, where the prosecutor determines that continued existence and dissemination of the arrest information may cause manifest injustice, the prosecutor may petition to expunge the arrest record. A petition filed by the Attorney General must be granted."
       },
       "effectiveDates": {
@@ -1182,12 +1297,20 @@
         "effectiveTo": null,
         "reviewedAsOf": "2026-07-30"
       },
-      "eligibleRecordTypes": ["arrest"],
-      "eligibleDispositions": ["state motion to dismiss", "entry of a nolle prosequi"],
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "state motion to dismiss",
+        "entry of a nolle prosequi"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "process_guidance",
-      "guidanceRationales": ["another_entity_decides", "no_participant_filing_exists"],
+      "guidanceRationales": [
+        "another_entity_decides",
+        "no_participant_filing_exists"
+      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
