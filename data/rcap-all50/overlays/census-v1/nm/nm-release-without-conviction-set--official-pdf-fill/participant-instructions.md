@@ -9,7 +9,7 @@ This packet is six official New Mexico forms for a petition to expunge the arres
 - **Form 4-960.2 NMRA**, _Affirmation in Support of Expungement_ — attached to the notice of completion of briefing.
 - **Form 4-960.1 NMRA**, _Notice of Hearing_ — give this to the court so it can set a hearing if it decides to hold one.
 
-The platform filled in what it holds about you: your name, your date of birth, your address, the county and the judicial district. **Everything else is yours** — including your case number, the way the case ended, the agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed below by the form and the section it is in.
+The platform filled in what it holds about you: your name, your date of birth, your address, the county and the judicial district, and -- where you told us your case was handled in the district court -- your case number, on the one line paragraph 4 gives for a district court number. **Everything else is yours**: the way the case ended, the agencies that hold your records, your telephone number, your e-mail, and your case number if your case was in a metropolitan, magistrate or municipal court. Every one of those blanks is listed below by the form and the section it is in.
 
 ## Keep this petition separate from any conviction
 
@@ -60,9 +60,13 @@ There is **no statewide Supreme Court order form** in the mandatory 4-951 to 4-9
 
 **Form 4-222 and the order bound with it print `SIXTH JUDICIAL DISTRICT COURT` in the caption.** That is printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court named on it.
 
+**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as you correct the court line, or take your own district's copy of the form and complete its caption from the start. The same is true of the county line on the order bound at the back of it.
+
 ## Your case number goes on the line for the court that handled the case
 
-Paragraph 4 of Form 4-952 has one line for a **District Court** case number and another for a **Metropolitan, Magistrate or Municipal Court** case number. Most cases on this track were in one of the lower courts even though the petition is filed in district court. The platform did not write your case number, because it cannot tell from the form which line is right for your case and the petition is affirmed under penalty of perjury. **Copy the case number from your court record onto the line for the court that handled the case, and leave the other line empty.**
+Paragraph 4 of Form 4-952 has one line for a **District Court** case number and another for a **Metropolitan, Magistrate or Municipal Court** case number, and paragraph 12 asks the same question again as a choice between four courts. Most cases on this track were in one of the lower courts even though the petition is filed in district court, so those are not the same answer.
+
+The packet uses the answer you gave about which court handled your case, and nothing else. **If your case was in the district court**, your case number is already on the District Court line of paragraph 4 and your judicial district on the District Court line of paragraph 12; leave the lower-court lines empty. **If your case was in a metropolitan, magistrate or municipal court**, both of those lines are deliberately empty: your case has no district court number and was not disposed of in a district court, and nothing is written on a line that would say otherwise on a petition you affirm under penalty of perjury. **Copy your case number onto the Metropolitan/Magistrate/Municipal line in paragraph 4, and in paragraph 12 tick the court that handled your case and write the town or city it sits in.**
 
 ## Boxes you tick with a pen
 
@@ -214,13 +218,14 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 1. Information about Petitioner | Home Phone # | your home telephone number, if you have one |
 | 1. Information about Petitioner | Cell # | your mobile telephone number, if you have one |
 | 1. Information about Petitioner | Other names or aliases by which Petitioner has been known | every other name your records might be under: a former name, a nickname, an alias |
+| 2. Pending expungement cases | Judicial district in which Petitioner has pending expungement cases | the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty |
+| 2. Pending expungement cases | Judicial district court the pending expungement cases are before | the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending |
 | 2. Pending expungement cases | Pending expungement case numbers, first line | the case number of any other expungement case of yours pending in this judicial district |
 | 2. Pending expungement cases | Pending expungement case numbers, second line | a second pending expungement case number, if you have one |
 | 3. Prior expungement applications | Expungement case numbers in which Petitioner was denied, first line | the case number of any expungement you were denied |
 | 3. Prior expungement applications | Expungement case numbers in which Petitioner was denied, second line | a second case number in which you were denied, if there is one |
 | 3. Prior expungement applications | Expungement case numbers in which Petitioner was denied, third line | a third case number in which you were denied, if there is one |
-| 4. The cases and records to be expunged | District Court case number(s) that are the subject of the petition | the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one |
-| 4. The cases and records to be expunged | Metropolitan, Magistrate or Municipal Court case number(s) | the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were |
+| 4. The cases and records to be expunged | Metropolitan, Magistrate or Municipal Court case number(s) | the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above |
 | 4. The cases and records to be expunged | Law Enforcement Agency case number(s) | the case number the law enforcement agency gave this matter, from your records |
 | 4. The cases and records to be expunged | Arrest number(s) | the arrest number from your fingerprint card or RAP sheet |
 | 6. The charges Petitioner was released without conviction for | Date of arrest for the first charge | the date you were arrested on the first charge you are asking to expunge, from the record |
@@ -324,6 +329,7 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
+| Caption of the application | COUNTY OF | the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed "SIXTH JUDICIAL DISTRICT COURT" line, write your own judicial district, and write your county here |
 | Marital status and interpretation | Interpretation services needed, first line | what interpretation you need, and in what language, if you asked for an interpreter |
 | Marital status and interpretation | Interpretation services needed, second line | the second line of what interpretation you need, if the first line is not enough |
 | Marital status and interpretation | Interpretation services needed, third line | the third line of what interpretation you need, if you need it |
@@ -408,13 +414,14 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 6, Employment | the employment of household member 6, if you have that many |
 | F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
 | The applicant's oath | Telephone of the applicant | your telephone number |
-| Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the same county as page 1, on the caption of the order you give the judge |
+| Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
 | Caption of Form 4-223, Order on Application for Free Process | Name of the Petitioner in the caption of the order for free process | your name, the same as page 1, on the caption of the order you give the judge |
 
 ## What the platform deliberately left blank
 
 - **Every signature and every signature date.** Forms 4-952 and 4-960.2 are affirmed under penalty of perjury.
-- **Your case number**, for the reason given above: the form asks for it by the court it was in.
+- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other; where your case was in a metropolitan, magistrate or municipal court, copying it onto that line is yours to do, for the reason in the section above.
+- **The county in the caption of Form 4-222 and of the order bound with it.** That form prints another district's court name directly below the county line, so a county written there would help compose a caption naming a court that is not yours. Complete the whole of that caption by hand on the copy you file, or use your own district's copy of the form.
 - **Everything below the caption of Form 4-955.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.
 - **Everything Form 4-959 and Form 4-960.2 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you. None of it is knowable now.
 - **The way the case ended and the date it ended**, in paragraph 6. You mark the disposition and copy the date from the court's record.
