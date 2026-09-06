@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+  "minimumCaptainSha": "ec06c65bbc6f4f5d54a0c8a6b52d405c4b078691",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 7,
+    "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
-    "remaining": 339,
+    "remaining": 340,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
@@ -78,7 +78,7 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 147,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "FAIL_REPAIR_REQUIRED": 41,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,6 +87,7 @@
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,7 +110,6 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "ne-setaside-custodial-set",
       "nh_petition_nonconviction_pre2019-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
@@ -29712,9 +29712,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX91",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29730,8 +29730,7 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
