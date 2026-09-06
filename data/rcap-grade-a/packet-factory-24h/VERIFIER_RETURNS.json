@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 879,
+    "rows": 884,
     "independentVerdicts": 240,
-    "failRepairRequired": 62,
-    "passIndependent": 160
+    "failRepairRequired": 57,
+    "passIndependent": 164
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -97,12 +97,7 @@
     "va_seal_enumerated_seven_year-set",
     "va_seal_petition_felony-set",
     "va_seal_petition_misdemeanor-set",
-    "vt_exp_decriminalized-set",
-    "vt_seal_18_to_21-set",
-    "vt_seal_dui-set",
-    "vt_seal_felony-set",
-    "vt_seal_misdemeanor-set",
-    "vt_seal_pardon-set"
+    "vt_exp_decriminalized-set"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -23792,6 +23787,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
       "superseded": false
     },
     {
@@ -24068,6 +24077,32 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "BLOCKED on this obligation alone. This is the one Vermont sealing route the fee attaches to, the packet's fee sentence resolves to '$90 is due' for this participant, and the record itself records that how 32 V.S.A. § 1431(e) applies after Act 60 is unsettled. Not measurable true here without counsel, and not this lane's to decide. The other fourteen obligations were measured and all fourteen PASS.",
+          "evidence": "BLOCKED_LEGAL_INPUT, and the block is on this obligation alone; the other fourteen were measured. RULED ON WHAT THE PACKET SAYS. This family's fee section was diffed here against the other four and is CHARACTER-IDENTICAL to all of them: it quotes 200-00130A — 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a)' — then states 'filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90', adding that whether the participant's own conviction is one 'is a fact about your docket rather than about this packet'. On THIS route it is not a fact about the docket: this IS the 23 V.S.A. § 1201(a) sealing track, so for this participant the packet's conditional resolves to '$90 is due'. Whether that is true is exactly the question the record records and does not answer. Re-read here at this base and UNCHANGED: legal-design-track-registry.json tracks[vt_seal_dui].releaseBlockers holds 'How the 32 V.S.A. § 1431(e) $90 fee is applied after Act 60. The provision still cross-references 13 V.S.A. § 7602(a)(1)(C), a subdivision Act 60 eliminated, and the Judiciary describes the fee as applying to a DUI sealing committed when the person was 25 or older, which has no anchor in the current § 7602 text. Read at source on 2026-08-06 and recorded rather than resolved', with impact release_blocker and affectedElement participant_instructions; src/lib/rcap/state-packs/vermont/fee-notes.ts carries the same unanchored age qualifier. I CANNOT MEASURE THE PACKET'S FEE STATEMENT TRUE OR FALSE HERE. It is a faithful quotation of a current Judiciary form and a statement about a fee provision the record says is out of currency on this exact route. Settling it is counsel's, not this lane's. MEASURED SO THE COUNSEL ITEM IS SCOPED, AND NOT ITSELF SCORED HERE: this family's manifest pay_fee action says what the packet is supposed to do — 'The packet therefore states that a fee applies on this track and directs the participant to the Judiciary fee page rather than asserting an amount or an age condition.' The delivered participant-instructions.md still does none of those three things: it does not say a fee applies on this track, it does assert the $90 amount as a conditional, and it carries no pointer to the Judiciary fee page; it also still carries the shared sentence 'for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard' on the one route where the fee does attach. FIX75 states in terms that it did not touch this text, and the diff confirms it. That divergence is repair-actionable without counsel and is recorded in observationsThatFailNoObligation rather than converted into a FAIL on an obligation whose legal predicate is open. WHAT WOULD SETTLE THE BLOCK IN ONE LINE: whether the 32 V.S.A. § 1431(e) $90 fee attaches to every 23 V.S.A. § 1201(a) sealing after Act 60, or only where the offence was committed at 25 or older, and under which surviving subdivision."
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
@@ -24350,6 +24385,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
       "superseded": false
     },
     {
@@ -24553,6 +24602,20 @@
         "KNOWN_PREFILLS",
         "SELF_HELP_STOP"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
@@ -25003,6 +25066,20 @@
       "failedObligationNames": [
         "KNOWN_PREFILLS"
       ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [],
+      "failedObligationNames": [],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",

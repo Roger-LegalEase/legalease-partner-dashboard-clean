@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "dc252f8cec91d05f7e1a9c5da7bfc59b91ec421a",
+  "minimumCaptainSha": "7e01df1d80f6943aebf90638ba9b5a3238038a0c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,28 +66,28 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 9,
+    "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
-    "remaining": 337,
+    "remaining": 335,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 15,
-    "verifyPending": 16,
-    "repairRequired": 37,
+    "legalBlocked": 16,
+    "verifyPending": 12,
+    "repairRequired": 35,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 142,
+    "COMPLETE_PACKET_PROVEN": 146,
     "FAIL_REPAIR_REQUIRED": 46,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "BUILT_RASTER_PENDING": 2,
-    "LEGAL_BLOCKED": 15,
+    "VERIFY_PENDING": 12,
+    "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 16,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,10 +109,12 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "co_motion_seal_nonconviction-set",
       "il-seal-edu-set",
       "nm_conviction-set",
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
+      "pa_490_nonconviction-set",
       "pa_790_nonconviction-set",
       "ut_pet_dismissed_with_prejudice-set",
       "ut_pet_dismissed_without_prejudice-set",
@@ -170,7 +172,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 21 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -7745,8 +7747,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX86",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -7757,7 +7759,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "co_multiple_conviction_seal-set",
@@ -7881,7 +7884,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
@@ -33609,8 +33612,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX85",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -33621,7 +33624,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "pa_6308_underage-set",
@@ -42872,9 +42876,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf05",
-        "verifiedAtBase": "581cce1d0",
+        "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -42906,25 +42910,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On boundary.pdf page 3 the participant's full legal name is truncated mid-word in the stipulation's Defendant Printed Name block: the appearance draws 203.88pt of text into a 173.74pt clip and 31.14pt of it -- the last eight characters -- never reaches the page. Nine counters are zero, pdftotext returns the whole string and a RASTER_PASS is live on these exact bytes; none of the three sees it.",
-          "evidence": "FAIL, on the boundary fixture, in ink. THE DEFECT. 200-00132 field 34d, packet page 3, the DEFENDANT's 'Printed Name' in the stipulation's signature block. Read from the finalized bytes: the flattened appearance /FlatWidget-4869070959 has BBox [0 0 174.743 12.96], sets its own clip path '1 1 m / 1 11.96 l / 173.743 11.96 l / 173.743 1 l / h / W / n', and then draws, at /Helvetica 11 Tf with Tm '1 0 0 1 1 2.531', the whole value 'Maria-Alejandra O’Shaughnessy-Whitfield'. At Helvetica 11 that string is 203.88pt wide from x=1, so it runs to 204.88 inside a clip that stops at 173.743 -- AN OVERFLOW OF 31.14pt, and the appearance clips it. IN PIXELS, at 300 dpi: the participant glyphs on that line occupy x[397.44,570.48] and stop dead at the clip edge (395.686 + 173.743 = 569.43); the canonical fixture's short value on the same field occupies x[396.72,495.12] with room to spare. The delivered boundary page prints 'Maria-Alejandra O’Shaughnessy-Wh' with the h cut mid-stroke and 'itfield' absent. Rendered and read by eye at 300 dpi, not inferred from the arithmetic. WHY NO EXISTING CHECK SEES IT. pdftotext returns the whole string, because the Tj operator carries it and only the clip removes it -- so a read-back test passes. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, correctly, because the clipped glyphs never leave the rect. All nine counters are zero. The defect is only visible if you compare what the appearance would draw with what its clip lets through, or look at the page. IT IS ONE FIELD AND THE SCOPE IS MEASURED. All 24 text-bearing flattened appearances in EACH fixture were checked the same way, against their own clip path and their own font and size: 24 of 24 fit in canonical, 23 of 24 fit in boundary. The builder does shrink to fit elsewhere on the same forms -- the boundary email drops to 7.46pt on 200-00130 field 42 and to 6pt on 200-00132 field 34i, and the boundary street address to 9.46pt and 10.46pt -- so the mechanism exists and did not engage for 34d, which stayed at the 11pt the caption fields use. Tightest surviving headroom is 7.10pt (200-00132 field 34i, boundary). EVERYTHING ELSE ABOUT THE PREFILLS HOLDS. 24 of 165 terminal fields are written in each fixture, and all 24 were located on the page they belong to by pdftotext -layout after normalising the report's WinAnsi 0x92 back to U+2019 (the report's drawnText carries the raw byte; the page prints the typographic apostrophe correctly, so that mismatch is in the read-back and not on the page). The same facts are written consistently across all three documents -- the docket number, the participant's name and date of birth appear on the petition, the stipulation and the fee-waiver application. Every write's added ink sits inside its own /Rect at 300 dpi; margins were measured on all four sides of all 48 write instances and, apart from 34d's zero right margin, the tightest is 0.24pt. REPAIR: make the shrink-to-fit that already runs on this form's 10.96pt fields run on its 11pt fields too, rebuild, re-raster centrally, and re-read this obligation independently. It is one repair and it reaches all five families, because all five deliver these same bytes."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet nowhere states where self-help ends. Zero occurrences of lawyer, legal aid, self-help, immigration, victim or pending; 0 of the track's 9 declared stop conditions carried; and the one passage that reaches a stop condition tells the participant to attend the contested hearing rather than to get help. The pardon sibling, from the same generator and the same registry field, carries 10 of 10.",
-          "evidence": "FAIL. The packet nowhere states where self-help ends. Measured against the file: participant-instructions.md contains 0 occurrences of 'lawyer', 0 of 'legal aid', 0 of 'self-help', 0 of 'immigration', 0 of 'victim' and 0 of 'pending'; its single occurrence of 'stop' is 'you may stop after Section 1' inside the fee-waiver step. The record declares the content it should carry. data/record-clearing/legal-design-track-registry.json for this track holds 9 selfHelpStopConditions, 4 waitingPeriods and its own exclusions list; matched verbatim, whitespace- and quote-normalised, against participant-instructions.md, 0 of 9, 0 of 4 and 0 of the exclusions are carried. The generator can emit exactly that content from exactly that field: the sibling vt_seal_pardon-set, built by the same shared host from the same registry, carries 10 of 10 stop conditions, 4 of 4 waiting periods and 4 of 4 exclusions under the headings 'When to stop and get a lawyer' and 'What has to be true before this petition can succeed', and states in terms 'A scheduled hearing is where this packet's self-help ends.' vt_seal_nonconviction-set carries its six. Diffed here: this family's participant-instructions.md and vt_seal_pardon-set's differ ONLY in three lines of route name and the 35 lines of stop-condition and eligibility content the pardon family has and this one does not. What the packet does carry is a scope disclaimer and a whose-blank-is-whose list -- 'Things the platform deliberately left blank' (your signature and date, the State's Attorney's signature, date and printed name, the court's order on page 2, every checkbox) and 'What this packet is not' (not legal advice, not filed for you, does not decide whether the court will grant sealing). Those state what the PLATFORM did not do. Neither states a point at which the PARTICIPANT should stop. The one place the packet reaches a stop condition it goes the other way: under 'Who must receive a copy, and how' it tells the participant that if the prosecutor opposes, 'the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed' -- routing an unrepresented person into a contested hearing, which is the registry's first stop condition, without suggesting counsel. RECORDED PLAINLY: VF04 scored this obligation PASS for this family at base 88c1bd403 and recorded the missing registry content as 'an unevenness in the process_guidance component' that it declined to convert into a failure. This lane read the same files and reaches the opposite result on the obligation's own words. The disagreement is the Captain's to settle; the measurement above is what it rests on and is reproducible from the committed tree."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
@@ -43034,21 +43024,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "BLOCKED_LEGAL_INPUT",
         "lane": "vf05",
-        "verifiedAtBase": "581cce1d0",
+        "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "vt_seal_dui-set",
+        "foundBy": [
+          "vf05 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: BLOCKED on this obligation alone. This is the one Vermont sealing route the fee attaches to, the packet's fee sentence resolves to '$90 is due' for this participant, and the record itself records that how 32 V.S.A. § 1431(e) applies after Act 60 is unsettled. Not measurable true here without counsel, and not this lane's to decide. The other fourteen obligations were measured and all fourteen PASS.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -43068,25 +43067,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On boundary.pdf page 3 the participant's full legal name is truncated mid-word in the stipulation's Defendant Printed Name block: the appearance draws 203.88pt of text into a 173.74pt clip and 31.14pt of it -- the last eight characters -- never reaches the page. Nine counters are zero, pdftotext returns the whole string and a RASTER_PASS is live on these exact bytes; none of the three sees it.",
-          "evidence": "FAIL, on the boundary fixture, in ink. THE DEFECT. 200-00132 field 34d, packet page 3, the DEFENDANT's 'Printed Name' in the stipulation's signature block. Read from the finalized bytes: the flattened appearance /FlatWidget-4869070959 has BBox [0 0 174.743 12.96], sets its own clip path '1 1 m / 1 11.96 l / 173.743 11.96 l / 173.743 1 l / h / W / n', and then draws, at /Helvetica 11 Tf with Tm '1 0 0 1 1 2.531', the whole value 'Maria-Alejandra O’Shaughnessy-Whitfield'. At Helvetica 11 that string is 203.88pt wide from x=1, so it runs to 204.88 inside a clip that stops at 173.743 -- AN OVERFLOW OF 31.14pt, and the appearance clips it. IN PIXELS, at 300 dpi: the participant glyphs on that line occupy x[397.44,570.48] and stop dead at the clip edge (395.686 + 173.743 = 569.43); the canonical fixture's short value on the same field occupies x[396.72,495.12] with room to spare. The delivered boundary page prints 'Maria-Alejandra O’Shaughnessy-Wh' with the h cut mid-stroke and 'itfield' absent. Rendered and read by eye at 300 dpi, not inferred from the arithmetic. WHY NO EXISTING CHECK SEES IT. pdftotext returns the whole string, because the Tj operator carries it and only the clip removes it -- so a read-back test passes. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, correctly, because the clipped glyphs never leave the rect. All nine counters are zero. The defect is only visible if you compare what the appearance would draw with what its clip lets through, or look at the page. IT IS ONE FIELD AND THE SCOPE IS MEASURED. All 24 text-bearing flattened appearances in EACH fixture were checked the same way, against their own clip path and their own font and size: 24 of 24 fit in canonical, 23 of 24 fit in boundary. The builder does shrink to fit elsewhere on the same forms -- the boundary email drops to 7.46pt on 200-00130 field 42 and to 6pt on 200-00132 field 34i, and the boundary street address to 9.46pt and 10.46pt -- so the mechanism exists and did not engage for 34d, which stayed at the 11pt the caption fields use. Tightest surviving headroom is 7.10pt (200-00132 field 34i, boundary). EVERYTHING ELSE ABOUT THE PREFILLS HOLDS. 24 of 165 terminal fields are written in each fixture, and all 24 were located on the page they belong to by pdftotext -layout after normalising the report's WinAnsi 0x92 back to U+2019 (the report's drawnText carries the raw byte; the page prints the typographic apostrophe correctly, so that mismatch is in the read-back and not on the page). The same facts are written consistently across all three documents -- the docket number, the participant's name and date of birth appear on the petition, the stipulation and the fee-waiver application. Every write's added ink sits inside its own /Rect at 300 dpi; margins were measured on all four sides of all 48 write instances and, apart from 34d's zero right margin, the tightest is 0.24pt. REPAIR: make the shrink-to-fit that already runs on this form's 10.96pt fields run on its 11pt fields too, rebuild, re-raster centrally, and re-read this obligation independently. It is one repair and it reaches all five families, because all five deliver these same bytes."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet nowhere states where self-help ends. Zero occurrences of lawyer, legal aid, self-help, immigration, victim or pending; 0 of the track's 9 declared stop conditions carried; and the one passage that reaches a stop condition tells the participant to attend the contested hearing rather than to get help. The pardon sibling, from the same generator and the same registry field, carries 10 of 10.",
-          "evidence": "FAIL. The packet nowhere states where self-help ends. Measured against the file: participant-instructions.md contains 0 occurrences of 'lawyer', 0 of 'legal aid', 0 of 'self-help', 0 of 'immigration', 0 of 'victim' and 0 of 'pending'; its single occurrence of 'stop' is 'you may stop after Section 1' inside the fee-waiver step. The record declares the content it should carry. data/record-clearing/legal-design-track-registry.json for this track holds 9 selfHelpStopConditions, 4 waitingPeriods and its own exclusions list; matched verbatim, whitespace- and quote-normalised, against participant-instructions.md, 0 of 9, 0 of 4 and 0 of the exclusions are carried. The generator can emit exactly that content from exactly that field: the sibling vt_seal_pardon-set, built by the same shared host from the same registry, carries 10 of 10 stop conditions, 4 of 4 waiting periods and 4 of 4 exclusions under the headings 'When to stop and get a lawyer' and 'What has to be true before this petition can succeed', and states in terms 'A scheduled hearing is where this packet's self-help ends.' vt_seal_nonconviction-set carries its six. Diffed here: this family's participant-instructions.md and vt_seal_pardon-set's differ ONLY in three lines of route name and the 35 lines of stop-condition and eligibility content the pardon family has and this one does not. What the packet does carry is a scope disclaimer and a whose-blank-is-whose list -- 'Things the platform deliberately left blank' (your signature and date, the State's Attorney's signature, date and printed name, the court's order on page 2, every checkbox) and 'What this packet is not' (not legal advice, not filed for you, does not decide whether the court will grant sealing). Those state what the PLATFORM did not do. Neither states a point at which the PARTICIPANT should stop. The one place the packet reaches a stop condition it goes the other way: under 'Who must receive a copy, and how' it tells the participant that if the prosecutor opposes, 'the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed' -- routing an unrepresented person into a contested hearing, which is the registry's first stop condition, without suggesting counsel. RECORDED PLAINLY: VF04 scored this obligation PASS for this family at base 88c1bd403 and recorded the missing registry content as 'an unevenness in the process_guidance component' that it declined to convert into a failure. This lane read the same files and reaches the opposite result on the obligation's own words. The disagreement is the Captain's to settle; the measurement above is what it rests on and is reproducible from the committed tree."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
@@ -43196,9 +43181,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf05",
-        "verifiedAtBase": "581cce1d0",
+        "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -43230,25 +43215,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On boundary.pdf page 3 the participant's full legal name is truncated mid-word in the stipulation's Defendant Printed Name block: the appearance draws 203.88pt of text into a 173.74pt clip and 31.14pt of it -- the last eight characters -- never reaches the page. Nine counters are zero, pdftotext returns the whole string and a RASTER_PASS is live on these exact bytes; none of the three sees it.",
-          "evidence": "FAIL, on the boundary fixture, in ink. THE DEFECT. 200-00132 field 34d, packet page 3, the DEFENDANT's 'Printed Name' in the stipulation's signature block. Read from the finalized bytes: the flattened appearance /FlatWidget-4869070959 has BBox [0 0 174.743 12.96], sets its own clip path '1 1 m / 1 11.96 l / 173.743 11.96 l / 173.743 1 l / h / W / n', and then draws, at /Helvetica 11 Tf with Tm '1 0 0 1 1 2.531', the whole value 'Maria-Alejandra O’Shaughnessy-Whitfield'. At Helvetica 11 that string is 203.88pt wide from x=1, so it runs to 204.88 inside a clip that stops at 173.743 -- AN OVERFLOW OF 31.14pt, and the appearance clips it. IN PIXELS, at 300 dpi: the participant glyphs on that line occupy x[397.44,570.48] and stop dead at the clip edge (395.686 + 173.743 = 569.43); the canonical fixture's short value on the same field occupies x[396.72,495.12] with room to spare. The delivered boundary page prints 'Maria-Alejandra O’Shaughnessy-Wh' with the h cut mid-stroke and 'itfield' absent. Rendered and read by eye at 300 dpi, not inferred from the arithmetic. WHY NO EXISTING CHECK SEES IT. pdftotext returns the whole string, because the Tj operator carries it and only the clip removes it -- so a read-back test passes. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, correctly, because the clipped glyphs never leave the rect. All nine counters are zero. The defect is only visible if you compare what the appearance would draw with what its clip lets through, or look at the page. IT IS ONE FIELD AND THE SCOPE IS MEASURED. All 24 text-bearing flattened appearances in EACH fixture were checked the same way, against their own clip path and their own font and size: 24 of 24 fit in canonical, 23 of 24 fit in boundary. The builder does shrink to fit elsewhere on the same forms -- the boundary email drops to 7.46pt on 200-00130 field 42 and to 6pt on 200-00132 field 34i, and the boundary street address to 9.46pt and 10.46pt -- so the mechanism exists and did not engage for 34d, which stayed at the 11pt the caption fields use. Tightest surviving headroom is 7.10pt (200-00132 field 34i, boundary). EVERYTHING ELSE ABOUT THE PREFILLS HOLDS. 24 of 165 terminal fields are written in each fixture, and all 24 were located on the page they belong to by pdftotext -layout after normalising the report's WinAnsi 0x92 back to U+2019 (the report's drawnText carries the raw byte; the page prints the typographic apostrophe correctly, so that mismatch is in the read-back and not on the page). The same facts are written consistently across all three documents -- the docket number, the participant's name and date of birth appear on the petition, the stipulation and the fee-waiver application. Every write's added ink sits inside its own /Rect at 300 dpi; margins were measured on all four sides of all 48 write instances and, apart from 34d's zero right margin, the tightest is 0.24pt. REPAIR: make the shrink-to-fit that already runs on this form's 10.96pt fields run on its 11pt fields too, rebuild, re-raster centrally, and re-read this obligation independently. It is one repair and it reaches all five families, because all five deliver these same bytes."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet nowhere states where self-help ends. Zero occurrences of lawyer, legal aid, self-help, immigration, victim or pending; 0 of the track's 9 declared stop conditions carried; and the one passage that reaches a stop condition tells the participant to attend the contested hearing rather than to get help. The pardon sibling, from the same generator and the same registry field, carries 10 of 10.",
-          "evidence": "FAIL. The packet nowhere states where self-help ends. Measured against the file: participant-instructions.md contains 0 occurrences of 'lawyer', 0 of 'legal aid', 0 of 'self-help', 0 of 'immigration', 0 of 'victim' and 0 of 'pending'; its single occurrence of 'stop' is 'you may stop after Section 1' inside the fee-waiver step. The record declares the content it should carry. data/record-clearing/legal-design-track-registry.json for this track holds 9 selfHelpStopConditions, 4 waitingPeriods and its own exclusions list; matched verbatim, whitespace- and quote-normalised, against participant-instructions.md, 0 of 9, 0 of 4 and 0 of the exclusions are carried. The generator can emit exactly that content from exactly that field: the sibling vt_seal_pardon-set, built by the same shared host from the same registry, carries 10 of 10 stop conditions, 4 of 4 waiting periods and 4 of 4 exclusions under the headings 'When to stop and get a lawyer' and 'What has to be true before this petition can succeed', and states in terms 'A scheduled hearing is where this packet's self-help ends.' vt_seal_nonconviction-set carries its six. Diffed here: this family's participant-instructions.md and vt_seal_pardon-set's differ ONLY in three lines of route name and the 35 lines of stop-condition and eligibility content the pardon family has and this one does not. What the packet does carry is a scope disclaimer and a whose-blank-is-whose list -- 'Things the platform deliberately left blank' (your signature and date, the State's Attorney's signature, date and printed name, the court's order on page 2, every checkbox) and 'What this packet is not' (not legal advice, not filed for you, does not decide whether the court will grant sealing). Those state what the PLATFORM did not do. Neither states a point at which the PARTICIPANT should stop. The one place the packet reaches a stop condition it goes the other way: under 'Who must receive a copy, and how' it tells the participant that if the prosecutor opposes, 'the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed' -- routing an unrepresented person into a contested hearing, which is the registry's first stop condition, without suggesting counsel. RECORDED PLAINLY: VF04 scored this obligation PASS for this family at base 88c1bd403 and recorded the missing registry content as 'an unevenness in the process_guidance component' that it declined to convert into a failure. This lane read the same files and reaches the opposite result on the obligation's own words. The disagreement is the Captain's to settle; the measurement above is what it rests on and is reproducible from the committed tree."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
@@ -43358,9 +43329,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf05",
-        "verifiedAtBase": "581cce1d0",
+        "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -43392,25 +43363,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On boundary.pdf page 3 the participant's full legal name is truncated mid-word in the stipulation's Defendant Printed Name block: the appearance draws 203.88pt of text into a 173.74pt clip and 31.14pt of it -- the last eight characters -- never reaches the page. Nine counters are zero, pdftotext returns the whole string and a RASTER_PASS is live on these exact bytes; none of the three sees it.",
-          "evidence": "FAIL, on the boundary fixture, in ink. THE DEFECT. 200-00132 field 34d, packet page 3, the DEFENDANT's 'Printed Name' in the stipulation's signature block. Read from the finalized bytes: the flattened appearance /FlatWidget-4869070959 has BBox [0 0 174.743 12.96], sets its own clip path '1 1 m / 1 11.96 l / 173.743 11.96 l / 173.743 1 l / h / W / n', and then draws, at /Helvetica 11 Tf with Tm '1 0 0 1 1 2.531', the whole value 'Maria-Alejandra O’Shaughnessy-Whitfield'. At Helvetica 11 that string is 203.88pt wide from x=1, so it runs to 204.88 inside a clip that stops at 173.743 -- AN OVERFLOW OF 31.14pt, and the appearance clips it. IN PIXELS, at 300 dpi: the participant glyphs on that line occupy x[397.44,570.48] and stop dead at the clip edge (395.686 + 173.743 = 569.43); the canonical fixture's short value on the same field occupies x[396.72,495.12] with room to spare. The delivered boundary page prints 'Maria-Alejandra O’Shaughnessy-Wh' with the h cut mid-stroke and 'itfield' absent. Rendered and read by eye at 300 dpi, not inferred from the arithmetic. WHY NO EXISTING CHECK SEES IT. pdftotext returns the whole string, because the Tj operator carries it and only the clip removes it -- so a read-back test passes. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, correctly, because the clipped glyphs never leave the rect. All nine counters are zero. The defect is only visible if you compare what the appearance would draw with what its clip lets through, or look at the page. IT IS ONE FIELD AND THE SCOPE IS MEASURED. All 24 text-bearing flattened appearances in EACH fixture were checked the same way, against their own clip path and their own font and size: 24 of 24 fit in canonical, 23 of 24 fit in boundary. The builder does shrink to fit elsewhere on the same forms -- the boundary email drops to 7.46pt on 200-00130 field 42 and to 6pt on 200-00132 field 34i, and the boundary street address to 9.46pt and 10.46pt -- so the mechanism exists and did not engage for 34d, which stayed at the 11pt the caption fields use. Tightest surviving headroom is 7.10pt (200-00132 field 34i, boundary). EVERYTHING ELSE ABOUT THE PREFILLS HOLDS. 24 of 165 terminal fields are written in each fixture, and all 24 were located on the page they belong to by pdftotext -layout after normalising the report's WinAnsi 0x92 back to U+2019 (the report's drawnText carries the raw byte; the page prints the typographic apostrophe correctly, so that mismatch is in the read-back and not on the page). The same facts are written consistently across all three documents -- the docket number, the participant's name and date of birth appear on the petition, the stipulation and the fee-waiver application. Every write's added ink sits inside its own /Rect at 300 dpi; margins were measured on all four sides of all 48 write instances and, apart from 34d's zero right margin, the tightest is 0.24pt. REPAIR: make the shrink-to-fit that already runs on this form's 10.96pt fields run on its 11pt fields too, rebuild, re-raster centrally, and re-read this obligation independently. It is one repair and it reaches all five families, because all five deliver these same bytes."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet nowhere states where self-help ends. Zero occurrences of lawyer, legal aid, self-help, immigration, victim or pending; 0 of the track's 9 declared stop conditions carried; and the one passage that reaches a stop condition tells the participant to attend the contested hearing rather than to get help. The pardon sibling, from the same generator and the same registry field, carries 10 of 10.",
-          "evidence": "FAIL. The packet nowhere states where self-help ends. Measured against the file: participant-instructions.md contains 0 occurrences of 'lawyer', 0 of 'legal aid', 0 of 'self-help', 0 of 'immigration', 0 of 'victim' and 0 of 'pending'; its single occurrence of 'stop' is 'you may stop after Section 1' inside the fee-waiver step. The record declares the content it should carry. data/record-clearing/legal-design-track-registry.json for this track holds 9 selfHelpStopConditions, 4 waitingPeriods and its own exclusions list; matched verbatim, whitespace- and quote-normalised, against participant-instructions.md, 0 of 9, 0 of 4 and 0 of the exclusions are carried. The generator can emit exactly that content from exactly that field: the sibling vt_seal_pardon-set, built by the same shared host from the same registry, carries 10 of 10 stop conditions, 4 of 4 waiting periods and 4 of 4 exclusions under the headings 'When to stop and get a lawyer' and 'What has to be true before this petition can succeed', and states in terms 'A scheduled hearing is where this packet's self-help ends.' vt_seal_nonconviction-set carries its six. Diffed here: this family's participant-instructions.md and vt_seal_pardon-set's differ ONLY in three lines of route name and the 35 lines of stop-condition and eligibility content the pardon family has and this one does not. What the packet does carry is a scope disclaimer and a whose-blank-is-whose list -- 'Things the platform deliberately left blank' (your signature and date, the State's Attorney's signature, date and printed name, the court's order on page 2, every checkbox) and 'What this packet is not' (not legal advice, not filed for you, does not decide whether the court will grant sealing). Those state what the PLATFORM did not do. Neither states a point at which the PARTICIPANT should stop. The one place the packet reaches a stop condition it goes the other way: under 'Who must receive a copy, and how' it tells the participant that if the prosecutor opposes, 'the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed' -- routing an unrepresented person into a contested hearing, which is the registry's first stop condition, without suggesting counsel. RECORDED PLAINLY: VF04 scored this obligation PASS for this family at base 88c1bd403 and recorded the missing registry content as 'an unevenness in the process_guidance component' that it declined to convert into a failure. This lane read the same files and reaches the opposite result on the obligation's own words. The disagreement is the Captain's to settle; the measurement above is what it rests on and is reproducible from the committed tree."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -43674,9 +43631,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf05",
-        "verifiedAtBase": "581cce1d0",
+        "verifiedAtBase": "158f37310",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -43708,19 +43665,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE. On boundary.pdf page 3 the participant's full legal name is truncated mid-word in the stipulation's Defendant Printed Name block: the appearance draws 203.88pt of text into a 173.74pt clip and 31.14pt of it -- the last eight characters -- never reaches the page. Nine counters are zero, pdftotext returns the whole string and a RASTER_PASS is live on these exact bytes; none of the three sees it.",
-          "evidence": "FAIL, on the boundary fixture, in ink. THE DEFECT. 200-00132 field 34d, packet page 3, the DEFENDANT's 'Printed Name' in the stipulation's signature block. Read from the finalized bytes: the flattened appearance /FlatWidget-4869070959 has BBox [0 0 174.743 12.96], sets its own clip path '1 1 m / 1 11.96 l / 173.743 11.96 l / 173.743 1 l / h / W / n', and then draws, at /Helvetica 11 Tf with Tm '1 0 0 1 1 2.531', the whole value 'Maria-Alejandra O’Shaughnessy-Whitfield'. At Helvetica 11 that string is 203.88pt wide from x=1, so it runs to 204.88 inside a clip that stops at 173.743 -- AN OVERFLOW OF 31.14pt, and the appearance clips it. IN PIXELS, at 300 dpi: the participant glyphs on that line occupy x[397.44,570.48] and stop dead at the clip edge (395.686 + 173.743 = 569.43); the canonical fixture's short value on the same field occupies x[396.72,495.12] with room to spare. The delivered boundary page prints 'Maria-Alejandra O’Shaughnessy-Wh' with the h cut mid-stroke and 'itfield' absent. Rendered and read by eye at 300 dpi, not inferred from the arithmetic. WHY NO EXISTING CHECK SEES IT. pdftotext returns the whole string, because the Tj operator carries it and only the clip removes it -- so a read-back test passes. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, correctly, because the clipped glyphs never leave the rect. All nine counters are zero. The defect is only visible if you compare what the appearance would draw with what its clip lets through, or look at the page. IT IS ONE FIELD AND THE SCOPE IS MEASURED. All 24 text-bearing flattened appearances in EACH fixture were checked the same way, against their own clip path and their own font and size: 24 of 24 fit in canonical, 23 of 24 fit in boundary. The builder does shrink to fit elsewhere on the same forms -- the boundary email drops to 7.46pt on 200-00130 field 42 and to 6pt on 200-00132 field 34i, and the boundary street address to 9.46pt and 10.46pt -- so the mechanism exists and did not engage for 34d, which stayed at the 11pt the caption fields use. Tightest surviving headroom is 7.10pt (200-00132 field 34i, boundary). EVERYTHING ELSE ABOUT THE PREFILLS HOLDS. 24 of 165 terminal fields are written in each fixture, and all 24 were located on the page they belong to by pdftotext -layout after normalising the report's WinAnsi 0x92 back to U+2019 (the report's drawnText carries the raw byte; the page prints the typographic apostrophe correctly, so that mismatch is in the read-back and not on the page). The same facts are written consistently across all three documents -- the docket number, the participant's name and date of birth appear on the petition, the stipulation and the fee-waiver application. Every write's added ink sits inside its own /Rect at 300 dpi; margins were measured on all four sides of all 48 write instances and, apart from 34d's zero right margin, the tightest is 0.24pt. REPAIR: make the shrink-to-fit that already runs on this form's 10.96pt fields run on its 11pt fields too, rebuild, re-raster centrally, and re-read this obligation independently. It is one repair and it reaches all five families, because all five deliver these same bytes."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
