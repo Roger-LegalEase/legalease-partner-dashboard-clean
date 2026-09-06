@@ -1,0 +1,122 @@
+{
+  "preservedUnmodifiedRows": [
+    {
+      "itemId": "nc_146_dismissal_petition-set",
+      "lane": "VF06",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "verdictCeilingApplied": "none — RASTER_PASS pins canonical 81d71db0…, which recomputes from the live bytes",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:NC:nc_146_dismissal_petition agrees between the receipt, product-wiring, the field map and the MASTER_QUEUE row (routeCount 1)",
+          "evidence": "every packet JSON parsed and compared here"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 4 declared sources recomputed and equal to the receipt: the committed packet-set manifest 563147bf… (3677637 B) from the repository, and the three AOC forms from the mounted Master Library — AOC-CR-287 a8762293… (257828 B, 2 pp), AOC-CR-287-INSTRUCTIONS fe222704… (217744 B, 1 p), AOC-CV-226 74057a13… (269426 B, 2 pp). These bind through pathInCustody rather than pathInArchive; resolved and re-hashed through the declared custody root here rather than reported absent. Declared page counts confirmed against the PDF bytes. The declared routeKey is PRESENT in the committed manifest it binds and in the route-obligation census.",
+          "evidence": "sha256 and pdf-lib recomputed here against the corpus bytes"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all three components render and no foreign component appears: petition (AOC-CR-287), instructions (AOC-CR-287-INSTRUCTIONS) and fee_waiver (AOC-CV-226), matching the three the MASTER_QUEUE row names for this packet set. The forms are delivered as the AOC publishes them, which G.S. 15A-146(c) requires.",
+          "evidence": "receipt, field map, rendered-artifacts and the queue packetComponents cross-compared here"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing=0 measured here; 56 written values / 746 added glyphs read back from the output bytes, 14 of 197 fields written, values present in the extracted fixture text",
+          "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 124 declared items (62 in the field map, 62 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label, checked string by string; 0 unnamed. The file additionally names three things to establish before filing that are not blanks on any form: whether the dismissal was under a deferred prosecution or conditional discharge (the only thing that turns the $175.00 fee on), whether the district attorney intends to petition instead on AOC-CR-295, and whether the case has already cleared automatically.",
+          "evidence": "both declarations matched against the file here"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing=0 measured here; the subsection (a) / (a1) election and paragraph 3's boxes a and b are disclosed to the participant as their own characterization rather than inferred by the build",
+          "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; participant-instructions.md read here"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here",
+          "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature line, signature date, certification, court-only or district-attorney field carries ink across the 5 pages",
+          "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical 81d71db0…, boundary af582b14…), page counts read from the bytes with pdf-lib. No PDF on disk goes unrecorded.",
+          "evidence": "sha256 and pdf-lib recomputed here"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "both page manifests contiguous 1..5, equal to declared pageCount and to the 5 pages read from the PDF bytes, and equal to the sum of the three sources' own page counts (2 + 1 + 2) recomputed from the corpus bytes",
+          "evidence": "pageManifest vs pdf-lib vs source page counts, all computed here"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+          "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states the court the route names and distinguishes it from the two AOC forms that are not this one (AOC-CR-295, the district attorney's petition, and AOC-CR-285, the continuation sheet)",
+          "evidence": "participant-instructions.md read here"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee is stated with the exact condition that turns it on — $175.00 where the dismissal was pursuant to a deferred prosecution agreement or a conditional discharge — and the waiver route is the AOC's own indigency affidavit AOC-CV-226, which the packet ships as a component rather than pointing at",
+          "evidence": "participant-instructions.md read against the shipped components here"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states who receives what and separates this route's service from the 20-day service on the district attorney that a DNA application under G.S. 15A-146(b1) requires, which is expressly not this packet",
+          "evidence": "participant-instructions.md read here"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 6 selfHelpStopConditions the committed track registry records for track nc_146_dismissal_petition are carried under \"When to stop and get help\", including the two the packet quotes with attribution — a felony dismissed pursuant to a plea agreement, and possible later relief under G.S. 15A-145.4 or 15A-145.6 where \"sequencing matters\" — plus lack-of-capacity dismissals under G.S. 15A-1008, the conviction-not-dismissal case, the DNA-record case, multi-offence uncertainty, record-retention for immigration proceedings, and any immigration question at all",
+          "evidence": "registry conditions counted and matched against participant-instructions.md here"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "notes": "The strongest instructions in this lane: 124 declared blanks each named, and the stop conditions quoted with the registry named as their source. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+    }
+  ],
+  "reason": "Current exact-source read at 21ae5b3d6e79ec2958445847e6bf780600394e94"
+}

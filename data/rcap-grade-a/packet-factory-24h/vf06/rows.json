@@ -3316,10 +3316,113 @@
   },
   {
    "itemId": "nc_146_dismissal_petition-set",
+   "familyId": "nc_146_dismissal_petition-set",
    "lane": "VF06",
-   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "laneKind": "independent-verification",
+   "assignmentId": "VF06-NC-NH-CURRENT-20260906",
+   "worker": "Codex independent NC/NH reader /root/verify_nc_nh",
+   "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+   "builtOrRepairedTheseFamilies": false,
    "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
-   "verdictCeilingApplied": "none \u2014 RASTER_PASS pins canonical 81d71db0\u2026, which recomputes from the live bytes",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "canonicalSha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
+   "boundarySha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Current receipt, field map, product-wiring and MASTER_QUEUE agree on nc_146_dismissal_petition-set and its single track-only route. The primary filing title and source pages actually viewed match that route; no jurisdiction-level authority is inferred.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Recomputed the exact SHA-256 and lengths of all 3 original PDFs from the recovered private bytes, plus both grounding records from this checkout. Every current receipt pin matches. Source page/widget census is independent. The scoped family source holds are resolved; full national preflight remains failed and is not claimed ready.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/source-fields.json"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every declared component is present in both assembled PDFs and has the exact source hash and source-page count named by its manifest. Physical component presence does not settle the legal fitness of a component.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Independently read all 17 source-widget writes in each fixture against the current held values: eight on petition p1 and nine on waiver p1. All 34 widget instances match, including ZIP, DOB, county, case number and complete street address. Court division, demographics, offense dates and dismissal facts are not held. No known prefill omission measured.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 59 map entries and the same 59 blank-report entries have their disclosure labels in current instructions. Read the form sections alongside those disclosures: agency names/addresses, all five offense-row cells, demographics, elections, finances and personal execution are accounted for. The fixed ZIP/DOB claim matches the actual p1 writes.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instrument is the correct dismissed-charge AOC-CR-287. Its all/some-charge election, civil-revocation fact, fee-exception certification and District/Superior choice cannot be resolved from either fixture, which supplies no such case facts; they remain disclosed, blank participant determinations. No court order or certification is selected.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All ten offense rows and all agency/financial repeated blocks were checked against source widgets and viewed in both fixtures. Offense rows are wholly blank, including the unheld dismissal date, and no written row has an adjacent required cell missing. The eight/nine caption writes are outside those rows.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No new text appears in any refused source widget in either fixture. Petition p2 court findings, order and clerk certification; petitioner execution; waiver financial figures, affidavit signature, jurat/notarial acts and dates remain visibly blank. All source words are retained at their original positions.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both current PDFs recompute to the recorded hashes: canonical 8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9; boundary 957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2. These equal the already admitted RASTER_PASS pins from run 33999550366. No central reraster was requested. Its current queue coverage renders canonical; this independent review also inspected boundary. All final PDFs have zero AcroForm fields.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both PDFs have 5 pages. Their contiguous page manifests match the exact source page counts and order, and all those pages were viewed. No missing or duplicate component page found.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every added output word was located inside an independently read source write widget; no word was added outside the written widgets, and none in refused widgets. All canonical and boundary pages were actually viewed. Long names, addresses and ZIPs are legible; no added ink clips or overlaps a label. Text-coordinate measurement is supported by visual inspection, not substituted for it.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Current guide names clerk of superior court in the county where the charge was brought and asks the participant to check the prefilled county. That matches the exact current packet-set/track records. District/Superior division is left for the unheld underlying case fact.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "The $0 true-dismissal / $175 deferred-or-conditional-dismissal split is present and agrees with the held records and exact AOC-CR-287 instructions. The claimed waiver instrument does not reconcile with its actual text: guide says AOC-CV-226 is supplied to waive that expunction fee; exact AOC-CV-226 p2, also delivered as packet p5, instead requires a sworn statement of inability to pay arbitration fees before arbitration and describes an arbitration-fee designation. The guide/manifest labels cannot establish this form is a legally sufficient expunction fee-waiver filing. No held determination addressing this contradiction was found in this family or the narrow legal-decision search. The already present stop for fee-bearing dismissals is retained; it does not authorize representing an arbitration affidavit as the waiver route. Source/legal resolution is required, not a silent form replacement.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/legal-holds.json"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Instructions distinguish no ordinary participant service for this dismissal petition from clerk distribution of a granted order. Exact form note excludes courts, SBI, DAC, DMV and private entities from the agency list; guide carries that and requires participant agency addresses. The separate DNA route with 20-day DA service is explicitly outside this packet.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Read the current stop section against all six committed track conditions. It carries plea-agreement felony dismissal, incapacity dismissal, the newly repaired deferred/conditional dismissal stop with NC lawyer direction, sequencing under 15A-145.4/145.6, separate DNA relief, and any immigration question. It also requires record retention and warns about an uncertain multiple-charge disposition. No legal approval is inferred from this comparison.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    }
+   },
+   "failedProofObligations": [],
+   "blockedObligations": [
+    "FEE_AND_WAIVER"
+   ],
    "nineCounters": {
     "knownRequiredFieldsMissing": 0,
     "requiredFactsNotCollected": 0,
@@ -3333,103 +3436,41 @@
     "allZero": true,
     "measuredHere": true
    },
-   "proofObligations": {
-    "ROUTE_IDENTITY": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:NC:nc_146_dismissal_petition agrees between the receipt, product-wiring, the field map and the MASTER_QUEUE row (routeCount 1)",
-     "evidence": "every packet JSON parsed and compared here"
-    },
-    "SOURCE_IDENTITY": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "all 4 declared sources recomputed and equal to the receipt: the committed packet-set manifest 563147bf\u2026 (3677637 B) from the repository, and the three AOC forms from the mounted Master Library \u2014 AOC-CR-287 a8762293\u2026 (257828 B, 2 pp), AOC-CR-287-INSTRUCTIONS fe222704\u2026 (217744 B, 1 p), AOC-CV-226 74057a13\u2026 (269426 B, 2 pp). These bind through pathInCustody rather than pathInArchive; resolved and re-hashed through the declared custody root here rather than reported absent. Declared page counts confirmed against the PDF bytes. The declared routeKey is PRESENT in the committed manifest it binds and in the route-obligation census.",
-     "evidence": "sha256 and pdf-lib recomputed here against the corpus bytes"
-    },
-    "COMPONENT_SET": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "all three components render and no foreign component appears: petition (AOC-CR-287), instructions (AOC-CR-287-INSTRUCTIONS) and fee_waiver (AOC-CV-226), matching the three the MASTER_QUEUE row names for this packet set. The forms are delivered as the AOC publishes them, which G.S. 15A-146(c) requires.",
-     "evidence": "receipt, field map, rendered-artifacts and the queue packetComponents cross-compared here"
-    },
-    "KNOWN_PREFILLS": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "knownRequiredFieldsMissing=0 measured here; 56 written values / 746 added glyphs read back from the output bytes, 14 of 197 fields written, values present in the extracted fixture text",
-     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
-    },
-    "REQUIRED_BEFORE_FILING": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "all 124 declared items (62 in the field map, 62 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label, checked string by string; 0 unnamed. The file additionally names three things to establish before filing that are not blanks on any form: whether the dismissal was under a deferred prosecution or conditional discharge (the only thing that turns the $175.00 fee on), whether the district attorney intends to petition instead on AOC-CR-295, and whether the case has already cleared automatically.",
-     "evidence": "both declarations matched against the file here"
-    },
-    "ROUTE_OPTIONS": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "requiredOptionsMissing=0 measured here; the subsection (a) / (a1) election and paragraph 3's boxes a and b are disclosed to the participant as their own characterization rather than inferred by the build",
-     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; participant-instructions.md read here"
-    },
-    "REPEATING_ROWS": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "incompleteRows=0 measured here",
-     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
-    },
-    "PROTECTED_FIELDS": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature line, signature date, certification, court-only or district-attorney field carries ink across the 5 pages",
-     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
-    },
-    "ARTIFACTS": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical 81d71db0\u2026, boundary af582b14\u2026), page counts read from the bytes with pdf-lib. No PDF on disk goes unrecorded.",
-     "evidence": "sha256 and pdf-lib recomputed here"
-    },
-    "PAGE_ORDER": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "both page manifests contiguous 1..5, equal to declared pageCount and to the 5 pages read from the PDF bytes, and equal to the sum of the three sources' own page counts (2 + 1 + 2) recomputed from the corpus bytes",
-     "evidence": "pageManifest vs pdf-lib vs source page counts, all computed here"
-    },
-    "CLIPPING_AND_OVERLAP": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
-     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
-    },
-    "FILING_DESTINATION": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "the packet states the court the route names and distinguishes it from the two AOC forms that are not this one (AOC-CR-295, the district attorney's petition, and AOC-CR-285, the continuation sheet)",
-     "evidence": "participant-instructions.md read here"
-    },
-    "FEE_AND_WAIVER": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "the fee is stated with the exact condition that turns it on \u2014 $175.00 where the dismissal was pursuant to a deferred prosecution agreement or a conditional discharge \u2014 and the waiver route is the AOC's own indigency affidavit AOC-CV-226, which the packet ships as a component rather than pointing at",
-     "evidence": "participant-instructions.md read against the shipped components here"
-    },
-    "SERVICE": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "the packet states who receives what and separates this route's service from the 20-day service on the district attorney that a DNA application under G.S. 15A-146(b1) requires, which is expressly not this packet",
-     "evidence": "participant-instructions.md read here"
-    },
-    "SELF_HELP_STOP": {
-     "measured": true,
-     "result": "PASS",
-     "finding": "all 6 selfHelpStopConditions the committed track registry records for track nc_146_dismissal_petition are carried under \"When to stop and get help\", including the two the packet quotes with attribution \u2014 a felony dismissed pursuant to a plea agreement, and possible later relief under G.S. 15A-145.4 or 15A-145.6 where \"sequencing matters\" \u2014 plus lack-of-capacity dismissals under G.S. 15A-1008, the conviction-not-dismissal case, the DNA-record case, multi-offence uncertainty, record-retention for immigration proceedings, and any immigration question at all",
-     "evidence": "registry conditions counted and matched against participant-instructions.md here"
-    }
+   "counterBasis": "Independent current source/widget/printed-page and output review; command counters separately remain zero. NH knownRequiredFieldsMissing counts two deficient field locations per fixture; unclassifiedBlanks counts two printed caption fields omitted from source-widget census.",
+   "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/source-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/completeness-nc.log",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/preflight-nc.log"
+   ],
+   "preflight": {
+    "status": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "passed": 10,
+    "failed": 4,
+    "notApplicable": 3,
+    "familySourcesBind": true,
+    "reason": "No corpus environment file; recovered subset below national minimum; 23/24 national sample paths absent; own new evidence directory makes worktree dirty. Original preserved worktree was clean before evidence writes.",
+    "wholeCorpusReadyClaimed": false
    },
-   "failedProofObligations": [],
-   "notMeasurableHere": [],
-   "notes": "The strongest instructions in this lane: 124 declared blanks each named, and the stop conditions quoted with the registry named as their source. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
-   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+   "claimsAssertedBeforeRead": true,
+   "claimsReleased": false,
+   "localVisualReview": {
+    "packetPagesActuallyViewed": 10,
+    "sourcePagesAdditionallyViewed": 1,
+    "currentRasterPassReused": true,
+    "centralRerasterDispatched": false,
+    "imageHashes": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+   },
+   "remainingGates": [
+    "Resolve the AOC-CV-226 arbitration/expunction waiver contradiction through the existing legal/source process.",
+    "Preserve existing legal-design limitations and counsel/source-freshness/release gates.",
+    "No construction or route promotion authority is created by exact-source restoration."
+   ],
+   "packetFilesModified": 0,
+   "commercialRoutesOpened": 0,
+   "routesOpened": 0,
+   "productionTouched": false
   },
   {
    "itemId": "rcap-ga-guidance-implementation",
@@ -7978,7 +8019,168 @@
   "routesOpened": 0,
   "productionTouched": false
 }
-],
+,
+  {
+   "itemId": "nh_petition_nonconviction_pre2019-set",
+   "familyId": "nh_petition_nonconviction_pre2019-set",
+   "lane": "VF06",
+   "laneKind": "independent-verification",
+   "assignmentId": "VF06-NC-NH-CURRENT-20260906",
+   "worker": "Codex independent NC/NH reader /root/verify_nc_nh",
+   "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+   "builtOrRepairedTheseFamilies": false,
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "canonicalSha256": "9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d",
+   "boundarySha256": "690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Current receipt, field map, product-wiring and MASTER_QUEUE agree on nh_petition_nonconviction_pre2019-set and its single track-only route. The primary filing title and source pages actually viewed match that route; no jurisdiction-level authority is inferred.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Recomputed the exact SHA-256 and lengths of all 4 original PDFs from the recovered private bytes, plus both grounding records from this checkout. Every current receipt pin matches. Source page/widget census is independent. The scoped family source holds are resolved; full national preflight remains failed and is not claimed ready.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/source-fields.json"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every declared component is present in both assembled PDFs and has the exact source hash and source-page count named by its manifest. Physical component presence does not settle the legal fitness of a component.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "All declared writes are correct: 22 canonical fields across 24 widget instances and 16 boundary fields/instances match held values; eight boundary widget locations correctly refuse the six over-MaxLen fields. However, two required field locations omit held facts in each fixture: (1) NHJB-2311 p2 / packet p5 printed Case Number header is blank although the case number is known. It is above the FOR COURT USE ONLY heading; source has no text widget there, so the 168-widget census never considers it. (2) NHJB-2328 p1 / packet p6 Residence Address field 2.1 contains only street/apartment, omitting held city, state and ZIP. There is no separate locality field on that form. Its 420.342-point source widget has no MaxLen, and full held addresses fit at 11pt. The actual missing values and width measurements are recorded, not inferred from counters.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "All 89 declared entries and all 89 blank-report labels are disclosed, including current six conditional MaxLen items. Independent printed-page coverage still fails: NHJB-2311 p2 Case Name and Case Number header lines have no entry in either mapping/refusal census, and the guide labels the entire second page court-only without distinguishing its participant/case caption from the order beneath it. The page2 Case Name is an unheld court-styled fact needing a specific repeated-header instruction; the known Case Number should be filled, not reclassified as unknown. The full residence-address omission is not disclosed as a completion item either. The source page has two printed caption blanks outside the source-widget denominator.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The pre-2019 primary form matches the assigned nonconviction route. All applicant certification boxes are sworn statements about the underlying case/record and are disclosed for participant confirmation, rather than fabricated from route membership. Fixtures hold no selected court, full-record history or hearing choice. State NH is correctly selected and visible in both fixtures; court orders, financial elections and service certifications remain blank.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Charge facts and all financial/dependent rows were inspected in both fixtures; they are wholly blank and unheld. No partly filled repeating financial/charge row occurs. The three source financial zero totals are removed, not treated as asserted amounts. The partial residence-address field is counted as KNOWN_PREFILLS, not hidden in this row counter.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Zero added text in any refused source widget in either fixture; source-to-output differences are exclusively legitimate prefills plus removal of viewer labels, one Enter /s/ before name placeholder, and three 0.00 defaults. Signatures, signing dates, court ruling/body fields, counsel data, service certificates, record-release execution and notarial acts remain blank. NHJB-2328 printed /s/ is unchanged source ink outside the signature widget, not a signed name. NHJB-2317 court-page neutral caption is filled but its order fields are untouched.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both current PDFs recompute to the recorded hashes: canonical 9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d; boundary 690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743. These equal the already admitted RASTER_PASS pins from run 33999550366. No central reraster was requested. Its current queue coverage renders canonical; this independent review also inspected boundary. All final PDFs have zero AcroForm fields.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both PDFs have 9 pages. Their contiguous page manifests match the exact source page counts and order, and all those pages were viewed. No missing or duplicate component page found.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Every added output word was located inside an independently read source write widget; no word was added outside the written widgets, and none in refused widgets. All canonical and boundary pages were actually viewed. Long names, addresses and ZIPs are legible; no added ink clips or overlaps a label. Text-coordinate measurement is supported by visual inspection, not substituted for it.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Guide names clerk of the NH court that handled the matter, one petition per offense; no invented courthouse address. It explains that the held NHJB-2311 dropdown offers only superior courts and instructs circuit-court participants to enter the actual court by hand. The record request destination matches exact NHJB-2956: Criminal Records Unit, 33 Hazen Drive, Concord NH 03305.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The guide carries the exact bound NH memo/track rule: $125 per court location, jointly filed petitions there sharing that fee, with NHJB-2311 + NHJB-2328 waiver papers. It distinguishes no DOC/DOS annulment processing fee on this nonconviction route from the separate NHJB-2956 record-request form, whose printed $25 request fee it discloses. This verifies source fidelity, not current-day fee freshness or legal approval.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The separate service heading matches both exact grounding records: no participant service of the annulment petition; court gives the prosecutor a copy and permits response. It does not fabricate a mailing certificate. NHJB-2956 is separately explained: own record in person needs Section I; third-party release needs both; all mailed requests need both sections and Section II notarized. Guide tells the participant to obtain Criminal Records Unit instructions for the recipient-dropdown limitation before mailing; no unrelated court is chosen.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All eight current track stop conditions appear verbatim in the actual guide: prosecutor opposition, requested hearing, multiple courts, nonstate records, denied petition within three years, federal/immigration recognition, private databases and firearm rights. Guide directs a NH-licensed lawyer before filing; no synthetic result discharges those legal limits.",
+     "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+    }
+   },
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "blockedObligations": [],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 2,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 2,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": false,
+    "measuredHere": true
+   },
+   "counterBasis": "Independent current source/widget/printed-page and output review; command counters separately remain zero. NH knownRequiredFieldsMissing counts two deficient field locations per fixture; unclassifiedBlanks counts two printed caption fields omitted from source-widget census.",
+   "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/source-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/completeness-nh.log",
+    "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/preflight-nh.log"
+   ],
+   "preflight": {
+    "status": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "passed": 10,
+    "failed": 4,
+    "notApplicable": 3,
+    "familySourcesBind": true,
+    "reason": "No corpus environment file; recovered subset below national minimum; 23/24 national sample paths absent; own new evidence directory makes worktree dirty. Original preserved worktree was clean before evidence writes.",
+    "wholeCorpusReadyClaimed": false
+   },
+   "claimsAssertedBeforeRead": true,
+   "claimsReleased": false,
+   "localVisualReview": {
+    "packetPagesActuallyViewed": 18,
+    "sourcePagesAdditionallyViewed": 1,
+    "currentRasterPassReused": true,
+    "centralRerasterDispatched": false,
+    "imageHashes": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+   },
+   "remainingGates": [
+    "Repair and inventory the flat NHJB-2311 page2 case caption, preserving court ruling fields.",
+    "Write the complete held residence address on NHJB-2328 or document a source-grounded reason if that field has a different requirement.",
+    "Reconcile guide disclosures with every actual printed caption after repair, then obtain current-byte independent reread and central acceptance for changed PDFs.",
+    "Retain all currently repaired MaxLen/refusal, signing, service and mailed-record-request protections."
+   ],
+   "packetFilesModified": 0,
+   "commercialRoutesOpened": 0,
+   "routesOpened": 0,
+   "productionTouched": false
+  }
+ ],
  "vf06ReDispatchWave": {
   "base": "247b790b6decf4ab14924914b10ad16a6ab57400",
   "worker": "VF06 (independent; built, repaired and rendered none of these packets)",
@@ -8757,5 +8959,135 @@
   "sharedRecordsModified": 0,
   "claimReleased": false,
   "rastersWrittenTo": "/tmp, deleted after measuring"
+ }
+,
+ "historicalRows": [
+  {
+   "itemId": "nc_146_dismissal_petition-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+   "verdictCeilingApplied": "none \u2014 RASTER_PASS pins canonical 81d71db0\u2026, which recomputes from the live bytes",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "familyId agrees across all 10 JSON records with no foreign familyId; the single routeKey obligation:track-only:NC:nc_146_dismissal_petition agrees between the receipt, product-wiring, the field map and the MASTER_QUEUE row (routeCount 1)",
+     "evidence": "every packet JSON parsed and compared here"
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 4 declared sources recomputed and equal to the receipt: the committed packet-set manifest 563147bf\u2026 (3677637 B) from the repository, and the three AOC forms from the mounted Master Library \u2014 AOC-CR-287 a8762293\u2026 (257828 B, 2 pp), AOC-CR-287-INSTRUCTIONS fe222704\u2026 (217744 B, 1 p), AOC-CV-226 74057a13\u2026 (269426 B, 2 pp). These bind through pathInCustody rather than pathInArchive; resolved and re-hashed through the declared custody root here rather than reported absent. Declared page counts confirmed against the PDF bytes. The declared routeKey is PRESENT in the committed manifest it binds and in the route-obligation census.",
+     "evidence": "sha256 and pdf-lib recomputed here against the corpus bytes"
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all three components render and no foreign component appears: petition (AOC-CR-287), instructions (AOC-CR-287-INSTRUCTIONS) and fee_waiver (AOC-CV-226), matching the three the MASTER_QUEUE row names for this packet set. The forms are delivered as the AOC publishes them, which G.S. 15A-146(c) requires.",
+     "evidence": "receipt, field map, rendered-artifacts and the queue packetComponents cross-compared here"
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing=0 measured here; 56 written values / 746 added glyphs read back from the output bytes, 14 of 197 fields written, values present in the extracted fixture text",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; pdftotext of the committed canonical bytes"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 124 declared items (62 in the field map, 62 in blanks-left-for-the-participant.json) are named in participant-instructions.md by their own disclosure label, checked string by string; 0 unnamed. The file additionally names three things to establish before filing that are not blanks on any form: whether the dismissal was under a deferred prosecution or conditional discharge (the only thing that turns the $175.00 fee on), whether the district attorney intends to petition instead on AOC-CR-295, and whether the case has already cleared automatically.",
+     "evidence": "both declarations matched against the file here"
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing=0 measured here; the subsection (a) / (a1) election and paragraph 3's boxes a and b are disclosed to the participant as their own characterization rather than inferred by the build",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; participant-instructions.md read here"
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows=0 measured here",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero"
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites=0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0; read from the bytes, no signature line, signature date, certification, court-only or district-attorney field carries ink across the 5 pages",
+     "evidence": "actual-writes.json plus pdftotext of the canonical fixture here"
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both PDFs re-hashed here from the committed bytes and equal to the record (canonical 81d71db0\u2026, boundary af582b14\u2026), page counts read from the bytes with pdf-lib. No PDF on disk goes unrecorded.",
+     "evidence": "sha256 and pdf-lib recomputed here"
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "both page manifests contiguous 1..5, equal to declared pageCount and to the 5 pages read from the PDF bytes, and equal to the sum of the three sources' own page counts (2 + 1 + 2) recomputed from the corpus bytes",
+     "evidence": "pageManifest vs pdf-lib vs source page counts, all computed here"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "visualDefects=0 measured here and the RASTER_PASS receipt pins a digest that recomputes from the live bytes",
+     "evidence": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container without --write; PASS_COMPLETE, all nine counters zero; acceptance pin re-hashed here"
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states the court the route names and distinguishes it from the two AOC forms that are not this one (AOC-CR-295, the district attorney's petition, and AOC-CR-285, the continuation sheet)",
+     "evidence": "participant-instructions.md read here"
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the fee is stated with the exact condition that turns it on \u2014 $175.00 where the dismissal was pursuant to a deferred prosecution agreement or a conditional discharge \u2014 and the waiver route is the AOC's own indigency affidavit AOC-CV-226, which the packet ships as a component rather than pointing at",
+     "evidence": "participant-instructions.md read against the shipped components here"
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "the packet states who receives what and separates this route's service from the 20-day service on the district attorney that a DNA application under G.S. 15A-146(b1) requires, which is expressly not this packet",
+     "evidence": "participant-instructions.md read here"
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "all 6 selfHelpStopConditions the committed track registry records for track nc_146_dismissal_petition are carried under \"When to stop and get help\", including the two the packet quotes with attribution \u2014 a felony dismissed pursuant to a plea agreement, and possible later relief under G.S. 15A-145.4 or 15A-145.6 where \"sequencing matters\" \u2014 plus lack-of-capacity dismissals under G.S. 15A-1008, the conviction-not-dismissal case, the DNA-record case, multi-offence uncertainty, record-retention for immigration proceedings, and any immigration question at all",
+     "evidence": "registry conditions counted and matched against participant-instructions.md here"
+    }
+   },
+   "failedProofObligations": [],
+   "notMeasurableHere": [],
+   "notes": "The strongest instructions in this lane: 124 declared blanks each named, and the stop conditions quoted with the registry named as their source. SELF_HELP_STOP is scored here against the route's own committed record rather than against the presence of any disclaimer. It PASSES where the packet states where self-help ends; it FAILS where data/record-clearing/legal-design-track-registry.json records selfHelpStopConditions for the track that the packet omits, so a participant could pass a point the record marks as a stop. The registry conditions were counted per track and each was searched for in participant-instructions.md by its own subject vocabulary in this lane.",
+   "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+   "verifiedBy": "FABLE-VT-E (independent; built none of these packets; claimed every family before reading it)"
+  }
+ ],
+ "vf06NcNhCurrentRead20260906": {
+  "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+  "return": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/RETURN.json",
+  "families": 2,
+  "PASS_COMPLETE_INDEPENDENT": 0,
+  "FAIL_REPAIR_REQUIRED": 1,
+  "BLOCKED_LEGAL_INPUT": 1,
+  "sourceHoldsResolved": 2,
+  "priorRowsPreserved": 1
  }
 }
