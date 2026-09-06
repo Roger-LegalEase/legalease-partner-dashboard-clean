@@ -26,6 +26,31 @@ const FIXED_FILE_INPUTS = new Set([
   "deploy/rcap-render-worker/Dockerfile"
 ]);
 
+// Keep historical image comparisons valid while including the inputs copied by
+// each snapshot's Dockerfile. In particular, DEL-D added runtime data and a
+// preflight script outside the original seven roots. Their changes require a
+// rebuild just as changes under src/ do.
+function dockerCopyInputs(rootDir, sourceSha) {
+  const dockerfile = String(git(rootDir, ["show", `${sourceSha}:deploy/rcap-render-worker/Dockerfile`]));
+  const inputs = new Set(CANONICAL_WORKER_INPUTS);
+  for (const line of dockerfile.replace(/\\\r?\n/g, " ").split(/\r?\n/)) {
+    const match = /^\s*COPY\s+(.+)$/i.exec(line);
+    if (!match) continue;
+    const words = match[1].trim().split(/\s+/);
+    if (words[0].startsWith("--from=")) continue; // Built in another stage.
+    if (words.some((word) => word.startsWith("--")) || words.length < 2) {
+      throw new Error("unsupported Dockerfile COPY syntax in worker input plan");
+    }
+    for (const source of words.slice(0, -1)) {
+      if (!/^[A-Za-z0-9_.\/-]+$/.test(source) || source.startsWith("/") || source.split("/").includes("..")) {
+        throw new Error(`unsupported Dockerfile COPY source: ${source}`);
+      }
+      inputs.add(source.replace(/\/$/, ""));
+    }
+  }
+  return [...CANONICAL_WORKER_INPUTS, ...[...inputs].filter((input) => !CANONICAL_WORKER_INPUTS.includes(input)).sort()];
+}
+
 function validateSourceSha(value, label) {
   if (!/^[0-9a-f]{40}$/.test(value ?? "")) {
     throw new Error(`${label} must be an exact 40-character lowercase Git SHA`);
@@ -51,17 +76,17 @@ function git(rootDir, args, { binary = false } = {}) {
   return result.stdout;
 }
 
-function verifyCanonicalInputs(rootDir, candidateSha) {
-  for (const canonicalPath of CANONICAL_WORKER_INPUTS) {
+function verifyCanonicalInputs(rootDir, candidateSha, inputs) {
+  for (const canonicalPath of inputs) {
     const type = String(git(rootDir, ["cat-file", "-t", `${candidateSha}:${canonicalPath}`])).trim();
-    const expectedType = FIXED_FILE_INPUTS.has(canonicalPath) ? "blob" : "tree";
-    if (type !== expectedType) {
+    const expectedType = FIXED_FILE_INPUTS.has(canonicalPath) ? "blob" : CANONICAL_WORKER_INPUTS.includes(canonicalPath) ? "tree" : null;
+    if ((expectedType && type !== expectedType) || !["blob", "tree"].includes(type)) {
       throw new Error(`canonical worker input ${canonicalPath} must be a Git ${expectedType} at the candidate SHA`);
     }
   }
 }
 
-function changedCanonicalPaths(rootDir, acceptedSourceSha, candidateSha) {
+function changedCanonicalPaths(rootDir, acceptedSourceSha, candidateSha, inputs) {
   const output = git(rootDir, [
     "diff",
     "--name-only",
@@ -70,12 +95,12 @@ function changedCanonicalPaths(rootDir, acceptedSourceSha, candidateSha) {
     acceptedSourceSha,
     candidateSha,
     "--",
-    ...CANONICAL_WORKER_INPUTS
+    ...inputs
   ], { binary: true });
   return output.toString("utf8").split("\0").filter(Boolean).sort();
 }
 
-function aggregateCanonicalInputs(rootDir, candidateSha) {
+function aggregateCanonicalInputs(rootDir, candidateSha, inputs) {
   const output = git(rootDir, [
     "ls-tree",
     "-r",
@@ -83,7 +108,7 @@ function aggregateCanonicalInputs(rootDir, candidateSha) {
     "--full-tree",
     candidateSha,
     "--",
-    ...CANONICAL_WORKER_INPUTS
+    ...inputs
   ], { binary: true });
   const entries = output.toString("utf8").split("\0").filter(Boolean).map((entry) => {
     const tabIndex = entry.indexOf("\t");
@@ -119,9 +144,12 @@ export function createWorkerInputPlan({
   validateDigest(acceptedDigest);
   git(resolvedRoot, ["cat-file", "-e", `${acceptedSourceSha}^{commit}`]);
   git(resolvedRoot, ["cat-file", "-e", `${candidateSha}^{commit}`]);
-  verifyCanonicalInputs(resolvedRoot, candidateSha);
+  const candidateInputs = dockerCopyInputs(resolvedRoot, candidateSha);
+  const acceptedInputs = dockerCopyInputs(resolvedRoot, acceptedSourceSha);
+  verifyCanonicalInputs(resolvedRoot, candidateSha, candidateInputs);
+  const comparedInputs = [...new Set([...candidateInputs, ...acceptedInputs])].sort();
 
-  const changedPaths = changedCanonicalPaths(resolvedRoot, acceptedSourceSha, candidateSha);
+  const changedPaths = changedCanonicalPaths(resolvedRoot, acceptedSourceSha, candidateSha, comparedInputs);
   const rebuildRequired = changedPaths.length > 0;
   const imageSourceSha = rebuildRequired ? candidateSha : acceptedSourceSha;
 
@@ -130,9 +158,10 @@ export function createWorkerInputPlan({
     acceptedSourceSha,
     acceptedDigest,
     candidateSha,
-    canonicalInputs: [...CANONICAL_WORKER_INPUTS],
+    canonicalInputs: candidateInputs,
+    comparedInputs,
     changedPaths,
-    aggregateInputSha256: aggregateCanonicalInputs(resolvedRoot, candidateSha),
+    aggregateInputSha256: aggregateCanonicalInputs(resolvedRoot, candidateSha, candidateInputs),
     aggregateAlgorithm: "sha256 of sorted path, mode, type, and Git object ID records",
     rebuildRequired,
     decision: rebuildRequired ? "rebuild-required" : "reuse-accepted-digest",
