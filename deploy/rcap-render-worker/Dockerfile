@@ -4,9 +4,10 @@
 #   docker build -f deploy/rcap-render-worker/Dockerfile \
 #     -t rcap-render-worker:<git-sha> .
 #
-# The image digest printed by the build is the container_digest recorded on
-# every artifact this worker finalizes; start the container with
-# RCAP_WORKER_CONTAINER_DIGEST set to it.
+# A local build produces an image ID, not a published registry digest. After
+# the release process publishes and verifies an immutable registry digest, use
+# that digest for RCAP_WORKER_CONTAINER_DIGEST on the deployed worker. Local
+# image tests do not establish publication or authorize participant delivery.
 #
 # The worker performs no network access during render: rendering is pure
 # pdf-lib over server-held data. Database and storage traffic happen before and

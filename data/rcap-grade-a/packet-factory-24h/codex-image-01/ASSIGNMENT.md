@@ -27,3 +27,7 @@ Writable: `deploy/rcap-render-worker/**`, `data/rcap-staging-action.json` (gener
 ## Return
 
 `data/rcap-grade-a/packet-factory-24h/codex-image-01/RETURN.json` with the shape in ASSIGNMENT.json `returnLocation` (dockerAvailable, filesPackaged, manifestSha256, imageId, imageDigest, fingerprintVerifier, stages {preflight, authority, render} each {ran, command, exitCode, outputTail}, notDone, productionTouched false, routesOpened 0). Commit it with your changes, commit by file name, push `codex/image-01-render-worker`. In the final message: pushed SHA, docker available yes/no, image ID or exact build failure, the three stage results separately, anything not done.
+
+## Execution continuation — Codex Captain
+
+Executing in the demonstrated Docker-capable Git environment from Captain `6eda4d48515f2c370aac3762aa3010231d83d66b`, after integrated RETURN-03. This supersedes the original Cloud launch and base assumptions. Preserve the historical published-source equivalence refusal; build and test the current local image independently. Test harnesses and synthetic authority are read-only external mounts, with no application or committed registry mounts. Local image ID, source fingerprint and published immutable digest are separate facts. Publication remains outside this task.
