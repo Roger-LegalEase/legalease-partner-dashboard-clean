@@ -84699,13 +84699,12 @@
       ],
       "dispositions": [
         "dismissal",
-        "nolle_prosequi",
-        "no_probable_cause",
-        "not_guilty"
+        "nolle_prosequi"
       ],
       "exclusions": [
         "Records outside the Boston Municipal Court Department. This does not reach District Court, Juvenile Court or Superior Court records.",
-        "Fewer than three criminal records, or records from fewer than two BMC divisions. Below that threshold the ordinary judicial sealing route applies with one form per case."
+        "Fewer than three criminal records, or records from fewer than two BMC divisions. Below that threshold the ordinary judicial sealing route applies with one form per case.",
+        "Records that ended in a finding of no probable cause or a not-guilty finding are outside this consolidated procedure: the May 10, 2024 amended Standing Order 1-09 limits it to dismissal and nolle prosequi records under the second paragraph of G.L. c. 276, § 100C. Those other dispositions arise under a different paragraph of § 100C and their separate procedural and case-law treatment is not decided here; they are not called ineligible for every form of relief (recorded 2026-09-06 from the owner-relayed research)."
       ],
       "waitingPeriods": [
         {
@@ -84721,7 +84720,7 @@
       "geographyKeys": [
         "boston-municipal-court"
       ],
-      "venue": "Boston Municipal Court Department only, keyed by the Standing Order to the division in whose territorial jurisdiction the person resides, read with the general BMC rule that a person no longer residing in BMC territory files in the division where the most recent eligible record is from.",
+      "venue": "Boston Municipal Court Department only. Under the May 10, 2024 amended Standing Order 1-09 the petition is filed in the BMC division whose territorial jurisdiction covers the petitioner's residence address; a petitioner who does not reside in BMC territory files in the division of the most recent applicable criminal record. (Recorded 2026-09-06 from the owner-relayed research; previously stated as the residence division read with the general BMC rule for non-residents.)",
       "destination": {
         "kind": "clerk",
         "name": "Boston Municipal Court division identified by the Standing Order",
@@ -84876,13 +84875,28 @@
         }
       ],
       "rules": {
-        "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.",
-        "fees": "None identified in the review.",
-        "feeWaiver": "None identified.",
-        "notice": "Preliminary hearing, public notice and final hearing per the Standing Order.",
-        "service": "Per the Standing Order.",
+        "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule (the division covering the petitioner's residence; for a non-resident, the division of the most recent applicable criminal record).",
+        "fees": "No filing fee: the Massachusetts Court System's guide states that requesting sealing has no fee (MA2). Recorded 2026-09-06 from the owner-relayed research; before that date this rule read 'None identified in the review.'",
+        "feeWaiver": "Not applicable: no filing fee is charged for a request to seal.",
+        "notice": "The petitioner sends a copy of the petition to the Suffolk County District Attorney's Office at least 30 days before the final hearing unless that office waives the full notice period, and keeps proof of what was sent and when; the court's own notice to the Commonwealth does not remove that obligation. A preliminary hearing is discretionary and the court may proceed directly to a single final hearing; public notice and the final hearing follow under the Standing Order. Any evidence-of-service fields are product completion fields, not a claim that a separately named statutory certificate is universally required. (Recorded 2026-09-06 from the owner-relayed research; previously 'Preliminary hearing, public notice and final hearing per the Standing Order.')",
+        "service": "The petitioner's own 30-day notice to the Suffolk County District Attorney's Office before the final hearing, unless waived by that office; proof of what was sent and when is kept. (Previously 'Per the Standing Order.')",
         "participantSignature": "Required.",
-        "notarization": "none"
+        "notarization": "none",
+        "researchConsolidationScope": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "statement": "The May 10, 2024 amended Standing Order 1-09 limits this consolidation procedure to at least three dismissal or nolle-prosequi criminal records from at least two BMC divisions under § 100C's second paragraph; the Judiciary guide recommends rather than universally requires criminal records or certified dockets. The guide's stop when any hearing is set is a product boundary and is retained; supporting an ordinary uncontested hearing is a separate decision from correctly explaining the published process."
+        },
+        "researchFormIdentity": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "statement": "The Standing Order authorizes one petition and says a form is available, but an exact current dedicated consolidated form was not retrieved by the research. Neither unsupported universal assertion is perpetuated: that no such court form exists, or that a TC0057 must accompany every case. The accepted instrument, and whether any per-case forms are required for the selected court, remain to be confirmed with the issuing court; the existing release blocker on form identity stays."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "Scope. Use this consolidated route for at least three criminal records ending in dismissal or nolle prosequi across at least two BMC divisions. Other dispositions require their own treatment. Confirm the proper filing division and list each applicable docket.\n\nFee and notice. There is no filing fee to request sealing. Send a copy of this petition to the Suffolk County District Attorney's Office at least 30 days before the final hearing unless that office waives the full notice period. Keep proof of what you sent and when. Court notice to the Commonwealth does not eliminate your separate obligation. Follow the hearing notice; a separate preliminary hearing is not always held."
+        }
       },
       "generationRequirements": [
         {
@@ -84949,7 +84963,7 @@
         "Records fall outside the Boston Municipal Court Department.",
         "The judge requests additional information about the listed cases.",
         "A hearing is set.",
-        "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+        "A preliminary hearing is discretionary under the amended Standing Order: the court may hold one or proceed to a single final hearing. Public notice and the final hearing follow, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
       ],
       "postGenerationHandoffs": [
         "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
@@ -122341,13 +122355,14 @@
           },
           {
             "componentId": "nc_146_dismissal_petition-fee-waiver-3",
-            "role": "fee_waiver",
+            "role": "supplemental_financial_affidavit",
             "requirement": "conditional",
-            "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee, and the petitioner seeks an indigency waiver.",
+            "conditionDescription": "Only where the court requests additional financial information after an indigency petition and accepts AOC-CV-226 for it. Not the expunction fee-waiver filing; its side-two arbitration-fee oath is never presented as an expunction assertion. Re-scoped 2026-09-06 from the owner-relayed research (previously described as the indigency waiver vehicle for the $175 branch).",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "AOC-CV-226",
             "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
-            "order": 3
+            "order": 3,
+            "notes": "Held in custody (Rev. 4/23, sha256 74057a13e4bc…). Until the court's accepted expunction-specific treatment of its arbitration wording is confirmed, a delivered copy is labeled supplemental and the participant makes no inapplicable sworn statement."
           },
           {
             "componentId": "nc_146_dismissal_petition-participant-instructions-4",
@@ -122368,6 +122383,19 @@
             "officialFormId": "AOC-CR-295",
             "officialSourceUrl": "https://www.nccourts.gov/documents/forms/district-attorney-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
             "order": 5
+          },
+          {
+            "componentId": "nc_146_dismissal_petition-indigency-petition-g106",
+            "role": "fee_waiver",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee under G.S. 15A-146(d), and the petitioner requests to proceed as an indigent.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "AOC-G-106",
+            "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent",
+            "order": 6,
+            "recordedOn": "2026-09-06",
+            "basis": "docs/rcap/grade-a/research/2026-09-06-batch-04/North_Carolina_Indigency_Component_Contract.md",
+            "notes": "AOC-G-106, Petition to Proceed as an Indigent, printed revision 11/24, two pages; the expunction election is the fourth principal election ('Petition To File Expunction Petition'). Not yet held in custody; must be acquired and bound by hash before this branch is rendered. Only participant-confirmed elections and identifying facts are written; execution, oath, legal-services certificate and every court block are left for the proper acts."
           }
         ],
         "participantActionRequired": [
@@ -122512,11 +122540,40 @@
       "rules": {
         "filing": "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
         "fees": "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
-        "feeWaiver": "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "feeWaiver": "Where the $175 fee under G.S. 15A-146(d) applies and the petitioner cannot pay it, the operative expunction indigency filing is AOC-G-106, Petition to Proceed as an Indigent (printed revision 11/24, two pages), which the Judicial Branch's expunction fee answer links directly; its fourth principal election is 'Petition To File Expunction Petition', with an affidavit, a legal-services certification and court-order blocks. AOC-CV-226, Civil Affidavit of Indigency (Rev. 4/23), is supplemental financial information that many counties use when the court asks for more; it is not the expunction fee-waiver filing, and its side-two oath concerns arbitration fees and is never rewritten or presented as an expunction assertion. Benefit receipt (SNAP, TANF, SSI) and legal-services representation are selections on G-106 that require actual participant support; absence of benefit receipt does not by itself foreclose the separate inability-to-pay selection. Recorded 2026-09-06 from the owner-relayed research; not counsel approval. (Before 2026-09-06 this rule read: 'Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.')",
         "notice": "none required by the AOC form for dismissals. The court may grant the petition without a hearing under G.S. 15A-146(a6).",
         "service": "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
         "participantSignature": "The petitioner signs and verifies the petition. The order portion is signed by the judge.",
-        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-287 before release."
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-287 before release.",
+        "researchIndigencyComponent": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/North_Carolina_Indigency_Component_Contract.md",
+          "sha256Prefix": "ced9b80ad499",
+          "branches": [
+            {
+              "situation": "Ordinary dismissal, no § 15A-146(d) fee",
+              "output": "No indigency petition is required merely to waive a nonexistent filing fee."
+            },
+            {
+              "situation": "Fee-bearing dismissal and the applicant will pay",
+              "output": "Preserve the applicable payment instructions; no automatic indigency allegation."
+            },
+            {
+              "situation": "Fee-bearing dismissal and the applicant requests indigency",
+              "output": "Deliver AOC-G-106 and its completion instructions with the expunction petition; populate the expunction election and the financial-inability assertion only after the participant elects indigency and confirms the assertion; leave execution, oath, legal-services certificate, every court-order checkbox, court signature and clerk certification uncompleted; the reverse-side inmate and small-claims-appeal orders are not participant choices."
+            },
+            {
+              "situation": "Court requests more financial evidence",
+              "output": "Supply the court-accepted supplement; identify any local requirement; never an unrelated sworn arbitration assertion."
+            }
+          ],
+          "custody": "AOC-G-106 Rev. 11/24 is not held in any mounted custody (Master Library, source-imports) as of 2026-09-06 and the research acquired no issuer binary; it must be acquired through the existing source mechanism and bound by hash before the indigency branch can render it. Its issuer URL and landing page are in Source_Index.json (NC2)."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "Filing fee and inability to pay. An ordinary dismissal petition under this route has no filing fee. The $175 fee applies when the dismissal resulted from the specified deferred-prosecution or conditional-discharge process. If that fee applies and you cannot afford it, submit the Petition to Proceed as an Indigent with your expunction petition. Complete only truthful answers and sign its affidavit before an official authorized to administer the oath. The court decides your request. Provide additional financial information if the court requests it."
+        }
       },
       "generationRequirements": [
         {
@@ -122661,6 +122718,18 @@
             "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
             "sourceStatement": "Full text of G.S. 15A-146(a) and (a1) not read at source. **Build blocker.**"
           }
+        },
+        {
+          "question": "AOC-G-106, Petition to Proceed as an Indigent (Rev. 11/24), the operative expunction indigency petition, is not held in any mounted custody. Acquire the issuer PDF through the existing source mechanism and bind it by hash before the fee-bearing indigency branch renders it; do not promote a candidate download as the pinned source.",
+          "impact": "build_blocker",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
         }
       ],
       "releaseBlockers": [],
@@ -122675,6 +122744,18 @@
             "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
             "sourceStatement": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable. Nonblocking."
+          }
+        },
+        {
+          "question": "Where a court requires AOC-CV-226 as supplemental financial evidence for an expunction indigency request, the accepted expunction-specific treatment of its side-two arbitration-fee wording, or the accepted local substitute. This does not block locating, binding or implementing G-106.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
           }
         }
       ],
@@ -122709,6 +122790,30 @@
             "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
             "sourceStatement": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable. Nonblocking."
+          }
+        },
+        {
+          "question": "AOC-G-106, Petition to Proceed as an Indigent (Rev. 11/24), the operative expunction indigency petition, is not held in any mounted custody. Acquire the issuer PDF through the existing source mechanism and bind it by hash before the fee-bearing indigency branch renders it; do not promote a candidate download as the pinned source.",
+          "impact": "build_blocker",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        },
+        {
+          "question": "Where a court requires AOC-CV-226 as supplemental financial evidence for an expunction indigency request, the accepted expunction-specific treatment of its side-two arbitration-fee wording, or the accepted local substitute. This does not block locating, binding or implementing G-106.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
           }
         }
       ],
@@ -170161,8 +170266,8 @@
           {
             "componentId": "pa_790_nonconviction-proposed-order-2",
             "role": "proposed_order",
-            "requirement": "required",
-            "conditionDescription": null,
+            "requirement": "conditional",
+            "conditionDescription": "Optional convenience, not a filing prerequisite: the AOPC public-forms page states the blank expungement order is not mandatory. Delivered correctly labeled optional, with the court's blocks blank. Re-scoped 2026-09-06 from the owner-relayed research (previously 'required').",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "PA-RCRIM-P-790-ORDER",
             "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
@@ -170186,7 +170291,8 @@
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "PA-IFP-CCP",
             "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
-            "order": 4
+            "order": 4,
+            "notes": "CPCMS 2046, Motion to Proceed In Forma Pauperis (Common Pleas), held as PA-IFP-CCP (sha256 b1255ef0503f…). Rendered when the participant selects the fee-waiver branch; only supplied financial values are written; no zeros invented; the § 4904 verification is not executed by the platform. Recorded 2026-09-06 from the owner-relayed research."
           }
         ],
         "participantActionRequired": [
@@ -170296,11 +170402,23 @@
       "rules": {
         "filing": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
         "fees": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
-        "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.",
+        "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide. It is CPCMS 2046 (two pages, financial questions, an unsworn-falsification verification under 18 Pa.C.S. § 4904 rather than a notary block; no new printed revision date asserted), held in custody as PA-IFP-CCP (sha256 b1255ef0503f…). When the participant selects the fee-waiver branch the motion is rendered as part of the packet, not merely retained as source evidence: only the participant's actual financial information is written, no financial zeros are invented, the verification is never executed for the participant, and public-access-policy compliance is not marked without performing the applicable checks. The judge decides the request; submitting it is not an approval. If no waiver is requested the conditional exclusion is preserved. (Recorded 2026-09-06 from the owner-relayed research.)",
         "notice": "A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.",
-        "service": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.",
+        "service": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790. Rule 790's Comment directs filing and service to Rule 576 and treats the petition as a motion for Rules 575–577, so the paper-service method is supplied by rule, not an unanswerable local-law question: Rule 576 methods include mailing a copy to the party's attorney; a copy is also served on the court administrator by the methods Rule 576 lists; a signed certificate of service records the date and manner of service and each recipient's name, address and telephone number; electronic filing follows Rule 576.1 rather than assuming an emailed document accomplishes service. Current recipient addresses and any e-filing choice remain local inputs, and service facts are completed after service, never pre-certified. (Recorded 2026-09-06 from the owner-relayed research; previously stated only the Rule 790 recipient and timing.)",
         "participantSignature": "The petitioner signs and verifies the petition.",
-        "notarization": "none"
+        "notarization": "none",
+        "proposedOrder": "The blank expungement order (PA-RCRIM-P-790-ORDER) is optional, not a filing prerequisite: the AOPC public-forms page expressly says the proposed order is not mandatory (PA3). It may remain in the packet as a convenience, correctly labeled optional, with the court's blocks left blank. Recorded 2026-09-06 from the owner-relayed research.",
+        "researchCertificateSpecimen": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Pennsylvania_Rule_790_Service_Copy.md",
+          "sha256Prefix": "8e183bfa02ac",
+          "use": "Proposed completion content for the existing composed certificate of service, not a newly accepted official form: original caption and docket number; a body certifying service on an actual date of an identified document on the listed recipients by the method recorded for each; a recipient table (attorney for the Commonwealth, court administrator, other party if applicable) with verified address, telephone number and the method actually used; signature of the unrepresented petitioner. Service is never pre-certified; no fictional recipients or numbers."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "Filing and service. File the Rule 790 petition with the clerk of courts in the judicial district where the charges were disposed. Serve the attorney for the Commonwealth at the same time. Follow Rule 576 for the method, service on the court administrator, and the certificate documenting actual service. Mailing to the proper attorney's office is an available paper-service method. Confirm the recipients' current addresses; follow the applicable electronic-filing rule when filing electronically.\n\nOrder and costs. The blank proposed order is optional, not a filing prerequisite. Confirm the filing charge with the filing office. When requesting permission to proceed without paying because you cannot afford the fee, complete and submit the Common Pleas Motion to Proceed In Forma Pauperis. Use your actual financial information. The judge decides the request; submitting it is not an approval."
+        }
       },
       "generationRequirements": [
         {
@@ -217431,7 +217549,7 @@
         "accord_and_satisfaction"
       ],
       "exclusions": [
-        "A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead.",
+        "A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead. Exception recorded 2026-09-06 from the owner-relayed research: a dismissal under § 19.2-298.02 that all parties agreed to treat as otherwise dismissed under subsection D of that section (version in force on 2026-09-06) is evaluated under this route rather than excluded automatically; eligibility is not an order granting expungement, the agreement is never inferred, and an absent, ambiguous or disputed agreement goes to human legal review.",
         "Convictions, other than those reached by the pardon and actual-innocence subsections, which are their own tracks.",
         "Records where another person used the petitioner's identity, which is § 19.2-392.2(B) and a different track with a fingerprint requirement.",
         "Juvenile records, which are a separate regime.",
@@ -217658,7 +217776,42 @@
         "notice": "The attorney for the Commonwealth may file an objection or answer, or give written notice of no objection, within twenty-one days after service. That is twenty-one days on an expungement, not the thirty days that applies to a sealing petition.",
         "service": "A copy of the petition is served on the attorney for the Commonwealth of the city or county in which the petition is filed. The Commonwealth is made a party defendant.",
         "participantSignature": "The petitioner signs the petition.",
-        "notarization": "none stated in § 19.2-392.2 for a subsection (A) petition."
+        "notarization": "none stated in § 19.2-392.2 for a subsection (A) petition.",
+        "researchDeferredDispositionException": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Virginia_Deferred_Disposition_Exception_Contract.md",
+          "sha256Prefix": "b6d687b4f28d",
+          "controllingVersion": "Va. Code § 19.2-298.02(D) and § 19.2-392.2 as in force on 2026-09-06 (VA1, VA2); the December 1, 2026 replacement text is not applied to a filing before that date.",
+          "decisionTable": [
+            {
+              "record": "Acquittal, or an otherwise qualifying ordinary dismissal or nolle prosequi",
+              "handling": "Apply the existing exact route and all remaining requirements."
+            },
+            {
+              "record": "Dismissal identified under § 19.2-298.02, with a recorded all-party agreement satisfying subsection D",
+              "handling": "Evaluate the statutory exception instead of automatically excluding it because a plea, stipulation or deferral occurred. Not an automatic grant of expungement."
+            },
+            {
+              "record": "Same statutory dismissal but the agreement is absent, ambiguous or disputed",
+              "handling": "Human legal review; do not infer consent or present a completed eligibility finding."
+            },
+            {
+              "record": "A different first-offender or deferred statute",
+              "handling": "Do not import subsection D; apply that route's own authority and existing review boundary."
+            },
+            {
+              "record": "Only the December 1, 2026 wording would support the treatment",
+              "handling": "Do not enable that future rule in a filing before that date."
+            }
+          ],
+          "requiredDistinction": "Agreement to a deferred case disposition, agreement that the dismissal qualifies for expungement treatment under subsection D, and the prosecutor's later response to an expungement petition are three different facts and are never collapsed into one checkbox. The record may identify the agreement in the final disposition order; the statute does not make that order the only possible evidence, so the product captures the document or reference actually establishing the agreement and sends ambiguous evidence to review.",
+          "implementation": "The route record, the packet's election gate (runtime) and the participant text change together; prose is never changed while the runtime still rejects the branch, and the branch is never opened merely because the form contains it. The opposition stop, every remaining § 19.2-392.2 requirement, and the no-generated-consent rule stay. No attorney's consent or signature is generated."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "A deferred dismissal needs a closer check. A dismissal after a plea, a stipulation, or deferred proceedings does not automatically qualify. A dismissal under Virginia Code §19.2-298.02 may qualify where all parties agreed to the treatment described in subsection D. Check the court record and the agreement before selecting the dismissal ground. If the legal basis or agreement is unclear, obtain legal review before filing. Do not assume the same rule covers a dismissal under another first-offender statute."
+        }
       },
       "generationRequirements": [
         {
@@ -217762,7 +217915,7 @@
         }
       ],
       "selfHelpBoundaries": [
-        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition, unless it is a dismissal under Va. Code § 19.2-298.02 that the court record shows all parties agreed to treat as otherwise dismissed under subsection D of that section (the pinned CC-1473 Rev. 07/26, Part 1, expressly includes that case in its 'otherwise dismissed' basis). That agreement is a separate fact from agreeing to the deferral and from the Commonwealth's later response to the petition; it is never inferred from the word 'dismissed' or from the prosecutor's silence. Where the agreement is absent, ambiguous or disputed, or the dismissal was under a different first-offender statute such as § 18.2-251, the Dotson screen remains a hard gate: obtain legal review, and route to sealing, not expungement.",
         "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
         "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
         "Any immigration question.",
@@ -217821,14 +217974,27 @@
         }
       ],
       "awaitingCounselClassification": [],
-      "openLegalQuestions": [],
+      "openLegalQuestions": [
+        {
+          "question": "Counsel adoption of the corrected § 19.2-298.02(D) branch, and the evidence acceptable for recording the required all-party agreement (the statute says the agreement may appear in the final order; that is not the only legally possible evidence). Until adopted, the branch is a documented research position: the packet may state it and gate on it, but no eligibility finding is presented as settled.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "2. Virginia — do not exclude a statutory deferred-disposition exception / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        }
+      ],
       "counselConfirmationRequired": true,
       "counselQuestions": [
         "2026 Sp. Sess. I, c. 1 creates a July 1, 2027 version of § 19.2-392.6(A), and § 19.2-392.2 has a version effective December 1, 2026 that broadens the expungement gateway and codifies Dotson. Which version does the packet build against between now and 1 December 2026, and what is the cutover plan?",
         "Should the § 19.2-392.2 packet be built against the version in force until 1 December 2026, the version effective 1 December 2026, or both with a dated cutover?"
       ],
       "selfHelpStopConditions": [
-        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition, unless it is a dismissal under Va. Code § 19.2-298.02 that the court record shows all parties agreed to treat as otherwise dismissed under subsection D of that section (the pinned CC-1473 Rev. 07/26, Part 1, expressly includes that case in its 'otherwise dismissed' basis). That agreement is a separate fact from agreeing to the deferral and from the Commonwealth's later response to the petition; it is never inferred from the word 'dismissed' or from the prosecutor's silence. Where the agreement is absent, ambiguous or disputed, or the dismissal was under a different first-offender statute such as § 18.2-251, the Dotson screen remains a hard gate: obtain legal review, and route to sealing, not expungement.",
         "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
         "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
         "Any immigration question.",
@@ -217868,6 +218034,18 @@
             "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "2.1 Supreme Court of Virginia forms",
             "sourceStatement": "Required before build: pull the CC-1201 series from the Virginia Judicial System forms library, confirm which number in the series corresponds to which petition track (19.2-392.12 versus 19.2-392.12:1(A) versus 19.2-392.12:1(B) ancillary-only), and confirm the current revision date of CC-1473."
+          }
+        },
+        {
+          "question": "Counsel adoption of the corrected § 19.2-298.02(D) branch, and the evidence acceptable for recording the required all-party agreement (the statute says the agreement may appear in the final order; that is not the only legally possible evidence). Until adopted, the branch is a documented research position: the packet may state it and gate on it, but no eligibility finding is presented as settled.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "2. Virginia — do not exclude a statutory deferred-disposition exception / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
           }
         }
       ],

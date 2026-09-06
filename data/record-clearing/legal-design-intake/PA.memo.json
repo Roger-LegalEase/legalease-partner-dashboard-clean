@@ -66,7 +66,8 @@
         },
         {
           "role": "proposed_order",
-          "requirement": "required",
+          "requirement": "conditional",
+          "conditionDescription": "Optional convenience, not a filing prerequisite: the AOPC public-forms page states the blank expungement order is not mandatory. Delivered correctly labeled optional, with the court's blocks blank. Re-scoped 2026-09-06 from the owner-relayed research (previously 'required').",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "PA-RCRIM-P-790-ORDER",
           "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
@@ -85,7 +86,7 @@
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "PA-IFP-CCP",
           "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
-          "notes": "Court of Common Pleas Motion to Proceed In Forma Pauperis, retained by Edition 1.2."
+          "notes": "CPCMS 2046, Motion to Proceed In Forma Pauperis (Common Pleas), held as PA-IFP-CCP (sha256 b1255ef0503f…). Rendered when the participant selects the fee-waiver branch; only supplied financial values are written; no zeros invented; the § 4904 verification is not executed by the platform. Recorded 2026-09-06 from the owner-relayed research."
         }
       ],
       "participantInputs": [
@@ -132,11 +133,14 @@
       "rules": {
         "filing": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
         "fees": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
-        "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.",
+        "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide. It is CPCMS 2046 (two pages, financial questions, an unsworn-falsification verification under 18 Pa.C.S. § 4904 rather than a notary block; no new printed revision date asserted), held in custody as PA-IFP-CCP (sha256 b1255ef0503f…). When the participant selects the fee-waiver branch the motion is rendered as part of the packet, not merely retained as source evidence: only the participant's actual financial information is written, no financial zeros are invented, the verification is never executed for the participant, and public-access-policy compliance is not marked without performing the applicable checks. The judge decides the request; submitting it is not an approval. If no waiver is requested the conditional exclusion is preserved. (Recorded 2026-09-06 from the owner-relayed research.)",
         "notice": "A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.",
-        "service": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.",
+        "service": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790. Rule 790's Comment directs filing and service to Rule 576 and treats the petition as a motion for Rules 575–577, so the paper-service method is supplied by rule, not an unanswerable local-law question: Rule 576 methods include mailing a copy to the party's attorney; a copy is also served on the court administrator by the methods Rule 576 lists; a signed certificate of service records the date and manner of service and each recipient's name, address and telephone number; electronic filing follows Rule 576.1 rather than assuming an emailed document accomplishes service. Current recipient addresses and any e-filing choice remain local inputs, and service facts are completed after service, never pre-certified. (Recorded 2026-09-06 from the owner-relayed research; previously stated only the Rule 790 recipient and timing.)",
         "participantSignature": "The petitioner signs and verifies the petition.",
-        "notarization": "none"
+        "notarization": "none",
+        "proposedOrder": "The blank expungement order (PA-RCRIM-P-790-ORDER) is optional, not a filing prerequisite: the AOPC public-forms page expressly says the proposed order is not mandatory (PA3). It may remain in the packet as a convenience, correctly labeled optional, with the court's blocks left blank. Recorded 2026-09-06 from the owner-relayed research.",
+        "researchCertificateSpecimen": {"on":"2026-09-06","source":"docs/rcap/grade-a/research/2026-09-06-batch-04/Pennsylvania_Rule_790_Service_Copy.md","sha256Prefix":"8e183bfa02ac","use":"Proposed completion content for the existing composed certificate of service, not a newly accepted official form: original caption and docket number; a body certifying service on an actual date of an identified document on the listed recipients by the method recorded for each; a recipient table (attorney for the Commonwealth, court administrator, other party if applicable) with verified address, telephone number and the method actually used; signature of the unrepresented petitioner. Service is never pre-certified; no fictional recipients or numbers."},
+        "researchParticipantText": {"on":"2026-09-06","source":"docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md","text":"Filing and service. File the Rule 790 petition with the clerk of courts in the judicial district where the charges were disposed. Serve the attorney for the Commonwealth at the same time. Follow Rule 576 for the method, service on the court administrator, and the certificate documenting actual service. Mailing to the proper attorney's office is an available paper-service method. Confirm the recipients' current addresses; follow the applicable electronic-filing rule when filing electronically.\n\nOrder and costs. The blank proposed order is optional, not a filing prerequisite. Confirm the filing charge with the filing office. When requesting permission to proceed without paying because you cannot afford the fee, complete and submit the Common Pleas Motion to Proceed In Forma Pauperis. Use your actual financial information. The judge decides the request; submitting it is not an approval."}
       },
       "selfHelpStopConditions": [
         "Any charge in the case resulted in a conviction, making this a mixed case rather than a clean non-conviction.",

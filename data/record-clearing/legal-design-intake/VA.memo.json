@@ -44,7 +44,7 @@
         "accord_and_satisfaction"
       ],
       "exclusions": [
-        "A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead.",
+        "A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead. Exception recorded 2026-09-06 from the owner-relayed research: a dismissal under § 19.2-298.02 that all parties agreed to treat as otherwise dismissed under subsection D of that section (version in force on 2026-09-06) is evaluated under this route rather than excluded automatically; eligibility is not an order granting expungement, the agreement is never inferred, and an absent, ambiguous or disputed agreement goes to human legal review.",
         "Convictions, other than those reached by the pardon and actual-innocence subsections, which are their own tracks.",
         "Records where another person used the petitioner's identity, which is § 19.2-392.2(B) and a different track with a fingerprint requirement.",
         "Juvenile records, which are a separate regime.",
@@ -232,10 +232,45 @@
         "notice": "The attorney for the Commonwealth may file an objection or answer, or give written notice of no objection, within twenty-one days after service. That is twenty-one days on an expungement, not the thirty days that applies to a sealing petition.",
         "service": "A copy of the petition is served on the attorney for the Commonwealth of the city or county in which the petition is filed. The Commonwealth is made a party defendant.",
         "participantSignature": "The petitioner signs the petition.",
-        "notarization": "none stated in § 19.2-392.2 for a subsection (A) petition."
+        "notarization": "none stated in § 19.2-392.2 for a subsection (A) petition.",
+        "researchDeferredDispositionException": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Virginia_Deferred_Disposition_Exception_Contract.md",
+          "sha256Prefix": "b6d687b4f28d",
+          "controllingVersion": "Va. Code § 19.2-298.02(D) and § 19.2-392.2 as in force on 2026-09-06 (VA1, VA2); the December 1, 2026 replacement text is not applied to a filing before that date.",
+          "decisionTable": [
+            {
+              "record": "Acquittal, or an otherwise qualifying ordinary dismissal or nolle prosequi",
+              "handling": "Apply the existing exact route and all remaining requirements."
+            },
+            {
+              "record": "Dismissal identified under § 19.2-298.02, with a recorded all-party agreement satisfying subsection D",
+              "handling": "Evaluate the statutory exception instead of automatically excluding it because a plea, stipulation or deferral occurred. Not an automatic grant of expungement."
+            },
+            {
+              "record": "Same statutory dismissal but the agreement is absent, ambiguous or disputed",
+              "handling": "Human legal review; do not infer consent or present a completed eligibility finding."
+            },
+            {
+              "record": "A different first-offender or deferred statute",
+              "handling": "Do not import subsection D; apply that route's own authority and existing review boundary."
+            },
+            {
+              "record": "Only the December 1, 2026 wording would support the treatment",
+              "handling": "Do not enable that future rule in a filing before that date."
+            }
+          ],
+          "requiredDistinction": "Agreement to a deferred case disposition, agreement that the dismissal qualifies for expungement treatment under subsection D, and the prosecutor's later response to an expungement petition are three different facts and are never collapsed into one checkbox. The record may identify the agreement in the final disposition order; the statute does not make that order the only possible evidence, so the product captures the document or reference actually establishing the agreement and sends ambiguous evidence to review.",
+          "implementation": "The route record, the packet's election gate (runtime) and the participant text change together; prose is never changed while the runtime still rejects the branch, and the branch is never opened merely because the form contains it. The opposition stop, every remaining § 19.2-392.2 requirement, and the no-generated-consent rule stay. No attorney's consent or signature is generated."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "A deferred dismissal needs a closer check. A dismissal after a plea, a stipulation, or deferred proceedings does not automatically qualify. A dismissal under Virginia Code §19.2-298.02 may qualify where all parties agreed to the treatment described in subsection D. Check the court record and the agreement before selecting the dismissal ground. If the legal basis or agreement is unclear, obtain legal review before filing. Do not assume the same rule covers a dismissal under another first-offender statute."
+        }
       },
       "selfHelpStopConditions": [
-        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+        "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition, unless it is a dismissal under Va. Code § 19.2-298.02 that the court record shows all parties agreed to treat as otherwise dismissed under subsection D of that section (the pinned CC-1473 Rev. 07/26, Part 1, expressly includes that case in its 'otherwise dismissed' basis). That agreement is a separate fact from agreeing to the deferral and from the Commonwealth's later response to the petition; it is never inferred from the word 'dismissed' or from the prosecutor's silence. Where the agreement is absent, ambiguous or disputed, or the dismissal was under a different first-offender statute such as § 18.2-251, the Dotson screen remains a hard gate: obtain legal review, and route to sealing, not expungement.",
         "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
         "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
         "Any immigration question.",
@@ -276,6 +311,18 @@
             "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "2.1 Supreme Court of Virginia forms",
             "sourceStatement": "Required before build: pull the CC-1201 series from the Virginia Judicial System forms library, confirm which number in the series corresponds to which petition track (19.2-392.12 versus 19.2-392.12:1(A) versus 19.2-392.12:1(B) ancillary-only), and confirm the current revision date of CC-1473."
+          }
+        },
+        {
+          "question": "Counsel adoption of the corrected § 19.2-298.02(D) branch, and the evidence acceptable for recording the required all-party agreement (the statute says the agreement may appear in the final order; that is not the only legally possible evidence). Until adopted, the branch is a documented research position: the packet may state it and gate on it, but no eligibility finding is presented as settled.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "2. Virginia — do not exclude a statutory deferred-disposition exception / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
           }
         }
       ],
@@ -347,7 +394,21 @@
             }
           }
         ]
-      }
+      },
+      "openLegalQuestions": [
+        {
+          "question": "Counsel adoption of the corrected § 19.2-298.02(D) branch, and the evidence acceptable for recording the required all-party agreement (the statute says the agreement may appear in the final order; that is not the only legally possible evidence). Until adopted, the branch is a documented research position: the packet may state it and gate on it, but no eligibility finding is presented as settled.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "2. Virginia — do not exclude a statutory deferred-disposition exception / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        }
+      ]
     },
     {
       "trackId": "va_exp_absolute_pardon",

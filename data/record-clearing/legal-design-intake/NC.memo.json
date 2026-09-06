@@ -634,13 +634,13 @@
           "notes": "AOC-CR-287 Instructions, retained in Edition 1.2 at REV-2025-12 EN with REV-2020-12 ES and VI."
         },
         {
-          "role": "fee_waiver",
+          "role": "supplemental_financial_affidavit",
           "requirement": "conditional",
-          "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee, and the petitioner seeks an indigency waiver.",
+          "conditionDescription": "Only where the court requests additional financial information after an indigency petition and accepts AOC-CV-226 for it. Not the expunction fee-waiver filing; its side-two arbitration-fee oath is never presented as an expunction assertion. Re-scoped 2026-09-06 from the owner-relayed research (previously described as the indigency waiver vehicle for the $175 branch).",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "AOC-CV-226",
           "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
-          "notes": "Affidavit of Indigency. Edition 1.2 retains AOC-CV-226 REV-2023-04 EN and REV-2021-06 ES and VI in the AFFIDAVIT role. A true dismissal carries no fee and needs no waiver."
+          "notes": "Held in custody (Rev. 4/23, sha256 74057a13e4bc…). Until the court's accepted expunction-specific treatment of its arbitration wording is confirmed, a delivered copy is labeled supplemental and the participant makes no inapplicable sworn statement."
         },
         {
           "role": "participant_instructions",
@@ -656,6 +656,17 @@
           "officialFormId": "AOC-CR-295",
           "officialSourceUrl": "https://www.nccourts.gov/documents/forms/district-attorney-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
           "notes": "District Attorney Petition And Order Of Expunction Under G.S. 15A-146(a) Or G.S. 15A-146(a1) (Charge(s) Dismissed), identified on the official North Carolina Judicial Branch forms channel on 2026-08-06. Prosecutor-filed and not participant-facing. LegalEase does not complete it, does not send it to the district attorney and does not seek prosecutor consent; the component exists so the packet can explain that this route is open and that the participant's own petition does not depend on it."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee under G.S. 15A-146(d), and the petitioner requests to proceed as an indigent.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-G-106",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent",
+          "recordedOn": "2026-09-06",
+          "basis": "docs/rcap/grade-a/research/2026-09-06-batch-04/North_Carolina_Indigency_Component_Contract.md",
+          "notes": "AOC-G-106, Petition to Proceed as an Indigent, printed revision 11/24, two pages; the expunction election is the fourth principal election ('Petition To File Expunction Petition'). Not yet held in custody; must be acquired and bound by hash before this branch is rendered. Only participant-confirmed elections and identifying facts are written; execution, oath, legal-services certificate and every court block are left for the proper acts."
         }
       ],
       "participantInputs": [
@@ -801,11 +812,40 @@
       "rules": {
         "filing": "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
         "fees": "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
-        "feeWaiver": "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "feeWaiver": "Where the $175 fee under G.S. 15A-146(d) applies and the petitioner cannot pay it, the operative expunction indigency filing is AOC-G-106, Petition to Proceed as an Indigent (printed revision 11/24, two pages), which the Judicial Branch's expunction fee answer links directly; its fourth principal election is 'Petition To File Expunction Petition', with an affidavit, a legal-services certification and court-order blocks. AOC-CV-226, Civil Affidavit of Indigency (Rev. 4/23), is supplemental financial information that many counties use when the court asks for more; it is not the expunction fee-waiver filing, and its side-two oath concerns arbitration fees and is never rewritten or presented as an expunction assertion. Benefit receipt (SNAP, TANF, SSI) and legal-services representation are selections on G-106 that require actual participant support; absence of benefit receipt does not by itself foreclose the separate inability-to-pay selection. Recorded 2026-09-06 from the owner-relayed research; not counsel approval. (Before 2026-09-06 this rule read: 'Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.')",
         "notice": "none required by the AOC form for dismissals. The court may grant the petition without a hearing under G.S. 15A-146(a6).",
         "service": "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
         "participantSignature": "The petitioner signs and verifies the petition. The order portion is signed by the judge.",
-        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-287 before release."
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-287 before release.",
+        "researchIndigencyComponent": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/North_Carolina_Indigency_Component_Contract.md",
+          "sha256Prefix": "ced9b80ad499",
+          "branches": [
+            {
+              "situation": "Ordinary dismissal, no § 15A-146(d) fee",
+              "output": "No indigency petition is required merely to waive a nonexistent filing fee."
+            },
+            {
+              "situation": "Fee-bearing dismissal and the applicant will pay",
+              "output": "Preserve the applicable payment instructions; no automatic indigency allegation."
+            },
+            {
+              "situation": "Fee-bearing dismissal and the applicant requests indigency",
+              "output": "Deliver AOC-G-106 and its completion instructions with the expunction petition; populate the expunction election and the financial-inability assertion only after the participant elects indigency and confirms the assertion; leave execution, oath, legal-services certificate, every court-order checkbox, court signature and clerk certification uncompleted; the reverse-side inmate and small-claims-appeal orders are not participant choices."
+            },
+            {
+              "situation": "Court requests more financial evidence",
+              "output": "Supply the court-accepted supplement; identify any local requirement; never an unrelated sworn arbitration assertion."
+            }
+          ],
+          "custody": "AOC-G-106 Rev. 11/24 is not held in any mounted custody (Master Library, source-imports) as of 2026-09-06 and the research acquired no issuer binary; it must be acquired through the existing source mechanism and bound by hash before the indigency branch can render it. Its issuer URL and landing page are in Source_Index.json (NC2)."
+        },
+        "researchParticipantText": {
+          "on": "2026-09-06",
+          "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+          "text": "Filing fee and inability to pay. An ordinary dismissal petition under this route has no filing fee. The $175 fee applies when the dismissal resulted from the specified deferred-prosecution or conditional-discharge process. If that fee applies and you cannot afford it, submit the Petition to Proceed as an Indigent with your expunction petition. Complete only truthful answers and sign its affidavit before an official authorized to administer the oath. The court decides your request. Provide additional financial information if the court requests it."
+        }
       },
       "selfHelpStopConditions": [
         "A felony charge dismissed pursuant to a plea agreement.",
@@ -836,6 +876,30 @@
             "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
             "sourceStatement": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable. Nonblocking."
+          }
+        },
+        {
+          "question": "AOC-G-106, Petition to Proceed as an Indigent (Rev. 11/24), the operative expunction indigency petition, is not held in any mounted custody. Acquire the issuer PDF through the existing source mechanism and bind it by hash before the fee-bearing indigency branch renders it; do not promote a candidate download as the pinned source.",
+          "impact": "build_blocker",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        },
+        {
+          "question": "Where a court requires AOC-CV-226 as supplemental financial evidence for an expunction indigency request, the accepted expunction-specific treatment of its side-two arbitration-fee wording, or the accepted local substitute. This does not block locating, binding or implementing G-106.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
           }
         }
       ],
@@ -927,7 +991,35 @@
           }
         ]
       },
-      "nodeType": "relief_track"
+      "nodeType": "relief_track",
+      "buildBlockers": [
+        {
+          "question": "AOC-G-106, Petition to Proceed as an Indigent (Rev. 11/24), the operative expunction indigency petition, is not held in any mounted custody. Acquire the issuer PDF through the existing source mechanism and bind it by hash before the fee-bearing indigency branch renders it; do not promote a candidate download as the pinned source.",
+          "impact": "build_blocker",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        }
+      ],
+      "openLegalQuestions": [
+        {
+          "question": "Where a court requires AOC-CV-226 as supplemental financial evidence for an expunction indigency request, the accepted expunction-specific treatment of its side-two arbitration-fee wording, or the accepted local substitute. This does not block locating, binding or implementing G-106.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "fee_waiver",
+          "provenance": {
+            "classificationBasis": "owner_relayed_research",
+            "sourceFile": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+            "sourceHeading": "1. North Carolina — correct the fee-waiver component / Remaining narrow input",
+            "sourceStatement": "Recorded 2026-09-06 from the owner-relayed batch-04 research; not counsel approval.",
+            "researchSha256Prefix": "06399929e24b"
+          }
+        }
+      ]
     },
     {
       "trackId": "nc_146_acquittal_petition",
