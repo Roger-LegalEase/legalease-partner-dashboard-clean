@@ -56,6 +56,7 @@ export type RenderJobRow = {
   consumerBriefcaseItemId: string | null;
   consumerAuthUserId: string | null;
   consumerVerificationHash?: string | null;
+  sponsoredBinding?: { sourceSessionId: string; clinicEventId: string; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
   personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string; specificationFileSha256: string } | null;
 };
 
@@ -245,6 +246,41 @@ export async function enqueueVerifiedConsumerRender(
   return record ? rowFromRecord(record as Record<string, unknown>) : null;
 }
 
+/** Exact verified sponsored entry into the existing durable queue. The protected
+ * transaction rechecks owner, claimed source, event, route and verification. */
+export async function enqueueVerifiedSponsoredRender(
+  spec: RenderJobSpec,
+  identity: { authUserId: string; briefcaseItemId: string; sourceSessionId: string;
+    partnerSlug: string; personId: string; matterId: string; verificationHash: string },
+  payload: VerifiedConsumerRenderPayload
+): Promise<RenderJobRow | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+  const { sponsoredRenderAuthority } = await import("@/lib/rcap/render/sponsored-packet");
+  const authority = await sponsoredRenderAuthority({ routeId: spec.routeId, ...identity });
+  if (!authority || authority.partner_slug !== identity.partnerSlug) return null;
+  const { data: retries, error: retryError } = await supabase.from("packet_render_jobs").select("*")
+    .eq("packet_id", spec.packetId).eq("input_hash", spec.inputHash)
+    .eq("sponsored_consumer_auth_user_id", identity.authUserId)
+    .eq("sponsored_consumer_briefcase_item_id", identity.briefcaseItemId)
+    .eq("sponsored_verification_hash", identity.verificationHash)
+    .eq("sponsored_session_id", identity.sourceSessionId).eq("status", "failed");
+  if (retryError) return null;
+  if (retries?.length) return rowFromRecord(retries[0] as Record<string, unknown>);
+  const { data, error } = await supabase.rpc("enqueue_verified_sponsored_packet_render", {
+    p_route_key: spec.routeId, p_session_id: identity.sourceSessionId,
+    p_packet_id: spec.packetId, p_route_id: spec.routeId, p_renderer_kind: spec.rendererKind,
+    p_renderer_version: spec.rendererVersion, p_source_sha256: spec.sourceSha256,
+    p_profile_id: spec.profileId, p_profile_version: spec.profileVersion, p_input_hash: spec.inputHash,
+    p_briefcase_item_id: identity.briefcaseItemId, p_person_id: identity.personId, p_matter_id: identity.matterId,
+    p_max_attempts: 5, p_expected_consumer_auth_user_id: identity.authUserId,
+    p_expected_verification_hash: identity.verificationHash,
+    p_render_packet: payload.renderPacket, p_render_input_payload: payload.renderInputPayload
+  });
+  const row = Array.isArray(data) ? data[0] : data;
+  return !error && row ? rowFromRecord(row as Record<string, unknown>) : null;
+}
+
 export async function claimNextRenderJob(
   workerId: string,
   rendererKinds: string[],
@@ -363,6 +399,10 @@ export async function finalizeRenderJob(input: {
   });
   if (error || !data) return null;
   const row = (Array.isArray(data) ? data[0] : data) as Record<string, unknown>;
+  if (row.delivery_eligibility === "eligible") {
+    const { finalizeSponsoredRenderArtifact } = await import("@/lib/rcap/render/sponsored-packet");
+    if (!await finalizeSponsoredRenderArtifact(input.jobId)) return null;
+  }
   return {
     accountingResult: String(row.accounting_result) as PacketAccountingResult,
     deliveryEligibility: String(row.delivery_eligibility) as DeliveryEligibility,
@@ -421,6 +461,16 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   if (error || !data) return null;
   const job = rowFromRecord(data as Record<string, unknown>);
   if (job.routeId === "IL:felony-prostitution-relief") {
+    if (job.partnerId) {
+      const { data: sponsored, error: scopeError } = await supabase.from("packet_render_jobs")
+        .select("sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id, sponsored_verification_hash")
+        .eq("id", jobId).maybeSingle();
+      if (!scopeError && sponsored?.sponsored_session_id) {
+        job.sponsoredBinding = { sourceSessionId: sponsored.sponsored_session_id,
+          clinicEventId: sponsored.sponsored_clinic_event_id, briefcaseItemId: sponsored.sponsored_consumer_briefcase_item_id,
+          authUserId: sponsored.sponsored_consumer_auth_user_id, verificationHash: sponsored.sponsored_verification_hash };
+      }
+    }
     const { data: input } = await supabase.from("rcap_document_packet_inputs")
       .select("input_payload").eq("document_packet_id", job.packetId).maybeSingle();
     const payload = input?.input_payload;
@@ -430,4 +480,17 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
     }
   }
   return job;
+}
+
+/** A previously finalized, owner-bound input makes a later verified request a
+ * redispatch of this matter's existing entitlement, rather than a new purchase. */
+export async function hasFinalizedPersonalizedRender(authUserId: string, briefcaseItemId: string, sponsored: boolean) {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+  const { data, error } = await supabase.from("packet_render_jobs").select("id")
+    .eq(sponsored ? "sponsored_consumer_auth_user_id" : "consumer_auth_user_id", authUserId)
+    .eq(sponsored ? "sponsored_consumer_briefcase_item_id" : "consumer_briefcase_item_id", briefcaseItemId)
+    .eq("route_id", "IL:felony-prostitution-relief").eq("delivery_eligibility", "eligible")
+    .in("status", ["artifact_validated", "delivered"]);
+  return !error && Boolean(data?.length);
 }

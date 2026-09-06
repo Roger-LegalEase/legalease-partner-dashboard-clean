@@ -1,7 +1,7 @@
 // Authentication/item presentation and final-screening validation are fixtures.
 // The verification, payment, queue, accounting and provenance RPCs stay real.
 let db;
-export const sponsoredItems = new Set();
+export const sponsoredItems = new Map();
 export function bindDeliveryDb(database) { db = database; }
 export const literal = (v) => v === null ? 'null' : `'${String(v).replaceAll("'", "''")}'`;
 export async function getBriefcaseItem(userId, id) {
@@ -26,6 +26,6 @@ export function protectedPacketInformationModelFor(verification) {
 export async function readTrustedBriefcasePresentationSource({ item }) {
   const { consumerMatterIdForItem } = await import('../src/lib/expungement-ai/consumer-identity.ts');
   return { ok: true, value: sponsoredItems.has(item.id)
-    ? { product: 'rcap_partner', partnerBenefitActive: true, partnerSlug: 'synthetic-program', sourceSessionId: item.id, matterId: consumerMatterIdForItem(item.id) }
+    ? { product: 'rcap_partner', partnerBenefitActive: true, partnerSlug: 'il-clinic-sponsor', sourceSessionId: sponsoredItems.get(item.id), matterId: consumerMatterIdForItem(item.id) }
     : { product: 'expungement_ai' } };
 }
