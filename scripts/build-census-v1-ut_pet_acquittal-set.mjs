@@ -251,6 +251,55 @@ const CONFIGS = Object.freeze({
     // participant depending on a fact the packet does not hold, A3 is satisfied
     // by stating both limbs and the fact that chooses between them -- not by
     // picking the cheaper one.
+    /*
+     * FIX83, CLIPPING_AND_OVERLAP. Every X this host writes was drawn at the
+     * printed left bracket's own x-origin plus 1.5pt and printed on top of the
+     * bracket. The mark now sits in the bracket pair's interior gap, measured
+     * as ink off the pinned source binary. Set per family: the three proven
+     * siblings on this host carry the identical defect and this lane holds no
+     * grant on them, so their delivered bytes must not move.
+     */
+    marksCentredInBracketGap: true,
+    /*
+     * FIX83, SERVICE. The packet told the participant "The prosecutor must
+     * receive a copy of what you file, by mail or by email" and never stated
+     * the rule the committed track registry holds for this track: "The
+     * petitioner does not effect service in the ordinary case: the court sends
+     * the filing to the prosecuting attorney." rules.notice and
+     * destination.detail say it twice more. The registry also warns in terms
+     * against wiring the general service-of-process regime to this track. The
+     * genuine BCI quotation is kept and named as superseded rather than
+     * deleted, because the participant is holding that sheet.
+     *
+     * Set per family, on the four this lane holds. Two earlier independent
+     * reads scored SERVICE PASS on ut_pet_dismissed_with_prejudice-set and
+     * ut_pet_dismissed_without_prejudice-set by reading the held BCI handout
+     * as governing over the registry; this lane was assigned the registry's
+     * rule for all four and applies it to all four, and the disagreement is
+     * reported rather than buried.
+     */
+    statesCourtTransmitsToProsecutor: true,
+    /*
+     * FIX83, PAGE_ORDER. The assembled packet ran 1000EX > 1020EX > 1044XX >
+     * 1146XX > 1148XX > 1149XX > 1169XX > BCI application > BCI third-party
+     * release, which against this family's committed packet-set manifest is
+     * component order 4, 5, 3, 6, 7, 8, 9, 1, 2. The two Bureau of Criminal
+     * Identification components the manifest orders FIRST sat on pages 17-19,
+     * behind every court document, and this route's law is a two-stage
+     * sequence: BCI decides eligibility and issues the certificate whose
+     * identification number paragraph 1 of the petition then asks for.
+     */
+    deliversInManifestComponentOrder: true,
+    /*
+     * FIX83, ROUTE_OPTIONS and FILING_DESTINATION. The court caption was
+     * marked District on the petition and on the proposed order from
+     * `route.case`, and the instructions named the destination as "The Utah
+     * district court for the county where the case was heard". The registry
+     * says the destination is "the district or justice court that decided the
+     * case" and holds no fact saying which of the two this was. Both marks are
+     * left unmade and the election is disclosed.
+     */
+    courtTypeElectionNotHeld: true,
     certificateIssuanceFeeHeldExemptUnlessAbeyance: "a dismissal with prejudice",
     // The same fact again, in two other places: it decides whether the free
     // 180-day automatic route reaches this participant at all, and it is a
@@ -288,6 +337,41 @@ const CONFIGS = Object.freeze({
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
     dismissedWithoutPrejudice: true, chargeLabel: "Charge dismissed without prejudice",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    /*
+     * FIX83, CLIPPING_AND_OVERLAP. Every X this host writes was drawn at the
+     * printed left bracket's own x-origin plus 1.5pt and printed on top of the
+     * bracket. The mark now sits in the bracket pair's interior gap, measured
+     * as ink off the pinned source binary. Set per family: the three proven
+     * siblings on this host carry the identical defect and this lane holds no
+     * grant on them, so their delivered bytes must not move.
+     */
+    marksCentredInBracketGap: true,
+    /*
+     * FIX83, SERVICE. The packet told the participant "The prosecutor must
+     * receive a copy of what you file, by mail or by email" and never stated
+     * the rule the committed track registry holds for this track: "The
+     * petitioner does not effect service in the ordinary case: the court sends
+     * the filing to the prosecuting attorney." rules.notice and
+     * destination.detail say it twice more. The registry also warns in terms
+     * against wiring the general service-of-process regime to this track. The
+     * genuine BCI quotation is kept and named as superseded rather than
+     * deleted, because the participant is holding that sheet.
+     *
+     * Set per family, on the four this lane holds. Two earlier independent
+     * reads scored SERVICE PASS on ut_pet_dismissed_with_prejudice-set and
+     * ut_pet_dismissed_without_prejudice-set by reading the held BCI handout
+     * as governing over the registry; this lane was assigned the registry's
+     * rule for all four and applies it to all four, and the disagreement is
+     * reported rather than buried.
+     */
+    statesCourtTransmitsToProsecutor: true,
+    /*
+     * FIX83, PAGE_ORDER. Same inversion, same manifest, same repair as the
+     * with-prejudice sibling: the prerequisite BCI stage sat on pages 17-19
+     * behind every court document and the petition and order preceded the
+     * cover sheet.
+     */
+    deliversInManifestComponentOrder: true,
     certificateIssuanceFeeHeldExempt: "a dismissal",
     declarationNameBoxClearsPrePrintedI: true,
     /*
@@ -319,6 +403,34 @@ const CONFIGS = Object.freeze({
     slug: "ut-pet-limitations-set", traffic: false, routeKind: "case",
     chargeLabel: "Charge ended by limitations period",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    /*
+     * FIX83, CLIPPING_AND_OVERLAP. Every X this host writes was drawn at the
+     * printed left bracket's own x-origin plus 1.5pt and printed on top of the
+     * bracket. The mark now sits in the bracket pair's interior gap, measured
+     * as ink off the pinned source binary. Set per family: the three proven
+     * siblings on this host carry the identical defect and this lane holds no
+     * grant on them, so their delivered bytes must not move.
+     */
+    marksCentredInBracketGap: true,
+    /*
+     * FIX83, SERVICE. The packet told the participant "The prosecutor must
+     * receive a copy of what you file, by mail or by email" and never stated
+     * the rule the committed track registry holds for this track: "The
+     * petitioner does not effect service in the ordinary case: the court sends
+     * the filing to the prosecuting attorney." rules.notice and
+     * destination.detail say it twice more. The registry also warns in terms
+     * against wiring the general service-of-process regime to this track. The
+     * genuine BCI quotation is kept and named as superseded rather than
+     * deleted, because the participant is holding that sheet.
+     *
+     * Set per family, on the four this lane holds. Two earlier independent
+     * reads scored SERVICE PASS on ut_pet_dismissed_with_prejudice-set and
+     * ut_pet_dismissed_without_prejudice-set by reading the held BCI handout
+     * as governing over the registry; this lane was assigned the registry's
+     * rule for all four and applies it to all four, and the disagreement is
+     * reported rather than buried.
+     */
+    statesCourtTransmitsToProsecutor: true,
     certificateIssuanceFeeNotEstablished: "a charge ended by the limitations period",
     declarationNameBoxClearsPrePrintedI: true,
     deliversInManifestComponentOrder: true,
@@ -339,6 +451,62 @@ const CONFIGS = Object.freeze({
     slug: "ut-pet-no-charges-set", traffic: false, routeKind: "incident",
     chargeLabel: "Arrest with no charges filed",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
+    /*
+     * FIX83, CLIPPING_AND_OVERLAP. Every X this host writes was drawn at the
+     * printed left bracket's own x-origin plus 1.5pt and printed on top of the
+     * bracket. The mark now sits in the bracket pair's interior gap, measured
+     * as ink off the pinned source binary. Set per family: the three proven
+     * siblings on this host carry the identical defect and this lane holds no
+     * grant on them, so their delivered bytes must not move.
+     */
+    marksCentredInBracketGap: true,
+    /*
+     * FIX83, SERVICE. The packet told the participant "The prosecutor must
+     * receive a copy of what you file, by mail or by email" and never stated
+     * the rule the committed track registry holds for this track: "The
+     * petitioner does not effect service in the ordinary case: the court sends
+     * the filing to the prosecuting attorney." rules.notice and
+     * destination.detail say it twice more. The registry also warns in terms
+     * against wiring the general service-of-process regime to this track. The
+     * genuine BCI quotation is kept and named as superseded rather than
+     * deleted, because the participant is holding that sheet.
+     *
+     * Set per family, on the four this lane holds. Two earlier independent
+     * reads scored SERVICE PASS on ut_pet_dismissed_with_prejudice-set and
+     * ut_pet_dismissed_without_prejudice-set by reading the held BCI handout
+     * as governing over the registry; this lane was assigned the registry's
+     * rule for all four and applies it to all four, and the disagreement is
+     * reported rather than buried.
+     */
+    statesCourtTransmitsToProsecutor: true,
+    /*
+     * FIX83, FILING_DESTINATION. The instructions sent this participant to
+     * "The Utah district court for the county where the case was heard" and
+     * added that the county is written "from your case". This route is an
+     * arrest where charges were never filed: there is no case and no court
+     * that heard one. The registry's venue rule answers it in terms -- "If
+     * charges were never filed, the district court in the county where the
+     * arrest occurred" -- and its mechanism says why: "Because no case exists,
+     * venue is the district court in the county where the arrest occurred."
+     * The District mark on this route IS supported by that sentence and stays.
+     */
+    neverChargedVenue: true,
+    /*
+     * FIX83, KNOWN_PREFILLS and REQUIRED_BEFORE_FILING. The build wrote
+     * matter.case_number into 1000EX and three places in 1020EX on a route the
+     * registry describes as having no case at all -- two of them into the
+     * proposed order's case-number branch, which this route does not even
+     * select. The registry asks for the number only conditionally and records
+     * the condition in terms: "Not asked where no case was ever filed."
+     */
+    noCaseNumberOnThisRoute: true,
+    /*
+     * FIX83, REQUIRED_BEFORE_FILING. The registry holds a waiting period this
+     * packet never mentioned: condition "Every 77-40a-302(1) no-charges
+     * route", duration "At least 30 days since the arrest." A participant
+     * could follow every listed before-filing item and still file too early.
+     */
+    statesThirtyDaySinceArrest: true,
     certificateIssuanceFeeHeldExempt: "a declination",
     declarationNameBoxClearsPrePrintedI: true,
     /*
@@ -706,7 +874,7 @@ function matching(fields, predicate) {
     || b.measured.baselineY - a.measured.baselineY || a.measured.x0 - b.measured.x0);
 }
 
-function addCaptionFacts(plans, census, formNumber, facts) {
+function addCaptionFacts(plans, census, formNumber, facts, config) {
   const fields = censusFields(census, formNumber);
   const pageOne = fields.filter((field) => field.page === 1);
   const first = (predicate, context) => {
@@ -766,25 +934,43 @@ function addCaptionFacts(plans, census, formNumber, facts) {
   }
   if (petitioner) addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts);
 
-  const caseFields = matching(fields, (field) => {
-    const caption = normalize(field.caption);
-    return /case number/i.test(caption)
-      || (/^Petitioner$/i.test(caption) && field.measured.x0 > 300);
-  });
-  for (const field of caseFields) addTextPlan(plans, formNumber, field, "matter.case_number", facts,
-    { field: "Case Number" });
+  const caseFields = matching(fields, isCaseNumberBlank);
+  /*
+   * FIX83, KNOWN_PREFILLS. A route with no case has no case number, and a
+   * fixture that prints one is not a boundary value -- it is a fact about a
+   * proceeding that does not exist, written onto a petition. The four blanks
+   * are left blank and refusalFor says, on the registry's own words, why.
+   */
+  if (!config.noCaseNumberOnThisRoute) {
+    for (const field of caseFields) addTextPlan(plans, formNumber, field, "matter.case_number", facts,
+      { field: "Case Number" });
+  }
 }
 
-function addPetitionPlans(plans, census, formNumber, facts) {
-  addCaptionFacts(plans, census, formNumber, facts);
+/**
+ * The case-number blanks on the petition and the proposed order.
+ *
+ * Named once, because the writer that fills them and the refusal that has to
+ * account for them being empty must agree on exactly which blanks they are.
+ * The second limb is the caption block's right-hand column, whose printed
+ * caption on these forms is "Petitioner" sitting above the case-number rule.
+ */
+function isCaseNumberBlank(field) {
+  const caption = normalize(field.caption);
+  return /case number/i.test(caption)
+    || (/^Petitioner$/i.test(caption) && field.measured.x0 > 300);
+}
+
+function addPetitionPlans(plans, census, formNumber, facts, config) {
+  addCaptionFacts(plans, census, formNumber, facts, config);
   const fields = censusFields(census, formNumber);
   const printed = matching(fields, (field) => /Printed Name/i.test(normalize(field.caption)))[0];
   assert.ok(printed, `${formNumber}: printed-name blank was not measured`);
   addTextPlan(plans, formNumber, printed, "participant.full_legal_name", facts);
 }
 
-function addOrderPlans(plans, census, formNumber, facts) {
-  addCaptionFacts(plans, census, formNumber, facts);
+function addOrderPlans(plans, census, formNumber, facts, config) {
+  addCaptionFacts(plans, census, formNumber, facts, config);
 }
 
 function addCoverSheetPlans(plans, census, facts) {
@@ -872,8 +1058,8 @@ function textPlansFor(config, census, fixture) {
   const plans = [];
   const petition = config.traffic ? "1002EX" : "1000EX";
   const order = config.traffic ? "1022EX" : "1020EX";
-  addPetitionPlans(plans, census, petition, facts);
-  addOrderPlans(plans, census, order, facts);
+  addPetitionPlans(plans, census, petition, facts, config);
+  addOrderPlans(plans, census, order, facts, config);
   addCoverSheetPlans(plans, census, facts);
   if (!config.traffic) addBciPlans(plans, census, facts, config);
   const ids = plans.map((row) => `${row.formNumber}:${row.fieldId}`);
@@ -881,9 +1067,43 @@ function textPlansFor(config, census, fixture) {
   return plans;
 }
 
+/**
+ * The District/Justice election in the court caption, on the petition and on
+ * the proposed order.
+ *
+ * It is named once and read from both places -- the writer that decides which
+ * controls are marked, and the refusal that has to say WHY one is not -- so a
+ * family that leaves the election unmade cannot leave it unmade in one place
+ * and unexplained in the other.
+ */
+function isCourtTypeElection(control, formNumber) {
+  const x = control.measured?.x0 ?? -1;
+  const y = control.measured?.y0 ?? -1;
+  if (formNumber === "1000EX") return x > 220 && x < 240 && y > 475;
+  if (formNumber === "1020EX") return x > 220 && x < 240 && y > 530;
+  return false;
+}
+
 function selectedControl(control, formNumber, config) {
   const x = control.measured?.x0 ?? -1;
   const y = control.measured?.y0 ?? -1;
+  /*
+   * VF03, ROUTE_OPTIONS and FILING_DESTINATION. The court caption on the
+   * petition and on the proposed order was marked District from `route.case`,
+   * and a case-number route does not establish District rather than Justice.
+   * The committed track registry gives venue as "The court that decided the
+   * criminal case, district or justice court" and holds no fact saying which
+   * of the two decided this participant's case; neither does factsFor. So on a
+   * family that sets this flag BOTH marks are left unmade and the election is
+   * disclosed to the participant instead of being guessed for them.
+   *
+   * Set per family. A family that does not set it keeps the mark it already
+   * delivers and its bytes do not move -- which matters here because
+   * ut_pet_no_charges-set's venue IS a district court on the registry's own
+   * words, and ut_pet_limitations-set's election is recorded as an open legal
+   * question rather than a defect this lane may settle.
+   */
+  if (config.courtTypeElectionNotHeld && isCourtTypeElection(control, formNumber)) return false;
   if (formNumber === "1000EX") return (Math.abs(x - 126.02) < 1 && y > 520)
     || (x > 220 && x < 240 && y > 475);
   if (formNumber === "1002EX") return (x < 120 && y > 520)
@@ -903,11 +1123,142 @@ function selectedControl(control, formNumber, config) {
   return false;
 }
 
-function selectionPlansFor(config, fieldMap) {
+/**
+ * The interior gap of a printed bracket pair, measured off the pinned source
+ * binary as ink rather than assumed from the control's own recorded box.
+ *
+ * VF02 FAILED ut_pet_limitations-set ON CLIPPING_AND_OVERLAP FOR EVERY MARK
+ * THIS HOST WRITES. The selection write box was anchored on the LEFT BRACKET
+ * GLYPH -- `control.measured.x0` -- and the X was drawn at that x plus 1.5pt,
+ * so each X was printed on top of the "[" it was meant to sit inside, by
+ * 1.27-1.84pt over the bracket's full height, on five delivered pages of both
+ * fixtures. Three of the eight marks also ran past the right edge of their own
+ * committed write box, and the build's own byte proof reported
+ * nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 while they did, because the
+ * box itself was in the wrong place.
+ *
+ * WHY THE MEASUREMENT IS INK AND NOT GLYPH METRICS. The obvious cheaper fix is
+ * to take the two bracket glyphs out of the text stream and use their advance
+ * widths. On these forms that answer is wrong: on 1044XX page 2 the extractor
+ * reports "[" at x=355.98 and "]" at x=361.455 with advance widths of about
+ * -0.02pt, and the ink is actually at 356.64-358.62 and 364.44-366.42. The
+ * brackets are positioned by TJ offsets the advance widths do not describe. A
+ * mark centred on the stream positions would be a second guess about where the
+ * printed page is. Rendering the pinned bytes and reading the ink is the only
+ * measurement that answers "where is the bracket on the page".
+ *
+ * The source is re-hashed against the receipt before it is rendered, so a
+ * drifted source refuses the build rather than yielding a geometry keyed to a
+ * document that is no longer the one delivered.
+ */
+const BRACKET_INK_DPI = 1200;
+const BRACKET_INK_THRESHOLD = 128;
+const bracketGapCache = new Map();
+
+async function inkRunsInBand(sourcePath, pageNumber, pageHeight, x0, x1, y0, y1) {
+  const scale = BRACKET_INK_DPI / 72;
+  const args = [
+    "-png", "-gray", "-r", String(BRACKET_INK_DPI),
+    "-f", String(pageNumber), "-l", String(pageNumber),
+    "-x", String(Math.round(x0 * scale)), "-y", String(Math.round((pageHeight - y1) * scale)),
+    "-W", String(Math.round((x1 - x0) * scale)), "-H", String(Math.round((y1 - y0) * scale)),
+    sourcePath
+  ];
+  const stage = fs.mkdtempSync(path.join(os.tmpdir(), "ut-bracket-ink-"));
+  try {
+    const run = spawnSync(PDFTOPPM, [...args, path.join(stage, "band")], {
+      encoding: "buffer", maxBuffer: 64 * 1024 * 1024
+    });
+    assert.ifError(run.error);
+    assert.equal(run.status, 0, `bracket-ink raster failed: ${String(run.stderr ?? "")}`);
+    const produced = fs.readdirSync(stage).filter((name) => name.endsWith(".png")).sort();
+    assert.equal(produced.length, 1, `bracket-ink raster produced ${produced.length} images`);
+    const image = sharp(path.join(stage, produced[0])).greyscale();
+    const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
+    const runs = [];
+    let start = null;
+    for (let column = 0; column < info.width; column += 1) {
+      let inked = false;
+      for (let row = 0; row < info.height && !inked; row += 1) {
+        if (data[row * info.width * info.channels + column * info.channels] < BRACKET_INK_THRESHOLD) inked = true;
+      }
+      if (inked && start === null) start = column;
+      if (!inked && start !== null) { runs.push([x0 + start / scale, x0 + column / scale]); start = null; }
+    }
+    if (start !== null) runs.push([x0 + start / scale, x0 + info.width / scale]);
+    return { runs, touchesLeftEdge: runs.length > 0 && runs[0][0] <= x0 + 1 / scale };
+  } finally {
+    fs.rmSync(stage, { recursive: true, force: true });
+  }
+}
+
+async function bracketGapFor(receipt, formNumber, control) {
+  const key = `${formNumber}:${control.page}:${control.selectionId}`;
+  if (bracketGapCache.has(key)) return bracketGapCache.get(key);
+  const document = receipt.documents.find((row) => row.formNumber === formNumber);
+  assert.ok(document, `${formNumber}: no bound source document to measure a bracket pair on`);
+  const sourcePath = path.join(sourceRoot(), document.pathInArchive);
+  const bytes = fs.readFileSync(sourcePath);
+  assert.equal(sha256(bytes), document.sha256,
+    `${formNumber}: source SHA-256 drift while measuring bracket geometry`);
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const page = pdf.getPage(control.page - 1);
+  assert.equal(page.getRotation().angle % 360, 0,
+    `${formNumber} page ${control.page}: rotated page; the ink band would not be where the box says`);
+  const mediaBox = page.getMediaBox();
+  assert.ok(Math.abs(mediaBox.x) < 0.01 && Math.abs(mediaBox.y) < 0.01,
+    `${formNumber} page ${control.page}: media box origin is not (0,0)`);
+  const { height } = page.getSize();
+
+  // The window opens half a point left of the recorded box, so the left
+  // bracket -- which every measured control on these forms starts 0.66-1.14pt
+  // inside -- is the FIRST run and neighbouring printed text to its left is
+  // outside the band entirely. A run touching the window edge means the window
+  // cut a glyph, and the measurement refuses rather than reporting the cut.
+  const windowStart = control.measured.x0 - 0.5;
+  const { runs, touchesLeftEdge } = await inkRunsInBand(
+    sourcePath, control.page, height, windowStart, control.measured.x0 + 44,
+    control.measured.y0, control.measured.y1
+  );
+  assert.ok(!touchesLeftEdge,
+    `${formNumber}/${control.selectionId}: ink runs to the left window edge; the band cut a glyph`);
+  assert.ok(runs.length >= 2,
+    `${formNumber}/${control.selectionId}: found ${runs.length} ink run(s) where a bracket pair was expected`);
+  const [left, right] = runs;
+  for (const [label, run] of [["left", left], ["right", right]]) {
+    const width = run[1] - run[0];
+    assert.ok(width > 0.5 && width <= 3,
+      `${formNumber}/${control.selectionId}: the ${label} run is ${round(width)}pt wide, which is not a bracket`);
+  }
+  const gap = { x: left[1], width: right[0] - left[1] };
+  assert.ok(gap.width >= 3 && gap.width <= 12,
+    `${formNumber}/${control.selectionId}: bracket interior gap measures ${round(gap.width)}pt`);
+  const measured = {
+    x: round(gap.x), width: round(gap.width),
+    leftBracketInk: [round(left[0]), round(left[1])],
+    rightBracketInk: [round(right[0]), round(right[1])],
+    dpi: BRACKET_INK_DPI, sourceSha256: document.sha256
+  };
+  bracketGapCache.set(key, measured);
+  return measured;
+}
+
+async function selectionPlansFor(config, fieldMap, receipt) {
   const plans = [];
   for (const map of fieldMap.maps) {
     for (const control of map.selectionControls ?? []) {
       if (!selectedControl(control, map.formNumber, config)) continue;
+      /*
+       * FIX83, CLIPPING_AND_OVERLAP. Set per family: the four Utah petition
+       * families this lane holds move to the measured interior gap, and the
+       * three proven siblings that share this host keep the box they already
+       * deliver so their bytes do not move. The defect is not narrower than
+       * the flag -- every family on this host writes its marks the same way,
+       * and the same three lines repair each one the moment it is claimed.
+       */
+      const gap = config.marksCentredInBracketGap
+        ? await bracketGapFor(receipt, map.formNumber, control)
+        : null;
       plans.push({
         kind: "selection",
         formNumber: map.formNumber,
@@ -916,11 +1267,17 @@ function selectionPlansFor(config, fieldMap) {
         field: normalize(control.label) || control.selectionId,
         factId: `route.${config.routeKind}`,
         value: "X",
-        writeBox: {
-          x: round(control.measured.x0), y: round(control.measured.y0),
-          width: round(control.measured.width), height: round(control.measured.height)
-        },
-        geometryBasis: "CTM-tracked source selection-control geometry",
+        writeBox: gap
+          ? { x: gap.x, y: round(control.measured.y0), width: gap.width, height: round(control.measured.height) }
+          : {
+            x: round(control.measured.x0), y: round(control.measured.y0),
+            width: round(control.measured.width), height: round(control.measured.height)
+          },
+        centreInWriteBox: gap !== null,
+        ...(gap ? { bracketInk: { left: gap.leftBracketInk, right: gap.rightBracketInk, measuredAtDpi: gap.dpi } } : {}),
+        geometryBasis: gap
+          ? `printed bracket-pair interior gap measured as ink from the pinned source binary at ${gap.dpi} dpi`
+          : "CTM-tracked source selection-control geometry",
         routeDetermined: true
       });
     }
@@ -1044,6 +1401,42 @@ function refusalFor(field, formNumber, config, agencyBaselines = new Map()) {
     };
     return { ...common, ...requiredBeforeFilingReason(caption || "required BCI application fact") };
   }
+  /*
+   * FIX83. The route the packet is built for is an arrest where charges were
+   * never filed, so there is no criminal case and no case number for the
+   * participant to supply. The condition is NAMED here rather than left to
+   * prose, because a case-number blank classifies as a required known fact and
+   * would otherwise be reported as one the packet forgot. Two of the four sit
+   * in the proposed order's case-number branch, which this route does not
+   * select at all; the other two are the caption blocks.
+   */
+  if (config.noCaseNumberOnThisRoute && ["1000EX", "1020EX"].includes(formNumber)
+      && isCaseNumberBlank(field)) return {
+    ...common,
+    /*
+     * The caption block prints "Petitioner" above the case-number rule, and the
+     * census took the nearest overlapping printed line, so the right-hand
+     * column's blank is captioned "Petitioner" on 1000EX. The writer that used
+     * to fill it renamed it "Case Number" for exactly that reason. The refusal
+     * has to carry the same name, or the row is read as the petitioner's name
+     * left blank next to a petitioner name the packet writes.
+     */
+    field: "Case Number",
+    sourceLabel: "Case Number",
+    printedCaptionNearestThisBlank: caption || null,
+    captionTakenFromNearestOverlappingPrintedLine: !/case number/i.test(caption),
+    completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+    routeConditionThatMakesItInapplicable:
+      "Charges were never filed on this arrest, so no criminal case and no case number exists for the "
+      + "participant to supply. The committed track registry asks for a case number only conditionally on "
+      + "this track and records the condition in terms: \"Not asked where no case was ever filed.\" Its "
+      + "mechanism says the same thing: \"Because no case exists, venue is the district court in the county "
+      + "where the arrest occurred.\" The number this petition is filed under is assigned by the court at or "
+      + "after filing, which the committed completeness contract names as later completion: \"an assigned "
+      + "case number, a filing stamp, a hearing date the court sets\".",
+    why: "no criminal case exists on this route, so there is no case number to write; Utah Code 77-40a-302(1)",
+    approvedBlankDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE"
+  };
   if (/Court Address|Judicial District/i.test(protectedText)) return {
     ...common, ...requiredBeforeFilingReason(caption || "filing venue detail")
   };
@@ -1081,11 +1474,27 @@ function refusalFor(field, formNumber, config, agencyBaselines = new Map()) {
   };
 }
 
-function selectionRefusal(control, formNumber) {
+function selectionRefusal(control, formNumber, config = {}) {
   const common = {
     ...control,
     field: normalize(control.label) || control.selectionId,
     disposition: "explicit_refusal"
+  };
+  /*
+   * FIX83, ROUTE_OPTIONS. The election is left for the participant because
+   * nothing this platform holds decides it, and that is what the refusal has
+   * to say: not that the branch is inapplicable -- one of the two branches is
+   * certainly applicable -- but that the fact choosing between them is not
+   * held. The registry gives venue as "The court that decided the criminal
+   * case, district or justice court" and records no fact naming which.
+   */
+  if (config.courtTypeElectionNotHeld && isCourtTypeElection(control, formNumber)) return {
+    ...common,
+    kind: "participant_sworn_narrative_or_legal_election",
+    reason: "genuine participant election: the committed track registry gives venue as \"The court that "
+      + "decided the criminal case, district or justice court\" and holds no fact saying which of the two "
+      + "decided this case, so the packet discloses the election rather than marking one",
+    approvedBlankDisposition: "PARTICIPANT_ELECTION_GENUINE"
   };
   if (NO_FILL_FORMS.has(formNumber)) return {
     ...common,
@@ -1133,7 +1542,7 @@ function repairFieldMap(config, original, census, canonicalPlans, boundaryPlans,
         reason: "selected because the packet family and route determine this option",
         approvedBlankDisposition: null
       };
-      return selectionRefusal(control, oldMap.formNumber);
+      return selectionRefusal(control, oldMap.formNumber, config);
     });
     blankLedger.push(...roleRefusals.map((row) => ({ formNumber: oldMap.formNumber, ...row })),
       ...selectionControls.filter((row) => !String(row.disposition).startsWith("selected"))
@@ -1283,11 +1692,29 @@ async function renderFixture(base, plans, fixture, file) {
     const pageNumber = packetPageFor(base.pageManifest, plan.formNumber, plan.sourcePage);
     const page = document.getPage(pageNumber - 1);
     if (plan.kind === "selection") {
-      const size = Math.max(6, Math.min(10, plan.writeBox.height - 2));
-      page.drawText("X", {
-        x: plan.writeBox.x + 1.5, y: plan.writeBox.y + 1,
-        size, font: bold, color: rgb(0, 0, 0)
-      });
+      let size = Math.max(6, Math.min(10, plan.writeBox.height - 2));
+      let x = plan.writeBox.x + 1.5;
+      if (plan.centreInWriteBox) {
+        /*
+         * The box is now the bracket pair's interior gap, so the mark is
+         * centred in it rather than pushed against its left edge, and it is
+         * shrunk until it clears both printed brackets. The half point of
+         * clearance is not decoration: the widest gap on these forms is
+         * 7.14pt and the widest X is 6.67pt, so an uncentred or unshrunk mark
+         * lands on a bracket by a fraction of a point and rasters as fused to
+         * it.
+         */
+        const room = plan.writeBox.width - 0.5;
+        while (size > 6 && bold.widthOfTextAtSize("X", size) > room) size -= 0.25;
+        const drawn = bold.widthOfTextAtSize("X", size);
+        assert.ok(drawn <= room,
+          `${plan.formNumber}/${plan.fieldId}: an X does not clear the bracket gap at the minimum legible size`);
+        x = plan.writeBox.x + (plan.writeBox.width - drawn) / 2;
+        plan.markWidth = round(drawn);
+        plan.markSpan = [round(x), round(x + drawn)];
+      }
+      plan.fontSize = size;
+      page.drawText("X", { x, y: plan.writeBox.y + 1, size, font: bold, color: rgb(0, 0, 0) });
     } else {
       const size = fittedSize(font, plan.value, Math.max(12, plan.writeBox.width - 20));
       page.drawText(plan.value, {
@@ -1591,10 +2018,35 @@ function participantInstructions(config, authorities) {
       // fee section three paragraphs later.
       ? "1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes. What that certificate costs on an acquittal is answered in the cost section below."
       : "1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible and what each certificate costs. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes.");
-    out.push(`2. **The Utah district court for the county where the case was heard.** BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order} — and to take the certificate list "to the court that is listed for that case".`, "");
+    /*
+     * FIX83, FILING_DESTINATION. The generic line named one court type and one
+     * county premise for seven routes that do not share either. Each family
+     * that holds a repair on this obligation now states the destination its
+     * own committed track registry states, and a family that holds none keeps
+     * the line it already delivers and its bytes do not move.
+     */
+    if (config.neverChargedVenue) {
+      out.push(`2. **The Utah district court in the county where the arrest occurred.** This route is an arrest where charges were never filed, so there is no case and no court that heard one. The committed track registry gives the venue in terms: "If charges were never filed, the district court in the county where the arrest occurred, or for a traffic matter, the court where the citation was received", and its mechanism says why — "Because no case exists, venue is the district court in the county where the arrest occurred." (Utah Code 77-40a-302(1), 77-40a-305.) BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order}.`, "");
+    } else if (config.courtTypeElectionNotHeld) {
+      out.push(`2. **The district or justice court that decided the case.** The committed track registry records the destination as "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case", and states the second stage in full: "The participant then files the expungement petition, with the certificate attached and still valid, in the district or justice court that decided the case." Its venue rule says the same — "The court that decided the criminal case, district or justice court" — under Utah Code 77-40a-305. BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order} — and to take the certificate list "to the court that is listed for that case".`, "");
+    } else {
+      out.push(`2. **The Utah district court for the county where the case was heard.** BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, ${petition} and ${order} — and to take the certificate list "to the court that is listed for that case".`, "");
+    }
     out.push("BCI's instructions also set a deadline between the two steps: you have **180 days, including weekends and holidays, from the date on the BCI letter** to petition the court. After that the certificates expire and you must reapply.", "");
   }
-  out.push("The caption on the petition and the order is already marked **District Court**, and the county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.", "");
+  if (config.courtTypeElectionNotHeld) {
+    /*
+     * FIX83, ROUTE_OPTIONS. The packet used to tell the participant the
+     * election was settled. It is not settled and the platform does not hold
+     * the fact that would settle it, so the sentence now says which mark is
+     * missing, where it is, and what decides it.
+     */
+    out.push(`**The District/Justice election on the petition and the order is left blank for you to mark.** The committed track registry gives venue as "The court that decided the criminal case, district or justice court" and holds no fact saying which of the two decided your case — and neither does this packet, so it marks neither. In the caption of the petition (${petition}) and of the proposed order (${order}) the line reads *In the [ ] District [ ] Justice Court of Utah*: **mark the one that matches the court named on your own case paperwork**, on every copy you file. The county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm all of them.`, "");
+  } else if (config.neverChargedVenue) {
+    out.push("The caption on the petition and the order is already marked **District Court**, which is the court this route files in — the registry's venue rule for an arrest where charges were never filed is \"the district court in the county where the arrest occurred\". The county written on the caption is **the county where you were arrested**, not a county where a case was heard; this route has no case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.", "");
+  } else {
+    out.push("The caption on the petition and the order is already marked **District Court**, and the county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.", "");
+  }
 
   out.push(config.acquittalAutomaticFirst
     ? "## What the fallback petition costs, and how to ask for a waiver"
@@ -1816,7 +2268,21 @@ function participantInstructions(config, authorities) {
     out.push("**The prosecutor must receive a copy of what you file.** This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, whose printed text is the prosecutor acknowledging \"receipt of a copy of the Petition for Expungement\" — the form exists because the prosecutor gets a copy.", "");
     out.push("For an expungement petition Utah's published applicant instructions direct you to **mail or email the prosecutor copies of what you file**. Because this is the traffic route rather than the BCI route, confirm the method and the prosecutor's current address with the clerk of the district court where you file, or with the Utah State Courts Self-Help Center on **888-583-0009**, before you serve.", "");
   } else {
-    out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
+    if (config.statesCourtTransmitsToProsecutor) {
+      /*
+       * FIX83, SERVICE. The record's primary rule was missing and its
+       * secondary, conditional route had been promoted to a flat participant
+       * duty. Both limbs are now carried in the record's own order and in the
+       * record's own words. The BCI quotation is genuine and bound by hash, so
+       * it is named as superseded for this track rather than deleted: the
+       * participant is holding that sheet and will read it.
+       */
+      out.push("**You do not serve the prosecutor. The court does.** The committed track registry records the rule for this track in terms: \"The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney.\" Its notice rule says it again — \"The court sends a copy of the filing to the prosecuting attorney\" — and so does the destination it records for this route: \"The court sends the filing to the prosecuting attorney; the petitioner does not serve.\" File your packet with the court and stop there.", "");
+      out.push("**The proof-of-service route is the exception, not the step.** The registry records that \"The Proof of Service form appears in the published packet only as an optional form, used where the prosecutor’s office will not accept service.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for a prosecutor who chooses to acknowledge receipt. It is not a step this route requires you to perform, and the packet leaves it blank.", "");
+      out.push("**One line on the enclosed BCI sheet does not govern this route.** The *Expungement Applicant Instructions* included in this packet say, after filing with the court, \"Mail or email the prosecutor copies of what you file.\" For this track the registry's rule above is the one that governs, and the registry warns in terms that the Utah Courts general service-of-process page \"governs first papers in a new civil case and must not be wired to this track; doing so would import a summons, a process server and a 120-day deadline this track does not have.\" Read that BCI line as history, not as a step you owe. If you want it confirmed for your own case, the Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**.", "");
+    } else {
+      out.push("**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, \"Mail or email the prosecutor copies of what you file.\" This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.", "");
+    }
     /*
      * TWO REPAIR LANES REACHED THIS SENTENCE INDEPENDENTLY, AND BOTH WERE RIGHT.
      *
@@ -1841,18 +2307,43 @@ function participantInstructions(config, authorities) {
   }
   out.push(config.acquittalAutomaticFirst
     ? "The certificate-of-service blocks on these forms are left blank, and on this route they stay blank: no service step belongs to you. If some other delivery is ever made, its method, address and date go in only after it has actually happened — a certificate of service dated before service is a false statement."
-    : "Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.", "");
+    : config.statesCourtTransmitsToProsecutor
+      // FIX83, SERVICE. The prompt used to instruct a service act the record
+      // says does not arise. It now follows the record: blank in the ordinary
+      // case, and filled only on the conditional route the registry describes.
+      ? "The certificate-of-service blocks on these forms are left blank, and in the ordinary case they stay blank: the court sends the filing to the prosecuting attorney and you do not effect service. Only if the prosecutor’s office will not accept service and you make some delivery yourself do its method, address and date go in — and only after it has actually happened, because a certificate of service dated before service is a false statement."
+      : "Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.", "");
 
   out.push("## The facts you must supply before filing", "");
   out.push(config.acquittalAutomaticFirst
     ? "The first item below decides whether any of the rest applies. Everything after it belongs to the fallback petition only. This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess."
     : "This review fixture deliberately leaves the following facts or acts blank. Supply them from your own records or complete them when the named event occurs; do not guess.", "");
-  out.push(...items.map((item) => (config.acquittalAutomaticFirst && /^Service method/.test(item)
-    // No service step belongs to the participant on this route, so the generic
-    // "after service occurs" line would imply one the packet has just said
-    // there is not.
-    ? "- Service method, address, date, and certification only if some delivery is ever made and only after it happens; the court gives the notices this route requires"
+  const serviceItem = (item) => {
+    if (config.acquittalAutomaticFirst) {
+      // No service step belongs to the participant on this route, so the
+      // generic "after service occurs" line would imply one the packet has
+      // just said there is not.
+      return "- Service method, address, date, and certification only if some delivery is ever made and only after it happens; the court gives the notices this route requires";
+    }
+    // FIX83, SERVICE. Same defect in the checklist as in the prose: the item
+    // implied an ordinary service duty the registry says does not arise.
+    return "- Service method, address, date, and certification only if the prosecutor’s office will not accept service and you make some delivery yourself, and only after it happens; in the ordinary case the court sends the filing to the prosecuting attorney and the petitioner does not serve";
+  };
+  out.push(...items.map((item) => (/^Service method/.test(item)
+    && (config.acquittalAutomaticFirst || config.statesCourtTransmitsToProsecutor)
+    ? serviceItem(item)
     : `- ${item}`)), "");
+
+  if (config.statesThirtyDaySinceArrest) {
+    /*
+     * FIX83, REQUIRED_BEFORE_FILING. Two route-specific prerequisites the
+     * committed record holds and the delivered instructions omitted. Both are
+     * quoted from this family's own track registry entry.
+     */
+    out.push("**Two things this route requires that are not blanks on any form.**", "");
+    out.push("- **At least 30 days must have passed since the arrest.** The committed track registry holds this as a waiting period on this track — condition \"Every 77-40a-302(1) no-charges route\", duration \"At least 30 days since the arrest.\" The registry's mechanism states it in the same breath as the remedy: the records \"may be expunged on petition, at least 30 days after the arrest, on a certificate of eligibility from BCI\". (Utah Code 77-40a-302(1).) Count from your arrest date and do not file before it has run.");
+    out.push("- **There is no existing case number on this route, and none is written on these forms.** Charges were never filed, so no criminal case exists. The registry asks for a case number only conditionally on this track and records the condition in terms: \"Not asked where no case was ever filed.\" Leave every case-number line in this packet blank. The number this petition is filed under is assigned by the court at or after filing — the committed completeness contract names exactly that as later completion, \"an assigned case number, a filing stamp, a hearing date the court sets\" — so ask the clerk of the district court in the county where you were arrested for it once you have filed, and write it on your copies then.", "");
+  }
 
   if (config.statesManifestPreFilingItems) {
     // The list above is scoped to blanks on paper. The committed packet-set
@@ -2012,8 +2503,10 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
   const citedAuthorities = resolveCitedAuthorities(config);
 
   const base = await sourcePacket(receipt, config);
-  const canonicalPlans = [...textPlansFor(config, census, "canonical"), ...selectionPlansFor(config, originalMap)];
-  const boundaryPlans = [...textPlansFor(config, census, "boundary"), ...selectionPlansFor(config, originalMap)];
+  const canonicalPlans = [...textPlansFor(config, census, "canonical"),
+    ...await selectionPlansFor(config, originalMap, receipt)];
+  const boundaryPlans = [...textPlansFor(config, census, "boundary"),
+    ...await selectionPlansFor(config, originalMap, receipt)];
   const repaired = repairFieldMap(config, originalMap, census, canonicalPlans, boundaryPlans, citedAuthorities);
 
   const artifacts = [];
@@ -2105,6 +2598,13 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
         ? `The certificate issuance fee is refused on this route, and per OWNER_CORRECTIONS_REQUIRED.json Q4 the refusal no longer quotes a figure to make its point. The compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither, so reading either limb across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids. That reasoning is recorded here rather than on the packet's face, because the figure it turns on - an amount from BCI's published FAQ that NO FORM ENCLOSED IN THIS PACKET PRINTS - is exactly what the owner directed be removed. The instructions now carry the controlling design's own refusal (UT.memo rules.fees records the current BCI amounts as an open release-blocking question, Utah setting them through the Utah Code 63J-1-504 process rather than by number) and name the Bureau of Criminal Identification as the office that states the current amount.`
         : `The certificate issuance fee is refused on this route and the refusal is reasoned on the packet's face: the compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither. Reading the exemption across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids, so the packet names BCI as the authority instead.`] : []),
       ...(config.declarationNameBoxClearsPrePrintedI ? [`The BCI application's sworn declaration on packet page ${config.deliversInManifestComponentOrder ? 2 : 18} no longer writes the participant's name over the pre-printed "I". The committed write box began at x=50.5 and the pre-printed glyph occupies x=49.745-52.742; the box now begins at x=55.5 and nothing else on the line moved. This is a geometry correction to a box, not a change to what is written or to any counter.`] : []),
+      ...(config.marksCentredInBracketGap ? [`Every selection mark this packet writes has MOVED. Each X was drawn at the printed left bracket's own x-origin plus 1.5pt and printed on top of that bracket; each is now centred in the bracket pair's interior gap, measured as ink off the pinned source binary at ${BRACKET_INK_DPI} dpi, and the committed write box is that gap rather than the bracket glyph. What is written is unchanged. The mark is shrunk where the gap requires it, so it clears both printed brackets rather than being fitted to the box it overran.`] : []),
+      ...(config.deliversInManifestComponentOrder ? ["The packet is assembled in the order its committed packet-set manifest declares, which is the order this two-stage route is performed in: the BCI application and the conditional third-party release first, then the cover sheet, the petition and the proposed order, then the rest. The pages themselves are unchanged; only their order is."] : []),
+      ...(config.courtTypeElectionNotHeld ? ["The District/Justice election in the court caption on the petition and on the proposed order is NO LONGER MARKED. It was marked District from the route's case key, and a case-number route does not establish District rather than Justice: the committed track registry gives venue as \"The court that decided the criminal case, district or justice court\" and holds no fact naming which. Both marks are left unmade, the election is disclosed to the participant with the registry's own words, and the packet names the destination as the registry names it rather than as \"the district court for the county where the case was heard\"."] : []),
+      ...(config.neverChargedVenue ? ["The filing destination is stated as the registry states it for a never-charged arrest - \"the district court in the county where the arrest occurred\" - and the \"county where the case was heard\" premise, including the line that the county is written \"from your case\", is removed. The District mark on this route is supported by that same sentence and stays."] : []),
+      ...(config.noCaseNumberOnThisRoute ? ["NO CASE NUMBER IS WRITTEN. This route is an arrest where charges were never filed, and the build wrote matter.case_number into 1000EX and three places in 1020EX - two of them inside the proposed order's case-number branch, which this route does not select. All four are blank, each carries a named route condition quoting the registry's own \"Not asked where no case was ever filed\", and the instructions tell the participant the number is assigned by the court at or after filing."] : []),
+      ...(config.statesThirtyDaySinceArrest ? ["REQUIRED_BEFORE_FILING: the at-least-30-days-since-arrest threshold the committed track registry holds as this route's waiting period, and the instruction that this route has no existing case number, are stated in participant-instructions.md in the registry's words with Utah Code 77-40a-302(1) cited. Neither appeared in the earlier packet."] : []),
+      ...(config.statesCourtTransmitsToProsecutor ? ["SERVICE IS NO LONGER STATED AS THE PARTICIPANT'S STEP. The packet said \"The prosecutor must receive a copy of what you file, by mail or by email\" and never carried the rule the committed track registry holds for this track: \"The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney.\" That rule is now stated first, the Proof of Service route is described as the registry describes it - an optional form used where the prosecutor's office will not accept service - and the service method, address and date prompts that followed from the removed duty are gone from the prose and from the before-filing list. The genuine BCI Expungement Applicant Instructions line is kept and named as superseded for this track rather than deleted, and the registry's own warning against wiring the general service-of-process regime here is quoted. TWO EARLIER INDEPENDENT READS SCORED THIS OBLIGATION PASS ON TWO OF THESE FAMILIES by reading the held BCI handout as governing over the registry; this build applies the registry's rule to all four and the disagreement is reported rather than buried."] : []),
       ...(config.statesManifestPreFilingItems ? ["The requiredBeforeFiling items this family's committed packet-set manifest holds and the earlier instructions omitted - the paid-in-full bar on fines, fees, interest and restitution, and the all-states case list BCI reviews - are stated in participant-instructions.md, quoted from that manifest."] : []),
       ...(config.statesManifestPreFilingItems && (config.dismissedWithoutPrejudice || config.routeKind === "incident")
         ? ["This route's own manifest items beyond the two shared ones - the documentary proof the route turns on, and the answer-check the manifest pairs with it - are stated in participant-instructions.md and quoted from this family's manifest entry."] : []),
