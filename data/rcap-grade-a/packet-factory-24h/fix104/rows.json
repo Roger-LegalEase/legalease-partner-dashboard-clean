@@ -97,7 +97,9 @@
       "familyId": "ut_pet_dismissed_without_prejudice-set",
       "lane": "FIX104",
       "status": "COMPLETED",
-      "obligationsRepaired": ["KNOWN_PREFILLS"],
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
       "obligationsRepairedBasis": "The verifier's own classification. The blank was counted on unclassifiedBlanks, whose defect class is FAIL_MISSING_PREFILLS; the assignment's KNOWN_PREFILLS is the matching proof obligation and the row repairs that one only.",
       "countersBefore": {
         "knownRequiredFieldsMissing": 0,
@@ -152,7 +154,16 @@
       "determinism": "Rebuilt twice; every file in the family directory byte-identical between the two rebuilds.",
       "packetFilesModified": 1,
       "routesOpened": 0,
-      "productionTouched": false
+      "productionTouched": false,
+      "repairedByThisLane": true,
+      "captainCorrection": {
+        "field": "repairedByThisLane",
+        "setTo": true,
+        "reason": "the return declares repairedByThisLane true at the document level and the row omitted it; the generator reads it per row",
+        "correctedAtBase": "57f8055dc",
+        "correctedBy": "Captain",
+        "on": "2026-09-06T18:25:21.767Z"
+      }
     }
   ]
 }

@@ -1561,6 +1561,48 @@ for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
   }
 }
 
+/*
+ * A REPAIR LANE THAT STOPS ON A LEGAL QUESTION HAS STATED A LEGAL HOLD.
+ *
+ * FIX103 read ten Illinois records to compose the verification the
+ * mistaken-identity petition's contract promises and found none of them says
+ * whether that petition is verified by 1-109 certification or by notarized
+ * affidavit. It returned STOPPED with stopClass BLOCKED_LEGAL_INPUT and the
+ * exact question, changed nothing and released its grant. Until now only a
+ * verifier's BLOCKED_LEGAL_INPUT verdict or a stale PR extraction could put
+ * that question on the record; a repair lane's stop left the family reading
+ * FAIL_REPAIR_REQUIRED with nobody assigned and the question buried in its
+ * rows file. The hold is taken from the row itself, verbatim, and it stands
+ * until a later COMPLETED repair names every obligation the stop left
+ * unrepaired -- which is what counsel's answer, once built in, looks like.
+ */
+const repairLegalStopsByFamily = new Map();
+for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
+  for (const { evidencePath, doc } of laneReturnDocuments(root, () => true)) {
+    if (doc.laneKind && doc.laneKind !== "repair" && doc.laneKind !== "shared-host-repair") continue;
+    for (const row of doc.rows ?? []) {
+      if (row.status !== "STOPPED" || row.stopClass !== "BLOCKED_LEGAL_INPUT") continue;
+      const familyId = row.itemId ?? row.familyId;
+      const question = typeof row.exactQuestion === "string" ? row.exactQuestion.trim() : "";
+      if (!familyId || !question) continue;
+      const unrepaired = Array.isArray(row.obligationsNotRepaired) ? row.obligationsNotRepaired : [];
+      const answeredByLaterRepair = unrepaired.length > 0
+        && (repairCompletionsByFamily.get(familyId) ?? []).some(({ row: r, evidencePath: laterPath }) =>
+          laterPath !== evidencePath
+          && unrepaired.every((o) => (r.obligationsRepaired ?? []).includes(o)));
+      if (answeredByLaterRepair) continue;
+      const lane = row.lane ?? doc.lane ?? path.basename(path.dirname(evidencePath)).toUpperCase();
+      repairLegalStopsByFamily.set(familyId, {
+        familyId,
+        foundBy: [`${lane} (repair lane stopped on a legal input)`],
+        why: `${unrepaired.join(", ") || "unrepaired"}: ${question}`,
+        unrepaired,
+        evidencePath
+      });
+    }
+  }
+}
+
 /* A completeness audit describes the bytes which happen to be present; it is
  * not a builder return.  In particular, a preserved WIP can contain auditable
  * PDFs while its current lane truthfully returns STOPPED because it cannot
@@ -1977,7 +2019,7 @@ for (const f of IN.scoreboard.familiesDetail) {
         evidencePath: independentReturn.evidencePath ?? null
       }
     : null;
-  const laneHold = currentVerifierLegalHold ?? laneReturnLegalHolds.get(familyId) ?? null;
+  const laneHold = currentVerifierLegalHold ?? repairLegalStopsByFamily.get(familyId) ?? laneReturnLegalHolds.get(familyId) ?? null;
   const answeredLimbs = legalHoldLimbsAnswered.get(familyId) ?? [];
   const laneHoldNarrowed = laneHold && answeredLimbs.length > 0
     ? {
@@ -2241,6 +2283,15 @@ for (const f of IN.scoreboard.familiesDetail) {
     && postRepairRasterPassed !== true) state = "BUILT_RASTER_PENDING";
   else if (independentFail
     && completedRepairSupersedesFail) state = "VERIFY_PENDING";
+  /* A failed obligation whose repair lane stopped on a legal question is not
+   * repairable by any lane until counsel answers; the defect stays on the
+   * record and the state names the gate that actually holds it. Only a stop
+   * covering every failed obligation qualifies -- a partial stop leaves
+   * repairable work, and the family stays in repair. */
+  else if (independentFail
+    && repairLegalStopsByFamily.has(familyId)
+    && (independentReturn.failedObligationNames ?? []).every((o) =>
+      repairLegalStopsByFamily.get(familyId).unrepaired.includes(o))) state = "LEGAL_BLOCKED";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
