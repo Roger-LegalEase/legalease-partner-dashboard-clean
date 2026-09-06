@@ -12,6 +12,7 @@ import {extractTextItems, groupIntoLines, captureWidgetContext} from './rcap-off
 import {finalizeOfficialForm} from './rcap-official-forms/rcap-official-form-finalize.mjs';
 import {flattenedWidgets, drawnAt} from './rcap-official-forms/pdf-flattened-widgets.mjs';
 import {scanBytesForActiveContent} from './rcap-official-forms/rcap-active-content.mjs';
+import {APPEARANCE_DISPOSITION} from './rcap-official-forms/rcap-appearance-semantics.mjs';
 const require=createRequire(import.meta.url);
 const {PDFDocument,PDFTextField,PDFName}=require('pdf-lib');
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');process.chdir(ROOT);
@@ -25,8 +26,8 @@ const SOURCES=[
  {documentId:'C-10-CRIMINAL',path:'STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf',sha256:'527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8',byteLength:711433,pages:3}
 ];
 const FIXTURES={
- canonical:{'participant.first_name':'Jordan','participant.middle_name':'Avery','participant.last_name':'Reyes','participant.full_legal_name':'Jordan Avery Reyes','participant.street_address':'412 Magnolia Avenue','participant.city_state_zip':'Montgomery, AL 36104','participant.email':'jordan.reyes@example.org','participant.phone':'334-555-0142','participant.date_of_birth':'1988-06-14','matter.county':'Montgomery','matter.court':'Circuit','matter.case_number':'DC-2024-004217','matter.charge':'Disorderly conduct','matter.grounds':'The charge was dismissed with prejudice on March 3, 2025. More than 90 days have passed.','matter.arresting_agency':'Example Police Department, 10 Example Avenue, Montgomery, AL 36104.','matter.detention_agencies':'Example County Jail, 20 Example Street, Montgomery, AL 36104.','answers.basis':'dismissed_with_prejudice','answers.disposition_date':'2025-03-03','answers.refiled':false,'answers.pro_se':true,'answers.seek_fee_waiver':true,'answers.unable_to_pay_fee':true,'answers.offense_level':'misdemeanor','answers.all_court_ordered_amounts_paid':true},
- boundary:{'participant.first_name':'Alexandria','participant.middle_name':'Catherine','participant.last_name':'Montgomery-Washington','participant.full_legal_name':'Alexandria Catherine Montgomery-Washington','participant.street_address':'1188 Martin Luther King Junior Boulevard, Apartment 1407','participant.city_state_zip':'Birmingham, AL 35203-4417','participant.email':'alexandria.montgomery.washington@example.org','participant.phone':'205-555-0199','participant.date_of_birth':'1979-12-31','matter.county':'Jefferson','matter.court':'Circuit','matter.case_number':'DC-2024-000001.99','matter.charge':'Disorderly conduct','matter.grounds':'The charge was nolle prossed without conditions on February 12, 2025. More than 90 days have passed and it has not been refiled.','matter.arresting_agency':'Example Metropolitan Police Department, 1188 North Example Boulevard, Birmingham, AL 35203-4417.','matter.detention_agencies':'Example County Detention Center, 2500 West Example Parkway, Birmingham, AL 35203-4417.','answers.basis':'nolle_without_conditions','answers.disposition_date':'2025-02-12','answers.refiled':false,'answers.pro_se':true,'answers.seek_fee_waiver':true,'answers.unable_to_pay_fee':true,'answers.offense_level':'misdemeanor','answers.all_court_ordered_amounts_paid':true}
+ canonical:{'participant.first_name':'Jordan','participant.middle_name':'Avery','participant.last_name':'Reyes','participant.full_legal_name':'Jordan Avery Reyes','participant.street_address':'412 Magnolia Avenue','participant.city_state_zip':'Montgomery, AL 36104','participant.email':'jordan.reyes@example.org','participant.phone':'334-555-0142','participant.date_of_birth':'1988-06-14','matter.county':'Montgomery','matter.court':'Circuit','matter.arrest_id':'synthetic-arrest-canonical','matter.case_number':'DC-2024-004217','matter.charge':'Disorderly conduct','matter.grounds':'The charge was dismissed with prejudice on March 3, 2025. More than 90 days have passed.','matter.arresting_agency':'Example Police Department, 10 Example Avenue, Montgomery, AL 36104.','matter.detention_agencies':'Example County Jail, 20 Example Street, Montgomery, AL 36104.','answers.basis':'dismissed_with_prejudice','answers.disposition_date':'2025-03-03','answers.refiled':false,'answers.pro_se':true,'answers.seek_fee_waiver':true,'answers.unable_to_pay_fee':true,'answers.offense_level':'misdemeanor','answers.all_court_ordered_amounts_paid':true},
+ boundary:{'participant.first_name':'Alexandria','participant.middle_name':'Catherine','participant.last_name':'Montgomery-Washington','participant.full_legal_name':'Alexandria Catherine Montgomery-Washington','participant.street_address':'1188 Martin Luther King Junior Boulevard, Apartment 1407','participant.city_state_zip':'Birmingham, AL 35203-4417','participant.email':'alexandria.montgomery.washington@example.org','participant.phone':'205-555-0199','participant.date_of_birth':'1979-12-31','matter.county':'Jefferson','matter.court':'Circuit','matter.arrest_id':'synthetic-arrest-boundary','matter.case_number':'DC-2024-000001.99','matter.charge':'Disorderly conduct','matter.grounds':'The charge was nolle prossed without conditions on February 12, 2025. More than 90 days have passed and it has not been refiled.','matter.arresting_agency':'Example Metropolitan Police Department, 1188 North Example Boulevard, Birmingham, AL 35203-4417.','matter.detention_agencies':'Example County Detention Center, 2500 West Example Parkway, Birmingham, AL 35203-4417.','answers.basis':'nolle_without_conditions','answers.disposition_date':'2025-02-12','answers.refiled':false,'answers.pro_se':true,'answers.seek_fee_waiver':true,'answers.unable_to_pay_fee':true,'answers.offense_level':'misdemeanor','answers.all_court_ordered_amounts_paid':true}
 };
 // These are synthetic answers, not field captions used as answers. No signature,
 // completed service, prior petition, income, attachment receipt or judicial act is held.
@@ -162,16 +163,34 @@ function selections(source,facts){
  return Object.fromEntries(['Check Box1.0','Check Box6.0','Check Box2.2'].map(n=>[n,{checked:true,basis:n==='Check Box2.2'?'Participant explicitly requests expungement filing-fee waiver; this is not a judicial indigency finding.':'State of Alabama is the respondent in this state circuit proceeding.'}]));
 }
 async function render(source,census,facts){
- const rows=census.fields.map(f=>policy(source,f)),selected=selections(source,facts);
- for(const row of rows)if(source.documentId==='CR-65'&&/^Check Box8\.[0-4]$/.test(row.field)&&!selected[row.field])Object.assign(row,{decision:'refuse',refusalClass:null,blankTreatment:'NOT_APPLICABLE_ON_THIS_ROUTE',completenessDisposition:'NOT_APPLICABLE_ON_THIS_ROUTE',routeConditionThatMakesItInapplicable:'The participant selected the mutually exclusive '+facts['answers.basis']+' basis. CR-65 page 1 says to select only one; this other basis is not asserted.',reason:'Mutually exclusive unselected basis, not a missing route answer.'});
+ const rows=census.fields.map(f=>{
+  const row=policy(source,f);
+  // The maps-with-canonical-and-boundary reader's typed channel is
+  // completenessClass. Preserve the actual field role in that channel;
+  // attorney-only blanks use the explicit route condition below instead.
+  return {...row,completenessClass:row.refusalClass==='attorney_only'?null:row.refusalClass??null};
+ }),selected=selections(source,facts);
+ for(const row of rows)if(source.documentId==='CR-65'&&/^Check Box8\.[0-4]$/.test(row.field)&&!selected[row.field])Object.assign(row,{decision:'refuse',refusalClass:null,completenessClass:null,blankTreatment:'NOT_APPLICABLE_ON_THIS_ROUTE',completenessDisposition:'NOT_APPLICABLE_ON_THIS_ROUTE',routeConditionThatMakesItInapplicable:'The participant selected the mutually exclusive '+facts['answers.basis']+' basis. CR-65 page 1 says to select only one; this other basis is not asserted.',reason:'Mutually exclusive unselected basis, not a missing route answer.'});
  const allowed=new Set(rows.filter(r=>['write','narrative'].includes(r.decision)).map(r=>r.field));Object.keys(selected).forEach(n=>allowed.add(n));
+ const appearanceDispositions=new Map();
+ if(source.documentId==='CR-65'){
+  // This exact source's felony checkbox has a reversed /Rect (negative
+  // height). pdf-lib stamps its blank white appearance above the printed
+  // bracket and erases "expired". The court's empty bracket is already static
+  // page content. This nonconviction route never uses that felony option, so
+  // retain the printed bracket and omit only its unwritten interactive widget.
+  const row=rows.find(r=>r.field==='Check Box10.2');
+  assert.equal(row.completenessDisposition,'NOT_APPLICABLE_ON_THIS_ROUTE');
+  assert.equal(row.page,3);assert.equal(allowed.has(row.field),false);
+  appearanceDispositions.set(row.field,APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE);
+ }
  const result=await finalizeOfficialForm({sourceBytes:source.bytes,expectedSha256:source.sha256,census:census.fields,facts,
  explicitMappings:Object.fromEntries(rows.filter(r=>r.decision==='write').map(r=>[r.field,r.factId])),
  unwritableFields:rows.filter(r=>!allowed.has(r.field)).map(r=>({field:r.field,class:r.refusalClass??r.blankTreatment})),
- narrativeAcrossFields:source.documentId==='CR-65'?[...NARRATIVES,{factId:'matter.case_number',fields:['Text3']}]:[],selectionsFromHeldFacts:selected,
+ narrativeAcrossFields:source.documentId==='CR-65'?[...NARRATIVES,{factId:'matter.case_number',fields:['Text3']}]:[],selectionsFromHeldFacts:selected,appearanceDispositions,
  documentTextLines:census.pageText.flatMap(p=>p.lines.map(l=>l.text)),
  maxFontSize:10,minFontSize:6,evaluateDeclaredMinimumSize:true,alignWidgetFontSizeToFit:true,fitTextPerWidget:true,
- detachNestedControlFields:true,suppressSynthesizedAppearances:true,preserveUnwrittenSelectionBackgrounds:true,
+ detachNestedControlFields:true,suppressSynthesizedAppearances:true,preserveUnwrittenSelectionBackgrounds:true,fitAppearancesToRect:true,
  title:FAMILY+' '+source.documentId});
  const written=new Map(result.report.written.map(w=>[w.field,w]));
  const mapped=rows.map(r=>{const w=written.get(r.field);if(w)return {...r,decision:'write',kind:w.kind,fontSize:w.fontSize??null,actualReport:w,routeDetermined:!!selected[r.field],isSelectionControl:!!selected[r.field]};
@@ -179,6 +198,24 @@ async function render(source,census,facts){
  if(allowed.has(r.field))return {...r,decision:'refuse',heldButNotPrinted:true,blankTreatment:'KNOWN_FACT_NOT_WRITTEN',reason:'Measured finalizer refusal; value must be handed off: '+JSON.stringify(result.report.refused.filter(x=>x.field===r.field)),value: facts[r.factId],measurement:result.report.unfittable.filter(x=>x.field===r.field)};
  return r;});
  return {...result,rows:mapped};
+}
+// One explicit charge-fact bundle becomes one petition. A fee-waiver
+// affidavit is included only on an explicit request. The one-fee-per-arrest
+// rule is filing guidance, not a claim that separate petitions share a court order.
+async function buildPacketDocuments(sources,censuses,chargeFacts){
+ assert.ok(Array.isArray(chargeFacts)&&chargeFacts.length>0,'At least one explicit charge is required.');
+ const docs=[];
+ for(const facts of chargeFacts){
+  for(const key of ['participant.full_legal_name','matter.case_number','matter.charge','matter.grounds','matter.arresting_agency','matter.detention_agencies','matter.county','matter.arrest_id'])assert.ok(typeof facts[key]==='string'&&facts[key].trim(),key+' must be held for each charge');
+  assert.equal(facts['participant.full_legal_name'],chargeFacts[0]['participant.full_legal_name'],'Do not mix participants in a packet.');
+  assert.ok(typeof facts['answers.seek_fee_waiver']==='boolean','Ask whether a fee waiver is requested.');
+  const [petition,waiver]=sources;
+  docs.push({...petition,...await render(petition,censuses[0],facts),heldFacts:facts});
+  if(facts['answers.seek_fee_waiver']){
+   docs.push({...waiver,...await render(waiver,censuses[1],facts),heldFacts:facts});
+  }
+ }
+ return docs;
 }
 async function savePacket(docs,title){const packet=await PDFDocument.create();for(const d of docs){const src=await PDFDocument.load(d.bytes,{updateMetadata:false});for(const p of await packet.copyPages(src,src.getPageIndices()))packet.addPage(p);}packet.setTitle(title);packet.setCreationDate(FIXED);packet.setModificationDate(FIXED);packet.setProducer('LegalEase deterministic official-form builder');const bytes=Buffer.from(await packet.save({useObjectStreams:false,updateFieldAppearances:false}));assert.deepEqual(scanBytesForActiveContent(bytes).hits,[]);return bytes;}
 function instructions(track,results){
@@ -199,7 +236,7 @@ async function actualWriteProof(results){
      const drawn=drawnAt(appearances,widget),drawnText=drawn.map(a=>a.text).join('').trim();
      if(row.decision!=='write'){if(drawnText)refusedFieldsWithInk.push({fieldId:row.field,page:widget.page,drawnText});continue;}
      const narrative=doc.report.narrativesWritten.flatMap(n=>n.written).find(w=>w.field===row.field);
-     const expected=row.kind==='selection_settled_from_held_facts'?'4':narrative?.text??FIXTURES[fixture][row.factId];
+     const expected=row.kind==='selection_settled_from_held_facts'?'4':narrative?.text??doc.heldFacts[row.factId];
      assert.equal(drawnText,String(expected),'actual flattened write mismatch: '+fixture+' '+doc.documentId+' '+row.field);
      actualWrites.push({field:row.field,page:widget.page,rect:widget.rect,factId:row.factId,kind:row.kind,expected,drawnText,appearanceCount:drawn.length});
     }
@@ -214,7 +251,7 @@ async function actualWriteProof(results){
 async function main(){
  const sources=resolveSources(),track=json('data/record-clearing/legal-design-track-registry.json').tracks.find(t=>t.trackId===TRACK);assert.ok(track);assert.equal(track.packetSet.packetSetId,FAMILY);
  const censuses=await Promise.all(sources.map(censusOf)),results={};
- for(const [name,facts] of Object.entries(FIXTURES)){results[name]=[];for(let i=0;i<sources.length;i++)results[name].push({...sources[i],...(await render(sources[i],censuses[i],facts))});}
+ for(const [name,facts] of Object.entries(FIXTURES))results[name]=await buildPacketDocuments(sources,censuses,[facts]);
  const writeProof=await actualWriteProof(results);
  const output=new Map();const put=(p,v)=>output.set(p,Buffer.from(typeof v==='string'?v:JSON.stringify(v,null,2)+'\n'));
  for(const [fixture,docs] of Object.entries(results))output.set('fixtures/'+fixture+'.pdf',await savePacket(docs,FAMILY+' '+fixture));
@@ -227,11 +264,12 @@ async function main(){
  put('fixtures/participant-facts.json',FIXTURES);
  put('reports/finalizer-reports.json',{familyId:FAMILY,fixtures:Object.fromEntries(Object.entries(results).map(([f,ds])=>[f,ds.map(d=>({documentId:d.documentId,report:d.report}))]))});
  put('reports/rendered-artifacts.json',{schemaVersion:'rcap-rendered-artifacts/v2',familyId:FAMILY,rasterState:'BUILT_RASTER_PENDING',packets:Object.entries(results).map(([fixture,docs])=>({fixture,file:OUT+'/fixtures/'+fixture+'.pdf',sha256:sha(output.get('fixtures/'+fixture+'.pdf')),byteLength:output.get('fixtures/'+fixture+'.pdf').length,pageCount:11,documents:[{documentId:'CR-65',componentKinds:['primary_filing','certificate_of_service'],pages:8},{documentId:'C-10-CRIMINAL',componentKinds:['fee_waiver'],pages:3,conditional:true,trigger:'participant explicitly requests indigency-based expungement fee waiver'}]})),conditionalContinuation:{triggered:false,reason:'No required-information block overflows in either fixture.'},independentVerificationPending:true});
+ put('approval-request.json',{schemaVersion:'rcap-packet-approval-request/v2',familyId:FAMILY,status:'BUILT_RASTER_PENDING',approvalStatus:'NOT_APPROVED',implementationStrategy:'official_pdf_fill',routeKeys:['obligation:track-only:AL:'+TRACK],components:[{kind:'primary_filing',documentId:'CR-65'},{kind:'certificate_of_service',documentId:'CR-65'},{kind:'fee_waiver',documentId:'C-10-CRIMINAL',requirement:'conditional',condition:'Participant explicitly claims inability to pay and requests waiver.'},{kind:'continuation',documentId:'CR-65',requirement:'conditional',condition:'Required-information statement overflows; not triggered in these fixtures.'}],artifacts:Object.keys(results).map(fixture=>({fixture,file:OUT+'/fixtures/'+fixture+'.pdf',sha256:sha(output.get('fixtures/'+fixture+'.pdf')),byteLength:output.get('fixtures/'+fixture+'.pdf').length,pageCount:11})),independentVerificationStatus:'PENDING',commercialRoutesOpened:0,productionTouched:false});
  put('build-findings.json',{familyId:FAMILY,sourceNote:'CR-65 pages6/8 explicitly require oath verification; prior registry note only described an incomplete earlier review. Exact source requirement disclosed, legal records unchanged.',independentVerification:'PENDING',routesOpened:0,productionTouched:false});
  const check=process.argv.includes('--check');
- if(check){for(const [p,b]of output){assert.ok(fs.existsSync(OUT+'/'+p),p);assert.deepEqual(fs.readFileSync(OUT+'/'+p),b,'deterministic drift '+p);}}
+ if(check){for(const [p,b]of output){assert.ok(fs.existsSync(OUT+'/'+p),p);const saved=fs.readFileSync(OUT+'/'+p);assert.equal(saved.length,b.length,'deterministic size drift '+p);assert.equal(sha(saved),sha(b),'deterministic hash drift '+p);}}
  else for(const[p,b]of output){fs.mkdirSync(path.dirname(OUT+'/'+p),{recursive:true});fs.writeFileSync(OUT+'/'+p,b);}
  console.log(JSON.stringify({familyId:FAMILY,status:check?'CHECK_PASS':'BUILT_RASTER_PENDING',fixtures:Object.fromEntries(Object.entries(results).map(([f,ds])=>[f,ds.map(d=>({documentId:d.documentId,writes:d.report.written.length,heldRefusals:d.rows.filter(r=>r.heldButNotPrinted).map(r=>({field:r.field,reason:r.reason}))}))])),routesOpened:0}));
 }
-export {FAMILY,FIXTURES,SOURCES,NARRATIVES,resolveSources,censusOf,render,selections};
+export {FAMILY,FIXTURES,SOURCES,NARRATIVES,resolveSources,censusOf,render,selections,buildPacketDocuments,savePacket};
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))await main();
