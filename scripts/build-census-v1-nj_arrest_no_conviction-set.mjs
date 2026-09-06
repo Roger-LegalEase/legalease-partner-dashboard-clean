@@ -4932,6 +4932,9 @@ async function buildOfficial(familyId, config) {
       heldButNotPrinted: row.heldButNotPrinted ?? [],
       selections: row.report.selections,
       choiceNeutralization: row.report.fieldFinalizer.choiceNeutralization,
+      ...(row.report.fieldFinalizer.appearanceSubtypesNormalized ? {
+        appearanceSubtypesNormalized: row.report.fieldFinalizer.appearanceSubtypesNormalized,
+      } : {}),
       proof: row.proof,
     })),
   });
