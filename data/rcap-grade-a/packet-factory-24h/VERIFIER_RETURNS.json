@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 892,
+    "rows": 895,
     "independentVerdicts": 240,
     "failRepairRequired": 57,
     "passIndependent": 164
@@ -11385,6 +11385,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7e01df1d8",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL. The 59 declared items are all disclosed, and the disclosure surface additionally instructs the participant to supply two facts the same packet prints on the same page and lists those two under the heading of things left blank, pointing at a table that lists neither. REPAIR: delete step 9 of 'What you do, in order' and renumber, and delete the ZIP-and-date-of-birth bullet from 'Things the platform deliberately left blank'. Lines 9 and 13 already say the correct thing and need no change; nothing on the delivered PDF pages needs to move, so the fixtures' bytes are unaffected by this repair.",
+          "evidence": "THE ONE-DIRECTIONAL TEST PASSES AND THE SURFACE IS STILL WRONG. production-field-map.json declares requiredBeforeFilingCount 59 and carries 59 rows; each disclosureLabel was matched as an exact substring against participant-instructions.md and 59 of 59 are named there, checked against the file. Read the other way -- for items the disclosure surface demands that the packet has already written -- it fails, on the same two facts FIX78 repaired. participant-instructions.md, line 153, step 9 of 'What you do, in order', verbatim: '**Write your ZIP code and your date of birth on Side One yourself** - see the table below for why they are blank.' And line 163, under the heading 'Things the platform deliberately left blank', verbatim: '- **Your ZIP code and date of birth on Side One**, refused by the shared rules on a caption-capture defect described in the table below. The platform holds both and writes them on AOC-CV-226.' BOTH ARE FALSE ON THE BYTES THIS ROW READS. Delivered page 1 prints 27601 in the PetitionerZip cell and 1991-04-17 in the Date Of Birth cell in canonical, 27101-2214 and 1968-12-31 in boundary, each measured inside its own widget rect with positive margins on all four sides. BOTH CONTRADICT THE SAME FILE. Line 9 says 'The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth', and line 13 says in terms 'Your ZIP code and your date of birth on Side One are filled in - check them.' AND BOTH POINT AT A TABLE THAT NO LONGER LISTS THEM: the 'table below' is the petition items table, and a search of it for 'zip' returns only 'Address Of Arresting Agency - Zip' and a search for 'birth' returns nothing. WHAT IT DOES ON PAPER. A participant following the numbered steps is told at step 9 to hand-write a ZIP code and a date of birth over values the form already carries, and is told two lines later, in the list of what was deliberately left blank, that the platform refused them. FIX78's own return states that it replaced 'the two paragraphs that told the participant the facts were refused' and lists the strings it grepped for -- 'cannot write it here', 'refuse the write', 'Apartment Or Unit No.' and 'left for you' -- none of which matches either line above, which is how both survived the repair."
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
       "superseded": false
     },
     {
@@ -12131,6 +12153,40 @@
       ],
       "failedObligationNames": [
         "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7e01df1d8",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL, in the boundary fixture. FIX78's five writes are discharged and correct in both fixtures; this is a separate defect the repair did not touch and no counter can see. REPAIR: for a value the form's own /MaxLen will not hold, record the refusal where every other refusal is recorded -- an unfittable entry in reports/actual-writes.json and a refusal row in the field map, with the measured length against the widget's MaxLen -- remove the field from boundaryWrites so the record stops claiming a write that did not happen, add the field to requiredBeforeFiling and name it in participant-instructions.md, and make the 'the platform filled in' sentence conditional on what was actually written. Whether a 17-character case-number box can hold this route's case numbers at all is a question for the owner of the form binding, not for this family.",
+          "evidence": "THE FIVE FIELDS THIS LANE FAILED THE FAMILY FOR AT 5326f747d ARE WRITTEN AND CORRECT, CONFIRMED ON THE PAPER. Delivered page 1 now prints the City/Town box between the street and the state -- 'Concord' in canonical, 'Portsmouth' in boundary -- at NHJB-2317 'Mailing Address.2', measured inside its own rect with margins 1.44/114.06/4.35/4.36. Delivered page 9 Section I now prints the name across the three boxes the form heads LAST / FIRST / MI -- 'Reyes  Jordan  A' in canonical and 'O'Shaughnessy-Whitfield  Maria-Alejandra  Q' in boundary, read from the page text -- and the single ruled line the form captions STREET/CITY/STATE/ZIP CODE now carries '412 Elm Street, Apartment 3, Concord, NH 03301' and '1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, New Hampshire 03801-2214'. Every one of the five lands inside its own rectangle with positive margins on all four sides, the narrowest being the 12.46pt MI box at 2.47/2.55/3.77/3.72. NHJB-2956 'name.2', the (MAIDEN/ALIAS) box, is correctly still blank and is disclosed at step 8; Section II, the third-party release, is entirely blank. Across the whole packet every declared write reads back on its own component page: 24 of 24 in canonical and 16 of 16 in boundary, and 0 added dark pixels lie outside a declared write box on any of the nine pages of either fixture. THE DEFECT, WHICH IS A DIFFERENT ONE AND IS IN THE BOUNDARY FIXTURE. The platform holds matter.case_number '218-2018-CR-00119821-SUPPLEMENTAL' and participant.phone '(603) 555-0199 ext. 4417' for the boundary participant, read from the builder's own fixtures. Neither string appears anywhere in boundary.pdf: pdftotext over all nine pages returns 0 hits for '218-2018', 'SUPPLEMENTAL', '555-0199' and '4417', while canonical.pdf carries its case number 7 times and its telephone once. Measured at the widget rectangles read from the pinned binaries at 300 dpi, all eight cells are BLANK in boundary and all eight are written in canonical: NHJB-2317 'case number' on packet page 1 (canonical 4507 added dark pixels, boundary 0), 'case number1' on page 2 (4507 / 0) and on page 3 (4507 / 0), NHJB-2311 'case number' on page 4 (4507 / 0), NHJB-2328 'case number' on page 6 (4507 / 0) and 'case number1' on page 7 (4507 / 0) and page 8 (4507 / 0), and NHJB-2317 telnum.1 on page 1 (3240 / 0). The cause is in the pinned forms and is legitimate: those widgets carry /MaxLen 17 (every case-number box) and /MaxLen 15 (telnum.1), read here from the four pinned binaries, and the boundary values are 33 and 24 characters, so the writer refuses them whole rather than truncating -- which is the right call on a court filing. WHAT MAKES IT A DEFECT IS THAT NOTHING RECORDS IT. production-field-map.json's boundaryWrites for all four documents are identical to its canonicalWrites and DECLARE all eight as written. reports/actual-writes.json carries 'unfittable': [] for every one of the eight document-and-fixture combinations and lists no refusal. No boundaryRefusal row in any of the four maps names 'case number', 'case number1' or 'telnum.1'. And participant-instructions.md line 12 tells the participant, in terms, 'The platform filled in what it holds about you and your case: your name, your date of birth, your street address, your city or town, your state, your ZIP code, your phone, your e-mail and the case number.' ON PAPER the boundary packet is a Petition to Annul whose Case Number box is empty in the caption and empty in the page header on both following pages, whose applicant block carries no telephone number, and whose Motion for Waiver of Filing Fee and Statement of Assets and Liabilities are both captioned with no case number on any of their five pages -- three documents the clerk must associate with one case, and the packet tells the reader the case number was filled in."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL. All 82 declared items are disclosed, and eight required blanks on the delivered boundary pages are neither declared nor disclosed and are affirmatively described to the participant as already filled. The repair is the same one KNOWN_PREFILLS names; no separate change is needed.",
+          "evidence": "THE ONE-DIRECTIONAL TEST PASSES. production-field-map.json declares requiredBeforeFilingCount 82 and carries 82 rows; each disclosureLabel was matched as an exact substring against participant-instructions.md and 82 of 82 are named there, checked against the file. None of the five fields FIX78 repaired remains a requiredBeforeFiling row, and NHJB-2956 'name.2' correctly still is. THE DECLARATION SET IS INCOMPLETE. The eight widget instances recorded under KNOWN_PREFILLS -- seven case-number cells across three forms and NHJB-2317's telephone line -- are blanks on the delivered boundary pages that the participant must fill before filing, and they are declared nowhere: not as requiredBeforeFiling rows, not as refusals, not as unfittable entries. Nothing in participant-instructions.md asks the participant for a case number or a telephone number; line 12 states the opposite, that both were filled in. A required fact that nobody was asked for is precisely what this obligation exists to catch, and the literal 82-of-82 count passes over it because the count can only measure what was declared."
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL. The packet does not state who must be served or how. Its two mentions of service imply the participant will serve someone and leave them without a name or a method, and the record's answer -- none by the participant, the court provides the copy to the prosecutor under RSA 651:5, IX -- appears nowhere. REPAIR: state the record's answer under its own heading in participant-instructions.md, in the record's own words, and say beside the NHJB-2328 certificate-of-service disclosure that this route requires no service by the participant so the certificate stays blank, rather than that service 'has not happened' yet.",
+          "evidence": "THE RECORD ANSWERS THIS OBLIGATION AND THE PACKET NEVER STATES THE ANSWER. registry rules.service, in full: 'None by the participant. The court provides the copy to the prosecutor.' registry rules.notice: 'The court provides a copy of the petition to the prosecutor of the underlying offence under RSA 651:5, IX. No objection period is specified for this track; the prosecutor is permitted to be heard on the interest of justice.' A case-insensitive search of participant-instructions.md and of both fixtures for 'RSA 651:5, IX', 'court provides', 'copy to the prosecut', 'you do not', 'not serve', 'nobody' and 'no one' returns NOTHING outside the fee paragraph's citation of RSA 651:5, IX and X(d) for the fee exemption. Neither half of the record's answer is anywhere: the packet never says the participant serves nobody, and never says the court gives the prosecutor the copy. What it does say points the other way, twice. Line 168, in the table of choices that are the participant's: 'NHJB-2328 | Certificate of Service | Certificate of service - certifying you sent a copy on the date you sign (selection) | the certificate states what you did on the day you signed; service has not happened when the packet is prepared.' And line 176, under 'Things the platform deliberately left blank': 'The certificate of service box on NHJB-2328. It states what you did on the day you signed; service has not happened when this packet is prepared.' Both tell the participant the box is blank because service has not happened YET, which reads as an instruction that they will serve someone and must then complete it; neither says whom or how. The only other service-shaped sentence in the packet is line 200, which describes what happens AFTER the decision: 'The court sends copies to the list printed at the foot of that page, which includes the prosecutor, the Department of Safety Criminal Records, the DMV and the Department of Corrections.' That is distribution of the granted order, a different step from the copy of the petition RSA 651:5, IX puts in the prosecutor's hands, and it is described as something the court does after deciding rather than as an answer to who the participant must serve. For contrast, inside this same return nc_146_dismissal_petition-set states its own answer in one line under its own heading -- 'Nobody is served on this route' -- and quotes the record for it."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
@@ -23001,6 +23057,28 @@
     {
       "familyId": "va_exp_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7e01df1d8",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL, in canonical, in boundary and in participant-instructions.md. The packet does not state where self-help ends; it states that it is not a lawyer, which is a different sentence. REPAIR: print the track record's five selfHelpStopConditions in the packet's own self-help section and in participant-instructions.md, in the record's own words, with the Dotson screen stated as the hard gate the record calls it and placed where the participant reads the Part 1 basis election. DISCLOSED IN FULL: VF03 measured this same absence at e80c4a759 -- its finding names the Dotson screen, the twenty-one-day objection window and the prior-record/felony case as appearing 'nowhere in the packet or the instructions' -- and recorded them under observations rather than failing the obligation, reading it as satisfied by the disclaimer. This lane rules the other way on the same bytes and says so plainly, so the Captain can see that the disagreement is about the standard and not about the evidence.",
+          "evidence": "THE RECORD NAMES FIVE STOP CONDITIONS FOR THIS TRACK AND THE PACKET STATES NONE OF THEM. data/record-clearing/legal-design-track-registry.json, track va_exp_nonconviction, selfHelpStopConditions: (1) 'The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.' (2) 'The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.' (3) 'The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.' (4) 'Any immigration question.' (5) 'Juvenile or federal records.' WHAT THE PACKET ACTUALLY SAYS, read from the bytes of both fixtures and from the whole of participant-instructions.md. Delivered page 7, in full, four drawn lines: 'WHAT THIS PACKET IS NOT / This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement. / Route: obligation:track-only:VA:va_exp_nonconviction'. participant-instructions.md carries that same sentence at line 120 and, at line 94, one further sentence about representation: 'If any of them is wrong for you - for example, a lawyer is filing this for you - this is the wrong packet and you should not file it.' A case-insensitive search of both fixtures and of participant-instructions.md for Dotson, deferred, first-offender, 'facts sufficient', sealing, immigration, juvenile, federal, 'prior record' and 'get a lawyer' returns NOTHING on any of them; the only hits for 'objects' are the page-3 request that the Commonwealth state its position, and the only hits for 'lawyer' and 'advice' are the two sentences quoted. WHY A DISCLAIMER IS NOT THIS OBLIGATION. 'It is not legal advice' states what the packet is; it does not tell the participant where their own case leaves the packet's reach. The first condition is the decisive one and the registry calls it a HARD GATE in its own words: a charge dismissed after a finding of facts sufficient for guilt, or under a deferred or first-offender disposition such as a Sec. 18.2-251 drug dismissal, is read out of 'otherwise dismissed' by Commonwealth v. Dotson and routes to SEALING rather than expungement -- and the registry carries the same population in exclusions as well. The packet leaves both Part 1 basis boxes for the participant to tick, tells them at page 6 step 2 to 'Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match how your charge actually ended', and never warns that 'otherwise dismissed' is read narrowly. A participant whose charge was dismissed after a deferred disposition is told, in terms, to tick that box and file. THE FACTORY'S OWN STANDARD FOR THIS OBLIGATION, in this same return: nh_petition_nonconviction_pre2019-set prints all eight of its registry stop conditions verbatim under the heading 'Where self-help ends' and names the record they come from, and nc_146_dismissal_petition-set prints seven under 'When to stop and get help' and quotes the committed track registry twice. Virginia prints none of its five."
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "c708dff4d",
@@ -23042,7 +23120,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "va_exp_nonconviction-set",
