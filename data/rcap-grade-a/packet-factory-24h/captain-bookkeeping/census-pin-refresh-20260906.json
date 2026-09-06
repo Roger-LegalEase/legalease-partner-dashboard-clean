@@ -3,7 +3,7 @@
   "captainCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
   "sourcePath": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
   "previousSha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-  "currentSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+  "currentSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
   "recoveredFromCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c",
   "refreshes": [
     {
@@ -6150,5 +6150,82 @@
   "newPacketAcceptances": 0,
   "routesOpened": 0,
   "productionTouched": "NO",
-  "limitation": "These exact-anchor comparisons restore source identity only. No artifact approval, raster receipt or legal verdict is created or renewed. The Illinois mistaken-identity route object differs and remains held for its actual binding change."
+  "limitation": "These exact-anchor comparisons restore source identity only. No artifact approval, raster receipt or legal verdict is created or renewed. The Illinois mistaken-identity route object differs and remains held for its actual binding change.",
+  "reconciledOutcome": {
+    "captainBase": "cce22e57fe399c329591f3667e14defbe042ff7b",
+    "restoredReferences": 19,
+    "currentIndependentPassesAndMatchingRasterReceipts": 19,
+    "newPacketAcceptances": 0,
+    "realFailedVerdictsRestored": 0,
+    "completePacketProven": 146,
+    "terminalTreatments": 16,
+    "terminalTreatmentsByState": {
+      "GUIDANCE_READY": 9,
+      "HANDOFF_READY": 2,
+      "AGENCY_APPLICATION_READY": 0,
+      "OUT_OF_SCOPE": 5
+    },
+    "countsByState": {
+      "COMPLETE_PACKET_PROVEN": 146,
+      "FAIL_REPAIR_REQUIRED": 49,
+      "PRODUCT_PATH_PENDING": 20,
+      "OUT_OF_SCOPE": 5,
+      "SOURCE_READY": 82,
+      "SOURCE_BLOCKED": 6,
+      "LEGAL_BLOCKED": 17,
+      "VERIFY_PENDING": 2,
+      "HANDOFF_READY": 2,
+      "GUIDANCE_READY": 9,
+      "BUILT_RASTER_PENDING": 7,
+      "WRONG_DELIVERY_TYPE": 1
+    },
+    "nebraskaRepairReturnConsumed": {
+      "familyId": "ne-setaside-custodial-set",
+      "state": "BUILT_RASTER_PENDING",
+      "correction": "Required countersAfter field copied from matching nine-zero current and completed measurements, with disclosure on the completed FIX91 return.",
+      "freshRasterAndIndependentAcceptanceStillRequired": true
+    },
+    "unchangedSourceAnchorTests": "Every bound route object equals its recovered historical object; all 19 current receipts bind the current census file hash. Every current selected verdict is PASS_COMPLETE_INDEPENDENT and every accepted raster still matches its current packet bytes.",
+    "stillHeld": "Illinois mistaken identity retains its actually changed census binding; no source-reference refresh was applied to that family.",
+    "retainedFailedChecks": {
+      "nationalCensusVerifier": {
+        "result": "FAIL",
+        "failures": 6,
+        "unchangedRelevantInputs": [
+          "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+          "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+          "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+          "data/rcap-grade-a/fulfillment-authority-projection.json",
+          "scripts/grade-a-route-obligation-census/verify-national-route-obligation-census.mjs"
+        ],
+        "findings": [
+          "GA pardon and SB288 packet target mappings",
+          "Illinois felony-prostitution packet target mapping",
+          "nine-route projection accounting expectation",
+          "DC actual-innocence commercial eligibility projection",
+          "Wyoming felony commercial eligibility projection"
+        ]
+      },
+      "fulfillmentAuthorityVerifier": {
+        "result": "FAIL",
+        "failures": 3,
+        "findings": [
+          "Illinois felony-prostitution artifact identity drift",
+          "Mississippi additional-misdemeanor independent verifier binding",
+          "Mississippi additional-misdemeanor remains revoked and ineligible"
+        ]
+      },
+      "effect": "Failures are retained. No approval, commercial disposition, revocation or live route is changed by this reconciliation."
+    },
+    "passedChecks": [
+      "19 exact unchanged census route-anchor comparisons and current raster/independent-pass identity checks",
+      "current Nebraska exact-source court caption and nine-zero completeness evidence",
+      "proven-family byte identity regression cases",
+      "post-repair reread regression cases",
+      "dependent generation, fulfillment generation check, launch graph generation check",
+      "CLAIM_LEDGER_OK 924 claims"
+    ]
+  },
+  "intermediateRefreshSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+  "finalSnapshotReason": "The final census regeneration changed whole-file identity again while all 19 bound route objects remained identical. This receipt reconciliation targets that final snapshot; downstream queue regeneration must not rewrite its own census source."
 }

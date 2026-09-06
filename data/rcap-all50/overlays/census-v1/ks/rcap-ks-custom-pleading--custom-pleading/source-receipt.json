@@ -71,7 +71,7 @@
       ],
       "recordId": "route-obligation-census:2-route(s)",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+      "sha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
       "byteLength": 2629290,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
@@ -86,7 +86,15 @@
         "anchorsCompared": 2,
         "anchorsIdentical": 2,
         "method": "Recovered exact historical census blob and compared every bound route object, selected by the receipt family route keys, object-for-object against the current default-generated census. Only whole-file identity changed for these anchors.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json"
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json",
+        "finalSnapshotReconciliation": {
+          "previousWholeFileSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+          "currentWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+          "anchorsCompared": 2,
+          "anchorsUnchanged": 2,
+          "reason": "After the final census regeneration, compared the same bound route objects against the preserved historical census before refreshing only whole-file identity. The subsequent reconciliation regenerates dependent state without rewriting this source snapshot.",
+          "newPacketAcceptances": 0
+        }
       }
     }
   ],

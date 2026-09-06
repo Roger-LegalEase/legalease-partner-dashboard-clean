@@ -338,7 +338,29 @@
         "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
         "scripts/rcap-packet-completeness/completeness-contract.mjs",
         "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
-      ]
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "captainCorrection": {
+        "reason": "The completed repair reported all nine measured counters under completeness.counters, but omitted the required countersAfter field. Projected the unchanged measurements into the required return field after rerunning current packet completeness and exact-source court-caption verification. No failed obligation or acceptance gate was removed.",
+        "evidence": [
+          "data/rcap-grade-a/packet-factory-24h/fix91/completion/completeness-complete.json",
+          "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json"
+        ],
+        "currentSourceCheck": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+        "currentSourceCheckResult": "PASS",
+        "newPacketAcceptances": 0,
+        "currentRasterAndIndependentRereadStillRequired": true
+      }
     }
   ],
   "continuations": [
