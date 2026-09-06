@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "43a934c74c0dc775638efe17d9463edd846b7000",
+  "minimumCaptainSha": "c10227a9f88e7bdc04c8e72678ebdff005344e42",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -28,7 +28,7 @@
     "data/rcap-all50/local-source-corpus-index.json": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
-    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "f47d0250f4635346b74156bd34d93c51b93bc92fc4fbaf480b62b58c7e10187a",
+    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "b46e7163dbc57e235749049ff3e29f755ec1aabcc1b7af76cf264c1ff9b5a576",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "fffcdd101c1b73512af91e812273fd70b9ee96b68c35b09cb4c94c8fe32d6150"
   },
   "stateVocabulary": [
@@ -69,24 +69,24 @@
     "activeFamiliesExcluded": 23,
     "guidanceOnly": 0,
     "remaining": 323,
-    "sourceReady": 79,
+    "sourceReady": 80,
     "sourceBlocked": 6,
-    "legalBlocked": 21,
-    "verifyPending": 5,
+    "legalBlocked": 20,
+    "verifyPending": 2,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 157,
+    "COMPLETE_PACKET_PROVEN": 160,
     "FAIL_REPAIR_REQUIRED": 41,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 79,
+    "SOURCE_READY": 80,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 21,
+    "LEGAL_BLOCKED": 20,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -179,11 +179,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 79,
+    "sourceReadyFamilies": 80,
     "familiesPerBuilder": 3.3,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 79 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 27 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 80 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 26 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -14389,23 +14389,16 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "an open legal input",
+        "packet build has not completed",
         "no completeness audit"
       ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "OWNER_CORRECTION_REQUIRED",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
-      "ownerCorrectionRequired": {
-        "familyId": "hi_712_1200_deferred_expungement-set",
-        "fromQuestion": "HI.memo.json releaseConditions.openQuestions and releaseBlockers",
-        "theQuestionAsked": "Current statutory text and the qualifying HRS 712-1200 branch must be confirmed where it changes eligibility, and the statutory authority for the form's three-year waiting period must be confirmed.",
-        "ownerDecision": "HONOR THE EXISTING LEGAL-DESIGN BLOCK. Do not generate the stage-two application until the three-year rule and the current HRS 712-1200 branch are confirmed from controlling authority.",
-        "correctionRequired": "Confirm the current HRS 712-1200 branch and the statutory authority for the three-year waiting period, then record the resulting legal-design determination before building.",
-        "live": true
-      },
+      "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
       "laneReturnLegalHold": null,
       "executionReclassification": null,
@@ -14421,7 +14414,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_712_1200_deferred_expungement-set.mjs",
@@ -29733,10 +29726,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "b70ec78ef",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "43a934c74",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -29767,25 +29760,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "the standing court-type defect is repaired, but three held facts are still absent from the page they belong to. (1) matter.case_number is written on all three filings in the canonical fixture and appears on NO page of the boundary fixture: Text2 on CC-6-11, Text2 on CC-6-11.2 and Text38 on DC-1-15 are all refused with buildPolicyReason 'narrative_exceeds_the_printed_lines_at_minimum_font'. That fit claim is arithmetically honest - the boundary value '2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt of Helvetica at the builder's 6pt floor in a 129.34pt box - but the platform plainly holds the fact, so under the contract it is a missing known fact and not a genuinely unavailable one, which is the identical reasoning the standing vf06 finding applied to the court dropdown. It is also disclosed nowhere. (2) DC-1-15 field `plaintiff`, the Plaintiff/Petitioner caption line on packet page 4, is blank in both fixtures although the plaintiff of this criminal case, STATE OF NEBRASKA, is printed by the source on CC 6:11 and CC 6:11.2 in the same packet; the contract's own words are that a fact written anywhere else in the same packet is available. (3) The county caption position lost its only on-page marker: the build erased the source hint 'Choose the county' at x 291.79-351.35, y 120.19, which lies 11.86pt beyond the right edge of its own declared write box (x 43.31-279.93), so the delivered caption shows bare whitespace between 'OF' and 'COUNTY, NEBRASKA' while participant-instructions.md tells the participant to 'write it in the county blank'.",
-          "evidence": "reports/actual-writes.json (canonical CC-6-11 8 writes vs boundary 7; canonical CC-6-11.2 3 vs boundary 2; canonical DC-1-15 8 vs boundary 7, the missing one being the case number each time); production-field-map.json boundaryRefusals for CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38; pdf-lib Helvetica widthOfTextAtSize measured here (134.36pt at 6pt against a 129.34pt box, max fitting size 5.78pt); 300 dpi pdftoppm read of all five pages of both fixtures; pdftotext -bbox-layout word diff of output page 1 against the CC-6-11 source giving the exact coordinates of the erased 'Choose the county' hint"
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "four of the eleven items the committed manifest declares required-before-filing are named nowhere in participant-instructions.md, and the field map carries more required-before-filing rows than the packet discloses. Absent from the file: 'Check your answer to \"What crime were you convicted of, exactly as it appears on the court papers?\" against Nebraska State Patrol criminal history report'; 'Check your answer to \"What is the case number on the original case?\" against Nebraska court case search result'; the same confirm step for the probation discharge order; and 'The date and judge lines on the proposed order - CC 6:11.2'. The guide scores 0 hits for 'State Patrol', 'criminal history', 'case search', 'Check your answer', 'correct the packet' and '6:11.2'. The two missing confirm steps matter most because the registry names them as confirming saCrimeConvictedOf and saCaseNumber, which are exactly the blanks the packet leaves empty on CC 6:11. Separately, the field map carries nine requiredBeforeFiling refusal rows that are not in its own 21-row declared array and not in the guide: DC-1-15 Text52, Text64 and Text65 in the canonical fixture, and CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38 in the boundary fixture, so the printed count 'Required before filing: 21 field(s)' understates the canonical fixture by three and the boundary fixture by six. Two of those rows, DC-1-15 Text59.0 and Text64, are classified_unwritable_by_role and still carry requiredBeforeFiling true, which the contract's PARTICIPANT-COMPLETABLE condition forbids outright. Finally the disclosed labels fail the IDENTIFIED condition: the participant is told to complete 'CRIMINAL CONVICTION - r', 'SERVICE - To', 'same may be heard', 'changes, you must complete a Change of Contact Information F', and - for DC-1-15 field `plaintiff`, whose printedLabel is null - 'DC1:15 NEW 08/19', which is the form's own revision stamp.",
-          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSet ne-setaside-custodial-set requiredBeforeFiling (11 items) and participantFilingRequirements and manualCompletionItems, each checked term by term against participant-instructions.md; production-field-map.json requiredBeforeFiling (21 rows) diffed against every canonicalRefusals and boundaryRefusals row carrying requiredBeforeFiling true; scripts/rcap-packet-completeness/completeness-contract.mjs REQUIRED_BEFORE_FILING_CONDITIONS (DECLARED, IDENTIFIED, GENUINELY UNAVAILABLE, PARTICIPANT-COMPLETABLE, NOT ROUTE-DETERMINED, DISCLOSED)"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -38231,7 +38210,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "43a934c74",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -38265,7 +38249,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_deferred_other-set.mjs",
@@ -39116,7 +39100,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "43a934c74",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -39150,7 +39139,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs",
@@ -46293,9 +46282,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 79,
+    "familiesAssignedToBuilders": 80,
     "sourceObligationsAssigned": 10,
-    "actualPromotedAndReleased": 79,
+    "actualPromotedAndReleased": 80,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
