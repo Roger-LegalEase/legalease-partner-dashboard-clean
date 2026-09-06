@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "rcap-worker-publication-readiness/v1",
+  "recordedAt": "2026-09-06T11:23:23.358Z",
+  "captainSnapshot": "a3ca119bd26536cdde7a1b325f7ac3e3594e75c8",
+  "workerBranch": "codex/image-01-render-worker",
+  "workerSourceSnapshot": "6268d257285044bb3e49105a1fdb972b02b3523e",
+  "status": "MANIFEST_CURRENT; SOURCE_PREFLIGHT_PASS; CURRENT_IMAGE_PUBLICATION_NOT_EXECUTED",
+  "preservation": {
+    "previousWorkerHead": "7a48a882077f094088c95e2b87a88e9f8690e376",
+    "ordinaryMerge": "5d679ee12a332a1b4b5fa26bc391c971948aa456",
+    "workerBranchLocalAndRemoteMatchedBeforeResume": true,
+    "priorLocalImageId": "sha256:387880747874cf4cfbf22b07916f0a0578e006de04527a3ea05e7721654626dc",
+    "priorImagePresent": true,
+    "priorCommittedLogsChecked": 16,
+    "priorCommittedLogDigestMismatches": 0,
+    "missingDisposableDirectories": [
+      "/tmp/codex-image-01",
+      "/tmp/codex-launch-03"
+    ],
+    "durableEvidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence"
+  },
+  "change": {
+    "path": "deploy/rcap-render-worker/runtime-data-manifest.json",
+    "changedEntry": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "scope": "One SHA-256 replacement; file count, byte count, application code and authority registry unchanged by this correction.",
+    "manifestSha256": "ebbfb830363716539afa2303e25d3b63d1ffc794db6a4632a462e5ad5d8e236c",
+    "fileCount": 67,
+    "totalBytes": 10626559
+  },
+  "sourceValidation": [
+    {
+      "command": "node deploy/rcap-render-worker/build-runtime-data-manifest.mjs --check",
+      "exitCode": 0,
+      "result": "67 files, 10626559 bytes"
+    },
+    {
+      "command": "node deploy/rcap-render-worker/preflight.mjs --stage=preflight",
+      "exitCode": 0,
+      "result": "67 files, 0 missing, 0 mismatched; 51 compiled profiles; 19 specifications"
+    },
+    {
+      "command": "node deploy/rcap-render-worker/preflight.mjs --stage=authority",
+      "exitCode": 0,
+      "result": "14 records; 2 allowed; 12 reasoned refusals; 0 undecided; Illinois refused as REVOKED"
+    }
+  ],
+  "validationMeaning": "These checks ran from the source checkout with a dependency symlink. They are not a new container build, image test, or hosted acceptance. The previously completed personalization and container acceptance were not repeated.",
+  "priorLocalImageComparison": {
+    "sourceSha": "9a3a99bce3cc1fcb617bed3594cdcc912716906e",
+    "changedCopiedPaths": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "deploy/rcap-render-worker/runtime-data-manifest.json"
+    ],
+    "inputEquivalent": false,
+    "note": "Only the registry and its refreshed manifest differ from the previously tested local image. The planner comparison digest is the historical publication digest solely because the API requires one; the local image has no claimed published digest."
+  },
+  "publicationPlan": {
+    "schemaVersion": "rcap-worker-input-plan/v1",
+    "acceptedSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "acceptedDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "candidateSha": "6268d257285044bb3e49105a1fdb972b02b3523e",
+    "canonicalInputs": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "scripts/rcap-render-worker.mjs",
+      "scripts/lib",
+      "src",
+      "deploy/rcap-render-worker/Dockerfile",
+      "data/rcap-all50/guidance-packets",
+      "data/rcap-all50/problematic-pdf-register.json",
+      "data/rcap-all50/review-artifacts/f2-dispositions.json",
+      "data/rcap-codex/release-readiness.json",
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-grade-a/maintenance/route-holds.json",
+      "data/rcap-ledger/packet-correction-required.json",
+      "data/rcap-ledger/packet-fulfillment-records.json",
+      "data/rcap-ledger/route-kind-adjudications.json",
+      "data/rcap-ledger/route-presentation-conflicts.json",
+      "data/rcap-ledger/track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json",
+      "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/packet-specifications",
+      "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "deploy/rcap-render-worker/runtime-data-manifest.json"
+    ],
+    "comparedInputs": [
+      "data/rcap-all50/guidance-packets",
+      "data/rcap-all50/problematic-pdf-register.json",
+      "data/rcap-all50/review-artifacts/f2-dispositions.json",
+      "data/rcap-codex/release-readiness.json",
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-grade-a/maintenance/route-holds.json",
+      "data/rcap-ledger/packet-correction-required.json",
+      "data/rcap-ledger/packet-fulfillment-records.json",
+      "data/rcap-ledger/route-kind-adjudications.json",
+      "data/rcap-ledger/route-presentation-conflicts.json",
+      "data/rcap-ledger/track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json",
+      "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/packet-specifications",
+      "deploy/rcap-render-worker/Dockerfile",
+      "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "deploy/rcap-render-worker/runtime-data-manifest.json",
+      "package-lock.json",
+      "package.json",
+      "scripts/lib",
+      "scripts/rcap-render-worker.mjs",
+      "src",
+      "tsconfig.json"
+    ],
+    "changedPaths": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-ledger/packet-fulfillment-records.json",
+      "data/rcap-ledger/track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+      "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+      "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+      "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+      "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+      "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+      "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+      "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+      "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+      "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+      "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
+      "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+      "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+      "deploy/rcap-render-worker/Dockerfile",
+      "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "deploy/rcap-render-worker/runtime-data-manifest.json",
+      "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+      "scripts/lib/indiana-cca-section1-guide.mjs",
+      "scripts/lib/route-artifact-scope.mjs",
+      "scripts/rcap-render-worker.mjs",
+      "src/app/api/rcap/packets/[jobId]/download/route.ts",
+      "src/lib/clinic-mode/result-follow-up.ts",
+      "src/lib/expungement-ai/consumer-render-request.ts",
+      "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/legal-authority/authority.json",
+      "src/lib/legal-authority/routes/single-routes.json",
+      "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+      "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+      "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+      "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+      "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+      "src/lib/rcap/documents/factory-v2-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+      "src/lib/rcap/grade-a/composer.ts",
+      "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+      "src/lib/rcap/grade-a/packet-specification.ts",
+      "src/lib/rcap/grade-a/participant-packet.ts",
+      "src/lib/rcap/grade-a/renderer.ts",
+      "src/lib/rcap/render/commercial-admission.ts",
+      "src/lib/rcap/render/job-queue.ts",
+      "src/lib/rcap/render/packet-delivery.ts",
+      "src/lib/rcap/render/personalized-packet.ts",
+      "src/lib/rcap/render/sponsored-packet.ts"
+    ],
+    "aggregateInputSha256": "sha256:86b53985dabe6af8e32887cbf375512e97090d4a04eb045e2346d15a5b918cd2",
+    "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+    "rebuildRequired": true,
+    "decision": "rebuild-required",
+    "image": {
+      "sourceSha": "6268d257285044bb3e49105a1fdb972b02b3523e",
+      "tags": [
+        "6268d257285044bb3e49105a1fdb972b02b3523e"
+      ],
+      "tagPolicy": "full-40-character-candidate-sha-only",
+      "digest": "pending",
+      "ociAnnotations": {
+        "org.opencontainers.image.revision": "6268d257285044bb3e49105a1fdb972b02b3523e"
+      }
+    }
+  },
+  "lastPublication": {
+    "runId": 33764350427,
+    "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "digest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33764350427"
+  },
+  "nextSteps": [
+    {
+      "step": "Integrate narrow manifest correction on Captain and choose exact current committed candidate.",
+      "owner": "Captain",
+      "note": "Recompute full Docker COPY closure on that candidate. If the registry changes again, regenerate the runtime manifest again."
+    },
+    {
+      "step": "Publish the integrated candidate through existing publish-only workflow with full SHA and empty tag_replacement_authorization.",
+      "owner": "Captain",
+      "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+      "blockedBy": "Captain observed HTTP 403 Resource not accessible by integration on an Actions workflow dispatch with the current token. No publication dispatch attempted here."
+    },
+    {
+      "step": "Import actual publication artifact and run existing registry image acceptance using committed evidence.",
+      "owner": "Captain",
+      "workflow": ".github/workflows/rcap-worker-image-acceptance.yml",
+      "blockedBy": "No published immutable digest exists for current inputs."
+    },
+    {
+      "step": "Current Illinois packet approval, bounded nonproduction migration authorization, and hosted consumer/sponsored canaries.",
+      "owner": "Existing owner-approved release process",
+      "blockedBy": "Illinois remains revoked; current packet digest differs from approved pin. No hosted migration or Preview binding authorization inferred from synthetic tests. Existing GitHub-hosted fallback pins historical 441ee318 image and Pennsylvania Checkout scope."
+    }
+  ],
+  "holds": {
+    "actualIllinoisApprovedCanonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+    "actualIllinoisCurrentCanonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+    "currentImageRebuildExecuted": false,
+    "publishedCurrentDigest": null,
+    "localImageRebuildDeferredForResourceCapacity": true,
+    "hostedMigrationsExecuted": false,
+    "hostedCanariesExecuted": false,
+    "positiveSyntheticTestsConferApproval": false
+  },
+  "environmentNamesOnly": {
+    "VERCEL_TOKEN": false,
+    "VERCEL_AUTOMATION_BYPASS_SECRET": false,
+    "SUPABASE_ACCESS_TOKEN": true,
+    "SUPABASE_PROJECT_REF": false,
+    "STRIPE_TEST_SECRET_KEY": false,
+    "GHCR_TOKEN": false,
+    "GITHUB_TOKEN": true
+  },
+  "productionTouched": false,
+  "liveStripeTouched": false,
+  "routesOpened": 0
+}
