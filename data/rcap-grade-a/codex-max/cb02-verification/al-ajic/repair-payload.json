@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "cb02-candidate-repair-payload/v1",
+  "assignmentId": "CB02V-AL",
+  "candidateId": "cb02-al-ajic-de-novo-review",
+  "verdict": "CANDIDATE_BLOCKED_MISSING_EVIDENCE",
+  "repairAuthorized": false,
+  "candidateFilesModified": 0,
+  "defects": [],
+  "missingEvidence": [
+    "The actual CB02 Alabama candidate source files",
+    "The candidate render entrypoint and its canonical and boundary fixtures",
+    "The binary manifest containing expected paths, SHA-256 values, byte lengths, and page counts",
+    "A checkout containing the assigned minimum ancestor 34ca308af92db091f0e702aff43f7b69de47652a"
+  ],
+  "requiredNextAction": "Make the actual CB02 candidate commit and assigned ancestor available in the verification checkout, then rerun CB02V-AL without changing candidate files.",
+  "reasonNoRepairInstructions": "Independent verification cannot diagnose or prescribe a candidate repair without candidate bytes. Inventing paths or candidate requirements is expressly prohibited by the launch-control record."
+}
