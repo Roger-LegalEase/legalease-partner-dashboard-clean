@@ -7,30 +7,31 @@
   "note": "Every page of both fixtures is rastered for a human who did not build this family. It matters more than usual here: almost all of this packet is drawn onto flat forms at measured coordinates, and a reviewer reading the paper is the check that a value sits on the blank it belongs on rather than merely near it.",
   "whatToLookAt": [
     "Form 4-952 page 1, the caption and paragraph 1: county, judicial district and name in the caption; date of birth, mailing address, city, state and ZIP on their own rules; all three phone boxes and the alias line empty.",
-    "Form 4-952 page 1, paragraph 2: the judicial district written on all three of its lines, and both printed boxes unmarked.",
-    "Form 4-952 page 2, paragraph 4: ALL FOUR case-number lines empty, including the District Court line. This is deliberate and differs from nm_conviction-set; see build-findings.json.",
+    "Form 4-952 page 1, paragraph 2: the judicial district written on ONE line only -- the \"has no pending expungement cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch EMPTY and both printed boxes unmarked.",
+    "Form 4-952 page 2, paragraph 4: the case number on the line for the court the held intake answer names, and on no other. On the canonical fixture, a district-court case, that is the District Court line; on the boundary fixture, a magistrate case, EVERY case-number line is empty, including the lower-court line the number belongs on, which the shared semantics refuse. See build-findings.json.",
     "Form 4-952 page 2, paragraph 6: every charge detail empty and every one of the six disposition boxes unmarked.",
-    "Form 4-952 pages 2 and 3, paragraphs 10 and 12: the judicial district written on the District Court line of each, and every sheriff, district-attorney and agency line empty.",
+    "Form 4-952 pages 2 and 3, paragraph 10 and paragraph 12: in paragraph 10 the judicial district is written on the District Court line on both fixtures; in paragraph 12 it is written on the District Court branch ONLY on the canonical fixture, and the boundary fixture's paragraph 12 carries no ink on any of its four branches. Every sheriff, district-attorney and agency line is empty on both.",
     "Form 4-952 page 3: nothing written on the five short marginal rules, and nothing on the full-width divider at the foot of the page.",
     "Form 4-952 page 4, the SIGNATURE SECTION: the printed name written, the date beside it empty, the signature line empty, and the whole attorney block empty.",
     "Form 4-955: the caption written and EVERYTHING ELSE EMPTY. This is a certificate of service and service has not happened.",
     "Form 4-959 page 1: the caption written and every one of the twelve response glyphs unmarked; nothing written on the four short strike-through strokes. Page 2: the printed name written, and the certificate of service at the foot entirely empty.",
     "Form 4-960.2: the caption written, the petitioner's name written in the 'I, ____' line and as the printed name in the signature block, the signature line empty, and every pending-charge line empty.",
     "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name in the notice block; items 1 to 5, the judge's name and the TCAA signature block empty. Page 2: EMPTY, because the four service blocks are the petitioner's to complete for any objector.",
-    "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which this build cannot change.",
+    "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which this build cannot change -- and, one line above it on both pages, the COUNTY OF blank now left EMPTY. It used to carry the participant's county, which composed with the printed district into a caption naming a court they have not chosen; both blanks are the participant's to complete on the copy they file.",
+    "Form 4-952 page 2 paragraph 4 and page 3 paragraph 12, on BOTH fixtures and read against each other. The canonical case was disposed of in the district court, so its number is on the District Court line and its judicial district on the District Court branch of the select-one. The boundary case is a magistrate case: both of those lines must be EMPTY, no branch of paragraph 12 may carry ink, and no box anywhere may be marked.",
     "No page of either fixture comes from the San Juan packet. Both fixtures are 21 pages: 4 + 2 + 3 + 2 + 3 + 7."
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+      "sha256": "8033e3305e3bb01b34142b2d6df4fce4bb891afe27604122350a6b3aeb1db29e",
       "pageCount": 21
     },
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "ae38969cccd6defd1d87ecb308f9338bc5557f811bfa42914c31f0bbfac177a4",
+      "sha256": "632aa0277b907ab74a0eb511c4a8c11cdaa22f4ef3852b510afb6dc01a53a802",
       "pageCount": 21
     }
   ],

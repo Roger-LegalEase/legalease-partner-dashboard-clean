@@ -41,7 +41,7 @@
       "why": "there is no respondent in a Rule 1-077.1 expungement proceeding, so this half of the order's caption is left empty"
     }
   ],
-  "requiredBeforeFilingCount": 175,
+  "requiredBeforeFilingCount": 177,
   "requiredBeforeFiling": [
     {
       "document": "NM-4-952",
@@ -84,6 +84,28 @@
       "why": "the platform holds no value for this and the participant supplies it before filing: every other name your records might be under: a former name, a nickname, an alias",
       "participantMustSupply": "every other name your records might be under: a former name, a nickname, an alias",
       "whyTheBuildDoesNotHoldIt": "the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, so binding it would put the petitioner's legal name on the alias line of a petition sworn under penalty of perjury. Reported to the owner of the registry in build-findings.json."
+    },
+    {
+      "document": "NM-4-952",
+      "field": "NM-4-952/p1-y20736-x43980",
+      "page": 1,
+      "section": "2. Pending expungement cases",
+      "disclosureLabel": "Judicial district in which Petitioner has pending expungement cases",
+      "identity": "NM-4-952 blank p1-y20736-x43980",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+      "participantMustSupply": "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+      "whyTheBuildDoesNotHoldIt": "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+    },
+    {
+      "document": "NM-4-952",
+      "field": "NM-4-952/p1-y17976-x26868",
+      "page": 1,
+      "section": "2. Pending expungement cases",
+      "disclosureLabel": "Judicial district court the pending expungement cases are before",
+      "identity": "NM-4-952 blank p1-y17976-x26868",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+      "participantMustSupply": "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+      "whyTheBuildDoesNotHoldIt": "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
     },
     {
       "document": "NM-4-952",
@@ -137,25 +159,14 @@
     },
     {
       "document": "NM-4-952",
-      "field": "NM-4-952/p2-y63444-x23856",
-      "page": 2,
-      "section": "4. The cases and records to be expunged",
-      "disclosureLabel": "District Court case number(s) that are the subject of the petition",
-      "identity": "NM-4-952 blank p2-y63444-x23856",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-      "participantMustSupply": "the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-      "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
-    },
-    {
-      "document": "NM-4-952",
       "field": "NM-4-952/p2-y60684-x9000",
       "page": 2,
       "section": "4. The cases and records to be expunged",
       "disclosureLabel": "Metropolitan, Magistrate or Municipal Court case number(s)",
       "identity": "NM-4-952 blank p2-y60684-x9000",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-      "participantMustSupply": "the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-      "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
+      "participantMustSupply": "the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
+      "whyTheBuildDoesNotHoldIt": "the held originating-court answer for this case is the district court and its number is written on the district-court line. The platform holds no second number for a lower court, and it does not invent one."
     },
     {
       "document": "NM-4-952",
@@ -371,7 +382,8 @@
       "disclosureLabel": "Location of the Metropolitan Court the charges were disposed of or originated in",
       "identity": "NM-4-952 blank p3-y38604-x21228",
       "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that metropolitan court sits in",
-      "participantMustSupply": "the town or city that metropolitan court sits in"
+      "participantMustSupply": "the town or city that metropolitan court sits in",
+      "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
     },
     {
       "document": "NM-4-952",
@@ -381,7 +393,8 @@
       "disclosureLabel": "Location of the Magistrate Court the charges were disposed of or originated in",
       "identity": "NM-4-952 blank p3-y37224-x20100",
       "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that magistrate court sits in",
-      "participantMustSupply": "the town or city that magistrate court sits in"
+      "participantMustSupply": "the town or city that magistrate court sits in",
+      "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
     },
     {
       "document": "NM-4-952",
@@ -391,7 +404,8 @@
       "disclosureLabel": "Location of the Municipal Court the charges were disposed of or originated in",
       "identity": "NM-4-952 blank p3-y35844-x19908",
       "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that municipal court sits in",
-      "participantMustSupply": "the town or city that municipal court sits in"
+      "participantMustSupply": "the town or city that municipal court sits in",
+      "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
     },
     {
       "document": "NM-4-952",
@@ -970,6 +984,17 @@
       "identity": "NM-4-960.1 blank p2-y14318-x7202",
       "why": "the platform holds no value for this and the participant supplies it before filing: the email address of a party that filed and served an objection to your petition. On the release-without-conviction track the petition is served (by first-class United States mail on the district attorney for the judicial district where the charge originated and on the New Mexico Department of Public Safety, P.O. Box 1628, Santa Fe, New Mexico 87504-1628), so a party that objects under Rule 1-077.1(G)(1) NMRA is entitled to notice of the hearing and goes in one of these four blocks. Leave a block empty if nobody objected.",
       "participantMustSupply": "the email address of a party that filed and served an objection to your petition. On the release-without-conviction track the petition is served (by first-class United States mail on the district attorney for the judicial district where the charge originated and on the New Mexico Department of Public Safety, P.O. Box 1628, Santa Fe, New Mexico 87504-1628), so a party that objects under Rule 1-077.1(G)(1) NMRA is entitled to notice of the hearing and goes in one of these four blocks. Leave a block empty if nobody objected."
+    },
+    {
+      "document": "NM-4-222",
+      "field": "NM-4-222/COUNTY OF",
+      "page": 1,
+      "section": "Caption of the application",
+      "disclosureLabel": "COUNTY OF",
+      "identity": "NM-4-222 blank COUNTY OF",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+      "participantMustSupply": "the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+      "whyTheBuildDoesNotHoldIt": "the caption of this pinned binary prints SIXTH JUDICIAL DISTRICT COURT immediately below this blank as page content that no widget covers. A county written above it composes with that ink into a caption naming a court the participant has not chosen, on a document sworn on oath. The county this caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. See PRINTED_DISTRICT_FINDING: whether this component may ship statewide on this binary is an open legal-design question and is not settled by leaving the blank empty."
     },
     {
       "document": "NM-4-222",
@@ -1819,9 +1844,9 @@
       "section": "Caption of Form 4-223, Order on Application for Free Process",
       "disclosureLabel": "COUNTY OF, in the caption of the order for free process",
       "identity": "NM-4-222 blank STATE OF NEW MEXICO",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the same county as page 1, on the caption of the order you give the judge",
-      "participantMustSupply": "the same county as page 1, on the caption of the order you give the judge",
-      "whyTheBuildDoesNotHoldIt": "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
+      "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+      "participantMustSupply": "the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+      "whyTheBuildDoesNotHoldIt": "two reasons, either of which is enough. The caption of Form 4-223 prints SIXTH JUDICIAL DISTRICT COURT below this blank exactly as page 1 does, so a county written here composes into the same caption naming a court the participant has not chosen; the county blank on page 1 is left empty for that reason and this one is left empty with it. And the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county; the guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
     },
     {
       "document": "NM-4-222",
@@ -1857,8 +1882,7 @@
         "NM-4-952/p1-y31236-x28536": "participant.state",
         "NM-4-952/p1-y31236-x45036": "participant.zip",
         "NM-4-952/p1-y22116-x35520": "matter.court",
-        "NM-4-952/p1-y20736-x43980": "matter.court",
-        "NM-4-952/p1-y17976-x26868": "matter.court",
+        "NM-4-952/p2-y63444-x23856": "matter.case_number",
         "NM-4-952/p2-y8244-x20340": "matter.court",
         "NM-4-952/p3-y39984-x20340": "matter.court",
         "NM-4-952/p4-y63444-x7200": "participant.full_legal_name"
@@ -4057,83 +4081,43 @@
           "kind": "flat_overlay_text"
         },
         {
-          "field": "NM-4-952/p1-y20736-x43980",
-          "fieldName": "NM-4-952/p1-y20736-x43980",
+          "field": "NM-4-952/p2-y63444-x23856",
+          "fieldName": "NM-4-952/p2-y63444-x23856",
           "acroFieldName": null,
-          "page": 1,
+          "page": 2,
           "rect": {
-            "x": 441.8,
-            "y": 209.36,
-            "width": 56.12,
+            "x": 240.56,
+            "y": 636.44,
+            "width": 164.12,
             "height": 12
           },
           "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
           "measuredBlank": {
             "kind": "underscore_run",
-            "y": 207.36,
-            "x": 439.8,
-            "endX": 499.92,
-            "width": 60.12,
-            "glyphs": 10
+            "y": 634.44,
+            "x": 238.56,
+            "endX": 406.68,
+            "width": 168.12,
+            "glyphs": 28
           },
-          "printedLabel": "Judicial district in which Petitioner has pending expungement cases",
-          "printedLine": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial",
-          "sectionHeading": "2. Pending expungement cases",
-          "regionHeading": "Judicial district in which Petitioner has pending expungement cases",
-          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "printedLabel": "District Court case number(s) that are the subject of the petition",
+          "printedLine": "6 District Court case number(s): ____________________________",
+          "sectionHeading": "4. The cases and records to be expunged",
+          "regionHeading": "District Court case number(s) that are the subject of the petition",
+          "effectiveLabel": "District Court case number(s) that are the subject of the petition",
           "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
           "printedTextAtCoordinate": [
             {
-              "y": 207.36,
-              "extracted": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial"
+              "y": 634.44,
+              "extracted": "6 District Court case number(s): ____________________________"
             },
             {
               "y": null,
-              "extracted": "36 District (provide expungement case numbers for any expungement cases that may be currently"
+              "extracted": "7 Metropolitan/Magistrate/Municipal Court case number(s):"
             }
           ],
           "document": "NM-4-952",
-          "factId": "matter.court",
-          "kind": "flat_overlay_text"
-        },
-        {
-          "field": "NM-4-952/p1-y17976-x26868",
-          "fieldName": "NM-4-952/p1-y17976-x26868",
-          "acroFieldName": null,
-          "page": 1,
-          "rect": {
-            "x": 270.68,
-            "y": 181.76,
-            "width": 62,
-            "height": 12
-          },
-          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
-          "measuredBlank": {
-            "kind": "underscore_run",
-            "y": 179.76,
-            "x": 268.68,
-            "endX": 334.68,
-            "width": 66,
-            "glyphs": 11
-          },
-          "printedLabel": "Judicial district court the pending expungement cases are before",
-          "printedLine": "37 pending before the ___________ Judicial District Court):",
-          "sectionHeading": "2. Pending expungement cases",
-          "regionHeading": "Judicial district court the pending expungement cases are before",
-          "effectiveLabel": "Judicial district court the pending expungement cases are before",
-          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
-          "printedTextAtCoordinate": [
-            {
-              "y": 179.76,
-              "extracted": "37 pending before the ___________ Judicial District Court):"
-            },
-            {
-              "y": null,
-              "extracted": "38 ___________________________________________________________________________"
-            }
-          ],
-          "document": "NM-4-952",
-          "factId": "matter.court",
+          "factId": "matter.case_number",
           "kind": "flat_overlay_text"
         },
         {
@@ -4461,6 +4445,108 @@
           "whyTheBuildDoesNotHoldIt": "the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, so binding it would put the petitioner's legal name on the alias line of a petition sworn under penalty of perjury. Reported to the owner of the registry in build-findings.json."
         },
         {
+          "field": "NM-4-952/p1-y20736-x43980",
+          "fieldName": "NM-4-952/p1-y20736-x43980",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 441.8,
+            "y": 209.36,
+            "width": 56.12,
+            "height": 12
+          },
+          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 207.36,
+            "x": 439.8,
+            "endX": 499.92,
+            "width": 60.12,
+            "glyphs": 10
+          },
+          "printedLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "printedLine": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial",
+          "sectionHeading": "2. Pending expungement cases",
+          "regionHeading": "Judicial district in which Petitioner has pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 207.36,
+              "extracted": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial"
+            },
+            {
+              "y": null,
+              "extracted": "36 District (provide expungement case numbers for any expungement cases that may be currently"
+            }
+          ],
+          "document": "NM-4-952",
+          "reason": "the participant supplies this before filing: the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-952 blank p1-y20736-x43980",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "participantMustSupply": "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "whyTheBuildDoesNotHoldIt": "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+        },
+        {
+          "field": "NM-4-952/p1-y17976-x26868",
+          "fieldName": "NM-4-952/p1-y17976-x26868",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 270.68,
+            "y": 181.76,
+            "width": 62,
+            "height": 12
+          },
+          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 179.76,
+            "x": 268.68,
+            "endX": 334.68,
+            "width": 66,
+            "glyphs": 11
+          },
+          "printedLabel": "Judicial district court the pending expungement cases are before",
+          "printedLine": "37 pending before the ___________ Judicial District Court):",
+          "sectionHeading": "2. Pending expungement cases",
+          "regionHeading": "Judicial district court the pending expungement cases are before",
+          "effectiveLabel": "Judicial district court the pending expungement cases are before",
+          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 179.76,
+              "extracted": "37 pending before the ___________ Judicial District Court):"
+            },
+            {
+              "y": null,
+              "extracted": "38 ___________________________________________________________________________"
+            }
+          ],
+          "document": "NM-4-952",
+          "reason": "the participant supplies this before filing: the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-952 blank p1-y17976-x26868",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "participantMustSupply": "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "whyTheBuildDoesNotHoldIt": "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
+        },
+        {
           "field": "NM-4-952/p1-y16596-x9000",
           "fieldName": "NM-4-952/p1-y16596-x9000",
           "acroFieldName": null,
@@ -4711,57 +4797,6 @@
           "participantMustSupply": "a third case number in which you were denied, if there is one"
         },
         {
-          "field": "NM-4-952/p2-y63444-x23856",
-          "fieldName": "NM-4-952/p2-y63444-x23856",
-          "acroFieldName": null,
-          "page": 2,
-          "rect": {
-            "x": 240.56,
-            "y": 636.44,
-            "width": 164.12,
-            "height": 12
-          },
-          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
-          "measuredBlank": {
-            "kind": "underscore_run",
-            "y": 634.44,
-            "x": 238.56,
-            "endX": 406.68,
-            "width": 168.12,
-            "glyphs": 28
-          },
-          "printedLabel": "District Court case number(s) that are the subject of the petition",
-          "printedLine": "6 District Court case number(s): ____________________________",
-          "sectionHeading": "4. The cases and records to be expunged",
-          "regionHeading": "District Court case number(s) that are the subject of the petition",
-          "effectiveLabel": "District Court case number(s) that are the subject of the petition",
-          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
-          "printedTextAtCoordinate": [
-            {
-              "y": 634.44,
-              "extracted": "6 District Court case number(s): ____________________________"
-            },
-            {
-              "y": null,
-              "extracted": "7 Metropolitan/Magistrate/Municipal Court case number(s):"
-            }
-          ],
-          "document": "NM-4-952",
-          "reason": "the participant supplies this before filing: the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NM-4-952 blank p2-y63444-x23856",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-          "participantMustSupply": "the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-          "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
-        },
-        {
           "field": "NM-4-952/p2-y60684-x9000",
           "fieldName": "NM-4-952/p2-y60684-x9000",
           "acroFieldName": null,
@@ -4798,7 +4833,7 @@
             }
           ],
           "document": "NM-4-952",
-          "reason": "the participant supplies this before filing: the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
+          "reason": "the participant supplies this before filing: the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -4808,9 +4843,9 @@
           "identity": "NM-4-952 blank p2-y60684-x9000",
           "factId": null,
           "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-          "participantMustSupply": "the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-          "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
+          "participantMustSupply": "the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
+          "whyTheBuildDoesNotHoldIt": "the held originating-court answer for this case is the district court and its number is written on the district-court line. The platform holds no second number for a lower court, and it does not invent one."
         },
         {
           "field": "NM-4-952/p2-y59304-x29880",
@@ -5954,7 +5989,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that metropolitan court sits in",
-          "participantMustSupply": "the town or city that metropolitan court sits in"
+          "participantMustSupply": "the town or city that metropolitan court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y37224-x20100",
@@ -6004,7 +6040,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that magistrate court sits in",
-          "participantMustSupply": "the town or city that magistrate court sits in"
+          "participantMustSupply": "the town or city that magistrate court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y35844-x19908",
@@ -6054,7 +6091,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that municipal court sits in",
-          "participantMustSupply": "the town or city that municipal court sits in"
+          "participantMustSupply": "the town or city that municipal court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y19284-x14160",
@@ -6972,86 +7010,6 @@
           "kind": "flat_overlay_text"
         },
         {
-          "field": "NM-4-952/p1-y20736-x43980",
-          "fieldName": "NM-4-952/p1-y20736-x43980",
-          "acroFieldName": null,
-          "page": 1,
-          "rect": {
-            "x": 441.8,
-            "y": 209.36,
-            "width": 56.12,
-            "height": 12
-          },
-          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
-          "measuredBlank": {
-            "kind": "underscore_run",
-            "y": 207.36,
-            "x": 439.8,
-            "endX": 499.92,
-            "width": 60.12,
-            "glyphs": 10
-          },
-          "printedLabel": "Judicial district in which Petitioner has pending expungement cases",
-          "printedLine": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial",
-          "sectionHeading": "2. Pending expungement cases",
-          "regionHeading": "Judicial district in which Petitioner has pending expungement cases",
-          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
-          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
-          "printedTextAtCoordinate": [
-            {
-              "y": 207.36,
-              "extracted": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial"
-            },
-            {
-              "y": null,
-              "extracted": "36 District (provide expungement case numbers for any expungement cases that may be currently"
-            }
-          ],
-          "document": "NM-4-952",
-          "factId": "matter.court",
-          "kind": "flat_overlay_text"
-        },
-        {
-          "field": "NM-4-952/p1-y17976-x26868",
-          "fieldName": "NM-4-952/p1-y17976-x26868",
-          "acroFieldName": null,
-          "page": 1,
-          "rect": {
-            "x": 270.68,
-            "y": 181.76,
-            "width": 62,
-            "height": 12
-          },
-          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
-          "measuredBlank": {
-            "kind": "underscore_run",
-            "y": 179.76,
-            "x": 268.68,
-            "endX": 334.68,
-            "width": 66,
-            "glyphs": 11
-          },
-          "printedLabel": "Judicial district court the pending expungement cases are before",
-          "printedLine": "37 pending before the ___________ Judicial District Court):",
-          "sectionHeading": "2. Pending expungement cases",
-          "regionHeading": "Judicial district court the pending expungement cases are before",
-          "effectiveLabel": "Judicial district court the pending expungement cases are before",
-          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
-          "printedTextAtCoordinate": [
-            {
-              "y": 179.76,
-              "extracted": "37 pending before the ___________ Judicial District Court):"
-            },
-            {
-              "y": null,
-              "extracted": "38 ___________________________________________________________________________"
-            }
-          ],
-          "document": "NM-4-952",
-          "factId": "matter.court",
-          "kind": "flat_overlay_text"
-        },
-        {
           "field": "NM-4-952/p2-y8244-x20340",
           "fieldName": "NM-4-952/p2-y8244-x20340",
           "acroFieldName": null,
@@ -7085,46 +7043,6 @@
             {
               "y": null,
               "extracted": "RCR Nos. 1107 & S-1-RCR-2024-00099 2"
-            }
-          ],
-          "document": "NM-4-952",
-          "factId": "matter.court",
-          "kind": "flat_overlay_text"
-        },
-        {
-          "field": "NM-4-952/p3-y39984-x20340",
-          "fieldName": "NM-4-952/p3-y39984-x20340",
-          "acroFieldName": null,
-          "page": 3,
-          "rect": {
-            "x": 205.4,
-            "y": 401.84,
-            "width": 67.88,
-            "height": 12
-          },
-          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
-          "measuredBlank": {
-            "kind": "underscore_run",
-            "y": 399.84,
-            "x": 203.4,
-            "endX": 275.28,
-            "width": 71.88,
-            "glyphs": 12
-          },
-          "printedLabel": "Judicial district of the District Court the charges were disposed of or originated in",
-          "printedLine": "23 [ ] District Court in the ____________ Judicial District",
-          "sectionHeading": "12. Where the charges were disposed of or originated",
-          "regionHeading": "Judicial district of the District Court the charges were disposed of or originated in",
-          "effectiveLabel": "Judicial district of the District Court the charges were disposed of or originated in",
-          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
-          "printedTextAtCoordinate": [
-            {
-              "y": 399.84,
-              "extracted": "23 [ ] District Court in the ____________ Judicial District"
-            },
-            {
-              "y": null,
-              "extracted": "24 [ ] Metropolitan Court in ____________ (location)"
             }
           ],
           "document": "NM-4-952",
@@ -7374,6 +7292,108 @@
           "why": "the platform holds no value for this and the participant supplies it before filing: every other name your records might be under: a former name, a nickname, an alias",
           "participantMustSupply": "every other name your records might be under: a former name, a nickname, an alias",
           "whyTheBuildDoesNotHoldIt": "the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, so binding it would put the petitioner's legal name on the alias line of a petition sworn under penalty of perjury. Reported to the owner of the registry in build-findings.json."
+        },
+        {
+          "field": "NM-4-952/p1-y20736-x43980",
+          "fieldName": "NM-4-952/p1-y20736-x43980",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 441.8,
+            "y": 209.36,
+            "width": 56.12,
+            "height": 12
+          },
+          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 207.36,
+            "x": 439.8,
+            "endX": 499.92,
+            "width": 60.12,
+            "glyphs": 10
+          },
+          "printedLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "printedLine": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial",
+          "sectionHeading": "2. Pending expungement cases",
+          "regionHeading": "Judicial district in which Petitioner has pending expungement cases",
+          "effectiveLabel": "Judicial district in which Petitioner has pending expungement cases",
+          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 207.36,
+              "extracted": "35 [ ] Petitioner has the following pending expungement case or cases in the __________ Judicial"
+            },
+            {
+              "y": null,
+              "extracted": "36 District (provide expungement case numbers for any expungement cases that may be currently"
+            }
+          ],
+          "document": "NM-4-952",
+          "reason": "the participant supplies this before filing: the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-952 blank p1-y20736-x43980",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "participantMustSupply": "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+          "whyTheBuildDoesNotHoldIt": "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+        },
+        {
+          "field": "NM-4-952/p1-y17976-x26868",
+          "fieldName": "NM-4-952/p1-y17976-x26868",
+          "acroFieldName": null,
+          "page": 1,
+          "rect": {
+            "x": 270.68,
+            "y": 181.76,
+            "width": 62,
+            "height": 12
+          },
+          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 179.76,
+            "x": 268.68,
+            "endX": 334.68,
+            "width": 66,
+            "glyphs": 11
+          },
+          "printedLabel": "Judicial district court the pending expungement cases are before",
+          "printedLine": "37 pending before the ___________ Judicial District Court):",
+          "sectionHeading": "2. Pending expungement cases",
+          "regionHeading": "Judicial district court the pending expungement cases are before",
+          "effectiveLabel": "Judicial district court the pending expungement cases are before",
+          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 179.76,
+              "extracted": "37 pending before the ___________ Judicial District Court):"
+            },
+            {
+              "y": null,
+              "extracted": "38 ___________________________________________________________________________"
+            }
+          ],
+          "document": "NM-4-952",
+          "reason": "the participant supplies this before filing: the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-952 blank p1-y17976-x26868",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "participantMustSupply": "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+          "whyTheBuildDoesNotHoldIt": "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
         },
         {
           "field": "NM-4-952/p1-y16596-x9000",
@@ -7662,19 +7682,17 @@
             }
           ],
           "document": "NM-4-952",
-          "reason": "the participant supplies this before filing: the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
+          "reason": "the case was not a district court case, so there is no district court number to write here and none is invented. The number this case does have belongs on the next line.",
           "category": null,
           "completenessClass": null,
           "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NM-4-952 blank p2-y63444-x23856",
-          "factId": null,
+          "isSelectionControl": false,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "the held originating-court answer for this case is the magistrate court, so the case has no district court case number. This line asks for the number of a case the district court held, and paragraph 4 prints a separate line for a metropolitan, magistrate or municipal number immediately below it.",
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-          "participantMustSupply": "the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one",
-          "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
+          "factId": null,
+          "why": "the case was not a district court case, so there is no district court number to write here and none is invented. The number this case does have belongs on the next line."
         },
         {
           "field": "NM-4-952/p2-y60684-x9000",
@@ -7713,19 +7731,18 @@
             }
           ],
           "document": "NM-4-952",
-          "reason": "the participant supplies this before filing: the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
+          "reason": "the platform holds a value for this blank and this build does not write it: the platform holds this case number as matter.case_number and the write is refused rather than unavailable -- the value itself is not repeated into this record. the platform's shared field semantics protect every blank whose printed line names a magistrate: PROTECT_RULES matches /magistrate/ under the \"court\" category, so \"Metropolitan/Magistrate/Municipal Court case number(s)\" and \"[ ] Magistrate Court in ____ (location)\" refuse every write whatever fact is offered. That rule is shared by the whole corpus and re-labelling the blank until it stops matching it would be wording a refusal to beat a regex, so the line is left to the participant and the ground is stated. Reported in build-findings.json.",
           "category": null,
           "completenessClass": null,
           "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NM-4-952 blank p2-y60684-x9000",
-          "factId": null,
+          "completenessDisposition": "KNOWN_FACT_NOT_WRITTEN",
+          "theBuildHoldsAValueForThisBlank": true,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-          "participantMustSupply": "the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were",
-          "whyTheBuildDoesNotHoldIt": "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the originating court as a required answer because a case released without conviction commonly originated in a magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner of the registry in build-findings.json: a fact-conditional write would close this."
+          "factId": null,
+          "why": "the platform holds a value for this blank and this build does not write it: the platform holds this case number as matter.case_number and the write is refused rather than unavailable -- the value itself is not repeated into this record. the platform's shared field semantics protect every blank whose printed line names a magistrate: PROTECT_RULES matches /magistrate/ under the \"court\" category, so \"Metropolitan/Magistrate/Municipal Court case number(s)\" and \"[ ] Magistrate Court in ____ (location)\" refuse every write whatever fact is offered. That rule is shared by the whole corpus and re-labelling the blank until it stops matching it would be wording a refusal to beat a regex, so the line is left to the participant and the ground is stated. Reported in build-findings.json.",
+          "participantMustSupply": "your case number, on this line -- your case was in a metropolitan, magistrate or municipal court, and this is the line the form gives for it",
+          "whyTheBuildDoesNotWriteIt": "the platform holds this case number as matter.case_number and the write is refused rather than unavailable -- the value itself is not repeated into this record. the platform's shared field semantics protect every blank whose printed line names a magistrate: PROTECT_RULES matches /magistrate/ under the \"court\" category, so \"Metropolitan/Magistrate/Municipal Court case number(s)\" and \"[ ] Magistrate Court in ____ (location)\" refuse every write whatever fact is offered. That rule is shared by the whole corpus and re-labelling the blank until it stops matching it would be wording a refusal to beat a regex, so the line is left to the participant and the ground is stated. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p2-y59304-x29880",
@@ -8822,6 +8839,55 @@
           "participantMustSupply": "the street address of that district attorney's office, which you get from the court or from the office itself"
         },
         {
+          "field": "NM-4-952/p3-y39984-x20340",
+          "fieldName": "NM-4-952/p3-y39984-x20340",
+          "acroFieldName": null,
+          "page": 3,
+          "rect": {
+            "x": 205.4,
+            "y": 401.84,
+            "width": 67.88,
+            "height": 12
+          },
+          "rectBasis": "measured_underscore_glyph_run_read_from_the_page_content_stream",
+          "measuredBlank": {
+            "kind": "underscore_run",
+            "y": 399.84,
+            "x": 203.4,
+            "endX": 275.28,
+            "width": 71.88,
+            "glyphs": 12
+          },
+          "printedLabel": "Judicial district of the District Court the charges were disposed of or originated in",
+          "printedLine": "23 [ ] District Court in the ____________ Judicial District",
+          "sectionHeading": "12. Where the charges were disposed of or originated",
+          "regionHeading": "Judicial district of the District Court the charges were disposed of or originated in",
+          "effectiveLabel": "Judicial district of the District Court the charges were disposed of or originated in",
+          "captionBasis": "the printed section, the printed line the blank sits on, and the words printed immediately before it",
+          "printedTextAtCoordinate": [
+            {
+              "y": 399.84,
+              "extracted": "23 [ ] District Court in the ____________ Judicial District"
+            },
+            {
+              "y": null,
+              "extracted": "24 [ ] Metropolitan Court in ____________ (location)"
+            }
+          ],
+          "document": "NM-4-952",
+          "reason": "the charges were not disposed of or originated in the district court, so this branch of the select-one carries nothing. The participant marks the branch their case used and writes its location on that line.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "isSelectionControl": false,
+          "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "routeConditionThatMakesItInapplicable": "the held originating-court answer for this case is the magistrate court, and paragraph 12 is a printed select-one over four courts. The District Court branch is not the branch this case uses, and the case was never disposed of in a district court whose judicial district could go on this line.",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "factId": null,
+          "why": "the charges were not disposed of or originated in the district court, so this branch of the select-one carries nothing. The participant marks the branch their case used and writes its location on that line."
+        },
+        {
           "field": "NM-4-952/p3-y38604-x21228",
           "fieldName": "NM-4-952/p3-y38604-x21228",
           "acroFieldName": null,
@@ -8869,7 +8935,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that metropolitan court sits in",
-          "participantMustSupply": "the town or city that metropolitan court sits in"
+          "participantMustSupply": "the town or city that metropolitan court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y37224-x20100",
@@ -8919,7 +8986,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that magistrate court sits in",
-          "participantMustSupply": "the town or city that magistrate court sits in"
+          "participantMustSupply": "the town or city that magistrate court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y35844-x19908",
@@ -8969,7 +9037,8 @@
           "factId": null,
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the town or city that municipal court sits in",
-          "participantMustSupply": "the town or city that municipal court sits in"
+          "participantMustSupply": "the town or city that municipal court sits in",
+          "whyTheBuildDoesNotHoldIt": "the intake's required originating-court answer has two halves -- which court, and in what location -- and these fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the shared protect rule above would refuse the write in any case. Reported in build-findings.json."
         },
         {
           "field": "NM-4-952/p3-y19284-x14160",
@@ -9604,7 +9673,27 @@
           },
           "why": "a full-width printed divider at the foot of page 3, immediately before the heading \"SIGNATURE SECTION\" that opens page 4. It runs the whole text column, sits under no prompt and has no caption; writing on it would put a value across the head of the signature section"
         }
-      ]
+      ],
+      "rowsDecidedByAHeldFactRatherThanByTheRoute": {
+        "why": "these blanks are decided by an answer the intake collects for the participant, not by the route: Form 4-952 paragraph 4 asks for the case number by the court that held the case, and paragraph 12 is a printed select-one over four courts. The row below is written on the fixture whose held answer selects it and left empty on the other, and the empty one says which branch it belongs to.",
+        "heldFact": "matter.originating_court",
+        "rows": [
+          {
+            "field": "NM-4-952/p2-y63444-x23856",
+            "page": 2,
+            "printedLabel": "District Court case number(s) that are the subject of the petition",
+            "writtenOn": "canonical",
+            "factId": "matter.case_number"
+          },
+          {
+            "field": "NM-4-952/p3-y39984-x20340",
+            "page": 3,
+            "printedLabel": "Judicial district of the District Court the charges were disposed of or originated in",
+            "writtenOn": "canonical",
+            "factId": "matter.court"
+          }
+        ]
+      }
     },
     {
       "formNumber": "NM-4-955",
@@ -19562,7 +19651,6 @@
       },
       "structuralClass": "acroform",
       "explicitMappings": {
-        "NM-4-222/COUNTY OF": "matter.county",
         "NM-4-222/Petitioner": "participant.full_legal_name",
         "NM-4-222/Print Name": "participant.full_legal_name",
         "NM-4-222/Street Address": "participant.street_address",
@@ -22592,51 +22680,6 @@
       ],
       "canonicalWrites": [
         {
-          "field": "NM-4-222/COUNTY OF",
-          "fieldName": "NM-4-222/COUNTY OF",
-          "acroFieldName": "COUNTY OF",
-          "page": 1,
-          "rect": {
-            "x": 144.56,
-            "y": 632.6,
-            "width": 108.88,
-            "height": 21.6
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 144.56,
-                "y": 632.6,
-                "width": 108.88,
-                "height": 21.6
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-              "annotationFlags": 4
-            }
-          ],
-          "printedLabel": "COUNTY OF",
-          "printedLine": "COUNTY OF",
-          "sectionHeading": "Caption of the application",
-          "regionHeading": "COUNTY OF",
-          "effectiveLabel": "COUNTY OF",
-          "captionBasis": "the authored AcroForm field name, the printed line at the widget's own rectangle, and the printed section",
-          "printedTextAtCoordinate": [
-            {
-              "y": 637.1,
-              "extracted": "COUNTY OF___________________"
-            },
-            {
-              "y": 622.4,
-              "extracted": "SIXTH JUDICIAL DISTRICT COURT"
-            }
-          ],
-          "document": "NM-4-222",
-          "factId": "matter.county",
-          "kind": "text"
-        },
-        {
           "field": "NM-4-222/Petitioner",
           "fieldName": "NM-4-222/Petitioner",
           "acroFieldName": "Petitioner",
@@ -22814,6 +22857,62 @@
         }
       ],
       "canonicalRefusals": [
+        {
+          "field": "NM-4-222/COUNTY OF",
+          "fieldName": "NM-4-222/COUNTY OF",
+          "acroFieldName": "COUNTY OF",
+          "page": 1,
+          "rect": {
+            "x": 144.56,
+            "y": 632.6,
+            "width": 108.88,
+            "height": 21.6
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 144.56,
+                "y": 632.6,
+                "width": 108.88,
+                "height": 21.6
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+              "annotationFlags": 4
+            }
+          ],
+          "printedLabel": "COUNTY OF",
+          "printedLine": "COUNTY OF",
+          "sectionHeading": "Caption of the application",
+          "regionHeading": "COUNTY OF",
+          "effectiveLabel": "COUNTY OF",
+          "captionBasis": "the authored AcroForm field name, the printed line at the widget's own rectangle, and the printed section",
+          "printedTextAtCoordinate": [
+            {
+              "y": 637.1,
+              "extracted": "COUNTY OF___________________"
+            },
+            {
+              "y": 622.4,
+              "extracted": "SIXTH JUDICIAL DISTRICT COURT"
+            }
+          ],
+          "document": "NM-4-222",
+          "reason": "the participant supplies this before filing: the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-222 blank COUNTY OF",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "participantMustSupply": "the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "whyTheBuildDoesNotHoldIt": "the caption of this pinned binary prints SIXTH JUDICIAL DISTRICT COURT immediately below this blank as page content that no widget covers. A county written above it composes with that ink into a caption naming a court the participant has not chosen, on a document sworn on oath. The county this caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. See PRINTED_DISTRICT_FINDING: whether this component may ship statewide on this binary is an open legal-design question and is not settled by leaving the blank empty."
+        },
         {
           "field": "NM-4-222/Respondent",
           "fieldName": "NM-4-222/Respondent",
@@ -28058,7 +28157,7 @@
             }
           ],
           "document": "NM-4-222",
-          "reason": "the participant supplies this before filing: the same county as page 1, on the caption of the order you give the judge",
+          "reason": "the participant supplies this before filing: the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -28068,9 +28167,9 @@
           "identity": "NM-4-222 blank STATE OF NEW MEXICO",
           "factId": null,
           "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the same county as page 1, on the caption of the order you give the judge",
-          "participantMustSupply": "the same county as page 1, on the caption of the order you give the judge",
-          "whyTheBuildDoesNotHoldIt": "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
+          "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+          "participantMustSupply": "the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+          "whyTheBuildDoesNotHoldIt": "two reasons, either of which is enough. The caption of Form 4-223 prints SIXTH JUDICIAL DISTRICT COURT below this blank exactly as page 1 does, so a county written here composes into the same caption naming a court the participant has not chosen; the county blank on page 1 is left empty for that reason and this one is left empty with it. And the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county; the guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
         },
         {
           "field": "NM-4-222/SIXTH JUDICIAL DISTRICT COURT",
@@ -28821,51 +28920,6 @@
       ],
       "boundaryWrites": [
         {
-          "field": "NM-4-222/COUNTY OF",
-          "fieldName": "NM-4-222/COUNTY OF",
-          "acroFieldName": "COUNTY OF",
-          "page": 1,
-          "rect": {
-            "x": 144.56,
-            "y": 632.6,
-            "width": 108.88,
-            "height": 21.6
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "widgets": [
-            {
-              "page": 1,
-              "rect": {
-                "x": 144.56,
-                "y": 632.6,
-                "width": 108.88,
-                "height": 21.6
-              },
-              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-              "annotationFlags": 4
-            }
-          ],
-          "printedLabel": "COUNTY OF",
-          "printedLine": "COUNTY OF",
-          "sectionHeading": "Caption of the application",
-          "regionHeading": "COUNTY OF",
-          "effectiveLabel": "COUNTY OF",
-          "captionBasis": "the authored AcroForm field name, the printed line at the widget's own rectangle, and the printed section",
-          "printedTextAtCoordinate": [
-            {
-              "y": 637.1,
-              "extracted": "COUNTY OF___________________"
-            },
-            {
-              "y": 622.4,
-              "extracted": "SIXTH JUDICIAL DISTRICT COURT"
-            }
-          ],
-          "document": "NM-4-222",
-          "factId": "matter.county",
-          "kind": "text"
-        },
-        {
           "field": "NM-4-222/Petitioner",
           "fieldName": "NM-4-222/Petitioner",
           "acroFieldName": "Petitioner",
@@ -29043,6 +29097,62 @@
         }
       ],
       "boundaryRefusals": [
+        {
+          "field": "NM-4-222/COUNTY OF",
+          "fieldName": "NM-4-222/COUNTY OF",
+          "acroFieldName": "COUNTY OF",
+          "page": 1,
+          "rect": {
+            "x": 144.56,
+            "y": 632.6,
+            "width": 108.88,
+            "height": 21.6
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 144.56,
+                "y": 632.6,
+                "width": 108.88,
+                "height": 21.6
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+              "annotationFlags": 4
+            }
+          ],
+          "printedLabel": "COUNTY OF",
+          "printedLine": "COUNTY OF",
+          "sectionHeading": "Caption of the application",
+          "regionHeading": "COUNTY OF",
+          "effectiveLabel": "COUNTY OF",
+          "captionBasis": "the authored AcroForm field name, the printed line at the widget's own rectangle, and the printed section",
+          "printedTextAtCoordinate": [
+            {
+              "y": 637.1,
+              "extracted": "COUNTY OF___________________"
+            },
+            {
+              "y": 622.4,
+              "extracted": "SIXTH JUDICIAL DISTRICT COURT"
+            }
+          ],
+          "document": "NM-4-222",
+          "reason": "the participant supplies this before filing: the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "NM-4-222 blank COUNTY OF",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "participantMustSupply": "the county, on the copy of Form 4-222 you actually file: obtain your own district's copy of the form, or strike the printed \"SIXTH JUDICIAL DISTRICT COURT\" line, write your own judicial district, and write your county here",
+          "whyTheBuildDoesNotHoldIt": "the caption of this pinned binary prints SIXTH JUDICIAL DISTRICT COURT immediately below this blank as page content that no widget covers. A county written above it composes with that ink into a caption naming a court the participant has not chosen, on a document sworn on oath. The county this caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. See PRINTED_DISTRICT_FINDING: whether this component may ship statewide on this binary is an open legal-design question and is not settled by leaving the blank empty."
+        },
         {
           "field": "NM-4-222/Respondent",
           "fieldName": "NM-4-222/Respondent",
@@ -34287,7 +34397,7 @@
             }
           ],
           "document": "NM-4-222",
-          "reason": "the participant supplies this before filing: the same county as page 1, on the caption of the order you give the judge",
+          "reason": "the participant supplies this before filing: the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -34297,9 +34407,9 @@
           "identity": "NM-4-222 blank STATE OF NEW MEXICO",
           "factId": null,
           "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the same county as page 1, on the caption of the order you give the judge",
-          "participantMustSupply": "the same county as page 1, on the caption of the order you give the judge",
-          "whyTheBuildDoesNotHoldIt": "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
+          "why": "the platform holds no value for this and the participant supplies it before filing: the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+          "participantMustSupply": "the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file",
+          "whyTheBuildDoesNotHoldIt": "two reasons, either of which is enough. The caption of Form 4-223 prints SIXTH JUDICIAL DISTRICT COURT below this blank exactly as page 1 does, so a county written here composes into the same caption naming a court the participant has not chosen; the county blank on page 1 is left empty for that reason and this one is left empty with it. And the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county; the guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it."
         },
         {
           "field": "NM-4-222/SIXTH JUDICIAL DISTRICT COURT",

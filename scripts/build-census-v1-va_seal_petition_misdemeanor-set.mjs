@@ -513,9 +513,11 @@ const COMPONENTS = [
  * FIX50 added an opt-in for exactly that, suppressSynthesizedAppearances, which
  * installs an EMPTY appearance for the missing state instead.
  *
- * It is set HERE, on the family, and not on the host, because this host builds
- * four families and only three of them are in this lane's grant. A family that
- * does not carry the flag passes false and is byte-unaffected.
+ * It is set HERE, on the family, and not on the host, because that is how the
+ * flag was introduced: FIX63 held three of this host's four families and set it
+ * on those three, and FIX87 measured the fourth and set it there too. All four
+ * now carry it. A family that does not carry the flag passes false and is
+ * byte-unaffected, and that is why the mechanism stays per family.
  *
  * This host hands finalizeOfficialForm the PINNED SOURCE BYTES: there is no
  * intermediate sourceDoc.save() between reading the form and the finalizer, so
@@ -527,15 +529,24 @@ const COMPONENTS = [
 export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_petition_misdemeanor-set": {
     /*
-     * FIX73 / VF02 PAGE_ORDER, for this family only. The registry packet set
-     * orders the CCRE forwarding request second and the Commonwealth's copy
-     * third; this host emitted them the other way round. The other three
-     * families this host builds are not in FIX73's PAGE_ORDER assignment and
-     * do not carry the flag, so their assembly is untouched -- and their own
-     * registry packet sets prescribe the same swap, which is returned as a
-     * finding rather than swept in here.
+     * FIX73 / VF02 PAGE_ORDER. The registry packet set orders the CCRE
+     * forwarding request second and the Commonwealth's copy third; this host
+     * emitted them the other way round. FIX73 held only this family, so only
+     * this family opted in. FIX87 holds all four and measured the same
+     * transposition in the other three, whose registry packet sets prescribe
+     * the identical order, so all four now carry the flag. The opt-in stays
+     * per family: a family that does not carry it is byte-unaffected.
      */
     registryComponentOrder: true,
+    /*
+     * FIX87 / VF04 CLIPPING_AND_OVERLAP. This family was outside FIX63's grant
+     * and so was the only one of the four still handing pdf-lib the job of
+     * synthesizing an appearance for the missing /Off state: 56 of 56 unmarked
+     * selection widgets carried a stroked square the pinned CC-1201 does not
+     * print, in both fixtures. See the note above FAMILY_CONFIGS; the three
+     * siblings had already carried the flag and were the proof it works.
+     */
+    suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
     routeKey: "obligation:track-only:VA:va_seal_petition_misdemeanor",
     routeLabel: "Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12",
@@ -559,6 +570,11 @@ export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_petition_felony-set": {
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
+    /* FIX87 / VF04 PAGE_ORDER: this family carried the transposition FIX73
+     * repaired on the host and disclosed here; its own registry packet set
+     * orders the CCRE forwarding request second and the Commonwealth's copy
+     * third. See the note on va_seal_petition_misdemeanor-set above. */
+    registryComponentOrder: true,
     jurisdiction: "VA",
     /*
      * FIX73 ROUTE_IDENTITY. This family printed, on four participant-facing
@@ -597,6 +613,11 @@ export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_enumerated_seven_year-set": {
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
+    /* FIX87 / VF04 PAGE_ORDER: this family carried the transposition FIX73
+     * repaired on the host and disclosed here; its own registry packet set
+     * orders the CCRE forwarding request second and the Commonwealth's copy
+     * third. See the note on va_seal_petition_misdemeanor-set above. */
+    registryComponentOrder: true,
     jurisdiction: "VA",
     /* FIX73 ROUTE_IDENTITY: the printed and mapped key is now the one the
      * census carries once for this packet set and the one product-wiring.json
@@ -622,6 +643,11 @@ export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_ancillary_matter_only-set": {
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
+    /* FIX87 / VF04 PAGE_ORDER: this family carried the transposition FIX73
+     * repaired on the host and disclosed here; its own registry packet set
+     * orders the CCRE forwarding request second and the Commonwealth's copy
+     * third. See the note on va_seal_petition_misdemeanor-set above. */
+    registryComponentOrder: true,
     jurisdiction: "VA",
     /* This family's printed key is the key the census carries for it, and both
      * of its route records already agreed; FIX73 confirmed it and left it. */

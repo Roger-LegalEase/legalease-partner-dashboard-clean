@@ -46,24 +46,33 @@
  * a conviction petition destroys the seal (Rule 1-077.1(C) NMRA). The
  * instructions say so before anything else about sequencing.
  *
- * WHY THE CASE NUMBER IS NOT WRITTEN, AND THIS IS DELIBERATE
+ * WHICH LINE THE CASE NUMBER GOES ON, AND WHO DECIDES IT
  *
  * Form 4-952 paragraph 4 asks for the case number BY THE COURT IT WAS IN:
  * "District Court case number(s)" on one line and
- * "Metropolitan/Magistrate/Municipal Court case number(s)" on the next. A case
- * released without conviction very commonly originated in a magistrate,
- * metropolitan or municipal court -- the track's intake asks
- * "Where was the case originally handled -- district, metropolitan, magistrate
- * or municipal court" as a REQUIRED question for exactly that reason -- and the
- * petition is always filed in DISTRICT court regardless. The shared host writes
- * a static dictionary: one blank, one fact, for every participant. Writing the
- * held case number on the District Court line would therefore assert, on a
- * petition affirmed under penalty of perjury, that the case was a district
- * court case, and for a magistrate-court participant that is a false statement.
- * The number is left to the participant with the reason recorded on the row,
- * and the boundary fixture is a magistrate-court case so the choice is visible.
- * This diverges from nm_conviction-set on purpose and is raised for the
- * reviewer.
+ * "Metropolitan/Magistrate/Municipal Court case number(s)" on the next.
+ * Paragraph 12 asks the same question again as a printed select-one over four
+ * courts. A case released without conviction very commonly originated in a
+ * magistrate, metropolitan or municipal court -- the track's intake asks "Where
+ * was the case originally handled -- district, metropolitan, magistrate or
+ * municipal court, and in what location?" as a REQUIRED question for exactly
+ * that reason -- and the petition is always filed in DISTRICT court regardless.
+ *
+ * The build used to answer neither question and assert the second: the number
+ * was written on no line at all, under a row that said the platform holds no
+ * value for it, while the judicial district WAS written into the District Court
+ * branch of paragraph 12 on a fixture whose case is a magistrate case.
+ *
+ * Both are now decided by the held answer, which travels with the fixture as
+ * matter.originating_court. Where the case was disposed of in the district
+ * court, the number goes on the District Court line and the district on the
+ * District Court branch; where it was not, those two lines carry nothing and
+ * say which branch they belong to, and the participant copies the number onto
+ * the line for the court that did handle the case. That last step is still the
+ * participant's because the shared field semantics protect every blank whose
+ * printed line names a magistrate and refuse the write whatever fact is
+ * offered; the row says so in terms rather than calling a held fact
+ * unavailable.
  *
  * WHY THE SAN JUAN PACKET IS BOUND AND NOT RENDERED
  *
@@ -99,7 +108,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   runNmFamily, resolveSourcesByHash, ROOT,
-  WRITE, SUPPLY, PROTECT, ELECTION, ATTORNEY, OPTIONAL, NOT_A_BLANK, SIGNATURE
+  WRITE, SUPPLY, HELD_NOT_WRITTEN, PROTECT, ELECTION, ATTORNEY, INAPPLICABLE, OPTIONAL, NOT_A_BLANK, SIGNATURE
 } from "./rcap-nm-flat-forms/nm-packet-host.mjs";
 import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
 import { FORM_4_222, DICTIONARY_4_222, PRINTED_BLANKS_4_223, PRINTED_DISTRICT_FINDING, PRINTED_DISTRICT_IN_THE_CAPTION }
@@ -170,14 +179,42 @@ const AGENCY_LINE_NOTE =
 const PROSECUTOR_LINE_NOTE =
   "the platform's shared field semantics protect every district-attorney and prosecutor line from being written by a build.";
 
-const CASE_NUMBER_NOTE =
-  "Form 4-952 paragraph 4 asks for the case number by the court it was in, and the track's intake collects the "
-  + "originating court as a required answer because a case released without conviction commonly originated in a "
-  + "magistrate, metropolitan or municipal court even though the petition is filed in district court. The shared host "
-  + "writes a static dictionary -- one blank, one fact, for every participant -- so writing the held case number on the "
-  + "District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district "
-  + "court case. The participant copies the number onto the line for the court that handled it. Recorded for the owner "
-  + "of the registry in build-findings.json: a fact-conditional write would close this.";
+/**
+ * Which court the case was disposed of or originated in, read from the held
+ * intake answer rather than guessed from the shape of the case number.
+ *
+ * `rwcOriginatingCourt` is a REQUIRED generation input on this track
+ * (data/record-clearing/legal-design-specifications.json): "Where was the case
+ * originally handled -- district, metropolitan, magistrate or municipal court,
+ * and in what location?". The fixtures carry the court half of that answer,
+ * which is the half that decides which branch of paragraph 4 and paragraph 12
+ * the case uses. A build with no answer stops rather than picking a branch.
+ */
+const ORIGINATING_COURTS = new Set(["district", "metropolitan", "magistrate", "municipal"]);
+const originatingCourt = (facts) => {
+  const held = String(facts?.["matter.originating_court"] ?? "").toLowerCase();
+  if (!ORIGINATING_COURTS.has(held)) {
+    throw new Error(
+      "matter.originating_court is required on this track and must be one of district, metropolitan, magistrate or "
+      + `municipal; the fixture offers ${JSON.stringify(facts?.["matter.originating_court"] ?? null)}. Form 4-952 `
+      + "paragraph 4 asks for the case number by the court it was in and paragraph 12 is a printed select-one over the "
+      + "same four courts, and neither may be answered by assumption."
+    );
+  }
+  return held;
+};
+
+const LOWER_COURT_LINE_NOTE =
+  "the platform's shared field semantics protect every blank whose printed line names a magistrate: PROTECT_RULES "
+  + "matches /magistrate/ under the \"court\" category, so \"Metropolitan/Magistrate/Municipal Court case number(s)\" "
+  + "and \"[ ] Magistrate Court in ____ (location)\" refuse every write whatever fact is offered. That rule is shared "
+  + "by the whole corpus and re-labelling the blank until it stops matching it would be wording a refusal to beat a "
+  + "regex, so the line is left to the participant and the ground is stated. Reported in build-findings.json.";
+
+const LOWER_COURT_LOCATION_NOTE =
+  "the intake's required originating-court answer has two halves -- which court, and in what location -- and these "
+  + "fixtures carry the court. The location is the participant's to write, and on a magistrate or municipal line the "
+  + "shared protect rule above would refuse the write in any case. Reported in build-findings.json.";
 
 const BULLET = NOT_A_BLANK("a short printed rule in the left margin, 15pt wide, on a baseline that carries no printed text: a paragraph mark of the form, not a place anyone writes");
 
@@ -210,7 +247,41 @@ const P15 = "15. Telephonic or electronic appearance";
 const SIGN = "Signature section";
 const ATTY = "Attorney block (page 4)";
 
-const DICTIONARY_4_952 = {
+/**
+ * Form 4-952's dictionary is a FUNCTION of the facts, and it is the only one in
+ * these three families that is.
+ *
+ * Two of its blanks are decided by an answer the intake is required to collect
+ * -- "Where was the case originally handled: district, metropolitan, magistrate
+ * or municipal court, and in what location?" (rwcOriginatingCourt, requirement
+ * "required", data/record-clearing/legal-design-specifications.json). Paragraph
+ * 4 asks for the case number BY THE COURT IT WAS IN, on two different lines,
+ * and paragraph 12 is a printed "(select one)" with four branches. A static
+ * dictionary -- one blank, one fact, for every participant -- cannot answer
+ * either without asserting something about a case it has not been told about,
+ * which is what the delivered bytes did: the judicial district was written into
+ * the District Court branch of paragraph 12 on a fixture whose case is a
+ * MAGISTRATE case, and the held case number was written on neither paragraph-4
+ * line under a reason that said the platform does not hold it.
+ *
+ * So the branch is chosen from the held answer instead. Where the case was
+ * disposed of in the district court, the district-court lines carry the held
+ * values and the lower-court lines are the participant's; where it was not, the
+ * district-court lines are left empty as branches this case does not use, and
+ * they say so.
+ *
+ * WHAT THIS STILL CANNOT DO, AND WHY IT IS NOT WORDED AROUND. The shared field
+ * semantics protect every blank whose printed line names a magistrate:
+ * PROTECT_RULES matches /magistrate/ under the "court" category, so
+ * "Metropolitan/Magistrate/Municipal Court case number(s)" and "[ ] Magistrate
+ * Court in ____ (location)" refuse every write, whatever fact is offered. That
+ * rule is shared by every family in the corpus and is not this lane's to
+ * change, and re-labelling a blank until it stops matching a protect rule is
+ * the thing these counters exist to catch. On a lower-court case those two
+ * lines are therefore left to the participant with the ground stated as it is:
+ * the platform holds the value and the shared semantics refuse the write.
+ */
+const DICTIONARY_4_952 = (facts) => ({
   ...captionRows({ county: "p1-y61440-x14328", district: "p1-y59856-x7200", name: "p1-y54132-x9720" }),
 
   "p1-y41712-x12432": {
@@ -238,8 +309,34 @@ const DICTIONARY_4_952 = {
   "p1-y22116-x9000": HAND_BOX(P2, "Petitioner has no pending expungement cases", "mark it if you have no other expungement case pending in this judicial district"),
   "p1-y22116-x35520": { section: P2, label: "Judicial district in which Petitioner has no pending expungement cases", ...WRITE("matter.court") },
   "p1-y20736-x9000": HAND_BOX(P2, "Petitioner has the following pending expungement cases", "mark it instead if you do have other expungement cases pending, and list their case numbers on the two lines below"),
-  "p1-y20736-x43980": { section: P2, label: "Judicial district in which Petitioner has pending expungement cases", ...WRITE("matter.court") },
-  "p1-y17976-x26868": { section: P2, label: "Judicial district court the pending expungement cases are before", ...WRITE("matter.court") },
+  /*
+   * THE PENDING-EXPUNGEMENT BRANCH IS NOT THIS PETITION'S BRANCH.
+   *
+   * The same defect the sibling families carried on Forms 4-951 and 4-953, on
+   * the identically worded item 2 of this one. These two blanks belong to the
+   * second branch of the either/or -- the branch that asserts the petitioner
+   * HAS other expungement cases pending -- and the build wrote matter.court,
+   * the district this petition is filed in, into both, with neither box marked
+   * and the case-number lines below them blank. The platform holds no
+   * pending-expungement fact, and the district of a pending case is a different
+   * fact from the district of this filing. The first branch's blank keeps its
+   * write: it names this filing's own district and asserts nothing about any
+   * other case.
+   */
+  "p1-y20736-x43980": {
+    section: P2, label: "Judicial district in which Petitioner has pending expungement cases",
+    ...SUPPLY(
+      "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+      "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+    )
+  },
+  "p1-y17976-x26868": {
+    section: P2, label: "Judicial district court the pending expungement cases are before",
+    ...SUPPLY(
+      "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+      "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
+    )
+  },
   "p1-y16596-x9000": { section: P2, label: "Pending expungement case numbers, first line", ...SUPPLY("the case number of any other expungement case of yours pending in this judicial district") },
   "p1-y15216-x9000": { section: P2, label: "Pending expungement case numbers, second line", ...SUPPLY("a second pending expungement case number, if you have one") },
 
@@ -249,8 +346,46 @@ const DICTIONARY_4_952 = {
   "p2-y70344-x9000": { section: P3, label: "Expungement case numbers in which Petitioner was denied, second line", ...SUPPLY("a second case number in which you were denied, if there is one") },
   "p2-y68964-x9000": { section: P3, label: "Expungement case numbers in which Petitioner was denied, third line", ...SUPPLY("a third case number in which you were denied, if there is one") },
 
-  "p2-y63444-x23856": { section: P4, label: "District Court case number(s) that are the subject of the petition", ...SUPPLY("the case number, on this line ONLY if the case was in district court. If it was in a metropolitan, magistrate or municipal court, leave this line empty and use the next one", CASE_NUMBER_NOTE) },
-  "p2-y60684-x9000": { section: P4, label: "Metropolitan, Magistrate or Municipal Court case number(s)", ...SUPPLY("the case number, on this line if the case was in a metropolitan, magistrate or municipal court -- which is where most cases on this track were", CASE_NUMBER_NOTE) },
+  /*
+   * PARAGRAPH 4: THE CASE NUMBER GOES ON THE LINE FOR THE COURT THAT HELD THE
+   * CASE, AND ON NO OTHER.
+   *
+   * The held answer decides it. On a district-court case the number is written
+   * where the form asks for a district-court number; on a lower-court case that
+   * line has no value in the world -- the case has no district-court number --
+   * and it is left empty as a line this case does not use, rather than filled
+   * or excused as a fact nobody holds.
+   */
+  ...(originatingCourt(facts) === "district"
+    ? {
+      "p2-y63444-x23856": { section: P4, label: "District Court case number(s) that are the subject of the petition", ...WRITE("matter.case_number") },
+      "p2-y60684-x9000": {
+        section: P4, label: "Metropolitan, Magistrate or Municipal Court case number(s)",
+        ...SUPPLY(
+          "the case number any metropolitan, magistrate or municipal court gave this matter, if it was in one of those courts too; your district court number is already written on the line above",
+          "the held originating-court answer for this case is the district court and its number is written on the district-court line. The platform holds no second number for a lower court, and it does not invent one."
+        )
+      }
+    }
+    : {
+      "p2-y63444-x23856": {
+        section: P4, label: "District Court case number(s) that are the subject of the petition",
+        ...INAPPLICABLE(
+          `the held originating-court answer for this case is the ${originatingCourt(facts)} court, so the case has no `
+          + "district court case number. This line asks for the number of a case the district court held, and paragraph "
+          + "4 prints a separate line for a metropolitan, magistrate or municipal number immediately below it.",
+          "the case was not a district court case, so there is no district court number to write here and none is "
+          + "invented. The number this case does have belongs on the next line."
+        )
+      },
+      "p2-y60684-x9000": {
+        section: P4, label: "Metropolitan, Magistrate or Municipal Court case number(s)",
+        ...HELD_NOT_WRITTEN(
+          "your case number, on this line -- your case was in a metropolitan, magistrate or municipal court, and this is the line the form gives for it",
+          `the platform holds this case number as matter.case_number and the write is refused rather than unavailable -- the value itself is not repeated into this record. ${LOWER_COURT_LINE_NOTE}`
+        )
+      }
+    }),
   "p2-y59304-x29880": { section: P4, label: "Law Enforcement Agency case number(s)", ...SUPPLY("the case number the law enforcement agency gave this matter, from your records", AGENCY_LINE_NOTE) },
   "p2-y57924-x17856": { section: P4, label: "Arrest number(s)", ...SUPPLY("the arrest number from your fingerprint card or RAP sheet") },
 
@@ -303,14 +438,37 @@ const DICTIONARY_4_952 = {
   "p3-y51024-x16404": { section: P11, label: "Address of the prosecuting office the petition will be mailed to", ...SUPPLY("the street address of that district attorney's office, which you get from the court or from the office itself") },
   "p3-y44376-x7608": BULLET,
 
+  /*
+   * PARAGRAPH 12 IS A PRINTED "(SELECT ONE)" AND ONLY ONE BRANCH IS THIS CASE'S.
+   *
+   * The build wrote the judicial district into the District Court branch on
+   * every participant, including one whose case is a magistrate case: the
+   * delivered page 3 read "[ ] District Court in the Seventh Judicial District"
+   * with no box marked and the three lower-court lines empty, which is the very
+   * assertion the paragraph-4 refusal was made to avoid, one paragraph later
+   * and with a different fact. The branch is now taken from the held
+   * originating-court answer, and the branches the case does not use carry
+   * nothing.
+   */
   "p3-y39984-x9000": HAND_BOX(P12, "Charges were disposed of or originated in the District Court", "mark the one court the charges were disposed of or originated in"),
-  "p3-y39984-x20340": { section: P12, label: "Judicial district of the District Court the charges were disposed of or originated in", ...WRITE("matter.court") },
+  "p3-y39984-x20340": originatingCourt(facts) === "district"
+    ? { section: P12, label: "Judicial district of the District Court the charges were disposed of or originated in", ...WRITE("matter.court") }
+    : {
+      section: P12, label: "Judicial district of the District Court the charges were disposed of or originated in",
+      ...INAPPLICABLE(
+        `the held originating-court answer for this case is the ${originatingCourt(facts)} court, and paragraph 12 is a `
+        + "printed select-one over four courts. The District Court branch is not the branch this case uses, and the "
+        + "case was never disposed of in a district court whose judicial district could go on this line.",
+        "the charges were not disposed of or originated in the district court, so this branch of the select-one carries "
+        + "nothing. The participant marks the branch their case used and writes its location on that line."
+      )
+    },
   "p3-y38604-x9000": HAND_BOX(P12, "Charges were disposed of or originated in the Metropolitan Court", "mark it instead if they were in a metropolitan court"),
-  "p3-y38604-x21228": { section: P12, label: "Location of the Metropolitan Court the charges were disposed of or originated in", ...SUPPLY("the town or city that metropolitan court sits in") },
+  "p3-y38604-x21228": { section: P12, label: "Location of the Metropolitan Court the charges were disposed of or originated in", ...SUPPLY("the town or city that metropolitan court sits in", LOWER_COURT_LOCATION_NOTE) },
   "p3-y37224-x9000": HAND_BOX(P12, "Charges were disposed of or originated in the Magistrate Court", "mark it instead if they were in a magistrate court"),
-  "p3-y37224-x20100": { section: P12, label: "Location of the Magistrate Court the charges were disposed of or originated in", ...SUPPLY("the town or city that magistrate court sits in") },
+  "p3-y37224-x20100": { section: P12, label: "Location of the Magistrate Court the charges were disposed of or originated in", ...SUPPLY("the town or city that magistrate court sits in", LOWER_COURT_LOCATION_NOTE) },
   "p3-y35844-x9000": HAND_BOX(P12, "Charges were disposed of or originated in the Municipal Court", "mark it instead if they were in a municipal court"),
-  "p3-y35844-x19908": { section: P12, label: "Location of the Municipal Court the charges were disposed of or originated in", ...SUPPLY("the town or city that municipal court sits in") },
+  "p3-y35844-x19908": { section: P12, label: "Location of the Municipal Court the charges were disposed of or originated in", ...SUPPLY("the town or city that municipal court sits in", LOWER_COURT_LOCATION_NOTE) },
   "p3-y33336-x7608": BULLET,
   "p3-y27816-x7608": BULLET,
 
@@ -336,7 +494,7 @@ const DICTIONARY_4_952 = {
   "p4-y45504-x7200": { section: ATTY, label: "Mailing Address of the attorney", ...ATTORNEY("part of the attorney block; no attorney-representation fact is held for this participant") },
   "p4-y42336-x7200": { section: ATTY, label: "Telephone Number of the attorney", ...ATTORNEY("part of the attorney block; no attorney-representation fact is held for this participant") },
   "p4-y42336-x36000": { section: ATTY, label: "Email of the attorney", ...ATTORNEY("part of the attorney block; no attorney-representation fact is held for this participant") }
-};
+});
 
 /* ------------------------------------------------------------------ *
  * 4-955 NMRA — Certificate of service; expungement of records upon release
@@ -514,11 +672,15 @@ const DICTIONARY_4_960_2 = {
  *
  * Two synthetic participants, neither a real person. They carry exactly the
  * facts this track's intake collects and no telephone number and no e-mail
- * address. The boundary participant's case originated in a MAGISTRATE court,
- * which is the ordinary shape of a case on this track and is the reason the
- * case number is not written onto the "District Court case number(s)" line.
- * The held case number and arresting agency travel with the fixture so the
- * record shows they were held and not written, and why.
+ * address. The canonical participant's case was disposed of in the DISTRICT
+ * court and the boundary participant's in a MAGISTRATE court, which is the
+ * ordinary shape of a case on this track; that answer -- the court half of the
+ * required rwcOriginatingCourt input -- is what decides which paragraph-4 line
+ * carries the case number and which branch of the paragraph-12 select-one
+ * carries the district. It travels with the fixture as matter.originating_court
+ * rather than being inferred from the shape of the case number, because a
+ * petition affirmed under penalty of perjury is not a place to read a court off
+ * a prefix.
  * ------------------------------------------------------------------ */
 const compose = (f) => ({
   ...f,
@@ -536,6 +698,7 @@ const FIXTURES = {
     "matter.county": "Bernalillo",
     "matter.court": "Second",
     "matter.case_number": "D-202-CR-2021-01532",
+    "matter.originating_court": "district",
     "matter.arresting_agency": "Albuquerque Police Department"
   }),
   boundary: compose({
@@ -548,6 +711,7 @@ const FIXTURES = {
     "matter.county": "Sierra",
     "matter.court": "Seventh",
     "matter.case_number": "M-51-MR-2019-00417",
+    "matter.originating_court": "magistrate",
     "matter.arresting_agency": "Sierra County Sheriff's Office"
   })
 };
@@ -582,9 +746,11 @@ function participantInstructions({ rbf, controls, inapplicable }) {
   );
   out.push(
     "The platform filled in what it holds about you: your name, your date of birth, your address, the county and the "
-    + "judicial district. **Everything else is yours** — including your case number, the way the case ended, the "
-    + "agencies that hold your records, your telephone number and your e-mail — and every one of those blanks is listed "
-    + "below by the form and the section it is in.", ""
+    + "judicial district, and -- where you told us your case was handled in the district court -- your case number, on "
+    + "the one line paragraph 4 gives for a district court number. **Everything else is yours**: the way the case "
+    + "ended, the agencies that hold your records, your telephone number, your e-mail, and your case number if your "
+    + "case was in a metropolitan, magistrate or municipal court. Every one of those blanks is listed below by the "
+    + "form and the section it is in.", ""
   );
 
   out.push("## Keep this petition separate from any conviction", "");
@@ -682,17 +848,28 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth "
     + "Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial "
     + "district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court "
-    + "named on it.", ""
+    + "named on it.", "",
+    "**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then "
+    + "county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, "
+    + "and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as "
+    + "you correct the court line, or take your own district's copy of the form and complete its caption from the "
+    + "start. The same is true of the county line on the order bound at the back of it.", ""
   );
 
   out.push("## Your case number goes on the line for the court that handled the case", "");
   out.push(
     "Paragraph 4 of Form 4-952 has one line for a **District Court** case number and another for a **Metropolitan, "
-    + "Magistrate or Municipal Court** case number. Most cases on this track were in one of the lower courts even "
-    + "though the petition is filed in district court. The platform did not write your case number, because it cannot "
-    + "tell from the form which line is right for your case and the petition is affirmed under penalty of perjury. "
-    + "**Copy the case number from your court record onto the line for the court that handled the case, and leave the "
-    + "other line empty.**", ""
+    + "Magistrate or Municipal Court** case number, and paragraph 12 asks the same question again as a choice between "
+    + "four courts. Most cases on this track were in one of the lower courts even though the petition is filed in "
+    + "district court, so those are not the same answer.", "",
+    "The packet uses the answer you gave about which court handled your case, and nothing else. **If your case was in "
+    + "the district court**, your case number is already on the District Court line of paragraph 4 and your judicial "
+    + "district on the District Court line of paragraph 12; leave the lower-court lines empty. **If your case was in a "
+    + "metropolitan, magistrate or municipal court**, both of those lines are deliberately empty: your case has no "
+    + "district court number and was not disposed of in a district court, and nothing is written on a line that would "
+    + "say otherwise on a petition you affirm under penalty of perjury. **Copy your case number onto the "
+    + "Metropolitan/Magistrate/Municipal line in paragraph 4, and in paragraph 12 tick the court that handled your "
+    + "case and write the town or city it sits in.**", ""
   );
 
   out.push("## Boxes you tick with a pen", "");
@@ -725,7 +902,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Every signature and every signature date.** Forms 4-952 and 4-960.2 are affirmed under penalty of perjury.");
-  out.push("- **Your case number**, for the reason given above: the form asks for it by the court it was in.");
+  out.push("- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other; where your case was in a metropolitan, magistrate or municipal court, copying it onto that line is yours to do, for the reason in the section above.");
+  out.push("- **The county in the caption of Form 4-222 and of the order bound with it.** That form prints another district's court name directly below the county line, so a county written there would help compose a caption naming a court that is not yours. Complete the whole of that caption by hand on the copy you file, or use your own district's copy of the form.");
   out.push("- **Everything below the caption of Form 4-955.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.");
   out.push("- **Everything Form 4-959 and Form 4-960.2 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you. None of it is knowable now.");
   out.push("- **The way the case ended and the date it ended**, in paragraph 6. You mark the disposition and copy the date from the court's record.");
@@ -837,13 +1015,18 @@ const FAMILY = {
   whatToLookAt: [
     "Form 4-952 page 1, the caption and paragraph 1: county, judicial district and name in the caption; date of birth, "
       + "mailing address, city, state and ZIP on their own rules; all three phone boxes and the alias line empty.",
-    "Form 4-952 page 1, paragraph 2: the judicial district written on all three of its lines, and both printed boxes "
-      + "unmarked.",
-    "Form 4-952 page 2, paragraph 4: ALL FOUR case-number lines empty, including the District Court line. This is "
-      + "deliberate and differs from nm_conviction-set; see build-findings.json.",
+    "Form 4-952 page 1, paragraph 2: the judicial district written on ONE line only -- the \"has no pending "
+      + "expungement cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch "
+      + "EMPTY and both printed boxes unmarked.",
+    "Form 4-952 page 2, paragraph 4: the case number on the line for the court the held intake answer names, and on no "
+      + "other. On the canonical fixture, a district-court case, that is the District Court line; on the boundary "
+      + "fixture, a magistrate case, EVERY case-number line is empty, including the lower-court line the number "
+      + "belongs on, which the shared semantics refuse. See build-findings.json.",
     "Form 4-952 page 2, paragraph 6: every charge detail empty and every one of the six disposition boxes unmarked.",
-    "Form 4-952 pages 2 and 3, paragraphs 10 and 12: the judicial district written on the District Court line of each, "
-      + "and every sheriff, district-attorney and agency line empty.",
+    "Form 4-952 pages 2 and 3, paragraph 10 and paragraph 12: in paragraph 10 the judicial district is written on the "
+      + "District Court line on both fixtures; in paragraph 12 it is written on the District Court branch ONLY on the "
+      + "canonical fixture, and the boundary fixture's paragraph 12 carries no ink on any of its four branches. Every "
+      + "sheriff, district-attorney and agency line is empty on both.",
     "Form 4-952 page 3: nothing written on the five short marginal rules, and nothing on the full-width divider at the "
       + "foot of the page.",
     "Form 4-952 page 4, the SIGNATURE SECTION: the printed name written, the date beside it empty, the signature line "
@@ -859,7 +1042,14 @@ const FAMILY = {
       + "to 5, the judge's name and the TCAA signature block empty. Page 2: EMPTY, because the four service blocks are "
       + "the petitioner's to complete for any objector.",
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
-      + "this build cannot change.",
+      + "this build cannot change -- and, one line above it on both pages, the COUNTY OF blank now left EMPTY. It used "
+      + "to carry the participant's county, which composed with the printed district into a caption naming a court "
+      + "they have not chosen; both blanks are the participant's to complete on the copy they file.",
+    "Form 4-952 page 2 paragraph 4 and page 3 paragraph 12, on BOTH fixtures and read against each other. The "
+      + "canonical case was disposed of in the district court, so its number is on the District Court line and its "
+      + "judicial district on the District Court branch of the select-one. The boundary case is a magistrate case: "
+      + "both of those lines must be EMPTY, no branch of paragraph 12 may carry ink, and no box anywhere may be "
+      + "marked.",
     "No page of either fixture comes from the San Juan packet. Both fixtures are 21 pages: 4 + 2 + 3 + 2 + 3 + 7."
   ],
   blockingFindings: [PRINTED_DISTRICT_FINDING],
@@ -876,18 +1066,38 @@ const FAMILY = {
     },
     {
       finding:
-        "THE CASE NUMBER IS HELD AND NOT WRITTEN. Form 4-952 paragraph 4 asks for it by the court it was in -- a "
-        + "District Court line and a Metropolitan/Magistrate/Municipal Court line -- and the track's intake collects the "
-        + "originating court as a required answer because cases on this track commonly originated in a lower court while "
-        + "the petition is always filed in district court. The shared host's dictionary is static: one blank, one fact.",
+        "THE CASE NUMBER AND THE PARAGRAPH-12 DISTRICT ARE NOW WRITTEN BY THE HELD ORIGINATING-COURT ANSWER. Form 4-952 "
+        + "paragraph 4 asks for the case number by the court it was in -- a District Court line and a "
+        + "Metropolitan/Magistrate/Municipal Court line -- and paragraph 12 is a printed select-one over four courts. "
+        + "The track's intake collects rwcOriginatingCourt as a REQUIRED answer for exactly that reason. The previous "
+        + "build had a static dictionary, one blank one fact, and it produced both halves of the same defect: the case "
+        + "number was written on neither line under a row that said the platform holds no value for it, which the "
+        + "finding above contradicted in terms, and the judicial district WAS written into the District Court branch of "
+        + "paragraph 12 on the magistrate-court fixture.",
       consequence:
-        "Writing the held number on the District Court line would assert, on a petition affirmed under penalty of "
-        + "perjury, that the case was a district court case; for the boundary fixture, a magistrate-court case, it would "
-        + "be false. Both lines are declared required-before-filing with the reason on the row, the participant is told "
-        + "which line to use under a heading of its own, and the fixtures carry the held number so the record shows it was "
-        + "held and not written. This diverges from nm_conviction-set, which writes matter.case_number on the District "
-        + "Court line. Reported for the owner of the registry: a fact-conditional write keyed to the originating court "
-        + "would close this."
+        "The dictionary for this form is now a function of the facts, and the fixtures carry matter.originating_court. "
+        + "Where the held answer is the district court the case number is written on the District Court line of "
+        + "paragraph 4 and the judicial district on the District Court branch of paragraph 12; where it is not, both "
+        + "lines are left empty, the District Court lines are declared NOT_APPLICABLE_ON_THIS_ROUTE with the held "
+        + "answer named as the condition, and the participant is told which line is theirs under a heading of its own. "
+        + "This no longer diverges from nm_conviction-set on the district-court branch. What remains: the shared field "
+        + "semantics protect every blank whose printed line names a magistrate (PROTECT_RULES matches /magistrate/ "
+        + "under the \"court\" category), so on a lower-court case the Metropolitan/Magistrate/Municipal case-number "
+        + "line and the paragraph-12 magistrate and municipal location lines refuse every write whatever fact is "
+        + "offered. That row is declared KNOWN_FACT_NOT_WRITTEN on the boundary half of the field map rather than "
+        + "excused as an unavailable fact -- the platform holds the number -- and it is reported for the owner of the "
+        + "shared semantics. Re-labelling the blank until it stopped matching the protect rule was available and was "
+        + "not done."
+    },
+    {
+      finding:
+        "The intake's required originating-court answer has two halves: which court, and in what location. These "
+        + "fixtures carry the court half as matter.originating_court, which is the half that decides which branch of "
+        + "paragraph 4 and paragraph 12 the case uses.",
+      consequence:
+        "The location half is left to the participant on every lower-court line, with the reason on the row. Holding it "
+        + "would not change the delivered page: those same lines are refused by the shared protect rule above, so a held "
+        + "location would be a held fact this host still could not write."
     },
     {
       finding:
@@ -973,11 +1183,16 @@ const FAMILY = {
     }
   ],
   mattersForTheReviewersAttention: [
-    "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over it.",
-    "The case number is held and deliberately not written, because Form 4-952 paragraph 4 asks for it by the court it "
-      + "was in and the host cannot route a write by the originating-court fact. nm_conviction-set writes it on the "
-      + "District Court line. Counsel should decide which of the two is right, and the owner of the registry should see "
-      + "the request for a fact-conditional write.",
+    "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over "
+      + "it. The build no longer writes the participant's county into the blank one line above it on either caption; "
+      + "both are left for the participant, who is told to complete that caption by hand or to use their own "
+      + "district's copy. Whether the component may ship statewide on this binary at all is still open and is "
+      + "counsel's.",
+    "Form 4-952's dictionary is a function of the held originating-court answer: paragraph 4's case number and "
+      + "paragraph 12's judicial district are written on the district-court branch only where the case was disposed of "
+      + "in the district court, and the other branches carry nothing. Counsel should confirm the branch rule, and the "
+      + "owner of the shared field semantics should see that /magistrate/ in the \"court\" protect rule refuses the "
+      + "lower-court case-number line even when the number is held.",
     "The proposed-order component is bound by hash and not rendered: the bound binary is a whole 31-page San Juan "
       + "County packet, county-captioned and citing the 2019 statute, and the manifest conditions it on San Juan County. "
       + "Counsel should confirm that not rendering it is the right disposition, and whether the family's binding should "

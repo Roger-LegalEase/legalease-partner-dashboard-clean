@@ -31,8 +31,8 @@ One thing this packet does **not** tell you, because it is not established by th
 | Component | What it is |
 | --- | --- |
 | `primary_filing` | CC-1203, the petition itself |
-| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
 | `ccre_forwarding_request` | the request that the Central Criminal Records Exchange forward your criminal history record to the court, made after filing |
+| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
 | `records_checklist` | the records you need in front of you to complete the petition |
 | `filing_instructions` | where the packet goes and in what order |
 
@@ -74,17 +74,17 @@ One thing this packet does **not** tell you, because it is not established by th
 | 5 | Why the charging document for the second ancillary matter is not reasonably available | why the charging document for the second ancillary matter is not reasonably available — only if you ticked that box |
 | 6 | How many CC-1203(A) or CC-1203(B) addendum pages are attached | how many addendum pages you are attaching — only if you ticked the ADDENDUM box |
 
-### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
-
-| Page | The blank on the document | What to write |
-| --- | --- | --- |
-| 1 | Mailing address of the Attorney for the Commonwealth | the mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you |
-
 ### ccre_forwarding_request — Request to the Central Criminal Records Exchange to Forward a Criminal History Record
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
 | 1 | Date of the request to the Central Criminal Records Exchange | the date you actually make the request to the Central Criminal Records Exchange, which is after the petition is filed |
+
+### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
+
+| Page | The blank on the document | What to write |
+| --- | --- | --- |
+| 1 | Mailing address of the Attorney for the Commonwealth | the mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you |
 
 ## What the packet answered for you
 

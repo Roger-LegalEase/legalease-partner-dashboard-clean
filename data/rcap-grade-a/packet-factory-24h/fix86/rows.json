@@ -1,0 +1,105 @@
+{
+  "lane": "FIX86",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "obligationsRepaired": ["SELF_HELP_STOP"],
+  "rows": [
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "familyId": "co_motion_seal_nonconviction-set",
+      "lane": "FIX86",
+      "laneKind": "repair",
+      "verdict": "REPAIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["SELF_HELP_STOP"],
+      "defectRepaired": {
+        "obligation": "SELF_HELP_STOP",
+        "raisedBy": "VF02, independent-verification, verifiedAtBase 0ed47bb50",
+        "finding": "The packet does not state where self-help ends. The repository holds the answer for this exact track and the packet carried none of it, named no lawyer and named no referral route.",
+        "surface": "participant-instructions.md only. No form byte, no field map and no rendered fixture is implicated by this defect."
+      },
+      "worktree": "/home/user/fix86-worktree, branch fix86-co-motion-stops cut from e3fa459e2 on the Captain branch. core.sparseCheckout false, 0 skip-worktree bits. private/ rebuilt as a real directory of read-only symlinks to the corpus subtrees so `git check-ignore -q private/` passes and `git ls-files private/` is empty; the same environment artifact FIX70 and VF02 recorded. MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1.",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX86 co_motion_seal_nonconviction-set -> CLAIM_OK FIX86 co_motion_seal_nonconviction-set (repair, grant set d0bb413e5ea042cc), exit 0, run inside this worktree before any family artifact was opened for writing. The grant is not released here and the claim ledger is not committed. Disclosed: the same assertion run first in /home/user/legalease-partner-dashboard-clean returned NOT_GRANTED exit 6 against that checkout's stale ledger; this lane stopped on it and reported, and proceeded only after the coordinator identified the wrong checkout and the grant was confirmed here.",
+      "theRepair": {
+        "file": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "what": "A `Where self-help ends` section was added to the builder's participantInstructions() output, immediately before `What this packet is not`. It follows the shape the Vermont and Pennsylvania packets already use: the stop conditions as a bulleted list in the record's own words, then a paragraph naming who to ask when one is reached.",
+        "sourcedNotWritten": "The conditions are not hardcoded in the builder. A new selfHelpStops() reads data/record-clearing/legal-design-track-registry.json at build time, finds trackId co_motion_seal_nonconviction, and prints track.selfHelpStopConditions verbatim, one bullet per declared condition. The build refuses -- assert -- if the registry carries no entry for the track or declares an empty condition list, so the packet cannot silently lose a condition or drift from the record if the registry changes.",
+        "whoToAsk": "Nothing is invented. The clerk of the Colorado court that handled the case is the clerk the packet already names for filing and the fee, and is the destination the registry records. The lawyer reference is the generic category the Pennsylvania packet uses -- 'a lawyer licensed to practise in Colorado' for eligibility, for what to argue and at a contested hearing -- and the fallback is the Pennsylvania form, 'ask that same clerk's office how to reach legal aid or a lawyer referral service'. NO ORGANISATION IS NAMED, because the repository names none for Colorado: grepped for Colorado Legal Services, Colorado Bar Association, legal aid and lawyer referral across data/ and the CO records, with no Colorado-specific referral route held anywhere.",
+        "oneURLDELIBERATELYNOTPRINTED": "The registry and CO.memo.json both hold https://www.coloradojudicial.gov/self-help/seal-my-case as an official source, but its sha256 is null -- it is not hash-bound in this repository. It is not printed, on the packet's own stated ethic that an unsourced address in a filing instruction is worse than none.",
+        "fit70NotDisturbed": "fitAppearancesToRect and the appearance suppression FIX70 installed were not touched; the diff is 68 added lines and 0 removed lines in the builder, all inside participantInstructions() and the new helper and constants."
+      },
+      "conditionByConditionMatch": {
+        "result": "3/3 verbatim",
+        "method": "The rendered participant-instructions.md was matched against the registry's declared array programmatically, requiring the exact string as a whole bullet line ('- ' + condition), not a substring anywhere in the file.",
+        "conditions": [
+          { "condition": "The district attorney objects.", "printedVerbatimAsBullet": true },
+          { "condition": "The court sets a contested hearing.", "printedVerbatimAsBullet": true },
+          { "condition": "Immigration, licensing or firearm consequences are in play.", "printedVerbatimAsBullet": true }
+        ],
+        "againstTheMemoToo": "3/3. data/record-clearing/legal-design-intake/CO.memo.json declares the identical three selfHelpStopConditions for this track and each appears verbatim in the rendered file.",
+        "qualifier": "The registry's one postGenerationHandoffs entry -- 'A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.' -- is printed verbatim in quotation marks and framed as the registry's own note distinguishing a routine hearing from a contested one, because unframed it reads as contradicting the second bullet for a lay reader and it is written in platform vocabulary rather than to the participant.",
+        "waitingPeriodsAndExclusions": "The registry declares waitingPeriods [] and exclusions [] for this track, and CO.memo.json declares the same two empty arrays. The packet states that each is empty rather than leaving the reader to assume, and the exclusion line carries the express caveat that an absent categorical exclusion is not a finding that the participant's own records are eligible.",
+        "referralStringsPresent": ["lawyer", "legal aid", "lawyer referral service", "Where self-help ends"]
+      },
+      "fixtureDigests": {
+        "requirement": "byte-identical before and after, because the defect lives in participant-instructions.md only and the live RASTER_PASS receipt must keep binding the same bytes",
+        "measuredFirst": "sha256sum over fixtures/ on disk before the builder was run once",
+        "before": {
+          "canonical.pdf": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+          "boundary.pdf": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18"
+        },
+        "after": {
+          "canonical.pdf": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+          "boundary.pdf": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18"
+        },
+        "unchanged": true,
+        "bothEqualTheReceipt": "Both equal the digests VF02 read at verifiedAtBase 0ed47bb50, FIX70's 'after' digests, and boundToCanonicalSha256 / boundToBoundarySha256 on the live RASTER_PASS receipt in RASTER_QUEUE.json (run 33995415457). The receipt still binds these exact bytes, so no re-raster is owed by this repair.",
+        "noPDFPageMoved": "participant-instructions.md is written as a standalone markdown file by fs.writeFileSync, after the fixtures are saved and from no shared state with them; the instructions are not composed into any PDF page. The stop condition in the dispatch -- stop and report before committing moved bytes -- was therefore not reached.",
+        "gitConfirms": "git diff --stat over the whole worktree names exactly two files, the builder and participant-instructions.md. No fixture, no raster PNG, no report and no field map is modified."
+      },
+      "determinism": {
+        "rebuiltTwice": true,
+        "method": "After the final builder edit, the family was rebuilt twice consecutively through its own builder and the entire overlay directory was hashed after each run: 26 files, sha256 each, sorted.",
+        "result": "IDENTICAL. diff over the two 26-file digest listings is empty, and the two fixture digests equal the pre-build values on both runs.",
+        "note": "An earlier pair of runs on an intermediate draft of the prose also reproduced the same two fixture digests; the recorded determinism pair is the one on the committed code."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set -> PASS_COMPLETE, 15/75 written, exit 0, run on the rebuilt committed bytes in this worktree.",
+        "whatNineZerosDoesNotProve": "The nine counters were nine zeros on the defective bytes VF02 failed, and they are nine zeros here. They do not see this obligation: the defect was an omission from a prose instruction file, which no counter measures. They are reported because they must not regress, and they did not."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "SELF_HELP_STOP is repaired by this lane and is NOT verified by it. The independent re-read of that obligation remains owed, and this row is a repair record rather than a verification.",
+        "Every other obligation on this family. This lane re-read none of the fourteen obligations VF02 measured and re-measured no page.",
+        "VISUAL_INTEGRITY and the raster gate. No raster was inspected here and no new receipt was taken; the existing RASTER_PASS is relied on only for the proposition that the fixture bytes are unchanged, which was measured.",
+        "REQUIRED_BEFORE_FILING. VF02 recorded, without scoring it, that two of the seven requiredBeforeFiling items in the packet-set manifest -- obtaining the CBI criminal-history report, and checking the disposition answer against it -- are named nowhere in participant-instructions.md. This lane's assignment was one defect and that observation is untouched and still open.",
+        "The stale metadata VF02 recorded: build-status.json carries no rasterState and records independentVerificationStatus PENDING, and product-wiring.json binding.lastIndependentVerification still records an older lane verdict. Neither was written here.",
+        "The field map's under-declaration of the second Defendant-name widget rect, which VF02 recorded as an observation failing no obligation. Not touched.",
+        "The release blocker CO.memo.json records for this track -- JDF 477, 478, 491, 492 and 493 not being in the replica archive -- is unaffected by this repair.",
+        "No route promotion, no build-status advance and no commercial authority follows from this row."
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-grade-a/packet-factory-24h/fix86/rows.json"
+      ],
+      "notDone": [
+        "The grant is not released and data/rcap-grade-a/packet-factory-24h/claim-ledger.json is not committed, as the dispatch directs.",
+        "No pull request was opened.",
+        "No shared manifest, queue file, build-status.json or product-wiring.json was written."
+      ]
+    }
+  ]
+}
