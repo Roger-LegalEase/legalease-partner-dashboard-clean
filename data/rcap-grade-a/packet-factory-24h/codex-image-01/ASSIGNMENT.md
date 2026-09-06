@@ -31,3 +31,5 @@ Writable: `deploy/rcap-render-worker/**`, `data/rcap-staging-action.json` (gener
 ## Execution continuation — Codex Captain
 
 Executing in the demonstrated Docker-capable Git environment from Captain `6eda4d48515f2c370aac3762aa3010231d83d66b`, after integrated RETURN-03. This supersedes the original Cloud launch and base assumptions. Preserve the historical published-source equivalence refusal; build and test the current local image independently. Test harnesses and synthetic authority are read-only external mounts, with no application or committed registry mounts. Local image ID, source fingerprint and published immutable digest are separate facts. Publication remains outside this task.
+
+Execution completed locally: actual image build, packaged preflight, current-authority decisions, consumer and sponsored rendering, regeneration, download, and explicit failure acceptance passed. The real Illinois record remains revoked. Current publication is still required; the historical publication fingerprint refusal remains visible in `RETURN.json`.

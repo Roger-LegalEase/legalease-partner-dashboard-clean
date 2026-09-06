@@ -2,7 +2,7 @@
   "schemaVersion": "packet-factory-24h/codex-assignment/v1",
   "recordedBy": "Captain",
   "recordedOn": "2026-09-06T03:50:00Z",
-  "authorizedBy": "Owner instruction of 2026-09-06 (ADD THREE CODEX WORKERS \u2014 KEEP THE CURRENT CLAUDE OPERATION RUNNING)",
+  "authorizedBy": "Owner instruction of 2026-09-06 (ADD THREE CODEX WORKERS — KEEP THE CURRENT CLAUDE OPERATION RUNNING)",
   "captainBranch": "claude/legalease-sprint-captain-utucnw",
   "captainBaseSha": "85e9d69e851705b43b1a73b93db6158e40bb02ea",
   "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
@@ -18,9 +18,9 @@
   "lane": "CXI01",
   "laneKind": "runtime-image",
   "branch": "codex/image-01-render-worker",
-  "status": "PREPARED_AWAITING_LAUNCH",
-  "launchedBy": "not launched from the Captain environment (no Codex launch tool here); Roger launches the Codex Cloud task with the prompt in ASSIGNMENT.md",
-  "ownershipCheck": "DEL-D (Claude, integrated at e3fa459e2) traced 67 runtime files, wrote deploy/rcap-render-worker/runtime-data-manifest.json, build-runtime-data-manifest.mjs, preflight.mjs, Dockerfile.dockerignore and IMAGE_BUILD_RECORD.json, built image sha256:1e3eebe5aeaf\u2026 on base cba72cf5a and smoke-tested preflight in-container. That snapshot predates DEL-A (0fcedd773) and DEL-B (7307b0e34) and no render ran inside the container. DEL-D's worktree is removed; no lane holds these paths now.",
+  "status": "LOCAL_IMAGE_ACCEPTANCE_COMPLETE_PUBLICATION_REQUIRED",
+  "launchedBy": "Codex Captain, explicit bounded image task in demonstrated Docker-capable Git environment",
+  "ownershipCheck": "DEL-D (Claude, integrated at e3fa459e2) traced 67 runtime files, wrote deploy/rcap-render-worker/runtime-data-manifest.json, build-runtime-data-manifest.mjs, preflight.mjs, Dockerfile.dockerignore and IMAGE_BUILD_RECORD.json, built image sha256:1e3eebe5aeaf… on base cba72cf5a and smoke-tested preflight in-container. That snapshot predates DEL-A (0fcedd773) and DEL-B (7307b0e34) and no render ran inside the container. DEL-D's worktree is removed; no lane holds these paths now.",
   "whatRemains": [
     "rebuild the image on the integrated worker-code snapshot captainBaseSha, which carries DEL-A's participant renderer and DEL-B's migration",
     "regenerate the runtime-data manifest with the existing script and reconcile it with the traced import graph after DEL-A (new modules under src/lib/rcap/grade-a/families/** and scripts/lib/il-prostitution-j-vacate-composition.mjs)",
@@ -62,12 +62,12 @@
     "copy data/ wholesale, private/, secrets or test-authority fixtures into the image",
     "edit approval records or bind d4cb7659 or any unapproved digest as approved",
     "publish or push the image; claim a hosted run",
-    "touch the worker script or application code \u2014 report a needed change instead"
+    "touch the worker script or application code — report a needed change instead"
   ],
   "executionContinuation": {
     "authorizedBy": "Codex Captain task message following integration of RETURN-03",
     "selectedCaptainSha": "6eda4d48515f2c370aac3762aa3010231d83d66b",
-    "status": "EXECUTING",
+    "status": "LOCAL_IMAGE_ACCEPTANCE_COMPLETE_PUBLICATION_REQUIRED",
     "environment": "Git-capable Codespaces workspace; Docker daemon29.3.0-1 verified by docker info",
     "workerBranch": "codex/image-01-render-worker",
     "supersedes": [
@@ -77,6 +77,7 @@
     "scopeAdditions": [
       "Assignment records and image evidence under codex-image-01"
     ],
-    "releaseBoundaries": "No image push, hosted operation, Production change, registry/pin/approval edit, or route opening. Local image ID is not a published immutable digest."
+    "releaseBoundaries": "No image push, hosted operation, Production change, registry/pin/approval edit, or route opening. Local image ID is not a published immutable digest.",
+    "result": "data/rcap-grade-a/packet-factory-24h/codex-image-01/RETURN.json"
   }
 }
