@@ -32,7 +32,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const require = createRequire(import.meta.url);
 const {
   PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown,
-  PDFOptionList, PDFRawStream, PDFName, StandardFonts, decodePDFRawStream,
+  PDFOptionList, PDFRawStream, PDFDict, PDFName, StandardFonts, decodePDFRawStream,
   pushGraphicsState, popGraphicsState, translate, drawObject,
 } = require("pdf-lib");
 
@@ -999,6 +999,18 @@ const PA_490_PETITION_DECLARATIONS = Object.freeze({
     }),
   }),
 });
+
+// Source-record affiant identity is supplied from the complaint/citation before
+// filing when available. It is not a service act and no such identity is held.
+const PA_AFFIANT_RECORD_DECLARATIONS = Object.freeze(Object.fromEntries([
+  "Name of Affiant", "AffiantAddr1", "AffiantAddr2", "AffiantAddrCity",
+  "AffiantAddrState", "AffiantAddrZip", "NameAddressOfAffiant", "AddressOfAffiant",
+].map((field) => [field, Object.freeze({
+  refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
+  effectiveLabel: "Name and mailing address of the affiant as shown on the complaint or citation, if available",
+  reason: "REQUIRED_BEFORE_FILING: copy the affiant's name and mailing address from the complaint or citation, if available. The platform holds no affiant identity. This is a source-record fact, not proof of service; do not wait until after service or guess a missing value.",
+})])));
 
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
@@ -2052,7 +2064,9 @@ Object.assign(FAMILY, {
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     documents: [
       cloneDoc(PA_490_PETITION, {
-        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, declarations: PA_490_PETITION_DECLARATIONS,
+        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED,
+        declarations: { ...PA_490_PETITION_DECLARATIONS, ...PA_AFFIANT_RECORD_DECLARATIONS },
+        preserveUnwrittenSelectionBackgrounds: true,
       }),
       /*
        * FIX85. On order page 1 the two caption blanks this packet writes --
@@ -2068,19 +2082,37 @@ Object.assign(FAMILY, {
        * untouched, as is the petition, which carries no such widget at all.
        */
       cloneDoc(PA_490_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS },
-        honorWidgetBorderStyle: true }),
+        honorWidgetBorderStyle: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       PA_IFP_MDJ,
     ],
     supplementalDocuments: [PA_490_SERVICE_CERTIFICATE],
     derivedFacts: PA_490_COMPOSED_ORDER_FACTS,
-    notes: ["The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
+    discloseHeldButNotPrinted: true,
+    requiredAttachments: {
+      trackId: "pa_490_nonconviction",
+      lead: "Obtain the current Pennsylvania State Police criminal-history report and the magisterial district court docket sheet before filing. Attach the PSP report obtained within 60 days before filing. Check every charge and disposition on the docket sheet; confirm that no misdemeanor, felony or murder charge was filed alongside the summary offenses. Correct any conflicting packet answer before filing.",
+    },
+    selfHelpBoundariesFromRegistry: { trackId: "pa_490_nonconviction" },
+    feeAndWaiver: [
+      "County filing fees vary; no confirmed statewide fee schedule is established. Ask the clerk of the courts of the judicial district where the charges were disposed what that court charges.",
+      "In forma pauperis relief is available. The Magisterial District Court affidavit is published statewide (PA-IFP-MDJ). It is a conditional component when you seek to proceed in forma pauperis; this packet retains its exact source but does not generate or complete its sworn financial facts. If you cannot pay the filing fee, ask the clerk for the current published affidavit and filing procedure.",
+    ],
+    filingDestination: [
+      "File the verified Rule 490 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed. The destination is based on where the charges were disposed. Ask that clerk for its current street address and local filing procedure.",
+    ],
+    service: [
+      "Serve the attorney for the Commonwealth concurrently with filing, as Rule 490 requires. The Commonwealth has 30 days after service to file a consent or objection or take no action. Ask the filing clerk for the accepted local method and office address; complete the certificate only after service actually occurs.",
+    ],
+    notes: ["Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.",
+      "The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
       "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.",
       "The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 490 governs and leaves every local-method and performed-service fact blank.",
       "Item 10 of the proposed order carries the citation date, the arrest date and the arresting agency, and item 3 carries the one-line petitioner address, from the same held facts the petition prints on its own page."],
     guidance: {
       afterTheTable: [
-        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
-        "The filing fee and whether it can be waived, the method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+        "Complete the source-record blanks before filing, when the form says the information is available. Ask the clerk of the courts of the judicial district where the charges were disposed about missing records and local procedure.",
+        "The sections below state the established filing destination, IFP availability, service recipient and timing, and required records. The county fee amount, local service method and street addresses remain for that clerk to confirm.",
         "Who must be served, and when, is established and is not one of the open questions above: Pa.R.Crim.P. 490 requires service on the attorney for the Commonwealth concurrently with filing, and the certificate of service in this packet states exactly that and nothing more.",
       ],
       selfHelpEnds: [
@@ -2088,7 +2120,7 @@ Object.assign(FAMILY, {
         "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
         "- any blank listed above that you cannot complete from your own court records;",
         "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
-        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the courts of the judicial district where the charges were disposed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
       ],
       notYours: [
         "**The fee-waiver affidavit (PA-IFP-MDJ)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
@@ -2117,7 +2149,10 @@ Object.assign(FAMILY, {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_790_nonconviction:path-a-non-conviction-expungement"],
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     documents: [
-      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, fitTextPerWidget: true }),
+      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, fitTextPerWidget: true,
+        normalizeMissingAppearanceSubtype: true,
+        preserveUnwrittenSelectionBackgrounds: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       /*
        * FIX85, on the second family dealt to this lane. VF05 measured the same
        * defect on this order that VF02 measured on the Rule 490 one, and the
@@ -2128,11 +2163,15 @@ Object.assign(FAMILY, {
        * drawing one rule. 9,504 packet-owned dark pixels across the two order
        * fixtures. Same option, same reason, and it reaches nothing else here.
        */
-      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, fitTextPerWidget: true,
-        honorWidgetBorderStyle: true }),
+      cloneDoc(PA_790_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS, Text15: "matter.charge" },
+        normalizeMissingAppearanceSubtype: true,
+        fitTextPerWidget: true,
+        honorWidgetBorderStyle: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       PA_IFP_CCP,
     ],
     supplementalDocuments: [PA_790_SERVICE_CERTIFICATE],
+    derivedFacts: PA_490_COMPOSED_ORDER_FACTS,
     discloseHeldButNotPrinted: true,
     requiredAttachments: {
       trackId: "pa_790_nonconviction",
@@ -2231,7 +2270,8 @@ Object.assign(FAMILY, {
         + "its face; ask the clerk of the courts you file with. Who must be served, and when, is established and is "
         + "not one of those open questions.",
     ],
-    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
+    notes: ["Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.",
+      "The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
       "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.",
       "The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 790 governs and leaves every local-method and performed-service fact blank."],
     guidance: {
@@ -3148,6 +3188,38 @@ async function finalizeEastOfficialForm(options) {
     const sourceDoc = await PDFDocument.load(options.sourceBytes, {
       ignoreEncryption: true, updateMetadata: false,
     });
+    // FIX85: the exact PA790 sources contain blank widget appearance streams
+    // with a BBox but no Subtype. Flatten promotes these to page XObjects,
+    // where /Subtype /Form is required. Add only that missing dictionary key
+    // to these existing streams; retain source stream bytes and all other keys.
+    const appearanceSubtypesNormalized = [];
+    if (options.normalizeMissingAppearanceSubtype === true) {
+      const seen = new Set();
+      for (const field of sourceDoc.getForm().getFields()) {
+        for (const [widgetIndex, widget] of field.acroField.getWidgets().entries()) {
+          const ap = widget.dict.lookup(PDFName.of("AP"));
+          if (!(ap instanceof PDFDict)) continue;
+          const visit = (value, appearancePath) => {
+            const item = sourceDoc.context.lookup(value);
+            if (item instanceof PDFRawStream) {
+              if (seen.has(item) || item.dict.has(PDFName.of("Subtype"))
+                || !item.dict.has(PDFName.of("BBox"))) return;
+              seen.add(item);
+              const streamSha256 = sha256(item.contents);
+              item.dict.set(PDFName.of("Subtype"), PDFName.of("Form"));
+              assert.equal(sha256(item.contents), streamSha256,
+                "appearance subtype normalization must preserve stream bytes");
+              appearanceSubtypesNormalized.push({ field: field.getName(), widgetIndex,
+                appearancePath, bbox: item.dict.lookup(PDFName.of("BBox")).toString(),
+                streamSha256, onlyDictionaryKeyAdded: "Subtype", value: "Form" });
+            } else if (item instanceof PDFDict) {
+              for (const [key, child] of item.entries()) visit(child, `${appearancePath}/${key.decodeText()}`);
+            }
+          };
+          for (const [key, value] of ap.entries()) visit(value, key.decodeText());
+        }
+      }
+    }
     const neutralizedChoices = [];
     for (const field of sourceDoc.getForm().getFields()) {
       if (!(field instanceof PDFCheckBox || field instanceof PDFRadioGroup
@@ -3181,7 +3253,7 @@ async function finalizeEastOfficialForm(options) {
     // appearance generation off leaves each widget's /Off exactly as the pinned
     // form ships it; the empty appearance is supplied one step later, in the
     // only place that knows which fields this run actually wrote.
-    const preparedSourceBytes = neutralizedChoices.length
+    const preparedSourceBytes = neutralizedChoices.length || appearanceSubtypesNormalized.length
       ? Buffer.from(await sourceDoc.save({
         useObjectStreams: false, updateMetadata: false, updateFieldAppearances: false,
       }))
@@ -3200,6 +3272,9 @@ async function finalizeEastOfficialForm(options) {
       // this run ticked, are both untouched.
       suppressSynthesizedAppearances: true,
     });
+    if (options.normalizeMissingAppearanceSubtype === true) {
+      result.report.appearanceSubtypesNormalized = appearanceSubtypesNormalized;
+    }
     result.report.boundOriginalSourceSha256 = options.expectedSha256 ?? sha256(options.sourceBytes);
     result.report.choiceNeutralization = {
       performedBeforeFlatten: neutralizedChoices.length > 0,
@@ -4486,6 +4561,8 @@ async function buildOfficial(familyId, config) {
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         fitTextPerWidget: doc.fitTextPerWidget === true,
         honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
+        preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
+        normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
       let finalized = await finalizeWith(mappings, new Set());
@@ -5214,6 +5291,8 @@ async function checkOfficial(familyId, config) {
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       fitTextPerWidget: doc.fitTextPerWidget === true,
       honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
+      preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
+        normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     let finalized = await finalizeWith(mappings, new Set());

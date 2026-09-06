@@ -9,7 +9,8 @@ These files are deterministic review fixtures made from exact held official sour
 - Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
-- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.
+- Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.
+- Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.
 - The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.
 - The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.
 - The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 490 governs and leaves every local-method and performed-service fact blank.
@@ -25,7 +26,11 @@ One row below is an exception and says so on its own line: the packet holds that
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `AffiantAddr1` | the form prints `List name and mailing address of the affiant as shown on the` beside it — complete this only after service has actually occurred |
+| 1 | `AffiantAddr1` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddr2` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrCity` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrState` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrZip` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 1 | `Aliases1` | the form prints `Full Name: DOB: Social Security Number` beside it |
 | 1 | `Aliases2` | the form prints `Address: Alias(es)` beside it |
 | 1 | `Aliases3` | the measurement could reach no printed caption; read the printed page |
@@ -52,6 +57,7 @@ One row below is an exception and says so on its own line: the packet holds that
 | 1 | `GradeRow4` | the measurement could reach no printed caption; read the printed page |
 | 1 | `GradeRow5` | the form prints `If the sentence imposed included a fine, costs or restitutio` beside it |
 | 1 | `MDJ Number` | the form prints `Philadelphia Municipal Court` beside it |
+| 1 | `Name of Affiant` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 1 | `PA Statute TitleRow1` | the form prints `(Title)` beside it |
 | 1 | `PA Statute TitleRow2` | the measurement could reach no printed caption; read the printed page |
 | 1 | `PA Statute TitleRow3` | the measurement could reach no printed caption; read the printed page |
@@ -84,6 +90,7 @@ One row below is an exception and says so on its own line: the packet holds that
 | 2 | `Alias3` | the form prints `2.Alias(es): ________________________________________` beside it |
 | 1 | `Disposition` | the form prints `it is ORDERED that the Petition/Motion is` beside it |
 | 2 | `MDJ#` | the measurement could reach no printed caption; read the printed page |
+| 2 | `NameAddressOfAffiant` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
 | 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
 
@@ -95,11 +102,50 @@ One row below is an exception and says so on its own line: the packet holds that
 | 1 | `Office and address where the copy was served` | the form prints `Office and address where the copy was served:` beside it — complete this only after service has actually occurred |
 | 1 | `Service method accepted by the filing court` | the form prints `Service method accepted by the filing court:` beside it — complete this only after service has actually occurred |
 
-Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.
+Complete the source-record blanks before filing, when the form says the information is available. Ask the clerk of the courts of the judicial district where the charges were disposed about missing records and local procedure.
 
-The filing fee and whether it can be waived, the method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.
+The sections below state the established filing destination, IFP availability, service recipient and timing, and required records. The county fee amount, local service method and street addresses remain for that clerk to confirm.
 
 Who must be served, and when, is established and is not one of the open questions above: Pa.R.Crim.P. 490 requires service on the attorney for the Commonwealth concurrently with filing, and the certificate of service in this packet states exactly that and nothing more.
+
+## Values this platform holds but did not print
+
+The blanks below are not blanks the platform has no fact for. It holds each of these values and could not put it on the paper, so it left the box **empty** rather than print something a court could not read, or leave a row half filled. **Write each one in by hand before you file.** Which of them bites on a real packet depends on how long that participant's own name, charge or docket number is; the fixtures a row was measured on are named in the last column, and the measurement that decided each refusal is stated beside it so you can check it against the printed box.
+
+| Component | Source field | The fact | Why it is not printed | Measured on |
+| --- | --- | --- | --- | --- |
+| `PA-RCRIM-P-490-ORDER` | `County` | `matter.county` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 167.6pt and the box gives 155pt of usable width (rectangle 159 × 12pt) | boundary |
+| `PA-RCRIM-P-490-ORDER` | `Defendant` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 167.281pt of usable width (rectangle 171.281 × 13.992pt) | boundary |
+| `PA-RCRIM-P-490-ORDER` | `PetitionersAddress` | `participant.address_one_line` | the value does not fit this box at a size a court could read — measured by this build's own fitter | boundary |
+| `PA-RCRIM-P-490-PETITION` | `Addr1` | `participant.street_address` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 162.4pt and the box gives 162.199pt of usable width (rectangle 166.199 × 11.854pt) | boundary |
+| `PA-RCRIM-P-490-PETITION` | `AddrCity` | `participant.city` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 177.3pt and the box gives 105.139pt of usable width (rectangle 109.139 × 10.411pt) | boundary |
+| `PA-RCRIM-P-490-PETITION` | `AddrZip` | `participant.zip` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 32pt and the box gives 27.855pt of usable width (rectangle 31.855 × 10.218pt) | boundary |
+| `PA-RCRIM-P-490-PETITION` | `CountyOf` | `matter.county` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 167.6pt and the box gives 118.52pt of usable width (rectangle 122.52 × 11.24pt) | boundary |
+| `PA-RCRIM-P-490-PETITION` | `Defendant` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 140.778pt of usable width (rectangle 144.778 × 13.233pt) | boundary |
+| `PA-RCRIM-P-490-PETITION` | `Full Name` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 162.69pt of usable width (rectangle 166.69 × 11.324pt) | boundary |
+
+## What it costs to file
+
+County filing fees vary; no confirmed statewide fee schedule is established. Ask the clerk of the courts of the judicial district where the charges were disposed what that court charges.
+
+In forma pauperis relief is available. The Magisterial District Court affidavit is published statewide (PA-IFP-MDJ). It is a conditional component when you seek to proceed in forma pauperis; this packet retains its exact source but does not generate or complete its sworn financial facts. If you cannot pay the filing fee, ask the clerk for the current published affidavit and filing procedure.
+
+## Where to file
+
+File the verified Rule 490 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed. The destination is based on where the charges were disposed. Ask that clerk for its current street address and local filing procedure.
+
+## Who must be served
+
+Serve the attorney for the Commonwealth concurrently with filing, as Rule 490 requires. The Commonwealth has 30 days after service to file a consent or objection or take no action. Ask the filing clerk for the accepted local method and office address; complete the certificate only after service actually occurs.
+
+## Documents you must obtain and attach before you file
+
+Obtain the current Pennsylvania State Police criminal-history report and the magisterial district court docket sheet before filing. Attach the PSP report obtained within 60 days before filing. Check every charge and disposition on the docket sheet; confirm that no misdemeanor, felony or murder charge was filed alongside the summary offenses. Correct any conflicting packet answer before filing.
+
+- **Pennsylvania State Police criminal history report obtained within 60 days before filing** — obtained from Pennsylvania State Police. Required before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 490 requires a current copy obtained within 60 days before filing to be attached. LegalEase never collects, inspects or authenticates it.
+- **Magisterial district court docket sheet** — obtained from The magisterial district court, or the Unified Judicial System web docket sheets. Required before filing. Obtain the docket sheet showing every charge and its disposition, and confirm no misdemeanour or felony was filed with the summary offences.
+
+Each line above is carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `pa_490_nonconviction`, `participantFilingRequirements`.
 
 ## Where self-help ends
 
@@ -111,7 +157,15 @@ This packet prepares the Pennsylvania Rule of Criminal Procedure 490 petition, t
 
 - anything the prosecuting attorney objects to, and any hearing the court schedules.
 
-When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.
+When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the courts of the judicial district where the charges were disposed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.
+
+**Every boundary this route's own record records.** Each line below is carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `pa_490_nonconviction`, `selfHelpBoundaries`. If any of them reaches your case, stop and get advice from a lawyer before you sign or file:
+
+- The case included a misdemeanour, felony or murder charge alongside the summary offences, which routes it to Rule 790.
+- The participant cannot determine whether the case remained at the magisterial district court.
+- The attorney for the Commonwealth files an objection.
+- Any charge in the case resulted in a conviction.
+- Where the participant cannot establish that the case stayed at the magisterial district court, self-help stops.
 
 ## Blanks that are not yours to fill
 
