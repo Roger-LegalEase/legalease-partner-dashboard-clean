@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 884,
+    "rows": 888,
     "independentVerdicts": 240,
     "failRepairRequired": 57,
     "passIndependent": 164
@@ -23087,6 +23087,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered page order does not match the packet manifest: ccre_forwarding_request is ordered second and commonwealth_service_and_stipulation_request third, and the delivered packet carries them the other way round in both fixtures. REPAIR: emit the two custom pleadings in the manifest's order, as the shared host already does for va_seal_petition_misdemeanor-set after FIX73, and let reports/rendered-artifacts.json componentSet and pageManifest follow. It is one repair in one host for the three non-host families.",
+          "evidence": "THE AUTHORITY. data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_ancillary_matter_only-set].components, rehashed here at 6076f734 (3683419 bytes) and mirrored word for word by the same track's packetSet in legal-design-track-registry.json (232466b6), orders the five components 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. THE MEASUREMENT, taken off the delivered bytes with pdftotext rather than from any report: both fixtures render 1-6 CC-1203 petition, 7 commonwealth_service_and_stipulation_request, 8 ccre_forwarding_request, 9 records_checklist, 10-11 filing_instructions. The two custom pleadings are transposed against the manifest. The family's own reports/rendered-artifacts.json agrees with the delivered order (its componentSet lists commonwealth_service_and_stipulation_request before ccre_forwarding_request and its pageManifest names them on pages 7 and 8), so the generator is self-consistent and the manifest is contradicted. WHY THAT IS A FAILURE RATHER THAN A PREFERENCE: this is the same discrepancy VF02 failed the host family va_seal_petition_misdemeanor-set on at base 88d688b8, in terms -- 'Generator self-consistency does not satisfy the authoritative route order' -- and FIX73 repaired the host to the manifest order and left this family transposed, disclosing it as a finding for a lane holding the assignment. This lane holds it. The registry's own destination note for these tracks records the Norfolk clerk's sequencing guidance that the case is established with the court first and the State Police request second, so the order the manifest carries is not arbitrary."
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
       "superseded": false
     },
     {
@@ -23220,6 +23242,28 @@
         "FEE_AND_WAIVER",
         "ROUTE_IDENTITY",
         "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered page order does not match the packet manifest: ccre_forwarding_request is ordered second and commonwealth_service_and_stipulation_request third, and the delivered packet carries them the other way round in both fixtures. REPAIR: emit the two custom pleadings in the manifest's order, as the shared host already does for va_seal_petition_misdemeanor-set after FIX73, and let reports/rendered-artifacts.json componentSet and pageManifest follow. It is one repair in one host for the three non-host families.",
+          "evidence": "THE AUTHORITY. data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_enumerated_seven_year-set].components, rehashed here at 6076f734 (3683419 bytes) and mirrored word for word by the same track's packetSet in legal-design-track-registry.json (232466b6), orders the five components 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. THE MEASUREMENT, taken off the delivered bytes with pdftotext rather than from any report: both fixtures render 1-6 CC-1203 petition, 7 commonwealth_service_and_stipulation_request, 8 ccre_forwarding_request, 9 records_checklist, 10-11 filing_instructions. The two custom pleadings are transposed against the manifest. The family's own reports/rendered-artifacts.json agrees with the delivered order (its componentSet lists commonwealth_service_and_stipulation_request before ccre_forwarding_request and its pageManifest names them on pages 7 and 8), so the generator is self-consistent and the manifest is contradicted. WHY THAT IS A FAILURE RATHER THAN A PREFERENCE: this is the same discrepancy VF02 failed the host family va_seal_petition_misdemeanor-set on at base 88d688b8, in terms -- 'Generator self-consistency does not satisfy the authoritative route order' -- and FIX73 repaired the host to the manifest order and left this family transposed, disclosing it as a finding for a lane holding the assignment. This lane holds it. The registry's own destination note for these tracks records the Norfolk clerk's sequencing guidance that the case is established with the court first and the State Police request second, so the order the manifest carries is not arbitrary."
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
@@ -23363,6 +23407,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered page order does not match the packet manifest: ccre_forwarding_request is ordered second and commonwealth_service_and_stipulation_request third, and the delivered packet carries them the other way round in both fixtures. REPAIR: emit the two custom pleadings in the manifest's order, as the shared host already does for va_seal_petition_misdemeanor-set after FIX73, and let reports/rendered-artifacts.json componentSet and pageManifest follow. It is one repair in one host for the three non-host families.",
+          "evidence": "THE AUTHORITY. data/record-clearing/legal-design-packet-set-manifests.json packetSets[va_seal_petition_felony-set].components, rehashed here at 6076f734 (3683419 bytes) and mirrored word for word by the same track's packetSet in legal-design-track-registry.json (232466b6), orders the five components 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions. THE MEASUREMENT, taken off the delivered bytes with pdftotext rather than from any report: both fixtures render 1-4 CC-1201 petition, 5 commonwealth_service_and_stipulation_request, 6 ccre_forwarding_request, 7 records_checklist, 8-9 filing_instructions. The two custom pleadings are transposed against the manifest. The family's own reports/rendered-artifacts.json agrees with the delivered order (its componentSet lists commonwealth_service_and_stipulation_request before ccre_forwarding_request and its pageManifest names them on pages 5 and 6), so the generator is self-consistent and the manifest is contradicted. WHY THAT IS A FAILURE RATHER THAN A PREFERENCE: this is the same discrepancy VF02 failed the host family va_seal_petition_misdemeanor-set on at base 88d688b8, in terms -- 'Generator self-consistency does not satisfy the authoritative route order' -- and FIX73 repaired the host to the manifest order and left this family transposed, disclosing it as a finding for a lane holding the assignment. This lane holds it. The registry's own destination note for these tracks records the Norfolk clerk's sequencing guidance that the case is established with the court first and the State Police request second, so the order the manifest carries is not arbitrary."
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
       "superseded": false
     },
     {
@@ -23490,6 +23556,28 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "158f37310",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Ink lands outside every declared write box on all four form pages of both fixtures: 56 of 56 unmarked selection widgets carry a synthesized square the pinned CC-1201 does not print, 8945 pixels per fixture at 300 dpi. It is the same defect class VF08 raised and FIX63 repaired on this host's other three families, left live here because this family sat outside that lane's grant, and no counter and no scale sweep sees it. REPAIR: set suppressSynthesizedAppearances true for va_seal_petition_misdemeanor-set in FAMILY_CONFIGS of scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, rebuild, re-raster centrally and re-verify; the flag already exists and the three sibling families are the proof it works.",
+          "evidence": "(1) THE PLACEMENT SWEEP IS CLEAN AND PROVES NOTHING ABOUT THIS DEFECT. For every flattened widget appearance in each fixture the page-content cm operators were composed through q/Q, the placed XObject's /BBox and /Matrix were read from the bytes, the placement was matched to the source widget whose /Rect origin it translates to (raw origin included, because CC-1201 stores four rects reversed), and cmScale x requiredScale was required to equal 1 within 0.05pt in both axes: 102 of 102 pass in canonical and 102 of 102 in boundary, 0 fail, 0 unmatched, with a live negative control at 101/102. The sweep asks whether an appearance is SCALED correctly. It does not ask whether the appearance should exist. (2) THE DEFECT: 56 SYNTHESIZED SQUARES ON EVERY FORM PAGE OF BOTH FIXTURES. All 63 flattened selection-widget appearances in this family carry a painted stream; 39 of the 102 appearances are the value writes. Read first-hand from the pinned CC-1201 binary, its page-2 widgets sit at /AS /Off with no /Off stream under /AP /N and no /MK /BC border colour, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing at them. The delivered bytes paint a stroked rectangle at every one: each appearance stream is '0 0 0 RG / 0 w / 0 0 m ... h S', a hairline black box the court's own paper does not carry. Measured at 300 dpi against the pinned form with every annotation and the AcroForm removed, so no appearance a viewer might synthesize on either side can hide it: 56 of 56 unmarked selection widgets carry added ink -- 8 of 8 on page 1, 21 of 21 on page 2, 18 of 18 on page 3, 9 of 9 on page 4 -- identically in canonical and boundary, 8945 added pixels per fixture lying outside every declared write box and every declared mark box (page 1 1311, page 2 2915, page 3 3430, page 4 1289). Cropped and viewed at 300 dpi, the official form's '[ ]' bracket pair becomes a closed square. (3) IT IS NOT A GENERIC HOST LIMITATION. The three sibling families built from the same host, scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, set suppressSynthesizedAppearances true and deliver 76, 76 and 63 EMPTY selection appearances and 0 of 69, 0 of 69 and 0 of 57 unmarked widgets carrying ink. The host's own comment records why this family is different: the flag is set per family and this family 'does not carry the flag' because it was outside FIX63's grant. The same measurement on the same crop of CC-1201 page 4 shows brackets in va_seal_petition_felony-set and a drawn square here. (4) THE REST OF THE STANDARD HOLDS. All 10 value writes are present, legible and unclipped in both fixtures, each with positive margin on all four sides of its own rect (tightest 0.72pt) and 0 added ink in a 1pt halo; all 7 route marks carry ink inside their own boxes; 0 source ink is lost on any form page; the composed pages hold x in [72.00, 541.20]pt and y in [79.68, 727.92]pt; the 1.20pt right-hand excursion is the same dotted rule on the canonical Commonwealth-copy page only (boundary stops at 538.32pt)."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
       "superseded": false
     },
