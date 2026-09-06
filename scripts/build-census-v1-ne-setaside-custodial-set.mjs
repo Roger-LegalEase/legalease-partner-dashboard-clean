@@ -30,6 +30,10 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { checkboxCandidates, strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
+/* FIX102. The same width basis and the same legibility floor the fitter used to
+ * refuse, so the recorded measurement is the refusal's own arithmetic rather
+ * than a second opinion about it. */
+import { usableWidthOf, MIN_READABLE_FONT_SIZE } from "./rcap-official-forms/rcap-text-fitting.mjs";
 import {
   captionDescribesChargeValue,
   decideBinding,
@@ -56,9 +60,21 @@ const {
   PDFOptionList,
   PDFRawStream,
   PDFName,
+  StandardFonts,
   decodePDFRawStream
 } = require("pdf-lib");
 const sharp = require("sharp");
+
+/* FIX102. The metric the shared fitter measures refusals with, available here
+ * so a refusal can be RECORDED with the arithmetic that produced it. Built once
+ * and reused; a standard font embeds no bytes into any artifact. */
+let helveticaMetricsPromise = null;
+const helveticaMetrics = () => {
+  if (!helveticaMetricsPromise) {
+    helveticaMetricsPromise = PDFDocument.create().then((doc) => doc.embedFont(StandardFonts.Helvetica));
+  }
+  return helveticaMetricsPromise;
+};
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
@@ -107,6 +123,25 @@ const LOCAL_RULES_CHECK_NOTE =
 const LEGAL_DESIGN_MEMO = "data/record-clearing/legal-design-intake/NE.memo.json";
 const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
 
+/*
+ * FIX102, KNOWN_PREFILLS. The plaintiff of a Nebraska criminal case.
+ *
+ * VF06 read packet page 4 and found DC 1:15's Plaintiff/Petitioner caption line
+ * blank in both fixtures while the same packet prints the plaintiff twice: CC
+ * 6:11 and CC 6:11.2 both carry "STATE OF NEBRASKA" as static caption text
+ * directly above "Plaintiff,". The completeness contract's GENUINELY
+ * UNAVAILABLE condition says so in terms -- "a fact written anywhere else in
+ * the same packet is available" -- so leaving it blank is a missing known fact
+ * rather than one the platform does not hold.
+ *
+ * The string is not this file's to invent. `assertPlaintiffIsTheSourcesOwnCaption`
+ * re-reads the pinned CC 6:11 and CC 6:11.2 bytes on every build and throws
+ * unless both print it, so this caption cannot outlive the forms that supply
+ * it. It is identical for both personas because the plaintiff of a criminal
+ * case is a fact about the case, not about the participant.
+ */
+const NE_CRIMINAL_PLAINTIFF = "STATE OF NEBRASKA";
+
 const UT_COMMON_SOURCES = [
   "official-form:1000EX",
   "official-form:1020EX",
@@ -134,6 +169,10 @@ const FAMILY_CONFIGS = Object.freeze({
     selectionId: "ne-custodial-cc-6-11-complete-set",
     sourceIds: ["official-form:CC-6-11", "official-form:CC-6-11.2", "official-form:CC-6-11a", "official-form:DC-1-15"],
     chargeLabel: "Eligible Nebraska conviction",
+    /* FIX102. Facts this family adds to the shared persona set, per family, so
+     * no other family on this host gains a fact and no other family's bytes
+     * move. Merged last in `factsFor`. */
+    additionalFacts: { "matter.plaintiff": NE_CRIMINAL_PLAINTIFF },
     participantGuidance: {
       heldSourceNote:
         "Every statement in the sections above is taken from the committed track registry entry for track "
@@ -342,6 +381,19 @@ const FAMILY_CONFIGS = Object.freeze({
       "DC-1-15": [
         { factId: "matter.court", fields: ["TYPEOFCOURTRESULTS"] },
         { factId: "matter.case_number", fields: ["Text38"] },
+        /* FIX102, KNOWN_PREFILLS. The caption line the packet already answers
+         * twice. `plaintiff` is /FT /Tx, not read-only, F 4, /Rect x 106.32
+         * y 627.25 w 189.00 on page 1 -- the same caption geometry as
+         * `defendant` 64.53pt below it, which this build already writes. Its
+         * refusal was `no_allowlisted_fact_matches`: the harvester reads its
+         * caption as "DC1:15 NEW 08/19", the form's own revision stamp, so no
+         * descriptor matched. That is a statement about this build's allowlist,
+         * not about the platform, which holds the value on the two forms
+         * bound into this same packet. Written through the narrative channel
+         * because the ordinary writer needs a resolving descriptor and there is
+         * none; "STATE OF NEBRASKA" is 62.24pt of Helvetica at 6pt against
+         * 185.00pt of usable width, so it is laid out well above the floor. */
+        { factId: "matter.plaintiff", fields: ["plaintiff"] },
         { factId: "participant.full_legal_name", fields: ["defendant"] },
         { factId: "participant.street_address", fields: ["streetaddress"] },
         { factId: "participant.city_state_zip", fields: ["citystatezip"] },
@@ -389,8 +441,68 @@ const FAMILY_CONFIGS = Object.freeze({
       "The court type is filled from the known case information. Confirm the county",
       "against the existing case: the available county value could not be matched",
       "to an official county option, so no substitute is printed. These PDFs have no",
-      "interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete."
+      "interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete.",
+      "",
+      "**Where the county goes on the caption, and why it looks empty.** On the first",
+      "line of every caption, between \"COURT OF\" and \"COUNTY, NEBRASKA\", there is a",
+      "space for the county. DC 1:15 prints a ruled line there. CC 6:11 and CC 6:11.2",
+      "print nothing at all \u2014 just blank space \u2014 so on those two pages there is no mark",
+      "to show you where to write. Write the county in that space on all three.",
+      "",
+      "The official forms do carry a \"Choose the county\" prompt there, but only on a",
+      "screen, in a drop-down control the form marks as not-for-printing. It is absent",
+      "from this packet because it is absent from any printed copy of these forms."
     ],
+    /*
+     * FIX102, REQUIRED_BEFORE_FILING, the IDENTIFIED condition.
+     *
+     * The disclosure table told the participant to complete "CRIMINAL CONVICTION
+     * \u00b7 r", "SERVICE \u00b7 To", "same may be heard", "changes, you must complete a
+     * Change of Contact Information F" and -- for DC 1:15 `plaintiff` -- "DC1:15
+     * NEW 08/19", which is the form's own revision stamp. Those are harvested
+     * text fragments, not labels: these content streams come out of order, so
+     * the harvester attaches whatever ran nearest the widget in the stream.
+     *
+     * Each blank is named here by what it IS, read off the pinned form's own
+     * printed line, with the form's wording quoted so the participant can find
+     * it on the page. `assertEveryDisclosedBlankIsNamed` throws if a disclosed
+     * blank has no entry, so a new blank cannot reach a participant carrying a
+     * stream fragment for a name.
+     */
+    plainFieldMeanings: {
+      "CC-6-11": {
+        DROPDOWNCOUNTY2: "The county of the existing case, on the first line of the caption — the empty gap between \"COURT OF\" and \"COUNTY, NEBRASKA\". Nothing is printed in that gap; write the county there.",
+        Text2: "The case number of the existing criminal case \u2014 the \"Case No.\" blank at the top right of the caption.",
+        Text5: "The crime you were convicted of, exactly as it appears on the court papers \u2014 item 1, the blank after \"I was convicted of\", captioned \"(Crime convicted of)\".",
+        Text6: "The date of the conviction \u2014 item 1, the blank on the following line, captioned \"(Date of conviction)\".",
+        "Check Box7": "The box to check ONLY if you cannot receive email \u2014 \"By checking this box, I am letting the court know that I do not have the ability to receive emails.\" Leave it alone if you gave an email address.",
+        noemailreason: "Why you cannot receive email, first line \u2014 the blank after \"The reason I cannot receive email is:\". Leave blank unless you checked the box above.",
+        noemailreason2: "Why you cannot receive email, second line. Leave blank unless you checked the box above."
+      },
+      "CC-6-11.2": {
+        DROPDOWNCOUNTY2: "The county of the existing case, on the first line of the caption — the empty gap between \"COURT OF\" and \"COUNTY, NEBRASKA\". Nothing is printed in that gap; write the county there.",
+        Text2: "The case number of the existing criminal case \u2014 the \"Case No.\" blank at the top right of the caption."
+      },
+      "DC-1-15": {
+        DROPDOWNCOUNTY2: "The county of the existing case, on the first line of the caption — the empty gap between \"COURT OF\" and \"COUNTY, NEBRASKA\". Nothing is printed in that gap; write the county there.",
+        Text38: "The case number of the existing criminal case \u2014 the \"Case No.\" blank at the top right of the caption.",
+        Text39: "What the hearing is on, first line \u2014 the blank after \"You are hereby notified that a hearing on the\".",
+        Text40: "What the hearing is on, second line \u2014 the full-width blank underneath.",
+        Text41: "The judge\u2019s name \u2014 the blank after \"will be heard before the Honorable\". The bailiff gives you this.",
+        Text43: "The court type on the hearing line \u2014 the blank in \"Judge of the ______ Court of\".",
+        Text45: "The courtroom number \u2014 the blank after \"Courtroom No.\". The bailiff gives you this.",
+        Text50: "The hearing date \u2014 the blank after \"Nebraska, on\". The bailiff gives you this.",
+        Text51: "The hearing time \u2014 the blank after \"at\". The bailiff gives you this.",
+        Text52: "\"a\" or \"p\" for the hearing time \u2014 the one-letter blank immediately before \".m.\".",
+        Text65: "The address of the person you are serving \u2014 the \"Address:\" line in the \"To:\" block. In district court this is the prosecutor. The name line beside it is listed further down, under the blanks this packet does not fill; complete the whole block as \"Who must receive a copy, and how\" directs.",
+        Text47: "Which courthouse the hearing is in \u2014 the blank before \"County Courthouse or Justice Center\".",
+        Text48: "The courthouse address \u2014 the blank at the end of that same line.",
+        Text49: "The courthouse street and city line \u2014 the long blank before \", Nebraska\".",
+        Text64: "The name of the person you are serving \u2014 the \"To: Name:\" line, beside the address line above.",
+        "Text59.0": "The printed rule under \"To: Name:\" \u2014 a line the form draws, not a blank.",
+        "Text60.0": "The \"Address:\" line in the \"To:\" block \u2014 the same physical blank as the address entry above it. Write the address once."
+      }
+    },
     /*
      * FIX81, KNOWN_PREFILLS. The caption court and county, said as the widget is.
      *
@@ -1617,34 +1729,204 @@ export function withCompletenessDisposition(row, context = null) {
   };
 }
 
+/*
+ * FIX102, REQUIRED_BEFORE_FILING, the PARTICIPANT-COMPLETABLE condition.
+ *
+ * The contract's words are "a protected, court-completed or attorney-only field
+ * is not required-before-filing; it is not theirs to fill at all". Five rows on
+ * DC 1:15 carried requiredBeforeFiling true against that condition, and one of
+ * them -- Text59.0, which the pinned form marks READ-ONLY and fills with a rule
+ * of underscores -- was printed in the participant's own task list as a blank
+ * to complete.
+ *
+ * Two tests, both read off the pinned bytes rather than off a label:
+ *   - read-only in the source. `sourceFieldEvidence` records /Ff per field,
+ *     first hand from the binary. A read-only widget is a printed rule or a
+ *     caption template; nobody fills it, so it is nobody's task.
+ *   - refused by role. The build already decided the court, clerk, prosecutor
+ *     or agency owns the field. A field the build will not write BECAUSE the
+ *     participant does not own it cannot then be handed to the participant.
+ *
+ * Nothing is hidden by this. Every row it withholds is returned and disclosed
+ * under its own heading saying who does complete it, so the participant learns
+ * the blank exists and learns it is not theirs -- which is what the old list,
+ * by mixing the two, prevented.
+ */
+export function withholdBlanksTheParticipantMayNotFill(maps) {
+  const withheld = [];
+  for (const map of maps) {
+    const evidence = map.documentPolicy?.sourceFieldEvidence ?? {};
+    const arrays = [map.canonicalRefusals, map.boundaryRefusals, map.roleRefusals, map.selectionControls];
+    /*
+     * Decided per FIELD, then applied to every array, because the same blank
+     * appears in several of them under different words: DC 1:15 Text64 is
+     * `classified_unwritable_by_role` in the canonical and boundary rows and
+     * `binding_not_approved_by_exact_caption_gate` in the role-refusal rows. A
+     * pass that judged each row on its own words cleared the flag on two of the
+     * three and the third put the field straight back into the participant's
+     * task list. One decision, applied everywhere the field is written down.
+     */
+    const decision = new Map();
+    for (const rows of arrays) {
+      for (const row of rows ?? []) {
+        const field = row.field ?? row.blankId ?? null;
+        if (!field || decision.has(field)) continue;
+        /* Only the contract violation is in scope: a row that BOTH claims the
+         * participant must complete it before filing AND was refused because
+         * the participant does not own it. A role-refused row that already
+         * carries a settled disposition -- every screen control and caption
+         * template on these forms does, through `sourcePresentation` -- is
+         * already correct and is left exactly as it is. Skipping that guard
+         * re-classified TYPEOFCOURTDROPDOWN, both county caption templates and
+         * both DC 1:15 caption templates, and turned 21 settled rows into
+         * unclassified blanks. */
+        if (row.requiredBeforeFiling !== true) continue;
+        if (row.sourcePresentation) continue;
+        if (row.buildPolicyCategory !== "role" && row.buildPolicyReason !== "classified_unwritable_by_role") continue;
+        /* Not `row.why`: by the time a row reaches here the disposition layer
+         * has already overwritten that string with the required-before-filing
+         * sentence, so inheriting it would print "must be supplied before
+         * filing" underneath a heading saying the opposite. */
+        decision.set(field, {
+          basis: "refused_by_role",
+          readOnlyInSource: evidence[field]?.readOnly === true,
+          why: "this build refused the field by role: the value comes from the court, the clerk or the "
+            + "prosecutor, or from the act of service, not from your own knowledge. Complete it only as "
+            + "\"Who must receive a copy, and how\" below directs."
+            + (evidence[field]?.readOnly === true
+              ? " The pinned form also marks this widget read-only and fills it with a printed rule, so there is nothing to write in."
+              : "")
+        });
+      }
+    }
+    const disclosedHere = new Set();
+    for (const rows of arrays) {
+      for (const row of rows ?? []) {
+        const field = row.field ?? row.blankId ?? null;
+        const ruling = field ? decision.get(field) : null;
+        if (!ruling || row.sourcePresentation) continue;
+        const wasRequired = row.requiredBeforeFiling === true;
+        row.requiredBeforeFiling = false;
+        row.withheldFromParticipantTasks = ruling.basis;
+        /* The row keeps a disposition from the CLOSED vocabulary rather than
+         * only losing a flag. Clearing requiredBeforeFiling on its own left the
+         * row with the old required-before-filing prose and no class, and the
+         * completeness reader then classified the very fields this repair was
+         * protecting as KNOWN_FACT_NOT_WRITTEN and UNCLASSIFIED_BLANK. The
+         * class is the one the build's own role refusal already means, and the
+         * one this host already uses for DC 1:15 Text44 and Text46. */
+        row.completenessClass = row.category = row.class = "court_prosecutor_clerk_or_agency_owned";
+        row.completenessDisposition = "PROTECTED_FIELD";
+        row.reason = row.why = "court-owned field: the court, clerk or prosecutor completes it, not the participant";
+        if (!wasRequired || disclosedHere.has(field)) continue;
+        disclosedHere.add(field);
+        withheld.push({
+          document: map.formNumber, field, page: row.page ?? null,
+          basis: ruling.basis, readOnlyInSource: ruling.readOnlyInSource, why: ruling.why
+        });
+      }
+    }
+  }
+  return withheld.sort((a, b) => String(a.document).localeCompare(String(b.document))
+    || String(a.field).localeCompare(String(b.field)));
+}
+
 /**
  * Everything the packet needs before it can be filed, in the participant's words.
  *
  * A required fact the platform does not hold may be blank only because the
  * packet says so. Nothing in these families said so, so the fact was simply
  * missing. This collects them, and `buildOfficial` writes them into the packet.
+ *
+ * FIX102 changed three things about how the collection is made.
+ *
+ * IDENTITY IS THE FIELD, NOT THE LABEL. The old key was formNumber + harvested
+ * label, and these forms harvest their captions out of order: DC 1:15 gives
+ * Text50 and Text52 the same fragment, Text59.0 and Text64 the same fragment,
+ * and Text60.0 and Text65 the same fragment. Three distinct blanks were
+ * therefore deduplicated away and the participant never saw them, while the
+ * field map went on carrying them as required. The key is the PDF field name,
+ * which is unique by construction.
+ *
+ * BOTH PERSONAS ARE SCANNED. Only canonicalRefusals was read, so a fact the
+ * platform writes for one participant and cannot fit for another -- the case
+ * number, refused on all three case-captioned documents at the boundary length
+ * -- was disclosed to nobody. A blank that exists on any persona of this packet
+ * is a blank the guide must name.
+ *
+ * NOTHING ROLE-PROTECTED SURVIVES. See withholdBlanksTheParticipantMayNotFill,
+ * which runs first and clears the flag.
  */
 export function requiredBeforeFilingItems(maps) {
-  const items = [];
-  const seen = new Set();
+  const items = new Map();
   for (const map of maps) {
-    for (const row of [...(map.canonicalRefusals ?? []), ...(map.roleRefusals ?? []), ...(map.selectionControls ?? [])]) {
-      if (row.requiredBeforeFiling !== true) continue;
-      const label = row.regionHeading ?? row.printedLabel ?? row.field ?? row.blankId ?? null;
-      if (!label) continue;
-      const key = `${map.formNumber}::${label}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      items.push({ document: map.formNumber, field: row.field ?? row.blankId ?? null, page: row.page ?? null, printedContext: label, why: row.why ?? row.reason ?? null });
+    const arrays = [
+      ["canonical", map.canonicalRefusals],
+      ["boundary", map.boundaryRefusals],
+      ["canonical", map.roleRefusals],
+      ["canonical", map.selectionControls]
+    ];
+    for (const [persona, rows] of arrays) {
+      for (const row of rows ?? []) {
+        if (row.requiredBeforeFiling !== true) continue;
+        const field = row.field ?? row.blankId ?? null;
+        if (!field) continue;
+        const key = `${map.formNumber}::${field}`;
+        const existing = items.get(key);
+        if (existing) {
+          if (!existing.personas.includes(persona)) existing.personas.push(persona);
+          continue;
+        }
+        items.set(key, {
+          document: map.formNumber,
+          field,
+          page: row.page ?? null,
+          printedContext: row.regionHeading ?? row.printedLabel ?? field,
+          harvestedLabel: row.regionHeading ?? row.printedLabel ?? null,
+          buildPolicyCategory: row.buildPolicyCategory ?? null,
+          personas: [persona],
+          why: row.why ?? row.reason ?? null
+        });
+      }
     }
   }
-  return items.sort((a, b) => String(a.document).localeCompare(String(b.document))
+  return [...items.values()].sort((a, b) => String(a.document).localeCompare(String(b.document))
     || Number(a.page ?? 0) - Number(b.page ?? 0)
-    || String(a.printedContext).localeCompare(String(b.printedContext)));
+    || String(a.field).localeCompare(String(b.field)));
+}
+
+/*
+ * FIX102. The plain meaning each disclosed blank is named by, and the check
+ * that none reaches a participant without one.
+ */
+export function nameDisclosedBlanks(config, items) {
+  return items.map((item) => {
+    const plain = config.plainFieldMeanings?.[item.document]?.[item.field] ?? null;
+    const unfittable = item.buildPolicyCategory === "unfittable";
+    return {
+      ...item,
+      label: plain ?? item.printedContext,
+      labelIsPlainMeaning: Boolean(plain),
+      why: unfittable
+        ? "The platform holds this fact, but at this length the printed line cannot carry it at a legible size. "
+          + "Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers."
+        : item.why
+    };
+  });
+}
+
+/** A blank named by a stream fragment is a blank the participant cannot find. */
+function assertEveryDisclosedBlankIsNamed(familyId, config, named) {
+  if (!config.plainFieldMeanings) return;
+  const unnamed = named.filter((item) => !item.labelIsPlainMeaning);
+  assert.ok(unnamed.length === 0,
+    `${familyId}: ${unnamed.length} disclosed blank(s) carry no plain meaning and would reach the participant as a `
+    + `harvested fragment: ${unnamed.map((item) => `${item.document}/${item.field}`).join(", ")}`);
 }
 
 /** The participant-facing disclosure of every blank the filing still needs. */
-export function participantInstructionsMarkdown(familyId, config, items) {
+export function participantInstructionsMarkdown(familyId, config, items, extras = {}) {
+  const { manifestRequiredBeforeFiling = [], withheldBlanks = [] } = extras;
   const lines = [
     `# Before you file: ${familyId}`,
     "",
@@ -1656,17 +1938,72 @@ export function participantInstructionsMarkdown(familyId, config, items) {
       "agency is worse than a blank one, because the blank is visible and the guess is",
       "not. Complete each one by hand before you file."
     ]),
-    "",
-    `Required before filing: ${items.length} field(s).`,
     ""
   ];
+
+  /*
+   * FIX102, REQUIRED_BEFORE_FILING, the DECLARED condition.
+   *
+   * The committed packet-set manifest declares eleven required-before-filing
+   * items for this route and four of them reached no delivered surface at all:
+   * the State Patrol criminal-history confirm step, the court case-search
+   * confirm step, the probation-discharge confirm step, and the date and judge
+   * lines on the proposed order. The first two matter most, because the
+   * registry ties them to the very blanks this packet leaves empty on CC 6:11
+   * -- the conviction wording and the case number.
+   *
+   * They are rendered from the manifest itself rather than restated here, and
+   * `assertManifestRequiredBeforeFilingIsCarried` throws unless every one of
+   * the eleven reaches the file, so an item added to the manifest cannot go
+   * missing from the packet again.
+   */
+  if (manifestRequiredBeforeFiling.length) {
+    lines.push("## Everything this route requires before filing", "");
+    lines.push(
+      "These are the steps and the blanks the committed packet-set manifest declares for",
+      "this route. Work through all of them before you file, not only the form blanks",
+      "listed further down.",
+      ""
+    );
+    for (const item of manifestRequiredBeforeFiling) lines.push(`- ${item}`);
+    lines.push("");
+  }
+
+  lines.push("## The blanks on these forms that you must complete", "");
+  lines.push(`Required before filing: ${items.length} field(s).`, "");
   let document = null;
   for (const item of items) {
     if (item.document !== document) {
       document = item.document;
-      lines.push(`## ${document}`, "");
+      lines.push(`### ${document}`, "");
     }
-    lines.push(`- ${item.printedContext}${item.page ? ` (page ${item.page})` : ""} — ${item.why}`);
+    lines.push(`- **${item.label}** \`${item.field}\`${item.page ? ` (page ${item.page})` : ""} — ${item.why}`);
+  }
+  lines.push("");
+
+  /*
+   * FIX102. The blanks that exist and are not the participant's, said once and
+   * said plainly, so that taking them out of the task list does not hide them.
+   */
+  if (withheldBlanks.length) {
+    lines.push("## Blanks this packet does not fill, and does not ask you to supply", "");
+    lines.push(
+      "These blanks exist on the paper and are deliberately not in the list above. Some are",
+      "printed rules that nobody completes. The rest carry a value that comes from the court,",
+      "the clerk or the prosecutor, or from the act of service itself — so they are not",
+      "answered from your own knowledge, and are not a task you can finish at your desk.",
+      ""
+    );
+    let group = null;
+    for (const blank of withheldBlanks) {
+      if (blank.document !== group) {
+        group = blank.document;
+        lines.push(`### ${group}`, "");
+      }
+      const plain = config.plainFieldMeanings?.[blank.document]?.[blank.field] ?? null;
+      lines.push(`- ${plain ? `**${plain}** ` : ""}\`${blank.field}\`${blank.page ? ` (page ${blank.page})` : ""} — ${blank.why}`);
+    }
+    lines.push("");
   }
   lines.push("");
   lines.push("Signature, signature date, and any certificate of mailing are deliberately left");
@@ -1675,6 +2012,25 @@ export function participantInstructionsMarkdown(familyId, config, items) {
   lines.push("");
   lines.push(...participantGuidanceMarkdown(config.participantGuidance));
   return lines.join("\n");
+}
+
+/*
+ * FIX102. Every item the committed manifest declares required-before-filing,
+ * and the check that each one reaches the delivered guide. The negative case is
+ * live in the self-tests: drop an item from the rendered file and this throws.
+ */
+function manifestRequiredBeforeFilingFor(familyId) {
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const rows = Array.isArray(manifests) ? manifests : (manifests.packetSets ?? Object.values(manifests));
+  const set = rows.find((row) => row.packetSetId === familyId);
+  return set?.requiredBeforeFiling ?? [];
+}
+
+function assertManifestRequiredBeforeFilingIsCarried(familyId, declared, markdown) {
+  const missing = declared.filter((item) => !markdown.includes(item));
+  assert.equal(missing.length, 0,
+    `${familyId}: ${missing.length} of ${declared.length} manifest-declared required-before-filing item(s) `
+    + `are absent from participant-instructions.md: ${JSON.stringify(missing)}`);
 }
 
 /*
@@ -1998,7 +2354,10 @@ function factsFor(config, fixture) {
     "matter.conviction_date": charges[0].conviction_date,
     "matter.disposition_date": charges[0].disposition_date,
     "deterministic.filing_date": "2026-08-30",
-    "matter.charges": charges
+    "matter.charges": charges,
+    /* FIX102. Per-family additions, merged last. Absent for every family that
+     * declares none, so their fact sets are byte-identical to before. */
+    ...(config.additionalFacts ?? {})
   };
 }
 
@@ -2567,7 +2926,7 @@ async function renderOneDocument(source, config, fixture) {
       measuredRefusals.push({ ...row, ...(config.flattenedCaptionGuidance ? { flattenedDelivery: true } : {}), holdsFactIds: expectation.holds ?? [], heldValues: held, why,
         optionsSample: row.options ? row.options.slice(0, 6) : null, options: undefined });
     }
-    return { source, policy, census, policyData, fixture, bytes: result.bytes, report: result.report, proof, measuredRefusals };
+    return { source, policy, census, policyData, fixture, facts, bytes: result.bytes, report: result.report, proof, measuredRefusals };
   }
   if (source.indexEntry.structuralClassObserved !== "flat_pdf") throw new Error(`${source.formNumber}: unsupported structural class ${source.indexEntry.structuralClassObserved}`);
   const census = await censusFlat(source);
@@ -3001,6 +3360,99 @@ function assertGuidanceReachesTheDeliveredFile(familyId, config, markdown) {
     `${familyId}: participant-instructions.md never tells the participant that local practice varies`);
 }
 
+/*
+ * FIX102, KNOWN_PREFILLS. A refused fit, recorded where every refusal is.
+ *
+ * The shared fitter already refuses a held value that will not fit the printed
+ * line at the minimum readable size, and it refuses it WHOLE -- it never
+ * truncates, because a case number missing its last nine characters is worse
+ * than a blank one. It pushes the refusal onto `report.unfittable`. Nothing on
+ * this host read that array, so on the boundary persona the packet's own case
+ * number vanished from three documents and no delivered file said so: the field
+ * map carried a refusal row whose stated reason was a build-policy string, the
+ * byte proof carried nothing at all, and the participant was told nothing.
+ *
+ * This turns the fitter's refusal into the measurement a reader can check: the
+ * value, the widget it was refused at, the width it needs at the floor, the
+ * width the box actually has, and the largest size at which it would fit --
+ * which is below the floor, and is the whole reason for the refusal. It is a
+ * REFUSAL record. It never appears among actualWrites, and `unfittableWrites`
+ * carries `written: false` so no reader can mistake it for ink on the page.
+ */
+async function unfittableRecordsFor(item) {
+  const rows = item.report?.unfittable ?? [];
+  if (!rows.length) return [];
+  const helvetica = await helveticaMetrics();
+  return rows.flatMap((row) => (row.fields ?? []).map((field) => {
+    const census = item.census.fields?.find((entry) => entry.name === field) ?? null;
+    const rect = census?.widgets?.[0]?.rect ?? null;
+    const value = String(resolveFact(item.facts ?? {}, row.factId) ?? "");
+    const usable = rect ? usableWidthOf(rect) : null;
+    const neededAtFloor = helvetica && value
+      ? round(helvetica.widthOfTextAtSize(value, row.minFontSize ?? MIN_READABLE_FONT_SIZE)) : null;
+    let largestFittingSize = null;
+    if (helvetica && value && usable !== null) {
+      for (let size = row.minFontSize ?? MIN_READABLE_FONT_SIZE; size >= 0.5; size -= 0.01) {
+        if (helvetica.widthOfTextAtSize(value, size) <= usable) { largestFittingSize = round(size); break; }
+      }
+    }
+    return {
+      field,
+      factId: row.factId,
+      written: false,
+      disposition: "REFUSED_UNFITTABLE_AT_THE_LEGIBILITY_FLOOR",
+      reason: row.reason,
+      neverTruncated: true,
+      heldValue: value,
+      page: census?.widgets?.[0]?.page ?? null,
+      rect,
+      measurement: {
+        font: "Helvetica",
+        minimumReadableFontSize: row.minFontSize ?? MIN_READABLE_FONT_SIZE,
+        widthNeededAtMinimumSize: neededAtFloor,
+        rectWidth: rect ? round(rect.width) : null,
+        usableWidth: usable,
+        largestSizeThatWouldFit: largestFittingSize,
+        linesAvailable: row.linesAvailable ?? null,
+        linesNeededAtMinimumSize: row.linesNeededAtMin ?? null
+      },
+      why: "the platform holds this fact and the printed line cannot carry it at or above the "
+        + `${row.minFontSize ?? MIN_READABLE_FONT_SIZE}pt legibility floor; it is refused whole rather than truncated, `
+        + "and the participant is told to write it by hand"
+    };
+  }));
+}
+
+/*
+ * FIX102. The plaintiff this build writes is the one the sources print.
+ *
+ * `matter.plaintiff` is the one fact this family adds that no participant
+ * supplies and no registry states, so it is the one that could quietly become
+ * this file's invention. It is read back out of the pinned forms instead: both
+ * CC 6:11 and CC 6:11.2 must print it on the page above "Plaintiff,". The
+ * comparison strips case and every non-alphanumeric character because these
+ * content streams are harvested out of order -- CC 6:11 yields its own Case No.
+ * caption as ", CasNe o" -- so a contiguous match would fail on a form that
+ * plainly carries the words.
+ *
+ * Negative case in the self-tests: change the constant and this throws.
+ */
+function assertPlaintiffIsTheSourcesOwnCaption(familyId, config, items) {
+  const expected = config.additionalFacts?.["matter.plaintiff"];
+  if (!expected) return;
+  const squash = (value) => String(value ?? "").toUpperCase().replace(/[^A-Z0-9]+/g, "");
+  const needle = squash(expected);
+  const mustPrintIt = ["CC-6-11", "CC-6-11.2"];
+  for (const formNumber of mustPrintIt) {
+    const item = items.find((row) => row.source.formNumber === formNumber);
+    assert.ok(item, `${familyId}: ${formNumber} is not among this build's rendered sources`);
+    const haystack = squash((item.census.documentTextLines ?? []).join(" "));
+    assert.ok(haystack.includes(needle),
+      `${familyId}/${formNumber}: the pinned source does not print ${JSON.stringify(expected)}, `
+      + "so this build may not write it onto DC 1:15 as a fact the packet already carries");
+  }
+}
+
 /** A named-fact write that reached no page is a claim the paper contradicts. */
 function assertNamedFactWritesLanded(familyId, item, fixture) {
   const declared = item.policyData.namedFactWrites ?? [];
@@ -3043,6 +3495,7 @@ async function buildOfficial(familyId, config) {
       findings.push(...rendered.proof.findings);
       console.log(`${familyId}/${fixture}/${source.formNumber}: writes=${rendered.report.written.length} refusals=${rendered.report.refused.length}`);
     }
+    assertPlaintiffIsTheSourcesOwnCaption(familyId, config, byFixture[fixture]);
   }
 
   const artifacts = [];
@@ -3140,26 +3593,109 @@ async function buildOfficial(familyId, config) {
     for (const rows of [map.canonicalRefusals, map.boundaryRefusals, map.roleRefusals]) {
       applyMeasuredRefusalRows(rows, measuredForForm);
     }
-  }
-  const requiredBeforeFiling = requiredBeforeFilingItems(maps);
-  const actualWrites = ["canonical", "boundary"].flatMap((fixture) => byFixture[fixture].map((item) => ({
-    fixture,
-    formNumber: item.source.formNumber,
-    sourceSha256: item.source.sha256,
-    proofMethod: item.census.structuralClass === "acroform"
-      ? "flattened widget appearances plus artifact-derived painted paths read back at every measured /Rect"
-      : "added glyphs and painted paths derived by subtracting pinned source geometry from finalized artifact geometry",
-    actualWrites: item.proof.actualWrites,
-    protectedSelectionControls: item.proof.protectedSelectionControls,
-    protectedWithheldInk: item.proof.protectedWithheldInk ?? [],
-    proofSummary: {
-      appearancesRead: item.proof.appearancesRead ?? null,
-      addedGlyphs: item.proof.addedGlyphs ?? null,
-      addedPaintedPaths: item.proof.addedPaintedPaths ?? null,
-      remainingAcroFields: item.proof.remainingAcroFields ?? null,
-      selectionControlsProtected: item.proof.protectedSelectionControls.length
+    /*
+     * FIX102, KNOWN_PREFILLS. What became of the county position, said once and
+     * measured.
+     *
+     * VF06 read the delivered caption as bare whitespace between "OF" and
+     * "COUNTY, NEBRASKA" and recorded that the build's footprint reached
+     * 11.86pt past the right edge of the caption write box to erase the source
+     * hint "Choose the county". Measured here on the pinned bytes, that hint is
+     * the appearance of DROPDOWNCOUNTY2, whose annotation flags carry NO Print
+     * bit: it is a screen control, it is absent from any printed copy of the
+     * official form, and a flatten that does not carry it forward is right.
+     * There is no painted erasure and no added ink at that position -- 0 added
+     * words fall outside a declared write box on any page of either fixture.
+     *
+     * What IS lost is a different widget: `enter the county`, which the source
+     * marks Print AND NoView and fills with "(Enter the county name)". That one
+     * does print on the official form, and the shared flattening step drops
+     * every NoView widget before any disposition is consulted
+     * (rcap-active-content.mjs, dropNonDisplayedWidgets), so this family cannot
+     * carry it forward without changing a module this lane may not edit.
+     *
+     * The consequence is stated to the participant rather than papered over:
+     * the guide says the gap is where the county goes and says which forms
+     * print a rule there and which print nothing.
+     */
+    const countyWidgets = measuredForForm.filter((row) => (row.holdsFactIds ?? []).includes("matter.county"));
+    if (countyWidgets.length) {
+      map.countyCaptionPositionDisposition = {
+        question: "what the delivered caption shows where the county belongs, and what became of each source control there",
+        deliveredCaptionShows: map.formNumber === "DC-1-15"
+          ? "a printed rule between \"COURT OF\" and \"COUNTY, NEBRASKA\", drawn by the source form itself"
+          : "blank space between \"COURT OF\" and \"COUNTY, NEBRASKA\", with no rule and no prompt",
+        addedInkAtThisPosition: "none; this build writes nothing at the county position on any fixture",
+        paintedErasureAtThisPosition: "none; no white or opaque path is drawn over the source ink",
+        sourceControls: countyWidgets.map((row) => {
+          /* The measured-widget pass reports annotationFlags only for the kinds
+           * it reads them for, and returns null on a drop-down -- which is
+           * exactly the widget whose Print bit decides this question. The
+           * per-field evidence read first hand from the pinned binary carries
+           * them for every field, so it is the basis used here. */
+          const evidenceFlags = map.documentPolicy?.sourceFieldEvidence?.[row.field]?.annotationFlags ?? null;
+          const flags = Array.isArray(evidenceFlags) && evidenceFlags.length ? evidenceFlags
+            : (typeof row.annotationFlags === "number" ? [row.annotationFlags] : null);
+          const printFlagSet = flags ? flags.every((flag) => (flag & 4) === 4) : null;
+          return {
+          field: row.field,
+          pdfType: row.pdfType,
+          readOnly: row.readOnly,
+          annotationFlags: flags,
+          printFlagSet,
+          noView: row.noView ?? null,
+          rect: row.rect,
+          sourceCarriedValue: row.sourceCarriedValue,
+          becameOnTheDeliveredPage: row.noView === true
+            ? "dropped. The source marks it Print and NoView; the shared flattening step drops every NoView widget "
+              + "before any per-family disposition is read, so its printed prompt does not reach this packet. This is "
+              + "the one real loss at this position and it is a shared-step behaviour, not a choice this family made."
+            : printFlagSet === false
+              ? "not carried forward, and correctly so. The source clears the Print bit on this widget: it is a screen "
+                + "control that no printed copy of the official form shows, so a printed packet must not show it either. "
+                + "This is the control whose appearance reads \"Choose the county\"."
+              : "carried forward unchanged; the form's own printed words still stand at their own coordinates."
+          };
+        })
+      };
     }
-  })));
+  }
+  /* FIX102. Role-protected and source-read-only rows lose the flag BEFORE the
+   * disclosure is collected, so the participant's list and the field map's own
+   * requiredBeforeFiling array are built from one decision rather than two. */
+  const withheldBlanks = withholdBlanksTheParticipantMayNotFill(maps);
+  const requiredBeforeFiling = nameDisclosedBlanks(config, requiredBeforeFilingItems(maps));
+  assertEveryDisclosedBlankIsNamed(familyId, config, requiredBeforeFiling);
+  const manifestRequiredBeforeFiling = manifestRequiredBeforeFilingFor(familyId);
+  const actualWrites = [];
+  for (const fixture of ["canonical", "boundary"]) {
+    for (const item of byFixture[fixture]) {
+      /* FIX102. A held fact the printed line cannot carry at the legibility
+       * floor is a refusal with arithmetic behind it, and it is recorded here
+       * beside the writes rather than nowhere. `written: false` on every row. */
+      const unfittableWrites = await unfittableRecordsFor(item);
+      actualWrites.push({
+        fixture,
+        formNumber: item.source.formNumber,
+        sourceSha256: item.source.sha256,
+        proofMethod: item.census.structuralClass === "acroform"
+          ? "flattened widget appearances plus artifact-derived painted paths read back at every measured /Rect"
+          : "added glyphs and painted paths derived by subtracting pinned source geometry from finalized artifact geometry",
+        actualWrites: item.proof.actualWrites,
+        unfittableWrites,
+        protectedSelectionControls: item.proof.protectedSelectionControls,
+        protectedWithheldInk: item.proof.protectedWithheldInk ?? [],
+        proofSummary: {
+          appearancesRead: item.proof.appearancesRead ?? null,
+          addedGlyphs: item.proof.addedGlyphs ?? null,
+          addedPaintedPaths: item.proof.addedPaintedPaths ?? null,
+          remainingAcroFields: item.proof.remainingAcroFields ?? null,
+          selectionControlsProtected: item.proof.protectedSelectionControls.length,
+          unfittableRefusals: unfittableWrites.length
+        }
+      });
+    }
+  }
 
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, config, resolved));
   writeJson(`${out}/field-census.census-v1.json`, {
@@ -3170,8 +3706,10 @@ async function buildOfficial(familyId, config) {
     documents: censusDocuments
   });
   fs.mkdirSync(path.join(rootDir, out), { recursive: true });
-  const instructions = participantInstructionsMarkdown(familyId, config, requiredBeforeFiling);
+  const instructions = participantInstructionsMarkdown(familyId, config, requiredBeforeFiling,
+    { manifestRequiredBeforeFiling, withheldBlanks });
   assertGuidanceReachesTheDeliveredFile(familyId, config, instructions);
+  assertManifestRequiredBeforeFilingIsCarried(familyId, manifestRequiredBeforeFiling, instructions);
   fs.writeFileSync(path.join(rootDir, out, "participant-instructions.md"), instructions);
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
@@ -3181,6 +3719,14 @@ async function buildOfficial(familyId, config) {
     dispositionVocabulary: Object.keys(REFUSAL_CLASSES),
     requiredBeforeFilingCount: requiredBeforeFiling.length,
     requiredBeforeFiling,
+    /* FIX102. The blanks this packet declines to hand the participant, and the
+     * pinned-bytes basis for each. Disclosed in the guide under its own heading
+     * rather than dropped silently. */
+    blanksWithheldFromParticipantTasks: withheldBlanks,
+    /* FIX102. What the committed packet-set manifest declares for this route,
+     * carried beside the field-level rows a reader would otherwise diff it
+     * against by hand. */
+    manifestRequiredBeforeFiling,
     maps,
     generationAllowed: false,
     runtimeSelectable: false,
@@ -3339,15 +3885,50 @@ export async function checkFamily(familyId) {
         `${familyId}/${document.formNumber}: flat blank was omitted or disposed twice`);
     }
   }
-  const storedRequired = requiredBeforeFilingItems(fieldMap.maps);
+  /* FIX102. The disclosure is recomputed from the committed rows and must equal
+   * what the packet carries. The withholding pass is NOT replayed here: it
+   * consumes the requiredBeforeFiling flag it corrects, so re-running it over
+   * an already-corrected map is a no-op by construction and would prove
+   * nothing. The withheld record is checked for CONSISTENCY instead, which is
+   * the property that can actually drift. */
+  const storedRequired = nameDisclosedBlanks(config, requiredBeforeFilingItems(fieldMap.maps));
   assert.deepEqual(fieldMap.requiredBeforeFiling ?? [], storedRequired,
     `${familyId}: required-before-filing disclosure does not match the field map it is derived from`);
   assert.equal(fieldMap.requiredBeforeFilingCount, storedRequired.length,
     `${familyId}: required-before-filing count drift`);
+
+  const withheldRecord = fieldMap.blanksWithheldFromParticipantTasks ?? [];
+  const withheldNamed = new Set(withheldRecord.map((row) => `${row.document}::${row.field}`));
+  const markedInRows = new Set();
+  for (const map of fieldMap.maps) {
+    for (const row of [...map.canonicalRefusals, ...map.boundaryRefusals, ...map.roleRefusals, ...map.selectionControls]) {
+      if (!row.withheldFromParticipantTasks) continue;
+      const key = `${map.formNumber}::${row.field ?? row.blankId}`;
+      markedInRows.add(key);
+      assert.equal(row.requiredBeforeFiling, false,
+        `${familyId}/${key}: a withheld blank still claims the participant must complete it before filing`);
+      assert.equal(row.completenessClass, "court_prosecutor_clerk_or_agency_owned",
+        `${familyId}/${key}: a withheld blank must carry the court-owned class, not ${row.completenessClass}`);
+      assert.ok(withheldNamed.has(key),
+        `${familyId}/${key}: a row is marked withheld but the packet's withheld record never names it`);
+    }
+  }
+  for (const key of withheldNamed) {
+    assert.ok(markedInRows.has(key),
+      `${familyId}/${key}: the withheld record names a blank no map row is marked withheld for`);
+  }
+  assert.equal(withheldNamed.size, withheldRecord.length,
+    `${familyId}: the withheld record names the same blank twice`);
+
   assert.equal(
     fs.readFileSync(path.join(rootDir, out, "participant-instructions.md"), "utf8"),
-    participantInstructionsMarkdown(familyId, config, storedRequired),
+    participantInstructionsMarkdown(familyId, config, storedRequired, {
+      manifestRequiredBeforeFiling: fieldMap.manifestRequiredBeforeFiling ?? [],
+      withheldBlanks: withheldRecord
+    }),
     `${familyId}: the packet's required-before-filing disclosure has drifted from the field map`);
+  assertManifestRequiredBeforeFilingIsCarried(familyId, manifestRequiredBeforeFilingFor(familyId),
+    fs.readFileSync(path.join(rootDir, out, "participant-instructions.md"), "utf8"));
   for (const map of fieldMap.maps) {
     for (const row of [...map.canonicalRefusals, ...map.boundaryRefusals, ...map.roleRefusals, ...map.selectionControls]) {
       const declared = row.completenessClass ?? null;
@@ -3469,6 +4050,19 @@ export async function checkFamily(familyId) {
        * refusal is not read as drift. */
       applyMeasuredRefusalRows(freshRows.refused, fresh.measuredRefusals ?? []);
       applyMeasuredRefusalRows(fresh.policyData.unwritableFields, fresh.measuredRefusals ?? []);
+      /* FIX102. The build clears the required-before-filing flag on every
+       * role-refused row and gives it the court-owned class before the map is
+       * written, so a fresh render must go through the same pass or every one
+       * of those rows reads as drift. Same function, same inputs, one
+       * document's worth at a time. */
+      withholdBlanksTheParticipantMayNotFill([{
+        formNumber: source.formNumber,
+        documentPolicy: fresh.policy,
+        canonicalRefusals: freshRows.refused,
+        boundaryRefusals: [],
+        roleRefusals: fresh.policyData.unwritableFields,
+        selectionControls: fresh.policyData.selectionControls
+      }]);
       assert.deepEqual(freshRows.written,
         fixture === "canonical" ? storedMap.canonicalWrites : storedMap.boundaryWrites,
       `${familyId}/${source.formNumber}/${fixture}: live write disposition drift`);
@@ -3720,8 +4314,89 @@ export async function runSelfTests() {
     selectionControls: [{ field: "sig", regionHeading: "Signature", requiredBeforeFiling: false }]
   }]);
   assert.equal(disclosure.length, 1, "one field is disclosed once, however many map rows mention it");
-  assert.match(participantInstructionsMarkdown("ne-setaside-custodial-set", FAMILY_CONFIGS["ne-setaside-custodial-set"], disclosure),
-    /E-mail Address/, "a required-before-filing field must reach the participant by name");
+  assert.match(participantInstructionsMarkdown("ne-setaside-custodial-set", FAMILY_CONFIGS["ne-setaside-custodial-set"],
+    nameDisclosedBlanks(FAMILY_CONFIGS["ne-setaside-custodial-set"], disclosure)),
+  /E-mail Address/, "a required-before-filing field must reach the participant by name");
+
+  /*
+   * FIX102 self-tests. Each has a live negative case, because a check that
+   * passes whatever it is given is not a check.
+   */
+  {
+    const family = FAMILY_CONFIGS["ne-setaside-custodial-set"];
+
+    // Identity is the FIELD. Two blanks that harvest the same caption fragment
+    // are two disclosures, not one -- the bug that hid DC 1:15 Text52, Text64
+    // and Text65 behind Text50, Text59.0 and Text60.0.
+    const collide = requiredBeforeFilingItems([{
+      formNumber: "DC-1-15",
+      canonicalRefusals: [
+        { field: "Text50", regionHeading: "same may be heard", page: 1, requiredBeforeFiling: true, why: "needed" },
+        { field: "Text52", regionHeading: "same may be heard", page: 1, requiredBeforeFiling: true, why: "needed" }
+      ]
+    }]);
+    assert.equal(collide.length, 2,
+      "two distinct fields sharing one harvested caption must be disclosed twice, not deduplicated into one");
+
+    // Both personas are scanned: a blank that exists only when a held value
+    // will not fit is still a blank the guide must name.
+    const boundaryOnly = requiredBeforeFilingItems([{
+      formNumber: "CC-6-11",
+      canonicalRefusals: [],
+      boundaryRefusals: [{ field: "Text2", regionHeading: ",  CasNe o", page: 1, requiredBeforeFiling: true, why: "needed" }]
+    }]);
+    assert.equal(boundaryOnly.length, 1, "a refusal seen only on the boundary persona must still be disclosed");
+
+    // A role-refused row loses the flag AND gains a disposition from the closed
+    // vocabulary; a row that already carries a settled source presentation is
+    // left untouched.
+    const roleMap = [{
+      formNumber: "DC-1-15",
+      documentPolicy: { sourceFieldEvidence: { Text64: { readOnly: false } } },
+      canonicalRefusals: [
+        { field: "Text64", requiredBeforeFiling: true, buildPolicyCategory: "role", page: 1, why: "needed" },
+        { field: "TYPEOFCOURTDROPDOWN", requiredBeforeFiling: false, buildPolicyCategory: "role", page: 1,
+          sourcePresentation: { kind: "materialized_control" }, completenessDisposition: "MATERIALIZED_SOURCE_CONTROL" }
+      ]
+    }];
+    const withheldRows = withholdBlanksTheParticipantMayNotFill(roleMap);
+    assert.equal(withheldRows.length, 1, "only the role-refused required-before-filing row is withheld");
+    assert.equal(roleMap[0].canonicalRefusals[0].requiredBeforeFiling, false);
+    assert.equal(roleMap[0].canonicalRefusals[0].completenessClass, "court_prosecutor_clerk_or_agency_owned",
+      "a withheld row must carry a closed-vocabulary class, not merely lose a flag");
+    assert.equal(roleMap[0].canonicalRefusals[1].completenessDisposition, "MATERIALIZED_SOURCE_CONTROL",
+      "a settled source presentation must survive the withholding pass untouched");
+
+    // Every disclosed blank is named by its meaning, and the negative case.
+    const named = nameDisclosedBlanks(family, [{ document: "CC-6-11", field: "Text5", printedContext: "CRIMINAL CONVICTION · 1.I was convicted of" }]);
+    assert.equal(named[0].labelIsPlainMeaning, true);
+    assert.match(named[0].label, /exactly as it appears on the court papers/);
+    assert.throws(() => assertEveryDisclosedBlankIsNamed("ne-setaside-custodial-set", family,
+      nameDisclosedBlanks(family, [{ document: "CC-6-11", field: "zzNoSuchField", printedContext: "CRIMINAL CONVICTION · r" }])),
+    /carry no plain meaning/);
+
+    // Every manifest-declared required-before-filing item reaches the file.
+    const manifestItems = manifestRequiredBeforeFilingFor("ne-setaside-custodial-set");
+    assert.equal(manifestItems.length, 11, "the committed manifest declares eleven required-before-filing items");
+    assertManifestRequiredBeforeFilingIsCarried("ne-setaside-custodial-set", manifestItems,
+      participantInstructionsMarkdown("ne-setaside-custodial-set", family, [],
+        { manifestRequiredBeforeFiling: manifestItems, withheldBlanks: [] }));
+    assert.throws(() => assertManifestRequiredBeforeFilingIsCarried("ne-setaside-custodial-set", manifestItems,
+      participantInstructionsMarkdown("ne-setaside-custodial-set", family, [],
+        { manifestRequiredBeforeFiling: manifestItems.slice(1), withheldBlanks: [] })),
+    /absent from participant-instructions.md/);
+
+    // The plaintiff caption is the sources' own, and a drifted one is refused.
+    const stubCensus = (text) => ({ census: { documentTextLines: [text] } });
+    const goodItems = [
+      { source: { formNumber: "CC-6-11" }, ...stubCensus("STATE OF NEBRASKA Plaintiff,") },
+      { source: { formNumber: "CC-6-11.2" }, ...stubCensus("ST ATE  OF NE BRASKA") }
+    ];
+    assertPlaintiffIsTheSourcesOwnCaption("ne-setaside-custodial-set", family, goodItems);
+    assert.throws(() => assertPlaintiffIsTheSourcesOwnCaption("ne-setaside-custodial-set", family, [
+      goodItems[0], { source: { formNumber: "CC-6-11.2" }, ...stubCensus("STATE OF IOWA") }
+    ]), /does not print/);
+  }
 
   const selections = new Set(Object.values(FAMILY_CONFIGS).map((config) => config.selectionId));
   assert.equal(selections.size, Object.keys(FAMILY_CONFIGS).length, "route-specific selections must remain distinct");
