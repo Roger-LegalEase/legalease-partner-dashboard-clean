@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `95da94165072a547a21c576acdc33af91a4fc7e3` (or the newer dispatch base)
+**Minimum required ancestor:** `276c926a4d052512d2c448e498ca5c50311f8238` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'al-diversion-set' \
+  --family 'al-felony-dwop-set' \
   --codex-cloud \
-  --minimum-captain-sha 95da94165072a547a21c576acdc33af91a4fc7e3
+  --minimum-captain-sha 276c926a4d052512d2c448e498ca5c50311f8238
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,10 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 3 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-cannabis-vacate-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-nonconv-set'`
+- Assert only these 2 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-felony-dwop-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-exp-pardon-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -59,11 +58,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
-- `al-diversion-set`
-- `il-cannabis-vacate-set`
-- `il-seal-nonconv-set`
+- `al-felony-dwop-set`
+- `il-exp-pardon-set`
 
 ## What you receive
 
@@ -76,11 +74,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
-- `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
-- `scripts/build-census-v1-il-seal-nonconv-set.mjs`
+- `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
+- `scripts/build-census-v1-al-felony-dwop-set.mjs`
 
 ## Never write here
 
