@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+  "minimumCaptainSha": "bdc1e7461e8d13df337ac7aecdc4077c4f6d2f89",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "206d687e74b31c8b1b0232e03ef85e35c8e7722dcb2022c16a8f9a5dd131a80c",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "3f63d00ad7a4cad79d02713814285d8f38b47fa6dff4b5c185e611fa9c5a84b6",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,27 +66,28 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 7,
+    "activeFamiliesExcluded": 10,
     "guidanceOnly": 0,
-    "remaining": 339,
+    "remaining": 336,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 16,
+    "verifyPending": 12,
     "repairRequired": 35,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 147,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "FAIL_REPAIR_REQUIRED": 45,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 16,
+    "VERIFY_PENDING": 12,
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,12 +110,15 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "ne-setaside-custodial-set",
       "nh_petition_nonconviction_pre2019-set",
       "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
-      "nj_ordinance-set"
+      "nj_ordinance-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set"
     ],
     "staleRosterFamilies": [
       {
@@ -29669,9 +29673,7 @@
         "verifiedAtBase": "bb0963c0d",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -29712,9 +29714,9 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX91",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -29730,8 +29732,7 @@
         "wv_conv_multiple_misdemeanors-set",
         "wv_conv_single_misdemeanor-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "ne-setaside-noncustodial-set",
@@ -40055,11 +40056,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf04",
+        "verifiedAtBase": "e5b6f7254babb1302ec9f8d9096b20da589b76ca",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40089,74 +40092,32 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FILING_DESTINATION",
-        "PAGE_ORDER",
-        "ROUTE_OPTIONS"
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_OPTIONS",
-          "finding": "The packet marks District Court on both petition and proposed order even though the route contract says stage two is the district or justice court that decided the case. factsFor supplies no court-type fact; the generator derives both marks from route.case. A case-number route does not determine District rather than Justice, so these two elections are ungrounded.",
-          "evidence": {
-            "selectedControls": 8,
-            "unsupportedControls": [
-              "1000EX page 1: In the [X] District [ ] Justice Court of Utah",
-              "1020EX page 1 / packet page 3: In the [X] District [ ] Justice Court of Utah"
-            ],
-            "factIdUsed": "route.case",
-            "heldCourtTypeFact": false
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
         },
         {
-          "obligation": "PAGE_ORDER",
-          "finding": "Both PDFs are internally contiguous but do not follow the authoritative packet-set component order or the route's fixed two-stage sequence. The contract begins BCI application, conditional third-party release, cover sheet, petition, proposed order; the PDFs begin petition, proposed order, cover sheet and do not place the BCI application/release until pages 17-19.",
-          "evidence": {
-            "contractOrder": [
-              "UT-BCI-EXP-APPLICATION",
-              "UT-BCI-THIRD-PARTY-RELEASE",
-              "1044XX",
-              "1000EX",
-              "1020EX",
-              "1146XX",
-              "1148XX",
-              "1149XX",
-              "1169XX",
-              "participant-instructions.md"
-            ],
-            "actualPdfOrder": [
-              "1000EX",
-              "1020EX",
-              "1044XX",
-              "1146XX",
-              "1148XX",
-              "1149XX",
-              "1169XX",
-              "UT-BCI-EXP-APPLICATION",
-              "UT-BCI-THIRD-PARTY-RELEASE"
-            ],
-            "firstMismatch": "contract UT-BCI-EXP-APPLICATION; actual 1000EX",
-            "fixturesAffected": [
-              "canonical",
-              "boundary"
-            ]
-          }
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
         },
         {
-          "obligation": "FILING_DESTINATION",
-          "finding": "Stage one BCI is named correctly, but stage two is narrowed to 'The Utah district court for the county where the case was heard' and both court captions are marked District. The route contract instead requires the court that decided the case, district or justice court. A participant whose dismissal was entered in justice court is directed to and given forms marked for the wrong court type.",
-          "evidence": {
-            "contractDestination": "Stage one BCI; stage two the district or justice court that decided the case",
-            "instructionsDestination": "The Utah district court for the county where the case was heard",
-            "justiceCourtOptionDisclosed": false,
-            "districtMarks": 2
-          }
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -40167,7 +40128,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
@@ -40366,11 +40328,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf34",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
+        "lane": "vf04",
+        "verifiedAtBase": "e5b6f7254babb1302ec9f8d9096b20da589b76ca",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40400,20 +40364,44 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "PAGE_ORDER"
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "PAGE_ORDER",
-          "finding": "The manifest and instructions require stage-one BCI before court filing. Manifest order is BCI application, conditional release, cover sheet, petition, order, acceptance, consent, victim statement, reply. Both PDFs instead place 1000EX pp1-2, 1020EX pp3-5, 1044XX pp6-7, 1146XX p8, 1148XX pp9-10, 1149XX pp11-13, 1169XX pp14-16, BCI application pp17-18, and release p19. The prerequisite agency stage is last and the petition/order precede the cover sheet.",
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": null,
           "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -40424,7 +40412,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_limitations-set",
@@ -40623,11 +40612,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "d7e293f81",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "lane": "vf04",
+        "verifiedAtBase": "e5b6f7254babb1302ec9f8d9096b20da589b76ca",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40671,55 +40662,25 @@
       "failingCounters": [],
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP",
-        "SERVICE"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "EVERY SELECTION MARK THIS PACKET WRITES COLLIDES WITH THE PRINTED BRACKET IT IS MEANT TO SIT INSIDE, on five delivered pages, in both fixtures. WHAT IS ON THE PAGE: the family writes eight 'X' marks into printed bracket pairs, on packet pages 4 (two), 5, 6 (two), 8 and 9 (two). Each mark is drawn at the LEFT BRACKET'S OWN x-origin plus 1.50pt, so the X's glyph box overlaps the printed '[' by 1.27 to 1.84pt over the full 6.3 to 9.1pt height of the bracket. Worked example, packet page 5, the 1044XX cover sheet's Expungement Petition - Criminal row: the printed '[' occupies x 355.98-358.77, the interior gap between the brackets is 358.77-364.26 (5.49pt), the X is 5.35pt wide and would fit the gap exactly if centred, and it is drawn at 357.48-362.83 instead. Rasterised here at 400 dpi the row reads as a mark fused to the bracket rather than a mark inside it, and the unmarked '[ ]' rows directly above and below it show the difference plainly; page 8's 'In the [x] District' and page 6's 'I am the [x] Petitioner' are the same. THE BUILD'S OWN BYTE PROOF SAYS THIS DOES NOT HAPPEN AND IT DOES: reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures, but three of the eight marks run past the right edge of their OWN committed write box - page 4 box x 76.50 width 5.43 with the X ending at 83.35 (1.42pt out), page 5 box x 355.98 width 5.45 with the X ending at 362.83 (1.40pt out), page 8 box x 226.80 width 6.70 with the X ending at 234.97 (1.47pt out). The write box has been anchored on the bracket glyph rather than on the gap between the brackets, which is both the cause of the overlap and the cause of the overrun. THIS IS THE CLASS THIS LANE HAS ALREADY FAILED ONCE IN THIS JURISDICTION: the ut_pet_acquittal sibling was failed on a 2.24 x 3.41pt (7.65 sq pt) collision between a written name and the printed 'I' of a declaration line. Six of the eight collisions here are larger than that, up to 1.84 x 9.08pt (16.7 sq pt). EVERYTHING ELSE IS CLEAN and should survive the repair: zero words outside the 612x792 mediabox on all 19 pages of both fixtures; a positional scan over all thirty-eight writes finds these eight and nothing else - no written text value collides with any printed word anywhere in the packet, including on the long-value boundary fixture; no markdown delimiter, template token or route key reaches any page; no orphaned signature page, no fragment page, no hard-split token.",
-          "evidence": {
-            "collidingMarks": 8,
-            "pagesAffected": [
-              4,
-              5,
-              6,
-              8,
-              9
-            ],
-            "fixturesAffected": [
-              "canonical",
-              "boundary"
-            ],
-            "overlapRangePt": "1.27x6.32 to 1.84x9.12",
-            "marksOverrunningTheirOwnWriteBox": 3,
-            "maxOverrunPt": 1.47,
-            "buildReportsGlyphsOutsideBoxes": 0,
-            "measuredHereGlyphsOutsideBoxes": 3,
-            "otherValueOnPrintedTextCollisions": 0,
-            "wordsOutsideMediabox": 0,
-            "pagesRasterisedAndRead": 5
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
         },
         {
-          "obligation": "SERVICE",
-          "finding": "THE PACKET PUTS A SERVICE OBLIGATION ON THE PARTICIPANT THAT THE CONTROLLING RECORD SAYS DOES NOT ARISE, AND OMITS THE RULE THE RECORD ACTUALLY STATES. THE RECORD, in three places and in terms: legal-design-track-registry.json track ut_pet_limitations rules.service reads 'The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney. The Proof of Service form appears in the published packet only as an optional form, used where the prosecutor's office will not accept service. The Utah Courts general service-of-process page governs first papers in a new civil case and must not be wired to this track; doing so would import a summons, a process server and a 120-day deadline this track does not have.' rules.notice reads 'The court sends a copy of the filing to the prosecuting attorney.' destination.detail reads 'The court sends the filing to the prosecuting attorney; the petitioner does not serve.' THE PACKET: participant-instructions.md heads its section 'Who must receive a copy, and how' and opens 'The prosecutor must receive a copy of what you file, by mail or by email.' It then cites the enclosed BCI Expungement Applicant Instructions - 'after filing with the court, \"Mail or email the prosecutor copies of what you file\"' - and offers form 1146XX for the prosecutor to acknowledge receipt. It adds 'Fill in the service method, the address you used and the date only after service has actually happened.' Nowhere in the file does it say that the court sends the filing to the prosecuting attorney, or that the petitioner does not effect service; a search for 'the court sends', 'does not serve' and 'optional' finds the rule stated nowhere. THE DEFECT IS NOT THAT THE BCI SENTENCE IS INVENTED - it is a genuine quotation from a source this family binds by hash (UT-BCI-EXP-INSTRUCTIONS 9e03980f) - it is that the record's primary rule is missing and its secondary, conditional route has been promoted to a flat participant duty. The consequence for a participant is real in both directions: they may believe their filing is defective until they have mailed the prosecutor, and they are given no way to know that formal service is the court's job. The Indiana sibling in this same return shows the shape that works, and shows it is available: its record says in terms 'the CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and its guide carries both limbs in the record's order. The Utah record contains no such authorisation and instead contains an express warning against importing a service regime this track does not have.",
-          "evidence": {
-            "recordRule": "the court sends the filing to the prosecuting attorney; the petitioner does not effect service in the ordinary case",
-            "guideRule": "the prosecutor must receive a copy of what you file, by mail or by email",
-            "recordRuleStatedInTheGuide": false,
-            "recordCitations": [
-              "rules.service",
-              "rules.notice",
-              "destination.detail"
-            ]
-          }
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -40730,7 +40691,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_no_charges-set",
@@ -40930,10 +40892,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf04",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "verifiedAtBase": "e5b6f7254babb1302ec9f8d9096b20da589b76ca",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40970,38 +40934,26 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
           "finding": null,
-          "evidence": "All 38 reported writes per fixture are readable from normalized PDF text, but the route is expressly for an arrest where charges were never filed and therefore has no pre-existing court case. Nevertheless the build writes matter.case_number into 1000EX and three locations in 1020EX (canonical 24-CR-001234; boundary 2026-CR-900123-EXTENDED-CASE-IDENTIFIER). The controlling track says no case exists, and the current Utah Courts instruction says that if there is no case number the court will give one. Treating a fictional pre-existing criminal case number as a known prefill is route-incompatible."
+          "evidence": null
         },
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
+          "obligation": "CLIPPING_AND_OVERLAP",
           "finding": null,
-          "evidence": "The packet identifies the certificate, 180-day certificate life, payment, identification, fingerprints, signatures, venue details, public-interest statement, complete case history and final-declination evidence. It omits two route-specific prerequisites: the at-least-30-days-since-arrest threshold held in the track registry and current Utah Courts instructions, and the instruction that this never-charged route has no existing case number and the court assigns one. Instead the fixtures prefill a criminal case number. A participant can follow every listed before-filing instruction and still file too early or carry a phantom case number."
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": null,
-          "evidence": "Stage one correctly names Utah BCI, but stage two says to file in the district court 'for the county where the case was heard' and to use the court listed for that case. This route has no filed case. The controlling track and current Utah Courts instructions instead require the district court in the county/district where the arrest occurred. The later statement that the county is written 'from your case' repeats the wrong premise."
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": null,
-          "evidence": "The packet affirmatively directs the participant to mail or email the prosecutor copies and then fill service method/address/date. The controlling track registry and current Utah Courts process say the opposite: when the participant files, the court sends the filing to the prosecuting attorney and the petitioner does not effect ordinary service. The participant-facing instruction imports the BCI handout's conflicting older step and can cause unauthorized or duplicative service."
+          "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -41012,7 +40964,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_remove_link-set",

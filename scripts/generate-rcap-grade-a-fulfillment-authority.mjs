@@ -36,6 +36,7 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { createWorkerInputPlan } from "./rcap-hosted-acceptance-worker-input-plan.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -891,6 +892,13 @@ function mississippiClinicCandidateRecord() {
 
   const composerBytes = readEvidenceBytes("src/lib/rcap/grade-a/composer.ts");
   const rendererBytes = readEvidenceBytes("src/lib/rcap/grade-a/renderer.ts");
+  const publicationPlan = createWorkerInputPlan({
+    rootDir,
+    acceptedSourceSha: worker.sourceSha,
+    acceptedDigest: worker.immutableRegistryDigest,
+    candidateSha: execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim()
+  });
+  const publicationBound = worker.workflowConclusion === "success" && !publicationPlan.rebuildRequired;
   const record = {
     schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
     recordId: "grade-a-ms-non-conviction-expungement-clinic-demo-v1",
@@ -921,7 +929,25 @@ function mississippiClinicCandidateRecord() {
       providerId: "rcap_grade_a_composer_v1",
       rendererKind: "rcap_grade_a_document_v1",
       rendererVersion: "2.0.0",
-      imageDigest: `sha256:${sha256(Buffer.concat([composerBytes, rendererBytes]))}`
+      // A source hash is not an OCI registry digest. An old published image
+      // cannot satisfy this proof after any packaged input has changed.
+      imageDigest: publicationBound ? worker.immutableRegistryDigest : ""
+    },
+    evidenceBindings: {
+      rendererSource: {
+        kind: "source_bytes_fingerprint",
+        paths: ["src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/renderer.ts"],
+        sha256: sha256(Buffer.concat([composerBytes, rendererBytes])),
+        publishedImageDigest: false
+      },
+      providerPublication: {
+        evidencePath: WORKER_EVIDENCE,
+        publishedSourceSha: worker.sourceSha,
+        historicalImmutableRegistryDigest: worker.immutableRegistryDigest,
+        currentInputsEquivalent: !publicationPlan.rebuildRequired,
+        state: publicationBound ? "published_input_equivalent" : "missing_current_publication",
+        hostedAcceptance: "not_established_by_this_record"
+      }
     },
     fixture: {
       fixtureId: "ms-nonconviction-clinic-demo-participant-a",
@@ -996,6 +1022,25 @@ function mississippiClinicCandidateRecord() {
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
+  const prior = priorCurrentRecordFor(MS_CLINIC_ROUTE);
+  if (prior) {
+    // Preserve the existing record's authority history when correcting the
+    // publication proof; do not recreate its approval as a new version one.
+    record.version = prior.version;
+    if (fulfillmentRecordSha256(record) === fulfillmentRecordSha256(prior)) return prior;
+    record.version = prior.version + 1;
+    record.history = [...prior.history, {
+      version: record.version,
+      changeKind: publicationBound ? "proof_added" : "proof_invalidated",
+      changedAt: changeDate,
+      changedBy: GENERATOR_ID,
+      reason: publicationBound
+        ? "Provider digest copied from successful publication evidence with equivalent packaged inputs; this adds no legal approval or hosted acceptance."
+        : "Removed the composer/renderer source fingerprint from provider.imageDigest. Historical publication does not contain the current packaged inputs; current immutable publication proof is missing. Existing legal approval and its scope are unchanged.",
+      recordSha256: fulfillmentRecordSha256(record),
+      supersedesRecordSha256: prior.history.at(-1).recordSha256
+    }];
+  }
   return record;
 }
 

@@ -2,8 +2,9 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 import { requestConsumerPacketRender, requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
-import { getRenderJob } from "@/lib/rcap/render/job-queue";
-import { PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/personalized-packet";
+import { enqueueVerifiedSponsoredRender, getRenderJob, hasFinalizedPersonalizedRender } from "@/lib/rcap/render/job-queue";
+import { PERSONALIZED_DELIVERY_ROUTE, preparePersonalizedPacket } from "@/lib/rcap/render/personalized-packet";
+import { finalizeSponsoredRenderArtifact, sponsoredRenderDeliveryReady } from "@/lib/rcap/render/sponsored-packet";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 
 import {
@@ -33,10 +34,12 @@ import {
   entitlementContext,
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext,
-  governCommercialAdmission,
+  governGenerationAdmission,
+  governProviderDispatch,
+  governArtifactAttachment,
   governPacketDownloadAdmission
 } from "@/lib/rcap/render/commercial-admission";
-import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import type { EntitlementContext } from "@/lib/rcap/fulfillment/grade-a-request-context";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
@@ -201,11 +204,29 @@ export async function generatePaidConsumerPacket({
       throw new ConsumerPacketGenerationError("Consumer delivery is disabled.");
     }
     if (partnerSponsored) {
-      // The existing protected enqueue accepts consumer payment only. The
-      // protected sponsored finalizer is separately scoped to MS/mvl-demo.
-      // Do not bypass either transaction with application-side inserts or
-      // manufacture a consumer payment to reach the queue.
-      throw new ConsumerPacketGenerationError("Verified sponsored render enqueue is unavailable for this route.");
+      const person = await resolveConsumerPersonId(userId);
+      if (!person.ok) throw new ConsumerPacketGenerationError("Participant identity is unavailable.");
+      const prepared = preparePersonalizedPacket({ authUserId: userId, briefcaseItemId: item.id,
+        personId: person.personId, matterId: sponsorship.matterId,
+        verificationHash: verification.hash, snapshot: verification.snapshot });
+      const identity = commercialRouteIdentity({ jurisdiction: verification.snapshot.jurisdiction,
+        pathwayId: verification.snapshot.pathwayId });
+      governProviderDispatch(identity, fulfillmentRequestContext({
+        participantUserId: userId, matterId: sponsorship.matterId, matterOwnerUserId: userId,
+        finalVerification: finalVerificationSnapshotFrom({ snapshot: verification.snapshot,
+          verificationHash: verification.hash, matterId: sponsorship.matterId,
+          ownerUserId: userId, packetFamilyId: identity.packetFamilyId }),
+        entitlement: sponsorship.entitlement
+      }));
+      const job = await enqueueVerifiedSponsoredRender(prepared.spec, { authUserId: userId,
+        briefcaseItemId: item.id, sourceSessionId: sponsorship.sourceSessionId, partnerSlug: sponsorship.partnerSlug,
+        personId: person.personId, matterId: sponsorship.matterId, verificationHash: verification.hash }, prepared.payload);
+      if (!job) throw new ConsumerPacketGenerationError("Verified sponsored render queue refused the request.");
+      // Recover a publication interrupted after technical artifact finalization.
+      // The same protected finalizer is idempotent and consumes no second unit.
+      if (["artifact_validated", "delivered"].includes(job.status)
+        && await finalizeSponsoredRenderArtifact(job.id)) return getConsumerPacketStatus({ userId, briefcaseItemId });
+      return { packetStatus: job.status === "failed" ? "failed" : "generating", canDownload: false, renderJobId: job.id };
     }
     const result = await (webhookMode ? requestConsumerPacketRenderForWebhook : requestConsumerPacketRender)({
       authUserId: userId, briefcaseItemId: item.id
@@ -277,6 +298,12 @@ export async function getConsumerPacketStatus({
   const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
   const ready = readyPacketArtifactAccess(item, protectedArtifact);
   if (ready) {
+    if (ready.provider === "rcap_durable_render_v1") {
+      const job = await getRenderJob(ready.renderJobId);
+      if (!job || (job.partnerId && !await sponsoredRenderDeliveryReady(job, userId))) {
+        return { packetStatus: "pending", canDownload: false };
+      }
+    }
     /**
      * Grade-A commercial admission, point 7 of 10 — `briefcase_ready`.
      *
@@ -518,7 +545,7 @@ export async function attachPacketToBriefcaseItem({
     jurisdiction: attachVerification.snapshot.jurisdiction,
     pathwayId: attachVerification.snapshot.pathwayId
   });
-  governCommercialAdmission("artifact_commercial_attachment", attachIdentity, fulfillmentRequestContext({
+  governArtifactAttachment(attachIdentity, fulfillmentRequestContext({
     participantUserId: userId,
     matterId: attachMatterId,
     matterOwnerUserId: userId,
@@ -726,7 +753,10 @@ export async function assertPacketGenerationAllowed(
     jurisdiction: verification.snapshot.jurisdiction,
     pathwayId: verification.snapshot.pathwayId
   });
-  governCommercialAdmission("generation_admission", generationIdentity, fulfillmentRequestContext({
+  const regeneration = generationIdentity.routeId === PERSONALIZED_DELIVERY_ROUTE
+    && await hasFinalizedPersonalizedRender(userId, item.id, !paymentRequired);
+  const admitGeneration = regeneration ? governProviderDispatch : governGenerationAdmission;
+  admitGeneration(generationIdentity, fulfillmentRequestContext({
     participantUserId: userId,
     matterId: generationMatterId,
     matterOwnerUserId: userId,
@@ -1139,6 +1169,12 @@ function artifactRefsFor(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRef
 }
 
 function artifactRefsForValue(refs: Record<string, unknown> | undefined | null): ConsumerPacketArtifactRefs | undefined {
+  // DEL-B stores the registered composition descriptor. A protected descriptor
+  // naming a render job is presented through that job's existing download path.
+  if (refs?.provider === "rcap_grade_a_composer_v1" && refs.source === "grade_a_packet_specification"
+    && typeof refs.renderJobId === "string" && typeof refs.renderPacketId === "string") {
+    refs = { ...refs, provider: "rcap_durable_render_v1", source: "verified_render_job", packetId: refs.renderPacketId };
+  }
   if (refs?.provider === "rcap_durable_render_v1" && refs.source === "verified_render_job"
     && typeof refs.packetId === "string" && typeof refs.renderJobId === "string"
     && typeof refs.artifactSha256 === "string" && /^[a-f0-9]{64}$/.test(refs.artifactSha256)

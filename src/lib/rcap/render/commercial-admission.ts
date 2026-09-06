@@ -152,6 +152,21 @@ export function governCommercialAdmission(
   return decision;
 }
 
+/** Shared point treatments keep consumer, sponsored and retry callers on the
+ * same authority invocation. Callers still supply protected owner, matter,
+ * verification and entitlement/storage context; no eligibility rule lives here. */
+export function governGenerationAdmission(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
+  return governCommercialAdmission("generation_admission", identity, context);
+}
+
+export function governProviderDispatch(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
+  return governCommercialAdmission("provider_dispatch", identity, context);
+}
+
+export function governArtifactAttachment(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
+  return governCommercialAdmission("artifact_commercial_attachment", identity, context);
+}
+
 /**
  * The packet family a route delivers, resolved from the packet specification.
  *

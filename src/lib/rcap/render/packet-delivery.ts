@@ -27,6 +27,7 @@ import { packetSpecificationForTrack, specificationContentSha256 } from "@/lib/r
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 import { currentPersonalizedVerification } from "@/lib/rcap/render/personalized-packet";
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { sponsoredRenderDeliveryReady } from "@/lib/rcap/render/sponsored-packet";
 import { getCurrentFulfillmentRecord } from "@/lib/rcap/fulfillment/grade-a-registry";
 
 export type DeliveryPorts = {
@@ -177,7 +178,8 @@ export async function authorizePacketDownload(
     if (exactIllinoisRoute) {
       const binding = job.personalizedBinding;
       const specification = packetSpecificationForTrack(job.routeId, current.snapshot.selectedTrackId ?? "");
-      if (!specification || !binding || job.consumerVerificationHash !== current.hash
+      const jobVerificationHash = job.partnerId ? job.sponsoredBinding?.verificationHash : job.consumerVerificationHash;
+      if (!specification || !binding || jobVerificationHash !== current.hash
         || binding.trackId !== current.snapshot.selectedTrackId
         || binding.packetFamilyId !== specification.packetFamily
         || binding.specificationSha256 !== specificationContentSha256(specification)
@@ -188,6 +190,9 @@ export async function authorizePacketDownload(
     if ((exactIllinoisRoute || `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` === "IL:felony-prostitution-relief")
       && (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` || job.matterId !== current.matterId)) {
       return { ok: false, status: 403, code: "route_binding_mismatch", message: "This packet is not available for download." };
+    }
+    if (exactIllinoisRoute && job.partnerId && !await sponsoredRenderDeliveryReady(job, input.userId)) {
+      return { ok: false, status: 409, code: "sponsorship_not_finalized", message: "This packet is not ready to download." };
     }
     try {
       governPacketDownloadAdmission({

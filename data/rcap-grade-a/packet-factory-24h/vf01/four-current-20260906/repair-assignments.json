@@ -1,0 +1,95 @@
+[
+  {
+    "familyId": "co_motion_seal_nonconviction-set",
+    "reviewBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+    "obligations": [
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS"
+    ],
+    "findings": {
+      "REQUIRED_BEFORE_FILING": "JDF-477 boundary Address is refused at the 6pt floor (244.4pt required versus 242.67pt rectangle), correctly preventing clipping. Instructions still state address was filled on both forms and omit this held-but-unprinted required mailing-address handoff. Expose the refusal and participant completion without shrinking below the accepted floor.",
+      "ROUTE_OPTIONS": "Current JDF-478 page1 section3 CBI checkbox is visibly empty in both fixtures although the same page says required and instructions say CBI is not optional. Field map misclassifies 478.3D.0 as participant legal election / routeDetermined false. JDF-477 has the source-authored CBI check already; do not double-mark it."
+    },
+    "likelyImplementationPaths": [
+      "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill"
+    ],
+    "scopeNote": "Captain must grant implementation dependencies; these are identified repair locations, not permission from this reviewer. Do not edit sources or legal approvals to fit the output.",
+    "dependencies": [
+      "Recover JDF-477 b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643 / 605652 bytes and JDF-478 8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159 / 576543 bytes. New source approval is a separate authorized process."
+    ],
+    "acceptance": "Current repaired bytes require actual visible-write/source checks, deterministic rebuild where exact sources available, applicable current central raster and independent reread. Instructions-only unchanged PDFs may retain their exact byte evidence, but changed instructions still need reread."
+  },
+  {
+    "familyId": "pa_490_nonconviction-set",
+    "reviewBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+    "obligations": [
+      "REQUIRED_BEFORE_FILING",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SELF_HELP_STOP"
+    ],
+    "findings": {
+      "REQUIRED_BEFORE_FILING": "Petition AffiantAddr1 and order AddressOfAffiant are the name/address on the complaint or citation, if available. Current maps and guide incorrectly say complete only after service. Classify these source-record fields by their printed role; keep actual certificate service fields protected. The guide also omits the required current PSP report (within 60 days), MDJ docket-sheet eligibility checks, and all nine boundary width-refusal handoffs while saying these blanks have no held value.",
+      "CLIPPING_AND_OVERLAP": "Both petition fixtures add offset inner rectangles to source Yes/No controls. Exact-source 300dpi comparison finds 732 changed pixels per petition outside authorized text-write masks, localized to these two controls; source/current crops were visually inspected. Other PA static source pixels match under the same masks. Preserve FIX85 correct text underlines while removing these synthesized checkbox frames.",
+      "FILING_DESTINATION": "Guide directs readers only to the clerk where charges were filed and says destinations are not established. Current rules.filing names the clerk of courts of the judicial district where charges were disposed and the verified petition, blank order and attached PSP report. Carry the established destination and filing set; keep local street address unresolved.",
+      "FEE_AND_WAIVER": "Guide says whether the fee can be waived is not established, despite current rules.feeWaiver explicitly stating IFP relief is available and a statewide MDJ affidavit. Keep county amount unknown; explain established IFP availability and conditional completion.",
+      "SELF_HELP_STOP": "Generic eligibility/unknown-field referrals do not state three current route stops: mixed summary with misdemeanor/felony/murder charges (Rule790 route); inability to confirm case remained in MDJ; any charge conviction. Commonwealth objection stop is already present. Include all current four stops together."
+    },
+    "likelyImplementationPaths": [
+      "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
+      "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "scripts/rcap-active-content.mjs"
+    ],
+    "scopeNote": "Captain must grant implementation dependencies; these are identified repair locations, not permission from this reviewer. Do not edit sources or legal approvals to fit the output.",
+    "dependencies": [],
+    "acceptance": "Current repaired bytes require actual visible-write/source checks, deterministic rebuild where exact sources available, applicable current central raster and independent reread. Instructions-only unchanged PDFs may retain their exact byte evidence, but changed instructions still need reread."
+  },
+  {
+    "familyId": "pa_790_nonconviction-set",
+    "reviewBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+    "obligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "findings": {
+      "KNOWN_PREFILLS": "Order page2 PetitionersAddress binds only participant.street_address, omitting held apartment/city/state/ZIP shown on the petition. DateAndArrestingAgency remains blank and court-owned despite held complaint/arrest dates and agency printed on the petition. Both canonical and boundary have these omissions. Text15 also withholds the held charge description; preserve unknown dispositions as explicit completion instead of inventing facts.",
+      "REQUIRED_BEFORE_FILING": "Petition AffiantAddr1 and order AddressOfAffiant are the name/address on the complaint, if available. Current maps and guide incorrectly say complete only after service. Classify these source-record fields by their printed role; keep actual certificate service fields protected. DateAndArrestingAgency is incorrectly court-owned, hiding a factual block; Text15 combines exact charges and applicable dispositions, so any unheld remainder must be disclosed without guessing.",
+      "CLIPPING_AND_OVERLAP": "Both petition fixtures add offset inner rectangles to source Yes/No controls. Exact-source 300dpi comparison finds 683 changed pixels per petition outside authorized text-write masks, localized to these two controls; source/current crops were visually inspected. Other PA static source pixels match under the same masks. Preserve FIX85 correct text underlines while removing these synthesized checkbox frames."
+    },
+    "likelyImplementationPaths": [
+      "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+      "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "scripts/rcap-active-content.mjs"
+    ],
+    "scopeNote": "Captain must grant implementation dependencies; these are identified repair locations, not permission from this reviewer. Do not edit sources or legal approvals to fit the output.",
+    "dependencies": [
+      "Resolve output XObject-subtype warnings without changing exact official source pins or suppressing diagnostics."
+    ],
+    "acceptance": "Current repaired bytes require actual visible-write/source checks, deterministic rebuild where exact sources available, applicable current central raster and independent reread. Instructions-only unchanged PDFs may retain their exact byte evidence, but changed instructions still need reread."
+  },
+  {
+    "familyId": "va_exp_nonconviction-set",
+    "reviewBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+    "obligations": [
+      "REQUIRED_BEFORE_FILING"
+    ],
+    "findings": {
+      "REQUIRED_BEFORE_FILING": "The records-checklist component (current page5) and participant guide omit the registry-required participant\u2019s own CCRE copy and the case-file obtain/check steps. Mentioning the CCRE fee is not a before-filing checklist. Distinguish the participant\u2019s own copy from the already-present request for CCRE to forward the court copy after case filing.",
+      "SELF_HELP_STOP": "FIX89 faithfully prints all five current registry stops and the categorical Dotson stipulation/facts-sufficient exclusion, visible on page7 of both fixtures. Exact pinned CC-1473 July2026 page1 expressly includes dismissal after a plea/stipulation justifying guilt pursuant to \u00a719.2-298.02. These instructions and that included form cannot be reconciled by this reviewer without a legal determination. No registry or form text changed."
+    },
+    "likelyImplementationPaths": [
+      "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill"
+    ],
+    "scopeNote": "Captain must grant implementation dependencies; these are identified repair locations, not permission from this reviewer. Do not edit sources or legal approvals to fit the output.",
+    "dependencies": [
+      "Legal owner must resolve the categorical Dotson guidance versus the exact CC-1473 July2026 \u00a719.2-298.02 wording before a complete independent pass."
+    ],
+    "acceptance": "Current repaired bytes require actual visible-write/source checks, deterministic rebuild where exact sources available, applicable current central raster and independent reread. Instructions-only unchanged PDFs may retain their exact byte evidence, but changed instructions still need reread."
+  }
+]

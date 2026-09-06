@@ -26,6 +26,19 @@ One thing this packet does **not** tell you, because it is not established by th
 | `records_checklist` | the records you need in front of you to complete the petition |
 | `filing_instructions` | where the packet goes and in what order |
 
+## Records to obtain and check before filing
+
+- The participant's own Virginia criminal history record from the CCRE — required before filing. Obtain from Virginia State Police, Central Criminal Records Exchange. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.
+- The circuit court case file, or the district court record held by that locality's circuit court — required before filing. Obtain from Clerk of the circuit court of the county or city where the case was disposed of. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.
+- Copy of the warrant, summons or indictment — conditional before filing. Obtain from Clerk of the court that handled the case. Ask the clerk for a copy of the charging document. If it is not reasonably available, the petition states the reason for the unavailability instead.
+- Check your answer to "How did the case end, and on what date?" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.
+- Check your answer to "How did the case end, and on what date?" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.
+- Check your answer to "What was the charge, and which Code section was it under?" against Copy of the warrant, summons or indictment, and correct the packet if they disagree.
+
+Your own CCRE copy is different from the copy sent to the court. Obtain and check your own records before filing; establish the case before requesting CCRE to forward the court copy.
+
+**After service.** The attorney for the Commonwealth may file an objection or answer, or give written notice of no objection, within twenty-one days after service. That is twenty-one days on an expungement, not the thirty days that applies to a sealing petition.
+
 ## What you must do
 
 1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
