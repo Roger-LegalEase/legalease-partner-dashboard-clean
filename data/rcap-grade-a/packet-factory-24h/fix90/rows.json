@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-rows/v1",
   "lane": "FIX90",
   "laneKind": "repair",
-  "status": "PARTIAL",
+  "status": "COMPLETED",
   "rows": [
     {
       "itemId": "nc_146_dismissal_petition-set",
@@ -21,7 +21,7 @@
       "claim": "Both current FIX90 claims asserted with claim.mjs --assert at the post-merge base: CLAIM_OK (repair, grant set b24b2e95fda9fe70), exit 0. No grant released or reissued here.",
       "repair": "Preserved the saved deletion of the false ZIP/date-of-birth filing step and deliberately-blank bullet in the NC builder and generated participant-instructions.md. The list now runs from 1 through 11. The existing accurate statement that both fields are filled remains.",
       "inspection": {
-        "instructionAssertions": "Both false source and emitted strings absent; accurate filled sentence present; sequential steps 1–11 verified.",
+        "instructionAssertions": "Both false source and emitted strings absent; accurate filled sentence present; sequential steps 1\u201311 verified.",
         "visibleWriteCheck": "Current canonical and boundary page 1 rendered with pdftoppm at 300 dpi and visually inspected in this session. The ZIP and date of birth are printed legibly inside their own caption cells in both. pdftotext -layout also matches the four expected values. This is repair-scoped inspection, not an independent verdict.",
         "fixtures": [
           {
@@ -58,7 +58,7 @@
       "countersAfterEvidence": {
         "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
         "exitCode": 0,
-        "output": "  ok   nc_146_dismissal_petition-set                  PASS_COMPLETE                17/197 written\n\n  1 famil(ies) audited · 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0\n"
+        "output": "  ok   nc_146_dismissal_petition-set                  PASS_COMPLETE                17/197 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
       },
       "determinism": {
         "currentRebuildExecuted": false,
@@ -119,12 +119,12 @@
         {
           "command": "node scripts/verify-packet-build-environment.mjs --family nh_petition_nonconviction_pre2019-set --branch fix90-nc-nh-instructions",
           "exitCode": 1,
-          "output": "  ok  repo_identity                          fix90-nc-nh-instructions at 20028a42\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/fix90-nc-nh-instructions at 20028a42\nFAIL  worktree_clean                         1 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    4 of 4 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
+          "output": "  ok  repo_identity                          fix90-nc-nh-instructions at 20028a42\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/fix90-nc-nh-instructions at 20028a42\nFAIL  worktree_clean                         1 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\nFAIL  master_library_mounted                 absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 \u2014 run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh\nFAIL  master_library_complete                the corpus root cannot be walked (absent is not empty)\nFAIL  corpus_matches_committed_index         the corpus root cannot be walked; nothing to compare the index against\nFAIL  family_sources_bind                    4 of 4 source(s) do not bind\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable\n"
         },
         {
           "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
           "exitCode": 0,
-          "output": "  ok   nh_petition_nonconviction_pre2019-set          PASS_COMPLETE                22/168 written\n\n  1 famil(ies) audited · 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0\n"
+          "output": "  ok   nh_petition_nonconviction_pre2019-set          PASS_COMPLETE                22/168 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
         },
         {
           "command": "node --check scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -139,7 +139,7 @@
         {
           "command": "npx eslint scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
           "exitCode": 0,
-          "output": "\n/workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs\n  375:7  warning  'AGENCY' is assigned a value but never used  @typescript-eslint/no-unused-vars\n\n✖ 1 problem (0 errors, 1 warning)\n\n"
+          "output": "\n/workspaces/legalease-fix90/scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs\n  375:7  warning  'AGENCY' is assigned a value but never used  @typescript-eslint/no-unused-vars\n\n\u2716 1 problem (0 errors, 1 warning)\n\n"
         },
         {
           "command": "MASTER_LIBRARY_SOURCE_DIR=private/fix90-recovered-sources node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs --check",
@@ -346,7 +346,131 @@
       "testDoubles": [],
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "lane": "FIX90",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "workerBranch": "fix90-nc-nh-instructions",
+      "workerBase": "68c2aa4d4696f1c27e14f90ffed9a0d3c76dc9fa",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+      "claim": "Current Captain ledger asserted read-only: CLAIM_OK FIX90 nh_petition_nonconviction_pre2019-set (repair, grant set d9557e578a652848). No grant transfer, reissue, release or ledger mutation.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterEvidence": "data/rcap-grade-a/packet-factory-24h/fix90/nh-completed-20260906/full-build.json",
+      "repair": {
+        "knownPrefills": "Completed the exact-source rebuild of the checkpointed finalizer refusal code: six over-limit fields spanning eight widgets are measured and recorded as refusals, excluded from boundaryWrites, with all repeated-widget locations disclosed. Canonical values fit and remain written.",
+        "requiredBeforeFiling": "All 89 required-before-filing entries are disclosed; six conditional MaxLen entries identify the relevant form pages and limits without presenting synthetic fixture lengths as participant facts.",
+        "service": "The distinct service heading carries the agreeing memo/registry service and notice rules; no participant service is invented.",
+        "sourceInstructionConflict": "Pinned NHJB-2956 says an in-person request for one\u2019s own record needs Section I; third-party release needs both sections; every mailed request needs both sections and notarized Section II. Corrected the contrary mailing/leave-blank instruction and both Section II field dispositions. Recipient dropdown only offers family/probate courts, so the guide directs the participant to obtain Criminal Records Unit instructions before mailing, without choosing an unrelated court, recipient, signature or notarial act.",
+        "reviewerPrompts": "Corrected stale generated prompts to expect the already-removed NHJB-2311 signature placeholder and NHJB-2328 zero totals to remain absent."
+      },
+      "measuredCounts": {
+        "canonicalWrites": 22,
+        "boundaryWrites": 16,
+        "maxLenRefusedFields": 6,
+        "maxLenRefusedWidgetInstances": 8,
+        "requiredBeforeFiling": 89,
+        "calibratedRasterPages": 18,
+        "maxCalibrationResidualPx": 0
+      },
+      "sourceBinding": {
+        "status": "PASS",
+        "sources": 4,
+        "exactPinnedSha256": true,
+        "bytes": 278365,
+        "sourceRoot": "/tmp/codex-source-drive/complete-master",
+        "remainingSourceDependencies": [],
+        "newDownloads": 0,
+        "newlyCompletedPacketsFromRestoredReferences": 0
+      },
+      "artifactIdentity": [
+        {
+          "fixture": "canonical",
+          "sha256": "9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d",
+          "byteLength": 182593,
+          "pageCount": 9,
+          "unchangedFromWorkerBase": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743",
+          "byteLength": 182674,
+          "pageCount": 9,
+          "unchangedFromWorkerBase": true
+        }
+      ],
+      "determinism": {
+        "status": "PASS",
+        "pdfGenerationsCompleted": 2,
+        "fullCalibratedBuildsCompleted": 1,
+        "secondBuild": "Isolated /tmp tree with the final identical builder and supported --no-raster; both PDFs and seven maps/instructions/proof/receipt files matched byte-for-byte. No second raster claimed.",
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix90/nh-completed-20260906/determinism.json"
+      },
+      "verification": {
+        "checks": "data/rcap-grade-a/packet-factory-24h/fix90/nh-completed-20260906/checks.json",
+        "sourceCarriedValues": {
+          "examined": 4,
+          "dispositioned": 4,
+          "undispositioned": 0,
+          "notExaminable": 0
+        },
+        "authorVisualInspection": {
+          "pagesOpened": 18,
+          "fixtures": [
+            "canonical",
+            "boundary"
+          ],
+          "independent": false,
+          "findings": "Canonical case number and phone written; all boundary MaxLen-refused cells blank; long values legible; source labels retained; sworn choices, signatures, notarial acts and financial figures unfilled; signature placeholder and zero totals removed. The source\u2019s printed /s/ outside the NHJB-2328 signature widget remains source ink, not an executed signature.",
+          "sourceMailingInstructionsReadOnDeliveredPage": 9
+        },
+        "measurementScript": "data/rcap-grade-a/packet-factory-24h/fix90/nh-completed-20260906/measure.py",
+        "measurement": "data/rcap-grade-a/packet-factory-24h/fix90/nh-completed-20260906/measurement.json"
+      },
+      "executionLimits": {
+        "firstFullAttempt": "Correctly refused dark Chromium canonical page 2 at default 5000ms settle; failure log retained.",
+        "secondFullAttempt": "Externally received SIGTERM (exit 143) during boundary rendering; no application error and zero cgroup OOM events; cause unproven. Partial good rasters preserved in /tmp/codex-fix90-nh-20260906/interrupted-build-2-*; not counted as complete.",
+        "detachedAttempt": "Process was absent at its first PID check, with no exit marker or application log; cause unproven. Not counted as a build.",
+        "successfulFullAttempt": "Foreground PTY run with supported RCAP_RASTER_SETTLE_MS=15000; all 18 pages calibrated, maximum residual 0 px; original calibration threshold retained.",
+        "globalEnvironment": "No whole-library environment PASS is claimed. This bounded run verified all four family sources; earlier recorded global corpus preflight failures remain historical and were not converted into an all-library readiness claim."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ",
+        "CENTRAL_RASTER_RECEIPT_CONFIRMATION",
+        "COUNSEL_REVIEW",
+        "SOURCE_FRESHNESS_REVIEW",
+        "APPROVED_FOR_LIVE"
+      ],
+      "centralRasterLimitation": "Delivered PDF hashes did not change, so there is no new PDF identity from this repair. Captain must confirm the existing central receipt applies to those exact hashes. Local author-rendered pages are not central acceptance or independent approval.",
+      "independentlyAccepted": false,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "reproductionEnvironment": {
+        "MASTER_LIBRARY_SOURCE_DIR": "/tmp/codex-source-drive/complete-master",
+        "NODE_PATH": "/tmp/fix91-tools/node_modules",
+        "RCAP_CHROMIUM_PATH": "/home/codespace/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+        "RCAP_RASTER_SETTLE_MS": "15000"
+      }
     }
   ],
-  "remainingWork": "NC instruction repair is completed and separately handed off; NH code is checkpointed but exact-source rebuild, current artifact acceptance, the source instruction conflict, and independent review remain open."
+  "remainingWork": "Assigned NC and NH repairs are completed; NH still requires independent re-read and confirmation of central raster coverage for unchanged exact PDF hashes. No self-approval, live approval or whole-library readiness is claimed. Historical source-blocked rows remain preserved."
 }
