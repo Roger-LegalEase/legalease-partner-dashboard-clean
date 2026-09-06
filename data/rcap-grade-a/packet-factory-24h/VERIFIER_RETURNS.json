@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 946,
+    "rows": 947,
     "independentVerdicts": 243,
     "failRepairRequired": 42,
-    "passIndependent": 178
+    "passIndependent": 179
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -25432,6 +25432,20 @@
     },
     {
       "familyId": "vt_seal_dui-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ab83e3ef1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_dui-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -25544,7 +25558,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_dui-set",
