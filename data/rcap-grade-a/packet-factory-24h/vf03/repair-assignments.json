@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL + Codex VF03 NM 2026-09-06",
- "assignmentCount": 36,
+ "assignmentCount": 40,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -1177,6 +1177,155 @@
    ],
    "dependencyNote": "Exact mapping/fact dependencies are identified for Captain scheduling; this reviewer is not authorized to edit them. Do not bypass guardrails or invent a legal decision. The waiver-source question remains independently blocked even after mapping repairs.",
    "reverification": "Changed bytes need their own current central raster receipt and independent verification, with exact-source rebuild/source-fidelity gates. No row here self-approves a repair."
+  },
+  {
+   "itemId": "nj_arrest_no_conviction-set",
+   "familyId": "nj_arrest_no_conviction-set",
+   "lane": "VF03",
+   "verifiedAtBase": "5321af5c3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 independent read 2026-09-06 at base 5321af5c3, on the bytes central raster run 34047698685 rendered at c6b497cbee9f2c8fdf9567366d3bc26a89da68f4. This reviewer built and repaired none of these families; FIX88 (a37d9a9d6, de036da00) authored the repair being re-read.",
+   "failedProofObligations": [
+    "REPEATING_ROWS"
+   ],
+   "obligationsDischargedByFIX88": [
+    "KNOWN_PREFILLS",
+    "REPEATING_ROWS (as the standing row framed it)"
+   ],
+   "decisiveDefect": "BOUNDARY FIXTURE ONLY. Delivered page 18, Petition for Expungement (Form A), item (a): the dismiss checkbox is marked while (date), (name of offense(s)) and (name of Court) are all empty. The whole-row withdrawal FIX88 introduced was applied to the row's TEXT cells and not to the row's own election checkbox, so the delivered petition now affirms a disposition paragraph in which every blank is empty. This is a written cell beside required cells left blank. It is invisible to the nine counters twice over: rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these cells carry no such marker, and a vector selection mark is not a cell any counter reads. The canonical fixture is whole and is not the failure; the central RASTER_PASS rendered only the canonical document, so this gate never saw it.",
+   "perObligation": {
+    "REPEATING_ROWS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "reports/actual-writes.json records selections [{control:'dismiss', page:18, box x0 33.793 y0 214.365 x1 51.793 y1 232.365, mark 'two_diagonal_strokes_inset'}] on the boundary artifact, and dismissDt, dismissOff1 and dismissCrt in heldButNotPrinted. Read here: a 300 dpi crop of boundary delivered page 18 at PDF y 180-245 shows an X in the box beside 'a.' above three empty lines, and pdftotext -layout returns 'a. On (date) the charge(s) of (name of offense(s))' with nothing after either caption. The petition therefore swears that charges it does not name were dismissed by a court it does not identify on a date it does not give, and the packet holds all three values."
+    }
+   },
+   "exactAffectedFields": [
+    "dismiss (selection control, delivered page 18)",
+    "dismissDt",
+    "dismissOff1",
+    "dismissCrt"
+   ],
+   "requiredChange": "Make the election and the row move together. Either (a) suppress the selection mark whenever the row it elects is withdrawn, so an emptied paragraph is wholly untouched exactly as the guide's held-but-not-printed table already promises ('a row is completed or left untouched'), and disclose the unmade election to the participant as a required-before-filing item naming the box to tick; or (b) keep the mark and write the row, which needs the missing cells rather than the held ones -- the held dismissDt, dismissOff1 and dismissCrt are not what is missing. Option (a) is the one the existing repair method already supports. Whichever is chosen, extend the row rule so a selection control counts as a cell of the row it sits in, in the build path and in --check identically, the way NJ_ORDER_ARREST_ROW_1 treats its text cells; then rebuild, re-raster centrally and re-read. Do not resolve this by writing a statute, a sentence or a completion date the platform does not hold onto a petition verified under N.J.S.A. 2C:52-7.",
+   "reverification": "Re-read both fixtures at 300 dpi after the central re-raster. Boundary delivered page 18 item (a) must show either a marked box above three written cells or an unmarked box above three empty ones, and the unmade election must be named in participant-instructions.md."
+  },
+  {
+   "itemId": "nj_disorderly_persons-set",
+   "familyId": "nj_disorderly_persons-set",
+   "lane": "VF03",
+   "verifiedAtBase": "5321af5c3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 independent read 2026-09-06 at base 5321af5c3, on the bytes central raster run 34047698685 rendered at c6b497cbee9f2c8fdf9567366d3bc26a89da68f4. This reviewer built and repaired none of these families; FIX88 (a37d9a9d6, de036da00) authored the repair being re-read.",
+   "failedProofObligations": [
+    "REPEATING_ROWS"
+   ],
+   "obligationsDischargedByFIX88": [
+    "REPEATING_ROWS (as the standing row framed it)"
+   ],
+   "decisiveDefect": "BOTH FIXTURES. Delivered page 19, Petition for Expungement (Form A), item (d): the guilty checkbox is marked while all nine cells of the paragraph are empty -- guiltyDt, guiltyOff1, guiltyCrt (all three held, all three withheld for row integrity) and guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt. The whole-row withdrawal FIX88 introduced was applied to the row's TEXT cells and not to the row's own election checkbox, so the delivered petition now affirms a disposition paragraph in which every blank is empty. This is a written cell beside required cells left blank. It is invisible to the nine counters twice over: rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these cells carry no such marker, and a vector selection mark is not a cell any counter reads.",
+   "perObligation": {
+    "REPEATING_ROWS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "reports/actual-writes.json records selections [{control:'guilty', page:19, box x0 34.971 y0 591.363 x1 52.971 y1 609.363, mark 'two_diagonal_strokes_inset'}] on canonical and boundary alike. Measured here rather than read from that report: a 300 dpi difference of delivered page 19 against the 300 dpi render of the pinned source page 19 returns 834 added ink pixels and nothing else, and a 300 dpi crop of PDF y 470-620 shows an X beside 'd.' above nine empty cells. The sworn petition affirms a guilty plea or finding to charges it does not name, under a statute it does not cite, in a court it does not identify."
+    }
+   },
+   "exactAffectedFields": [
+    "guilty (selection control, delivered page 19)",
+    "guiltyDt",
+    "guiltyOff1",
+    "guiltyCrt",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "guiltyFineDt"
+   ],
+   "requiredChange": "Make the election and the row move together. Either (a) suppress the selection mark whenever the row it elects is withdrawn, so an emptied paragraph is wholly untouched exactly as the guide's held-but-not-printed table already promises ('a row is completed or left untouched'), and disclose the unmade election to the participant as a required-before-filing item naming the box to tick; or (b) keep the mark and write the row, which needs the missing cells rather than the held ones -- the held guiltyDt, guiltyOff1 and guiltyCrt are not what is missing. Option (a) is the one the existing repair method already supports. Whichever is chosen, extend the row rule so a selection control counts as a cell of the row it sits in, in the build path and in --check identically, the way NJ_ORDER_ARREST_ROW_1 treats its text cells; then rebuild, re-raster centrally and re-read. Do not resolve this by writing a statute, a sentence or a completion date the platform does not hold onto a petition verified under N.J.S.A. 2C:52-7.",
+   "sharedHostNote": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs is the shared host for all four New Jersey families. One change to the row rule fixes all four, and any change must be measured on all four: the three conviction families ship byte-identical fixtures, so a repair that moves one moves the other two.",
+   "reverification": "Re-read both fixtures at 300 dpi after the central re-raster. Delivered page 19 item (d) must show either a marked box above a written row or an unmarked box above an empty one, and the unmade election must be named in participant-instructions.md."
+  },
+  {
+   "itemId": "nj_indictable_conviction-set",
+   "familyId": "nj_indictable_conviction-set",
+   "lane": "VF03",
+   "verifiedAtBase": "5321af5c3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 independent read 2026-09-06 at base 5321af5c3, on the bytes central raster run 34047698685 rendered at c6b497cbee9f2c8fdf9567366d3bc26a89da68f4. This reviewer built and repaired none of these families; FIX88 (a37d9a9d6, de036da00) authored the repair being re-read.",
+   "failedProofObligations": [
+    "REPEATING_ROWS"
+   ],
+   "obligationsDischargedByFIX88": [
+    "REPEATING_ROWS (as the standing row framed it)",
+    "the undisclosed-blanks half of it: all six item (d) cells are now declared required-before-filing and listed in the guide"
+   ],
+   "decisiveDefect": "BOTH FIXTURES. Delivered page 19 item (d): the guilty checkbox is marked while all nine cells of the paragraph are empty. The whole-row withdrawal FIX88 introduced was applied to the row's TEXT cells and not to the row's own election checkbox, so the delivered petition now affirms a disposition paragraph in which every blank is empty. This is a written cell beside required cells left blank. It is invisible to the nine counters twice over: rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these cells carry no such marker, and a vector selection mark is not a cell any counter reads. The fixtures are byte-identical to nj_disorderly_persons-set and nj_ordinance-set, so this is one defect delivered three times.",
+   "perObligation": {
+    "REPEATING_ROWS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "Same measurement as nj_disorderly_persons-set, on the same bytes: selections [{control:'guilty', page:19}] recorded on both artifacts, 834 added ink pixels on delivered page 19 at 300 dpi and nothing else, and a 300 dpi crop showing the marked box above nine empty cells."
+    }
+   },
+   "exactAffectedFields": [
+    "guilty (selection control, delivered page 19)",
+    "guiltyDt",
+    "guiltyOff1",
+    "guiltyCrt",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "guiltyFineDt"
+   ],
+   "requiredChange": "Make the election and the row move together. Either (a) suppress the selection mark whenever the row it elects is withdrawn, so an emptied paragraph is wholly untouched exactly as the guide's held-but-not-printed table already promises ('a row is completed or left untouched'), and disclose the unmade election to the participant as a required-before-filing item naming the box to tick; or (b) keep the mark and write the row, which needs the missing cells rather than the held ones -- the held guiltyDt, guiltyOff1 and guiltyCrt are not what is missing. Option (a) is the one the existing repair method already supports. Whichever is chosen, extend the row rule so a selection control counts as a cell of the row it sits in, in the build path and in --check identically, the way NJ_ORDER_ARREST_ROW_1 treats its text cells; then rebuild, re-raster centrally and re-read. Do not resolve this by writing a statute, a sentence or a completion date the platform does not hold onto a petition verified under N.J.S.A. 2C:52-7.",
+   "alsoWorthFixingButNotAFailureHere": "This family and nj_ordinance-set declare ExpungeCntyName (matter.county) a candidate write and deliver no county anywhere, because the source widget is a chooser and the held value is not one of its options. It is disclosed under exactly that reason and does not fail an obligation, but it is why these two families report 19/179 written while nj_disorderly_persons-set reports 18/179 on byte-identical output.",
+   "reverification": "As for nj_disorderly_persons-set; the same central re-raster covers all three."
+  },
+  {
+   "itemId": "nj_ordinance-set",
+   "familyId": "nj_ordinance-set",
+   "lane": "VF03",
+   "verifiedAtBase": "5321af5c3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 independent read 2026-09-06 at base 5321af5c3, on the bytes central raster run 34047698685 rendered at c6b497cbee9f2c8fdf9567366d3bc26a89da68f4. This reviewer built and repaired none of these families; FIX88 (a37d9a9d6, de036da00) authored the repair being re-read.",
+   "failedProofObligations": [
+    "REPEATING_ROWS",
+    "SELF_HELP_STOP"
+   ],
+   "obligationsDischargedByFIX88": [
+    "REPEATING_ROWS (as the standing row framed it)",
+    "the undisclosed-blanks half of it, and the N.J.S.A.-line question is now stated in the guide in the build's own words"
+   ],
+   "decisiveDefect": "Two defects. (1) BOTH FIXTURES, delivered page 19 item (d): the guilty checkbox is marked while all nine cells are empty. The whole-row withdrawal FIX88 introduced was applied to the row's TEXT cells and not to the row's own election checkbox, so the delivered petition now affirms a disposition paragraph in which every blank is empty. This is a written cell beside required cells left blank. It is invisible to the nine counters twice over: rowKeyOf matches only Item<n>/Row<n>/Line<n> in a terminal field name and these cells carry no such marker, and a vector selection mark is not a cell any counter reads. It bites hardest on this track, because the one cell that would say what the petition is about asks for a violation of N.J.S.A. and a municipal ordinance conviction is not one. (2) The packet nowhere states where self-help ends: not one of the 12 selfHelpStopConditions the committed record holds for nj_ordinance appears in participant-instructions.md, and the guide has no section for them.",
+   "perObligation": {
+    "REPEATING_ROWS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "Same measurement as the two sibling conviction families, on byte-identical fixtures: selections [{control:'guilty', page:19}] on both artifacts, 834 added ink pixels on delivered page 19 at 300 dpi, a 300 dpi crop showing the marked box above nine empty cells."
+    },
+    "SELF_HELP_STOP": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "All 12 committed stop conditions were tested as exact substrings of participant-instructions.md and all 12 are absent: the ordinance-versus-disorderly-persons-versus-Title-39 classification question the record puts first, prosecutor objection, the N.J.S.A. 2C:52-2(b) and (c) non-expungeable list, classification and out-of-state equivalency, same-day and closely-related bundling, the prior-expungement bar at 2C:52-14(e), pending charges, unpaid financial assessments and the willfulness question, incomplete case identifiers, federal/out-of-state/tribal records, immigration exposure, and Title 39 including DWI. The only trace anywhere is a single clause inside a technical bullet under 'Blanks the form prints with no fill-in box'. It is an omission, not an unavailable input: the same test against the three sibling guides on the same shared host returns 13/13, 14/14 and 13/13."
+    }
+   },
+   "exactAffectedFields": [
+    "guilty (selection control, delivered page 19)",
+    "guiltyDt",
+    "guiltyOff1",
+    "guiltyCrt",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "guiltyFineDt",
+    "participant-instructions.md: no self-help-ends section"
+   ],
+   "requiredChange": "Make the election and the row move together. Either (a) suppress the selection mark whenever the row it elects is withdrawn, so an emptied paragraph is wholly untouched exactly as the guide's held-but-not-printed table already promises ('a row is completed or left untouched'), and disclose the unmade election to the participant as a required-before-filing item naming the box to tick; or (b) keep the mark and write the row, which needs the missing cells rather than the held ones -- the held guiltyDt, guiltyOff1 and guiltyCrt are not what is missing. Option (a) is the one the existing repair method already supports. Whichever is chosen, extend the row rule so a selection control counts as a cell of the row it sits in, in the build path and in --check identically, the way NJ_ORDER_ARREST_ROW_1 treats its text cells; then rebuild, re-raster centrally and re-read. Do not resolve this by writing a statute, a sentence or a completion date the platform does not hold onto a petition verified under N.J.S.A. 2C:52-7. SEPARATELY, render a self-help-ends section for this track from its own committed selfHelpStopConditions, carrying all 12 in the record's own words, the way nj_arrest_no_conviction-set, nj_disorderly_persons-set and nj_indictable_conviction-set already do on the same host. The ordinance-classification stop must be among them under that heading and not only inside a technical bullet.",
+   "reverification": "Re-read both fixtures at 300 dpi after the central re-raster for the row, and re-test all 12 stop conditions as exact substrings of the rebuilt participant-instructions.md."
   }
  ],
  "supersededLaneMembership": {
@@ -1289,5 +1438,21 @@
   ],
   "verdicts": "FAIL_REPAIR_REQUIRED on all four",
   "note": "Independent re-read after FIX76 (with FIX77 merged) and the central raster in run 33999355114. The three obligations the previous VF03 read failed on the conviction families and the caption and row-1 halves of the arrest family's findings are discharged on the delivered pages and are recorded as discharged. What fails now is the same row rule one page earlier, on the sworn petition, and the page-19 dismissCrt write FIX76 said it did not repair."
+ },
+ "vf03NhNjFiveRead20260906": {
+  "base": "5321af5c3",
+  "branch": "vf03-nh-nj-five-read-0906",
+  "readOn": "2026-09-06",
+  "assignmentsAdded": [
+   "nj_arrest_no_conviction-set",
+   "nj_disorderly_persons-set",
+   "nj_indictable_conviction-set",
+   "nj_ordinance-set"
+  ],
+  "passedWithNoAssignment": [
+   "nh_petition_nonconviction_pre2019-set"
+  ],
+  "oneRootCause": "Three of the four New Jersey assignments are the same defect on the same shared host, scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, delivered on byte-identical fixtures; the fourth is the same defect on the arrest family's boundary fixture. One change to the row rule addresses all four, and every one of the four must be re-measured because they share the host.",
+  "countersCannotSeeIt": "All nine counters measure zero on all four families here. The defect is a vector selection mark on a row whose text cells were withdrawn, and no counter reads a selection mark as a cell of a row."
  }
 }
