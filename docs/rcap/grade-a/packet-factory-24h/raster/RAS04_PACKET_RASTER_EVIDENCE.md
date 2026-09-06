@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `8baf1bef837e2ed0f1e829364b2936d27c0d682b`
+**Minimum required ancestor:** `47e9f0a8373ea36f84fff517f3534f07ded182bc`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -219,7 +219,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf` — `dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc`
 - boundary `data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf` — `a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695`
 - expected pages 5 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF06
 
 ### nj_disorderly_persons-set
 
@@ -296,7 +296,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `95c6fd7f20b2628a5055e4b247ad32dbbf0d33331b4a1d47cbbd65c03ac19e82`
 - boundary `data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `334ea36f100a4a377a581040182a5d01a7c534c2cbb2ab51269dcf7d34da6dae`
 - expected pages 9 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### va_seal_petition_misdemeanor-set
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "2a2258e7f8cc39bce3912b41316e54ad59842371",
+  "generatedAtCommit": "47e9f0a8373ea36f84fff517f3534f07ded182bc",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1988,6 +1988,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:34:39.273Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "itemId": null,
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX93",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8428,11 +8443,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-06T05:10:44.585Z",
-      "releaseReason": "Recovered completed c7453670 return and Captain supplemental actual-page FAIL on held DOB and required record steps; no VF05 worker still writing."
+      "releasedAt": "2026-09-06T05:10:44.585Z"
     },
     {
       "subjectType": "packet-family",
@@ -13692,24 +13706,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "itemId": null,
-      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "familyIds": [
-        "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX93",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "162206e28de7915b7fbeb225a82424254ef6edbda39a071c88f450ddd1176b1e",
+  "claimsDigest": "ab6c7e7d034515b5cd2d225f092e3af81981a38e6f80e68ba1ad8db0597342bc",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

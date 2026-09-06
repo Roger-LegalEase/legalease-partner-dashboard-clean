@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 924,
+    "rows": 926,
     "independentVerdicts": 240,
-    "failRepairRequired": 51,
-    "passIndependent": 168
+    "failRepairRequired": 52,
+    "passIndependent": 167
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -56,6 +56,7 @@
     "co_motion_seal_conviction-set",
     "co_motion_seal_nonconviction-set",
     "co_petition_seal_arrest-set",
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "fl-early-juvenile-set",
     "il-cannabis-vacate-set",
@@ -5316,6 +5317,34 @@
       "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
       "failedObligations": [],
       "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f63954e3aa156a00010059ca8265081944933273",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "Two declared codified-record pins rehash exactly. Census receipt still pins 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f, while current file rehashes f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81. Historical blob recovered at 2d01b84f7a57d9bfb2717297783b1951940e506c. Four row fields changed (packetFamilyId, packetSetId, requiredSourceIds, currentImplementationEvidence), while the explicitly recorded legal/instrument/destination projection is unchanged. Receipt requires bounded repair; missing national PDFs are not this failure."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": "All six DECLARED C1-C6 items are disclosed in participant-instructions.md and visibly printed. Independent page-1 blank census found an additional IN THE ........ COURT caption blank in both fixtures. Neither canonical/boundary map writes/refusals nor requiredBeforeFiling/protectedBlanks classifies that field, and the instructions do not disclose how to complete that caption. Six two-line fact blanks plus case number, signature and date account for only 15 of 16 dotted write spans. One logical field is unclassified; two fixture instances."
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SOURCE_IDENTITY"
+      ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
@@ -11486,7 +11515,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -11526,17 +11555,29 @@
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf06",
       "isIndependentVerification": true,
-      "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+      "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
       "failedObligations": [],
       "failedObligationNames": [],
-      "unmeasuredObligations": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The $0 true-dismissal / $175 deferred-or-conditional-dismissal split is present and agrees with the held records and exact AOC-CR-287 instructions. The claimed waiver instrument does not reconcile with its actual text: guide says AOC-CV-226 is supplied to waive that expunction fee; exact AOC-CV-226 p2, also delivered as packet p5, instead requires a sworn statement of inability to pay arbitration fees before arbitration and describes an arbitration-fee designation. The guide/manifest labels cannot establish this form is a legally sufficient expunction fee-waiver filing. No held determination addressing this contradiction was found in this family or the narrow legal-decision search. The already present stop for fee-bearing dismissals is retained; it does not authorize representing an arbitration affidavit as the waiver route. Source/legal resolution is required, not a silent form replacement.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/legal-holds.json"
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -12324,7 +12365,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
@@ -12455,6 +12496,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
       "superseded": true
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All declared writes are correct: 22 canonical fields across 24 widget instances and 16 boundary fields/instances match held values; eight boundary widget locations correctly refuse the six over-MaxLen fields. However, two required field locations omit held facts in each fixture: (1) NHJB-2311 p2 / packet p5 printed Case Number header is blank although the case number is known. It is above the FOR COURT USE ONLY heading; source has no text widget there, so the 168-widget census never considers it. (2) NHJB-2328 p1 / packet p6 Residence Address field 2.1 contains only street/apartment, omitting held city, state and ZIP. There is no separate locality field on that form. Its 420.342-point source widget has no MaxLen, and full held addresses fit at 11pt. The actual missing values and width measurements are recorded, not inferred from counters.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All 89 declared entries and all 89 blank-report labels are disclosed, including current six conditional MaxLen items. Independent printed-page coverage still fails: NHJB-2311 p2 Case Name and Case Number header lines have no entry in either mapping/refusal census, and the guide labels the entire second page court-only without distinguishing its participant/case caption from the order beneath it. The page2 Case Name is an unheld court-styled fact needing a specific repeated-header instruction; the known Case Number should be filled, not reclassified as unknown. The full residence-address omission is not disclosed as a completion item either. The source page has two printed caption blanks outside the source-widget denominator.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": false
     },
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",

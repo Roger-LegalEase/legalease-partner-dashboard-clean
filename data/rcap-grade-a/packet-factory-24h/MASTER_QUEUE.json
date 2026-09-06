@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+  "minimumCaptainSha": "47e9f0a8373ea36f84fff517f3534f07ded182bc",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,28 +66,28 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 1,
+    "activeFamiliesExcluded": 2,
     "guidanceOnly": 0,
-    "remaining": 345,
+    "remaining": 344,
     "sourceReady": 81,
     "sourceBlocked": 6,
-    "legalBlocked": 17,
-    "verifyPending": 3,
-    "repairRequired": 39,
+    "legalBlocked": 18,
+    "verifyPending": 6,
+    "repairRequired": 40,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 146,
-    "FAIL_REPAIR_REQUIRED": 40,
+    "FAIL_REPAIR_REQUIRED": 42,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
-    "BUILT_RASTER_PENDING": 16,
+    "VERIFY_PENDING": 6,
     "SOURCE_READY": 81,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 17,
-    "VERIFY_PENDING": 3,
+    "LEGAL_BLOCKED": 18,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 10,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,7 +109,8 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "il-seal-edu-set"
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "nh_petition_nonconviction_pre2019-set"
     ],
     "staleRosterFamilies": [
       {
@@ -162,7 +163,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 81 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 23 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 24 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -2283,7 +2284,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-nonconviction-90-set.mjs",
@@ -9119,29 +9120,15 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "verifiedAtBase": "f63954e3aa156a00010059ca8265081944933273",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-        "pinned": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-        "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-        "allDriftedRecords": [
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "pinned": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-            "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -9167,13 +9154,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "Two declared codified-record pins rehash exactly. Census receipt still pins 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f, while current file rehashes f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81. Historical blob recovered at 2d01b84f7a57d9bfb2717297783b1951940e506c. Four row fields changed (packetFamilyId, packetSetId, requiredSourceIds, currentImplementationEvidence), while the explicitly recorded legal/instrument/destination projection is unchanged. Receipt requires bounded repair; missing national PDFs are not this failure."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": "All six DECLARED C1-C6 items are disclosed in participant-instructions.md and visibly printed. Independent page-1 blank census found an additional IN THE ........ COURT caption blank in both fixtures. Neither canonical/boundary map writes/refusals nor requiredBeforeFiling/protectedBlanks classifies that field, and the instructions do not disclose how to complete that caption. Six two-line fact blanks plus case number, signature and date account for only 15 of 16 dotted write spans. One logical field is unclassified; two fixture instances."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX93",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -9184,7 +9185,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -17810,8 +17812,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX39",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -17822,8 +17824,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "il-seal-nonconv-set",
@@ -28331,30 +28332,30 @@
         "directAttachment": true
       },
       "sourceReconciliation": null,
-      "verifierSourceHold": {
-        "lane": "vf02",
-        "verdict": "BLOCKED_SOURCE",
-        "blockedObligations": [
-          "SOURCE_IDENTITY"
-        ],
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
-      },
+      "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "BLOCKED_SOURCE",
-        "lane": "vf02",
-        "verifiedAtBase": "b45f1f48a19fc6e92013f226c5286b67a25ba59d",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf06",
+        "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
       "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "nc_146_dismissal_petition-set",
+        "foundBy": [
+          "vf06 (current independent verification)"
+        ],
+        "why": "FEE_AND_WAIVER: The $0 true-dismissal / $175 deferred-or-conditional-dismissal split is present and agrees with the held records and exact AOC-CR-287 instructions. The claimed waiver instrument does not reconcile with its actual text: guide says AOC-CV-226 is supplied to waive that expunction fee; exact AOC-CV-226 p2, also delivered as packet p5, instead requires a sworn statement of inability to pay arbitration fees before arbitration and describes an arbitration-fee designation. The guide/manifest labels cannot establish this form is a legally sufficient expunction fee-waiver filing. No held determination addressing this contradiction was found in this family or the narrow legal-decision search. The already present stop for fee-bearing dismissals is retained; it does not authorize representing an arbitration affidavit as the waiver route. Source/legal resolution is required, not a silent form replacement.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -28378,7 +28379,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
@@ -29740,7 +29741,7 @@
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
@@ -30628,9 +30629,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "7e01df1d8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf06",
+        "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -30663,31 +30664,25 @@
       "failingCounters": [],
       "failedObligationNames": [
         "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "FAIL, in the boundary fixture. FIX78's five writes are discharged and correct in both fixtures; this is a separate defect the repair did not touch and no counter can see. REPAIR: for a value the form's own /MaxLen will not hold, record the refusal where every other refusal is recorded -- an unfittable entry in reports/actual-writes.json and a refusal row in the field map, with the measured length against the widget's MaxLen -- remove the field from boundaryWrites so the record stops claiming a write that did not happen, add the field to requiredBeforeFiling and name it in participant-instructions.md, and make the 'the platform filled in' sentence conditional on what was actually written. Whether a 17-character case-number box can hold this route's case numbers at all is a question for the owner of the form binding, not for this family.",
-          "evidence": "THE FIVE FIELDS THIS LANE FAILED THE FAMILY FOR AT 5326f747d ARE WRITTEN AND CORRECT, CONFIRMED ON THE PAPER. Delivered page 1 now prints the City/Town box between the street and the state -- 'Concord' in canonical, 'Portsmouth' in boundary -- at NHJB-2317 'Mailing Address.2', measured inside its own rect with margins 1.44/114.06/4.35/4.36. Delivered page 9 Section I now prints the name across the three boxes the form heads LAST / FIRST / MI -- 'Reyes  Jordan  A' in canonical and 'O'Shaughnessy-Whitfield  Maria-Alejandra  Q' in boundary, read from the page text -- and the single ruled line the form captions STREET/CITY/STATE/ZIP CODE now carries '412 Elm Street, Apartment 3, Concord, NH 03301' and '1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, New Hampshire 03801-2214'. Every one of the five lands inside its own rectangle with positive margins on all four sides, the narrowest being the 12.46pt MI box at 2.47/2.55/3.77/3.72. NHJB-2956 'name.2', the (MAIDEN/ALIAS) box, is correctly still blank and is disclosed at step 8; Section II, the third-party release, is entirely blank. Across the whole packet every declared write reads back on its own component page: 24 of 24 in canonical and 16 of 16 in boundary, and 0 added dark pixels lie outside a declared write box on any of the nine pages of either fixture. THE DEFECT, WHICH IS A DIFFERENT ONE AND IS IN THE BOUNDARY FIXTURE. The platform holds matter.case_number '218-2018-CR-00119821-SUPPLEMENTAL' and participant.phone '(603) 555-0199 ext. 4417' for the boundary participant, read from the builder's own fixtures. Neither string appears anywhere in boundary.pdf: pdftotext over all nine pages returns 0 hits for '218-2018', 'SUPPLEMENTAL', '555-0199' and '4417', while canonical.pdf carries its case number 7 times and its telephone once. Measured at the widget rectangles read from the pinned binaries at 300 dpi, all eight cells are BLANK in boundary and all eight are written in canonical: NHJB-2317 'case number' on packet page 1 (canonical 4507 added dark pixels, boundary 0), 'case number1' on page 2 (4507 / 0) and on page 3 (4507 / 0), NHJB-2311 'case number' on page 4 (4507 / 0), NHJB-2328 'case number' on page 6 (4507 / 0) and 'case number1' on page 7 (4507 / 0) and page 8 (4507 / 0), and NHJB-2317 telnum.1 on page 1 (3240 / 0). The cause is in the pinned forms and is legitimate: those widgets carry /MaxLen 17 (every case-number box) and /MaxLen 15 (telnum.1), read here from the four pinned binaries, and the boundary values are 33 and 24 characters, so the writer refuses them whole rather than truncating -- which is the right call on a court filing. WHAT MAKES IT A DEFECT IS THAT NOTHING RECORDS IT. production-field-map.json's boundaryWrites for all four documents are identical to its canonicalWrites and DECLARE all eight as written. reports/actual-writes.json carries 'unfittable': [] for every one of the eight document-and-fixture combinations and lists no refusal. No boundaryRefusal row in any of the four maps names 'case number', 'case number1' or 'telnum.1'. And participant-instructions.md line 12 tells the participant, in terms, 'The platform filled in what it holds about you and your case: your name, your date of birth, your street address, your city or town, your state, your ZIP code, your phone, your e-mail and the case number.' ON PAPER the boundary packet is a Petition to Annul whose Case Number box is empty in the caption and empty in the page header on both following pages, whose applicant block carries no telephone number, and whose Motion for Waiver of Filing Fee and Statement of Assets and Liabilities are both captioned with no case number on any of their five pages -- three documents the clerk must associate with one case, and the packet tells the reader the case number was filled in."
+          "finding": "All declared writes are correct: 22 canonical fields across 24 widget instances and 16 boundary fields/instances match held values; eight boundary widget locations correctly refuse the six over-MaxLen fields. However, two required field locations omit held facts in each fixture: (1) NHJB-2311 p2 / packet p5 printed Case Number header is blank although the case number is known. It is above the FOR COURT USE ONLY heading; source has no text widget there, so the 168-widget census never considers it. (2) NHJB-2328 p1 / packet p6 Residence Address field 2.1 contains only street/apartment, omitting held city, state and ZIP. There is no separate locality field on that form. Its 420.342-point source widget has no MaxLen, and full held addresses fit at 11pt. The actual missing values and width measurements are recorded, not inferred from counters.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json"
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "FAIL. All 82 declared items are disclosed, and eight required blanks on the delivered boundary pages are neither declared nor disclosed and are affirmatively described to the participant as already filled. The repair is the same one KNOWN_PREFILLS names; no separate change is needed.",
-          "evidence": "THE ONE-DIRECTIONAL TEST PASSES. production-field-map.json declares requiredBeforeFilingCount 82 and carries 82 rows; each disclosureLabel was matched as an exact substring against participant-instructions.md and 82 of 82 are named there, checked against the file. None of the five fields FIX78 repaired remains a requiredBeforeFiling row, and NHJB-2956 'name.2' correctly still is. THE DECLARATION SET IS INCOMPLETE. The eight widget instances recorded under KNOWN_PREFILLS -- seven case-number cells across three forms and NHJB-2317's telephone line -- are blanks on the delivered boundary pages that the participant must fill before filing, and they are declared nowhere: not as requiredBeforeFiling rows, not as refusals, not as unfittable entries. Nothing in participant-instructions.md asks the participant for a case number or a telephone number; line 12 states the opposite, that both were filled in. A required fact that nobody was asked for is precisely what this obligation exists to catch, and the literal 82-of-82 count passes over it because the count can only measure what was declared."
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "FAIL. The packet does not state who must be served or how. Its two mentions of service imply the participant will serve someone and leave them without a name or a method, and the record's answer -- none by the participant, the court provides the copy to the prosecutor under RSA 651:5, IX -- appears nowhere. REPAIR: state the record's answer under its own heading in participant-instructions.md, in the record's own words, and say beside the NHJB-2328 certificate-of-service disclosure that this route requires no service by the participant so the certificate stays blank, rather than that service 'has not happened' yet.",
-          "evidence": "THE RECORD ANSWERS THIS OBLIGATION AND THE PACKET NEVER STATES THE ANSWER. registry rules.service, in full: 'None by the participant. The court provides the copy to the prosecutor.' registry rules.notice: 'The court provides a copy of the petition to the prosecutor of the underlying offence under RSA 651:5, IX. No objection period is specified for this track; the prosecutor is permitted to be heard on the interest of justice.' A case-insensitive search of participant-instructions.md and of both fixtures for 'RSA 651:5, IX', 'court provides', 'copy to the prosecut', 'you do not', 'not serve', 'nobody' and 'no one' returns NOTHING outside the fee paragraph's citation of RSA 651:5, IX and X(d) for the fee exemption. Neither half of the record's answer is anywhere: the packet never says the participant serves nobody, and never says the court gives the prosecutor the copy. What it does say points the other way, twice. Line 168, in the table of choices that are the participant's: 'NHJB-2328 | Certificate of Service | Certificate of service - certifying you sent a copy on the date you sign (selection) | the certificate states what you did on the day you signed; service has not happened when the packet is prepared.' And line 176, under 'Things the platform deliberately left blank': 'The certificate of service box on NHJB-2328. It states what you did on the day you signed; service has not happened when this packet is prepared.' Both tell the participant the box is blank because service has not happened YET, which reads as an instruction that they will serve someone and must then complete it; neither says whom or how. The only other service-shaped sentence in the packet is line 200, which describes what happens AFTER the decision: 'The court sends copies to the list printed at the foot of that page, which includes the prosecutor, the Department of Safety Criminal Records, the DMV and the Department of Corrections.' That is distribution of the granted order, a different step from the copy of the petition RSA 651:5, IX puts in the prosecutor's hands, and it is described as something the court does after deciding rather than as an answer to who the participant must serve. For contrast, inside this same return nc_146_dismissal_petition-set states its own answer in one line under its own heading -- 'Nobody is served on this route' -- and quotes the record for it."
+          "finding": "All 89 declared entries and all 89 blank-report labels are disclosed, including current six conditional MaxLen items. Independent printed-page coverage still fails: NHJB-2311 p2 Case Name and Case Number header lines have no entry in either mapping/refusal census, and the guide labels the entire second page court-only without distinguishing its participant/case caption from the order beneath it. The page2 Case Name is an unheld court-styled fact needing a specific repeated-header instruction; the known Case Number should be filled, not reclassified as unknown. The full residence-address omission is not disclosed as a completion item either. The source page has two printed caption blanks outside the source-widget denominator.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX92",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -30698,7 +30693,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nh_petition_vacated-set",
@@ -33541,7 +33537,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
@@ -33881,7 +33877,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
@@ -41743,7 +41739,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
@@ -42130,7 +42126,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
