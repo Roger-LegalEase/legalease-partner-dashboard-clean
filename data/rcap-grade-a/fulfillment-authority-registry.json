@@ -97,7 +97,7 @@
     "data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json": "333bc15d565388d1b732cac0657a3da166ccea4676fa4ece772fbe204c8dfd29",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
     "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json": "ed9c2503fd87f041905503630c7bc2d7c87f5d562725085a7a00244da7b0e6b0",
-    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json": "0adf7ddfdbb13d002f08db94bc33641cc8447058a775289056b52e5d00e55361",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json": "e6dea13b4de92c1999e780e2ed881fcc976076a63ed30a7599b501feb906ec0f",
     "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json": "bf61227bd5aa9caffbe3da8e60e6deee5864ddf5fb2cdb22b07547e5e4e9a627",
     "data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json": "96157e584ba2d801f1ba78456bcf08463ad05982dbcc9b2ad5b8735913e649a7",
     "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json": "6005937cf7dd689f70bc277c4e446d62273095f66ecdf13dded9ba486970c7e9",
@@ -370,7 +370,7 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "bf49f280bfeaf5db2614e95b5401957b320239e098b4d88ae6f78f68c6e62578",
+          "rowSha256": "dc39fbb32b20815cd062d8f54a630a1801a3ea58c50a4d6e2105273796198053",
           "verdict": "RASTER_PASS",
           "workflowRunId": "33549186956",
           "jobId": "99994821093",
@@ -490,7 +490,7 @@
           "changedAt": "2026-09-02",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Bounded first-cohort candidate derived from data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json at ff9705a240c004ed7b9d2f022113abe865442d3f, data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json, current raster and exact independent-verification rows, OWN-ADOPT-2026-09-02-BATCH-53, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; it opens no route and performs no commercial action.",
-          "recordSha256": "fae8338f458bc7eb8ad63e1438d820d1f1a0e7f054012da7cf8e4b37da34ad6b",
+          "recordSha256": "9e91ed8edec1c235725c7053f89eca9c2b2f5b8b8a736a40ca7d1fa4279e07f8",
           "supersedesRecordSha256": null
         }
       ]
@@ -1687,7 +1687,7 @@
       "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "packetFamilyId": "ms-nonconv-set",
       "serviceDisposition": "paid_packet_intended",
-      "version": 1,
+      "version": 2,
       "effectiveFrom": "2026-09-03",
       "supersededBy": null,
       "supersededAt": null,
@@ -1714,7 +1714,26 @@
         "providerId": "rcap_grade_a_composer_v1",
         "rendererKind": "rcap_grade_a_document_v1",
         "rendererVersion": "2.0.0",
-        "imageDigest": "sha256:4ee4332e5973c552f7eb6011992d0e28ceafbfe5aca9cdc767fdf614f4efe864"
+        "imageDigest": ""
+      },
+      "evidenceBindings": {
+        "rendererSource": {
+          "kind": "source_bytes_fingerprint",
+          "paths": [
+            "src/lib/rcap/grade-a/composer.ts",
+            "src/lib/rcap/grade-a/renderer.ts"
+          ],
+          "sha256": "4ee4332e5973c552f7eb6011992d0e28ceafbfe5aca9cdc767fdf614f4efe864",
+          "publishedImageDigest": false
+        },
+        "providerPublication": {
+          "evidencePath": "data/rcap-render/worker-publication-evidence.json",
+          "publishedSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+          "historicalImmutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+          "currentInputsEquivalent": false,
+          "state": "missing_current_publication",
+          "hostedAcceptance": "not_established_by_this_record"
+        }
       },
       "fixture": {
         "fixtureId": "ms-nonconviction-clinic-demo-participant-a",
@@ -1814,6 +1833,15 @@
           "reason": "Clinic Preview participant-delivery candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json. Lawrence Blackmon approved the new exact participant-delivery hashes by owner attestation; the earlier internal-review approval remains historical and was not reused. Participant final verification and all technical Preview predicates remain independent, so delivery stays held.",
           "recordSha256": "af52b4d9cf7d7b5c793e4b6fbdb2f187c4eac9701bac9a90b81ba55fa116433d",
           "supersedesRecordSha256": null
+        },
+        {
+          "version": 2,
+          "changeKind": "proof_invalidated",
+          "changedAt": "2026-09-06",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Removed the composer/renderer source fingerprint from provider.imageDigest. Historical publication does not contain the current packaged inputs; current immutable publication proof is missing. Existing legal approval and its scope are unchanged.",
+          "recordSha256": "6cc37c4d6b864f8f81880ec7911b46662eb9ea9aa89a61ca575587f0987cf63b",
+          "supersedesRecordSha256": "af52b4d9cf7d7b5c793e4b6fbdb2f187c4eac9701bac9a90b81ba55fa116433d"
         }
       ]
     },
@@ -2864,7 +2892,7 @@
         },
         "rasterReceipt": {
           "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-          "rowSha256": "18dcac086f94c7e190ef35532d9e5bccbe35f601f64964225d1fa9cff17743e8",
+          "rowSha256": "b8b1069a78de053ec5cba8cb4fb0926b6f8dca59f081fbda0b22210269fa6b9f",
           "verdict": "RASTER_PASS",
           "workflowRunId": "33608483853",
           "jobId": "100178595166",
@@ -2983,7 +3011,7 @@
           "changedAt": "2026-09-02",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Bounded first-cohort candidate derived from data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json at ff9705a240c004ed7b9d2f022113abe865442d3f, data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json, current raster and exact independent-verification rows, OWN-ADOPT-2026-09-02-BATCH-53, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; it opens no route and performs no commercial action.",
-          "recordSha256": "b442835b137985e2af059ceb1feff17bf93ab7fd05132aade8a9d5b64f7e9967",
+          "recordSha256": "b6a9ac609b773ec84a9f1f4bf9e14f557f51d911e6bf8de4581782accdb486c4",
           "supersedesRecordSha256": null
         }
       ]
