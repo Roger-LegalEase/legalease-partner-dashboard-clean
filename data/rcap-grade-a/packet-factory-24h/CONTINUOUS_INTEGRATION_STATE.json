@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-06T18:30:33.827Z",
-  "captainHead": "276c926a4d052512d2c448e498ca5c50311f8238",
+  "generatedAt": "2026-09-06T18:34:27.045Z",
+  "captainHead": "b513995928511f3b363a39fe9012420aec1cc08c",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-06T18:50:33.827Z",
-    "nextSourceReleaseDeadline": "2026-09-06T19:00:33.827Z",
+    "nextIntegrationDeadline": "2026-09-06T18:54:27.045Z",
+    "nextSourceReleaseDeadline": "2026-09-06T19:04:27.045Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 0,
+        "measured": 2,
         "threshold": 20,
         "triggered": false
       },
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 81,
+        "measured": 79,
         "threshold": 80,
-        "triggered": true
+        "triggered": false
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,23 +78,24 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 81,
+    "sourceReady": 79,
     "sourceBlocked": 6,
     "legalBlocked": 21,
-    "verifyPending": 0,
+    "verifyPending": 2,
     "repairRequired": 42,
     "byState": {
       "COMPLETE_PACKET_PROVEN": 155,
       "FAIL_REPAIR_REQUIRED": 42,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
-      "SOURCE_READY": 81,
+      "SOURCE_READY": 79,
       "SOURCE_BLOCKED": 6,
       "LEGAL_BLOCKED": 21,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "BUILT_RASTER_PENDING": 4,
-      "WRONG_DELIVERY_TYPE": 1
+      "VERIFY_PENDING": 2,
+      "WRONG_DELIVERY_TYPE": 1,
+      "BUILT_RASTER_PENDING": 4
     }
   },
   "commercialRoutesOpened": 0,
