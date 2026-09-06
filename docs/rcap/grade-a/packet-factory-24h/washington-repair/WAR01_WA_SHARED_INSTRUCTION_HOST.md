@@ -8,7 +8,7 @@
 
 > ## RETIRED — DO NOT RUN
 >
-> **This lane was never executed and no longer owns anything.** It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.
+> **This lane was never executed and no longer owns anything.** It does not mean a defect is fixed or a held family is approved. Current legal and product-path holds remain outside this historical packet-repair dispatch, with their state and execution owner recorded separately from settled families.
 >
 > The prompt is kept because its reading of the defect is still the best one on record. Read it; do not run it as written.
 

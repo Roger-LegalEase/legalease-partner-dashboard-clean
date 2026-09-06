@@ -11,6 +11,7 @@
       "feeAndWaiver+service"
     ],
     "sharedHost": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+    "importGraphAt": "72f99073c42bd28e3469efe316378b37601717c7",
     "everyFamilyImportsTheHost": true,
     "importGraph": [
       {
@@ -268,23 +269,32 @@
     "measuredOn": {
       "lanesThatReturned": [],
       "familiesStillNeedingThisDispatch": [],
-      "familiesHeldByAnotherLiveLane": [
+      "familiesHeldByAnotherLiveLane": [],
+      "familiesAlreadySettled": [
         "wa_vac_cannabis-set",
-        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
         "wa_vac_misdemeanor_ordinary-set",
-        "wa_vac_substance_use_disorder-set",
         "wa_vac_survivor_felony-set",
         "wa_vac_survivor_misdemeanor-set",
         "wa_vac_treaty_fishing-set"
       ],
-      "familiesAlreadySettled": [
-        "wa_vac_domestic_violence-set",
-        "wa_vac_felony-set"
+      "familiesHeldOutsidePacketRepair": [
+        {
+          "familyId": "wa_vac_homicide_victim_prostitution-set",
+          "state": "LEGAL_BLOCKED",
+          "executionOwner": null
+        },
+        {
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "state": "PRODUCT_PATH_PENDING",
+          "executionOwner": "CAPTAIN"
+        }
       ]
     },
     "whatRetirementWithdraws": "current ownership, and nothing else. The analysis, the evidence and every prompt remain.",
-    "whatRetirementDoesNotMean": "It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.",
-    "howItComesBack": "Both conditions are recomputed on every run. A return directory appearing, or a family failing with no other lane holding it, restores the dispatch without anyone editing this file."
+    "whatRetirementDoesNotMean": "It does not mean a defect is fixed or a held family is approved. Current legal and product-path holds remain outside this historical packet-repair dispatch, with their state and execution owner recorded separately from settled families.",
+    "howItComesBack": "Conditions are recomputed on every run. A return directory appearing, or an unsettled family with no other owner or current legal/product-path hold, requires the current import graph to pass before this dispatch can resume."
   },
   "lanes": {
     "repair": [
@@ -297,7 +307,7 @@
       "WARV01_WA_REVERIFICATION",
       "WARV02_WA_REVERIFICATION"
     ],
-    "sequence": "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane or already settled."
+    "sequence": "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane, already settled, or subject to a current legal or product-path hold outside packet repair."
   },
   "commercialRoutesOpened": 0,
   "productionTouched": false,

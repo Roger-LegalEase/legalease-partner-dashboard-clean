@@ -82,11 +82,6 @@ for (const shard of ["01", "02", "03"]) {
 }
 const FAMILIES = evidence.map((e) => e.familyId);
 
-/* The import graph, recomputed here. */
-const importsOf = (familyId) => [...fs.readFileSync(path.join(ROOT, `scripts/build-census-v1-${familyId}.mjs`), "utf8")
-  .matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].map((m) => m[1]);
-const graph = FAMILIES.map((f) => ({ familyId: f, imports: importsOf(f) }));
-const allImportTheHost = graph.every((g) => g.imports.includes(path.basename(SHARED_HOST)));
 const obligationsPerFamily = [...new Set(evidence.map((e) => e.failedProofObligations.map((o) => o.obligation).sort().join("+")))];
 
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git clone", "git remote add"];
@@ -253,6 +248,81 @@ halves.forEach((fams, i) => {
 
 for (const a of assignments) a.promptFile = `${PROMPT_DIR}/${a.assignmentId}.md`;
 
+/* ---- retirement, measured rather than declared -----------------------------
+ *
+ * This dispatch was cut for Codex Cloud at 72f99073c and no lane in it ever
+ * ran: not one of the six return directories exists. In the meantime the same
+ * nine families were repaired in-session on the FIX lanes, re-read by two
+ * independent verification lanes, and failed again on the participant-facing
+ * obligations — so the factory's own claim ledger, not this record, is where
+ * their ownership now lives. Conveyor check C7 caught it exactly there: seven
+ * families owned by a live FIX grant AND by WAR03/WAR04 at the same time.
+ *
+ * An assignment nobody executed is not work in progress, and a record that
+ * keeps naming an owner for a family somebody else holds makes the queue lie
+ * about who is doing what. So the whole dispatch retires when two things are
+ * measured true on this run: no lane returned, and no family it names still
+ * needs it — each is either held live by another lane or already settled at
+ * VERIFIED_PASS or COMPLETE_PACKET_PROVEN. A current legal or product-path
+ * hold also cannot be assigned to this old packet-repair dispatch; those holds
+ * remain explicit and are not counted as settled. Recompute every run, and
+ * validate the current import graph before a dispatch can resume.
+ *
+ * Retirement is not deletion. The root-cause analysis, the import graph, the
+ * evidence and all six prompts stay exactly as written — they are the best
+ * account of this defect anyone has produced, and whichever lane finally
+ * fixes the shared host will read them. What retirement withdraws is the one
+ * thing that was no longer true: the claim of current ownership.
+ */
+const ledgerClaims = (() => {
+  try { return read("data/rcap-grade-a/packet-factory-24h/claim-ledger.json").claims ?? []; }
+  catch { return []; }
+})();
+const masterFamilies = (() => {
+  try { return read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json").families ?? []; }
+  catch { return []; }
+})();
+const SETTLED = new Set(["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS"]);
+const HELD_OUTSIDE_REPAIR = new Set(["LEGAL_BLOCKED", "PRODUCT_PATH_PENDING"]);
+const heldByAnotherLane = new Set(ledgerClaims
+  .filter((c) => c.released !== true && !/^WAR/.test(String(c.lane)))
+  .map((c) => c.subjectId));
+const settled = new Set(masterFamilies.filter((f) => SETTLED.has(f.state)).map((f) => f.familyId));
+const heldOutsideRepair = masterFamilies.filter((f) => FAMILIES.includes(f.familyId) && HELD_OUTSIDE_REPAIR.has(f.state))
+  .map((f) => ({ familyId: f.familyId, state: f.state, executionOwner: f.executionOwner ?? null }));
+const heldOutsideRepairIds = new Set(heldOutsideRepair.map((f) => f.familyId));
+const stillNeedsThisDispatch = FAMILIES.filter((f) => !heldByAnotherLane.has(f) && !settled.has(f) && !heldOutsideRepairIds.has(f));
+const laneThatReturned = assignments.filter((a) => fs.existsSync(path.join(ROOT, a.returnDirectory)))
+  .map((a) => a.assignmentId);
+const retired = laneThatReturned.length === 0 && stillNeedsThisDispatch.length === 0;
+const dispatchStatus = retired ? "RETIRED_NEVER_EXECUTED" : "CURRENT";
+const retirement = {
+  status: dispatchStatus,
+  measuredOn: {
+    lanesThatReturned: laneThatReturned,
+    familiesStillNeedingThisDispatch: stillNeedsThisDispatch,
+    familiesHeldByAnotherLiveLane: FAMILIES.filter((f) => heldByAnotherLane.has(f)),
+    familiesAlreadySettled: FAMILIES.filter((f) => settled.has(f)),
+    familiesHeldOutsidePacketRepair: heldOutsideRepair
+  },
+  whatRetirementWithdraws: "current ownership, and nothing else. The analysis, the evidence and every prompt remain.",
+  whatRetirementDoesNotMean: "It does not mean a defect is fixed or a held family is approved. Current legal and product-path holds remain outside this historical packet-repair dispatch, with their state and execution owner recorded separately from settled families.",
+  howItComesBack: "Conditions are recomputed on every run. A return directory appearing, or an unsettled family with no other owner or current legal/product-path hold, requires the current import graph to pass before this dispatch can resume."
+};
+
+/* Retired analysis describes the exact dispatch bytes. Later family-exclusive
+ * repairs may replace wrappers without rewriting that history. A dispatch
+ * that would resume must still satisfy the original guard on current bytes. */
+const importGraphAt = retired ? MINIMUM_CAPTAIN_SHA : "working-tree";
+const importsOf = (familyId) => {
+  const rel = `scripts/build-census-v1-${familyId}.mjs`;
+  const text = retired ? git(["show", `${MINIMUM_CAPTAIN_SHA}:${rel}`]) : fs.readFileSync(path.join(ROOT, rel), "utf8");
+  if (text === null) throw new Error(`Washington repair: cannot read dispatch import evidence ${MINIMUM_CAPTAIN_SHA}:${rel}`);
+  return [...text.matchAll(/from\s+["']\.\/(build-census-v1-[^"']+\.mjs)["']/g)].map((m) => m[1]);
+};
+const graph = FAMILIES.map((f) => ({ familyId: f, imports: importsOf(f) }));
+const allImportTheHost = graph.every((g) => g.imports.includes(path.basename(SHARED_HOST)));
+
 /* ---- refusals ------------------------------------------------------------- */
 const problems = [];
 if (FAMILIES.length !== 9) problems.push(`${FAMILIES.length} families in the evidence, expected 9`);
@@ -273,62 +343,6 @@ if (problems.length) {
   process.exit(1);
 }
 
-/* ---- retirement, measured rather than declared -----------------------------
- *
- * This dispatch was cut for Codex Cloud at 72f99073c and no lane in it ever
- * ran: not one of the six return directories exists. In the meantime the same
- * nine families were repaired in-session on the FIX lanes, re-read by two
- * independent verification lanes, and failed again on the participant-facing
- * obligations — so the factory's own claim ledger, not this record, is where
- * their ownership now lives. Conveyor check C7 caught it exactly there: seven
- * families owned by a live FIX grant AND by WAR03/WAR04 at the same time.
- *
- * An assignment nobody executed is not work in progress, and a record that
- * keeps naming an owner for a family somebody else holds makes the queue lie
- * about who is doing what. So the whole dispatch retires when two things are
- * measured true on this run: no lane returned, and no family it names still
- * needs it — each is either held live by another lane or already settled at
- * VERIFIED_PASS or COMPLETE_PACKET_PROVEN. Both are recomputed every run, so
- * if a Washington lane ever does return, or the competing grants release
- * while a family is still failing, the dispatch comes back by itself.
- *
- * Retirement is not deletion. The root-cause analysis, the import graph, the
- * evidence and all six prompts stay exactly as written — they are the best
- * account of this defect anyone has produced, and whichever lane finally
- * fixes the shared host will read them. What retirement withdraws is the one
- * thing that was no longer true: the claim of current ownership.
- */
-const ledgerClaims = (() => {
-  try { return read("data/rcap-grade-a/packet-factory-24h/claim-ledger.json").claims ?? []; }
-  catch { return []; }
-})();
-const masterFamilies = (() => {
-  try { return read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json").families ?? []; }
-  catch { return []; }
-})();
-const SETTLED = new Set(["COMPLETE_PACKET_PROVEN", "VERIFIED_PASS"]);
-const heldByAnotherLane = new Set(ledgerClaims
-  .filter((c) => c.released !== true && !/^WAR/.test(String(c.lane)))
-  .map((c) => c.subjectId));
-const settled = new Set(masterFamilies.filter((f) => SETTLED.has(f.state)).map((f) => f.familyId));
-const stillNeedsThisDispatch = FAMILIES.filter((f) => !heldByAnotherLane.has(f) && !settled.has(f));
-const laneThatReturned = assignments.filter((a) => fs.existsSync(path.join(ROOT, a.returnDirectory)))
-  .map((a) => a.assignmentId);
-const retired = laneThatReturned.length === 0 && stillNeedsThisDispatch.length === 0;
-const dispatchStatus = retired ? "RETIRED_NEVER_EXECUTED" : "CURRENT";
-const retirement = {
-  status: dispatchStatus,
-  measuredOn: {
-    lanesThatReturned: laneThatReturned,
-    familiesStillNeedingThisDispatch: stillNeedsThisDispatch,
-    familiesHeldByAnotherLiveLane: FAMILIES.filter((f) => heldByAnotherLane.has(f)),
-    familiesAlreadySettled: FAMILIES.filter((f) => settled.has(f))
-  },
-  whatRetirementWithdraws: "current ownership, and nothing else. The analysis, the evidence and every prompt remain.",
-  whatRetirementDoesNotMean: "It does not mean the defect is fixed. Seven families still fail FEE_AND_WAIVER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP, and the two facts this dispatch identified as absent from the repository are still absent. It means a different lane now owns saying so.",
-  howItComesBack: "Both conditions are recomputed on every run. A return directory appearing, or a family failing with no other lane holding it, restores the dispatch without anyone editing this file."
-};
-
 const doc = {
   schemaVersion: "rcap-washington-repair/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs",
@@ -340,6 +354,7 @@ const doc = {
     familiesFailed: FAMILIES.length,
     distinctFailureShapes: obligationsPerFamily,
     sharedHost: SHARED_HOST,
+    importGraphAt,
     everyFamilyImportsTheHost: allImportTheHost,
     importGraph: graph,
     theFactsAreNotInTheRepository: "The census carries the destination court for each route and carries no fee schedule, no waiver route and no service list. A repair lane that wrote them would be inventing law, which is why WAR02 is a source lane and not a repair lane.",
@@ -352,7 +367,7 @@ const doc = {
     repair: repairLanes.map((a) => a.assignmentId),
     reverification: assignments.filter((a) => a.lane === "independent-verification").map((a) => a.assignmentId),
     sequence: retired
-      ? "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane or already settled."
+      ? "Retired without executing. The sequence WAR01 and WAR02, then WAR03 and WAR04, then WARV01 and WARV02 was never entered: no lane returned, and every family it named is now held by another live lane, already settled, or subject to a current legal or product-path hold outside packet repair."
       : "WAR01 and WAR02 run now and in parallel. WAR03 and WAR04 wait for both. WARV01 and WARV02 are provisioned and are launched by Captain from a new HEAD once their re-render is integrated."
   },
   commercialRoutesOpened: 0,
