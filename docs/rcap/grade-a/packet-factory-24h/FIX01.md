@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `30cd4176a5b7f0852359ed32c6bfef7bbacbd350` (or the newer dispatch base)
+**Minimum required ancestor:** `b75ac41e3108ab08915e27c978f767a02bb115cb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request' \
+  --family 'fl-10yr-bridge-set' \
   --codex-cloud \
-  --minimum-captain-sha 30cd4176a5b7f0852359ed32c6bfef7bbacbd350
+  --minimum-captain-sha b75ac41e3108ab08915e27c978f767a02bb115cb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
+- Assert only these 4 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'fl-10yr-bridge-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'il-cannabis-vacate-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'fl-early-juvenile-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'il-seal-edu-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -58,10 +60,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 4 families
 
+- `fl-10yr-bridge-set`
 - `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`
-- `il-cannabis-vacate-set`
+- `fl-early-juvenile-set`
+- `il-seal-edu-set`
 
 ## What you receive
 
@@ -74,10 +78,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
+- `data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
+- `scripts/build-census-v1-fl-10yr-bridge-set.mjs`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs`
-- `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
+- `scripts/build-census-v1-fl-early-juvenile-set.mjs`
+- `scripts/build-census-v1-il-seal-edu-set.mjs`
 
 ## Never write here
 
