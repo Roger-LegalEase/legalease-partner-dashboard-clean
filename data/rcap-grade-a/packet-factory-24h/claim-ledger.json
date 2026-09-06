@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "6acf12a77ca38c02ab4de57348389f74abfea3b6",
+  "generatedAtCommit": "5d7bc29b7fe3599a5d01a0abbef96912cdba5164",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6219,11 +6219,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:09.630Z",
-      "releaseReason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: KNOWN_PREFILLS and CLIPPING_AND_OVERLAP -- page 20 (and 24) writes COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT (Bernalillo is Second, boundary Sierra is Seventh); matter.court written into both blanks of 4-953 item 2's unelected branch. Verdict extracted; source-identity question recorded for the district-printed form."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6266,11 +6264,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:10.025Z",
-      "releaseReason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: the same 4-222 wrong-court caption (page 11) and item-2 branch writes as nm_conviction-set. Verdict extracted."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6313,11 +6309,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:14:22.026Z",
-      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS (held case number whose prefix names its court is not written though rwcOriginatingCourt is required; field-map rows excuse it as unheld against build-findings), REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP (judicial district written onto the District Court branch of paragraph 12 on the magistrate fixture). San Juan refusal correct, COMPONENT_SET complete. Open counsel note: pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under Second and Seventh district counties. Verdict extracted; to repair."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13639,7 +13633,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8aa8b261ab7b67410b0630e356a1478828a7eba7e17b65a64271b9f98debe45d",
+  "claimsDigest": "e00e207da330266e2bc0c09fc428ca5017fc92911a456709e0dcefd5921a305b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38451,6 +38445,36 @@
       "previouslyReleasedAt": "2026-09-03T19:45:06.184Z",
       "reissuedAt": "2026-09-06T00:54:15.873Z",
       "reason": "Fresh read on the FIX83 bytes after the central raster passed (run 34001777533): page order, route options, filing destination, service, prefills and selection-mark placement were repaired together on the shared Utah host; the four Utah reads are consolidated on VF04 with the full obligation list"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "dispatchNames": "VF03",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-06T03:45:42Z",
+      "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `6acf12a77ca38c02ab4de57348389f74abfea3b6`
+**Minimum required ancestor:** `5d7bc29b7fe3599a5d01a0abbef96912cdba5164`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -219,7 +219,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf` — `0ea0cd7a3102b8ca09976b06a0d7a29eea8ba0f43f62a194eca13b799d1e2bd2`
 - boundary `data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/boundary.pdf` — `b1b1b53bc9f23c85ce5202bd93c8aa053e41e7d05821c4ba53f1be8d28a13811`
 - expected pages 17 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### ny_160_59_petition-set
 
