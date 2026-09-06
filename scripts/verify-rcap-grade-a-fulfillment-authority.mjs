@@ -68,6 +68,17 @@ const FIRST_COHORT_EXPECTED = [
       sha256: "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
     }
   },
+  // The two ms-misd-addl-set entries below are failing for the same reason
+  // Illinois is, and neither is a metadata typo to be re-pinned away. Commit
+  // 065aab4fc (FIX08) moved this family's shipping bytes off the owner-approved
+  // 7878f2c0…/96c13766… to 3c7588be…/e2b8cebc…, which no legal decision names,
+  // and the current independent verdict moved with them from vf01@cd48fc14e to
+  // vf04@a0fbceb30 — a read OF THE MOVED BYTES. Re-pinning the verdict would
+  // let a technical pass on unapproved bytes satisfy a check anchored to the
+  // owner approval, and re-pinning the digests would be a renewed approval
+  // written by a verifier. Both routes are REVOKED and denied, which is the
+  // correct posture; the repair is an owner re-review, not an edit here.
+  // Recorded at: docs/rcap/grade-a/captain/IL_PIN_DISPOSITION_2026-09-06.md
   {
     assignmentClaim: "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
     routeId: "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
@@ -130,6 +141,33 @@ const FIRST_COHORT_EXPECTED = [
   }
 ];
 
+// ---------------------------------------------------------------------------
+// Illinois: this block is an APPROVAL PIN, and it is failing on purpose.
+//
+// canonicalSha256 / boundarySha256 below are the bytes the decision owner
+// approved on 2026-09-02 under OWN-ADOPT-2026-09-02-BATCH-53, whose travelling
+// condition is that "any change to a family's shipping-artifact digest requires
+// re-review". Commit 42defabe4 (FIX02) then added one court-owned-fields line
+// to the proposed order and moved the shipping bytes to
+// d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 /
+// ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e. No legal
+// decision names those bytes. FIX02's own return says so: "the pins must be
+// re-taken by the owner. Nothing in this row re-takes them."
+//
+// So this check asserts approval CURRENCY, and it is right to fail while the
+// shipping bytes are unapproved. Do not repair it by moving the pin. Every
+// binding below — artifacts, raster receipt, builder digest, current verdict —
+// is frozen at the approved state on purpose; each one that now disagrees with
+// disk is reporting the same true fact, that Illinois shipped past its
+// approval. The registry answers that correctly already: the record is REVOKED
+// and the route is denied, which is what keeps a red verifier from being a
+// commercial risk.
+//
+// A renewed approval is a NEW legal-decision record naming the moved bytes,
+// written by the decision owner. Only after that record exists may these pins
+// be moved, and only by a lane holding that record.
+// Disposition: docs/rcap/grade-a/captain/IL_PIN_DISPOSITION_2026-09-06.md
+// ---------------------------------------------------------------------------
 const IL_EXISTING_V2_EXPECTED = {
   assignmentClaim: "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
   routeId: "IL:felony-prostitution-relief",

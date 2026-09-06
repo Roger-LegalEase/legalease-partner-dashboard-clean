@@ -30,12 +30,45 @@ So the recipient is **the prosecutor who brought the criminal case**, and the me
 
 The State’s Attorney’s signature on the stipulation (200-00132) is not service and does not substitute for it. It is the prosecutor agreeing to the sealing in advance, which is what lets the court skip the step above.
 
+**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.
+
 ## What you must do before you file
 
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.
 3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.
 4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.
+
+## What has to be true before this petition can succeed
+
+Completing the forms is not the same as qualifying. The committed track registry holds these conditions for this route, in its own words. Check each one against your own case before you file:
+
+- **Qualifying misdemeanour sealing, § 7602(c).** At least three years since the date the person completed the terms and conditions of the sentence.
+- **Money condition.** Any restitution and surcharges ordered for any crime of which the person has been convicted must be paid in full, except that surcharges are not required if the court waived them under 13 V.S.A. § 7282. Note the breadth: restitution on any conviction, not only the one being cleared.
+- **Pending charge.** Under § 7604 the court shall not act on the petition until any pending criminal charge is disposed of.
+- **After a denial.** At least two years before another petition, unless a shorter duration is authorised by the court (§ 7605).
+
+And these are the exclusions the registry records for this route. If one of them describes your case, this petition is not the route:
+
+- A listed crime as defined in 13 V.S.A. § 5301(7). This cross-reference is the whole misdemeanour screen and must be encoded in full rather than paraphrased.
+- Sexual exploitation of children under chapter 64.
+- Violation of an abuse prevention order, an order against stalking or sexual assault, or a protective order concerning contact with a child under § 1030.
+- Abuse, neglect and exploitation of a vulnerable adult under chapter 28.
+- Voyeurism under § 2605(b) or (c).
+- Cruelty to animals under § 352(1) through (10).
+- Failure to comply with sex offender registry requirements under § 5409.
+- Hate-motivated crimes under § 1455.
+- Cruelty to a child under § 1304(a).
+- Cruelty by a person having custody of another under § 1305.
+- Mistreatment of persons with impaired cognitive function under § 1306.
+- Female genital mutilation under § 3151.
+- Sexual exploitation of a minor under § 3258(b).
+- Violation of an extreme risk protection order under § 4058(b)(1).
+- An offence committed in a motor vehicle as defined in 23 V.S.A. § 4 by a commercial driver's licence or commercial permit holder.
+- Any offence requiring sex offender registration under chapter 167, subchapter 3.
+- A commercial driver's licence or commercial permit holder seeking to seal a misdemeanour or felony committed in a motor vehicle, under § 7602(a)(5), which disapplies the whole section.
+- Any case where restitution or surcharges on any conviction remain unpaid, unless waived under § 7282.
+- Any case where a criminal charge is pending anywhere, under § 7604.
 
 ## The items you must supply
 
@@ -172,6 +205,20 @@ The State’s Attorney’s signature on the stipulation (200-00132) is not servi
 - **The State's Attorney's signature, date and printed name.** Those belong to the prosecutor.
 - **The court's order on page 2 of the stipulation.** The judge completes it.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
+
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- The prosecutor opposes the petition, or the court schedules a hearing.
+- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.
+- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.
+- The criminal history record mixes qualifying and nonqualifying offences.
+- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.
+- The offence may be a listed crime under 13 V.S.A. § 5301(7).
+- Any felony not plainly on the § 7601(4)(B) list.
+- Immigration consequences.
+- The participant wants to attack the underlying conviction rather than clear the record.
 
 ## What this packet is not
 

@@ -1,0 +1,986 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX73",
+  "laneKind": "shared-host-repair",
+  "worker": "FIX73, repair lane, worktree /home/user/fix73-worktree on branch fix73-va-host-fee-stops-route",
+  "baseSha": "d7a3cde3a",
+  "branch": "fix73-va-host-fee-stops-route",
+  "grantSet": "c43b4a26a1c16ce0",
+  "families": [
+    "va_seal_ancillary_matter_only-set",
+    "va_seal_enumerated_seven_year-set",
+    "va_seal_petition_felony-set",
+    "va_seal_petition_misdemeanor-set"
+  ],
+  "theRepairIsOneChangeInOneHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs composes the filing-instructions page, the participant instructions, the printed route line and the component order for all four families. Every repair in this return was made there. Three of the four changes are host-wide because the defect was host-wide; the page-order change is gated on a per-family flag because only one family holds that assignment, and the other three assemble byte-for-byte as they did.",
+  "whatTheHostNowReadsAtBuildTime": [
+    "data/record-clearing/legal-design-track-registry.json -- selfHelpStopConditions per track, and the authoritative packetSet component order for the family that opts in",
+    "data/record-clearing/legal-design-intake/VA.memo.json -- rules.fees and rules.feeWaiver per track, and the same stop conditions, required to agree with the registry",
+    "data/record-clearing/legal-design-packet-set-manifests.json -- participantActionRequired pay_fee and apply_fee_waiver, required to equal the memo word for word",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json -- the route key and the destination clause, as before"
+  ],
+  "eachIsBoundBySha256InTheFamilySourceReceipt": true,
+  "everyOtherFamilyDirectoryIsByteIdentical": "git status over the whole worktree lists paths in exactly four directories -- the four granted families -- plus the one host script. No other overlay directory, no shared manifest, no queue file and no census was written.",
+  "rastersDeleted": true,
+  "rasterPngsCommitted": "The builder's own raster/ output under each family directory is regenerated and committed, as every previous lane on these families did and as reports/rendered-artifacts.json binds by SHA-256. The lane's own measurement rasters were written under /tmp and deleted.",
+  "notTouched": [
+    "fitAppearancesToRect",
+    "suppressSynthesizedAppearances (FIX63's per-family flag is byte-unchanged on all four families)"
+  ],
+  "rows": [
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX73 va_seal_ancillary_matter_only-set -> CLAIM_OK FIX73 va_seal_ancillary_matter_only-set (repair, grant set c43b4a26a1c16ce0), exit 0, asserted before any file was opened for writing.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, the shared host for all four VA sealing families; every repair in this row was made in the host and nowhere else.",
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "CENTRAL_RASTER_ACCEPTANCE",
+        "INDEPENDENT_VERIFICATION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "ROUTE_IDENTITY": "Confirmed, not repaired. This family's printed key obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing occurs exactly once in the committed census, its field map and its product-wiring already agreed, and nothing about it was changed. VF04 scored it PASS and this lane leaves that verdict standing rather than adopting it.",
+        "PAGE_ORDER": "Not repaired and not assigned for this family. Measured and disclosed: this family's registry packet set orders ccre_forwarding_request second and commonwealth_service_and_stipulation_request third, and the delivered pages still carry them the other way round (pages 7 and 8). VF04 scored PAGE_ORDER PASS here against the family's own page manifest; against the registry it is the same discrepancy VF02 failed the host family on. It is returned as a finding for a lane that holds the assignment.",
+        "CLIPPING_AND_OVERLAP": "Not re-measured across the whole packet. The declared-write-box check was run on the pages this lane changed, not on all eleven; VF04's PASS rests on bytes this lane has now superseded.",
+        "CENTRAL_RASTER_ACCEPTANCE": "No central raster was run on the new bytes and none was requested. The acceptance receipt is void for these digests.",
+        "INDEPENDENT_VERIFICATION": "Every measurement in this row was made by the lane that produced the bytes."
+      },
+      "whatChanged": [
+        "FEE_AND_WAIVER. The refusal -- 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.' in participant-instructions.md, and its longer form on the delivered filing-instructions page -- is gone from both fixtures and the markdown. In its place the packet states the fee position the repository holds for this exact track, quoted from the controlling legal-design memo and required at build time to equal the packet-set manifest's pay_fee action word for word, carrying its two sections; the waiver sentence is the manifest's and the memo's apply_fee_waiver/feeWaiver statement, and the census destination clause is quoted alongside as a third record saying the same thing. The CCRE's separate charge is kept and named as not a court fee.",
+        "SELF_HELP_STOP. All 4 of this track's registry selfHelpStopConditions are carried, quoted, into participant-instructions.md under '## When to stop and get a lawyer' and onto the delivered filing-instructions page under 'WHEN TO STOP AND GET A LAWYER', in the same framing the Vermont non-conviction family passes on. Nothing is added, nothing is abridged, no condition is softened; the build asserts the registry and the legal-design memo hold the identical list before either is printed.",
+        "Nothing else about this family was changed: its route key, its component order, its field map policies and its FIX63 appearance-suppression flag are byte-untouched inputs."
+      ],
+      "selfHelpStopConditions": {
+        "authority": "data/record-clearing/legal-design-track-registry.json tracks[va_seal_ancillary_matter_only].selfHelpStopConditions, required by the build to equal the same list in data/record-clearing/legal-design-intake/VA.memo.json",
+        "registryCount": 4,
+        "carriedCount": 4,
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The underlying charge or conviction has not in fact been sealed, which is the whole of the subsection J test.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The underlying charge or conviction has not in fact been sealed, which is the whole of the subsection J test.",
+            "deliveredLineInParticipantInstructions": "- The underlying charge or conviction has not in fact been sealed, which is the whole of the subsection J test.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 2,
+            "registryCondition": "It is unclear which automatic-sealing section reached the underlying matter, because the offence-date floor applies to two of the three.",
+            "deliveredLineOnTheFilingInstructionsPage": "- It is unclear which automatic-sealing section reached the underlying matter, because the offence-date floor applies to two of the three.",
+            "deliveredLineInParticipantInstructions": "- It is unclear which automatic-sealing section reached the underlying matter, because the offence-date floor applies to two of the three.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 3,
+            "registryCondition": "The attorney for the Commonwealth objects or answers.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The attorney for the Commonwealth objects or answers.",
+            "deliveredLineInParticipantInstructions": "- The attorney for the Commonwealth objects or answers.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 4,
+            "registryCondition": "Any immigration question.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any immigration question.",
+            "deliveredLineInParticipantInstructions": "- Any immigration question.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          }
+        ]
+      },
+      "feeAndWaiverAsDelivered": {
+        "asDeliveredOnTheFilingInstructionsPage": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE | Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: \"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.\" | Those two sections are Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C). The route record this packet is built on says the same thing in its own words: \"File the petition with no court fees or costs.\" | On a waiver, the same two records say: \"none - no court fee is charged, so there is nothing to waive.\" So there is no filing fee for you to pay on this petition, and there is nothing for you to ask the court to waive. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.",
+        "citation": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), printed on the page inside the quoted record and again in the lane's own sentence",
+        "quotedFrom": [
+          "data/record-clearing/legal-design-intake/VA.memo.json tracks[<track>].rules.fees and .rules.feeWaiver",
+          "data/record-clearing/legal-design-packet-set-manifests.json packetSets[<packetSetId>].participantActionRequired pay_fee and apply_fee_waiver, required by the build to equal the memo word for word",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json destination.detail for this route"
+        ],
+        "noAmountWritten": "No figure and no currency symbol is printed. The build refuses to run if either committed statement acquires one.",
+        "presentInCanonicalPdf": true,
+        "presentInBoundaryPdf": true,
+        "presentInParticipantInstructions": true,
+        "theSentenceItReplaced": "\"The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.\" in participant-instructions.md, and the longer refusal on the delivered filing-instructions page. Neither occurs anywhere in these bytes now: grep counts 0 in the markdown and 0 in both fixtures."
+      },
+      "routeKeyAsPrinted": {
+        "printedOnEveryComposedPage": "Route: obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
+        "occurrencesOfThatKeyInTheCommittedCensus": 1,
+        "productionFieldMapRouteKeys": [
+          "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing"
+        ],
+        "productWiringRouteKeys": [
+          "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing"
+        ],
+        "unrecordedKeyOccurrencesInThisFamilyDirectory": 0,
+        "unrecordedKeyOccurrencesInEitherFixture": 0,
+        "censusWritten": false
+      },
+      "pixelMeasurement": {
+        "pagesTheRepairDidNotTouch": "Pages 1-9 of both fixtures (six CC-1203 form pages, the Commonwealth copy, the CCRE request and the records checklist) are PIXEL-IDENTICAL at 150 dpi greyscale: the pre-repair and post-repair PNGs have equal SHA-256, 18 of 18 pages.",
+        "pagesTheRepairTouched": "Page 10 (filing instructions) is rewritten and page 11 is new, in both fixtures.",
+        "inkAgainstTheDeclaredWriteBox": "Both changed pages of both fixtures rastered at 300 dpi: all ink lies inside the composed page's declared text column, x in [72.00, 539.76]pt against a 72-540pt column and y within the drawn band; no line band exceeds one 14.5pt line box, so no new sentence overlaps another."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance in each fixture the page-content cm operators were composed through q/Q, the placed XObject's /BBox and /Matrix were read from the bytes, the placement was matched to the source widget whose /Rect origin it translates to (raw origin first, because CC-1201 stores four rects reversed), and cmScale x requiredScale was required to equal 1 within 0.05pt in both axes.",
+        "before": "130/130",
+        "after": "130/130",
+        "unchanged": true,
+        "provedSensitive": "A /tmp copy of the ancillary family's canonical.pdf with one appearance's /Matrix rewritten from [1 0 0 1 0 0] to [0.8 0 0 0.8 0 0] returns 129/130 and names the mutated placement (page 1, FlatWidget-7098480789, field CaseNo) -- the same negative control VF04 recorded, reproduced here."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "0d538027a6945c50b562193222a6c17b22b1582e720931a2e36ed9b9b027dbf8",
+            "bytes": 202640,
+            "pages": 10
+          },
+          "boundary": {
+            "sha256": "3fdd85e7ac3344fa235c9d7f8bcb775660fe058a502115e9f2c7d5a36ad86a9e",
+            "bytes": 202913,
+            "pages": 10
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "6c8ec2e59ab4ee596e16b056f1e795bc6e329e71a87b04a32db8c95b4f6a4723",
+            "bytes": 204855,
+            "pages": 11
+          },
+          "boundary": {
+            "sha256": "739529061cb133ea8ac4eed6b38489b2983bc7b6ca192dde67ef81cb05e69185",
+            "bytes": 205127,
+            "pages": 11
+          }
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs va_seal_ancillary_matter_only-set",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero",
+        "runTwice": "Built twice from identical inputs. sha256 over every one of the 136 files in the four family directories is identical between the two builds: fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
+      "countersNote": "PASS_COMPLETE before and after, exit 0 both times, read-only. Nine zeros is a statement about the counters and not a verdict: not one of the counters sees a fee statement, a stop condition, a route label or a page order.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set",
+          "before": "PASS_COMPLETE, nine counters zero",
+          "after": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0,
+          "runAfterTheRebuild": true
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0,
+          "runAfterTheRebuild": true,
+          "perFamilyRunDisclosed": "The same verifier with --family va_seal_ancillary_matter_only-set exits 2 BROKEN_DENOMINATOR, before this repair and after it alike: these four families emit no field-census.census-v1.json, so a family filter matches no census. That is a pre-existing property of the family and not a result of this repair, and it is reported rather than replaced with the corpus-wide exit 0."
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
+        "result": "10/13 passed, 3 failed, 4 not applicable, exit 1",
+        "theThreeFailuresAndWhyTheyDidNotStopTheBuild": [
+          "worktree_clean FAILED because it was run mid-repair, with the rebuilt family directories already on disk. It is a true statement about the moment it ran.",
+          "private_is_git_ignored FAILED because private/ here is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink; git check-ignore confirms the path is excluded in this environment and git status never showed it. Nothing under private/ is staged: every commit in this lane names its files.",
+          "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, a pre-existing property of this mounted corpus. It did not touch these families: family_sources_bind passed, 1/1 source binding by exact SHA-256."
+        ]
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster was run on the new bytes and none was requested. The RASTER_QUEUE receipt that covered the previous digests does not cover these; every fixture digest in this row is new.",
+        "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes, and this lane verified none of its own work as a verdict.",
+        "No verdict, no acceptance receipt, no queue entry, no route promotion and no commercial authority. The only ledger writes are this lane's own claim and release.",
+        "The route obligation census was not written. No route key was added, renamed or removed in it.",
+        "Nothing in another family directory, another lane's worktree, the Captain branch or main was touched."
+      ]
+    },
+    {
+      "itemId": "va_seal_enumerated_seven_year-set",
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX73 va_seal_enumerated_seven_year-set -> CLAIM_OK FIX73 va_seal_enumerated_seven_year-set (repair, grant set c43b4a26a1c16ce0), exit 0, asserted before any file was opened for writing.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, the shared host for all four VA sealing families; every repair in this row was made in the host and nowhere else.",
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP",
+        "ROUTE_IDENTITY"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "CENTRAL_RASTER_ACCEPTANCE",
+        "INDEPENDENT_VERIFICATION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "PAGE_ORDER": "Not repaired and not assigned for this family. Disclosed: its registry packet set orders ccre_forwarding_request second and commonwealth_service_and_stipulation_request third and the delivered pages 7 and 8 still carry them the other way round -- the same discrepancy VF02 failed the host family on. Returned as a finding, not swept in.",
+        "CLIPPING_AND_OVERLAP": "Not re-measured across the whole packet; the declared-write-box check covers the pages this lane changed.",
+        "CENTRAL_RASTER_ACCEPTANCE": "No central raster was run on the new bytes; the acceptance receipt is void for these digests.",
+        "INDEPENDENT_VERIFICATION": "Every measurement in this row was made by the lane that produced the bytes."
+      },
+      "whatChanged": [
+        "ROUTE_IDENTITY. The fabricated key obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing, which occurred zero times in the census, is gone from every file in the family directory and from both fixtures. production-field-map.json and the printed route line on all four composed pages of both fixtures now carry obligation:track-only:VA:va_seal_enumerated_seven_year -- the key product-wiring.json already bound and the key the census carries exactly once for packetSetId va_seal_enumerated_seven_year-set. No key was added to the census and the census file was not written.",
+        "FEE_AND_WAIVER. Same repair as its siblings: the 'ask the clerk' refusal is gone and the packet states the fee position from the memo, the packet-set manifest and the census, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C).",
+        "SELF_HELP_STOP. All 4 registry stop conditions carried verbatim into the markdown and onto the filing-instructions page."
+      ],
+      "selfHelpStopConditions": {
+        "authority": "data/record-clearing/legal-design-track-registry.json tracks[va_seal_enumerated_seven_year].selfHelpStopConditions, required by the build to equal the same list in data/record-clearing/legal-design-intake/VA.memo.json",
+        "registryCount": 4,
+        "carriedCount": 4,
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "Anything was finalised on the same date as the matter to be sealed, because the § 19.2-392.12:1(D) same-date rule may defeat the petition.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Anything was finalised on the same date as the matter to be sealed, because the Sec.  19.2-392.12:1(D) same-date rule may defeat the petition.",
+            "deliveredLineInParticipantInstructions": "- Anything was finalised on the same date as the matter to be sealed, because the § 19.2-392.12:1(D) same-date rule may defeat the petition.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 2,
+            "registryCondition": "The offence may not be exactly one of the listed provisions.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The offence may not be exactly one of the listed provisions.",
+            "deliveredLineInParticipantInstructions": "- The offence may not be exactly one of the listed provisions.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 3,
+            "registryCondition": "The attorney for the Commonwealth objects or answers, or the court sets a hearing.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The attorney for the Commonwealth objects or answers, or the court sets a hearing.",
+            "deliveredLineInParticipantInstructions": "- The attorney for the Commonwealth objects or answers, or the court sets a hearing.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 4,
+            "registryCondition": "Any immigration question.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any immigration question.",
+            "deliveredLineInParticipantInstructions": "- Any immigration question.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          }
+        ]
+      },
+      "feeAndWaiverAsDelivered": {
+        "asDeliveredOnTheFilingInstructionsPage": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE | Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: \"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.\" | Those two sections are Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C). The route record this packet is built on says the same thing in its own words: \"File the petition with no court fees or costs.\" | On a waiver, the same two records say: \"none - no court fee is charged, so there is nothing to waive.\" So there is no filing fee for you to pay on this petition, and there is nothing for you to ask the court to waive. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.",
+        "citation": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), printed on the page inside the quoted record and again in the lane's own sentence",
+        "quotedFrom": [
+          "data/record-clearing/legal-design-intake/VA.memo.json tracks[<track>].rules.fees and .rules.feeWaiver",
+          "data/record-clearing/legal-design-packet-set-manifests.json packetSets[<packetSetId>].participantActionRequired pay_fee and apply_fee_waiver, required by the build to equal the memo word for word",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json destination.detail for this route"
+        ],
+        "noAmountWritten": "No figure and no currency symbol is printed. The build refuses to run if either committed statement acquires one.",
+        "presentInCanonicalPdf": true,
+        "presentInBoundaryPdf": true,
+        "presentInParticipantInstructions": true,
+        "theSentenceItReplaced": "\"The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.\" in participant-instructions.md, and the longer refusal on the delivered filing-instructions page. Neither occurs anywhere in these bytes now: grep counts 0 in the markdown and 0 in both fixtures."
+      },
+      "routeKeyAsPrinted": {
+        "printedOnEveryComposedPage": "Route: obligation:track-only:VA:va_seal_enumerated_seven_year",
+        "occurrencesOfThatKeyInTheCommittedCensus": 1,
+        "productionFieldMapRouteKeys": [
+          "obligation:track-only:VA:va_seal_enumerated_seven_year"
+        ],
+        "productWiringRouteKeys": [
+          "obligation:track-only:VA:va_seal_enumerated_seven_year"
+        ],
+        "unrecordedKeyOccurrencesInThisFamilyDirectory": 0,
+        "unrecordedKeyOccurrencesInEitherFixture": 0,
+        "censusWritten": false
+      },
+      "pixelMeasurement": {
+        "pagesTheRepairDidNotTouch": "Pages 1-6 (the CC-1203 form pages) are PIXEL-IDENTICAL at 150 dpi in both fixtures.",
+        "pagesTheRepairTouched": "Pages 7, 8 and 9 differ in exactly one line each -- the printed route line -- 5223 pixels inside a single 634x21px band at 150 dpi, and pdftotext diff of each page returns exactly one changed line, the Route: line. Page 10 is rewritten and page 11 is new.",
+        "inkAgainstTheDeclaredWriteBox": "Pages 7-11 of both fixtures rastered at 300 dpi: all ink inside the declared text column, x max 539.76pt against the 540pt edge; no band taller than one line box."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance in each fixture the page-content cm operators were composed through q/Q, the placed XObject's /BBox and /Matrix were read from the bytes, the placement was matched to the source widget whose /Rect origin it translates to (raw origin first, because CC-1201 stores four rects reversed), and cmScale x requiredScale was required to equal 1 within 0.05pt in both axes.",
+        "before": "130/130",
+        "after": "130/130",
+        "unchanged": true,
+        "provedSensitive": "A /tmp copy of the ancillary family's canonical.pdf with one appearance's /Matrix rewritten from [1 0 0 1 0 0] to [0.8 0 0 0.8 0 0] returns 129/130 and names the mutated placement (page 1, FlatWidget-7098480789, field CaseNo) -- the same negative control VF04 recorded, reproduced here."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "34d42262da86edae01a0c3bef54add2789e9084ab72d7f49c6d8c25d67a80aff",
+            "bytes": 202579,
+            "pages": 10
+          },
+          "boundary": {
+            "sha256": "eb4632d4bb8ffb4a5d88c154d965b10c08d7848b12807dfd46e21283bf23d671",
+            "bytes": 202858,
+            "pages": 10
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "e56671e6fb915cd939e45b3eced99dff11f52b1e1946ca2ae9738eedf82c4b11",
+            "bytes": 204666,
+            "pages": 11
+          },
+          "boundary": {
+            "sha256": "fbca34b30fb77841c8a1f3f2f0a01cd62002062a866f06670d7934a37281fdcf",
+            "bytes": 204946,
+            "pages": 11
+          }
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs va_seal_enumerated_seven_year-set",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero",
+        "runTwice": "Built twice from identical inputs. sha256 over every one of the 136 files in the four family directories is identical between the two builds: fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set",
+      "countersNote": "PASS_COMPLETE before and after, exit 0 both times, read-only. Nine zeros is a statement about the counters and not a verdict: not one of the counters sees a fee statement, a stop condition, a route label or a page order.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set",
+          "before": "PASS_COMPLETE, nine counters zero",
+          "after": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0,
+          "runAfterTheRebuild": true
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0,
+          "runAfterTheRebuild": true,
+          "perFamilyRunDisclosed": "The same verifier with --family va_seal_enumerated_seven_year-set exits 2 BROKEN_DENOMINATOR, before this repair and after it alike: these four families emit no field-census.census-v1.json, so a family filter matches no census. That is a pre-existing property of the family and not a result of this repair, and it is reported rather than replaced with the corpus-wide exit 0."
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
+        "result": "10/13 passed, 3 failed, 4 not applicable, exit 1",
+        "theThreeFailuresAndWhyTheyDidNotStopTheBuild": [
+          "worktree_clean FAILED because it was run mid-repair, with the rebuilt family directories already on disk. It is a true statement about the moment it ran.",
+          "private_is_git_ignored FAILED because private/ here is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink; git check-ignore confirms the path is excluded in this environment and git status never showed it. Nothing under private/ is staged: every commit in this lane names its files.",
+          "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, a pre-existing property of this mounted corpus. It did not touch these families: family_sources_bind passed, 1/1 source binding by exact SHA-256."
+        ]
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster was run on the new bytes and none was requested. The RASTER_QUEUE receipt that covered the previous digests does not cover these; every fixture digest in this row is new.",
+        "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes, and this lane verified none of its own work as a verdict.",
+        "No verdict, no acceptance receipt, no queue entry, no route promotion and no commercial authority. The only ledger writes are this lane's own claim and release.",
+        "The route obligation census was not written. No route key was added, renamed or removed in it.",
+        "Nothing in another family directory, another lane's worktree, the Captain branch or main was touched."
+      ]
+    },
+    {
+      "itemId": "va_seal_petition_felony-set",
+      "familyId": "va_seal_petition_felony-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX73 va_seal_petition_felony-set -> CLAIM_OK FIX73 va_seal_petition_felony-set (repair, grant set c43b4a26a1c16ce0), exit 0, asserted before any file was opened for writing.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, the shared host for all four VA sealing families; every repair in this row was made in the host and nowhere else.",
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP",
+        "ROUTE_IDENTITY"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "CENTRAL_RASTER_ACCEPTANCE",
+        "INDEPENDENT_VERIFICATION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "PAGE_ORDER": "Not repaired and not assigned for this family. Disclosed: its registry packet set orders ccre_forwarding_request second and commonwealth_service_and_stipulation_request third and the delivered pages 5 and 6 still carry them the other way round. Returned as a finding.",
+        "CLIPPING_AND_OVERLAP": "Not re-measured across the whole packet; the declared-write-box check covers the pages this lane changed. The three reversed-/Rect AncillaryMatterSeal widgets VF04 disclosed are unchanged and still carry no ink.",
+        "CENTRAL_RASTER_ACCEPTANCE": "No central raster was run on the new bytes; the acceptance receipt is void for these digests.",
+        "INDEPENDENT_VERIFICATION": "Every measurement in this row was made by the lane that produced the bytes."
+      },
+      "whatChanged": [
+        "ROUTE_IDENTITY. obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing occurs zero times in this family's files and in both fixtures; production-field-map.json and the printed route line carry obligation:track-only:VA:va_seal_petition_felony, which the census carries once for this packet set and which product-wiring.json already bound. Nothing was added to the census.",
+        "FEE_AND_WAIVER. The refusal is gone; the packet states the fee position from the memo, the packet-set manifest and the census, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), and says there is nothing to waive.",
+        "SELF_HELP_STOP. All 9 registry stop conditions carried verbatim, including the Sec. 19.2-392.12(L) exclusion list, the family-or-household-member definition in Sec. 16.1-228, firearm involvement, the felony-history bars, prior sealing, the rehabilitation showing, immigration and any attack on the underlying conviction."
+      ],
+      "selfHelpStopConditions": {
+        "authority": "data/record-clearing/legal-design-track-registry.json tracks[va_seal_petition_felony].selfHelpStopConditions, required by the build to equal the same list in data/record-clearing/legal-design-intake/VA.memo.json",
+        "registryCount": 9,
+        "carriedCount": 9,
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "deliveredLineInParticipantInstructions": "- The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 2,
+            "registryCondition": "Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any offence that may fall within the nineteen subdivisions of the Sec.  19.2-392.12(L) exclusion list.",
+            "deliveredLineInParticipantInstructions": "- Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any victim who may be a family or household member as defined in Sec.  16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "deliveredLineInParticipantInstructions": "- Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 4,
+            "registryCondition": "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under Sec.  18.2-308.2.",
+            "deliveredLineInParticipantInstructions": "- Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 5,
+            "registryCondition": "Any question about the felony-history bars, which turn on the national criminal history record.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any question about the felony-history bars, which turn on the national criminal history record.",
+            "deliveredLineInParticipantInstructions": "- Any question about the felony-history bars, which turn on the national criminal history record.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 6,
+            "registryCondition": "Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any petitioner who has previously obtained sealing under Sec.  19.2-392.12.",
+            "deliveredLineInParticipantInstructions": "- Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "deliveredLineInParticipantInstructions": "- Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Immigration consequences.",
+            "deliveredLineInParticipantInstructions": "- Immigration consequences.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 9,
+            "registryCondition": "Any attack on the underlying conviction.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any attack on the underlying conviction.",
+            "deliveredLineInParticipantInstructions": "- Any attack on the underlying conviction.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          }
+        ]
+      },
+      "feeAndWaiverAsDelivered": {
+        "asDeliveredOnTheFilingInstructionsPage": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE | Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: \"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.\" | Those two sections are Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C). The route record this packet is built on says the same thing in its own words: \"File the petition with no court fees or costs.\" | On a waiver, the same two records say: \"none - no court fee is charged, so there is nothing to waive.\" So there is no filing fee for you to pay on this petition, and there is nothing for you to ask the court to waive. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.",
+        "citation": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), printed on the page inside the quoted record and again in the lane's own sentence",
+        "quotedFrom": [
+          "data/record-clearing/legal-design-intake/VA.memo.json tracks[<track>].rules.fees and .rules.feeWaiver",
+          "data/record-clearing/legal-design-packet-set-manifests.json packetSets[<packetSetId>].participantActionRequired pay_fee and apply_fee_waiver, required by the build to equal the memo word for word",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json destination.detail for this route"
+        ],
+        "noAmountWritten": "No figure and no currency symbol is printed. The build refuses to run if either committed statement acquires one.",
+        "presentInCanonicalPdf": true,
+        "presentInBoundaryPdf": true,
+        "presentInParticipantInstructions": true,
+        "theSentenceItReplaced": "\"The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.\" in participant-instructions.md, and the longer refusal on the delivered filing-instructions page. Neither occurs anywhere in these bytes now: grep counts 0 in the markdown and 0 in both fixtures."
+      },
+      "routeKeyAsPrinted": {
+        "printedOnEveryComposedPage": "Route: obligation:track-only:VA:va_seal_petition_felony",
+        "occurrencesOfThatKeyInTheCommittedCensus": 1,
+        "productionFieldMapRouteKeys": [
+          "obligation:track-only:VA:va_seal_petition_felony"
+        ],
+        "productWiringRouteKeys": [
+          "obligation:track-only:VA:va_seal_petition_felony"
+        ],
+        "unrecordedKeyOccurrencesInThisFamilyDirectory": 0,
+        "unrecordedKeyOccurrencesInEitherFixture": 0,
+        "censusWritten": false
+      },
+      "pixelMeasurement": {
+        "pagesTheRepairDidNotTouch": "Pages 1-4 (the CC-1201 form pages) are PIXEL-IDENTICAL at 150 dpi in both fixtures.",
+        "pagesTheRepairTouched": "Pages 5, 6 and 7 differ in exactly one line each -- the printed route line -- 4548 pixels in a single band at 150 dpi, with a one-line pdftotext diff per page. Page 8 is rewritten and page 9 is new.",
+        "inkAgainstTheDeclaredWriteBox": "Pages 5-9 of both fixtures rastered at 300 dpi: all ink inside the declared column except one PRE-EXISTING 0.96pt overrun of a dotted rule on the canonical Commonwealth-copy page (ink to x=540.96pt), which the pre-repair bytes carry identically at the same coordinate and which this lane neither authored nor changed."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance in each fixture the page-content cm operators were composed through q/Q, the placed XObject's /BBox and /Matrix were read from the bytes, the placement was matched to the source widget whose /Rect origin it translates to (raw origin first, because CC-1201 stores four rects reversed), and cmScale x requiredScale was required to equal 1 within 0.05pt in both axes.",
+        "before": "102/102",
+        "after": "102/102",
+        "unchanged": true,
+        "provedSensitive": "A /tmp copy of the ancillary family's canonical.pdf with one appearance's /Matrix rewritten from [1 0 0 1 0 0] to [0.8 0 0 0.8 0 0] returns 129/130 and names the mutated placement (page 1, FlatWidget-7098480789, field CaseNo) -- the same negative control VF04 recorded, reproduced here."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "df2d104009b72d410d037eba14f632ccb39424ccb2b5b9738bda4c44d9056bdd",
+            "bytes": 228592,
+            "pages": 8
+          },
+          "boundary": {
+            "sha256": "6b9c71ab019ff408cbba9e2226e46e6c86133358f1b704c7eccfacd48a42352b",
+            "bytes": 228860,
+            "pages": 8
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "6e75b1076ed4b826ff8ff7a9b5dae3b3ab719ec9c17073ba0eb0f0e9ad3a609d",
+            "bytes": 231267,
+            "pages": 9
+          },
+          "boundary": {
+            "sha256": "234c8abc1b54fda5d21541bc9a46d581f671adbcdf0533db0bf6500882d104d5",
+            "bytes": 231535,
+            "pages": 9
+          }
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs va_seal_petition_felony-set",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero",
+        "runTwice": "Built twice from identical inputs. sha256 over every one of the 136 files in the four family directories is identical between the two builds: fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
+      "countersNote": "PASS_COMPLETE before and after, exit 0 both times, read-only. Nine zeros is a statement about the counters and not a verdict: not one of the counters sees a fee statement, a stop condition, a route label or a page order.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set",
+          "before": "PASS_COMPLETE, nine counters zero",
+          "after": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0,
+          "runAfterTheRebuild": true
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0,
+          "runAfterTheRebuild": true,
+          "perFamilyRunDisclosed": "The same verifier with --family va_seal_petition_felony-set exits 2 BROKEN_DENOMINATOR, before this repair and after it alike: these four families emit no field-census.census-v1.json, so a family filter matches no census. That is a pre-existing property of the family and not a result of this repair, and it is reported rather than replaced with the corpus-wide exit 0."
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
+        "result": "10/13 passed, 3 failed, 4 not applicable, exit 1",
+        "theThreeFailuresAndWhyTheyDidNotStopTheBuild": [
+          "worktree_clean FAILED because it was run mid-repair, with the rebuilt family directories already on disk. It is a true statement about the moment it ran.",
+          "private_is_git_ignored FAILED because private/ here is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink; git check-ignore confirms the path is excluded in this environment and git status never showed it. Nothing under private/ is staged: every commit in this lane names its files.",
+          "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, a pre-existing property of this mounted corpus. It did not touch these families: family_sources_bind passed, 1/1 source binding by exact SHA-256."
+        ]
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster was run on the new bytes and none was requested. The RASTER_QUEUE receipt that covered the previous digests does not cover these; every fixture digest in this row is new.",
+        "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes, and this lane verified none of its own work as a verdict.",
+        "No verdict, no acceptance receipt, no queue entry, no route promotion and no commercial authority. The only ledger writes are this lane's own claim and release.",
+        "The route obligation census was not written. No route key was added, renamed or removed in it.",
+        "Nothing in another family directory, another lane's worktree, the Captain branch or main was touched."
+      ]
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX73 va_seal_petition_misdemeanor-set -> CLAIM_OK FIX73 va_seal_petition_misdemeanor-set (repair, grant set c43b4a26a1c16ce0), exit 0, asserted before any file was opened for writing.",
+      "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, the shared host for all four VA sealing families; every repair in this row was made in the host and nowhere else.",
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP",
+        "PAGE_ORDER"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "CLIPPING_AND_OVERLAP",
+        "CENTRAL_RASTER_ACCEPTANCE",
+        "INDEPENDENT_VERIFICATION"
+      ],
+      "whyEachUndischargedItemIsUndischarged": {
+        "ROUTE_IDENTITY": "Confirmed, not repaired. FIX03 had already moved this family to obligation:track-only:VA:va_seal_petition_misdemeanor, which the census carries exactly once for this packet set and which its product-wiring binds; the field map carries that key and the participant page prints the owner-decided human label 'Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12' rather than a machine key. This lane changed neither and only checked them.",
+        "CLIPPING_AND_OVERLAP": "Not re-measured across the whole packet; the declared-write-box check covers the pages this lane changed. This family did not opt into FIX63's suppressSynthesizedAppearances and still carries the synthesized selection squares FIX63 removed from its three siblings; that is untouched here.",
+        "CENTRAL_RASTER_ACCEPTANCE": "No central raster was run on the new bytes and none was requested.",
+        "INDEPENDENT_VERIFICATION": "Every measurement in this row was made by the lane that produced the bytes."
+      },
+      "whatChanged": [
+        "PAGE_ORDER. VF02's standing FAIL named a concrete, measurable defect: the authoritative registry packet set orders 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions, and the delivered nine pages carried the Commonwealth copy on page 5 and the CCRE request on page 6. The host now reads the order from the registry for this family, and the delivered manifest and pages are 1-4 primary_filing, 5 ccre_forwarding_request, 6 commonwealth_service_and_stipulation_request, 7 records_checklist, 8-9 filing_instructions, in both fixtures. The proof is direct: the two swapped pages are pixel-identical to their pre-repair selves at their new positions. The opt-in is per family, so the other three families this host builds assemble exactly as they did.",
+        "SELF_HELP_STOP. All 9 registry stop conditions carried verbatim into participant-instructions.md and onto the filing-instructions page.",
+        "FEE_AND_WAIVER. This family's standing verdict did not fail on fee -- FIX03 had already replaced the refusal with a sentence quoting only the census destination clause, which carries no statutory authority. The delivered statement is now the same one its three siblings carry, quoted from the legal-design memo and required to equal the packet-set manifest's pay_fee action, with Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C) on the page and the waiver statement beside it.",
+        "Not changed: fitAppearancesToRect, suppressSynthesizedAppearances (this family still does not carry FIX63's flag), the route key and the printed human route label."
+      ],
+      "selfHelpStopConditions": {
+        "authority": "data/record-clearing/legal-design-track-registry.json tracks[va_seal_petition_misdemeanor].selfHelpStopConditions, required by the build to equal the same list in data/record-clearing/legal-design-intake/VA.memo.json",
+        "registryCount": 9,
+        "carriedCount": 9,
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "deliveredLineOnTheFilingInstructionsPage": "- The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "deliveredLineInParticipantInstructions": "- The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 2,
+            "registryCondition": "Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any offence that may fall within the nineteen subdivisions of the Sec.  19.2-392.12(L) exclusion list.",
+            "deliveredLineInParticipantInstructions": "- Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any victim who may be a family or household member as defined in Sec.  16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "deliveredLineInParticipantInstructions": "- Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 4,
+            "registryCondition": "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under Sec.  18.2-308.2.",
+            "deliveredLineInParticipantInstructions": "- Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 5,
+            "registryCondition": "Any question about the felony-history bars, which turn on the national criminal history record.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any question about the felony-history bars, which turn on the national criminal history record.",
+            "deliveredLineInParticipantInstructions": "- Any question about the felony-history bars, which turn on the national criminal history record.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 6,
+            "registryCondition": "Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any petitioner who has previously obtained sealing under Sec.  19.2-392.12.",
+            "deliveredLineInParticipantInstructions": "- Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "deliveredLineInParticipantInstructions": "- Any alcohol or drug involvement requiring a rehabilitation showing.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Immigration consequences.",
+            "deliveredLineInParticipantInstructions": "- Immigration consequences.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          },
+          {
+            "n": 9,
+            "registryCondition": "Any attack on the underlying conviction.",
+            "deliveredLineOnTheFilingInstructionsPage": "- Any attack on the underlying conviction.",
+            "deliveredLineInParticipantInstructions": "- Any attack on the underlying conviction.",
+            "foundInCanonicalPdf": true,
+            "foundInBoundaryPdf": true,
+            "foundInParticipantInstructions": true,
+            "softenedOrAbridged": false
+          }
+        ]
+      },
+      "feeAndWaiverAsDelivered": {
+        "asDeliveredOnTheFilingInstructionsPage": "WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE | Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: \"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.\" | Those two sections are Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C). The route record this packet is built on says the same thing in its own words: \"File the petition with no court fees or costs.\" | On a waiver, the same two records say: \"none - no court fee is charged, so there is nothing to waive.\" So there is no filing fee for you to pay on this petition, and there is nothing for you to ask the court to waive. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.",
+        "citation": "Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), printed on the page inside the quoted record and again in the lane's own sentence",
+        "quotedFrom": [
+          "data/record-clearing/legal-design-intake/VA.memo.json tracks[<track>].rules.fees and .rules.feeWaiver",
+          "data/record-clearing/legal-design-packet-set-manifests.json packetSets[<packetSetId>].participantActionRequired pay_fee and apply_fee_waiver, required by the build to equal the memo word for word",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json destination.detail for this route"
+        ],
+        "noAmountWritten": "No figure and no currency symbol is printed. The build refuses to run if either committed statement acquires one.",
+        "presentInCanonicalPdf": true,
+        "presentInBoundaryPdf": true,
+        "presentInParticipantInstructions": true,
+        "theSentenceItReplaced": "This family did not carry the refusal: FIX03 had already replaced it with a census-only sentence carrying no statutory citation. That sentence is what this lane replaced."
+      },
+      "routeKeyAsPrinted": {
+        "printedOnEveryComposedPage": "Route: Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12",
+        "occurrencesOfThatKeyInTheCommittedCensus": "the page prints a human label, not a key; the machine key it stands for, obligation:track-only:VA:va_seal_petition_misdemeanor, occurs exactly 1 time in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "productionFieldMapRouteKeys": [
+          "obligation:track-only:VA:va_seal_petition_misdemeanor"
+        ],
+        "productWiringRouteKeys": [
+          "obligation:track-only:VA:va_seal_petition_misdemeanor"
+        ],
+        "unrecordedKeyOccurrencesInThisFamilyDirectory": 0,
+        "unrecordedKeyOccurrencesInEitherFixture": 0,
+        "censusWritten": false
+      },
+      "pixelMeasurement": {
+        "pagesTheRepairDidNotTouch": "Pages 1-4 (the CC-1201 form pages) are PIXEL-IDENTICAL at 150 dpi in both fixtures. The two reordered companion pages are pixel-identical to their pre-repair selves at their new positions: pre-repair page 6 (CCRE) equals post-repair page 5, and pre-repair page 5 (Commonwealth copy) equals post-repair page 6, byte-equal PNGs in both fixtures. Page 7 (records checklist) is pixel-identical in place.",
+        "pagesTheRepairTouched": "Pages 8-9, the filing instructions, are rewritten; the page count is unchanged at 9.",
+        "inkAgainstTheDeclaredWriteBox": "Pages 5-9 of both fixtures rastered at 300 dpi: all ink inside the declared column except the same PRE-EXISTING 0.96pt dotted-rule overrun on the canonical Commonwealth-copy page, present identically in the pre-repair bytes."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance in each fixture the page-content cm operators were composed through q/Q, the placed XObject's /BBox and /Matrix were read from the bytes, the placement was matched to the source widget whose /Rect origin it translates to (raw origin first, because CC-1201 stores four rects reversed), and cmScale x requiredScale was required to equal 1 within 0.05pt in both axes.",
+        "before": "102/102",
+        "after": "102/102",
+        "unchanged": true,
+        "provedSensitive": "A /tmp copy of the ancillary family's canonical.pdf with one appearance's /Matrix rewritten from [1 0 0 1 0 0] to [0.8 0 0 0.8 0 0] returns 129/130 and names the mutated placement (page 1, FlatWidget-7098480789, field CaseNo) -- the same negative control VF04 recorded, reproduced here."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "8c6b3c46f9fc874c55aa27764768693b419443970c102487adb8446fc2678c30",
+            "bytes": 232668,
+            "pages": 9
+          },
+          "boundary": {
+            "sha256": "b8a85562ada431804a4da6b9e6943096934ae812507e57a39fa103fce2892989",
+            "bytes": 232936,
+            "pages": 9
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "ad3c0f4c0c3e215c579c10514b27eb24e6e8c318745674623d713be10f23d444",
+            "bytes": 234812,
+            "pages": 9
+          },
+          "boundary": {
+            "sha256": "3563b6805f7db48c2f8e547ea549b51bdc2a21154075b0b436055ceb2d8cb5f8",
+            "bytes": 235081,
+            "pages": 9
+          }
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs va_seal_petition_misdemeanor-set",
+        "exitCode": 0,
+        "status": "COMPLETED, nine builder counters zero",
+        "runTwice": "Built twice from identical inputs. sha256 over every one of the 136 files in the four family directories is identical between the two builds: fixtures, primary-filing artifacts, field maps, reports, receipts, instructions and every raster page."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+      "countersNote": "PASS_COMPLETE before and after, exit 0 both times, read-only. Nine zeros is a statement about the counters and not a verdict: not one of the counters sees a fee statement, a stop condition, a route label or a page order.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set",
+          "before": "PASS_COMPLETE, nine counters zero",
+          "after": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0,
+          "runAfterTheRebuild": true
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0,
+          "runAfterTheRebuild": true,
+          "perFamilyRunDisclosed": "The same verifier with --family va_seal_petition_misdemeanor-set exits 2 BROKEN_DENOMINATOR, before this repair and after it alike: these four families emit no field-census.census-v1.json, so a family filter matches no census. That is a pre-existing property of the family and not a result of this repair, and it is reported rather than replaced with the corpus-wide exit 0."
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_misdemeanor-set",
+        "result": "10/13 passed, 3 failed, 4 not applicable, exit 1",
+        "theThreeFailuresAndWhyTheyDidNotStopTheBuild": [
+          "worktree_clean FAILED because it was run mid-repair, with the rebuilt family directories already on disk. It is a true statement about the moment it ran.",
+          "private_is_git_ignored FAILED because private/ here is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink; git check-ignore confirms the path is excluded in this environment and git status never showed it. Nothing under private/ is staged: every commit in this lane names its files.",
+          "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, a pre-existing property of this mounted corpus. It did not touch these families: family_sources_bind passed, 1/1 source binding by exact SHA-256."
+        ]
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster was run on the new bytes and none was requested. The RASTER_QUEUE receipt that covered the previous digests does not cover these; every fixture digest in this row is new.",
+        "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes, and this lane verified none of its own work as a verdict.",
+        "No verdict, no acceptance receipt, no queue entry, no route promotion and no commercial authority. The only ledger writes are this lane's own claim and release.",
+        "The route obligation census was not written. No route key was added, renamed or removed in it.",
+        "Nothing in another family directory, another lane's worktree, the Captain branch or main was touched."
+      ]
+    }
+  ]
+}

@@ -150,8 +150,42 @@ export const DICTIONARY_4_953 = {
   "p1-y15972-x9000": HAND_BOX(P2, "Petitioner has no pending expungement cases", "mark it if you have no other expungement case pending in this judicial district"),
   "p1-y15972-x35520": { section: P2, label: "Judicial district in which Petitioner has no pending expungement cases", ...WRITE("matter.court") },
   "p1-y14592-x9000": HAND_BOX(P2, "Petitioner has the following pending expungement cases", "mark it instead if you do have other expungement cases pending, and list their case numbers"),
-  "p1-y14592-x44556": { section: P2, label: "Judicial district in which Petitioner has pending expungement cases", ...WRITE("matter.court") },
-  "p1-y11832-x30888": { section: P2, label: "Judicial district court the pending expungement cases are before", ...WRITE("matter.court") },
+  /*
+   * THE PENDING-EXPUNGEMENT BRANCH IS NOT THIS PETITION'S BRANCH.
+   *
+   * Item 2 is one either/or with two printed boxes: the petitioner has NO
+   * expungement case pending in this district, or they have the ones they then
+   * list. The platform holds no pending-expungement fact of any kind, so the
+   * packet cannot say which box is true and leaves both to the participant.
+   *
+   * These two blanks belong to the second branch alone -- "pending expungement
+   * case or cases in the ____ Judicial District ... pending before the ____
+   * Judicial District Court" -- and the build used to write matter.court, the
+   * district THIS petition is filed in, into both of them. That asserted a
+   * district for cases the participant has never said exist, on a petition
+   * sworn under penalty of perjury, with neither box marked and the case-number
+   * lines below it blank. The district of a pending expungement case is a
+   * different fact from the district of this filing, and holding the second is
+   * not holding the first.
+   *
+   * The blank on the FIRST branch keeps its write: "Petitioner has no pending
+   * expungement cases in the ____ Judicial District" names this filing's own
+   * district and asserts nothing about any other case.
+   */
+  "p1-y14592-x44556": {
+    section: P2, label: "Judicial district in which Petitioner has pending expungement cases",
+    ...SUPPLY(
+      "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+      "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+    )
+  },
+  "p1-y11832-x30888": {
+    section: P2, label: "Judicial district court the pending expungement cases are before",
+    ...SUPPLY(
+      "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+      "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
+    )
+  },
   "p1-y10452-x12540": { section: P2, label: "Pending expungement case numbers, first line", ...SUPPLY("the case number of any other expungement case of yours pending in this judicial district") },
   "p1-y9072-x9000": { section: P2, label: "Pending expungement case numbers, second line", ...SUPPLY("a second pending expungement case number, if you have one") },
 

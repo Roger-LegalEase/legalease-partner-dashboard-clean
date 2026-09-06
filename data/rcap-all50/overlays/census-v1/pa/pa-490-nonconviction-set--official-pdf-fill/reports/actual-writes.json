@@ -1259,8 +1259,8 @@
       "documentId": "PA-RCRIM-P-490-ORDER",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
-      "sha256": "2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea",
-      "byteLength": 220816,
+      "sha256": "3d4cc7861b3aed7517d4f2a50adba4b4dbac95d9f644d682f58d07897d1e1a25",
+      "byteLength": 221744,
       "written": [
         {
           "field": "County",
@@ -1273,14 +1273,6 @@
         {
           "field": "PetitionerName",
           "factId": "participant.full_legal_name",
-          "kind": "text",
-          "fontSize": 11,
-          "outcome": "fit",
-          "lines": 1
-        },
-        {
-          "field": "PetitionersAddress",
-          "factId": "participant.street_address",
           "kind": "text",
           "fontSize": 11,
           "outcome": "fit",
@@ -1332,6 +1324,48 @@
           ]
         },
         {
+          "field": "PetitionersAddress",
+          "factId": "participant.address_one_line",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 213.674,
+                "y": 657.86,
+                "width": 320.41,
+                "height": 16.062
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
+        },
+        {
+          "field": "DateAndArrestingAgency",
+          "factId": "matter.citation_or_arrest_date_and_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 105.279,
+                "y": 371.844,
+                "width": 427.88,
+                "height": 27.979
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-2000805986"
+            }
+          ]
+        },
+        {
           "field": "SpecificCharges",
           "factId": "matter.charge",
           "kind": "exact_measured_fact_overlay",
@@ -1348,7 +1382,7 @@
               "fontSize": 9,
               "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
-              "xObject": "/ExactFactOverlay-9742682568"
+              "xObject": "/ExactFactOverlay-9750469207"
             }
           ]
         }
@@ -1426,11 +1460,6 @@
         },
         {
           "field": "NameAddrOfJudge",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DateAndArrestingAgency",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -1485,9 +1514,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea",
-        "artifactByteLength": 220816,
-        "appearanceCount": 32,
+        "artifactSha256": "3d4cc7861b3aed7517d4f2a50adba4b4dbac95d9f644d682f58d07897d1e1a25",
+        "artifactByteLength": 221744,
+        "appearanceCount": 34,
         "writtenProof": [
           {
             "field": "County",
@@ -1505,16 +1534,6 @@
             "expectedValue": "Jordan Avery Reyes",
             "drawnText": [
               "Jordan Avery Reyes"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "flattened artifact appearance streams at every measured widget"
-          },
-          {
-            "field": "PetitionersAddress",
-            "factId": "participant.street_address",
-            "expectedValue": "118 Maple Street",
-            "drawnText": [
-              "118 Maple Street"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -1561,6 +1580,27 @@
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           },
           {
+            "field": "PetitionersAddress",
+            "factId": "participant.address_one_line",
+            "expectedValue": "118 Maple Street, Apartment 4B, Harrisburg, PA 17101",
+            "drawnText": [
+              "118 Maple Street, Apartment 4B, Harrisburg, PA 17101"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
+            "field": "DateAndArrestingAgency",
+            "factId": "matter.citation_or_arrest_date_and_arresting_agency",
+            "expectedValue": "Date on citation or complaint 2019-03-08; date of arrest 2019-03-08; arresting agency Example Police Department",
+            "drawnText": [
+              "Date on citation or complaint 2019-03-08; date of arrest 2019-03-08; arresting agency Example Police",
+              "Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
             "field": "SpecificCharges",
             "factId": "matter.charge",
             "expectedValue": "Possession of a controlled substance",
@@ -1583,8 +1623,8 @@
       "documentId": "PA-RCRIM-P-490-ORDER",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-order-boundary.pdf",
-      "sha256": "cdc8723adc2887de47a2f9bd4b8296244cacc79a74410a3f7d253d2523beef01",
-      "byteLength": 220931,
+      "sha256": "aa5520a16b9dcf7258bfe9a97a58cf6b11300a05eb1be59fecd224eb7f86adee",
+      "byteLength": 221416,
       "written": [
         {
           "field": "PetitionerName",
@@ -1592,14 +1632,6 @@
           "kind": "text",
           "fontSize": 10,
           "outcome": "shrunk",
-          "lines": 1
-        },
-        {
-          "field": "PetitionersAddress",
-          "factId": "participant.street_address",
-          "kind": "text",
-          "fontSize": 11,
-          "outcome": "fit",
           "lines": 1
         },
         {
@@ -1640,6 +1672,27 @@
           ]
         },
         {
+          "field": "DateAndArrestingAgency",
+          "factId": "matter.citation_or_arrest_date_and_arresting_agency",
+          "kind": "exact_measured_fact_overlay",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 2,
+              "rect": {
+                "x": 105.279,
+                "y": 371.844,
+                "width": 427.88,
+                "height": 27.979
+              },
+              "fontSize": 9,
+              "outcome": "fit",
+              "renderedAs": "form_xobject_appearance",
+              "xObject": "/ExactFactOverlay-9742682568"
+            }
+          ]
+        },
+        {
           "field": "SpecificCharges",
           "factId": "matter.charge",
           "kind": "exact_measured_fact_overlay",
@@ -1656,7 +1709,7 @@
               "fontSize": 9,
               "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
-              "xObject": "/ExactFactOverlay-9742682568"
+              "xObject": "/ExactFactOverlay-2000805986"
             }
           ]
         }
@@ -1728,17 +1781,18 @@
           "category": "role"
         },
         {
+          "field": "PetitionersAddress",
+          "reason": "explicit_mapping_conflicts_with_field_name",
+          "category": "mapping_conflict",
+          "regionHeading": null
+        },
+        {
           "field": "PetitionersSSN",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
         {
           "field": "NameAddrOfJudge",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DateAndArrestingAgency",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -1792,6 +1846,13 @@
           "valueHeld": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
           "why": "the value does not fit this box at a size a court could read",
           "reason": "value_exceeds_widget_width_at_minimum_font"
+        },
+        {
+          "field": "PetitionersAddress",
+          "factId": "participant.address_one_line",
+          "valueHeld": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B, Unincorporated Township of Long Hollow Crossing near Harrisburg, PA 17101-9999",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font"
         }
       ],
       "selections": [],
@@ -1818,9 +1879,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "cdc8723adc2887de47a2f9bd4b8296244cacc79a74410a3f7d253d2523beef01",
-        "artifactByteLength": 220931,
-        "appearanceCount": 32,
+        "artifactSha256": "aa5520a16b9dcf7258bfe9a97a58cf6b11300a05eb1be59fecd224eb7f86adee",
+        "artifactByteLength": 221416,
+        "appearanceCount": 33,
         "writtenProof": [
           {
             "field": "PetitionerName",
@@ -1828,16 +1889,6 @@
             "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
             "drawnText": [
               "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "flattened artifact appearance streams at every measured widget"
-          },
-          {
-            "field": "PetitionersAddress",
-            "factId": "participant.street_address",
-            "expectedValue": "12345 Southwest Grandview Boulevard Northeast, Building 7",
-            "drawnText": [
-              "12345 Southwest Grandview Boulevard Northeast, Building 7"
             ],
             "exactValueObserved": true,
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
@@ -1874,6 +1925,17 @@
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           },
           {
+            "field": "DateAndArrestingAgency",
+            "factId": "matter.citation_or_arrest_date_and_arresting_agency",
+            "expectedValue": "Date on citation or complaint 2019-03-08; date of arrest 2019-03-08; arresting agency Example Police Department",
+            "drawnText": [
+              "Date on citation or complaint 2019-03-08; date of arrest 2019-03-08; arresting agency Example Police",
+              "Department"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          },
+          {
             "field": "SpecificCharges",
             "factId": "matter.charge",
             "expectedValue": "Possession of a controlled substance with an unusually long statutory description",
@@ -1882,6 +1944,176 @@
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
+          }
+        ],
+        "missingWrittenInk": [],
+        "wrongWrittenValues": [],
+        "protectedInk": [],
+        "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
+        "selectionProof": []
+      }
+    },
+    {
+      "documentId": "pa_490_nonconviction-certificate-of-service-3",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+      "sha256": "2fa87df1916ae4d9feb88a3fecb9a60d82d99ec7eadccf7cec7af9b55ddd4b17",
+      "byteLength": 2755,
+      "written": [
+        {
+          "field": "Printed name",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_static_text",
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "field": "Docket number",
+          "factId": "matter.case_number",
+          "kind": "composed_static_text",
+          "value": "24-CR-001234"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Office and address where the copy was served",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Service method accepted by the filing court",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Date service actually occurred",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Signature of petitioner after service",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date signed",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        }
+      ],
+      "heldButNotPrinted": [],
+      "selections": [],
+      "choiceNeutralization": {
+        "performedBeforeFlatten": false,
+        "fields": [],
+        "rule": "not applicable to a newly composed certificate with no interactive controls"
+      },
+      "proof": {
+        "artifactSha256": "2fa87df1916ae4d9feb88a3fecb9a60d82d99ec7eadccf7cec7af9b55ddd4b17",
+        "artifactByteLength": 2755,
+        "appearanceCount": 0,
+        "writtenProof": [
+          {
+            "field": "Printed name",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Jordan Avery Reyes",
+            "drawnText": [
+              "Jordan Avery Reyes"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          },
+          {
+            "field": "Docket number",
+            "factId": "matter.case_number",
+            "expectedValue": "24-CR-001234",
+            "drawnText": [
+              "24-CR-001234"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          }
+        ],
+        "missingWrittenInk": [],
+        "wrongWrittenValues": [],
+        "protectedInk": [],
+        "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
+        "selectionProof": []
+      }
+    },
+    {
+      "documentId": "pa_490_nonconviction-certificate-of-service-3",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+      "sha256": "cb9ce703674ca360c2bb6f95ff3f3f5b31de1260b752268f3b0c17a7200e80e2",
+      "byteLength": 2819,
+      "written": [
+        {
+          "field": "Printed name",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_static_text",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+        },
+        {
+          "field": "Docket number",
+          "factId": "matter.case_number",
+          "kind": "composed_static_text",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Office and address where the copy was served",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Service method accepted by the filing court",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Date service actually occurred",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Signature of petitioner after service",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date signed",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        }
+      ],
+      "heldButNotPrinted": [],
+      "selections": [],
+      "choiceNeutralization": {
+        "performedBeforeFlatten": false,
+        "fields": [],
+        "rule": "not applicable to a newly composed certificate with no interactive controls"
+      },
+      "proof": {
+        "artifactSha256": "cb9ce703674ca360c2bb6f95ff3f3f5b31de1260b752268f3b0c17a7200e80e2",
+        "artifactByteLength": 2819,
+        "appearanceCount": 0,
+        "writtenProof": [
+          {
+            "field": "Printed name",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "drawnText": [
+              "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          },
+          {
+            "field": "Docket number",
+            "factId": "matter.case_number",
+            "expectedValue": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+            "drawnText": [
+              "0123-45-2026-CR-900123.00-AB-CDE/2201"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
           }
         ],
         "missingWrittenInk": [],

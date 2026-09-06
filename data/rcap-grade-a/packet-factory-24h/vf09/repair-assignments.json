@@ -260,6 +260,72 @@
       ],
       "rerunRequired": "Regenerate all affected artifacts, rerun all nine counters, rehash every assembly and route PDF, obtain a fresh exact-hash central raster covering the whole family, and have a new independent verifier remeasure all fifteen obligations against the authoritative route records.",
       "scopeLimit": "Repair only the family and its builder under an authorized repair lane. Do not open a commercial route, set a price, alter checkout, promote build status, manually edit the claim ledger or touch Production."
+    },
+    {
+      "repairAssignmentId": "VF09-PA-790-NONCONVICTION-2026-09-05",
+      "itemId": "pa_790_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+      "raisedBy": "VF09 independent verification (built none of this packet, repaired none of it)",
+      "verifiedAtBase": "3a2f1cf3d",
+      "artifactDigestsRead": {
+        "rule-790-petition-canonical.pdf": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
+        "rule-790-petition-boundary.pdf": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
+        "rule-790-order-canonical.pdf": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
+        "rule-790-order-boundary.pdf": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15"
+      },
+      "decisiveDefect": "participant-instructions.md tells the participant that the fee, the waiver and the service duty are “not established in this repository” when the controlling record establishes all three, and the boundary fixtures silently drop eight platform-held facts including the petitioner's own name from the petition caption. Nine counters read zero throughout; not one of them reaches any of it.",
+      "failedProofObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Delivered, participant-instructions.md line 89: “The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.” Record, track registry rules.feeWaiver and manifest apply_fee_waiver, identical: “In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.” The repository holds that statewide motion, bound in this family's own source-receipt.json at b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca and resolved by content hash in the verifying container.",
+          "repair": "State the record's two sentences: that county filing fees vary and no confirmed statewide schedule exists, which is the reason for naming no figure; and that in forma pauperis relief is available through the statewide Court of Common Pleas motion this family already holds by exact hash. Do not tell a participant the availability of a waiver is unknown."
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The same delivered sentence denies service. Record: “Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790”, with a 60-day consent-or-objection window. The pinned petition page itself prints “When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.” The word Commonwealth occurs 0 times in participant-instructions.md.",
+          "repair": "Name the attorney for the Commonwealth as the person served, concurrently with filing, per Rule 790, and state the 60-day consent-or-objection window."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The packet-set manifest and the track registry both name four components. pa_790_nonconviction-certificate-of-service-3 (requirement required, conditionDescription null, outputStrategy custom_pleading, order 3) reaches no page, appears in no fixture, and is absent from reports/rendered-artifacts.json componentsNotGenerated, which declares only PA-IFP-CCP.",
+          "repair": "Render the certificate of service, or declare it in componentsNotGenerated with a stated reason as PA-IFP-CCP is. Silence is not a disposition. The MASTER_QUEUE row's packetComponents field carries the same gap and should be reconciled with the manifest."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The petition boundary fixture drops Full Name, Defendant, CountyOf, Addr1, AddrCity and AddrZip; the order boundary fixture drops County and Defendant. All eight are in finalizerRefused with the one reason value_exceeds_widget_width_at_minimum_font. Confirmed on the bytes: pdftotext of the boundary petition prints Full Name: and Address: with nothing after them and an empty caption, and the boundary Defendant appearance stream is /Tx BMC EMC with no text operator.",
+          "repair": "BLITZ03 repaired the identical defect on ca-851-91-set with a family-scoped minimum horizontal-scale policy (six-point text with a measured Tz scale, refusing below 85 per cent) rather than by accepting the drop; see data/rcap-grade-a/packet-factory-24h/blitz03-boundary-long-values/rows.json. Apply an equivalent measured treatment on this shared east-family host, or refuse the boundary persona explicitly rather than silently. A petition with no petitioner name identifies nobody."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Five synthesized squares. The builder does not pass suppressSynthesizedAppearances, so pdf-lib paints an appearance for each check-box widget whose /AS /Off has no /AP /N entry and flatten stamps it. Measured at 300 dpi: petition Checkbox2 in its two states adds 31 and 78 dark pixels; order Checkbox1, Checkbox2 and Checkbox3 add 68, 39 and 70. All 286 pixels per fixture pair are proved to be the packet's own by rendering the pinned forms with /Annots and /AcroForm removed, and all lie outside every declared write box. FIX50's cohort file records this family at widgetsWithNoAppearanceForCurrentState 6, optsIn false.",
+          "repair": "Opt this builder into the shared sanitizer's suppressSynthesizedAppearances option, which installs an empty appearance for the missing state instead of a stroked square, as FIX50 did for Vermont. Leave the two petition Check Box1 widgets alone: they ship their own /Off appearance and the doubling seen there is the form's own printed box, disclosed and not scored."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "177 of those pixels per order fixture sit at Checkbox1, Checkbox2 and Checkbox3 on order page 1 — the judge's three alternative relief paragraphs — on a document the packet tells the participant to submit blank. The ink is a box outline drawn to the widget /Rect at x[66.48,75.60] against the form's printed box at x[66.72,75.36]; it answers no election, which is recorded so the repair lane can weigh it.",
+          "repair": "Discharged by the same suppressSynthesizedAppearances opt-in."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The manifest declares ten required-before-filing items. participant-instructions.md contains 0 occurrences of State Police, 0 of 60 days and 0 of docket sheet, so the Pennsylvania State Police criminal history report obtained within 60 days before filing and the complete docket sheet are named nowhere, although the petition's own printed checkbox asks for the attachment.",
+          "repair": "Name both documents in participant-instructions.md, with the 60-day window and the Rule 790 attachment requirement, alongside the existing table of form-field blanks."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The guide has no filing-destination section. Record: “File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.” Delivered: “Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing”, and elsewhere “the clerk of the court where the charges were filed”, named as the body that answers questions and specified by where the charges were filed rather than disposed.",
+          "repair": "State the destination the record states, keyed to the judicial district in which the charges were disposed, and list the three things the record says are filed together."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Seven recorded selfHelpBoundaries, three carried. Absent from the guide, each checked case-insensitively against the file: unpaid fines, costs or restitution (0 hits for restitution), limited access already attached and the sealing-versus-expungement choice (0 for limited access), immigration exposure (0 for immigration), and federal, military, tribal or out-of-state records (0 for each of the four words).",
+          "repair": "Carry all seven recorded boundaries, in the registry's own terms."
+        }
+      ],
+      "whatIsSound": "Route identity, source identity, artifacts, page order, route options and repeating rows all pass, measured on these bytes. All three sources bind by exact SHA-256 resolved by content hash; zero source pixels are missing on any of the six delivered pages, so nothing is overpainted; every one of the 32 write placements lands inside its own /Rect, the two sub-pixel negatives being antialias fringe on the order DocketNumber; the four shrunk boundary writes remain legible at 8.203, 10, 7 and 7.5 points; and the placement sweep returns 211 of 214 with all three exceptions proved to be empty appearances carrying zero ink.",
+      "wave2Block": "The MASTER_QUEUE wave2LegalBlock names the decisive obligation “fee and waiver treatment”, class MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT, return commit 6777009977e7bbfad88b04fab48be952d53425f4, whose finding was that “the exact fee/waiver branch cannot be resolved from the controlling record”. On the record as it now stands that premise does not hold: the branch is resolved and its condition is the participant's own election. The obligation is therefore a packet defect rather than an open legal input, and this repair needs no counsel.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "grantsNothing": "A repair assignment is a verdict and a specification. It opens no commercial route, approves no output, and authorises no edit by this lane."
     }
   ],
   "fableVa9Append": {
@@ -304,6 +370,23 @@
       "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
     ],
     "noFailuresInThisLane": true,
+    "grantsNothing": "A repair assignment is a verdict and a specification. It opens no commercial route, approves no output, and authorises no edit by this lane."
+  },
+  "vf09NvMaPa790Read": {
+    "appendedBy": "VF09",
+    "appendedAtBase": "3a2f1cf3d",
+    "added": 1,
+    "familiesReadInThisLane": [
+      "nv_seal_probation_family-set",
+      "ma-bmc-multi-set",
+      "pa_790_nonconviction-set"
+    ],
+    "verdicts": {
+      "nv_seal_probation_family-set": "PASS_COMPLETE_INDEPENDENT",
+      "ma-bmc-multi-set": "BLOCKED_LEGAL_INPUT",
+      "pa_790_nonconviction-set": "FAIL_REPAIR_REQUIRED"
+    },
+    "aDefectUnderABlockedFamilyThatNeedsNoLegalInput": "ma-bmc-multi-set is BLOCKED_LEGAL_INPUT and therefore carries no repair assignment here, but its SOURCE_IDENTITY failed on these bytes and that repair needs no legal input: source-receipt.json codifiedGrounds names data/record-clearing/legal-design-intake/MA.memo.json and data/record-clearing/legal-design-packet-set-manifests.json with no sha256 and no byteLength, and scripts/build-census-v1-ma-bmc-multi-set.mjs computes neither. Adding exact SHA-256 and byteLength to both, as the FIX08 cluster commit did for Nevada, can be done today and should not wait on the issuing court.",
     "grantsNothing": "A repair assignment is a verdict and a specification. It opens no commercial route, approves no output, and authorises no edit by this lane."
   }
 }

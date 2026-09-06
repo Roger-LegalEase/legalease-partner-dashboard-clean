@@ -6,23 +6,23 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 136,
+  "completePacketProven": 147,
   "states": {
     "SOURCE_BLOCKED": 6,
     "SOURCE_READY": 82,
     "LEGAL_BLOCKED": 16,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
-    "BUILT_RASTER_PENDING": 1,
+    "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 14,
+    "VERIFY_PENDING": 15,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 54,
+    "FAIL_REPAIR_REQUIRED": 43,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 20,
-    "COMPLETE_PACKET_PROVEN": 136,
+    "COMPLETE_PACKET_PROVEN": 147,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 1,
     "GUIDANCE_READY": 9,
@@ -39,8 +39,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 38,
-    "lanesProvisionedEmpty": 18,
+    "lanesWithWorkAtDispatch": 40,
+    "lanesProvisionedEmpty": 16,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -141,12 +141,6 @@
       "nextAction": "await the counsel determination; do not research it here"
     },
     {
-      "family": "pa_790_nonconviction-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
-    },
-    {
       "family": "ri_deferred_sentence-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
@@ -166,6 +160,12 @@
     },
     {
       "family": "ri_multiple_misdemeanors-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "vt_seal_dui-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

@@ -80,6 +80,8 @@ const FAMILY_ID = "co_motion_seal_nonconviction-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "co_motion_seal_nonconviction";
 
 const ROUTE = Object.freeze({
   jurisdiction: "CO",
@@ -691,6 +693,36 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
+/*
+ * WHERE SELF-HELP ENDS, TAKEN FROM THE RECORD RATHER THAN WRITTEN HERE.
+ *
+ * The committed track registry is the authority for the points at which this
+ * route stops being a self-help route. The conditions are read at build time
+ * and printed verbatim, one item per declared condition, so the packet cannot
+ * drift from the record and cannot silently lose one: the build refuses if the
+ * registry carries no entry for this track or declares no stop condition.
+ *
+ * Nothing is added to the list. The registry states no waiting period and no
+ * categorical exclusion for this track; the instructions say that rather than
+ * leaving the reader to assume either way.
+ */
+function selfHelpStops() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  assert.ok(track, `the track registry carries no entry for ${TRACK_ID}`);
+  const conditions = (track.selfHelpStopConditions ?? []).map((c) => String(c).trim()).filter(Boolean);
+  assert.ok(conditions.length > 0,
+    `the track registry declares no selfHelpStopConditions for ${TRACK_ID}, and this packet may not state where self-help ends without them`);
+  const qualifiers = (track.postGenerationHandoffs ?? [])
+    .map((h) => String(h).trim()).filter((h) => h && !conditions.includes(h));
+  return {
+    conditions,
+    qualifiers,
+    waitingPeriods: (track.waitingPeriods ?? []).map((w) => (typeof w === "string" ? w : JSON.stringify(w))),
+    exclusions: (track.exclusions ?? []).map((e) => (typeof e === "string" ? e : JSON.stringify(e)))
+  };
+}
+
 function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
@@ -757,6 +789,42 @@ function participantInstructions(maps, rbf) {
   out.push("- **The Division and Courtroom boxes on both forms.** The form marks that box for court use.");
   out.push("- **Sections 4 and 5 of JDF 478** — the court's orders and the judge's or magistrate's signature and date.");
   out.push("");
+
+  const stops = selfHelpStops();
+  out.push("## Where self-help ends", "");
+  out.push(
+    "This packet prepares JDF 477 and JDF 478 for you to review, complete, sign and file yourself. The committed track "
+    + "registry records these as the points where self-help ends on this route, in its own words. If any of them "
+    + "describes your case, stop before you file and take it to a lawyer rather than filing:", ""
+  );
+  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("");
+  for (const qualifier of stops.qualifiers) {
+    out.push(
+      "The registry adds this note, in its own words, distinguishing a routine hearing from a contested one: "
+      + `“${qualifier}”`, ""
+    );
+  }
+  out.push(
+    stops.waitingPeriods.length > 0
+      ? `The registry states these waiting periods for this route: ${stops.waitingPeriods.join(" ")}`
+      : "The registry states no waiting period for this route, so none is stated here.", ""
+  );
+  out.push(
+    stops.exclusions.length > 0
+      ? `The registry states these exclusions for this route: ${stops.exclusions.join(" ")}`
+      : "The registry states no categorical exclusion for this route, so none is stated here. That is not a finding that "
+        + "your own records are eligible to be sealed. This packet does not decide that, and JDF 477 sets out the grounds "
+        + "and the conditions in its own words.", ""
+  );
+  out.push(
+    "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the Colorado "
+    + "court that handled your case — the same clerk you file with — answers procedural questions: filing, fees, copies "
+    + "and where things must be sent. Only a lawyer licensed to practise in Colorado may advise you on whether your "
+    + "records are eligible to be sealed, on what to argue, or at a contested hearing; if you cannot afford one, ask that "
+    + "same clerk's office how to reach legal aid or a lawyer referral service. This packet is not legal advice, and no "
+    + "lawyer has reviewed your case in preparing it.", ""
+  );
 
   out.push("## What this packet is not", "");
   out.push(

@@ -9,7 +9,7 @@ This packet is four New Hampshire Judicial Branch forms:
 
 All four are prepared for one route — **Petition to annul the record of a matter that did not end in a conviction, resolved before 1 January 2019** — under RSA 651:5; New Hampshire Judicial Branch forms NHJB-2317-DSe, NHJB-2311, NHJB-2328 and NHJB-2956.
 
-The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail and the case number. Everything else is yours, and every one of those blanks is listed below by the form and the section it is in.
+The platform filled in what it holds about you and your case: your name, your date of birth, your street address, your city or town, your state, your ZIP code, your phone, your e-mail and the case number. On NHJB-2956, the State Police release, it also filled the LAST, FIRST and MI boxes from the parts of your name and wrote your address on that form's single STREET/CITY/STATE/ZIP CODE line. Everything else is yours, and every one of those blanks is listed below by the form and the section it is in.
 
 ## One offence, one petition
 
@@ -42,13 +42,12 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.
 6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.
 7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries "Enter /s/ before name" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: "If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.
-8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.
+8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.
 
 ## NHJB-2317 — Petition to Annul Record: Offenses Resolved Prior to 01/01/2019: the items you must supply
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Applicant's Information | City or Town | the city or town you live in. This box prints City/Town but New Hampshire named it "Mailing Address.2", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json |
 | Charge Information | RSA or statute violated | the RSA (statute) number the charge was brought under, from the court record |
 | Charge Information | Charge Date | the date of the charge, from the court record |
 | Charge Information | Date of conviction or other disposition | the date of the conviction, or of the other disposition if there was no conviction, from the court record |
@@ -140,15 +139,11 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Section I — Who You Are | Last name | your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself |
 | Section I — Who You Are | Maiden name or alias | any maiden name or alias your record might be under |
-| Section I — Who You Are | First name | your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line |
-| Section I — Who You Are | Middle name box, which the form heads MI | your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line |
 | Section I — Who You Are | Sex, as the State Police record holds it | the sex the State Police record holds for you; the form offers Female and Male |
 | Section I — Who You Are | Eye colour | your eye colour, from the list the form offers |
 | Section I — Who You Are | Hair colour | your hair colour, from the list the form offers |
 | Section I — Who You Are | The state that issued the driver licence | the state that issued your driver licence |
-| Section I — Who You Are | Your address — street, city, state and zip on one line | your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address |
 | Section I — Who You Are | Driver licence number | your driver licence number |
 
 ## The choices that are yours

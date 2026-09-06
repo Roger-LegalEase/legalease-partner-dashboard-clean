@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "DEL-A",
+  "recordedOn": "2026-09-06",
+  "assignment": "Close B-PACKET-RENDERER by exposing a reusable participant-rendering entry point that reuses the approved Illinois family composition.",
+  "branch": "del-a-il-participant-renderer",
+  "base": "274a00cf4 (claude/legalease-sprint-captain-utucnw)",
+  "worktree": "/home/user/dela-worktree",
+  "status": "ENTRY_POINT_DELIVERED_NOT_CONNECTED",
+
+  "reproduction": {
+    "command": "node scripts/test-rcap-il-personalization.mjs",
+    "exitCodeBeforeChange": 1,
+    "workerFailureBeforeChange": "Worker failure: render_failed Pleading document primary_filing has no pleading caption.",
+    "assertionBeforeChange": "cycle.outcome 'failed' != 'finalized'"
+  },
+
+  "diagnosis": {
+    "summary": "The worker adapter is not calling the wrong existing composition path, and the composer is not missing a caption rule. The approved Illinois documents were never composed through composeGradeAPacket at all, so before this change there was no function anywhere that could produce them for one participant.",
+    "specificationToComposerToRenderer": [
+      "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json declares both documents presentation=pleading, outputStrategy=custom_pleading, but its sections are the generic kinds caption / static / static / signature_block (primary_filing) and caption / static / court_signature_block (proposed_order).",
+      "composer.ts composeSection emits a pleading_caption block only for section.kind === 'pleading_caption' (composer.ts:304). For kind 'caption' it emits heading + labelled + rule; for 'static' heading + paragraph; for 'signature_block' heading + signature. So composeGradeAPacket returns a pleading-presentation document made of guidance blocks.",
+      "renderer.ts drawPleadingDocument requires a pleading_caption block in a pleading document and throws 'Pleading document primary_filing has no pleading caption.' (renderer.ts:138-140). The guard is correct: a pleading without a caption is not a pleading.",
+      "The family builder scripts/build-census-v1-il-prostitution-j-vacate-set.mjs never used the Grade-A composer. Its own composedBody() built the approved page text as plain lines and renderComposedPdf() drew them with its own pdf-lib text renderer; runFamily() assembled those pages into the committed fixtures. There was no exported pure composition, and no Grade-A block structure existed for this family anywhere.",
+      "Consequence, and the reason the caption is not the whole defect: the specification's static sections DESCRIBE the motion ('The movant asks under 20 ILCS 2630/5.2(j)(3) to vacate and expunge the prior Class 4 felony prostitution conviction identified from the court record...') rather than reproducing it. Teaching composer.ts to emit a pleading_caption for this specification would have made the renderer succeed while handing a participant descriptive prose that is not the approved motion text — a green render over unapproved content."
+    ],
+    "conclusion": "A participant-rendering entry point was genuinely missing, and the missing piece is family composition, not a caption flag."
+  },
+
+  "decision": {
+    "chosen": "Preferred option: a pure participant-rendering entry point built on the family's own approved composition, extracted into one module that the fixture builder itself now uses.",
+    "rejected": [
+      {
+        "option": "Make composer.ts emit pleading_caption generically, opt-in by specification field.",
+        "why": "It would fix the throw and not the packet. The IL specification's sections summarise the documents; composing from them yields body text no legal review approved. The caption was the symptom."
+      },
+      {
+        "option": "Return the fixed canonical fixture PDF.",
+        "why": "Explicitly forbidden, and it is not personalization: every participant would receive Jordan Avery Reyes's copy."
+      },
+      {
+        "option": "Weaken or bypass the renderer caption guard.",
+        "why": "Explicitly forbidden. The guard is the only thing standing between a participant and a pleading with no caption."
+      }
+    ],
+    "contentFidelityDecision": {
+      "written": ["participant_full_legal_name", "mailing_address", "phone_number", "email_address"],
+      "leftBlank": ["conviction_county", "case_number", "conviction_date", "conviction_as_worded", "sentence_completion_date", "adverse_consequences"],
+      "why": "The family's production-field-map records those six as REQUIRED_BEFORE_FILING refusals ('a case fact on a record the platform has not seen'), and the specification's own gapNotes say the approved documents leave them as blanks copied from the court record. The entry point therefore writes exactly the four facts the approved family writes and preserves every approved dotted blank, even where the verified snapshot happens to carry a value. Writing a verified county or case number into the caption would be a new write against an approved refusal — a packet-content decision that belongs to the Captain, not to this lane.",
+      "captionEffect": "The caption carries the participant's own case-caption facts to the extent the approved family writes them: the defendant/movant is this participant, by name, with the approved DEFENDANT-MOVANT designation; the county and case-number slots stay the approved blanks."
+    },
+    "layoutAdaptationsDisclosed": [
+      "The Grade-A pleading renderer is not the family's fixture renderer, so the participant PDF is a different rendering of the same sentences; byte equality with the approved fixtures is not claimed and is not possible.",
+      "The caption's case-number slot uses a 20-dot blank instead of the fixture line's 44-dot blank, because the shared renderer repeats that slot in every continuation header, where a 44-dot blank plus the parenthetical overran the document title. The approved explanation ('Case No. (the EXISTING criminal case number)') is printed in the caption note directly under the caption. The fixture text is unchanged and still uses the 44-dot line.",
+      "The fixture-only trailer line 'Route: obligation:track-pathway:IL:...' is build evidence, not filing text, and is not printed on the participant copy; the Grade-A renderer stamps its own provenance page."
+    ]
+  },
+
+  "entryPointContract": {
+    "forLane": "Codex (B-PACKET-RENDERER consumer)",
+    "call": "composeParticipantDeliveryPacket(specification, matter)",
+    "modulePath": "src/lib/rcap/grade-a/participant-packet.ts",
+    "importSpecifier": "@/lib/rcap/grade-a/participant-packet",
+    "signature": "(specification: PacketSpecification, matter: GradeAMatter) => GradeAPacket",
+    "signatureCompatibleWith": "composeGradeAPacket from @/lib/rcap/grade-a/composer — same two positional arguments, same return type",
+    "howToConnect": "In src/lib/rcap/render/personalized-packet.ts, replace the composeGradeAPacket import and its single call site (line 49 today) with composeParticipantDeliveryPacket. Nothing else changes: renderGradeAPacketPdf(prepared.packet) renders the returned packet unchanged, and preparePersonalizedPacket already builds the matter this function needs.",
+    "inputShape": {
+      "specification": "PacketSpecification as returned by composablePacketSpecificationFor('IL:felony-prostitution-relief'); must carry packetFamily 'il-prostitution-j-vacate-set' and the two required documents primary_filing then proposed_order",
+      "matter": {
+        "routeKey": "string, must equal specification.routeKey ('IL:felony-prostitution-relief')",
+        "jurisdiction": "string ('IL')",
+        "pathwayId": "string ('felony-prostitution-relief')",
+        "facts": "Readonly<Record<string,string>> — every specification.requiredFacts factId must be present and non-blank; the four written are participant_full_legal_name, mailing_address, phone_number, email_address",
+        "verificationHash": "string, non-empty; carried through to the packet",
+        "verifiedAt": "ISO string; carried through to the packet"
+      }
+    },
+    "outputShape": {
+      "type": "GradeAPacket (src/lib/rcap/grade-a/composer.ts)",
+      "routeKey": "specification.routeKey",
+      "specificationId": "specification.specificationId",
+      "specificationVersion": "specification.specificationVersion",
+      "packetFamily": "il-prostitution-j-vacate-set",
+      "packetFamilyLabel": "specification.packetFamilyLabel",
+      "verificationHash": "matter.verificationHash",
+      "verifiedAt": "matter.verifiedAt",
+      "documents": [
+        {
+          "documentId": "primary_filing",
+          "presentation": "pleading",
+          "outputStrategy": "custom_pleading",
+          "blocks": "pleading_caption (court, plaintiff, defendant, defendantRole 'DEFENDANT-MOVANT', caseNumber blank, title), pleading_paragraph caption note, numbered pleading_paragraph 1-4 with their labelled dotted blanks, pleading_signature (approved signing note, participant name, SIGNATURE OF MOVANT, contact lines and date blank)"
+        },
+        {
+          "documentId": "proposed_order",
+          "presentation": "pleading",
+          "outputStrategy": "custom_pleading",
+          "blocks": "pleading_caption, pleading_paragraph caption note, tendered-order paragraphs, the conviction-as-worded blanks, official_signature (ENTERED line, JUDGE, court-owned-fields note)"
+        }
+      ]
+    },
+    "refusals": [
+      "another family's specification",
+      "another route's matter",
+      "an unbound matter (blank verificationHash)",
+      "any specification.requiredFacts factId missing or blank (throws GradeAPacketCompositionError naming them)",
+      "a document set that is not exactly [primary_filing, proposed_order] in that order, or a document not declared pleading/custom_pleading",
+      "a composed document that somehow carries no pleading caption"
+    ],
+    "alsoExported": {
+      "composeIlProstitutionJVacateParticipantPacket": "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts — the family composer itself, same signature, if a caller wants the family directly",
+      "hasParticipantFamilyComposer": "src/lib/rcap/grade-a/participant-packet.ts — whether a packetFamily has a registered participant composer",
+      "IL_PROSTITUTION_J_VACATE_ROUTE_KEY": "'IL:felony-prostitution-relief'"
+    },
+    "unregisteredFamilies": "composeParticipantDeliveryPacket falls through to composeGradeAPacket unchanged, so every other family behaves exactly as it does today, including its refusals."
+  },
+
+  "filesChanged": [
+    {
+      "path": "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+      "change": "new",
+      "what": "The family's approved sentences in one place, with two readers: composedBody()/composedBodyLines() for the fixture builder's own renderer, and composedCourtDocumentBlocks() for the Grade-A pleading renderer. Both read the same constants."
+    },
+    {
+      "path": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+      "change": "modified",
+      "what": "Its local composedBody, COMPOSED_TITLES and COMPONENTS now come from the shared module; runFamily calls composedBody(componentId, participantFromCensusFacts(facts), ROUTE.routeKeys). No text, no fixture, no report content changed."
+    },
+    {
+      "path": "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+      "change": "new",
+      "what": "The participant entry point: validates specification, route, verification binding, facts and document set, then returns the composed court-document blocks as a GradeAPacket."
+    },
+    {
+      "path": "src/lib/rcap/grade-a/participant-packet.ts",
+      "change": "new",
+      "what": "composeParticipantDeliveryPacket: one call site for callers, a family registry with one entry, composeGradeAPacket for everything else."
+    },
+    {
+      "path": "src/lib/rcap/grade-a/composer.ts",
+      "change": "modified (type only)",
+      "what": "pleading_caption gains an optional defendantRole. No composer behaviour changed; no existing caller sets it."
+    },
+    {
+      "path": "src/lib/rcap/grade-a/renderer.ts",
+      "change": "modified (one line)",
+      "what": "The caption's defendant designation reads block.defendantRole ?? 'DEFENDANT/PETITIONER', so the Illinois caption can print its approved DEFENDANT-MOVANT. The pleading-caption guard is untouched; the default is unchanged and byte-proved below."
+    },
+    {
+      "path": "scripts/test-rcap-il-participant-renderer.mjs",
+      "change": "new",
+      "what": "The isolated test of the entry point, two synthetic participants, no database, no authority, no real data."
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/DEL-A-RETURN.json",
+      "change": "new",
+      "what": "This return."
+    }
+  ],
+  "reservedPathsNotTouched": [
+    "src/lib/rcap/render/personalized-packet.ts",
+    "src/lib/rcap/render/*",
+    "scripts/rcap-render-worker.mjs",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "scripts/test-rcap-il-personalization.mjs"
+  ],
+
+  "tests": [
+    {
+      "command": "node scripts/test-rcap-il-participant-renderer.mjs",
+      "exitCode": 0,
+      "checks": 14,
+      "proves": "Two synthetic participants compose and RENDER: real %PDF bytes, 5 pages each. Distinct facts produce distinct bytes and distinct text with neither participant's facts in the other's document. Identical inputs are byte-deterministic. Each pleading carries exactly one pleading_caption whose defendant is that participant. The approved sentences are readable in the rendered bytes; the six approved blanks stay blank. Every refusal fires. A caption naming no defendantRole still prints DEFENDANT/PETITIONER.",
+      "syntheticParticipants": [
+        { "label": "A", "name": "Wren Isabel Castellanos", "renderedSha256": "e234c56595c5128d29b4d865c1f65b8b9604da8d8ec49931343b9557b7769b90", "byteLength": 11202, "pages": 5 },
+        { "label": "B", "name": "Osvaldo Reinholt-Byrne", "renderedSha256": "98b2c30a0494ed5dd78c08933b620d32a84d76e2c04fc5c7b4a899d7cd885282", "byteLength": 11246, "pages": 5 }
+      ],
+      "realDataUsed": false
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs",
+      "exitCode": 1,
+      "expected": true,
+      "result": "Still fails at the Codex adapter with the same 'Worker failure: render_failed Pleading document primary_filing has no pleading caption.' — personalized-packet.ts still calls composeGradeAPacket and is Codex's file. Calling this lane's entry point directly does render a PDF (previous row).",
+      "unchangedByThisLane": true
+    },
+    { "command": "npx tsc --noEmit -p tsconfig.json", "exitCode": 0 },
+    { "command": "npx eslint <the seven changed files>", "exitCode": 0 },
+    { "command": "node scripts/build-census-v1-il-prostitution-j-vacate-set.mjs --no-raster (run twice)", "exitCode": 0, "result": "byte-identical fixtures both runs, equal to the committed bytes" },
+    { "command": "node scripts/verify-rcap-il-consumer-authority.mjs", "exitCode": 0, "result": "committed registry REVOKED, allowed=false" },
+    { "command": "node scripts/verify-rcap-il-delivery-binding.mjs", "exitCode": 0, "result": "Illinois committed registry: REVOKED; admitted=false" },
+    { "command": "node scripts/verify-ms-99-15-59-packet-correction.mjs", "exitCode": 0, "result": "output identical to the pre-change baseline" },
+    { "command": "node scripts/verify-ms-clinic-filing-revision.mjs", "exitCode": 0, "result": "output identical to the pre-change baseline" },
+    { "command": "node scripts/verify-ms-clinic-mode-demo.mjs", "exitCode": 0, "result": "output identical to the pre-change baseline" },
+    { "command": "node scripts/generate-ms-clinic-demo-packet.mjs --check", "exitCode": 0 },
+    {
+      "command": "node scripts/verify-grade-a-first-packet.mjs",
+      "exitCode": 1,
+      "expected": true,
+      "result": "Fails identically before and after this change (8 problems, all authority-related, pre-existing on this base). Its rendered ND artifact sha256 97d288c01daa880c9f7ed329ac4e5b27d4465bb0cb3751f2816b5cdaf7cda964 is unchanged, which is the byte proof that the renderer edit changed no other family's output."
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family il-prostitution-j-vacate-set",
+      "exitCode": 1,
+      "result": "11/13 passed. private_is_git_ignored fails because private/ is mounted as a symlink in this worktree (git check-ignore still ignores it, and nothing under it is staged); corpus_matches_committed_index reports 1 absent of 24 sampled. Neither touches this family: family_sources_bind passes and records it as a zero-source composition."
+    }
+  ],
+
+  "otherFamilyOutputUnchanged": {
+    "method": "Every script in this tree that renders through the shared Grade-A renderer was run before and after and its output diffed.",
+    "ndFirstPacketArtifactSha256": { "before": "97d288c01daa880c9f7ed329ac4e5b27d4465bb0cb3751f2816b5cdaf7cda964", "after": "97d288c01daa880c9f7ed329ac4e5b27d4465bb0cb3751f2816b5cdaf7cda964" },
+    "msVerifiers": "verify-ms-99-15-59-packet-correction, verify-ms-clinic-filing-revision, verify-ms-clinic-mode-demo — byte-identical logs before and after",
+    "reason": "No existing caption sets defendantRole, and (undefined ?? 'DEFENDANT/PETITIONER').toUpperCase() is the previous literal."
+  },
+
+  "fixtureDigests": {
+    "family": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading",
+    "before": {
+      "fixtures/canonical.pdf": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "fixtures/boundary.pdf": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
+    },
+    "afterFirstRebuild": {
+      "fixtures/canonical.pdf": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "fixtures/boundary.pdf": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
+    },
+    "afterSecondRebuild": {
+      "fixtures/canonical.pdf": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "fixtures/boundary.pdf": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e"
+    },
+    "changed": false,
+    "gitStatusOfFamilyDirectoryAfterRebuilds": "clean"
+  },
+
+  "observationsForCaptain": [
+    {
+      "id": "OBS-IL-APPROVED-ARTIFACT-DRIFT",
+      "finding": "IL-felony-prostitution-relief.v1.json approvedArtifacts records canonical sha256 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d (7802 bytes) and boundary 714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b (7980 bytes), but the committed fixtures are d4cb7659... (7895 bytes) and ea728bba... (8073 bytes), rebuilt at commit 42defabe4 'Integrate FIX02'.",
+      "consequence": "The owner adoption OWN-ADOPT-2026-09-02-BATCH-53 names hashes the family no longer produces. This lane composed from the CURRENT committed family text and changed neither. Reconciling the adoption record is packet-content authority and is not this lane's to touch.",
+      "actionTakenHere": "none"
+    },
+    {
+      "id": "OBS-IL-SPEC-SECTIONS-DESCRIPTIVE",
+      "finding": "The registered IL specification's static sections describe the approved documents rather than reproducing them, so composeGradeAPacket cannot produce this family's participant copy even with a caption.",
+      "consequence": "The family composer is the load-bearing path for this route until the specification carries the document text itself. Any future 'just fix the composer' attempt would ship unapproved prose.",
+      "actionTakenHere": "documented in the entry point's own header"
+    }
+  ],
+
+  "whatWasNotDone": {
+    "codexConnection": "NOT DONE. personalized-packet.ts, src/lib/rcap/render/*, scripts/rcap-render-worker.mjs and packet-generation.ts are Codex's reserved paths and were not edited. B-PACKET-RENDERER stays open until Codex swaps the call.",
+    "approval": "No approval ledger, fulfillment record, adoption record or legal decision was written or touched.",
+    "route": "No route opened. The Illinois registry stays REVOKED and the delivery binding stays denied; both verifiers were run and still say so.",
+    "testPins": "No test pin, expected hash or fixture digest was changed.",
+    "packetContent": "No approved sentence was added, removed or reworded, and no approved REQUIRED_BEFORE_FILING blank was filled.",
+    "rendererGuard": "The pleading-caption guard in renderer.ts is unchanged; nothing was downgraded from pleading to guidance; no second renderer architecture exists; the fixed canonical PDF is not returned by anything.",
+    "production": "No Production, Supabase, Stripe, credential, migration or environment change. No subagents. No force-push. No push to main or to the Captain branch.",
+    "hostedOrRealData": "Nothing was run against a hosted stack, and no real participant data was used anywhere; both test participants are synthetic."
+  }
+}

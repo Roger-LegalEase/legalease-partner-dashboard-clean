@@ -10,9 +10,10 @@ The platform filled in what it holds about you: your name (in the caption and pr
 
 File the completed packet with the **Circuit Court of the county or city in which the charge was disposed of** — the petition's own checklist on page 2 says so. Write that court's **city or county** and **street address** into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed **COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416**.
 
-Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:
+**The filing fee, and whether it can be waived.** No court fees or costs are payable for filing this petition: Va. Code § 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.
+One thing this packet does **not** tell you, because it is not established by the petition:
+
 - **How long you have, and exactly how the copy must be served.** The petition sets no filing deadline, and its checklist says a copy must be *served* on the Commonwealth's Attorney without saying how. Ask the same clerk.
 
 ## What is in this packet
@@ -28,11 +29,17 @@ Two things this packet does **not** tell you, because neither is established by 
 ## What you must do
 
 1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.
-2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 4 boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed.
+2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the 4 boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. **Before you tick either Part 1 box, read *The Dotson screen* immediately below this list: it is a hard gate on that election.**
 3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature, so those lines are deliberately blank. Leave the clerk's certification block at the foot of page 1 completely alone — it is the clerk's.
 4. **File the petition with the circuit court clerk.**
 5. **Ask the Central Criminal Records Exchange to forward your record to that court**, using the page in this packet headed for that purpose. The petition's checklist words the request around the court where the petition *was* filed, so it comes after filing.
 6. **Have a copy of the petition served on the Attorney for the Commonwealth** for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.
+
+### The Dotson screen — a hard gate on the Part 1 basis election
+
+Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. **"Otherwise dismissed" is read narrowly.** The committed track registry states the gate in these words: “The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.” It states the same population again among this route's exclusions: “A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a § 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead.”
+
+So if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt, or under a deferred or first-offender disposition, **do not tick that box and do not file this petition** — this is the wrong packet for that record, and that population routes to sealing rather than expungement. If you are not sure which your own disposition was, the wording of the court record decides it, and *Where self-help ends* below says who can read it with you.
 
 ## The items you must supply
 
@@ -90,6 +97,8 @@ This packet is built for one statutory route — Va. Code § 19.2-392.2(A) — a
 
 Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, or the charge was nolle prossed or otherwise dismissed, is a fact about your own record, so both Part 1 boxes are left for you to read and tick — exactly one of them.
 
+It is left for you, but it is not unconstrained: *The Dotson screen* above is a hard gate on the *otherwise dismissed* box, and it is the one election in this packet where ticking a box that looks right can be the wrong thing to do.
+
 Check each marked box against your own situation before you file. If any of them is wrong for you — for example, a lawyer is filing this for you — this is the wrong packet and you should not file it.
 
 ## The choices that are yours
@@ -113,6 +122,18 @@ Check each marked box against your own situation before you file. If any of them
 - **The city or county of the circuit court, and its street address.** The shared field semantics cannot write the court's venue into a field the form names `City`, so you copy it from the clerk's confirmation — the reason is recorded in this family's build findings.
 - **Your full name at the time of arrest.** The arrest record's wording controls, and only you can check it.
 - **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.
+
+## Where self-help ends
+
+This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. The committed track registry — `data/record-clearing/legal-design-track-registry.json`, track `va_exp_nonconviction`, field `selfHelpStopConditions` — records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:
+
+- The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.
+- The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.
+- The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.
+- Any immigration question.
+- Juvenile or federal records.
+
+**Who to ask when you reach one of them.** The clerk of the circuit court where you file answers procedural questions — what to file, how the copy must be served, and what that court requires — and this packet already sends you to that clerk for those. The clerk cannot tell you whether your own charge is eligible, and is not permitted to. Whether the Dotson screen catches your dismissal, whether the presumption is available to you, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question, are legal questions: only a lawyer licensed to practise in Virginia can answer them, and if you cannot afford one, ask that same clerk's office how to reach a legal-aid office. No lawyer has reviewed your case in preparing this packet.
 
 ## What this packet is not
 

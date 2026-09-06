@@ -286,6 +286,34 @@ function assertFix13Repair() {
   for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served", "## Where self-help ends"]) {
     assert.ok(instructions.includes(heading), `${heading}: instruction section is absent`);
   }
+
+  /*
+   * FIX76, COMPONENT_SET: the other half of the shared host's component table.
+   *
+   * The host records, for every component the packet-set manifest declares,
+   * either the delivered pages that carry it or the heading of the guide
+   * section that does. Four of this family's guidance sections are written by
+   * THIS script, after the host has finished, so the host cannot check them and
+   * records them as delivered by this entrypoint instead. This is where that
+   * claim is checked, against the file as the participant finally receives it.
+   * A component recorded as delivered in a section that does not exist is a
+   * report that describes a packet nobody built.
+   */
+  const rendered = readJson(`${out}/reports/rendered-artifacts.json`);
+  const delivery = rendered.manifestComponentDelivery;
+  assert.ok(delivery, "the manifest component-delivery table is absent from rendered-artifacts.json");
+  assert.equal(delivery.packetSetId, familyId);
+  assert.equal(delivery.declaredComponents, delivery.components.length);
+  for (const component of delivery.components) {
+    if (component.disposition === "not_generated") {
+      assert.ok(component.why, `${component.componentId}: recorded as not generated with no reason`);
+      continue;
+    }
+    assert.ok(component.deliveredIn, `${component.componentId}: recorded as rendered with no delivery`);
+    if (!component.participantInstructionsHeading) continue;
+    assert.ok(instructions.includes(`\n${component.participantInstructionsHeading}\n`),
+      `${component.componentId}: the guide does not carry "${component.participantInstructionsHeading}"`);
+  }
   for (const condition of [...selfHelpBoundaries, ...selfHelpStopConditions]) {
     assert.ok(instructions.includes(condition), `held self-help stop is absent: ${condition}`);
   }

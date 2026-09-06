@@ -91,6 +91,22 @@ Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Ki
 - **The Division and Courtroom boxes on both forms.** The form marks that box for court use.
 - **Sections 4 and 5 of JDF 478** — the court's orders and the judge's or magistrate's signature and date.
 
+## Where self-help ends
+
+This packet prepares JDF 477 and JDF 478 for you to review, complete, sign and file yourself. The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop before you file and take it to a lawyer rather than filing:
+
+- The district attorney objects.
+- The court sets a contested hearing.
+- Immigration, licensing or firearm consequences are in play.
+
+The registry adds this note, in its own words, distinguishing a routine hearing from a contested one: “A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.”
+
+The registry states no waiting period for this route, so none is stated here.
+
+The registry states no categorical exclusion for this route, so none is stated here. That is not a finding that your own records are eligible to be sealed. This packet does not decide that, and JDF 477 sets out the grounds and the conditions in its own words.
+
+When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the Colorado court that handled your case — the same clerk you file with — answers procedural questions: filing, fees, copies and where things must be sent. Only a lawyer licensed to practise in Colorado may advise you on whether your records are eligible to be sealed, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach legal aid or a lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.
+
 ## What this packet is not
 
 This is a prepared set of official Colorado Judicial Department forms. It is not legal advice, it is not filed for you, and it does not decide whether your records are eligible to be sealed. JDF 477 sets out the grounds and the conditions in its own words — including the affirmations in section 7 about protective orders, underage alcohol, marijuana and paraphernalia offences, and charges dismissed under C.R.S. § 18-1.3-101. Read them before you swear to them.

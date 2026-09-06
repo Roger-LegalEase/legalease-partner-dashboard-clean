@@ -31,11 +31,15 @@ Two things are worth saying plainly rather than hiding. That sentence records wh
 
 ## Who must receive a copy, and how
 
-**The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, "Mail or email the prosecutor copies of what you file." This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.
+**You do not serve the prosecutor. The court does.** The committed track registry records the rule for this track in terms: "The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney." Its notice rule says it again — "The court sends a copy of the filing to the prosecuting attorney" — and so does the destination it records for this route: "The court sends the filing to the prosecuting attorney; the petitioner does not serve." File your packet with the court and stop there.
+
+**The proof-of-service route is the exception, not the step.** The registry records that "The Proof of Service form appears in the published packet only as an optional form, used where the prosecutor’s office will not accept service." This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for a prosecutor who chooses to acknowledge receipt. It is not a step this route requires you to perform, and the packet leaves it blank.
+
+**One line on the enclosed BCI sheet does not govern this route.** The *Expungement Applicant Instructions* included in this packet say, after filing with the court, "Mail or email the prosecutor copies of what you file." For this track the registry's rule above is the one that governs, and the registry warns in terms that the Utah Courts general service-of-process page "governs first papers in a new civil case and must not be wired to this track; doing so would import a summons, a process server and a 120-day deadline this track does not have." Read that BCI line as history, not as a step you owe. If you want it confirmed for your own case, the Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**.
 
 The prosecutor or a victim in your case may object, and the court may schedule a hearing. **The committed track registry records both of those as the point where this packet's self-help ends** — get a lawyer or a legal-aid office rather than arguing it yourself. A hearing date does not wait while you look, so start looking the day you learn of one. The Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**, and it is not a substitute for a lawyer at a contested hearing.
 
-Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.
+The certificate-of-service blocks on these forms are left blank, and in the ordinary case they stay blank: the court sends the filing to the prosecuting attorney and you do not effect service. Only if the prosecutor’s office will not accept service and you make some delivery yourself do its method, address and date go in — and only after it has actually happened, because a certificate of service dated before service is a false statement.
 
 ## The facts you must supply before filing
 
@@ -50,7 +54,7 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - Government-issued identification and fingerprints for the BCI application
 - Signing city/country, participant signatures, and signing dates
 - Any optional recipient, victim, prosecutor, reply, or third-party-release content only if that component becomes applicable
-- Service method, address, date, and certification only after service occurs
+- Service method, address, date, and certification only if the prosecutor’s office will not accept service and you make some delivery yourself, and only after it happens; in the ordinary case the court sends the filing to the prosecuting attorney and the petitioner does not serve
 
 **You must also have these in hand before you file. They are not blanks on the forms, and the packet cannot fill them for you.**
 
@@ -91,5 +95,5 @@ Every direction above is quoted from a publication held in this repository and r
 - **1044XX** — District Court Cover Sheet for Civil Actions (Utah State Courts); SHA-256 `b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52` (filingDestination, feeAndWaiver)
 - **1305GE** — Motion to Waive Fees for Expungement - Criminal (Utah State Courts); SHA-256 `c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597` (feeAndWaiver)
 - **1146XX** — Acceptance of Service - Expungement (Prosecutor) (Utah State Courts); SHA-256 `39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad` (service)
-- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d` (feeAndWaiver)
+- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `8d5cf4015c48ae25b9e0161ea929be95b7df2c58ef4ff0a3975e94770eff9965` (feeAndWaiver)
 

@@ -428,8 +428,33 @@ async function renderDocument(source, census, fixtureName) {
      * /Matrix. This is the shared step's defect, not Colorado's; the option is
      * default-off and no other family's bytes move because this family passes
      * it. No synthesized square was recorded for this family, so FIX50's
-     * suppressSynthesizedAppearances is not passed. */
+     * suppressSynthesizedAppearances is not passed. That reasoning still holds,
+     * and it is re-measured rather than inherited: VF02 compared all twenty-one
+     * selection widgets with the pinned form at their own rects and found the
+     * packet stamps no square of its own at any of them, so FIX50's option --
+     * which supplies a missing /AP /N state for a check box or radio widget --
+     * has nothing to act on here. FIX80's option below is a different mechanism
+     * on different widgets, and passing it does not make FIX50's apply. */
     fitAppearancesToRect: true,
+    /* FIX80. JDF-641's choice widgets 9B.0, 9B.2 and 9C.0 on page 4 -- an
+     * appeal question, an appellate-court line and a restitution question, all
+     * three participant elections this packet deliberately leaves unmade -- are
+     * nested below an AcroForm root. The unwritten-input drop clears each
+     * widget's /AP and removes it from /Annots but cannot detach a nested
+     * field, so updateFieldAppearances regenerates an appearance from the
+     * widget's /MK /BC [0 0 0] and flatten() finds the page through the
+     * widget's own /P. VF02 measured what that delivers: 8,344 dark pixels of
+     * black rectangle per fixture at 300 dpi, outside every declared write box,
+     * where the Colorado Judicial Department's own form prints a single rule --
+     * the rule each widget's own 29-byte appearance draws, and which the
+     * regeneration discarded.
+     *
+     * Opting in keeps those three silent source appearances instead of clearing
+     * them, and removes /MK /BC and /MK /BG from every unwritten field's
+     * widgets so nothing regenerated for one can paint a border. This is the
+     * shared step's defect, not Colorado's; the option is default-off and no
+     * other family's bytes move because this family passes it. */
+    suppressSynthesizedWidgetBorders: true,
     title: source.title
   });
   if (process.env.CO641_DEBUG_RENDER) {

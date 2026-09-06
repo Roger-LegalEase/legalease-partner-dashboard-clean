@@ -244,7 +244,7 @@ function drawPleadingCaption(
     });
     cursor.y -= PLEADING_LEADING;
   }
-  const defendantRole = "DEFENDANT/PETITIONER";
+  const defendantRole = sanitize((block.defendantRole ?? "DEFENDANT/PETITIONER").toUpperCase());
   cursor.page.drawText(defendantRole, {
     x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize(defendantRole, 12),
     y: cursor.y + PLEADING_LEADING,

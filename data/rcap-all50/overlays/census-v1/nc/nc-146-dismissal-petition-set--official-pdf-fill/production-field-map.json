@@ -46,7 +46,7 @@
     "instructions": [],
     "fee_waiver": []
   },
-  "requiredBeforeFilingCount": 62,
+  "requiredBeforeFilingCount": 59,
   "requiredBeforeFiling": [
     {
       "document": "petition",
@@ -135,17 +135,6 @@
       "identity": "petition field DateOfArrest1",
       "why": "Side One's table is completed as a ROW: its Date Of Dismissal column cannot be bound by any family, and a row carrying written cells beside a required cell left blank reads as finished when it is not",
       "participantMustSupply": "the date you were arrested on that charge"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-287",
-      "field": "petition.DateOfBirth",
-      "page": 1,
-      "printedContext": "Date Of Birth on the petition",
-      "disclosureLabel": "Date Of Birth on the petition",
-      "identity": "petition field DateOfBirth",
-      "why": "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect",
-      "participantMustSupply": "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier"
     },
     {
       "document": "petition",
@@ -271,17 +260,6 @@
     {
       "document": "petition",
       "documentId": "AOC-CR-287",
-      "field": "petition.PetitionerZip",
-      "page": 1,
-      "printedContext": "Address Of Petitioner - Zip",
-      "disclosureLabel": "Address Of Petitioner - Zip",
-      "identity": "petition field PetitionerZip",
-      "why": "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so",
-      "participantMustSupply": "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-287",
       "field": "petition.Race",
       "page": 1,
       "printedContext": "Race",
@@ -322,17 +300,6 @@
       "identity": "fee_waiver field ApplicantsEmployerNameAndAddress",
       "why": "employment is a fact about the participant and a third party, and the platform holds neither",
       "participantMustSupply": "your employer's name and address, or the reason you are not employed, or your trade if you are self-employed"
-    },
-    {
-      "document": "fee_waiver",
-      "documentId": "AOC-CV-226",
-      "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
-      "page": 1,
-      "printedContext": "Street Number And Street Name, Including Apartment Or Unit No.",
-      "disclosureLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-      "identity": "fee_waiver field ApplicantStreetNumberAndStreetNameLine1",
-      "why": "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two",
-      "participantMustSupply": "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one"
     },
     {
       "document": "fee_waiver",
@@ -835,9 +802,7 @@
           "factId": "matter.case_number",
           "kind": "composed_text",
           "document": "petition"
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
           "field": "petition.PetitionerZip",
           "fieldName": "petition.PetitionerZip",
@@ -848,44 +813,26 @@
           "regionHeading": "Address Of Petitioner - Zip",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field PetitionerZip",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so",
-          "participantMustSupply": "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write"
+          "factId": "participant.zip",
+          "kind": "composed_text",
+          "document": "petition"
         },
         {
           "field": "petition.DateOfBirth",
           "fieldName": "petition.DateOfBirth",
           "page": 1,
-          "printedLabel": "Date Of Birth on the petition",
-          "printedLine": "Date Of Birth on the petition",
-          "effectiveLabel": "Date Of Birth on the petition",
-          "regionHeading": "Date Of Birth on the petition",
+          "printedLabel": "Date Of Birth",
+          "printedLine": "Date Of Birth",
+          "effectiveLabel": "Date Of Birth",
+          "regionHeading": "Date Of Birth",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field DateOfBirth",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect",
-          "participantMustSupply": "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier"
-        },
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "petition"
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "petition.DriversLicenseNumber",
           "fieldName": "petition.DriversLicenseNumber",
@@ -3122,9 +3069,7 @@
           "factId": "matter.case_number",
           "kind": "composed_text",
           "document": "petition"
-        }
-      ],
-      "boundaryRefusals": [
+        },
         {
           "field": "petition.PetitionerZip",
           "fieldName": "petition.PetitionerZip",
@@ -3135,44 +3080,26 @@
           "regionHeading": "Address Of Petitioner - Zip",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field PetitionerZip",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so",
-          "participantMustSupply": "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write"
+          "factId": "participant.zip",
+          "kind": "composed_text",
+          "document": "petition"
         },
         {
           "field": "petition.DateOfBirth",
           "fieldName": "petition.DateOfBirth",
           "page": 1,
-          "printedLabel": "Date Of Birth on the petition",
-          "printedLine": "Date Of Birth on the petition",
-          "effectiveLabel": "Date Of Birth on the petition",
-          "regionHeading": "Date Of Birth on the petition",
+          "printedLabel": "Date Of Birth",
+          "printedLine": "Date Of Birth",
+          "effectiveLabel": "Date Of Birth",
+          "regionHeading": "Date Of Birth",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "petition field DateOfBirth",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "petition",
-          "why": "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect",
-          "participantMustSupply": "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier"
-        },
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "petition"
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "petition.DriversLicenseNumber",
           "fieldName": "petition.DriversLicenseNumber",
@@ -5483,33 +5410,23 @@
           "factId": "matter.case_number",
           "kind": "composed_text",
           "document": "fee_waiver"
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
           "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
           "fieldName": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
           "page": 1,
-          "printedLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "printedLine": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "effectiveLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "regionHeading": "Street Number And Street Name, Including Apartment Or Unit No.",
+          "printedLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "printedLine": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "effectiveLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "regionHeading": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "fee_waiver field ApplicantStreetNumberAndStreetNameLine1",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "fee_waiver",
-          "why": "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two",
-          "participantMustSupply": "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one"
-        },
+          "factId": "participant.street_address",
+          "kind": "composed_text",
+          "document": "fee_waiver"
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine2",
           "fieldName": "fee_waiver.ApplicantStreetNumberAndStreetNameLine2",
@@ -7135,33 +7052,23 @@
           "factId": "matter.case_number",
           "kind": "composed_text",
           "document": "fee_waiver"
-        }
-      ],
-      "boundaryRefusals": [
+        },
         {
           "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
           "fieldName": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
           "page": 1,
-          "printedLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "printedLine": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "effectiveLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-          "regionHeading": "Street Number And Street Name, Including Apartment Or Unit No.",
+          "printedLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "printedLine": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "effectiveLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "regionHeading": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
           "sectionHeading": null,
           "rectBasis": "measured_table_cell_read_from_the_official_documents_own_rule_strokes",
-          "reason": "the participant supplies this before filing: your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "fee_waiver field ApplicantStreetNumberAndStreetNameLine1",
-          "factId": null,
-          "routeDetermined": false,
-          "document": "fee_waiver",
-          "why": "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two",
-          "participantMustSupply": "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one"
-        },
+          "factId": "participant.street_address",
+          "kind": "composed_text",
+          "document": "fee_waiver"
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine2",
           "fieldName": "fee_waiver.ApplicantStreetNumberAndStreetNameLine2",

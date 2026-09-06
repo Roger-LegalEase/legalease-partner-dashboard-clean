@@ -81,6 +81,8 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "va_exp_nonconviction-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "va_exp_nonconviction";
 const OUT = "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-va_exp_nonconviction-set.mjs";
 
@@ -558,6 +560,26 @@ async function renderPrimary(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    /* FIX82. CC-1473 ships seventeen check-box widgets whose current /AS state
+     * (/Off) has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming
+     * viewer paints nothing at them and poppler, rendering the pinned binary,
+     * paints nothing. pdf-lib's updateFieldAppearances inside the shared
+     * sanitizeAndFlatten answers that missing state with a stroked square the
+     * size of the widget, which flatten then stamps onto the page: VF03
+     * measured 2299 added dark pixels per fixture standing outside every
+     * declared write box, at every unmarked box on the petition and on its
+     * page-2 checklist, the clerk's own CBCertify among them, and around the
+     * four route-mark boxes.
+     *
+     * FIX50's opt-in supplies the missing /Off state as an EMPTY appearance
+     * instead, so nothing is synthesized and nothing is flattened there. It
+     * never touches a widget of a field this run wrote, and this build's route
+     * marks are not appearances at all: markRouteSelections draws two diagonal
+     * strokes as page content after flatten, so the four marked boxes keep
+     * their mark and lose only the square. VF03's zero-write baseline proved
+     * this exact remedy restores the pinned form's own pixels at all
+     * seventeen rects. */
+    suppressSynthesizedAppearances: true,
     title: FORM_TITLE
   });
   const writtenNames = new Set(report.written.map((w) => w.field));
@@ -677,6 +699,48 @@ async function byteProof(source, census, primaryFile, report, fixtureName, marks
  * record; it establishes no amount, no day-count and no service mechanics, so
  * those are delegated to the circuit court clerk by name.
  */
+/*
+ * WHERE SELF-HELP ENDS, READ FROM THE RECORD RATHER THAN WRITTEN HERE.
+ *
+ * VF01 read this family at 7e01df1d8 and failed SELF_HELP_STOP: the committed
+ * track registry names five stop conditions for va_exp_nonconviction and the
+ * packet stated none of them. A disclaimer -- "it is not legal advice" -- says
+ * what the packet is; it does not tell the participant where their own case
+ * leaves the packet's reach, and those are different sentences.
+ *
+ * The five are read from the registry at build time and printed verbatim, one
+ * item per declared condition, in the registry's own order, so the packet
+ * cannot drift from the record and cannot silently lose one. The build refuses
+ * if the registry carries no entry for this track or declares no condition.
+ *
+ * The first is singled out because the registry itself calls it a hard gate,
+ * and because the packet's own Part 1 basis election is exactly where it bites:
+ * a participant whose charge was dismissed after a deferred disposition is
+ * otherwise told, in terms, to tick "otherwise dismissed" and file. It is
+ * therefore printed beside the basis election as well as in the list.
+ *
+ * Nothing is added to the list, and nobody is named who the record and the
+ * existing packets do not already name: the clerk of the circuit court for
+ * procedural questions, and a lawyer licensed in Virginia -- or a legal-aid
+ * office -- for the legal ones. No referral service is invented here.
+ */
+function selfHelpStops() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  assert.ok(track, `the track registry carries no entry for ${TRACK_ID}`);
+  const conditions = (track.selfHelpStopConditions ?? []).map((c) => String(c).trim()).filter(Boolean);
+  assert.ok(conditions.length > 0,
+    `the track registry declares no selfHelpStopConditions for ${TRACK_ID}, and this packet may not state where self-help ends without them`);
+  const dotson = conditions.find((c) => /Dotson/.test(c));
+  assert.ok(dotson,
+    `the track registry declares no Dotson screen among the stop conditions for ${TRACK_ID}, and the Part 1 basis election may not be printed without it`);
+  const narrowReading = (track.exclusions ?? []).map((e) => String(e).trim())
+    .find((e) => /Dotson/.test(e));
+  assert.ok(narrowReading,
+    `the track registry declares no Dotson exclusion for ${TRACK_ID}`);
+  return { conditions, dotson, narrowReading };
+}
+
 function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
@@ -724,14 +788,24 @@ function composedBody(componentId, facts) {
     L.push("File the petition with the CIRCUIT COURT of the county or city in which the charge was disposed of - the petition's own checklist says so. Write that court's city or county and street address into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416.", "");
     L.push("WHAT YOU DO, IN ORDER", "");
     L.push("1. Complete every item this packet's participant instructions list. Each one names the page and the words printed beside the blank.");
-    L.push("2. Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match how your charge actually ended.");
+    L.push("2. Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match how your charge actually ended. Before you tick the second box, read THE DOTSON SCREEN below: it is a hard gate on that box, and it is the one place where ticking it and filing can be the wrong thing to do.");
     L.push("3. Sign and date the petition yourself, and mark nothing in the clerk's certification block at the foot of page 1: that block is the clerk's.");
     L.push("4. File the petition with the circuit court clerk.");
     L.push("5. Ask the Central Criminal Records Exchange to forward your Virginia criminal history record to that court, using the page in this packet headed for that purpose.");
     L.push("6. Have a copy of the petition served on the Attorney for the Commonwealth for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.", "");
-    L.push("TWO THINGS THIS PACKET DOES NOT TELL YOU", "");
-    L.push("- The filing fee, and whether it can be waived. Ask the circuit court clerk. No amount is stated here because none is established by the petition, and an unsourced figure in a filing instruction is worse than no figure.");
+    L.push("THE FILING FEE, AND ONE THING THIS PACKET DOES NOT TELL YOU", "");
+    L.push("- The filing fee, and whether it can be waived. No court fees or costs are payable for filing this petition: Va. Code 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.");
     L.push("- How long you have, and exactly how service must be made. The petition sets no filing deadline and states no service mechanics; neither does this page. Ask the same clerk.", "");
+    const stops = selfHelpStops();
+    L.push("THE DOTSON SCREEN, A HARD GATE ON THE BASIS ELECTION IN PART ONE", "");
+    L.push(`Part 1 makes you check one basis: acquitted, or nolle prosequi / otherwise dismissed. "Otherwise dismissed" is read narrowly, and the committed track registry states the gate in these words: "${stops.dotson}" It states the same population again among this route's exclusions: "${stops.narrowReading}"`, "");
+    L.push("So: if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt, or under a deferred or first-offender disposition, do not tick that box and do not file this petition. This is the wrong packet for that record, and the relief that population routes to is sealing rather than expungement. If you are not sure which of those your own disposition was, the court record wording decides it, and the paragraph below says who can read it with you.", "");
+    L.push("WHERE SELF-HELP ENDS", "");
+    L.push("The committed track registry records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:", "");
+    for (const condition of stops.conditions) L.push(`- ${condition}`);
+    L.push("");
+    L.push("WHO TO ASK WHEN YOU REACH ONE OF THEM", "");
+    L.push("The clerk of the circuit court where you file answers procedural questions - what to file, how the copy must be served, and what that court requires - and this packet already sends you to that clerk for those. The clerk cannot tell you whether your own charge is eligible, and is not permitted to. Whether the Dotson screen catches your dismissal, whether the presumption is available to you, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question, are legal questions: only a lawyer licensed to practise in Virginia can answer them, and if you cannot afford one, ask that same clerk's office how to reach a legal-aid office. No lawyer has reviewed your case in preparing this packet.", "");
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.");
   }
@@ -1185,8 +1259,8 @@ function participantInstructions(maps, rbf, routeSelections) {
 
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Circuit Court of the county or city in which the charge was disposed of** — the petition's own checklist on page 2 says so. Write that court's **city or county** and **street address** into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed **COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416**.", "");
-  out.push("Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.");
+  out.push("**The filing fee, and whether it can be waived.** No court fees or costs are payable for filing this petition: Va. Code \u00a7 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.", "");
+  out.push("One thing this packet does **not** tell you, because it is not established by the petition:", "");
   out.push("- **How long you have, and exactly how the copy must be served.** The petition sets no filing deadline, and its checklist says a copy must be *served* on the Commonwealth's Attorney without saying how. Ask the same clerk.", "");
 
   out.push("## What is in this packet", "");
@@ -1200,12 +1274,16 @@ function participantInstructions(maps, rbf, routeSelections) {
 
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
-  out.push(`2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the ${routeSelections.length} boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed.`);
+  out.push(`2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the ${routeSelections.length} boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. **Before you tick either Part 1 box, read *The Dotson screen* immediately below this list: it is a hard gate on that election.**`);
   out.push("3. **Sign and date the petition yourself.** The platform never signs for you and never dates a signature, so those lines are deliberately blank. Leave the clerk's certification block at the foot of page 1 completely alone — it is the clerk's.");
   out.push("4. **File the petition with the circuit court clerk.**");
   out.push("5. **Ask the Central Criminal Records Exchange to forward your record to that court**, using the page in this packet headed for that purpose. The petition's checklist words the request around the court where the petition *was* filed, so it comes after filing.");
   out.push("6. **Have a copy of the petition served on the Attorney for the Commonwealth** for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.");
   out.push("");
+  const stops = selfHelpStops();
+  out.push("### The Dotson screen — a hard gate on the Part 1 basis election", "");
+  out.push(`Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. **"Otherwise dismissed" is read narrowly.** The committed track registry states the gate in these words: “${stops.dotson}” It states the same population again among this route's exclusions: “${stops.narrowReading}”`, "");
+  out.push("So if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt, or under a deferred or first-offender disposition, **do not tick that box and do not file this petition** — this is the wrong packet for that record, and that population routes to sealing rather than expungement. If you are not sure which your own disposition was, the wording of the court record decides it, and *Where self-help ends* below says who can read it with you.", "");
 
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
@@ -1223,6 +1301,7 @@ function participantInstructions(maps, rbf, routeSelections) {
   }
   out.push("");
   out.push("Nothing about the **basis of the petition** is decided for you. Whether you were acquitted, or the charge was nolle prossed or otherwise dismissed, is a fact about your own record, so both Part 1 boxes are left for you to read and tick — exactly one of them.", "");
+  out.push("It is left for you, but it is not unconstrained: *The Dotson screen* above is a hard gate on the *otherwise dismissed* box, and it is the one election in this packet where ticking a box that looks right can be the wrong thing to do.", "");
   out.push("Check each marked box against your own situation before you file. If any of them is wrong for you — for example, a lawyer is filing this for you — this is the wrong packet and you should not file it.", "");
 
   out.push("## The choices that are yours", "");
@@ -1239,6 +1318,11 @@ function participantInstructions(maps, rbf, routeSelections) {
   out.push("- **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.");
   out.push("");
 
+  out.push("## Where self-help ends", "");
+  out.push("This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. The committed track registry — `data/record-clearing/legal-design-track-registry.json`, track `va_exp_nonconviction`, field `selfHelpStopConditions` — records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:", "");
+  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("");
+  out.push("**Who to ask when you reach one of them.** The clerk of the circuit court where you file answers procedural questions — what to file, how the copy must be served, and what that court requires — and this packet already sends you to that clerk for those. The clerk cannot tell you whether your own charge is eligible, and is not permitted to. Whether the Dotson screen catches your dismissal, whether the presumption is available to you, what to do if the Attorney for the Commonwealth objects or answers or the court sets a contested hearing, and any immigration, juvenile or federal question, are legal questions: only a lawyer licensed to practise in Virginia can answer them, and if you cannot afford one, ask that same clerk's office how to reach a legal-aid office. No lawyer has reviewed your case in preparing this packet.", "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
   out.push(`_Route: ${ROUTE.routeKey}_`);

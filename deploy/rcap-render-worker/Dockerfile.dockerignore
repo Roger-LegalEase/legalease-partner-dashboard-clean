@@ -1,0 +1,46 @@
+# Build-context allowlist for the render-worker image (BuildKit reads
+# <dockerfile>.dockerignore in preference to a context-root .dockerignore).
+#
+# The repository root carries ~1.1 GB of data/ and the private/ source corpus.
+# Neither belongs in a build context: private/ is never a runtime input, and
+# data/ is build- and review-material apart from the small read-only closure
+# the worker reads. Excluding everything first and re-including exactly the
+# build inputs means a new file under data/ or private/ cannot drift into the
+# image, and the context stays small enough to send quickly.
+*
+
+!package.json
+!package-lock.json
+!tsconfig.json
+!scripts/rcap-render-worker.mjs
+!scripts/lib
+!src
+!deploy/rcap-render-worker/Dockerfile
+!deploy/rcap-render-worker/runtime-data-manifest.json
+!deploy/rcap-render-worker/preflight.mjs
+
+# Read-only runtime data: exactly runtime-data-manifest.json, nothing else.
+!data/rcap-grade-a/fulfillment-authority-registry.json
+!data/rcap-grade-a/fulfillment-observation-snapshot.json
+!data/rcap-grade-a/maintenance/route-holds.json
+!data/rcap-codex/release-readiness.json
+!data/rcap-all50/problematic-pdf-register.json
+!data/rcap-all50/review-artifacts/f2-dispositions.json
+!data/rcap-all50/guidance-packets
+!data/rcap-ledger/packet-fulfillment-records.json
+!data/rcap-ledger/packet-correction-required.json
+!data/rcap-ledger/route-kind-adjudications.json
+!data/rcap-ledger/route-presentation-conflicts.json
+!data/rcap-ledger/track-pathway-crosswalk.json
+!data/record-clearing/factory-v2-route-registry.json
+!data/record-clearing/legal-design-packet-set-manifests.json
+!data/record-clearing/legal-decisions/route-ratification-registry.json
+!data/record-clearing/packet-specifications
+
+# Nothing below is ever a build input, even if re-included by a pattern above.
+**/node_modules
+**/.git
+**/.env
+**/.env.*
+**/*.pem
+**/*.key

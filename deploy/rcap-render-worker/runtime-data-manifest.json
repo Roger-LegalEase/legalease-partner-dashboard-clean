@@ -1,0 +1,506 @@
+{
+  "schemaVersion": "rcap-render-worker-runtime-data/v1",
+  "generatedBy": "deploy/rcap-render-worker/build-runtime-data-manifest.mjs",
+  "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
+  "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
+  "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
+  "fileCount": 67,
+  "totalBytes": 10625170,
+  "excluded": [
+    {
+      "path": "data/rcap-all50/composed-routes",
+      "reason": "Read by loadComponentDeferrals, reached only from briefcase item CREATION clamps (clampExactDeferral/clampComponentDeferral). The worker's path is getBriefcaseItemForWebhook, a read, which does not call them."
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments",
+      "reason": "Read by loadTerminalTreatments, same creation-only clamp path as composed-routes."
+    },
+    {
+      "path": "data/rcap-all50/overlays/**/fixtures/*.pdf",
+      "reason": "factory-v2-registry.ts artifactPins compare path and sha256 STRINGS against database rows; the composer and renderer perform no filesystem reads, so no overlay fixture is opened at runtime."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+      "reason": "CONTROLLING_DECISION_RECORD is an exported citation string in controlling-route-effects.ts, never read from disk."
+    },
+    {
+      "path": "private/**",
+      "reason": "Source corpus. Never a runtime input and never placed in the build context."
+    },
+    {
+      "path": "data/** (everything else)",
+      "reason": "1.1 GB of build-time and review material with no runtime reader on the worker's graph."
+    }
+  ],
+  "files": [
+    {
+      "path": "data/rcap-all50/guidance-packets/_schema.json",
+      "sha256": "5f8dffc055223a5732bc4f18d50e1a2aa9e014656eca7ba546aa2995d3edef86",
+      "bytes": 5043,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ak.json",
+      "sha256": "3eecd4e130e8e74755595168da20d0eaa83aeab7c527c2841fd251c2503e5c09",
+      "bytes": 20893,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ar.json",
+      "sha256": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061",
+      "bytes": 48731,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ca.json",
+      "sha256": "de9f26ed5fcb6e406eea0985a036948d31f06c5eb73cce2212c7aa79da4725a4",
+      "bytes": 14061,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/co.json",
+      "sha256": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80",
+      "bytes": 54140,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ct.json",
+      "sha256": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+      "bytes": 79195,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/de.json",
+      "sha256": "e4c10d8bca7b5c039ccc6f26032fa72d1967d26ddf5b5c86e3e43df71e0e0ff3",
+      "bytes": 24858,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ga.json",
+      "sha256": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c",
+      "bytes": 41282,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/hi.json",
+      "sha256": "a2797ad30b74cdfbbd234d16cf2ce4715e773d426b557023963c7b289fa0c1a6",
+      "bytes": 25201,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/il.json",
+      "sha256": "040539f0a6fa7b20b63b84f62c6968d8617ca32eb71b7913d7c87baa99e8e4ba",
+      "bytes": 13799,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/in.json",
+      "sha256": "55a9edc23824815737cea6cfef859761fc0d169811859bf76d4cd65b80f6491f",
+      "bytes": 17000,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ky.json",
+      "sha256": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad",
+      "bytes": 126442,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/la.json",
+      "sha256": "295bd6fca9503a0941df22e33d6159dd0d785af7839684c6ce72be210e1d1e16",
+      "bytes": 36909,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/md.json",
+      "sha256": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d",
+      "bytes": 41528,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/me.json",
+      "sha256": "5c66774afbec264afe1a798252767d9fc2d54bf966e3dd0ca40af8b83740be7d",
+      "bytes": 28844,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/mi.json",
+      "sha256": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "bytes": 67396,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/mn.json",
+      "sha256": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93",
+      "bytes": 97456,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/mo.json",
+      "sha256": "d498bad4614dc2731889d186635c635489f209151ab866cab2462e85784f4f21",
+      "bytes": 49953,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/mt.json",
+      "sha256": "277a7f892ac594da330179a15df07eca00a6527e9b4a5f5c2251396092f11724",
+      "bytes": 39114,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/nc.json",
+      "sha256": "201ea84de8368320457684cfcd9715d9ae56f71aff7b394cc33bca00a3d47316",
+      "bytes": 29748,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/nd.json",
+      "sha256": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520",
+      "bytes": 62370,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ne.json",
+      "sha256": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "bytes": 105571,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/nh.json",
+      "sha256": "485a9bf617caddf26393aeb72f67b68036d9f49366d3b8ebf97f786c05a92297",
+      "bytes": 17761,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/nj.json",
+      "sha256": "c3ca532f14228b67a28602971c6d5aac987b5f180dcaf516d307c83342be8325",
+      "bytes": 51302,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ny.json",
+      "sha256": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26",
+      "bytes": 71704,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/oh.json",
+      "sha256": "4984a2121fce67e1907dc543dff4e356f0fd3bd4633a48ff0e004d8118481b24",
+      "bytes": 29399,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ok.json",
+      "sha256": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50",
+      "bytes": 68685,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/tn.json",
+      "sha256": "35c777dff3114c771e9b71ff5b029074830ef074be90618e606127f1cb2ecff1",
+      "bytes": 31786,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/tx.json",
+      "sha256": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8",
+      "bytes": 129535,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/ut.json",
+      "sha256": "eae0b26ec2a05e9d899aca2653953476b440c5416194884511dee39f49836ae6",
+      "bytes": 43180,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/va.json",
+      "sha256": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570",
+      "bytes": 121432,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/vt.json",
+      "sha256": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298",
+      "bytes": 62379,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/wi.json",
+      "sha256": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833",
+      "bytes": 71848,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/guidance-packets/wv.json",
+      "sha256": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "bytes": 213660,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (PACKET_DIR, readdirSync)",
+      "why": "Directory is enumerated at runtime; a partial copy changes the guidance set the resolver sees."
+    },
+    {
+      "path": "data/rcap-all50/problematic-pdf-register.json",
+      "sha256": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
+      "bytes": 2360079,
+      "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (PROBLEMATIC_PDF_REGISTER_PATH)",
+      "why": "Track ids under a PDF maintenance hold."
+    },
+    {
+      "path": "data/rcap-all50/review-artifacts/f2-dispositions.json",
+      "sha256": "9b7f1049e72108326fa08437a62e923f7dea533150c20752139292827c098b48",
+      "bytes": 192955,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "why": "Factory-v2 route dispositions consulted during route availability."
+    },
+    {
+      "path": "data/rcap-codex/release-readiness.json",
+      "sha256": "1935c9ef26fde4098bab97af95d144c565fba8baa3c4dbb5cd711310124a676b",
+      "bytes": 50830,
+      "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (RELEASE_READINESS_PATH, via deploymentConfigIncomplete)",
+      "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
+    },
+    {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "sha256": "6445058eebf98d296a42dc2890b533a2a176f417faa076b54a0dea2a0f9c0a7e",
+      "bytes": 161264,
+      "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
+      "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
+    },
+    {
+      "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "sha256": "8cc7fe5fae028463d1819c5d4b4674b9bfdc39ec1ead4490fcda2b6e420c5315",
+      "bytes": 20066,
+      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts (OBSERVATION_PATH)",
+      "why": "Independent observation the admission gate binds a record against."
+    },
+    {
+      "path": "data/rcap-grade-a/maintenance/route-holds.json",
+      "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
+      "bytes": 9791,
+      "readBy": "src/lib/rcap/documents/packet-route-resolver.ts (ROUTE_HOLDS_PATH)",
+      "why": "Route-scoped maintenance holds. Absent = no holds, which would silently un-hold a held route."
+    },
+    {
+      "path": "data/rcap-ledger/packet-correction-required.json",
+      "sha256": "8bb49d2d8ff4aaa0bc5525ae520ec13ef0fe677f60ff64d9b40bb95c98785a07",
+      "bytes": 7344,
+      "readBy": "worker module graph (ESM JSON import)",
+      "why": "Static import; module load fails if absent."
+    },
+    {
+      "path": "data/rcap-ledger/packet-fulfillment-records.json",
+      "sha256": "777a17bb265e99e9fdd62bb5da021cc7cd8394405827dd438cf5ba716418c2df",
+      "bytes": 23675,
+      "readBy": "src/lib/expungement-ai/packet-fulfillment-authority.ts (ESM JSON import)",
+      "why": "Static import: the module graph cannot load without the file present."
+    },
+    {
+      "path": "data/rcap-ledger/route-kind-adjudications.json",
+      "sha256": "89d93ae1a794d4cab67ab68eb5b93792799846a5278d30eda6135217ab3939ee",
+      "bytes": 45218,
+      "readBy": "worker module graph (ESM JSON import)",
+      "why": "Static import; module load fails if absent."
+    },
+    {
+      "path": "data/rcap-ledger/route-presentation-conflicts.json",
+      "sha256": "a2dddae0b66e39d212b08f66991506fc53420021279c4a8c94beb26d4e10de86",
+      "bytes": 3833,
+      "readBy": "worker module graph (ESM JSON import)",
+      "why": "Static import; module load fails if absent."
+    },
+    {
+      "path": "data/rcap-ledger/track-pathway-crosswalk.json",
+      "sha256": "2405bcee261a9ec39624a14d201e02f74e19f0e869e597ffc0a1e2178b7b29be",
+      "bytes": 1021917,
+      "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (CROSSWALK_PATH)",
+      "why": "Track-to-pathway crosswalk used while resolving a route."
+    },
+    {
+      "path": "data/record-clearing/factory-v2-route-registry.json",
+      "sha256": "1151bc230e299e8e865ea53db45e4927768dce746ea65a58d27ddc87662cfea5",
+      "bytes": 507842,
+      "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (REGISTRY_PATH)",
+      "why": "Factory-v2 route rows behind buildRenderJobSpec."
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
+      "bytes": 149160,
+      "readBy": "src/lib/rcap/render/job-contract.ts and src/lib/rcap-engine/evaluator.ts (ESM JSON import)",
+      "why": "Static import; module load fails if absent."
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "bytes": 3683419,
+      "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
+      "why": "Packet-set manifests behind buildRenderJobSpec."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+      "sha256": "d58c00f216f4e8e5b0334b3707f2812a3efddaaa6ad43d8ec3f292355e51b872",
+      "bytes": 6214,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+      "sha256": "a66e9b44315db4cfcbbb103630e210c3a43ffd4bfac6d2a8049bbe208b38d0c8",
+      "bytes": 14804,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+      "sha256": "78b6411a7a54496242200789f16fb6cb89627f8db0f3004352ccf63cf67b21d8",
+      "bytes": 10820,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+      "sha256": "6e9ed98d289fe60edf205f03c65730dc09c84c8659e12f1610aed21ada546af9",
+      "bytes": 27214,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+      "sha256": "4ab9dfbd07d33de49192736dd6a48cbfd0c59aa08648f8c525ded514e9089780",
+      "bytes": 29813,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+      "sha256": "a26999ca50e3a959f7371aac25f372a8debc8db7551c8605632920b5e1645e4e",
+      "bytes": 25256,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+      "sha256": "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
+      "bytes": 25668,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json",
+      "sha256": "140ab47f9db00d543498b82eba95d0546a736a39feac6434d621117aa2f1dd2e",
+      "bytes": 7304,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
+      "sha256": "df98f1cc8da9b12f9c79dd4ce5c5787b76f88bbd792d1bffd64649d49f0066e5",
+      "bytes": 7324,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+      "sha256": "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
+      "bytes": 17793,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+      "sha256": "4ba87c4a5d3dca6efdbfcd2c0b3d9e5dd87fa87bc1e9f11da0f79cc75afedd94",
+      "bytes": 28986,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+      "bytes": 59843,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+      "sha256": "41bceab2b973bf498f48b696d1eee1c62c6d79e7a21f4e7d0cc4007f79b60bf2",
+      "bytes": 21446,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+      "sha256": "7509e6f9d8b34f81050c741a02dbce838759d9963f13f5308fe45fdcde733c75",
+      "bytes": 25726,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+      "sha256": "9aac95aef74b22a0f8a6cb26e60248162ca0c0e23adc07b7f1cc83ad82b62606",
+      "bytes": 57145,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json",
+      "sha256": "ee2d0444936fc1b0d6dac2d62d2bb6c2a71173d969b9f5bb5a02c160146ec803",
+      "bytes": 16742,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
+      "sha256": "b71af9b924ccd9797ca608cdc1e91782af3de839c4873ecb05013e8c5f2eb26a",
+      "bytes": 26262,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+      "sha256": "3235c4860d91f875f3810796033ff29f4d909f42221ba5895a6d499dc6d50ec8",
+      "bytes": 17329,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+      "sha256": "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
+      "bytes": 19883,
+      "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
+      "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
+    }
+  ]
+}

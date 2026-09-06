@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX80",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX80, /home/user/fix80-worktree on branch fix80-co-multiple-mk-border",
+  "baseSha": "432af667f",
+  "rows": [
+    {
+      "itemId": "co_multiple_conviction_seal-set",
+      "familyId": "co_multiple_conviction_seal-set",
+      "jurisdiction": "CO",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "sharedHost": "scripts/rcap-official-forms/rcap-active-content.mjs (restrictWidgetContributions, sanitizeAndFlatten) and scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX80 co_multiple_conviction_seal-set -> CLAIM_OK FIX80 co_multiple_conviction_seal-set (repair, grant set f506eaefa1b174c0), exit 0. Asserted before any artifact of this family was opened.",
+      "baseSha": "432af667f",
+      "branch": "fix80-co-multiple-mk-border",
+      "worktree": "/home/user/fix80-worktree, cut from 432af667f on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, private/ and node_modules symlinked as the dispatch specifies.",
+      "verdictRepaired": "VF02's FAIL_REPAIR_REQUIRED on this family at verifiedAtBase ebe931e4e, read in full before anything was opened for writing.",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP"],
+      "directoryConfirmedFirst": "sha256sum over fixtures/ on disk, run BEFORE any measurement and before any edit: canonical 50710ee3b2b69c3371c7723017d2b6af449662361da6a448eb234c95aa70b994 and boundary 8deaf1ec7a77a215bb96138839098f0e7e7b1407f3545c0ac314f75a1d94f5e5, which are exactly the canonical and boundary digests the dispatch names.",
+
+      "whatChanged": {
+        "theMeasuredDefect": "JDF-641's choice widgets 9B.0 (Did you appeal any of these cases), 9B.2 (Appellate Court) and 9C.0 (Do you still owe restitution) on packet page 4 are participant elections the packet deliberately leaves unmade. Read first hand from the pinned binary: all three are /FT /Ch, all three carry /MK /BC [0 0 0], all three ship their own /AP /N stream, and all three hang BELOW an AcroForm root -- the form's /Fields array holds 53 entries against 113 fields, and none of the three is one of them. restrictWidgetContributions dispositions an unwritten chooser as RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN and drops it: it clears /AP and removes the /Annots entry, but detachFromAcroForm's flat scan finds the field nowhere in /Fields and walkFieldTree is off, so the field survives in the form. form.updateFieldAppearances() then regenerates an appearance for it -- PDFDropdown.needsAppearancesUpdate returns true because /AP is gone -- and pdf-lib's default provider strokes a rectangle the size of the widget from /MK /BC. flatten() finds the page through the widget's own /P and stamps it.",
+        "theSpecification": "ISO 32000-1 12.5.6.19 makes /MK /BC and /MK /BG appearance CHARACTERISTICS, consulted only where a viewer must construct an appearance for itself. A widget drawn from its own /AP /N never has its /MK read. The rectangle is therefore produced by the normalization and is on the page only because the normalization ran.",
+        "theOptionName": "suppressSynthesizedWidgetBorders",
+        "theSharedModule": "rcap-active-content.mjs gains ONE opt-in option on sanitizeAndFlatten, default false, plumbed into restrictWidgetContributions as a sixth argument, plus three module-private helpers: textShowingOperands, operandShowsInk and widgetsWhoseSourceAppearanceIsSilent (which decide whether a source appearance draws a word), and neutralizeSynthesizedBorderCharacteristics (which removes /MK /BC and /MK /BG).",
+        "theMechanism": "Two halves of one remedy, both reached ONLY for a field this run did not write, and both running before any appearance is generated. (1) PRESERVE. Where every widget of an unwritten chooser ships an /AP /N stream that draws no word, that stream is kept instead of cleared, so pdf-lib reports no update is needed and regenerates nothing; the court's own rule is flattened, which is what a conforming viewer paints from the same binary. (2) NEUTRALISE. /MK /BC and /MK /BG are removed from every unwritten field's widgets, so anything still regenerated for one paints no rectangle. The first half is what the measurement supports for this family -- all three widgets ship a usable /AP -- and the second is what covers a widget whose source ships none.",
+        "howSILENTIsDecided": "Structurally, from the stream's own bytes: it is silent when it contains no text-showing operator (Tj, TJ, ' or \") carrying a character a reader would see. 9B.2's 29-byte appearance is '0 G / 0 0.5 m / 217.8954 0.5 l / s' -- a rule and nothing else. 9B.0's and 9C.0's add a clipped text run whose only operand is '( )', a single space. A stream that DOES show a word is exactly the chooser prompt, default or option list the unwritten-input drop exists to remove, so it is not silent, is not kept, and the drop proceeds unchanged. Every case this cannot read for certain -- a state dictionary, an appearance that is not an indirect stream, an undecodable stream, a text operator whose operand did not parse -- is reported as not silent, because refusing to keep is the answer the pipeline already gives.",
+        "whatIsNeverTouched": "A field this run WROTE, on either half. A pushbutton, which is chrome and whose caption comes from /MK /CA. A widget the source marks Hidden or NoView, which is dropped before any disposition is read. A chooser whose own appearance shows a prompt. And every caller that does not pass the option, which is byte-unaffected.",
+        "noFamilyInTheCondition": "Nothing in either helper or in the branch reads a family, a form number, a field name, a caption, a jurisdiction or a flag bit. scripts/verify-rcap-appearance-semantics.mjs enforces that over the body of restrictWidgetContributions and passes; the branch condition it mutates was kept spelled verbatim so both of its mutations still match and still turn their controls red.",
+        "theFinalizer": "rcap-official-form-finalize.mjs gains the option suppressSynthesizedWidgetBorders, default false, plumbed to sanitizeAndFlatten exactly the way FIX50's suppressSynthesizedAppearances and FIX61's fitAppearancesToRect are, and documented beside the eight existing opt-in flags as the ninth.",
+        "theBuilder": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs passes suppressSynthesizedWidgetBorders: true at its single finalizeOfficialForm call (~line 432), alongside FIX68's fitAppearancesToRect: true which is kept on. No other builder is touched.",
+        "theTest": "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs. NEW, 6 controls, all PASS, exit 0. Written in the pattern of scripts/rcap-official-forms/test-synthesized-off-appearances.mjs; note that the two tests the dispatch names live in scripts/rcap-official-forms/, and this one is placed where the dispatch directs.",
+        "theScan": "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs. NEW, read-only, writes data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json only.",
+        "perDocumentCounts": "report.sanitation.widgetContributions now carries silentSourceAppearancesKept and synthesizedBorderCharacteristicsRemoved. Measured on the pinned JDF-641 with a zero-write flatten: with the option OFF, kept [] and removed 0, 4 choosers dropped; with it ON, kept ['Court','9B.2','9B.0','9C.0'] and 84 /MK entries removed, 0 choosers dropped. With the option off the two keys are 0 and [] and no /MK entry is touched."
+      },
+
+      "whetherFIX50sReasoningStillHolds": "IT DOES, and it was re-measured here rather than inherited. The builder's comment says FIX50's suppressSynthesizedAppearances is not passed because no synthesized square was recorded for this family. FIX50's option supplies a MISSING /AP /N state for a check box or radio widget; measured first hand on the pinned JDF-641, every selection widget's /AP /N is a state dictionary that already carries its current /AS state (3H.0 carries /Off and /Yes at /AS /Off; Group_Interp carries /No. and /Off, and /Off and its long /Yes state, both at /AS /Off), so pdf-lib regenerates none of them and there is nothing for that option to act on. Measured again in ink after the repair: across the 30 widgets of the 21 selection controls, added ink against the pinned forms is 3,382 dark pixels per fixture, and every one of those pixels is the form's own printed checkbox (the disclosed doubling), not a square of the packet's own. FIX80's option is a different mechanism on different widgets; passing it does not make FIX50's apply, and FIX50's option is still not passed. The comment was extended in place rather than replaced.",
+
+      "digests": {
+        "before": {
+          "canonical": { "sha256": "50710ee3b2b69c3371c7723017d2b6af449662361da6a448eb234c95aa70b994", "byteLength": 404662, "pageCount": 7, "pageSize": "612 x 792" },
+          "boundary": { "sha256": "8deaf1ec7a77a215bb96138839098f0e7e7b1407f3545c0ac314f75a1d94f5e5", "byteLength": 404952, "pageCount": 7, "pageSize": "612 x 792" }
+        },
+        "after": {
+          "canonical": { "sha256": "48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de", "byteLength": 1304217, "pageCount": 7, "pageSize": "612 x 792" },
+          "boundary": { "sha256": "ff74f8da50629aedd6eff550902ab831d19a9be3268bb88fc7cac62d87523fd1", "byteLength": 1304507, "pageCount": 7, "pageSize": "612 x 792" }
+        },
+        "rebuiltTwiceByteIdentical": "Three full rebuilds were run in this container. The second reproduced the first exactly and the third, run after a purely textual edit to the branch condition, reproduced it again: 48cf9bf5... and ff74f8da... every time.",
+        "whyTheArtifactsGrew": "404,662 -> 1,304,217 bytes on canonical and 404,952 -> 1,304,507 on boundary, page count and page size unchanged at 7 and 612 x 792. The growth is the court's own resources: four preserved source appearance streams (Court on packet page 1, 9B.2, 9B.0 and 9C.0 on page 4, plus one on JDF-642 page 1) name the form's embedded /Arial rather than the finalizer's Helvetica, so copyPages carries those font objects across. Disclosed rather than optimised: it is source fidelity being paid for in bytes, and no page, no page size and no piece of ink was added to make it."
+      },
+
+      "pixelMeasurements": {
+        "method": "Every page of both fixtures rendered greyscale at 300 dpi with pdftoppm and compared pixel for pixel with the pinned source page the manifest names, rendered by the same rasterizer at the same resolution. Sources resolved from the mounted Master Library and confirmed by SHA-256: JDF-641 6ad1d7c43b45... (721,895 bytes) and JDF-642 5847086... (612,824 bytes). Every raster was written under /tmp and deleted after measuring; no raster PNG produced for measurement is committed.",
+        "theBaselineReproducesVF02Exactly": "On the pre-repair bytes, packet page 4 carries 8,344 dark pixels the pinned JDF-641 does not, in BOTH fixtures, distributed 4,082 at 9B.2, 2,154 at 9B.0 and 2,108 at 9C.0 -- and 0 anywhere else on that page. Those are VF02's numbers, cluster for cluster.",
+        "page4After": "0 added and 0 lost, in BOTH fixtures. Packet page 4 is now pixel-identical to the pinned JDF-641 page 4 at 300 dpi. The three black rectangles are gone (8,344 -> 0) and the form's own rule is back underneath them: the 9 lost pixels VF02 recorded on that page fall to 0.",
+        "everyChangedPage": "Three pages changed, and no page gained ink. Added / lost against the pinned form, canonical then boundary. Page 1: +65,305/-2,485 -> +65,305/-5, and +87,751/-2,485 -> +87,751/-5. Page 4: +8,344/-9 -> +0/-0 in both. Page 6: +53,776/-2,497 -> +53,776/-13, and +74,657/-2,497 -> +74,657/-13. Added ink is unchanged to the pixel on pages 1 and 6; what changed there is ink RECOVERED -- the court's own rules that the cleared appearances and the synthesized backgrounds had been painting over.",
+        "untouchedPagesArePixelIdentical": "Pages 2, 3, 5 and 7 of both fixtures are pixel-identical before versus after at 150 dpi, 0 differing pixels. Pages 1, 4 and 6 differ by 622, 2,066 and 622 pixels at 150 dpi, which are exactly the three pages the repair reaches.",
+        "everyWrittenValueIsStillThereAndUnchanged": "All 16 declared write boxes per fixture were compared before versus after at 300 dpi inside their own /Rect: 0 differing pixels in every one of the 32, and every box carries ink (190,310 dark pixels in the 16 canonical boxes, 238,202 in the 16 boundary boxes). County, Case Number, name, date of birth, street address, city/state/zip, phone and e-mail on JDF-641 and County, Case Number, name, date of birth, street address and city/state/zip on JDF-642 are present, unchanged and legible.",
+        "theSixteenWrittenValueBorders": "UNCHANGED, AND NOT REPAIRED HERE. VF02 disclosed that the same regeneration boxes all sixteen written values inside their own declared write boxes. The opt-in is defined over fields this run did NOT write and never reaches a written appearance, so those sixteen borders are exactly as they were -- proved by the 32 write boxes being pixel-identical before versus after. Repairing them would mean editing an appearance generated for a value the packet does print, which is a different decision on different widgets, and this lane did not take it.",
+        "theNineInnerBoxDoublings": "UNCHANGED, AND NOT REPAIRED HERE. Measured after the repair across the 30 widgets of the 21 selection controls: 3,382 added dark pixels per fixture, at nine rects -- 3A.0, 3B.0, 3C.0 and 3D on packet page 1, 3E.0, 3F.0, 3G.0 and 3H.0 on page 2, and 642.3.0 on page 7 -- with the identical per-rect counts before and after (418, 385, 385, 418, 380, 380, 418, 385, 213). All of it is the form's own printed checkbox becoming visible when stripWidgetBackground removes the /Off appearance's opaque white fill, which is a different function and a different mechanism from the one this option touches; it adds no ink of the packet's own. This is the divergence VF02 measured on Vermont 600-00228, and it remains open."
+      },
+
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented here from its description and run on the delivered bytes: for every flattened widget placement, compose the page-content cm operators through q/Q, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require |transformedSize x cmScale - rectSize| <= 0.05pt on each axis.",
+        "before": "141 of 141 pass in canonical and 141 of 141 in boundary, 0 fail, 0 unmatched, every matched placement at origin distance 0.00pt. That is VF02's count exactly.",
+        "after": "143 of 143 pass in canonical and 143 of 143 in boundary, 0 fail, 0 unmatched, origin distance 0.00pt. The count rises by two because two widgets that were dropped are now flattened from their own silent source appearance: one on packet page 1 (Court) and one on packet page 6. Page 4 still carries 10 placements, the same as before -- the three widgets were always placed; what changed is which stream is placed at them.",
+        "howTheSweepWasProvedSensitive": "It was run on the superseded pre-FIX68 bytes recovered from history at ab018b86a, which re-hash to 3cb52dc501311af75b69ef7c8e339849b0fbb2d632bd16e0f6b3a4483e89a0cd and 204a36fd7f6f27ba2dd630afd90c7065e5521419c8c379ef095ead0883101d44 -- FIX68's `before` pair, and the pair VF02 recovered. The same script, unchanged, returns 6 failures per fixture on them, naming field 11.1 at a 3.6pt width overhang plus five others, which is VF02's count for those bytes placement for placement. A sweep clean on the delivered bytes and red on the superseded ones is measuring the thing it claims to measure.",
+        "noSynthesizedSquare": "Confirmed in ink rather than asserted. All 30 widgets of the 21 selection controls were compared with the pinned forms at their own rects on the delivered bytes: the only added ink at any of them is the 3,382 pixels of form-owned inner-box doubling recorded above, and the packet stamps no square of its own at any of them."
+      },
+
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set -> PASS_COMPLETE, 14/132 written, exit 0. Run on the committed bytes before the first edit and again on the rebuilt bytes.",
+      "whyNineZerosIsNotByItselfAPass": "All nine were zero before this repair and the family still failed. The three black rectangles were not a write the field map declares, so visualDefects could not see them, and no other counter reads the delivered pixels at all. Nine zeros after the repair are the same nine zeros; what changed is the 8,344 pixels, and only the raster comparison says so.",
+
+      "cohortScan": {
+        "script": "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs, read-only.",
+        "output": "data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json",
+        "question": "Which DELIVERING families bind an official form carrying a widget the family does not write, with /MK /BC and no usable appearance at the moment pdf-lib regenerates?",
+        "denominator": "230 census-v1 family directories that carry both a source receipt and delivered fixture bytes. Writes are read from each family's own reports/actual-writes.json, which is read back from the artifact bytes; sources are resolved by SHA-256 against every mounted custody and never by declared path.",
+        "result": "5 families, 121 exposed widgets: 105 where the form ships no usable appearance at all and 16 where it ships one and the unwritten-input drop clears it below an AcroForm root. 4 of the 5 are still on the old default; the fifth is this family, and its builder now opts in.",
+        "theConcreteAffectedSet": [
+          { "familyId": "co_multiple_conviction_seal-set", "jurisdiction": "CO", "widgets": 3, "noSourceAppearance": 0, "clearedByDrop": 3, "fieldTypes": ["/Ch"], "masterQueueState": "FAIL_REPAIR_REQUIRED", "builderOptsIn": true },
+          { "familyId": "co_petition_seal_arrest-set", "jurisdiction": "CO", "widgets": 13, "noSourceAppearance": 0, "clearedByDrop": 13, "fieldTypes": ["/Ch"], "masterQueueState": "FAIL_REPAIR_REQUIRED", "builderOptsIn": false },
+          { "familyId": "mi_setaside_trafficking-set", "jurisdiction": "MI", "widgets": 72, "noSourceAppearance": 72, "clearedByDrop": 0, "fieldTypes": ["/Tx"], "masterQueueState": "COMPLETE_PACKET_PROVEN", "builderOptsIn": false },
+          { "familyId": "mi_setaside_marihuana-set", "jurisdiction": "MI", "widgets": 31, "noSourceAppearance": 31, "clearedByDrop": 0, "fieldTypes": ["/Tx"], "masterQueueState": "COMPLETE_PACKET_PROVEN", "builderOptsIn": false },
+          { "familyId": "ky_felony_vacatur_expungement-set", "jurisdiction": "KY", "widgets": 2, "noSourceAppearance": 2, "clearedByDrop": 0, "fieldTypes": ["/Tx"], "masterQueueState": "OUT_OF_SCOPE", "builderOptsIn": false }
+        ],
+        "howTheScanWasProvedToMeasureTheRightThing": "It returns exactly the three widgets VF02 measured in ink on this family -- 9B.0, 9B.2 and 9C.0 -- and no fourth. An earlier spelling of its usability test read a check box's /AP /N STATE DICTIONARY as 'no appearance' and returned 28 for this family, 21 families and 468 widgets for the corpus; the delivered bytes carry no square at those widgets, so that spelling was wrong, was corrected, and the corrected reading is what is reported. The wrong reading is recorded in the report itself so the correction can be checked rather than trusted.",
+        "honestAbsence": "234 documents across 86 families are NOT_MEASURABLE_HERE -- their receipts pin a digest no mounted custody holds, or the family delivers no write proof. An absence is reported as an absence and is never merged into a zero.",
+        "notARepair": "No family in this list other than this one is repaired, rebuilt, opted in or touched. A row in the cohort is a reason to measure a family, not a finding about its delivered bytes: the scan reads pinned SOURCE binaries plus each family's own write proof and opens no other family's packet artifact."
+      },
+
+      "corpusIdentityCheckForOtherFamilies": {
+        "method": "git status against base 432af667f over data/rcap-all50/overlays/census-v1, after all three rebuilds and after the scan.",
+        "result": "Exactly one family directory differs from base: co/co-multiple-conviction-seal-set--official-pdf-fill. Every other census-v1 family directory is byte-identical, file for file.",
+        "theOptedOutControl": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs -- an unrelated family that shares this module and does not pass the option -- was rebuilt in full with the changed shared machinery in place. Its fixtures rebuild to d002c853e5a21a0314ea9a359d975744c49699b473e2288224aa0dc57a882350 and 48bfd2a6832b5df00c0c20e2e20892a8b624dc93e8da4390863e6d1cf9342514, which are the digests it already had, and git reports no change anywhere in its directory. Default-off is proved by rebuilding, not by reading the default.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, product-wiring.json, build-status.json, every legal-decision record, and every other family's builder and directory. The claim ledger is written only by this lane's own release, and committed separately."
+      },
+
+      "verifiersAndTests": {
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_multiple_conviction_seal-set": "PASS_COMPLETE, nine counters zero, exit 0. Run before and after.",
+        "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0.",
+        "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, 5 controls, exit 0. FIX50's controls are unaffected.",
+        "scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, 6 controls, exit 0. FIX61's controls are unaffected.",
+        "scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs": "NEW. PASS, 6 controls, exit 0. (1) NEGATIVE CONTROL: with the option OFF a text field carrying /MK /BC and NO /AP that the run does not write is delivered as a stroked rectangle -- 1,452 dark pixels in its own rect at 300 dpi, the exact perimeter of the widget box. (2) With the option ON the same widget flattens to 0 dark pixels there. (3) The removal count is reported per document and is 0 when the option is off. (4) A chooser with /MK /BC whose source appearance draws only a rule: with the option off, 762 of its 1,452 pixels sit ABOVE the rule band, which is the box; with it on, 0 above the band and 2,668 in it, which is the court's rule alone -- the box goes and the rule stays. (5) A WRITTEN field with the same /MK spelling is BYTE-IDENTICAL either way and keeps its value. (6) A chooser whose source appearance shows the word 'Choose the court' is still dropped whole with the option on: 0 dark pixels, 0 kept as silent -- the drop is narrowed by the option, never widened.",
+        "scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0.",
+        "scripts/verify-rcap-appearance-semantics.mjs": "OK, 10 controls hold and 4 mutations each turn their control red, exit 0. Both mutations that target the branch this lane edited still match the source, because the branch condition was kept spelled verbatim.",
+        "scripts/verify-rcap-finalizer-widget-contribution.mjs": "FAIL, 2 of its controls did not hold, exit 1 -- PRE-EXISTING. Confirmed by stashing this lane's two shared-module edits and re-running at base 432af667f: identical exit code, identical two controls, identical messages (6-a-legitimately-selected-choice-value-remains-visible and 7-a-legitimately-populated-text-value-remains-visible). Neither introduced nor repaired here."
+      },
+
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family co_multiple_conviction_seal-set",
+        "whenItWasRun": "AFTER the work, not before. Stated plainly rather than presented as a gate that was cleared first: this lane confirmed the grant and the two fixture digests before opening anything, but ran the environment preflight late.",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable.",
+        "theThreeFailures": [
+          "worktree_clean: 18 uncommitted paths. Those paths are this lane's own repair, and the check was run before they were committed. Not a property of the environment.",
+          "private_is_git_ignored: the check resolves private/ through the read-only symlink this dispatch specifies and reports NOT git-ignored. Established by other evidence instead: `git check-ignore -v private` exits 0, `git ls-files private/` returns 0 tracked paths, and no path under private/ appeared in git status at any point. No source byte can enter a commit.",
+          "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- the same single missing Alabama entry VF02 recorded. No Colorado entry is absent or mismatched, and family_sources_bind reports 2/2 binding by exact SHA-256 for this family."
+        ],
+        "passedAndRelevant": "repo_identity fix80-co-multiple-mk-border at 432af667, clone_is_complete, master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), family_sources_bind 2/2 by exact SHA-256, master_library_not_at_operational_path, absent_is_not_empty, stale_artifact_block_consulted (0 artifacts under this family blocked).",
+        "toolchain": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext/pdfinfo."
+      },
+
+      "acceptanceReceipt": null,
+
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is claimed. Every raster in this row is a local pdftoppm measurement taken under /tmp to read the page and deleted after measuring. Both fixture digests move, so any central raster acceptance receipt bound to canonical 50710ee3... or boundary 8deaf1ec... stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json was not opened.",
+        "INDEPENDENT VERIFICATION. This lane changed the shared flattening step, opted this family into it and rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, and no obligation is scored here.",
+        "THE FAMILY'S OWN BINDING RECORDS. product-wiring.json still carries binding.acceptanceReceipt and binding.lastIndependentVerification bound to the superseded digests, and build-status.json still records independentVerificationStatus PENDING. Both are now stale against the delivered bytes and neither was opened for writing by this lane.",
+        "THE COHORT'S OWN REPAIRS. Four other delivering families are exposed to the same shared behaviour across three jurisdictions and 118 source widgets -- co_petition_seal_arrest-set, mi_setaside_trafficking-set, mi_setaside_marihuana-set and ky_felony_vacatur_expungement-set. Not one of them is repaired, rebuilt, opted in or touched. Measuring a cohort is not fixing it.",
+        "WHETHER EVERY COHORT WIDGET REACHES A DELIVERED PAGE. The scan reads pinned SOURCE binaries plus each family's own write proof; it opens no other family's packet artifact and rasters nothing. A row in it is a reason to measure a family, never a finding about that family's delivered bytes.",
+        "THE SIXTEEN WRITTEN-VALUE BORDERS. The same regeneration draws a border around all sixteen written values on pages 1, 5 and 6, inside their own declared write boxes. The opt-in is defined over fields this run did not write, so it does not reach them, they are unchanged to the pixel, and they stay disclosed exactly as VF02 disclosed them.",
+        "THE NINE INNER-BOX DOUBLINGS. 3,382 dark pixels per fixture at nine selection rects on pages 1, 2 and 7, all of it the form's own printed checkbox exposed when stripWidgetBackground removes the /Off appearance's opaque white fill. Different function, different mechanism, unchanged here, still open -- the same divergence VF02 measured on Vermont 600-00228.",
+        "THE FOUR selfHelpStopConditions. CO.memo.json declares four stop conditions that participant-instructions.md does not carry. VF02 recorded that under SELF_HELP_STOP and this lane did not touch the instructions.",
+        "THE PRE-EXISTING RED IN scripts/verify-rcap-finalizer-widget-contribution.mjs. Two of its controls fail, exit 1, identically at base 432af667f with this lane's edits stashed. Neither introduced nor repaired here.",
+        "THE DEFAULT. suppressSynthesizedWidgetBorders is default-off, so every family that does not pass it keeps the bytes it has and the behaviour is not corrected corpus-wide. The Captain decision to flip the default is not taken here.",
+        "THE ARTIFACT SIZE. Both fixtures roughly tripled because the preserved source appearances name the form's own embedded font. That is disclosed, not optimised, and no lane has been asked whether a 1.3 MB packet is acceptable."
+      ],
+
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both digests moved and a fresh central raster is owed; neither queue file was opened.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing.",
+        "None of the cohort's four other repairs. They are measured and named, and not one of them is touched.",
+        "No change to the default behaviour of any existing option, and no whitelist by family, form or field name anywhere.",
+        "No PR. The branch is pushed and nothing else."
+      ],
+
+      "grantsNothing": "A repair is a repair. It approves no output, opens no commercial route, creates no fulfillment record, and promotes nothing."
+    }
+  ]
+}

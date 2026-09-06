@@ -119,6 +119,28 @@ export const WRITE = (fact) => ({ policy: "write", fact });
  */
 export const SUPPLY = (what, whyTheBuildDoesNotHoldIt = null) => ({ policy: "supply", what, buildNote: whyTheBuildDoesNotHoldIt });
 
+/**
+ * A blank the platform HOLDS a value for and this build does not write.
+ *
+ * Kept apart from SUPPLY, and it is the difference between two sentences that
+ * look alike and are not. SUPPLY says the platform holds no value; this says it
+ * holds one and something other than availability stopped the write -- here,
+ * the shared field semantics, which protect every blank whose printed line
+ * names a magistrate and refuse the write whatever fact is offered.
+ *
+ * A build limitation is not an unavailable fact, and a row that says the
+ * platform holds nothing when it holds the value is the defect that put three
+ * New Mexico families in repair. So the row says which it is, in terms, and
+ * declares KNOWN_FACT_NOT_WRITTEN rather than claiming a permitted blank: the
+ * disposition the completeness contract gives a held fact left off the page,
+ * self-reported rather than waited for.
+ *
+ * `what` is still what the participant is told to write, because they still
+ * have to write it.
+ */
+export const HELD_NOT_WRITTEN = (what, whyTheBuildDoesNotWriteIt) =>
+  ({ policy: "held_not_written", what, buildNote: whyTheBuildDoesNotWriteIt });
+
 /** A signature, a signature date, a notarial certificate, a court-only blank. */
 export const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 
@@ -610,7 +632,26 @@ export async function renderAcroForm(source, census, facts) {
     explicitMappings: Object.fromEntries(writable.map((r) => [r.name, r.fact])),
     unwritableFields: census.widgetRows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name })),
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * ISO 32000-1 12.5.5 places a widget's appearance by mapping its /BBox,
+     * transformed by its /Matrix, onto the annotation's /Rect. pdf-lib's
+     * flatten() emits the translation and never that mapping, so an appearance
+     * whose transformed BBox is not already the size of its /Rect is flattened
+     * at a size the form does not draw. FIX61 measured the shared finalizer's
+     * opt-in against the one AcroForm binary these families bind, Form 4-222
+     * NMRA at 809c66a7: of 152 examined appearances 39 carry a mapping that is
+     * not the identity, the worst displacing a corner by 12.84pt. The flag
+     * pre-composes that mapping into each affected appearance's own /Matrix; a
+     * placement already at the identity is left byte-identical, and the
+     * finalizer itself is not changed.
+     *
+     * It is set on the host rather than in one builder because all three New
+     * Mexico families bind that same binary at that same digest through this
+     * one call, and a repair to a shared placement belongs where the sharing
+     * is.
+     */
+    fitAppearancesToRect: true
   });
 }
 
@@ -860,6 +901,21 @@ export function mapFor(source, census, report, isFlat) {
       continue;
     }
 
+    if (r.policy === "held_not_written") {
+      canonicalRefusals.push({
+        ...base,
+        reason: `the platform holds a value for this blank and this build does not write it: ${r.buildNote}`,
+        category: null, completenessClass: null, class: null,
+        completenessDisposition: "KNOWN_FACT_NOT_WRITTEN",
+        theBuildHoldsAValueForThisBlank: true,
+        requiredBeforeFiling: false, routeDetermined: false, factId: null,
+        why: `the platform holds a value for this blank and this build does not write it: ${r.buildNote}`,
+        participantMustSupply: r.what,
+        whyTheBuildDoesNotWriteIt: r.buildNote
+      });
+      continue;
+    }
+
     if (r.policy === "optional") {
       canonicalRefusals.push({
         ...base,
@@ -1054,54 +1110,89 @@ export async function runNmFamily(family, argv = []) {
     };
   }
 
-  const censuses = [];
-  for (const source of resolved) {
-    const isFlat = source.strategy === "measured_flat_overlay";
-    const census = isFlat ? await censusFlat(source) : await censusAcroForm(source);
-    if (isFlat) {
-      assert.equal(census.unmapped.length, 0,
-        `${source.documentId}: ${census.unmapped.length} measured blank(s) carry no dictionary entry, so the packet would ship a blank nothing classifies: ${JSON.stringify(census.unmapped.slice(0, 6))}`);
-      assert.equal(census.stale.length, 0,
-        `${source.documentId}: the dictionary names ${census.stale.length} blank(s) this form no longer prints where it says; the geometry has moved: ${JSON.stringify(census.stale)}`);
-      assert.equal(census.acroFieldCount, 0,
-        `${source.documentId}: the corpus index records this form as flat and it now carries ${census.acroFieldCount} AcroForm field(s); a measured overlay is the wrong strategy for it`);
-      assert.equal(census.strokedCheckboxCount, 0,
-        `${source.documentId}: ${census.strokedCheckboxCount} stroked tick box(es) are now measurable, so the printed controls this build leaves to the participant should be mapped as measured controls instead`);
-      /*
-       * A measured overlay derives every write box from a glyph position, and a
-       * glyph positioned by a fallback advance is not a position. The check is
-       * on the WRITES rather than on the page: the retained local orders draw
-       * their tick boxes as a symbol-font glyph whose width the font does not
-       * supply, so nineteen refused blanks that sit to the right of one on their
-       * own baseline carry a drifting x -- and none of them is a place this
-       * build writes. Those rows keep their exact baseline and their position
-       * along the line, are recorded as having no measurable coordinate, and get
-       * no write box at all. A WRITE in that position stops the build.
-       */
-      assert.deepEqual(census.writesWithUnmeasurableX, [],
-        `${source.documentId}: ${census.writesWithUnmeasurableX.length} value(s) would be written at a coordinate that carries fallback-advance drift: ${JSON.stringify(census.writesWithUnmeasurableX)}`);
-    } else {
-      assert.equal(census.unmapped.length, 0,
-        `${source.documentId}: ${census.unmapped.length} widget(s) carry no dictionary entry: ${JSON.stringify(census.unmapped.slice(0, 8).map((u) => u.field))}`);
-      assert.equal(census.stale.length, 0,
-        `${source.documentId}: the dictionary names ${census.stale.length} field(s) this form does not have: ${JSON.stringify(census.stale)}`);
-      assert.equal(census.printedUnmapped.length, 0,
-        `${source.documentId}: ${census.printedUnmapped.length} printed blank(s) that no widget covers carry no dictionary entry, so the packet would ship a blank nothing classifies: ${JSON.stringify(census.printedUnmapped.slice(0, 6))}`);
-      assert.equal(census.printedStale.length, 0,
-        `${source.documentId}: the printed-blank dictionary names ${census.printedStale.length} blank(s) this form no longer prints there: ${JSON.stringify(census.printedStale)}`);
-      assert.equal(census.hiddenOrNoView.length, 0,
-        `${source.documentId}: ${census.hiddenOrNoView.length} widget(s) are Hidden or NoView and nothing may be written on them: ${JSON.stringify(census.hiddenOrNoView)}`);
-      if (source.acroFieldCountFromIndex != null) {
-        assert.equal(census.widgetRows.length, source.acroFieldCountFromIndex,
-          `${source.documentId}: censused ${census.widgetRows.length} AcroForm fields, the committed corpus index declares ${source.acroFieldCountFromIndex}`);
+  /*
+   * ONE CENSUS PER FIXTURE, BECAUSE A DICTIONARY MAY BE A FUNCTION OF THE FACTS.
+   *
+   * Most of these documents are answered the same way for every participant and
+   * their dictionaries are plain objects, measured once and read twice. One is
+   * not: Form 4-952 paragraph 4 asks for the case number BY THE COURT THAT HELD
+   * THE CASE and paragraph 12 is a printed select-one over four courts, and the
+   * track's intake collects which court that was as a required answer. A static
+   * dictionary cannot answer either of them without asserting a branch for a
+   * case it has not been told about, which is exactly what the delivered bytes
+   * did.
+   *
+   * So a document may declare its dictionary as `(facts) => ({...})`, and the
+   * census is built per fixture. A plain object is untouched by this: it is
+   * passed through unchanged and both fixtures get the same rows, so every
+   * document and every family that does not opt in is byte-unaffected. The
+   * measurement itself does not depend on the facts -- the same pinned bytes
+   * are measured either way -- and the assertions below therefore run over each
+   * fixture's own rows rather than over one fixture's rows twice.
+   */
+  const censusesFor = async (facts) => {
+    const built = [];
+    for (const source of resolved.map((r) => ({
+      ...r,
+      dictionary: typeof r.dictionary === "function" ? r.dictionary(facts) : r.dictionary,
+      printedBlankDictionary: typeof r.printedBlankDictionary === "function"
+        ? r.printedBlankDictionary(facts)
+        : r.printedBlankDictionary
+    }))) {
+      const isFlat = source.strategy === "measured_flat_overlay";
+      const census = isFlat ? await censusFlat(source) : await censusAcroForm(source);
+      if (isFlat) {
+        assert.equal(census.unmapped.length, 0,
+          `${source.documentId}: ${census.unmapped.length} measured blank(s) carry no dictionary entry, so the packet would ship a blank nothing classifies: ${JSON.stringify(census.unmapped.slice(0, 6))}`);
+        assert.equal(census.stale.length, 0,
+          `${source.documentId}: the dictionary names ${census.stale.length} blank(s) this form no longer prints where it says; the geometry has moved: ${JSON.stringify(census.stale)}`);
+        assert.equal(census.acroFieldCount, 0,
+          `${source.documentId}: the corpus index records this form as flat and it now carries ${census.acroFieldCount} AcroForm field(s); a measured overlay is the wrong strategy for it`);
+        assert.equal(census.strokedCheckboxCount, 0,
+          `${source.documentId}: ${census.strokedCheckboxCount} stroked tick box(es) are now measurable, so the printed controls this build leaves to the participant should be mapped as measured controls instead`);
+        /*
+         * A measured overlay derives every write box from a glyph position, and a
+         * glyph positioned by a fallback advance is not a position. The check is
+         * on the WRITES rather than on the page: the retained local orders draw
+         * their tick boxes as a symbol-font glyph whose width the font does not
+         * supply, so nineteen refused blanks that sit to the right of one on their
+         * own baseline carry a drifting x -- and none of them is a place this
+         * build writes. Those rows keep their exact baseline and their position
+         * along the line, are recorded as having no measurable coordinate, and get
+         * no write box at all. A WRITE in that position stops the build.
+         */
+        assert.deepEqual(census.writesWithUnmeasurableX, [],
+          `${source.documentId}: ${census.writesWithUnmeasurableX.length} value(s) would be written at a coordinate that carries fallback-advance drift: ${JSON.stringify(census.writesWithUnmeasurableX)}`);
+      } else {
+        assert.equal(census.unmapped.length, 0,
+          `${source.documentId}: ${census.unmapped.length} widget(s) carry no dictionary entry: ${JSON.stringify(census.unmapped.slice(0, 8).map((u) => u.field))}`);
+        assert.equal(census.stale.length, 0,
+          `${source.documentId}: the dictionary names ${census.stale.length} field(s) this form does not have: ${JSON.stringify(census.stale)}`);
+        assert.equal(census.printedUnmapped.length, 0,
+          `${source.documentId}: ${census.printedUnmapped.length} printed blank(s) that no widget covers carry no dictionary entry, so the packet would ship a blank nothing classifies: ${JSON.stringify(census.printedUnmapped.slice(0, 6))}`);
+        assert.equal(census.printedStale.length, 0,
+          `${source.documentId}: the printed-blank dictionary names ${census.printedStale.length} blank(s) this form no longer prints there: ${JSON.stringify(census.printedStale)}`);
+        assert.equal(census.hiddenOrNoView.length, 0,
+          `${source.documentId}: ${census.hiddenOrNoView.length} widget(s) are Hidden or NoView and nothing may be written on them: ${JSON.stringify(census.hiddenOrNoView)}`);
+        if (source.acroFieldCountFromIndex != null) {
+          assert.equal(census.widgetRows.length, source.acroFieldCountFromIndex,
+            `${source.documentId}: censused ${census.widgetRows.length} AcroForm fields, the committed corpus index declares ${source.acroFieldCountFromIndex}`);
+        }
       }
+      if (source.pageCountFromIndex != null) {
+        assert.equal(census.pageCount, source.pageCountFromIndex,
+          `${source.documentId}: ${census.pageCount} pages, the committed corpus index declares ${source.pageCountFromIndex}`);
+      }
+      built.push({ source, census, isFlat });
     }
-    if (source.pageCountFromIndex != null) {
-      assert.equal(census.pageCount, source.pageCountFromIndex,
-        `${source.documentId}: ${census.pageCount} pages, the committed corpus index declares ${source.pageCountFromIndex}`);
-    }
-    censuses.push({ source, census, isFlat });
+    return built;
+  };
+
+  const censusesByFixture = new Map();
+  for (const fixtureName of ["canonical", "boundary"]) {
+    censusesByFixture.set(fixtureName, await censusesFor(FIXTURES[fixtureName]));
   }
+  const censuses = censusesByFixture.get("canonical");
 
   if (checkOnly) {
     return {
@@ -1121,6 +1212,7 @@ export async function runNmFamily(family, argv = []) {
         inapplicable: census.rows.filter((r) => r.policy === "inapplicable").length,
         optional: census.rows.filter((r) => r.policy === "optional").length,
         attorney: census.rows.filter((r) => r.policy === "attorney").length,
+        heldAndNotWritten: census.rows.filter((r) => r.policy === "held_not_written").length,
         notABlank: census.notBlanks?.length ?? 0
       }))
     };
@@ -1134,6 +1226,7 @@ export async function runNmFamily(family, argv = []) {
   const writeProofs = [];
   const rasterPages = [];
   const maps = [];
+  const boundaryMaps = [];
   const refusedWrites = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
@@ -1141,7 +1234,7 @@ export async function runNmFamily(family, argv = []) {
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
     const pageManifest = [];
-    for (const { source, census, isFlat } of censuses) {
+    for (const { source, census, isFlat } of censusesByFixture.get(fixtureName)) {
       const { bytes, report } = isFlat
         ? await renderFlat(source, census, facts)
         : await renderAcroForm(source, census, facts);
@@ -1174,7 +1267,8 @@ export async function runNmFamily(family, argv = []) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), documentId: source.documentId, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report, isFlat));
+      const map = mapFor(source, census, report, isFlat);
+      if (fixtureName === "canonical") maps.push(map); else boundaryMaps.push(map);
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -1217,6 +1311,43 @@ export async function runNmFamily(family, argv = []) {
   if (process.env.NM_DEBUG_REFUSALS) { console.error(JSON.stringify(refusedWrites, null, 1)); }
   assert.equal(refusedWrites.length, 0,
     `${refusedWrites.length} value(s) the map owes were refused by the finalizer: ${JSON.stringify(refusedWrites.slice(0, 6))}`);
+
+  /*
+   * The boundary fixture's own rows, on the boundary half of each map.
+   *
+   * `boundaryWrites` used to be the canonical array under another name, which
+   * was true only while every dictionary was static. Form 4-952's is not: the
+   * two fixtures take different branches of paragraph 4 and paragraph 12, so a
+   * boundary column copied from the canonical one would state that the boundary
+   * packet writes a district-court case number it does not write. Each map now
+   * carries what its own fixture did, and the rows that differ are named, so a
+   * reader can see which blanks the held originating-court answer moves.
+   */
+  for (const map of maps) {
+    const boundary = boundaryMaps.find((b) => b.documentId === map.documentId);
+    if (!boundary) continue;
+    map.boundaryWrites = boundary.canonicalWrites;
+    map.boundaryRefusals = boundary.canonicalRefusals;
+    const canonicalFields = new Set(map.canonicalWrites.map((w) => w.field));
+    const boundaryFields = new Set(boundary.canonicalWrites.map((w) => w.field));
+    const moved = [
+      ...map.canonicalWrites.filter((w) => !boundaryFields.has(w.field))
+        .map((w) => ({ field: w.field, page: w.page, printedLabel: w.printedLabel, writtenOn: "canonical", factId: w.factId })),
+      ...boundary.canonicalWrites.filter((w) => !canonicalFields.has(w.field))
+        .map((w) => ({ field: w.field, page: w.page, printedLabel: w.printedLabel, writtenOn: "boundary", factId: w.factId }))
+    ];
+    if (moved.length > 0) {
+      map.rowsDecidedByAHeldFactRatherThanByTheRoute = {
+        why:
+          "these blanks are decided by an answer the intake collects for the participant, not by the route: Form 4-952 "
+          + "paragraph 4 asks for the case number by the court that held the case, and paragraph 12 is a printed "
+          + "select-one over four courts. The row below is written on the fixture whose held answer selects it and left "
+          + "empty on the other, and the empty one says which branch it belongs to.",
+        heldFact: "matter.originating_court",
+        rows: moved
+      };
+    }
+  }
 
   const rbf = requiredBeforeFilingItems(maps);
   const controls = handMarkedControls(maps);

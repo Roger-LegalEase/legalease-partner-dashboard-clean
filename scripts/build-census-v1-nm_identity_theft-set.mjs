@@ -185,8 +185,37 @@ const DICTIONARY_4_951 = {
   "p1-y20328-x9456": COURT_BOX(P2, "Petitioner has no pending expungement cases", "mark it if you have no other expungement case pending in this judicial district"),
   "p1-y20328-x35976": DISTRICT({ section: P2, label: "Judicial district in which Petitioner has no pending expungement cases" }),
   "p1-y18948-x9456": COURT_BOX(P2, "Petitioner has the following pending expungement cases", "mark it instead if you do have other expungement cases pending, and list their case numbers on the three lines below"),
-  "p1-y18948-x40776": DISTRICT({ section: P2, label: "Judicial district in which Petitioner has pending expungement cases" }),
-  "p1-y16188-x26784": DISTRICT({ section: P2, label: "Judicial district court the pending expungement cases are before" }),
+  /*
+   * THE PENDING-EXPUNGEMENT BRANCH IS NOT THIS PETITION'S BRANCH.
+   *
+   * Item 2 is one either/or: no expungement case pending in this district, or
+   * the ones the petitioner then lists. The platform holds no
+   * pending-expungement fact, so the packet marks neither box -- and these two
+   * blanks belong to the second branch alone. The build used to write
+   * matter.court, the district THIS petition is filed in, into both of them,
+   * which asserted a district for cases the participant has never said exist,
+   * on a petition sworn under penalty of perjury, with neither box marked and
+   * the three case-number lines below it blank. The district of a pending
+   * expungement case is a different fact from the district of this filing.
+   *
+   * The blank on the first branch keeps its write: "has no pending expungement
+   * cases in the ____ Judicial District" names this filing's own district and
+   * asserts nothing about any other case.
+   */
+  "p1-y18948-x40776": {
+    section: P2, label: "Judicial district in which Petitioner has pending expungement cases",
+    ...SUPPLY(
+      "the judicial district your other expungement cases are pending in, if you have any and you mark the second box; if you have none, mark the first box and leave this line empty",
+      "this line belongs to the second branch of item 2's either/or. The platform holds no pending-expungement fact -- the intake for this track collects no other expungement case, its district or its number -- and the judicial district THIS petition is filed in is a different fact from the district another case is pending in. Writing it here asserted a district for cases the participant has not claimed exist."
+    )
+  },
+  "p1-y16188-x26784": {
+    section: P2, label: "Judicial district court the pending expungement cases are before",
+    ...SUPPLY(
+      "the judicial district court those pending cases are before, if you marked the second box; leave it empty if you have no other expungement case pending",
+      "the second half of the same unelected branch. The platform holds no pending-expungement fact, so it holds no court those cases are before."
+    )
+  },
   "p1-y14808-x9456": { section: P2, label: "Pending expungement case numbers, first line", ...SUPPLY("the case number of any other expungement case of yours that is pending in this judicial district") },
   "p1-y13428-x9456": { section: P2, label: "Pending expungement case numbers, second line", ...SUPPLY("a second pending expungement case number, if you have one") },
   "p1-y12048-x9456": { section: P2, label: "Pending expungement case numbers, third line", ...SUPPLY("a third pending expungement case number, if you have one") },
@@ -577,7 +606,12 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "printed on the form itself, not a blank, so nothing can change it. If you are filing anywhere other than the Sixth "
     + "Judicial District (Grant, Hidalgo or Luna County), **cross out that line by hand and write your own judicial "
     + "district**, or ask the district court clerk for their copy of Form 4-222 NMRA. Do not file it with the wrong court "
-    + "named on it.", ""
+    + "named on it.", "",
+    "**The county line above it is left empty for you on purpose.** That caption reads down the page -- state, then "
+    + "county, then court -- so a county printed above the wrong court name makes one caption that is wrong as a whole, "
+    + "and the packet does not add to it. Write your county there yourself, in the same hand and at the same moment as "
+    + "you correct the court line, or take your own district's copy of the form and complete its caption from the "
+    + "start. The same is true of the county line on the order bound at the back of it.", ""
   );
 
   out.push("## Where you file, and what it costs", "");
@@ -757,7 +791,11 @@ const FAMILY = {
       + "the printed word JUDICIAL, and the petitioner's name on the In re rule. Confirm each value sits ON its own "
       + "printed run and does not overlap the printed caption to its left or the word that follows it.",
     "Form 4-951 page 1, section 1: date of birth, mailing address, city, state and ZIP written on their own rules; all "
-      + "three phone boxes empty; the first alias line written and the two below it empty.",
+      + "three phone boxes empty; all three alias lines empty -- the shared fact registry has no alias descriptor and "
+      + "the packet writes none of them, which an earlier version of this list described the other way round.",
+    "Form 4-951 page 1, section 2: the judicial district written on ONE line only -- the \"has no pending expungement "
+      + "cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch EMPTY and both "
+      + "printed boxes unmarked.",
     "Form 4-951 page 1 and 2: every printed [ ] box unmarked, on the representation election, sections 2 and 3, all "
       + "seven agency boxes, all four originating-court boxes and the telephonic-appearance box.",
     "Form 4-951 page 2, section 6: the county on the Sheriff line, the judicial district on the District Court and "
@@ -773,8 +811,10 @@ const FAMILY = {
       + "particular page 4's \"Name of actual offender\" and \"Contact information\" lines must be empty, and the box in "
       + "front of that paragraph unmarked.",
     "Form 4-222 pages 1 and 6: the printed \"SIXTH JUDICIAL DISTRICT COURT\" caption, which no field covers and which "
-      + "this build cannot change. Confirm the county and the petitioner's name are written and the respondent line and "
-      + "the three case-number boxes are empty.",
+      + "this build cannot change. Confirm the COUNTY OF blank one line above it is now EMPTY on both captions -- it "
+      + "used to carry the participant's county, which composed with the printed district into a caption naming a "
+      + "court they have not chosen -- and that the petitioner's name is written while the respondent line and the "
+      + "three case-number boxes are empty.",
     "Form 4-222 pages 1 to 3: every financial box unmarked and every financial line empty.",
     "Form 4-222 page 4: the printed name, street address and city/state/ZIP written; the signature, the telephone, both "
       + "party boxes and the whole notary block empty.",
@@ -885,7 +925,14 @@ const FAMILY = {
   mattersForTheReviewersAttention: [
     "BLOCKING: Form 4-222 and Form 4-223 print \"SIXTH JUDICIAL DISTRICT COURT\" in their captions with no field over it. "
       + "Counsel should decide whether the fee-waiver component may ship statewide on this binary, or must be conditioned "
-      + "on the Sixth Judicial District the way the retained local order is conditioned on the district that published it.",
+      + "on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. "
+      + "The build no longer writes the participant's county into the blank one line above the printed district on "
+      + "either caption; both are left for the participant, who is told to complete that caption by hand or to use "
+      + "their own district's copy. That is a refusal to add ink to the caption, not an answer to the question above.",
+    "Item 2 of Form 4-951 is an either/or about OTHER pending expungement cases. The two blanks on the branch that "
+      + "asserts such cases exist used to carry the district this petition is filed in; the platform holds no "
+      + "pending-expungement fact and they are now empty and the participant's, with both printed boxes unmarked as "
+      + "before.",
     "The retained Order on Petition to Expunge is one district's form and the packet-set manifest already makes it "
       + "conditional. reports/independent-visual-review.json asks the reviewer to confirm that nothing below its caption "
       + "is written.",

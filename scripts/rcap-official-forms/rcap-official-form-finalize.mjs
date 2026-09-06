@@ -901,7 +901,98 @@ export async function finalizeOfficialForm({
    * a judgement about ink. It should not stay opt-in a day longer than the
    * corpus needs to be rebuilt together.
    */
-  fitAppearancesToRect = false
+  fitAppearancesToRect = false,
+  /*
+   * A BORDER THE FORM DOES NOT PRINT, AT A QUESTION THE PACKET LEAVES UNMADE.
+   *
+   * `/MK /BC` and `/MK /BG` are a widget's border and background colours. Under
+   * ISO 32000-1 12.5.6.19 they are appearance CHARACTERISTICS, consulted only
+   * when a viewer has to construct an appearance for itself; a widget that
+   * ships its own `/AP /N` is drawn from that stream and its `/MK` is never
+   * read. pdf-lib's default providers read `/MK` unconditionally whenever they
+   * regenerate, so wherever this pipeline leaves an unwritten field without a
+   * usable appearance -- by clearing one, or because the source shipped none --
+   * updateFieldAppearances paints a stroked rectangle the size of the widget
+   * and flatten() stamps it on the filing.
+   *
+   * Colorado's JDF 641 is the measured case, and VF02 measured it. Its choice
+   * widgets 9B.0, 9B.2 and 9C.0 on page 4 -- an appeal question, an appellate
+   * court line and a restitution question, all three participant elections the
+   * packet deliberately leaves unmade -- are nested below an AcroForm root, so
+   * the unwritten-input drop clears each appearance without detaching the
+   * field, updateFieldAppearances regenerates one from `/MK /BC [0 0 0]`, and
+   * flatten() finds the page through the widget's own `/P`. Delivered: 8,344
+   * dark pixels of black rectangle per fixture at 300 dpi that the Colorado
+   * Judicial Department's form does not print, outside every declared write
+   * box, on top of the single rule the form does print there -- which the
+   * widget's own 29-byte appearance draws and the regeneration discarded.
+   *
+   * Passing true keeps that silent source appearance instead of clearing it,
+   * wherever every widget of an unwritten field draws no word, and removes
+   * `/MK /BC` and `/MK /BG` from an unwritten field's widgets so that anything
+   * still regenerated for one paints nothing. A field this run WROTE is never
+   * touched by either half, and a chooser whose own appearance shows a prompt,
+   * a default or an option list is still dropped whole.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields,
+   * clearSourceCarriedTextValues, printedDateOrderByField,
+   * suppressSynthesizedAppearances and fitAppearancesToRect above: the families
+   * sharing this finalizer are rebuilt by different workers at different times,
+   * and a repair lane holding one family does not get to decide what the
+   * others' next rebuild produces. Every caller that does not pass this is
+   * byte-unaffected.
+   *
+   * CAPTAIN DECISION: this is the ninth flag carrying that paragraph.
+   */
+  suppressSynthesizedWidgetBorders = false,
+  /*
+   * A COURT'S WRITING RULE DELIVERED AS A BOXED FIELD.
+   *
+   * `/BS /S` is a widget's border STYLE (ISO 32000-1 12.5.4, Table 166). It
+   * says WHERE the border colour in `/MK /BC` is painted: `/S` and the three
+   * decorated styles bound the whole rectangle, `/N` paints nothing, and `/U`
+   * means one thing only -- "a single line along the bottom of the annotation
+   * rectangle". pdf-lib's default text provider never reads it, and strokes a
+   * full rectangle from `/MK /BC` whatever the style says.
+   *
+   * Pennsylvania's Rule 490 blank expungement order is the measured case, and
+   * VF02 measured it. Order page 1 carries eight widgets with
+   * `/MK /BC [0 0 0]`; six declare no `/BS` -- default solid -- and each ships
+   * an appearance that strokes a rectangle, so regenerating one coincides with
+   * the form. The other two are exactly the two the packet writes into,
+   * DocketNumber and Defendant, both declaring `/BS << /S /U >>` and both
+   * shipping an appearance that draws one horizontal line and nothing else.
+   * Delivered, each became a one-point black stroked rectangle -- about 3,157
+   * and 3,244 dark pixels per fixture at 300 dpi -- around a caption blank the
+   * Pennsylvania Judiciary draws as a rule. It is ink inside a declared write
+   * box, so no counter and no raster receipt can see it.
+   *
+   * Passing true removes `/MK /BC` from such a widget before regeneration, so
+   * no rectangle is synthesised, and draws the underline the style declares
+   * back into the regenerated appearance from that same `/MK /BC` and the
+   * widget's `/BS /W`. Both halves are needed: at those two widgets the court's
+   * rule is drawn ONLY by the widget's own appearance stream and not by the
+   * page -- measured at 300 dpi, 0 page-content pixels against 2,680 and 2,856
+   * whole -- so removing the colour alone would trade a border the form does
+   * not print for the loss of a rule the form does.
+   *
+   * A widget is touched only when it DECLARES an underline and its own shipped
+   * appearance agrees there is no box. Where the two contradict each other the
+   * widget is refused and counted, never repaired.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields,
+   * clearSourceCarriedTextValues, printedDateOrderByField,
+   * suppressSynthesizedAppearances, fitAppearancesToRect and
+   * suppressSynthesizedWidgetBorders above: the families sharing this finalizer
+   * are rebuilt by different workers at different times, and a repair lane
+   * holding one family does not get to decide what the others' next rebuild
+   * produces. Every caller that does not pass this is byte-unaffected.
+   *
+   * CAPTAIN DECISION: this is the tenth flag carrying that paragraph.
+   */
+  honorWidgetBorderStyle = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1427,7 +1518,9 @@ export async function finalizeOfficialForm({
     appearanceDispositions,
     detachNestedControlFields,
     suppressSynthesizedAppearances,
-    fitAppearancesToRect
+    fitAppearancesToRect,
+    suppressSynthesizedWidgetBorders,
+    honorWidgetBorderStyle
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 

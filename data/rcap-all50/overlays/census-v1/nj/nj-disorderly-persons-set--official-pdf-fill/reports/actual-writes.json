@@ -6,8 +6,8 @@
       "documentId": "NJ-CN-10557",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
-      "sha256": "d7cb7a72a71aaed7c3fac1cefd03f3e2a9c461bec20b7809cb90925daab00c46",
-      "byteLength": 573971,
+      "sha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+      "byteLength": 573296,
       "written": [
         {
           "field": "DefPhone",
@@ -115,14 +115,6 @@
           "lines": 1
         },
         {
-          "field": "arrest1CaseNum",
-          "factId": "matter.case_number",
-          "kind": "text",
-          "fontSize": 11,
-          "outcome": "fit",
-          "lines": 1
-        },
-        {
           "field": "arrestOff1",
           "factId": "matter.charge",
           "kind": "exact_measured_fact_overlay",
@@ -187,7 +179,7 @@
         },
         {
           "field": "DefAddr2",
-          "factId": "participant.city_state_zip",
+          "factId": "participant.city",
           "kind": "exact_measured_fact_overlay",
           "widgets": [
             {
@@ -292,7 +284,7 @@
         },
         {
           "field": "DefAddr3",
-          "factId": "participant.phone",
+          "factId": "participant.state_zip",
           "kind": "exact_measured_fact_overlay",
           "widgets": [
             {
@@ -427,27 +419,6 @@
               "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-7720966295"
-            }
-          ]
-        },
-        {
-          "field": "arrest1Dt",
-          "factId": "matter.arrest_date",
-          "kind": "exact_measured_fact_overlay",
-          "widgets": [
-            {
-              "widgetIndex": 0,
-              "page": 31,
-              "rect": {
-                "x": 143.197,
-                "y": 467.824,
-                "width": 68.553,
-                "height": 15.24
-              },
-              "fontSize": 9,
-              "outcome": "fit",
-              "renderedAs": "form_xobject_appearance",
-              "xObject": "/ExactFactOverlay-4525072762"
             }
           ]
         }
@@ -949,7 +920,17 @@
           "category": "role"
         },
         {
+          "field": "arrest1Dt",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
           "field": "arrest1Statute",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "arrest1CaseNum",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -1264,7 +1245,24 @@
           "category": "role"
         }
       ],
-      "heldButNotPrinted": [],
+      "heldButNotPrinted": [
+        {
+          "field": "arrest1CaseNum",
+          "factId": "matter.case_number",
+          "valueHeld": "24-CR-001234",
+          "why": "another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched",
+          "reason": "withheld_for_row_integrity",
+          "row": "Expungement Order (Form C), arrest table row 1, delivered page 31"
+        },
+        {
+          "field": "arrest1Dt",
+          "factId": "matter.arrest_date",
+          "valueHeld": "2019-03-08",
+          "why": "another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched",
+          "reason": "withheld_for_row_integrity",
+          "row": "Expungement Order (Form C), arrest table row 1, delivered page 31"
+        }
+      ],
       "selections": [
         {
           "control": "guilty",
@@ -1483,9 +1481,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "d7cb7a72a71aaed7c3fac1cefd03f3e2a9c461bec20b7809cb90925daab00c46",
-        "artifactByteLength": 573971,
-        "appearanceCount": 267,
+        "artifactSha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+        "artifactByteLength": 573296,
+        "appearanceCount": 266,
         "writtenProof": [
           {
             "field": "DefPhone",
@@ -1603,16 +1601,6 @@
             "derivedFrom": "flattened artifact appearance streams at every measured widget"
           },
           {
-            "field": "arrest1CaseNum",
-            "factId": "matter.case_number",
-            "expectedValue": "24-CR-001234",
-            "drawnText": [
-              "24-CR-001234"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "flattened artifact appearance streams at every measured widget"
-          },
-          {
             "field": "arrestOff1",
             "factId": "matter.charge",
             "expectedValue": "Possession of a controlled substance",
@@ -1644,32 +1632,32 @@
           },
           {
             "field": "DefAddr2",
-            "factId": "participant.city_state_zip",
-            "expectedValue": "Newark, NJ 07102",
+            "factId": "participant.city",
+            "expectedValue": "Newark",
             "drawnText": [
-              "Newark, NJ 07102",
-              "Newark, NJ 07102",
-              "Newark, NJ 07102",
-              "Newark, NJ 07102",
-              "Newark, NJ 07102",
-              "Newark, NJ 07102",
-              "Newark, NJ 07102"
+              "Newark",
+              "Newark",
+              "Newark",
+              "Newark",
+              "Newark",
+              "Newark",
+              "Newark"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           },
           {
             "field": "DefAddr3",
-            "factId": "participant.phone",
-            "expectedValue": "973-555-0142",
+            "factId": "participant.state_zip",
+            "expectedValue": "NJ 07102",
             "drawnText": [
-              "973-555-0142",
-              "973-555-0142",
-              "973-555-0142",
-              "973-555-0142",
-              "973-555-0142",
-              "973-555-0142",
-              "973-555-0142"
+              "NJ 07102",
+              "NJ 07102",
+              "NJ 07102",
+              "NJ 07102",
+              "NJ 07102",
+              "NJ 07102",
+              "NJ 07102"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
@@ -1681,16 +1669,6 @@
             "drawnText": [
               "1991-04-17",
               "1991-04-17"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
-          },
-          {
-            "field": "arrest1Dt",
-            "factId": "matter.arrest_date",
-            "expectedValue": "2019-03-08",
-            "drawnText": [
-              "2019-03-08"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
@@ -1716,7 +1694,7 @@
             "mark": "two_diagonal_strokes_inset",
             "drewANewBox": false,
             "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "d7cb7a72a71aaed7c3fac1cefd03f3e2a9c461bec20b7809cb90925daab00c46",
+            "derivedFromArtifactBytesSha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
             "artifactDerivedMarkPaths": [
               {
                 "page": 19,
@@ -1747,8 +1725,8 @@
       "documentId": "NJ-CN-10557",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
-      "sha256": "ecfecedb25777d13da1c39311090d6654d32605aea656f0f9aab9f33884cbebe",
-      "byteLength": 576641,
+      "sha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+      "byteLength": 575751,
       "written": [
         {
           "field": "DefPhone",
@@ -1920,7 +1898,7 @@
         },
         {
           "field": "DefAddr2",
-          "factId": "participant.city_state_zip",
+          "factId": "participant.city",
           "kind": "exact_measured_fact_overlay",
           "widgets": [
             {
@@ -1932,8 +1910,8 @@
                 "width": 264.088,
                 "height": 17.335
               },
-              "fontSize": 7,
-              "outcome": "shrunk",
+              "fontSize": 9,
+              "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-9750469207"
             },
@@ -1946,7 +1924,7 @@
                 "width": 248.402,
                 "height": 15.24
               },
-              "fontSize": 6.5,
+              "fontSize": 8.5,
               "outcome": "shrunk",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-7572533686"
@@ -1960,7 +1938,7 @@
                 "width": 245.654,
                 "height": 15.24
               },
-              "fontSize": 6.5,
+              "fontSize": 8.5,
               "outcome": "shrunk",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-8450180107"
@@ -1974,7 +1952,7 @@
                 "width": 230.567,
                 "height": 15.24
               },
-              "fontSize": 6,
+              "fontSize": 8,
               "outcome": "shrunk",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-8659871878"
@@ -1988,8 +1966,8 @@
                 "width": 283.602,
                 "height": 15.24
               },
-              "fontSize": 7.5,
-              "outcome": "shrunk",
+              "fontSize": 9,
+              "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-5824662338"
             },
@@ -2002,7 +1980,7 @@
                 "width": 252.91,
                 "height": 15.24
               },
-              "fontSize": 6.5,
+              "fontSize": 8.5,
               "outcome": "shrunk",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-1848524175"
@@ -2016,7 +1994,7 @@
                 "width": 238.077,
                 "height": 15.24
               },
-              "fontSize": 6.5,
+              "fontSize": 8,
               "outcome": "shrunk",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-7888911063"
@@ -2025,7 +2003,7 @@
         },
         {
           "field": "DefAddr3",
-          "factId": "participant.phone",
+          "factId": "participant.state_zip",
           "kind": "exact_measured_fact_overlay",
           "widgets": [
             {
@@ -2160,27 +2138,6 @@
               "outcome": "fit",
               "renderedAs": "form_xobject_appearance",
               "xObject": "/ExactFactOverlay-7720966295"
-            }
-          ]
-        },
-        {
-          "field": "arrest1Dt",
-          "factId": "matter.arrest_date",
-          "kind": "exact_measured_fact_overlay",
-          "widgets": [
-            {
-              "widgetIndex": 0,
-              "page": 31,
-              "rect": {
-                "x": 143.197,
-                "y": 467.824,
-                "width": 68.553,
-                "height": 15.24
-              },
-              "fontSize": 9,
-              "outcome": "fit",
-              "renderedAs": "form_xobject_appearance",
-              "xObject": "/ExactFactOverlay-4525072762"
             }
           ]
         }
@@ -2678,6 +2635,11 @@
         },
         {
           "field": "deputyClerkSCCOCnty",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "arrest1Dt",
           "reason": "classified_unwritable_by_role",
           "category": "role"
         },
@@ -3011,6 +2973,14 @@
           "valueHeld": "0123-45-2026-CR-900123.00-AB-CDE/2201",
           "why": "the value does not fit this box at a size a court could read",
           "reason": "value_exceeds_widget_width_at_minimum_font"
+        },
+        {
+          "field": "arrest1Dt",
+          "factId": "matter.arrest_date",
+          "valueHeld": "2019-03-08",
+          "why": "another cell of the same row (arrest1CaseNum, arrest1Statute) could not be printed, and a row is completed or left untouched",
+          "reason": "withheld_for_row_integrity",
+          "row": "Expungement Order (Form C), arrest table row 1, delivered page 31"
         }
       ],
       "selections": [
@@ -3231,9 +3201,9 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "ecfecedb25777d13da1c39311090d6654d32605aea656f0f9aab9f33884cbebe",
-        "artifactByteLength": 576641,
-        "appearanceCount": 267,
+        "artifactSha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+        "artifactByteLength": 575751,
+        "appearanceCount": 266,
         "writtenProof": [
           {
             "field": "DefPhone",
@@ -3382,32 +3352,32 @@
           },
           {
             "field": "DefAddr2",
-            "factId": "participant.city_state_zip",
-            "expectedValue": "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
+            "factId": "participant.city",
+            "expectedValue": "Unincorporated Township of Long Hollow Crossing near Newark",
             "drawnText": [
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999",
-              "Unincorporated Township of Long Hollow Crossing near Newark, NJ 07102-9999"
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark",
+              "Unincorporated Township of Long Hollow Crossing near Newark"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
           },
           {
             "field": "DefAddr3",
-            "factId": "participant.phone",
-            "expectedValue": "973-555-0142 extension 44821",
+            "factId": "participant.state_zip",
+            "expectedValue": "NJ 07102-9999",
             "drawnText": [
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821",
-              "973-555-0142 extension 44821"
+              "NJ 07102-9999",
+              "NJ 07102-9999",
+              "NJ 07102-9999",
+              "NJ 07102-9999",
+              "NJ 07102-9999",
+              "NJ 07102-9999",
+              "NJ 07102-9999"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
@@ -3419,16 +3389,6 @@
             "drawnText": [
               "1991-04-17",
               "1991-04-17"
-            ],
-            "exactValueObserved": true,
-            "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
-          },
-          {
-            "field": "arrest1Dt",
-            "factId": "matter.arrest_date",
-            "expectedValue": "2019-03-08",
-            "drawnText": [
-              "2019-03-08"
             ],
             "exactValueObserved": true,
             "derivedFrom": "page text items read from the artifact content stream at every overlay rectangle"
@@ -3454,7 +3414,7 @@
             "mark": "two_diagonal_strokes_inset",
             "drewANewBox": false,
             "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "ecfecedb25777d13da1c39311090d6654d32605aea656f0f9aab9f33884cbebe",
+            "derivedFromArtifactBytesSha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
             "artifactDerivedMarkPaths": [
               {
                 "page": 19,

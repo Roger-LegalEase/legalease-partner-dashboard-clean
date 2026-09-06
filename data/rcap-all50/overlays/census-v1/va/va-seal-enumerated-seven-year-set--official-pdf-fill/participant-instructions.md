@@ -14,9 +14,16 @@ File the completed packet with the **Circuit Court** for the city or county prin
 
 If your case was decided in a General District Court or in a Juvenile and Domestic Relations District Court, the petition still goes to the **Circuit Court** for that city or county. The petition asks separately which court decided the case, and that is a different question from where the petition is filed.
 
-Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:
+## What this costs, and why there is nothing to waive
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.
+Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: *"none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost."*
+
+Those two sections are **Va. Code § 19.2-392.12(B) and § 19.2-392.12:1(C)**. The route record this packet is built on says the same thing in its own words: *"File the petition with no court fees or costs."*
+
+On a waiver, the same two records say: *"none — no court fee is charged, so there is nothing to waive."* So there is **no filing fee** for you to pay on this petition, and there is **nothing for you to ask the court to waive**. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.
+
+One thing this packet does **not** tell you, because it is not established by the petition and an unsourced figure in a filing instruction is worse than none:
+
 - **How long you have, and exactly how the copy must be served.** The petition's own acknowledgment says a copy goes to the Attorney for the Commonwealth by delivery or by first-class mail with postage prepaid. It sets no deadline, and neither does this page. Ask the same clerk.
 
 ## What is in this packet
@@ -24,8 +31,8 @@ Two things this packet does **not** tell you, because neither is established by 
 | Component | What it is |
 | --- | --- |
 | `primary_filing` | CC-1203, the petition itself |
-| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
 | `ccre_forwarding_request` | the request that the Central Criminal Records Exchange forward your criminal history record to the court, made after filing |
+| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |
 | `records_checklist` | the records you need in front of you to complete the petition |
 | `filing_instructions` | where the packet goes and in what order |
 
@@ -65,17 +72,17 @@ Two things this packet does **not** tell you, because neither is established by 
 | 3 | Why the charging document for the ancillary matter is not reasonably available | why the charging document for the ancillary matter is not reasonably available — only if you ticked that box |
 | 6 | How many CC-1203(A) or CC-1203(B) addendum pages are attached | how many addendum pages you are attaching — only if you ticked the ADDENDUM box |
 
-### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
-
-| Page | The blank on the document | What to write |
-| --- | --- | --- |
-| 1 | Mailing address of the Attorney for the Commonwealth | the mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you |
-
 ### ccre_forwarding_request — Request to the Central Criminal Records Exchange to Forward a Criminal History Record
 
 | Page | The blank on the document | What to write |
 | --- | --- | --- |
 | 1 | Date of the request to the Central Criminal Records Exchange | the date you actually make the request to the Central Criminal Records Exchange, which is after the petition is filed |
+
+### commonwealth_service_and_stipulation_request — Copy to the Attorney for the Commonwealth, and Request for the Commonwealth's Position
+
+| Page | The blank on the document | What to write |
+| --- | --- | --- |
+| 1 | Mailing address of the Attorney for the Commonwealth | the mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you |
 
 ## What the packet answered for you
 
@@ -98,8 +105,19 @@ Check each marked box against your own record before you file. If any of them is
 - **Every attorney box, and the VSB number.** This packet is prepared for you to file without a lawyer, so the petitioner boxes are marked and the attorney boxes are not.
 - **Your Social Security number.** The platform does not store it and will not write it for you.
 
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- Anything was finalised on the same date as the matter to be sealed, because the § 19.2-392.12:1(D) same-date rule may defeat the petition.
+- The offence may not be exactly one of the listed provisions.
+- The attorney for the Commonwealth objects or answers, or the court sets a hearing.
+- Any immigration question.
+
+This list is the registry's, quoted and not summarised. It is not shortened for length and no condition on it is softer than it reads.
+
 ## What this packet is not
 
 This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.
 
-_Route: obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing_
+_Route: obligation:track-only:VA:va_seal_enumerated_seven_year_

@@ -6,8 +6,8 @@
       "documentId": "PA-RCRIM-P-790-PETITION",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf",
-      "sha256": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
-      "byteLength": 121134,
+      "sha256": "f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127",
+      "byteLength": 120916,
       "written": [
         {
           "field": "Full Name",
@@ -483,6 +483,7 @@
           "category": "role"
         }
       ],
+      "heldButNotPrinted": [],
       "selections": [],
       "choiceNeutralization": {
         "performedBeforeFlatten": true,
@@ -498,12 +499,12 @@
             "sourceValuesRemoved": []
           }
         ],
-        "preparedSourceSha256": "ab9abe07a00da1fcd8e43a57e4633548aacb860f3c106b3c2f434b8c08055dd0",
+        "preparedSourceSha256": "66da2a4201bf43dff0ca0b5ade919b62e384352515b0731035a58d9472468eb2",
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
-        "artifactByteLength": 121134,
+        "artifactSha256": "f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127",
+        "artifactByteLength": 120916,
         "appearanceCount": 83,
         "writtenProof": [
           {
@@ -641,6 +642,7 @@
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
         "selectionProof": []
       }
     },
@@ -648,8 +650,8 @@
       "documentId": "PA-RCRIM-P-790-PETITION",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
-      "sha256": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
-      "byteLength": 120457,
+      "sha256": "6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab",
+      "byteLength": 120239,
       "written": [
         {
           "field": "DOB",
@@ -1079,32 +1081,136 @@
         {
           "field": "Full Name",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "Defendant",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "CountyOf",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "Addr1",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "AddrCity",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "AddrZip",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
+        }
+      ],
+      "heldButNotPrinted": [
+        {
+          "field": "Addr1",
+          "factId": "participant.street_address",
+          "valueHeld": "12345 Southwest Grandview Boulevard Northeast, Building 7",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 166.2,
+            "rectHeightPt": 11.854,
+            "usableWidthPt": 162.2,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 162.4,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "AddrCity",
+          "factId": "participant.city",
+          "valueHeld": "Unincorporated Township of Long Hollow Crossing near Harrisburg",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 115.71,
+            "rectHeightPt": 10.916,
+            "usableWidthPt": 111.71,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 177.3,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "AddrZip",
+          "factId": "participant.zip",
+          "valueHeld": "17101-9999",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 31.855,
+            "rectHeightPt": 10.218,
+            "usableWidthPt": 27.855,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 32,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "CountyOf",
+          "factId": "matter.county",
+          "valueHeld": "Saint Bartholomew and the Northern Reaches Dauphin County",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 122.52,
+            "rectHeightPt": 9.218,
+            "usableWidthPt": 118.52,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 167.6,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "valueHeld": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 148.489,
+            "rectHeightPt": 10.942,
+            "usableWidthPt": 144.489,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 195.6,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "Full Name",
+          "factId": "participant.full_legal_name",
+          "valueHeld": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 166.691,
+            "rectHeightPt": 11.324,
+            "usableWidthPt": 162.691,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 195.6,
+            "requiredHeightAtMinimumPt": null
+          }
         }
       ],
       "selections": [],
@@ -1122,12 +1228,12 @@
             "sourceValuesRemoved": []
           }
         ],
-        "preparedSourceSha256": "ab9abe07a00da1fcd8e43a57e4633548aacb860f3c106b3c2f434b8c08055dd0",
+        "preparedSourceSha256": "66da2a4201bf43dff0ca0b5ade919b62e384352515b0731035a58d9472468eb2",
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
-        "artifactByteLength": 120457,
+        "artifactSha256": "6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab",
+        "artifactByteLength": 120239,
         "appearanceCount": 83,
         "writtenProof": [
           {
@@ -1205,6 +1311,7 @@
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
         "selectionProof": []
       }
     },
@@ -1212,8 +1319,8 @@
       "documentId": "PA-RCRIM-P-790-ORDER",
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-canonical.pdf",
-      "sha256": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
-      "byteLength": 195332,
+      "sha256": "313a733583d73e4a38fd481b00ff45936ac3c2bd08eb99bab3d45427894c0803",
+      "byteLength": 195079,
       "written": [
         {
           "field": "County",
@@ -1384,6 +1491,7 @@
           "category": "role"
         }
       ],
+      "heldButNotPrinted": [],
       "selections": [],
       "choiceNeutralization": {
         "performedBeforeFlatten": true,
@@ -1404,12 +1512,12 @@
             "sourceValuesRemoved": []
           }
         ],
-        "preparedSourceSha256": "918bb5dc95a09c7373f5c2bb60aa8684f632c38e0b3fa1c5e7b6b5284c40394d",
+        "preparedSourceSha256": "cfdc1b8622683e888860c80c8cf402c56b8d87b252cc71c1220001f676c5b66c",
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
-        "artifactByteLength": 195332,
+        "artifactSha256": "313a733583d73e4a38fd481b00ff45936ac3c2bd08eb99bab3d45427894c0803",
+        "artifactByteLength": 195079,
         "appearanceCount": 29,
         "writtenProof": [
           {
@@ -1487,6 +1595,7 @@
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
         "selectionProof": []
       }
     },
@@ -1494,8 +1603,8 @@
       "documentId": "PA-RCRIM-P-790-ORDER",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
-      "sha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
-      "byteLength": 195114,
+      "sha256": "bbcc29e540e7c9b127c49600ba19fbc344859cf1de6c0f2bbac3c62f153b2e1a",
+      "byteLength": 194848,
       "written": [
         {
           "field": "PetitionerName",
@@ -1652,12 +1761,48 @@
         {
           "field": "County",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
         },
         {
           "field": "Defendant",
           "reason": "value_exceeds_widget_width_at_minimum_font",
-          "category": "unfittable"
+          "category": "unfittable",
+          "refusedAtWidgetIndex": 0,
+          "widgetsMeasured": 1
+        }
+      ],
+      "heldButNotPrinted": [
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "valueHeld": "Saint Bartholomew and the Northern Reaches Dauphin County",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 159,
+            "rectHeightPt": 12,
+            "usableWidthPt": 155,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 167.6,
+            "requiredHeightAtMinimumPt": null
+          }
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "valueHeld": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+          "why": "the value does not fit this box at a size a court could read",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measurement": {
+            "rectWidthPt": 164.45,
+            "rectHeightPt": 15.043,
+            "usableWidthPt": 160.45,
+            "minimumReadableFontSize": 6,
+            "requiredWidthAtMinimumPt": 195.6,
+            "requiredHeightAtMinimumPt": null
+          }
         }
       ],
       "selections": [],
@@ -1680,12 +1825,12 @@
             "sourceValuesRemoved": []
           }
         ],
-        "preparedSourceSha256": "918bb5dc95a09c7373f5c2bb60aa8684f632c38e0b3fa1c5e7b6b5284c40394d",
+        "preparedSourceSha256": "cfdc1b8622683e888860c80c8cf402c56b8d87b252cc71c1220001f676c5b66c",
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
-        "artifactByteLength": 195114,
+        "artifactSha256": "bbcc29e540e7c9b127c49600ba19fbc344859cf1de6c0f2bbac3c62f153b2e1a",
+        "artifactByteLength": 194848,
         "appearanceCount": 29,
         "writtenProof": [
           {
@@ -1743,6 +1888,177 @@
         "wrongWrittenValues": [],
         "protectedInk": [],
         "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
+        "selectionProof": []
+      }
+    },
+    {
+      "documentId": "pa_790_nonconviction-certificate-of-service-3",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+      "sha256": "22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5",
+      "byteLength": 2754,
+      "written": [
+        {
+          "field": "Printed name",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_static_text",
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "field": "Docket number",
+          "factId": "matter.case_number",
+          "kind": "composed_static_text",
+          "value": "24-CR-001234"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Office and address where the copy was served",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Service method accepted by the filing court",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Date service actually occurred",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Signature of petitioner after service",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date signed",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        }
+      ],
+      "heldButNotPrinted": [],
+      "selections": [],
+      "choiceNeutralization": {
+        "performedBeforeFlatten": false,
+        "fields": [],
+        "rule": "not applicable to a newly composed certificate with no interactive controls"
+      },
+      "proof": {
+        "artifactSha256": "22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5",
+        "artifactByteLength": 2754,
+        "appearanceCount": 0,
+        "writtenProof": [
+          {
+            "field": "Printed name",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Jordan Avery Reyes",
+            "drawnText": [
+              "Jordan Avery Reyes"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          },
+          {
+            "field": "Docket number",
+            "factId": "matter.case_number",
+            "expectedValue": "24-CR-001234",
+            "drawnText": [
+              "24-CR-001234"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          }
+        ],
+        "missingWrittenInk": [],
+        "wrongWrittenValues": [],
+        "protectedInk": [],
+        "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
+        "selectionProof": []
+      }
+    },
+    {
+      "documentId": "pa_790_nonconviction-certificate-of-service-3",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+      "sha256": "c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5",
+      "byteLength": 2819,
+      "written": [
+        {
+          "field": "Printed name",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_static_text",
+          "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+        },
+        {
+          "field": "Docket number",
+          "factId": "matter.case_number",
+          "kind": "composed_static_text",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Office and address where the copy was served",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Service method accepted by the filing court",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Date service actually occurred",
+          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess."
+        },
+        {
+          "field": "Signature of petitioner after service",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date signed",
+          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "category": "signature_or_date_participant_completion"
+        }
+      ],
+      "heldButNotPrinted": [],
+      "selections": [],
+      "choiceNeutralization": {
+        "performedBeforeFlatten": false,
+        "fields": [],
+        "rule": "not applicable to a newly composed certificate with no interactive controls"
+      },
+      "proof": {
+        "artifactSha256": "c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5",
+        "artifactByteLength": 2819,
+        "appearanceCount": 0,
+        "writtenProof": [
+          {
+            "field": "Printed name",
+            "factId": "participant.full_legal_name",
+            "expectedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "drawnText": [
+              "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          },
+          {
+            "field": "Docket number",
+            "factId": "matter.case_number",
+            "expectedValue": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+            "drawnText": [
+              "0123-45-2026-CR-900123.00-AB-CDE/2201"
+            ],
+            "exactValueObserved": true,
+            "derivedFrom": "decoded text operators in the saved composed certificate PDF"
+          }
+        ],
+        "missingWrittenInk": [],
+        "wrongWrittenValues": [],
+        "protectedInk": [],
+        "protectedVectorInk": [],
+        "protectedSourceOwnedAppearances": [],
         "selectionProof": []
       }
     }

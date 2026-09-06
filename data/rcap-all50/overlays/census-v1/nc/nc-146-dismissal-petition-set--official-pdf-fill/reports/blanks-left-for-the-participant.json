@@ -93,17 +93,6 @@
     {
       "document": "petition",
       "documentId": "AOC-CR-287",
-      "field": "petition.DateOfBirth",
-      "page": 1,
-      "printedContext": "Date Of Birth on the petition",
-      "disclosureLabel": "Date Of Birth on the petition",
-      "identity": "petition field DateOfBirth",
-      "why": "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect",
-      "participantMustSupply": "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-287",
       "field": "petition.DateOfDismissal1",
       "page": 1,
       "printedContext": "Date Of Dismissal, table row 1",
@@ -225,17 +214,6 @@
     {
       "document": "petition",
       "documentId": "AOC-CR-287",
-      "field": "petition.PetitionerZip",
-      "page": 1,
-      "printedContext": "Address Of Petitioner - Zip",
-      "disclosureLabel": "Address Of Petitioner - Zip",
-      "identity": "petition field PetitionerZip",
-      "why": "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so",
-      "participantMustSupply": "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write"
-    },
-    {
-      "document": "petition",
-      "documentId": "AOC-CR-287",
       "field": "petition.Race",
       "page": 1,
       "printedContext": "Race",
@@ -276,17 +254,6 @@
       "identity": "fee_waiver field ApplicantsEmployerNameAndAddress",
       "why": "employment is a fact about the participant and a third party, and the platform holds neither",
       "participantMustSupply": "your employer's name and address, or the reason you are not employed, or your trade if you are self-employed"
-    },
-    {
-      "document": "fee_waiver",
-      "documentId": "AOC-CV-226",
-      "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1",
-      "page": 1,
-      "printedContext": "Street Number And Street Name, Including Apartment Or Unit No.",
-      "disclosureLabel": "Street Number And Street Name, Including Apartment Or Unit No.",
-      "identity": "fee_waiver field ApplicantStreetNumberAndStreetNameLine1",
-      "why": "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two",
-      "participantMustSupply": "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one"
     },
     {
       "document": "fee_waiver",

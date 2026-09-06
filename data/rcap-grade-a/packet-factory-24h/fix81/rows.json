@@ -1,0 +1,882 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX81",
+  "laneKind": "repair",
+  "baseSha": "432af667f",
+  "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "lane": "FIX81",
+      "buildHost": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "branch": "fix81-ne-custodial-component-prefills",
+      "worktree": "/home/user/fix81-worktree, cut from 432af667f on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, private/ and node_modules symlinked as the dispatch specifies.",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX81 ne-setaside-custodial-set -> CLAIM_OK FIX81 ne-setaside-custodial-set (repair, grant set f506eaefa1b174c0), exit 0. Asserted before any family artifact was opened.",
+      "familyDirectoryConfirmedFirst": "sha256sum over fixtures/ before any edit returned canonical 64988e33de00260de483e839b0507f9635ab358393a608dcb19bfd9812012ead and boundary 31fc85d94e2ebe98b178a30cfb9755aaf6068f2f35dae488c74926b80b23bf2a, exactly the pair the dispatch names and the pair VF02 measured.",
+      "verdictRepaired": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ebe931e4e",
+        "failedObligationNames": [
+          "COMPONENT_SET",
+          "KNOWN_PREFILLS"
+        ]
+      },
+      "obligationsRepaired": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The delivered bytes moved, so the RASTER_PASS bound to 64988e33../31fc85d9.. (workflow run 33994313031, job 101382341824) no longer binds what is committed. A central raster of the new bytes is owed and is not claimed here. RASTER_QUEUE.json and MASTER_QUEUE.json were read and not edited.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. No verdict is written here and no obligation is scored; VF02's reading at ebe931e4e predates these bytes.",
+        "ACCEPTANCE RECEIPT. product-wiring.json binding.acceptanceReceipt is now null with binding.whyTheAcceptanceReceiptIsNull naming the superseded digest and the run it came from. Nulling a stale receipt is not earning a new one; the new one is owed and this lane offers nothing in its place."
+      ],
+      "whatChanged": {
+        "oneFileInScripts": "scripts/build-census-v1-ne-setaside-custodial-set.mjs, the shared central host. Every change is inside this family's own FAMILY_CONFIGS entry or is gated on a key only this family declares (localRulesCheck, componentDisposition, namedFactWrites, measuredRefusals, carryProductBinding), so a family that declares none of them renders exactly what it rendered before. No shared module, no shared contract, no shared verifier, no source pin, no route key and no legal record was edited.",
+        "componentSet": "The sixth component the route names is delivered. participant-instructions.md gains a section, 'Confirm what the filing court requires before you file', carrying the memo's own sentence for ne-setaside-custodial-local-rules-check-6 (role local_rules_check, requirement required, outputStrategy process_guidance) and naming its source. LOCAL_RULES_CHECK_NOTE in the builder is asserted on every build to equal NE.memo.json track ne-setaside-custodial components[5].notes character for character, so the packet cannot go on quoting a sentence the record no longer carries. Nothing is added that the memo does not say: the memo attaches no statute to this component and none is invented for it. The provenance note at the foot of the file previously claimed every section came from the track registry; it now excepts this one and points at the memo, because the claim would otherwise be false.",
+        "componentTable": "product-wiring.json gains componentDisposition: all six componentIds with role, requirement and disposition, each one delivered, delivered_conditional_and_explained, or not_generated_with_a_reason. assertComponentDispositionMatchesTheManifest re-reads data/record-clearing/legal-design-packet-set-manifests.json on every build and throws on an identity, role, requirement or count drift; the fee waiver is the one not generated and its reason is the manifest's own (DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type), already stated to the participant. binding.packetComponents, which listed four, now lists the five components actually delivered.",
+        "knownPrefillsWritten": "Six blanks the platform holds a value for are now written, through the shared finalizer's named-fact channel (narrativeAcrossFields), each at its own widget's /Rect read from the pinned binary: matter.case_number into CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38, and participant.street_address, participant.city_state_zip and participant.phone into the DC-1-15 certificate-of-service identity block, which the packet already half-filled with the same participant's printed name and email address. Each of those three DC-1-15 fields has two widgets, page 1 and page 2 of the form, so the block is completed on packet pages 4 and 5 alike. No text from the builder reaches the page through the channel: the caller names fact ids, the shared module resolves, protect-tests, fits and refuses.",
+        "whyTheChannelWasNeeded": "The shared descriptor list matches nothing at these widgets, and that is the whole of the old refusal. CC 6:11 harvests its Case No. caption from a scrambled stream as ',  CasNe o', CC 6:11.2 as ',  Cas' and DC 1:15 as 'Case', so decideBinding returned no_allowlisted_fact_matches on all three; DC 1:15's identity block harvests the caption of the line below each widget, so streetaddress read 'City/State/ZIP Code' and the exact-caption gate refused it as binding_not_approved_by_exact_caption_gate. A named-fact target may lift that one build-policy reason and no other -- prepareAcroPolicy throws if the reason is anything else, and a self-test proves it throws on a signature-date field -- so this cannot become a way past a protect rule.",
+        "captionProvedBeforeWriting": "Measured on the pinned binaries before any write. Each Case No. widget sits immediately right of its own printed 'Case No.': CC 6:11 caption x 326.00-369.92 y 631.93-648.10 against widget x 377.28-506.62 y 633.39-647.79 (7.36pt gap); CC 6:11.2 x 325.34-369.26 y 614.41-630.58 against x 374.40-504.00 y 616.20-630.60 (5.14pt); DC 1:15 x 347.88-391.52 y 619.05-635.21 against x 396.69-495.69 y 621.86-636.26 (5.17pt). On DC 1:15 the identity captions run 'Printed Name:', 'Street Address/P.O. Box:', 'City/State/ZIP Code:', 'Telephone Number:', 'Email address:' down both pages, each ending left of x 233 while its widget starts at x 208 or right of it, and each caption's own y band contains exactly the widget the packet writes: page 2 'Street Address/P.O. Box:' y 322.42-338.59 over streetaddress y 324.00-338.40, 'City/State/ZIP Code:' y 306.19-322.35 over citystatezip y 308.29-322.69, 'Telephone Number:' y 289.95-306.12 over telephone number y 291.27-305.67. The harvested caption was wrong by one line; the widget is not.",
+        "knownPrefillsRefusedWithAMeasurement": "The caption court and county are NOT written, and the row now says why by measuring the widget instead of by naming build policy. 'IN THE ______ COURT OF ______ COUNTY, NEBRASKA' is not four blanks: TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 are PDF choice fields (/FT /Ch, Ff 67239936), and the caption's words live in TYPEOFCOURTRESULTS and fullcountystatementRIGHT, read-only text fields (Ff bit 1) carrying 'IN THE                   COURT OF' and '                            COUNTY, NEBRASKA ' as their own values, which the form's script rewrites from the drop-downs; CC 6:11 and CC 6:11.2 add 'enter the type of court' and 'enter the county', read-only (Ff 8392705) and NoView (/F 36), carrying the form's own hints. Every one of those numbers is re-read from the pinned binary on each build and the declaration is asserted against it, so the sentence cannot outlive the widget. The court list offers 5 entries, 3 of them values (DISTRICT, COUNTY, JUVENILE), and the held matter.court 'District Court' does correspond to DISTRICT -- so for the court the obstacle is the widget type alone, and this repair adds no dropdown-selection channel because the grant admits the named-fact and composed-write channels and no other. The county list offers 95 entries, 93 of them Nebraska counties, and neither fixture's held county ('Example County', 'Saint Bartholomew and the Northern Reaches County') is among them, so no option corresponds to the value even if such a channel existed. Each row also tells the participant what to do: choose the value from the list in a PDF viewer, or write it by hand on the printed caption.",
+        "theBoundaryCaseNumber": "On the boundary fixture the three Case No. writes are REFUSED, and the refusal is a measurement rather than a policy. The boundary persona's case number is the deliberate stress value '2026-CR-900123-EXTENDED-CASE-IDENTIFIER', which needs 134.36pt of Helvetica at the 6pt readable minimum against 125.34pt, 125.60pt and 95.00pt of usable width (rect width less the shared 4pt HORIZONTAL_PADDING). The shared fitter refuses it whole rather than truncating or shrinking below 6pt; the map records buildPolicyReason narrative_exceeds_the_printed_lines_at_minimum_font, category unfittable. Canonical, whose case number is '24-CR-001234', writes all three at 10pt. This is the behaviour the boundary fixture exists to prove, and it is disclosed rather than smoothed over.",
+        "disclosureTables": "The six repaired rows leave requiredBeforeFiling by construction -- it is derived from the canonical refusal rows -- so production-field-map.json requiredBeforeFilingCount falls 73 -> 67 and participant-instructions.md loses exactly those six bullets: ',  CasNe o', ',  Cas', 'Case', 'City/State/ZIP C' twice and 'SERVICE · City/State/ZIP Code'. The seven caption rows stay, now carrying the measurement instead of 'the platform does not write it here'.",
+        "productWiringBinding": "A rebuild used to delete the Captain-authored binding block from this family's product-wiring.json, which is a deletion nobody decided on. The builder now carries it forward for this family only (carryProductBinding), with two forced changes: packetComponents becomes the components actually delivered, and an acceptance receipt bound to a canonical digest this build did not produce is set to null with the superseded digest and its workflow run named.",
+        "selfTestsAdded": "assertLocalRulesCheckIsTheMemos, assertComponentDispositionMatchesTheManifest, assertGuidanceReachesTheDeliveredFile and assertNamedFactWritesLanded run on every build; --self-test additionally runs each against a negative case (a renamed section, a five-component table, a re-roled component, a named-fact target whose refusal is a signature date) and covers the option matcher, including the bug it replaced, where a blank option would have matched every held value and reported the county as offered.",
+        "whatWasNotTouched": "fitAppearancesToRect stays exactly as FIX68 left it -- the line is a context line in the diff. No other field of any of the four forms. No protect rule, no route election, no checkbox, no signature block, no certificate-of-service signature or date, no fee or waiver statement, no filing destination, no stop condition. ne-setaside-noncustodial-set was not rebuilt and its directory is byte-identical. No queue, no legal-decision record and no shared script was opened for writing."
+      },
+      "componentTable": [
+        {
+          "componentId": "ne-setaside-custodial-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "disposition": "delivered",
+          "where": "packet page 1, CC 6:11 Rev. 04/2024"
+        },
+        {
+          "componentId": "ne-setaside-custodial-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "disposition": "delivered",
+          "where": "packet page 2, CC 6:11.2 Rev. 12/2020"
+        },
+        {
+          "componentId": "ne-setaside-custodial-notice-and-certificate-of-service-3",
+          "role": "notice_and_certificate_of_service",
+          "requirement": "conditional",
+          "disposition": "delivered_conditional_and_explained",
+          "where": "packet pages 4 and 5, DC 1:15 New 08/2019",
+          "conditionStatedTo": "participant-instructions.md, 'Who must receive a copy, and how': district court only; in county court the clerk schedules and mails the notice"
+        },
+        {
+          "componentId": "ne-setaside-custodial-instructions-4",
+          "role": "instructions",
+          "requirement": "required",
+          "disposition": "delivered",
+          "where": "packet page 3, CC 6:11a Rev. 06/2024"
+        },
+        {
+          "componentId": "ne-setaside-custodial-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "disposition": "not_generated_with_a_reason",
+          "reason": "No fitting official form exists: DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type, and no county-court application form exists at all. Stated to the participant in 'What it costs, and what to do if you cannot pay' and carried as a release blocker."
+        },
+        {
+          "componentId": "ne-setaside-custodial-local-rules-check-6",
+          "role": "local_rules_check",
+          "requirement": "required",
+          "disposition": "delivered",
+          "where": "participant-instructions.md line 136, section 'Confirm what the filing court requires before you file'",
+          "newInThisLane": true
+        }
+      ],
+      "componentTableProvedAgainst": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ne-setaside-custodial-set: six components, compared identity for identity, role for role and requirement for requirement on every build.",
+      "writes": [
+        {
+          "fixture": "canonical",
+          "document": "CC-6-11",
+          "field": "Text2",
+          "packetPage": 1,
+          "factId": "matter.case_number",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> matter.case_number, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 377.28,
+            "y": 633.39,
+            "width": 129.34,
+            "height": 14.4
+          },
+          "rectPx300": [
+            1572,
+            600.9,
+            2110.9,
+            660.9
+          ],
+          "changedPixelBboxPx300": [
+            1578,
+            615,
+            1847,
+            645
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.44,
+            "right": 63.1,
+            "top": 3.39,
+            "bottom": 3.57
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            1560,
+            4253
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "CC-6-11.2",
+          "field": "Text2",
+          "packetPage": 2,
+          "factId": "matter.case_number",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> matter.case_number, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 374.4,
+            "y": 616.2,
+            "width": 129.6,
+            "height": 14.4
+          },
+          "rectPx300": [
+            1560,
+            672.5,
+            2100,
+            732.5
+          ],
+          "changedPixelBboxPx300": [
+            1566,
+            687,
+            1835,
+            717
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.44,
+            "right": 63.36,
+            "top": 3.48,
+            "bottom": 3.48
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            1578,
+            4271
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "Text38",
+          "packetPage": 4,
+          "factId": "matter.case_number",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> matter.case_number, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 396.69,
+            "y": 621.86,
+            "width": 99,
+            "height": 14.4
+          },
+          "rectPx300": [
+            1652.9,
+            648.9,
+            2065.4,
+            708.9
+          ],
+          "changedPixelBboxPx300": [
+            1659,
+            663,
+            1928,
+            693
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.47,
+            "right": 32.73,
+            "top": 3.38,
+            "bottom": 3.58
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            1140,
+            3833
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "streetaddress",
+          "packetPage": 4,
+          "factId": "participant.street_address",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.street_address, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 235.31,
+            "y": 163.63,
+            "width": 272.94,
+            "height": 14.4
+          },
+          "rectPx300": [
+            980.5,
+            2558.2,
+            2117.7,
+            2618.2
+          ],
+          "changedPixelBboxPx300": [
+            987,
+            2572,
+            1301,
+            2611
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.57,
+            "right": 195.77,
+            "top": 3.31,
+            "bottom": 1.49
+          },
+          "glyphHeightPx300": 40,
+          "darkPixelsInTheRectBeforeAfter": [
+            2274,
+            5474
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": 1.44
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "streetaddress",
+          "packetPage": 5,
+          "factId": "participant.street_address",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.street_address, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 235.97,
+            "y": 324,
+            "width": 272.94,
+            "height": 14.4
+          },
+          "rectPx300": [
+            983.2,
+            1890,
+            2120.5,
+            1950
+          ],
+          "changedPixelBboxPx300": [
+            990,
+            1903,
+            1304,
+            1942
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.63,
+            "right": 195.71,
+            "top": 3.12,
+            "bottom": 1.68
+          },
+          "glyphHeightPx300": 40,
+          "darkPixelsInTheRectBeforeAfter": [
+            2276,
+            5476
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "citystatezip",
+          "packetPage": 4,
+          "factId": "participant.city_state_zip",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.city_state_zip, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 214.37,
+            "y": 147.92,
+            "width": 293.89,
+            "height": 14.4
+          },
+          "rectPx300": [
+            893.2,
+            2623.7,
+            2117.8,
+            2683.7
+          ],
+          "changedPixelBboxPx300": [
+            898,
+            2637,
+            1300,
+            2676
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.15,
+            "right": 196.02,
+            "top": 3.2,
+            "bottom": 1.6
+          },
+          "glyphHeightPx300": 40,
+          "darkPixelsInTheRectBeforeAfter": [
+            1218,
+            5448
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "citystatezip",
+          "packetPage": 5,
+          "factId": "participant.city_state_zip",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.city_state_zip, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 215.02,
+            "y": 308.29,
+            "width": 293.89,
+            "height": 14.4
+          },
+          "rectPx300": [
+            895.9,
+            1955.5,
+            2120.5,
+            2015.5
+          ],
+          "changedPixelBboxPx300": [
+            901,
+            1969,
+            1303,
+            2008
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.22,
+            "right": 195.95,
+            "top": 3.25,
+            "bottom": 1.55
+          },
+          "glyphHeightPx300": 40,
+          "darkPixelsInTheRectBeforeAfter": [
+            1222,
+            5452
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "telephone number",
+          "packetPage": 4,
+          "factId": "participant.phone",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.phone, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 208.47,
+            "y": 130.9,
+            "width": 180,
+            "height": 14.4
+          },
+          "rectPx300": [
+            868.6,
+            2694.6,
+            1618.6,
+            2754.6
+          ],
+          "changedPixelBboxPx300": [
+            873,
+            2709,
+            1046,
+            2739
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.05,
+            "right": 137.19,
+            "top": 3.46,
+            "bottom": 3.5
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            2253,
+            4088
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "canonical",
+          "document": "DC-1-15",
+          "field": "telephone number",
+          "packetPage": 5,
+          "factId": "participant.phone",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(canonical) -> participant.phone, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 209.13,
+            "y": 291.27,
+            "width": 180,
+            "height": 14.4
+          },
+          "rectPx300": [
+            871.4,
+            2026.4,
+            1621.4,
+            2086.4
+          ],
+          "changedPixelBboxPx300": [
+            876,
+            2041,
+            1049,
+            2071
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.11,
+            "right": 137.13,
+            "top": 3.51,
+            "bottom": 3.45
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            2253,
+            4088
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "streetaddress",
+          "packetPage": 4,
+          "factId": "participant.street_address",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.street_address, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 235.31,
+            "y": 163.63,
+            "width": 272.94,
+            "height": 14.4
+          },
+          "rectPx300": [
+            980.5,
+            2558.2,
+            2117.7,
+            2618.2
+          ],
+          "changedPixelBboxPx300": [
+            986,
+            2576,
+            2026,
+            2604
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.33,
+            "right": 21.77,
+            "top": 4.27,
+            "bottom": 3.17
+          },
+          "glyphHeightPx300": 29,
+          "darkPixelsInTheRectBeforeAfter": [
+            2274,
+            9910
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "streetaddress",
+          "packetPage": 5,
+          "factId": "participant.street_address",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.street_address, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 235.97,
+            "y": 324,
+            "width": 272.94,
+            "height": 14.4
+          },
+          "rectPx300": [
+            983.2,
+            1890,
+            2120.5,
+            1950
+          ],
+          "changedPixelBboxPx300": [
+            989,
+            1908,
+            2029,
+            1936
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.39,
+            "right": 21.71,
+            "top": 4.32,
+            "bottom": 3.12
+          },
+          "glyphHeightPx300": 29,
+          "darkPixelsInTheRectBeforeAfter": [
+            2276,
+            9904
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "citystatezip",
+          "packetPage": 4,
+          "factId": "participant.city_state_zip",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.city_state_zip, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 214.37,
+            "y": 147.92,
+            "width": 293.89,
+            "height": 14.4
+          },
+          "rectPx300": [
+            893.2,
+            2623.7,
+            2117.8,
+            2683.7
+          ],
+          "changedPixelBboxPx300": [
+            900,
+            2638,
+            2085,
+            2675
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.63,
+            "right": 7.62,
+            "top": 3.44,
+            "bottom": 1.84
+          },
+          "glyphHeightPx300": 38,
+          "darkPixelsInTheRectBeforeAfter": [
+            1218,
+            12671
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "citystatezip",
+          "packetPage": 5,
+          "factId": "participant.city_state_zip",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.city_state_zip, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 215.02,
+            "y": 308.29,
+            "width": 293.89,
+            "height": 14.4
+          },
+          "rectPx300": [
+            895.9,
+            1955.5,
+            2120.5,
+            2015.5
+          ],
+          "changedPixelBboxPx300": [
+            903,
+            1970,
+            2088,
+            2007
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.7,
+            "right": 7.55,
+            "top": 3.49,
+            "bottom": 1.79
+          },
+          "glyphHeightPx300": 38,
+          "darkPixelsInTheRectBeforeAfter": [
+            1222,
+            12675
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "telephone number",
+          "packetPage": 4,
+          "factId": "participant.phone",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.phone, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 208.47,
+            "y": 130.9,
+            "width": 180,
+            "height": 14.4
+          },
+          "rectPx300": [
+            868.6,
+            2694.6,
+            1618.6,
+            2754.6
+          ],
+          "changedPixelBboxPx300": [
+            873,
+            2709,
+            1252,
+            2739
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.05,
+            "right": 87.75,
+            "top": 3.46,
+            "bottom": 3.5
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            2253,
+            5908
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        },
+        {
+          "fixture": "boundary",
+          "document": "DC-1-15",
+          "field": "telephone number",
+          "packetPage": 5,
+          "factId": "participant.phone",
+          "channel": "narrativeAcrossFields (the shared finalizer's named-fact channel); the caller names a fact id and a field name only",
+          "valueSource": "factsFor(boundary) -> participant.phone, resolved inside scripts/rcap-official-forms/rcap-official-form-finalize.mjs from the same facts set every other write of this packet is resolved from",
+          "rectPt": {
+            "x": 209.13,
+            "y": 291.27,
+            "width": 180,
+            "height": 14.4
+          },
+          "rectPx300": [
+            871.4,
+            2026.4,
+            1621.4,
+            2086.4
+          ],
+          "changedPixelBboxPx300": [
+            876,
+            2041,
+            1255,
+            2071
+          ],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": {
+            "left": 1.11,
+            "right": 87.69,
+            "top": 3.51,
+            "bottom": 3.45
+          },
+          "glyphHeightPx300": 31,
+          "darkPixelsInTheRectBeforeAfter": [
+            2253,
+            5908
+          ],
+          "changedPixelsThatWereAlreadyPrintedInk": 0,
+          "nearestPreexistingInkToNewInkPt": "> 1.44 (no pre-existing ink within the 6px search radius)"
+        }
+      ],
+      "writesNotMade": [
+        {
+          "document": "CC-6-11",
+          "fields": [
+            "TYPEOFCOURTDROPDOWN",
+            "DROPDOWNCOUNTY2",
+            "TYPEOFCOURTRESULTS",
+            "fullcountystatementRIGHT",
+            "enter the type of court",
+            "enter the county"
+          ],
+          "fact": "matter.court / matter.county",
+          "measuredReason": "two PDF choice fields (/FT /Ch, Ff 67239936, /Rect [142.33 659.22 221.75 673.62] and [289.79 659.22 368.77 673.62]) and four read-only text fields (Ff 1 and Ff 8392705, the latter also /F 36 NoView) carrying the caption's own words. The court list holds 5 entries, 3 values, and 'District Court' does correspond to DISTRICT; the county list holds 95 entries, 93 values, and neither fixture's county is among them."
+        },
+        {
+          "document": "CC-6-11.2",
+          "fields": [
+            "TYPEOFCOURTDROPDOWN",
+            "DROPDOWNCOUNTY2",
+            "TYPEOFCOURTRESULTS",
+            "fullcountystatementRIGHT",
+            "enter the type of court",
+            "enter the county"
+          ],
+          "fact": "matter.court / matter.county",
+          "measuredReason": "the same six widgets at the same rectangles on this form, re-measured from its own pinned binary."
+        },
+        {
+          "document": "DC-1-15",
+          "fields": [
+            "TYPEOFCOURTDROPDOWN",
+            "DROPDOWNCOUNTY2",
+            "TYPEOFCOURTRESULTS",
+            "fullcountystatementRIGHT"
+          ],
+          "fact": "matter.court / matter.county",
+          "measuredReason": "the two drop-downs and the two read-only caption fields; DC 1:15 authors no 'enter the ...' hint fields."
+        },
+        {
+          "document": "CC-6-11 / CC-6-11.2 / DC-1-15",
+          "fields": [
+            "Text2",
+            "Text2",
+            "Text38"
+          ],
+          "fixture": "boundary only",
+          "fact": "matter.case_number",
+          "measuredReason": "'2026-CR-900123-EXTENDED-CASE-IDENTIFIER' needs 134.36pt at the 6pt readable minimum against 125.34pt, 125.60pt and 95.00pt of usable width; refused whole by the shared fitter rather than truncated."
+        }
+      ],
+      "pixelMeasurements": {
+        "rasterizer": "poppler pdftoppm 24.02.0, every page of both fixtures before and after, 300 dpi for the write measurements and 150 dpi for the page-identity comparison. Every raster was written under /tmp and deleted after measuring; no raster PNG produced for measurement is committed.",
+        "everyNewWriteInsideItsOwnRect": "15 of 15. Every changed-pixel bounding box lies inside its widget's own /Rect with positive clearance on all four sides; the tightest are 1.05pt left (telephone number, both fixtures, both pages), 1.49pt bottom (canonical streetaddress page 4) and 3.12pt top (boundary streetaddress page 5).",
+        "noOverlapWithPrintedInk": "0 of the changed pixels in any write rect was already ink before, in any of the 15 measurements. The nearest pre-existing ink to any new glyph is 6px = 1.44pt (canonical streetaddress, packet page 4); in the other 14 no pre-existing dark pixel lies within the 6px search radius of any new glyph.",
+        "legibility": "Canonical writes at 10pt, glyph heights 31-40px at 300 dpi. Boundary: street address 7pt (29px), city/state/ZIP 9.5pt (38px), telephone 10pt (31px). Every value is above the shared 6pt readable minimum and every one was read back off the delivered page with pdftotext beside its own printed caption.",
+        "noInkOutsideAWriteBox": "0 changed pixels outside every declared write rect, on all seven changed pages (canonical 1, 2, 4, 5 and boundary 4, 5, and canonical 1 again), at a per-pixel comparison of the 300 dpi rasters.",
+        "untouchedPages": "At 150 dpi, ImageChops difference bounding box empty on canonical page 3 and on boundary pages 1, 2 and 3. Boundary pages 1 and 2 are pixel-identical precisely because the boundary case number was refused there. Canonical pages 1, 2, 4, 5 and boundary pages 4, 5 differ only inside the write rects measured above.",
+        "noSynthesizedSquare": "48 selection controls across the four documents, generatedSelection false on every one in both fixtures, and reports/actual-writes.json carries 0 blocking findings. No checkbox, radio or dropdown carries a mark this build made."
+      },
+      "sweep": {
+        "method": "For every flattened widget appearance in each fixture the page content stream was walked through q/Q, the CTM composed, the placed Form XObject's /BBox transformed by its own /Matrix and then by the CTM, and the resulting box matched to the source widget whose /Rect it lands on, requiring size agreement within 0.05pt on each axis. Run in this container on the committed bytes; not carried.",
+        "before": "79 of 79 pass in canonical and 79 of 79 in boundary, 0 fail, 0 unmatched, max origin distance 0.00pt.",
+        "after": "79 of 79 pass in canonical and 79 of 79 in boundary, 0 fail, 0 unmatched, max origin distance 0.00pt. Unchanged, which is the expected result: this repair writes values into widgets and moves no appearance.",
+        "provedSensitive": "The same script, unchanged, returns 77 of 79 on the superseded pre-repair bytes recovered from ab018b86a (canonical bb911faba3cc5ba120432976c9545688e29d335b83adf2dfa9d115ec0856aeb7, boundary 2d8254d4a14791b86f837e878797b2fa89339fbb87b0c1e5595b2b5970aa9aa4, which are FIX68's `before` digests exactly), naming the two placements FIX68 and VF08 named: Check Box7 on page 1 placed 10.08 x 10.08pt against an 18 x 18pt /Rect, and Text60.0 on page 5 placed 313.129pt wide against a 221.09pt /Rect."
+      },
+      "digests": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+          "before": "64988e33de00260de483e839b0507f9635ab358393a608dcb19bfd9812012ead",
+          "after": "90ecf1eebe9f1d5d8a32ebc0ac9e134a8442547d3f6d968b256c9cf379e5842e",
+          "byteLengthBefore": 3672419,
+          "byteLengthAfter": 3672600,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+          "before": "31fc85d94e2ebe98b178a30cfb9755aaf6068f2f35dae488c74926b80b23bf2a",
+          "after": "8b9f5cda337196e0ffd64accd430b2aa21fc9b58d53d7ac84baae47fea2bf646",
+          "byteLengthBefore": 3672734,
+          "byteLengthAfter": 3673102,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "pageGeometryUnchanged": "pdfinfo 612 x 792 on all five pages of both fixtures, before and after."
+      },
+      "deterministicRebuild": "Built twice in full, with raster, after the final edit. All 22 files in the family directory hash identically across the two runs, fixtures and the family's own tracked raster PNGs included. Independently, `--check` rebuilds every document from the pinned sources and asserts the recomputed packet's sha256 equals the stored one: it returns `--check OK (10 raster pages)`, exit 0.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, PASS_COMPLETE and exit 0 both times, 5/173 written before and 11/170 after. The counters could not see either defect and cannot see either repair: requiredComponentsMissing is computed from the field map, the source receipt and the rendered artifacts and never opens the packet-set manifest or the memo, and knownRequiredFieldsMissing accepted a declared required-before-filing blank whose printed label had been harvested garbled. Nine zeros is a statement about the counters, as VF02 said.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set -> PASS_COMPLETE, nine counters zero. BEFORE 5/173 written, exit 0. AFTER 11/170 written, exit 0.",
+        "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0. Run after the rebuild.",
+        "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0.",
+        "builderSelfTest": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test -> CENTRAL self-test OK (13 families), exit 0, including the four negative cases and the option-matcher cases.",
+        "builderCheck": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/... node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check -> ne-setaside-custodial-set: --check OK (10 raster pages), exit 0. It re-renders both fixtures from the pinned sources and compares the packet sha256, the census, every write and refusal row and the page manifest.",
+        "grepProofOnTheDeliveredFiles": "participant-instructions.md carries '## Confirm what the filing court requires before you file' at line 136 and the memo's sentence verbatim at line 140. pdftotext on the delivered pages returns 'Case No. 24-CR-001234' on canonical packet pages 1, 2 and 4; 'Street Address/P.O. Box: 118 Maple Street', 'City/State/ZIP Code: Springfield, NE 01234' and 'Telephone Number: 555-0142' on canonical pages 4 and 5; and the boundary persona's street address, city/state/ZIP and telephone on boundary pages 4 and 5, each beside its own printed caption."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/fix81-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. Run on the clean tree before any family artifact was edited.",
+        "theTwoFailures": [
+          "private_is_git_ignored. An artifact of this container: private/ is the read-only symlink the dispatch specifies. `git check-ignore -v private` exits 0, .gitignore carries private/, `git ls-files private/` returns 0 tracked paths, and no path under private/ ever appeared in `git status --porcelain`. No source byte can enter a commit.",
+          "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is an Alabama form belonging to no Nebraska family; family_sources_bind reports 4/4 for this family by exact SHA-256."
+        ],
+        "passedAndRelevant": "family_sources_bind 4/4 by exact SHA-256, master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), stale_artifact_block_consulted (0 artifacts under this family blocked), worktree_clean, repo_identity fix81-ne-custodial-component-prefills at 432af667, clone_is_complete.",
+        "toolchain": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext/pdfinfo 24.02.0, Pillow, python 3."
+      },
+      "sourceIdentity": "Unchanged and re-bound on every run: CC-6-11 c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492 (3003355 bytes), CC-6-11.2 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6 (2766067), CC-6-11a 615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac (821244), DC-1-15 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b (8485306), each recomputed from the mounted bytes here and equal to source-receipt.json. source-receipt.json, field-census.census-v1.json, build-status.json and approval-request.json regenerate byte-identical.",
+      "acceptanceReceipt": null,
+      "filesChanged": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-01.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-02.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-05.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-05.png",
+        "data/rcap-grade-a/packet-factory-24h/fix81/rows.json"
+      ],
+      "rasterPngsCommitted": "The five raster/*.png files above are the FAMILY's own tracked build artifacts, already in the repository and regenerated byte-identically by the build; leaving them stale would commit a tree whose reports name pages the tree does not carry. The 300 dpi and 150 dpi rasters this lane measured are a different thing: they were written under /tmp, are not in the repository, and were deleted.",
+      "otherFamiliesUnchanged": "CONFIRMED BY HASH. sha256sum over all 5444 files under data/rcap-all50/overlays/census-v1/ before the first edit and again on the finished tree differ in exactly the 14 files of this family listed above. Every other family directory is byte-identical, and ne-setaside-noncustodial-set--custom-pleading -- the other family on this host, whose action is STOP so it never reaches the finalize call -- was compared file by file and is byte-identical.",
+      "queuesTouched": "none. MASTER_QUEUE.json and RASTER_QUEUE.json were read for the family directory and the raster binding and were not edited.",
+      "legalRecordsTouched": "none. NE.memo.json and legal-design-packet-set-manifests.json were read and asserted against; neither was opened for writing.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES: owed and not done. The bytes moved, so the RASTER_PASS bound to 64988e33../31fc85d9.. is superseded and this family has no hash-bound raster receipt until the central workflow renders 90ecf1ee../8b9f5cda... The local rasters this lane measured are not that receipt and are not offered as one.",
+        "INDEPENDENT VERIFICATION: owed and not done. This lane wrote these bytes and scores nothing.",
+        "TWO FURTHER BLANKS VF02 NAMED IN ITS EVIDENCE ARE LEFT REFUSED, because the assignment says to leave every other refusal as it is: CC 6:11 `defendant` (the caption defendant line, harvested label 'vs', page 1 x 109.31-307.25 y 575.21-589.61), blank while participant.full_legal_name is written at printedname lower on the same page; and CC 6:11 `streetaddress` (printed label 'Street Address/P.O. Box', page 1 x 235.64-504.00 y 297.29-311.69), blank while participant.city_state_zip is written eight lines below it. Both are still refused, both still say 'the platform does not write it here', and a later independent reading may fault them on the same ground VF02 faulted the ones repaired here. They are named plainly rather than left for someone to find.",
+        "NO DROPDOWN-SELECTION CHANNEL WAS ADDED to the shared finalizer, so the court type is not selected even though the held value corresponds to an option the list offers. The grant admits the named-fact and composed-write channels and no other; adding a third would change a module forty-odd families share.",
+        "THE SCRAMBLED DISCLOSURE LABELS elsewhere in this family (',  CasNe o' is gone with its row, but 'CRIMINAL CONVICTION · 1.I was convicted of' and 'bnter the original' remain) are untouched. They are a shared-capture defect and no part of this grant.",
+        "product-wiring.json binding.lastIndependentVerification still records VF02's FAIL_REPAIR_REQUIRED at ebe931e4e, which is correct: nothing has independently verified these bytes."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs two obligations on one family. It promotes no status, opens no route, creates no fulfillment record and approves no output."
+    }
+  ]
+}
