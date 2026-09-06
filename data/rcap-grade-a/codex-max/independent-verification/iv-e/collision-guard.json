@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "iv-e-collision-guard/v1",
+  "assignment": "IV-E",
+  "recordedAt": "2026-09-01T00:00:00Z",
+  "inputs": [
+    "data/rcap-grade-a/launch-control/CLAUDE_9H_SHIFT.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+  ],
+  "families": [
+    "vt_seal_felony-set",
+    "vt_seal_pardon-set",
+    "wa_vac_cannabis-set"
+  ],
+  "findings": [
+    {
+      "familyId": "vt_seal_felony-set",
+      "activeClaudeVerificationOwner": false,
+      "packetBytesActivelyRewritten": false,
+      "disposition": "PROCEED_READ_ONLY"
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "activeClaudeVerificationOwner": false,
+      "packetBytesActivelyRewritten": false,
+      "disposition": "PROCEED_READ_ONLY"
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "activeClaudeVerificationOwner": false,
+      "packetBytesActivelyRewritten": false,
+      "disposition": "PROCEED_READ_ONLY",
+      "note": "Unreleased VF15 claim exists, but ACTIVE_ASSIGNMENTS contains no VF15 assignment and no Claude worker is identified in CLAUDE_9H_SHIFT."
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
