@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `07352a2ff566dc94c998e73bcde318aa54906dd4`
+**Minimum required ancestor:** `d54cf71b326e11b5467bf5ae142126cc37398b51`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -282,7 +282,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/canonical.pdf` — `ade0edf13907ab14a086ea7033eb274855506b242d47dbf7a580d626253af93e`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/boundary.pdf` — `56bf249d92d89c5069eb693444720dcdcb4c6bf16888eab53c2076ae18f96968`
 - expected pages 19 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### va_exp_nonconviction-set
 

@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `07352a2ff566dc94c998e73bcde318aa54906dd4`
+**Minimum required ancestor:** `d54cf71b326e11b5467bf5ae142126cc37398b51`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -282,7 +282,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf` — `f046f5c3418f0c0af30ab140faa249fa59fe027fd572e8c5eae25aaf34ebafc2`
 - boundary `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf` — `89c884a1233c2d6ceef9f694209d85fd0b2520add6a35f50e13ba01632668627`
 - expected pages 19 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### va_exp_absolute_pardon-set
 
