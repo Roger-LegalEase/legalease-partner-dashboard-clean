@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "DEL-F",
+  "title": "Reviewed dispositions recorded for the destructive statements the production schema-upgrade verifier now sees in the forward chain",
+  "recordedOn": "2026-09-06",
+  "commit": "PLACEHOLDER",
+  "base": "f12c021fb",
+  "branch": "del-f-destructive-dispositions",
+  "worktree": "/home/user/delf-worktree",
+  "changedPaths": [
+    "scripts/verify-rcap-production-schema-upgrade.mjs",
+    "data/rcap-grade-a/packet-factory-24h/del-f/RETURN.json"
+  ],
+  "statementsReviewed": 18,
+  "method": "Each statement was re-extracted from supabase/migrations/** with the verifier own normalize (whitespace collapsed, comment lines stripped, split on \";\") so every disposition pins the exact text the check compares, rather than text retyped from the DEL-E return. For each one: the whole surrounding region of the migration was read, the migration own comments were read, the object lineage was traced with grep across supabase/migrations/** and against the recovered Production baseline 20260728213131_remote_schema.sql, and re-stated CHECK value lists were diffed set-against-set rather than eyeballed.",
+  "dispositionsAdded": [
+    {
+      "file": "20260822180000_rcap_prefill_reproposal.sql",
+      "statement": "drop index if exists public.partner_onboarding_prefill_values_active_field_unique;",
+      "reason": "the same step replaces this index with two narrower partial unique indexes over the same three columns — one for the actionable statuses, one for applied — so the uniqueness rule is split and relaxed, never removed. Dropping an index removes no row, and a relaxed rule can reject no row that the old index allowed."
+    },
+    {
+      "file": "20260822180000_rcap_prefill_reproposal.sql",
+      "statement": "drop trigger if exists rcap_onboarding_prefill_supersede_prior_applied_trg on public.partner_onboarding_prefill_values;",
+      "reason": "idempotency drop of a trigger the next statement creates on the same table with the same function. The name appears in neither the Production baseline nor any earlier step of the chain, so the drop can remove nothing that was there before."
+    },
+    {
+      "file": "20260822180000_rcap_prefill_reproposal.sql",
+      "statement": "alter table public.partner_onboarding_activity drop constraint if exists partner_onboarding_activity_event_type_check;",
+      "reason": "re-added in the same step accepting 35 event types instead of 34 — it adds prefill_conflict_override_recorded and removes none — so no existing row can be rejected."
+    },
+    {
+      "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+      "statement": "drop policy if exists clinic_assisted_sessions_scoped_read on public.clinic_assisted_sessions;",
+      "reason": "recreated by the next statement. The table and its first policy are both created earlier in this same chain (20260825120000 and 20260825121000) and exist in no Production baseline, so the drop can only remove what this chain just made. The replacement predicate is a strict subset of the one it replaces: the same three branches, with the participant and assist-staff branches additionally requiring a live, unexpired session."
+    },
+    {
+      "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+      "statement": "alter table public.clinic_packet_reservations drop constraint if exists clinic_packet_reservations_clinic_case_id_key;",
+      "reason": "the implicit unique constraint of `clinic_case_id uuid not null unique` in 20260825120000, the step that creates this table; the next statement replaces it with a partial unique index on the same column limited to status in ('reserved','consumed'), so a released reservation can be retried. Uniqueness is relaxed, no row is removed, and no existing row can be rejected."
+    },
+    {
+      "file": "20260825122000_clinic_mode_accounting_reporting.sql",
+      "statement": "drop trigger if exists clinic_sync_packet_reservation_after_job on public.packet_render_jobs;",
+      "reason": "idempotency drop of a trigger the next statement creates on the same table with the same function. The name appears in neither the Production baseline nor any earlier step of the chain."
+    },
+    {
+      "file": "20260828100000_shared_pending_result_and_atomic_claim.sql",
+      "statement": "drop trigger if exists participant_claim_events_no_update on public.participant_claim_events;",
+      "reason": "idempotency drop of a trigger the next statement creates on public.participant_claim_events, a table created earlier in this same file and absent from the Production baseline. The append-only guard is never left off."
+    },
+    {
+      "file": "20260830120000_participant_data_rights.sql",
+      "statement": "drop policy if exists \"participant reads own privacy requests\" on public.participant_privacy_requests;",
+      "reason": "the table is created earlier in this same file and exists in no Production baseline; the next statement recreates the policy with the same select-own-rows predicate. The drop can remove nothing that was there before."
+    },
+    {
+      "file": "20260830120000_participant_data_rights.sql",
+      "statement": "drop trigger if exists reject_tombstoned_consumer_briefcase_writes on public.consumer_briefcase_items;",
+      "reason": "idempotency drop of a trigger the next statement creates. The name appears in neither the Production baseline nor anywhere else in the chain, so the drop can remove nothing; the guard on consumer_briefcase_items is established, not withdrawn, by this pair."
+    },
+    {
+      "file": "20260830120000_participant_data_rights.sql",
+      "statement": "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_error_code_check;",
+      "reason": "re-added in the same step accepting 12 error codes instead of 11 — it adds participant_deletion_cancelled and removes none — so no existing row can be rejected."
+    },
+    {
+      "file": "20260830120000_participant_data_rights.sql",
+      "statement": "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;",
+      "reason": "idempotency drop of a trigger the next statement creates, on a table created earlier in this same file and absent from the Production baseline. The before-update immutability guard is never left off."
+    },
+    {
+      "file": "20260901115000_consumer_packet_artifact_provenance.sql",
+      "statement": "drop trigger if exists consumer_packet_artifact_provenance_immutable on public.consumer_packet_artifact_provenance;",
+      "reason": "this step re-establishes the same provenance prerequisite for the Clinic Preview sequence: the table is created with `create table if not exists` earlier in the same file, and the next statement recreates the same before-update trigger on it. The name is absent from the Production baseline, and the guard is never left off."
+    },
+    {
+      "file": "20260901120000_dtc_consumer_launch_rails.sql",
+      "statement": "alter table public.consumer_pending_screening_results drop constraint if exists consumer_pending_screening_results_claimed_matter_id_fkey;",
+      "reason": "this constraint name exists in neither the Production baseline nor anywhere else in the chain — 20260828100000 named its foreign key consumer_pending_screening_results_claimed_matter_fkey, without the _id_ — so the drop can remove nothing; the next statement adds a constraint of this exact name on claimed_matter_id."
+    },
+    {
+      "file": "20260901120000_dtc_consumer_launch_rails.sql",
+      "statement": "drop trigger if exists consumer_render_job_verification_guard_trg on public.packet_render_jobs;",
+      "reason": "idempotency drop of a trigger the next statement creates on the same table with the same function. The name appears in neither the Production baseline nor anywhere else in the chain."
+    },
+    {
+      "file": "20260901130000_consumer_private_delivery.sql",
+      "statement": "drop trigger if exists publish_validated_consumer_render_artifact_trg on public.packet_render_jobs;",
+      "reason": "idempotency drop of a trigger the next statement creates on the same table with the same function. The name appears in neither the Production baseline nor anywhere else in the chain."
+    },
+    {
+      "file": "20260906120000_sponsored_route_render_transaction.sql",
+      "statement": "alter table public.packet_render_jobs drop constraint if exists packet_render_jobs_sponsored_verification_hash_check, add constraint packet_render_jobs_sponsored_verification_hash_check check (sponsored_verification_hash is null or sponsored_verification_hash ~ '^[a-f0-9]{64}$');",
+      "reason": "one statement that drops and re-adds the same check. The column it constrains, sponsored_verification_hash, is added by the immediately preceding statement of this same file, so the drop can only match a constraint an earlier run of this same step created."
+    }
+  ],
+  "ownerDecisionsNeeded": [
+    {
+      "file": "20260823171000_internal_admin_authority_hardening.sql",
+      "statement": "drop policy if exists \"consumer wilma telemetry internal safety select\" on public.consumer_wilma_telemetry;",
+      "why": "This policy exists in the recovered Production baseline (20260728213131_remote_schema.sql line 2598), where it admits any partner_users row with role in (internal_admin, safety_reviewer), with no status and no partner-scope test. The same file recreates it two statements later as `to authenticated using (public.is_internal_admin())`, which is a strict subset: is_internal_admin() requires status = active, role = internal_admin and partner_slug is null. No row is deleted and nothing is widened, but applying this to Production revokes safety-telemetry reads from every safety_reviewer and from any inactive or partner-scoped internal_admin. That is an authorization change on live data, not an idempotency drop. The verifier own later check no_baseline_policy_was_dropped_or_weakened compares baseline policy definitions verbatim and will flag the same change independently, which is a second reason this lane must not sign it off."
+    },
+    {
+      "file": "20260823171000_internal_admin_authority_hardening.sql",
+      "statement": "drop policy if exists legalease_os_support_items_internal_admin_all on public.legalease_os_support_items;",
+      "why": "Same shape and same baseline (line 2738). The baseline policy grants USING and WITH CHECK for ALL commands to partner_users rows with role in (internal_admin, support_reviewer); the replacement restricts both to public.is_internal_admin() and to the authenticated role. Strictly narrower, loses no row, widens nothing — but it removes an existing support_reviewer class reads AND writes on the support queue, which is an authorization decision on live data reserved to the owner, and it likewise redefines a baseline policy that no_baseline_policy_was_dropped_or_weakened requires to be unchanged."
+    }
+  ],
+  "observationNotBlocking": {
+    "file": "20260901120000_dtc_consumer_launch_rails.sql",
+    "note": "Not a destructive-statement defect and outside this lane writable scope, so it was recorded rather than changed: the drop at line 53 names consumer_pending_screening_results_claimed_matter_id_fkey, but 20260828100000 created its foreign key on the same column as consumer_pending_screening_results_claimed_matter_fkey (no _id_). The drop therefore removes nothing and the chain ends up carrying BOTH foreign keys on claimed_matter_id — the earlier one ON DELETE SET NULL, the new one ON DELETE CASCADE. The migration comment says the SET NULL action was incompatible with the CLAIMED row-shape constraint, so the intent reads as replacement, not coexistence. Worth an owner or author look; it does not affect the disposition, whose only claim is that the drop can remove nothing."
+  },
+  "verifierBefore": {
+    "command": "node scripts/verify-rcap-production-schema-upgrade.mjs",
+    "exitCode": 1,
+    "failedCheck": "no_unreviewed_destructive_operation",
+    "tail": "  ok   recovered_baseline_is_untouched\n  ok   forward_chain_is_exactly_the_committed_migrations\n  FAIL no_unreviewed_destructive_operation\n         destructive statement with no reviewed disposition in 20260822180000_rcap_prefill_reproposal.sql:\n\nverify-rcap-production-schema-upgrade FAILED\n  - no_unreviewed_destructive_operation: destructive statement with no reviewed disposition in 20260822180000_rcap_prefill_reproposal.sql:\n    drop index if exists public.partner_onboarding_prefill_values_active_field_unique\n"
+  },
+  "verifierAfter": {
+    "command": "node scripts/verify-rcap-production-schema-upgrade.mjs",
+    "exitCode": 1,
+    "failedCheck": "no_unreviewed_destructive_operation",
+    "tail": "  ok   recovered_baseline_is_untouched\n  ok   forward_chain_is_exactly_the_committed_migrations\n  FAIL no_unreviewed_destructive_operation\n         destructive statement with no reviewed disposition in 20260823171000_internal_admin_authority_hardening.sql:\n\nverify-rcap-production-schema-upgrade FAILED\n  - no_unreviewed_destructive_operation: destructive statement with no reviewed disposition in 20260823171000_internal_admin_authority_hardening.sql:\n    drop policy if exists \"consumer wilma telemetry internal safety select\" on public.consumer_wilma_telemetry\n",
+    "interpretation": "16 of the 18 now carry a reviewed disposition and the check no longer stops on any of them; the run stops on the first of the two statements referred to the owner. No stale entry was introduced: an independent audit of all 26 destructive statements in the chain against all 24 dispositions (8 pre-existing + 16 added) found 26 matched minus the 2 owner statements, and 0 dispositions matching nothing."
+  },
+  "nextBlocker": "The two owner decisions above are the immediate blocker on no_unreviewed_destructive_operation. Behind them, the verifier static checks fail fast, so the replay was never reached and could not have run here: scripts/rcap-schema-upgrade-lab.sh requires a PostgreSQL 17 cluster (the baseline grants MAINTAIN, 17+ syntax that cannot replay on 16) and this container has only /usr/lib/postgresql/16/bin. Nothing was installed. This lane therefore makes NO claim that the chain applies cleanly, that the replay is deterministic, or that the upgrade reaches the accepted target schema.",
+  "notDone": [
+    "Did not edit any file under supabase/migrations/** (read-only for this lane) and did not edit the REVIEWED_BROWSER_GRANTS list, the BANNED patterns, or any assertion.",
+    "Did not write a disposition for either statement in 20260823171000_internal_admin_authority_hardening.sql.",
+    "Did not create, connect to or apply anything to a database, hosted or local; no Supabase, Stripe or Production action of any kind.",
+    "Did not install PostgreSQL 17 or provision a lab cluster."
+  ],
+  "hostedTouched": false,
+  "productionTouched": false
+}
