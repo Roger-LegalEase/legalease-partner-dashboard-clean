@@ -238,6 +238,11 @@ const CONFIGS = Object.freeze({
     ]
   },
   "ut_pet_dismissed_with_prejudice-set": {
+    // FIX83 current VF04 findings; no ungranted sibling enables these repairs.
+    orderPetitionerNameOnPrintedLine: true,
+    captionTextClearsPrintedLines: true,
+    statesDismissalThirtyDaySinceArrest: true,
+    declarationNameBoxClearsPrePrintedI: true,
     slug: "ut-pet-dismissed-with-prejudice-set", traffic: false, routeKind: "case",
     chargeLabel: "Charge dismissed with prejudice", dismissedWithPrejudice: true,
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
@@ -334,6 +339,12 @@ const CONFIGS = Object.freeze({
       + "for it."
   },
   "ut_pet_dismissed_without_prejudice-set": {
+    // FIX83 current VF04 findings; no ungranted sibling enables these repairs.
+    orderPetitionerNameOnPrintedLine: true,
+    captionTextClearsPrintedLines: true,
+    statesDismissalThirtyDaySinceArrest: true,
+    courtTypeElectionNotHeld: true,
+    prosecutorConsentNotHeld: true,
     slug: "ut-pet-dismissed-without-prejudice-set", traffic: false, routeKind: "case",
     dismissedWithoutPrejudice: true, chargeLabel: "Charge dismissed without prejudice",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
@@ -400,6 +411,9 @@ const CONFIGS = Object.freeze({
       + "reason to believe it is about to, that is the point the record marks."
   },
   "ut_pet_limitations-set": {
+    // FIX83 current VF04 findings; no ungranted sibling enables these repairs.
+    orderPetitionerNameOnPrintedLine: true,
+    captionTextClearsPrintedLines: true,
     slug: "ut-pet-limitations-set", traffic: false, routeKind: "case",
     chargeLabel: "Charge ended by limitations period",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
@@ -448,6 +462,9 @@ const CONFIGS = Object.freeze({
     ownerFeeCorrection: true
   },
   "ut_pet_no_charges-set": {
+    // FIX83 current VF04 findings; no ungranted sibling enables these repairs.
+    orderPetitionerNameOnPrintedLine: true,
+    captionTextClearsPrintedLines: true,
     slug: "ut-pet-no-charges-set", traffic: false, routeKind: "incident",
     chargeLabel: "Arrest with no charges filed",
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
@@ -914,7 +931,17 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
     };
   }
   assert.ok(county, `${formNumber}: county blank was not measured`);
-  addTextPlan(plans, formNumber, county, "matter.county", facts, { field: "County" });
+  const countyOverride = config.captionTextClearsPrintedLines && ["1000EX", "1020EX"].includes(formNumber)
+    ? {
+      field: "County",
+      // Source underscore baselines are 458.23 (1000EX) and 517.2 (1020EX).
+      // At 300 dpi their ink tops are 456.72 and 515.52. A two-point
+      // baseline lift clears the descenders; the county fact stays the same.
+      writeBox: { ...textBox(county), y: formNumber === "1000EX" ? 460.23 : 519.2 },
+      geometryBasis: "county source underline measured from pinned PDF glyphs and 300 dpi ink; baseline raised above the printed line"
+    }
+    : { field: "County" };
+  addTextPlan(plans, formNumber, county, "matter.county", facts, countyOverride);
 
   let petitioner = matching(pageOne, (field) => /^Petitioner$/i.test(normalize(field.caption))
     && field.measured.x0 < 200)[0];
@@ -932,7 +959,28 @@ function addCaptionFacts(plans, census, formNumber, facts, config) {
       measured: { x0: 66.6, x1: 318.6, baselineY: 354.4, width: 252 }
     };
   }
-  if (petitioner) addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts);
+  if (formNumber === "1020EX" && config.orderPetitionerNameOnPrintedLine) {
+    // The census misses the underscore line because its source font reports
+    // near-zero advances. Its fallback instead chose the panel border at
+    // y=367.74. The pinned source prints the name line at text baseline 413.52,
+    // above Petitioner; its 300 dpi ink spans x71.76–318.72/y411.36–411.84.
+    petitioner = {
+      blankId: "p1-manual-petitioner-1020EX", page: 1, caption: "Petitioner",
+      construction: "underscore_glyph_run",
+      measured: { x0: 72, x1: 318.72, baselineY: 413.52, width: 246.72 },
+      geometryBasis: "1020EX pinned source page 1 petitioner-name underline above Petitioner, checked at 300 dpi; not the caption panel border"
+    };
+    addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts,
+      { writeBox: { x: 73.5, y: 415.52, width: 243.22, height: 12 } });
+  } else if (petitioner) {
+    const nameOverride = formNumber === "1000EX" && config.captionTextClearsPrintedLines
+      ? {
+        writeBox: { ...textBox(petitioner), y: 356.4 },
+        geometryBasis: "1000EX source petitioner underline ink tops at y352.8; baseline 356.4 clears both fixtures' descenders"
+      }
+      : {};
+    addTextPlan(plans, formNumber, petitioner, "participant.full_legal_name", facts, nameOverride);
+  }
 
   const caseFields = matching(fields, isCaseNumberBlank);
   /*
@@ -1079,9 +1127,17 @@ function textPlansFor(config, census, fixture) {
 function isCourtTypeElection(control, formNumber) {
   const x = control.measured?.x0 ?? -1;
   const y = control.measured?.y0 ?? -1;
-  if (formNumber === "1000EX") return x > 220 && x < 240 && y > 475;
-  if (formNumber === "1020EX") return x > 220 && x < 240 && y > 530;
+  if (control.page !== 1) return false;
+  // Both choices are genuine when the court fact is not held. Leaving Justice
+  // unmarked must not classify it as inapplicable while offering it in prose.
+  if (formNumber === "1000EX") return (Math.abs(x - 226.97) < 1 || Math.abs(x - 290.33) < 1) && y > 475;
+  if (formNumber === "1020EX") return (Math.abs(x - 226.8) < 1 || Math.abs(x - 286.18) < 1) && y > 530;
   return false;
+}
+
+function isProsecutorConsentFinding(control, formNumber) {
+  return formNumber === "1020EX" && control.page === 2
+    && control.selectionId === "p2-printed_bracket_pair-x121.5-y654.1";
 }
 
 function selectedControl(control, formNumber, config) {
@@ -1104,6 +1160,7 @@ function selectedControl(control, formNumber, config) {
    * question rather than a defect this lane may settle.
    */
   if (config.courtTypeElectionNotHeld && isCourtTypeElection(control, formNumber)) return false;
+  if (config.prosecutorConsentNotHeld && isProsecutorConsentFinding(control, formNumber)) return false;
   if (formNumber === "1000EX") return (Math.abs(x - 126.02) < 1 && y > 520)
     || (x > 220 && x < 240 && y > 475);
   if (formNumber === "1002EX") return (x < 120 && y > 520)
@@ -1495,6 +1552,12 @@ function selectionRefusal(control, formNumber, config = {}) {
       + "decided the criminal case, district or justice court\" and holds no fact saying which of the two "
       + "decided this case, so the packet discloses the election rather than marking one",
     approvedBlankDisposition: "PARTICIPANT_ELECTION_GENUINE"
+  };
+  if (config.prosecutorConsentNotHeld && isProsecutorConsentFinding(control, formNumber)) return {
+    ...common,
+    kind: "court_finding_requires_prosecutor_evidence",
+    reason: "court finding for later court completion: this paragraph asserts actual written prosecutor consent and no intent to refile. Neither fact is held. The committed dismissal-without-prejudice route also permits the 180-day alternative, so the family alone cannot select this finding.",
+    approvedBlankDisposition: "LATER_COMPLETION"
   };
   if (NO_FILL_FORMS.has(formNumber)) return {
     ...common,
@@ -2334,6 +2397,16 @@ function participantInstructions(config, authorities) {
     ? serviceItem(item)
     : `- ${item}`)), "");
 
+  if (config.statesDismissalThirtyDaySinceArrest) {
+    const track = readJson(TRACK_REGISTRY).tracks.find((row) => row.trackId === config.statesRegistryStopConditions);
+    const waiting = track?.waitingPeriods?.find((row) => row.condition === "Every 77-40a-302(1) dismissal route");
+    assert.equal(waiting?.duration, "At least 30 days since the arrest.", "dismissal arrest waiting-period authority changed");
+    out.push(`- **At least 30 days must have passed since the arrest before you file this petition.** (Utah Code 77-40a-302(1).) Count from the arrest date. Do not confuse this arrest-date waiting period with the certificate's 180-day validity.`, "");
+  }
+  if (config.prosecutorConsentNotHeld) {
+    out.push("**Paragraph 5 of the proposed order (1020EX) is left unmarked.** It asserts that the prosecutor consented in writing and has no intent to refile. This packet holds neither fact and does not infer consent from a dismissal without prejudice. The committed track allows written prosecutor consent **or** at least 180 days since dismissal. If you rely on consent, supply the actual written consent; the court determines its findings from the evidence. The 180-day alternative does not establish the consent finding.", "");
+  }
+
   if (config.statesThirtyDaySinceArrest) {
     /*
      * FIX83, REQUIRED_BEFORE_FILING. Two route-specific prerequisites the
@@ -2597,6 +2670,10 @@ export async function runUtahCompletenessRepair(familyId, argv = process.argv.sl
       ...(config.certificateIssuanceFeeNotEstablished ? [config.ownerFeeCorrection
         ? `The certificate issuance fee is refused on this route, and per OWNER_CORRECTIONS_REQUIRED.json Q4 the refusal no longer quotes a figure to make its point. The compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither, so reading either limb across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids. That reasoning is recorded here rather than on the packet's face, because the figure it turns on - an amount from BCI's published FAQ that NO FORM ENCLOSED IN THIS PACKET PRINTS - is exactly what the owner directed be removed. The instructions now carry the controlling design's own refusal (UT.memo rules.fees records the current BCI amounts as an open release-blocking question, Utah setting them through the Utah Code 63J-1-504 process rather than by number) and name the Bureau of Criminal Identification as the office that states the current amount.`
         : `The certificate issuance fee is refused on this route and the refusal is reasoned on the packet's face: the compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and ${config.certificateIssuanceFeeNotEstablished} is neither. Reading the exemption across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids, so the packet names BCI as the authority instead.`] : []),
+      ...(config.captionTextClearsPrintedLines ? ["FIX83 additional CLIPPING_AND_OVERLAP finding: county text on 1000EX and 1020EX caption lines and petitioner-name descenders on 1000EX now clear their source underlines. Actual source text baselines 458.23/517.2 and 300 dpi underline ink determined the write baseline; county facts and court selections are unchanged by this geometry repair."] : []),
+      ...(config.orderPetitionerNameOnPrintedLine ? ["FIX83 current KNOWN_PREFILLS: the 1020EX page 1 petitioner name now writes on the actual underscore line above Petitioner, source baseline 413.52, rather than on the caption panel border at 367.74. Both fixtures use the same measured source box; original source and census remain unchanged."] : []),
+      ...(config.statesDismissalThirtyDaySinceArrest ? ["FIX83 current REQUIRED_BEFORE_FILING: the at-least-30-days-since-arrest prerequisite is read from this dismissal track's current waitingPeriods and stated separately from the dismissal and certificate 180-day periods."] : []),
+      ...(config.prosecutorConsentNotHeld ? ["FIX83 current ROUTE_OPTIONS: proposed-order 1020EX paragraph 5 is no longer checked from family membership. The written-consent/no-intent-to-refile finding is left for the court; no held fact establishes it, and the registry separately permits the 180-day alternative."] : []),
       ...(config.declarationNameBoxClearsPrePrintedI ? [`The BCI application's sworn declaration on packet page ${config.deliversInManifestComponentOrder ? 2 : 18} no longer writes the participant's name over the pre-printed "I". The committed write box began at x=50.5 and the pre-printed glyph occupies x=49.745-52.742; the box now begins at x=55.5 and nothing else on the line moved. This is a geometry correction to a box, not a change to what is written or to any counter.`] : []),
       ...(config.marksCentredInBracketGap ? [`Every selection mark this packet writes has MOVED. Each X was drawn at the printed left bracket's own x-origin plus 1.5pt and printed on top of that bracket; each is now centred in the bracket pair's interior gap, measured as ink off the pinned source binary at ${BRACKET_INK_DPI} dpi, and the committed write box is that gap rather than the bracket glyph. What is written is unchanged. The mark is shrunk where the gap requires it, so it clears both printed brackets rather than being fitted to the box it overran.`] : []),
       ...(config.deliversInManifestComponentOrder ? ["The packet is assembled in the order its committed packet-set manifest declares, which is the order this two-stage route is performed in: the BCI application and the conditional third-party release first, then the cover sheet, the petition and the proposed order, then the rest. The pages themselves are unchanged; only their order is."] : []),

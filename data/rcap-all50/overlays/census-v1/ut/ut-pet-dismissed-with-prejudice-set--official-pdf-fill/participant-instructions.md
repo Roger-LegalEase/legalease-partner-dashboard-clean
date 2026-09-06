@@ -64,6 +64,8 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - Any optional recipient, victim, prosecutor, reply, or third-party-release content only if that component becomes applicable
 - Service method, address, date, and certification only if the prosecutor’s office will not accept service and you make some delivery yourself, and only after it happens; in the ordinary case the court sends the filing to the prosecuting attorney and the petitioner does not serve
 
+- **At least 30 days must have passed since the arrest before you file this petition.** (Utah Code 77-40a-302(1).) Count from the arrest date. Do not confuse this arrest-date waiting period with the certificate's 180-day validity.
+
 **You must also have these in hand before you file. They are not blanks on the forms, and the packet cannot fill them for you.**
 
 - **Proof that fines, fees, interest and restitution on this case are paid in full.** Ask the clerk of the sentencing court for a current balance on the case, and check with the Office of State Debt Collection if any balance was entered as a civil judgment and transferred to it. **An unpaid balance defeats the petition, and it will also defeat the BCI certificate.** Check that against your own answer that everything is paid, and correct the packet if they disagree.
