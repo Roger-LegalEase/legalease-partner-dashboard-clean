@@ -1,76 +1,143 @@
 {
-  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
-  "assignmentId": "pf25-build-d-cohort",
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
   "lane": "PF25",
-  "laneName": "build-d packet build lane",
-  "baseSha": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
-  "captainBranch": "claude/legalease-sprint-captain-utucnw",
-  "workedOnBranch": "build-d-cohort",
-  "familiesAssigned": 7,
-  "rowsReturned": 7,
-  "familiesCompleted": 1,
-  "familiesStopped": 6,
-  "howEveryFamilyWasClaimed": "Every SOURCE_READY family already carried a packet-build grant, so --assert refuses all 87. The seven taken here were the seven whose grant a prior lane had RELEASED, moved to PF25 with claim.mjs --transfer, which refuses any grant that is still live. No live grant was taken from any lane.",
-  "howEverySourceWasResolved": "By content hash across the mounted corpus — master_library and human_source_returns — never by declared path. Of 25 declared source bindings across the seven families, 21 resolved by hash and 4 are absent by hash. All four absent digests are named on their stopped rows.",
-  "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "packetsSelfVerified": 0,
-  "commercialRoutesOpened": 0,
-  "productionTouched": false,
-  "neverSelfVerify": "This lane issues no verdict on its own packets. The completeness run recorded here is the repository's own contract functions over this family's field map, byte proof and participant instructions; it is not an independent verification.",
-  "rasterRule": "No browser resolves in this container. A built family returns BUILT_RASTER_PENDING with its canonical and boundary SHA-256 and every non-visual obligation finished.",
-  "centralFileTouched": {
-    "file": "data/rcap-all50/shared/field-appearance-semantics.json",
-    "change": "Additive only: one new family key, tx_nd_veterans_court-set:tx_nd_veterans_court-fee-waiver-statement-4, carrying three field entries. 41 insertions, 0 deletions. No other family's entry is read or changed.",
-    "why": "The Statement of Inability is a shared national record that ships three of its own values. Every family enclosing it carries its own measured entry; without one, two sworn zeroes and a 2022 declaration date would flatten onto the delivered pages."
+  "laneKind": "packet-build",
+  "status": "COMPLETED",
+  "branch": "pf25-texas-nondisclosure-three",
+  "baseCommit": "37ff6cd0e",
+  "grantSet": "07376e49742692d9",
+  "assignment": "Build three Texas order-of-nondisclosure families to the standard builder contract, following the five proven Texas nondisclosure builders.",
+  "supersedes": {
+    "note": "This path already carried a PF25 return from an earlier, different lane run, and this file replaces it because the assignment names this exact path as the return location. The earlier record is not lost: it is the version of this file at commit 37ff6cd0e and is recoverable with `git show 37ff6cd0e:data/rcap-grade-a/packet-factory-24h/pf25/rows.json`.",
+    "priorAssignmentId": "pf25-build-d-cohort",
+    "priorLaneName": "build-d packet build lane",
+    "priorBaseSha": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+    "priorRowsReturned": 7,
+    "priorFamiliesCompleted": 1,
+    "priorFamiliesStopped": 6,
+    "priorRowFamilies": [
+      "tx_nd_veterans_court-set=COMPLETED",
+      "md_10110_conviction-set=STOPPED",
+      "md_pardon_expungement-set=STOPPED",
+      "nc_145_8a_youthful-set=STOPPED",
+      "nm_conviction-set=STOPPED",
+      "nm_identity_theft-set=STOPPED",
+      "nm_release_without_conviction-set=STOPPED"
+    ],
+    "priorFileSha256": "c6bb72b07ba574f7abdd1b2e99b8af87bcd7099ce104d00dc118fbaedd046d53",
+    "priorWorkAlreadyIntegrated": "The one family the prior run completed, tx_nd_veterans_court-set, is COMPLETE_PACKET_PROVEN in MASTER_QUEUE at this base, so its record does not depend on this file."
   },
+  "grantsAsserted": [
+    "CLAIM_OK PF25 tx_nd_automatic_misdemeanor_deferred-set (packet-build, grant set 07376e49742692d9)",
+    "CLAIM_OK PF25 tx_nd_deferred_other-set (packet-build, grant set 07376e49742692d9)",
+    "CLAIM_OK PF25 tx_nd_veterans_reemployment-set (packet-build, grant set 07376e49742692d9)"
+  ],
+  "buildEnvironment": {
+    "familySourcesBind": "ok for all three families — 3/3 source(s) bind by exact SHA-256 (custody_reconciliation)",
+    "twoChecksFailedAndNeitherIsAFamilyBlocker": [
+      "private_is_git_ignored FAILED. The assignment directs this worktree to reach the source tree through a SYMLINK at private/, and `git check-ignore -q private/` cannot traverse a symlink (\"fatal: pathspec 'private/' is beyond a symbolic link\"), which the check reads as not-ignored. Nothing is tracked beneath private/ (`git ls-files private/` returns nothing) and no source binary is committed by this lane. The .gitignore rule is `private/`, which matches a directory and not a symlink to one; the symlink is nonetheless ignored here through the container's core.excludesFile.",
+      "corpus_matches_committed_index FAILED with 1 absent of 24 sampled. The absent entry is LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf (formNumber ABPP-3, state AL) — an Alabama form, not named by any of these three Texas families. Identified by re-running the verifier's own deterministic sample with its own resolver. It is reported rather than worked around; no Texas source of this lane's is affected."
+    ]
+  },
+  "independentCompletenessVerifier": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>",
+    "note": "This is the repository's own completeness script, run as the assignment requires. It is not independent verification of these packets: this lane does not verify its own output and every row carries selfVerified false.",
+    "results": {
+      "tx_nd_deferred_other-set": "PASS_COMPLETE, all nine counters zero, zero findings",
+      "tx_nd_veterans_reemployment-set": "PASS_COMPLETE, all nine counters zero, zero findings",
+      "tx_nd_automatic_misdemeanor_deferred-set": "not run — nothing was built"
+    }
+  },
+  "sharedFilesTouched": [
+    {
+      "path": "data/rcap-all50/shared/field-appearance-semantics.json",
+      "change": "two new per-family entries appended, one for each family built. Purely additive: the diff removes no line. Without them the Statement of Inability's three source-authored values would flatten onto both packets.",
+      "otherFamiliesAffected": "none"
+    }
+  ],
+  "everyOtherFamilyDirectoryUnchanged": {
+    "verified": true,
+    "method": "git status over data/rcap-all50/overlays reports only the two new untracked family directories; every tracked file under the overlays tree is byte-identical to 37ff6cd0e."
+  },
+  "scriptsNotTouched": [
+    "scripts/rcap-official-forms/**",
+    "every proven family builder",
+    "every proven family directory"
+  ],
   "rows": [
     {
-      "itemId": "tx_nd_veterans_court-set",
+      "lane": "PF25",
+      "familyId": "tx_nd_deferred_other-set",
       "status": "COMPLETED",
+      "laneKind": "packet-build",
       "jurisdiction": "TX",
       "implementationStrategy": "official_pdf_fill",
-      "familyKind": "ORDINARY_PARTICIPANT_FILED_PACKET",
-      "whyThatKind": "The committed track registry records a participant-filed petition to the clerk of the sentencing court under Tex. Gov't Code 411.0727, with the court as the deciding actor. The participant files; nothing here is automatic and nothing is agency-run.",
-      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill",
-      "buildScript": "scripts/build-census-v1-tx_nd_veterans_court-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-tx_nd_deferred_other-set.mjs",
       "routeKeys": [
-        "obligation:track-only:TX:tx_nd_veterans_court"
+        "obligation:track-pathway:TX:tx_nd_deferred_other:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725"
       ],
-      "componentSet": [
-        "tx_nd_veterans_court-petition-1",
-        "tx_nd_veterans_court-proposed-order-2",
-        "tx_nd_veterans_court-proof-of-delivery-to-prosecutor-3",
-        "tx_nd_veterans_court-fee-waiver-statement-4",
-        "tx_nd_veterans_court-filing-and-after-order-instructions-5"
-      ],
-      "componentCount": 5,
-      "boundSources": [
+      "sourcesResolved": [
         {
-          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
-          "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
+          "formNumber": "TX-GC-411.0725-PETITION",
+          "title": "OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
           "custody": "master_library",
-          "pages": 6,
-          "acroFields": 14
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725__petition-for-order-of-nondisclosure-under-411-0725__REV-2022-02__EN.pdf",
+          "sha256": "2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67",
+          "sha256Exact": true,
+          "pageCount": 6,
+          "acroFieldCount": 26
         },
         {
-          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0727",
-          "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0725",
+          "formNumber": "TX-GC-411.0725-073-0735-ORDER",
+          "title": "OCA Model Order of Nondisclosure under Sections 411.0725, 411.073 and 411.0735",
           "custody": "master_library",
-          "pages": 3,
-          "acroFields": 15
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0725-411.073-411.0735__order-of-nondisclosure-under-411-0725-411-073-411-0735__REV-2022-02__EN.pdf",
+          "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680",
+          "sha256Exact": true,
+          "pageCount": 3,
+          "acroFieldCount": 19
         },
         {
           "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+          "title": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
           "custody": "human_source_returns",
-          "pages": 12,
-          "acroFields": 132,
-          "sharedNationalRecord": true,
-          "pinnedTwice": "the family pins its own SOURCES entry by SHA-256 and the whole file is hashed in the source receipt"
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "sha256Exact": true,
+          "pageCount": 12,
+          "acroFieldCount": 132
         }
       ],
-      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. The family declares paths into the rcap-d-source-packs custody, which is not mounted here; resolving by path would have produced a false BLOCKED_SOURCE.",
-      "counters": {
+      "canonical": {
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "fdfbeec021c450d9a485b924159be88ad0d60dab164d6299cfb391e9cae9a326",
+        "byteLength": 658424,
+        "pageCount": 26
+      },
+      "boundary": {
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "47096ed4ed0df5a80e93da82eb5b460af55595a866772e42721fd1d057488a6c",
+        "byteLength": 658787,
+        "pageCount": 26
+      },
+      "pageCounts": {
+        "canonical": 26,
+        "boundary": 26
+      },
+      "componentsRendered": [
+        "tx_nd_deferred_other-petition-1",
+        "tx_nd_deferred_other-proposed-order-2",
+        "tx_nd_deferred_other-proof-of-delivery-to-prosecutor-3",
+        "tx_nd_deferred_other-fee-waiver-statement-4",
+        "tx_nd_deferred_other-filing-and-after-order-instructions-5"
+      ],
+      "componentsNotGenerated": [],
+      "componentsDispositionedWithoutRender": [],
+      "countersAfter": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
         "unclassifiedBlanks": 0,
@@ -81,301 +148,232 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "countersMeasured": true,
-      "allNineCountersZero": true,
-      "completenessVerdict": "PASS_COMPLETE (scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set)",
-      "fieldsClassified": 161,
+      "selfVerified": false,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "determinism": {
+        "rebuiltTwice": true,
+        "byteIdentical": true,
+        "method": "the builder was run twice and the sha256 over every file under the family directory was identical",
+        "familyDirectorySha256": "d8d87522b6b8c7761504fe515c894bf8c5a1dd0bbbea0d264a6a468f12d67b55"
+      },
+      "siblingIdentity": {
+        "copiedFrom": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+        "note": "The closest proven sibling: the same five-component shape (petition, proposed order, conditional proof of delivery, fee-waiver Statement, filing instructions), the same track-pathway route shape, and THE SAME PROPOSED-ORDER BINARY by SHA-256 (6a60f72a…, the OCA model order serving 411.0725, 411.073 and 411.0735), so its ORDER_FIELDS dictionary is carried over unchanged. Changed where the section, the form, the field map and the route facts differ: a new 26-field dictionary for the 411.0725 petition read first-hand from the pinned binary, the route keys, the composed pages, the receipt, the field-map notes, the instructions, the findings and the approval request. One engine change beyond that, named because it is a change: the composed-page renderer was replaced with the BLOCK-paginating renderer from the proven scripts/build-census-v1-tx_nd_veterans_court-set.mjs, keeping this sibling's separator-aware createTokenSplitter and its hardSplits assertion. Reason: the 300 dpi raster of the line-at-a-time renderer ended a guide page on 'and which one is yours is decided by your offence:' with the three waiting periods beginning the next sheet, which is the exact defect the block renderer was written to fix and which the proven veterans_court packet does not have."
+      },
+      "legalInputStatus": "SETTLED",
+      "registryStopConditionsReproducedVerbatim": true,
+      "requiredBeforeFilingItems": 122,
       "writes": 15,
-      "requiredBeforeFiling": 114,
-      "hiddenWidgetCheck": "Every widget on all three pinned sources read for the annotation Hidden flag; 0 of 14, 0 of 15 and 0 of 132 carry it. No write lands in a widget that would carry no ink.",
-      "formOwnInkCheck": "Four fields ship the source's own ink: the petition's Dropdown6 carrying 'is not' (a choice field, cleared and classified as the participant's election), and the Statement's 'Value / Valor 11' = '0', 'Amount Cantidad 15' = '0' and 'Today' = '12/15/2022', classified in the appearance registry under this family's own key so they contribute nothing unless this run wrote them. Each pinned source was flattened unwritten and compared.",
-      "identifierBlankCheck": "No identifier or third-party blank is written. The Statement carries no Social Security or driver-licence blank; its only date-of-birth blank asks the participant for their own date of birth, which is the only condition under which one is written.",
-      "pageBoundaryCheck": "Both fixtures checked page by page: no page carries a single drawn line, minimum 13. The composed renderer was changed to paginate BY BLOCK after the canonical fixture stranded a stop-list lead-in at a page foot with its seven bullets overleaf; the build now asserts the no-single-line rule for both fixtures.",
-      "determinism": "Rebuilt from unchanged inputs; whole directory compared recursively; all 13 files byte-identical.",
-      "artifacts": [
+      "appearanceSemanticsEntryAdded": "tx_nd_deferred_other-set:tx_nd_deferred_other-fee-waiver-statement-4 in data/rcap-all50/shared/field-appearance-semantics.json — the Statement of Inability ships three source-authored /V values (Value / Valor 11 = \"0\", Amount Cantidad 15 = \"0\", Today = \"12/15/2022\"); measured first-hand from the pinned bytes here. Without the entry the structural rule reads all three as the court's own ink and flattens two sworn zeroes and a 2022 date onto a document sworn under penalty of perjury. The addition is purely additive; no other family's entry is changed.",
+      "rasterInspection": {
+        "dpi": 300,
+        "engine": "pdftoppm",
+        "pagesRastered": 52,
+        "location": "/tmp/pf25/raster (deleted after measuring)",
+        "observed": [
+          "correct source and revision on every official page: OCA model petition under Section 411.0725 and OCA model order under Sections 411.0725, 411.073 and 411.0735, both REVISED FEBRUARY 2022",
+          "route key printed once per composed page and broken only at its own separators",
+          "known facts visible: name in the petition caption and opening line, on the proposed order caption, and on the Statement; telephone on the petition; date of birth, address, telephone and email on the Statement",
+          "no selection marked anywhere: the five paragraph-2 boxes, the prior-conviction-list control, the three-way waiting-period control, both attachment controls and the fee control are all blank, and so are the three section boxes on the order's page 2",
+          "protected areas clean: every signature, every signature date and every court-owned date and block is empty; the Statement's Option 1 declaration date no longer carries the source's 12/15/2022",
+          "boundary fixture fits: the long name, long address, long telephone and long email are written whole and none is clipped or overrunning",
+          "no page carries a single drawn line and no composed page ends on a heading or a list introduction"
+        ]
+      }
+    },
+    {
+      "lane": "PF25",
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs",
+      "routeKeys": [
+        "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route",
+        "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition"
+      ],
+      "sourcesResolved": [
         {
-          "fixture": "canonical",
-          "packetSha256": "4a5d3bec8d9a3261df8bb20965aea7ae133a46edb09165a40ab3089199849e28",
-          "pages": 25
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+          "formNumber": "TX-GC-411.0729-PETITION",
+          "title": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+          "sha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+          "sha256Exact": true,
+          "pageCount": 3,
+          "acroFieldCount": 13
         },
         {
-          "fixture": "boundary",
-          "packetSha256": "5a24261a37f2fc801ae6361075c8573b0bf45af94adca766a38dcbc48a36d3ed",
-          "pages": 25
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0729",
+          "formNumber": "TX-GC-411.0729-ORDER",
+          "title": "OCA Model Order of Nondisclosure under Section 411.0729",
+          "custody": "master_library",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+          "sha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+          "sha256Exact": true,
+          "pageCount": 3,
+          "acroFieldCount": 11
+        },
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+          "title": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "custody": "human_source_returns",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "sha256Exact": true,
+          "pageCount": 12,
+          "acroFieldCount": 132
         }
       ],
-      "rasterState": "BUILT_RASTER_PENDING",
-      "whyRasterPending": "No browser resolves in this container. Every non-visual obligation is finished.",
-      "buildStatus": "state_built",
-      "reviewStatus": "qa_review_pending",
+      "canonical": {
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b2c9bacd026595cf5d6694313e0698f8f3ea22ace04ecb248ea12bf8b758f1d5",
+        "byteLength": 657080,
+        "pageCount": 22
+      },
+      "boundary": {
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "1e157414c896978d2cf7ddbf471f4ef1285fb64a19b98d50f042b1a0e03c29f4",
+        "byteLength": 657463,
+        "pageCount": 22
+      },
+      "pageCounts": {
+        "canonical": 22,
+        "boundary": 22
+      },
+      "componentsRendered": [
+        "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+        "tx_nd_veterans_reemployment-petition-2",
+        "tx_nd_veterans_reemployment-proposed-order-3",
+        "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+        "tx_nd_veterans_reemployment-after-order-instructions-5"
+      ],
+      "componentsNotGenerated": [],
+      "componentsDispositionedWithoutRender": [],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "selfVerified": false,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "determinism": {
+        "rebuiltTwice": true,
+        "byteIdentical": true,
+        "method": "the builder was run twice and the sha256 over every file under the family directory was identical",
+        "familyDirectorySha256": "8b0feb5475c22f670e8b5d99db6530ad1e2b2933ce8892df25172ad74b4ec6a6"
+      },
+      "siblingIdentity": {
+        "copiedFrom": "scripts/build-census-v1-tx_nd_veterans_court-set.mjs",
+        "note": "The closest proven sibling: the other Texas veterans nondisclosure family, the same OCA petition-and-order shape with an is/is-not attachment dropdown, the same Statement of Inability, and the same block-paginating composed renderer. Its engine is carried over unchanged. Changed where the section, the form, the field map and the route facts differ: new 13-field and 11-field dictionaries for the 411.0729 petition and order read first-hand from the pinned binaries, a two-route track (the statutory no-filing route and the OCA petition route) with the no-filing-route guidance as required component 1 and the petition and order conditional as components 2 and 3, no proof-of-delivery component, the composed pages, the receipt, the field-map notes, the instructions, the findings and the approval request."
+      },
+      "legalInputStatus": "SETTLED",
+      "registryStopConditionsReproducedVerbatim": true,
+      "requiredBeforeFilingItems": 108,
+      "writes": 15,
+      "appearanceSemanticsEntryAdded": "tx_nd_veterans_reemployment-set:tx_nd_veterans_reemployment-fee-waiver-statement-4 in data/rcap-all50/shared/field-appearance-semantics.json — same three source-authored /V values on the shared Statement of Inability, measured first-hand from the pinned bytes here. Purely additive; no other family's entry is changed.",
+      "printedBlanksWithNoAcroFormControl": [
+        "the cause number on the caption line of the petition's page 1",
+        "the paragraph 6 fee election on the petition's page 3"
+      ],
+      "printedBlanksNote": "Both are printed rules with no widget behind them — 13 widgets over 3 pages and none on those lines — so there is nothing to declare in the field map and no field-level counter can see them. Both are named in participant-instructions.md as marks to make by hand.",
+      "rasterInspection": {
+        "dpi": 300,
+        "engine": "pdftoppm",
+        "pagesRastered": 44,
+        "location": "/tmp/pf25/raster (deleted after measuring)",
+        "observed": [
+          "correct source and revision on every official page: OCA model petition and OCA model order under Section 411.0729, both REVISED FEBRUARY 2022",
+          "route key printed once per composed page, both units, unbroken",
+          "known facts visible: name in the petition caption and opening line, on the proposed order caption, and on the Statement; telephone on the petition; date of birth, address, telephone and email on the Statement",
+          "the one attachment dropdown is unmarked; the order carries no elections at all",
+          "protected areas clean: signature blank, every court-owned date and block blank, the order generated unexecuted, and the Statement's Option 1 declaration date no longer carries the source's 12/15/2022",
+          "boundary fixture fits: the long name, address, telephone and email are written whole and none is clipped",
+          "no page carries a single drawn line, no composed page ends on a heading, and the packet no longer ends on a sheet carrying only the route footer"
+        ]
+      }
+    },
+    {
+      "lane": "PF25",
+      "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "status": "STOPPED",
+      "laneKind": "packet-build",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "directoryCreated": false,
+      "builder": null,
+      "builderCreated": false,
+      "stopClass": "BOUND_SOURCE_CANNOT_BE_FILLED",
+      "reason": "Two of the three official documents this family names cannot be filled, so an official_pdf_fill packet cannot be built from them and no form may be substituted. (1) The OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072 — the recovery letter, component 2, the only instrument that makes this a fill family — is ENCRYPTED AND UNREADABLE. pdf-lib fails to open it with \"Expected instance of PDFDict, but got instance of undefined\" under every load option tried (ignoreEncryption, throwOnInvalidObject:false, parseSpeed 1000); the failure was reproduced first-hand here and matches the committed corpus index, which records structuralClassObserved \"unreadable\", encrypted true and that exact loadError for the same sha256. Nothing can open it, so neither the AcroForm path nor the flat-anchor path can render it. (2) The OCA Model Order of Nondisclosure under Section 411.072 — component 3 — is a FLAT PDF: acroFormPresent false, acroFieldCount 0 over 3 pages in the committed index, confirmed first-hand by loading the pinned bytes and finding zero AcroForm fields. There is no widget to write the participant's name into. Only component 4, the Statement of Inability, is fillable. Building the two guidance components and the fee-waiver Statement alone and dispositioning the letter and the order would ship something that is not the family MASTER_QUEUE names and would leave requiredComponentsMissing unclearable except by lowering the bar, so the row stops instead.",
+      "grant": "CLAIM_OK PF25 tx_nd_automatic_misdemeanor_deferred-set (packet-build, grant set 07376e49742692d9)",
+      "buildEnvironment": "family_sources_bind ok — 3/3 source(s) bind by exact SHA-256 (custody_reconciliation). The sources are HELD and hash-exact; the defect is in what the held bytes are, not in whether they bind.",
+      "custody": [
+        {
+          "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "custody": "master_library",
+          "alsoHeldIn": "d_source_packs",
+          "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "byteLength": 255245,
+          "pageCount": 7,
+          "acroFormPresent": true,
+          "acroFieldCount": 25,
+          "encrypted": true,
+          "structuralClassObserved": "unreadable",
+          "loadError": "Expected instance of PDFDict, but got instance of undefined",
+          "readBy": "the committed index records structureReadBy pikepdf; this lane reproduced the pdf-lib load failure first-hand against the mounted bytes"
+        },
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "custody": "master_library",
+          "alsoHeldIn": "d_source_packs",
+          "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+          "byteLength": 88342,
+          "pageCount": 3,
+          "acroFormPresent": false,
+          "acroFieldCount": 0,
+          "encrypted": false,
+          "structuralClassObserved": "flat_pdf",
+          "loadError": null,
+          "readBy": "loaded first-hand here from the mounted bytes; pdf-lib reports zero AcroForm fields, agreeing with the committed index"
+        },
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "byteLength": 6667524,
+          "pageCount": 12,
+          "acroFormPresent": true,
+          "acroFieldCount": 132,
+          "encrypted": false,
+          "structuralClassObserved": "acroform",
+          "loadError": null,
+          "readBy": "loaded first-hand here; this one is fillable and is the only one of the three that is"
+        }
+      ],
+      "whatWouldUnblockIt": "A readable copy of the OCA Instructions and Model Letter under Section 411.072 at a pinned sha256 the committed index carries, and a decision by an owner on the flat Section 411.072 order — either an anchor-fill treatment on the flat bytes, as several non-Texas flat_pdf families in this repository already use, or a different official order. Neither is this lane's to choose, and neither may be substituted for the form the family names.",
+      "countersAfter": null,
+      "selfVerified": false,
+      "rasterState": "NOT_BUILT",
+      "determinism": null,
+      "siblingIdentity": null,
+      "overlayBytesWritten": false,
+      "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
-    },
-    {
-      "itemId": "md_10110_conviction-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_SOURCE",
-      "stopClass": "BLOCKED_SOURCE",
-      "jurisdiction": "MD",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 1 of 2 source relationships does not bind",
-      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus (master_library and human_source_returns), not by declared path.",
-      "sourcesThatBound": [
-        {
-          "sourceId": "official-form:CC-DC-089",
-          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
-          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf"
-        }
-      ],
-      "sourcesThatDidNotBind": [
-        {
-          "sourceId": "official-form:CC-DC-CR-072B",
-          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-          "why": "These bytes are absent from every mounted corpus BY HASH. The Master Library holds five Maryland forms — CC-DC-089, CC-DC-CR-078, CC-DC-CR-148, MDJ-008 and DC-CR-071 — and no CC-DC-CR-072B under any name or revision. This is the PRIMARY FILING form for both Maryland families, so neither can be built. Substituting a different Maryland form for a pinned digest is not open to a build lane.",
-          "whatWouldUnblock": "A source-acquisition lane obtaining the exact binary whose SHA-256 is 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, or a source-reconciliation lane re-pinning the family to a digest the corpus holds."
-        }
-      ],
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
-    },
-    {
-      "itemId": "md_pardon_expungement-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_SOURCE",
-      "stopClass": "BLOCKED_SOURCE",
-      "jurisdiction": "MD",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 1 of 2 source relationships does not bind",
-      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus (master_library and human_source_returns), not by declared path.",
-      "sourcesThatBound": [
-        {
-          "sourceId": "official-form:CC-DC-089",
-          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
-          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf"
-        }
-      ],
-      "sourcesThatDidNotBind": [
-        {
-          "sourceId": "official-form:CC-DC-CR-072B",
-          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-          "why": "These bytes are absent from every mounted corpus BY HASH. The Master Library holds five Maryland forms — CC-DC-089, CC-DC-CR-078, CC-DC-CR-148, MDJ-008 and DC-CR-071 — and no CC-DC-CR-072B under any name or revision. This is the PRIMARY FILING form for both Maryland families, so neither can be built. Substituting a different Maryland form for a pinned digest is not open to a build lane.",
-          "whatWouldUnblock": "A source-acquisition lane obtaining the exact binary whose SHA-256 is 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, or a source-reconciliation lane re-pinning the family to a digest the corpus holds."
-        }
-      ],
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
-    },
-    {
-      "itemId": "nc_145_8a_youthful-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_SOURCE",
-      "stopClass": "BLOCKED_SOURCE",
-      "jurisdiction": "NC",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 2 of 5 source relationships do not bind",
-      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus, not by declared path.",
-      "sourcesThatBound": [
-        {
-          "sourceId": "official-form:AOC-CV-226",
-          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
-        },
-        {
-          "sourceId": "source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
-          "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d"
-        },
-        {
-          "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
-        }
-      ],
-      "sourcesThatDidNotBind": [
-        {
-          "sourceId": "official-form:AOC-CR-293",
-          "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
-          "declaredPath": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
-          "why": "Absent from every mounted corpus BY HASH. The Master Library holds AOC-CR-287, 288, 296, 297 and 298 but no AOC-CR-293 under any name or revision. This is the PRIMARY FILING form for the family."
-        },
-        {
-          "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
-          "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
-          "declaredPath": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
-          "why": "Absent from every mounted corpus BY HASH. The library holds instruction sheets for 287, 288, 297 and 298 but none for 293."
-        }
-      ],
-      "whatWouldUnblock": "A source-acquisition lane obtaining the two exact binaries by digest. Substituting a neighbouring AOC form for a pinned digest is not open to a build lane.",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
-    },
-    {
-      "itemId": "nm_conviction-set",
-      "status": "STOPPED",
-      "verdict": "NOT_BUILT_IN_THIS_LANE",
-      "stopClass": "LANE_CAPACITY",
-      "jurisdiction": "NM",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "sourcesAllBind": true,
-      "sourcesConfirmedByHash": [
-        "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
-        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-        "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
-        "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
-        "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
-        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
-        "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226"
-      ],
-      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
-      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
-      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
-      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
-      "groundworkHandedOn": [
-        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
-        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
-        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
-        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
-      ],
-      "grantReleased": true,
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
-    },
-    {
-      "itemId": "nm_identity_theft-set",
-      "status": "STOPPED",
-      "verdict": "NOT_BUILT_IN_THIS_LANE",
-      "stopClass": "LANE_CAPACITY",
-      "jurisdiction": "NM",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "sourcesAllBind": true,
-      "sourcesConfirmedByHash": [
-        "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
-        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-        "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
-        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
-      ],
-      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
-      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
-      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
-      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
-      "groundworkHandedOn": [
-        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
-        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
-        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
-        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
-      ],
-      "grantReleased": true,
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
-    },
-    {
-      "itemId": "nm_release_without_conviction-set",
-      "status": "STOPPED",
-      "verdict": "NOT_BUILT_IN_THIS_LANE",
-      "stopClass": "LANE_CAPACITY",
-      "jurisdiction": "NM",
-      "implementationStrategy": "official_pdf_fill",
-      "counters": {
-        "knownRequiredFieldsMissing": null,
-        "requiredFactsNotCollected": null,
-        "unclassifiedBlanks": null,
-        "incompleteRows": null,
-        "requiredOptionsMissing": null,
-        "requiredComponentsMissing": null,
-        "invisibleWrites": null,
-        "protectedWrites": null,
-        "visualDefects": null
-      },
-      "countersMeasured": false,
-      "sourcesAllBind": true,
-      "sourcesConfirmedByHash": [
-        "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
-        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-        "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
-        "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
-        "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
-        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
-        "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
-      ],
-      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
-      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
-      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
-      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
-      "groundworkHandedOn": [
-        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
-        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
-        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
-        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
-      ],
-      "grantReleased": true,
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
-      "overlayDirectoryTouched": false,
-      "artifacts": []
     }
   ]
 }
