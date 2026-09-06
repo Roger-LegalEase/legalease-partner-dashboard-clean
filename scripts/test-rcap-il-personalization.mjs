@@ -13,6 +13,7 @@ register('./test-rcap-il-delivery-loader.mjs', import.meta.url);
 const { bindEphemeralDb } = await import('./lib/consumer-payment-test-doubles.mjs');
 const { bindDeliveryDb, literal: q, sponsoredItems } = await import('./test-rcap-il-delivery-boundaries.mjs');
 const { generatePaidConsumerPacket, getConsumerPacketStatus } = await import('../src/lib/expungement-ai/packet-generation.ts');
+const { issueConsumerArtifactDownloadGrant, authorizeConsumerArtifactDownload } = await import('../src/lib/expungement-ai/private-delivery.ts');
 const { consumerMatterIdForItem, consumerPersonMatchKey } = await import('../src/lib/expungement-ai/consumer-identity.ts');
 const { preparePersonalizedPacket } = await import('../src/lib/rcap/render/personalized-packet.ts');
 const { renderClaimPacket } = await import('./rcap-render-worker.mjs');
@@ -83,6 +84,8 @@ function setup() {
   bindEphemeralDb(db); bindDeliveryDb(db);
 }
 const cases = [];
+const claims = new Map();
+const finalizations = new Map();
 const partnerId=randomUUID(), eventId=randomUUID();
 function seed(name, address, sponsored=false) {
   const userId = randomUUID(), itemId = randomUUID(), personId = randomUUID();
@@ -124,12 +127,13 @@ const queue = {
   async claim(worker) {
     const r = db.json(`select row_to_json(t) from (select * from claim_packet_render_job(${q(worker)},null,60)) t`);
     if (!r) return null;
-    return Object.fromEntries(Object.entries({ id:'id',packetId:'packet_id',routeId:'route_id',rendererKind:'renderer_kind',rendererVersion:'renderer_version',sourceSha256:'source_sha256',profileId:'profile_id',profileVersion:'profile_version',inputHash:'input_hash',attemptCount:'attempt_count',maxAttempts:'max_attempts',partnerId:'partner_id',personId:'person_id',matterId:'matter_id',fencingToken:'fencing_token',claimExpiresAt:'claim_expires_at' }).map(([key,col]) => [key,r[col]]));
+    const claim=Object.fromEntries(Object.entries({ id:'id',packetId:'packet_id',routeId:'route_id',rendererKind:'renderer_kind',rendererVersion:'renderer_version',sourceSha256:'source_sha256',profileId:'profile_id',profileVersion:'profile_version',inputHash:'input_hash',attemptCount:'attempt_count',maxAttempts:'max_attempts',partnerId:'partner_id',personId:'person_id',matterId:'matter_id',fencingToken:'fencing_token',claimExpiresAt:'claim_expires_at' }).map(([key,col]) => [key,r[col]]));
+    claims.set(claim.id,claim);return claim;
   },
   async startRender(id,token) { return db.scalar(`select start_packet_render(${q(id)},${q(token)})`) === 't'; },
   async startValidation(id,token) { return db.scalar(`select start_packet_validation(${q(id)},${q(token)})`) === 't'; },
   async fail(id,token,code,detail,retryable) { console.error('Worker failure:',code,detail); return db.scalar(`select fail_packet_render_job(${q(id)},${q(token)},${q(code)},${q(detail)},${retryable})`); },
-  finalize: finalizeRenderJob,
+  async finalize(input){finalizations.set(input.jobId,input);return finalizeRenderJob(input);},
   async releaseExpired(){ return Number(db.scalar('select release_expired_packet_render_claims()')); },
   async requeueRetryable(){ return Number(db.scalar('select requeue_retryable_packet_render_jobs()')); }
 };
@@ -183,12 +187,24 @@ try {
         continue;
       }
       assert.equal(cycle.outcome,'finalized',JSON.stringify(cycle)); assert.equal(cycle.accountingResult,c.sponsored?'consumed':'zero_charge');
+      const finalizationAccounting=accounting();
+      assert.ok(await finalizeRenderJob(finalizations.get(c.jobId)),'finalization retry succeeds');
+      assert.deepEqual(accounting(),finalizationAccounting,'finalization retry consumes nothing');
       const job=await getRenderJob(c.jobId);
       assert.equal(job.matterId,c.matterId); assert.equal(c.sponsored?job.sponsoredBinding.authUserId:job.consumerAuthUserId,c.userId); assert.equal(c.sponsored?job.sponsoredBinding.verificationHash:job.consumerVerificationHash,c.verificationHash);
       assert.equal(job.personalizedBinding.packetFamilyId,'il-prostitution-j-vacate-set');
       const ready=await getConsumerPacketStatus({userId:c.userId,briefcaseItemId:c.itemId});
       assert.equal(ready.canDownload,true);
       const before=accounting();
+      if(!c.sponsored){
+        c.grant=await issueConsumerArtifactDownloadGrant({userId:c.userId,briefcaseItemId:c.itemId});
+        assert.ok(c.grant);
+        for(let repeat=0;repeat<2;repeat++){
+          const grant=await authorizeConsumerArtifactDownload({userId:c.userId,briefcaseItemId:c.itemId,token:c.grant.token});
+          assert.equal(grant?.renderJobId,c.jobId);assert.equal(grant.expectedSha256,job.outputSha256);
+        }
+        assert.equal(await authorizeConsumerArtifactDownload({userId:claire.userId,briefcaseItemId:c.itemId,token:c.grant.token}),null);
+      }
       for (let repeat=0;repeat<2;repeat++) {
         const decision=await authorizePacketDownload({...ports,getCurrentVerification:async(id)=>({...await ports.getCurrentVerification(id),alreadyDownloaded:repeat>0})},{jobId:c.jobId,userId:c.userId});
         assert.equal(decision.ok,true,JSON.stringify(decision));
@@ -199,7 +215,9 @@ try {
       assert.equal((await authorizePacketDownload(ports,{jobId:c.jobId,userId:c===alice?bob.userId:alice.userId})).ok,false);
       const pdf=path.join(output,`${c.itemId}.pdf`);fs.writeFileSync(pdf,c.bytes);
       c.text=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'});
-      assert.ok(c.text.includes(c.snapshot.packetAnswers.participant_full_legal_name));
+      assert.ok(c.text.toUpperCase().split(c.snapshot.packetAnswers.participant_full_legal_name.toUpperCase()).length>=3,'participant appears in both court documents');
+      assert.deepEqual(await renderClaimPacket(claims.get(c.jobId)),c.bytes,'actual worker adapter repeats identical bytes');
+      assert.deepEqual(await renderClaimPacket(claims.get(c.jobId)),c.bytes,'second actual adapter repeat is deterministic');
       assert.ok(c.text.includes(c.snapshot.packetAnswers.mailing_address));
       evidence.participants.push({mode:c.sponsored?'sponsored':'consumer',matterId:c.matterId,jobId:c.jobId,packetId:job.packetId,participant:c.snapshot.packetAnswers.participant_full_legal_name,expectedAddress:c.snapshot.packetAnswers.mailing_address,sha256:hash(c.bytes),verificationHash:c.verificationHash});
     }
@@ -230,7 +248,7 @@ try {
     assert.equal(db.scalar('select count(*) from consumer_packet_artifact_provenance'),'4');
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'2');
     for(const c of participants) {
-      for(const other of participants.filter(p=>p!==c)) assert.ok(!c.text.includes(other.snapshot.packetAnswers.participant_full_legal_name));
+      for(const other of participants.filter(p=>p!==c)) assert.ok(!c.text.toUpperCase().includes(other.snapshot.packetAnswers.participant_full_legal_name.toUpperCase()));
       const before=accounting();
       const retry=await generatePaidConsumerPacket({userId:c.userId,briefcaseItemId:c.itemId});
       assert.equal(retry.canDownload,true);assert.equal(retry.artifactRefs.renderJobId,c.jobId);assert.deepEqual(accounting(),before);
@@ -239,11 +257,13 @@ try {
     assert.equal(db.scalar("select count(*) from packet_credit_ledger where event_type='consumed'"),'2');
     assert.equal(db.scalar("select count(*) from rcap_screening_analytics_events where event_type='packet_generated'"),'2');
     evidence.initialAccounting=accounting();
+    assert.equal(db.scalar("select count(*) from consumer_briefcase_items where payment_status='paid'"),'2','sponsorship never manufactures a consumer payment');
     // Material edits close old delivery and change actual rendered text.
     const changed={...alice.snapshot,packetAnswers:{...alice.snapshot.packetAnswers,mailing_address:'303 Changed Avenue'}};
     const changedHash=hash(changed);
     db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(changed))},verification_hash=${q(changedHash)} where briefcase_item_id=${q(alice.itemId)}`);
     assert.equal((await authorizePacketDownload(ports,{jobId:alice.jobId,userId:alice.userId})).ok,false,'old bytes cannot use a new verification');
+    assert.equal(await authorizeConsumerArtifactDownload({userId:alice.userId,briefcaseItemId:alice.itemId,token:alice.grant.token}),null,'old grant cannot use new verification');
     try {
     const changedRequest=await generatePaidConsumerPacket({userId:alice.userId,briefcaseItemId:alice.itemId});
     assert.equal(changedRequest.canDownload,false); assert.notEqual(changedRequest.renderJobId,alice.jobId);
@@ -254,9 +274,16 @@ try {
     assert.ok(changedText.includes('303 Changed Avenue'));assert.ok(!changedText.includes('101 First Street'));
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'2','regeneration does not charge again');
     evidence.changedFact={field:'mailing_address',before:'101 First Street',after:'303 Changed Avenue',contentChanged:true,jobId:changedRequest.renderJobId};
+    evidence.changedFact.sha256=hash(fs.readFileSync(changedPdf));
     const changedReady=await getConsumerPacketStatus({userId:alice.userId,briefcaseItemId:alice.itemId});
     assert.equal(changedReady.canDownload,true,'changed verification must publish current protected provenance');
     assert.equal(changedReady.artifactRefs.renderJobId,changedRequest.renderJobId);
+    const currentDownload=await authorizePacketDownload(ports,{jobId:changedRequest.renderJobId,userId:alice.userId});
+    assert.equal(currentDownload.ok,true);assert.equal(hash(currentDownload.bytes),evidence.changedFact.sha256);
+    assert.equal((await authorizePacketDownload(ports,{jobId:alice.jobId,userId:alice.userId})).ok,false);
+    const newGrant=await issueConsumerArtifactDownloadGrant({userId:alice.userId,briefcaseItemId:alice.itemId});
+    assert.ok(newGrant);
+    assert.equal((await authorizeConsumerArtifactDownload({userId:alice.userId,briefcaseItemId:alice.itemId,token:newGrant.token})).renderJobId,changedRequest.renderJobId);
     evidence.regeneration='PASS';
     } catch(error) { evidence.failures.push({check:'consumer changed-verification regeneration',error:error.message}); }
     for(const selectedTrackId of [null,'*','il-prostitution-j-auto']) {
@@ -286,6 +313,12 @@ try {
       const ready=await getConsumerPacketStatus({userId:claire.userId,briefcaseItemId:claire.itemId});
       assert.equal(ready.canDownload,true,'sponsored regeneration must publish protected provenance');
       assert.equal(ready.artifactRefs.renderJobId,changedSponsor.renderJobId);
+      const decision=await authorizePacketDownload(ports,{jobId:changedSponsor.renderJobId,userId:claire.userId});
+      assert.equal(decision.ok,true);
+      const pdf=path.join(output,'sponsored-changed.pdf');fs.writeFileSync(pdf,decision.bytes);
+      const content=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'});
+      assert.ok(content.includes('606 Sponsor Change'));assert.ok(!content.includes('404 Third Street'));
+      evidence.sponsoredChangedFact={field:'mailing_address',before:'404 Third Street',after:'606 Sponsor Change',sha256:hash(decision.bytes),jobId:changedSponsor.renderJobId};
       assert.deepEqual(accounting(),beforeWrongEvent,'sponsored regeneration consumes no additional allowance');
     }catch(error){
       evidence.failures.push({check:'sponsored changed-verification regeneration',error:error.message});
