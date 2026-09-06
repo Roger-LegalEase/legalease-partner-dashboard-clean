@@ -74,7 +74,8 @@ function setup() {
 `);
   for (const migration of ['20260901115000_consumer_packet_artifact_provenance','20260901120000_dtc_consumer_launch_rails',
     '20260901130000_consumer_private_delivery','20260901140000_tighten_consumer_artifact_authorization',
-    '20260903130000_atomic_sponsored_packet_finalization','20260906120000_sponsored_route_render_transaction']) db.applyFile(`supabase/migrations/${migration}.sql`);
+    '20260903130000_atomic_sponsored_packet_finalization','20260906120000_sponsored_route_render_transaction',
+    '20260906130000_verified_artifact_regeneration']) db.applyFile(`supabase/migrations/${migration}.sql`);
   db.sql(`insert into partner_records values(${q(partnerId)},'il-clinic-sponsor');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},20,false,0);
     insert into partner_entitlement(partner_slug,screenings_used,screenings_allowed,pause_at_cap,overage_enabled)
@@ -151,7 +152,30 @@ function accounting(){return db.json(`select json_build_object('consumerConsumpt
   'sponsoredLedgerConsumptions',(select count(*) from packet_credit_ledger where event_type='consumed'),
   'clinicAllowance',(select screenings_used from partner_entitlement where partner_slug='il-clinic-sponsor'),
   'clinicEvents',(select count(*) from rcap_screening_analytics_events where event_type='packet_generated'))`);}
-const evidence = { participants:[], failures:[] };
+const evidence = { participants:[], failures:[], revisions:[] };
+async function assertRevision(c,newJobId,newHash){
+  const before=db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(c.itemId)}`);
+  assert.equal(before.revision,2);assert.equal(before.render_job_id,newJobId);assert.equal(before.verification_hash,newHash);
+  assert.equal(before.superseded_artifacts.length,1);
+  const historic=before.superseded_artifacts[0];
+  assert.equal(historic.renderJobId,c.jobId);assert.equal(historic.verificationHash,c.verificationHash);
+  assert.equal(historic.artifact.artifactSha256,hash(c.bytes));
+  if(!c.sponsored) assert.equal(db.scalar(`select count(*) from consumer_artifact_download_grants where briefcase_item_id=${q(c.itemId)} and artifact_revision=1 and revoked_at is not null`),'1','prior grant explicitly revoked');
+  assert.deepEqual(await storage.read(historic.artifact.storagePath),c.bytes,'prior immutable bytes retained');
+  const money=accounting();
+  assert.ok(await finalizeRenderJob(finalizations.get(newJobId)));
+  assert.deepEqual(db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(c.itemId)}`),before,'repeat regenerated finalization leaves revision/history unchanged');
+  assert.deepEqual(accounting(),money);
+  for(const update of [
+    `superseded_artifacts='[]'::jsonb`,
+    `consumer_auth_user_id=${q(randomUUID())}`,
+    `matter_id=${q(randomUUID())}`,
+    `artifact=artifact||'{"artifactSha256":"${hash('unauthorized mutation')}"}'::jsonb`,
+    `render_job_id=${q(c.jobId)},verification_hash=${q(c.verificationHash)}`
+  ]) assert.throws(()=>db.sql(`update consumer_packet_artifact_provenance set ${update} where briefcase_item_id=${q(c.itemId)}`),/immutable|replacement/);
+  assert.deepEqual(db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(c.itemId)}`),before);
+  evidence.revisions.push({mode:c.sponsored?'sponsored':'consumer',revision:before.revision,historyLength:before.superseded_artifacts.length,priorSha256:historic.artifact.artifactSha256,currentSha256:before.artifact.artifactSha256,repeatUnchanged:true,mutationRefusals:5});
+}
 const verifyFailure = process.argv.includes('--verify-fail-closed');
 if(verifyFailure) deps.renderer={render:async()=>{throw new Error('synthetic render failure boundary');}};
 try {
@@ -172,7 +196,7 @@ try {
       assert.equal(repeat.renderJobId,c.jobId,'duplicate request reuses job');
       const cycle=await runWorkerCycle(deps);
       if (verifyFailure) {
-        assert.equal(cycle.outcome, 'failed', 'real renderer dependency must never yield Ready');
+        assert.equal(cycle.outcome, 'failed', 'failed rendering must never yield Ready');
         assert.equal(cycle.errorCode, 'render_failed');
         const job = await getRenderJob(c.jobId);
         assert.equal(job.status, 'failed'); assert.equal(job.outputSha256, null);
@@ -284,6 +308,7 @@ try {
     const newGrant=await issueConsumerArtifactDownloadGrant({userId:alice.userId,briefcaseItemId:alice.itemId});
     assert.ok(newGrant);
     assert.equal((await authorizeConsumerArtifactDownload({userId:alice.userId,briefcaseItemId:alice.itemId,token:newGrant.token})).renderJobId,changedRequest.renderJobId);
+    await assertRevision(alice,changedRequest.renderJobId,changedHash);
     evidence.regeneration='PASS';
     } catch(error) { evidence.failures.push({check:'consumer changed-verification regeneration',error:error.message}); }
     for(const selectedTrackId of [null,'*','il-prostitution-j-auto']) {
@@ -319,6 +344,7 @@ try {
       const content=execFileSync('pdftotext',['-layout',pdf,'-'],{encoding:'utf8'});
       assert.ok(content.includes('606 Sponsor Change'));assert.ok(!content.includes('404 Third Street'));
       evidence.sponsoredChangedFact={field:'mailing_address',before:'404 Third Street',after:'606 Sponsor Change',sha256:hash(decision.bytes),jobId:changedSponsor.renderJobId};
+      await assertRevision(claire,changedSponsor.renderJobId,hash(sponsorChanged));
       assert.deepEqual(accounting(),beforeWrongEvent,'sponsored regeneration consumes no additional allowance');
     }catch(error){
       evidence.failures.push({check:'sponsored changed-verification regeneration',error:error.message});
@@ -327,12 +353,25 @@ try {
       const attempted={...old,verificationHash:hash(sponsorChanged),artifactSha256:latest.output_sha256,renderJobId:latest.id};
       evidence.sponsoredRegenerationRefusal=db.json(`select row_to_json(f) from finalize_sponsored_packet_generation_for_route('IL:felony-prostitution-relief',${q(claire.sourceSessionId)},${q(claire.itemId)},${q(hash(sponsorChanged))},${q(JSON.stringify(attempted))},${q(latest.id)}) f`);
     }
+    const original=db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(alice.itemId)}`);
+    const failedSnapshot={...changed,packetAnswers:{...changed.packetAnswers,mailing_address:'808 Failed Render Street'}};
+    const failedHash=hash(failedSnapshot);
+    db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(failedSnapshot))},verification_hash=${q(failedHash)} where briefcase_item_id=${q(alice.itemId)}`);
+    const failed=await generatePaidConsumerPacket({userId:alice.userId,briefcaseItemId:alice.itemId});
+    const beforeFailed=accounting();
+    assert.equal((await runWorkerCycle({...deps,renderer:{render:async()=>{throw new Error('explicit failed-render boundary');}}})).outcome,'failed');
+    assert.equal((await getConsumerPacketStatus({userId:alice.userId,briefcaseItemId:alice.itemId})).canDownload,false);
+    assert.throws(()=>db.sql(`update consumer_packet_artifact_provenance set render_job_id=${q(failed.renderJobId)},verification_hash=${q(failedHash)},artifact=artifact||${q(JSON.stringify({renderJobId:failed.renderJobId,verificationHash:failedHash}))}::jsonb where briefcase_item_id=${q(alice.itemId)}`),/validated job/);
+    assert.deepEqual(db.json(`select row_to_json(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${q(alice.itemId)}`),original);
+    assert.deepEqual(accounting(),beforeFailed);
+    db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(changed))},verification_hash=${q(changedHash)} where briefcase_item_id=${q(alice.itemId)}`);
+    evidence.failedReplacementDenied=true;
     evidence.localOnly=true;
   });
   assert.equal((await authorizePacketDownload(ports,{jobId:cases[0].jobId,userId:cases[0].userId})).ok,false,'committed revoked authority never delivers');
   console.log(JSON.stringify(evidence,null,2));
   assert.equal(evidence.failures.length,0,JSON.stringify(evidence.failures));
-  console.log(verifyFailure ? 'Consumer and sponsored entry, immutable inputs, explicit renderer failure and no false Ready PASS' : 'Personalized consumer generation -> real verified enqueue -> real worker adapter -> filesystem -> owner/repeat download PASS (local only)');
+  console.log(verifyFailure ? 'Consumer and sponsored entry, immutable inputs, explicit renderer failure and no false Ready PASS' : 'Personalized consumer and sponsored generation -> real verified queue -> actual worker -> protected provenance -> owner/repeat download PASS (local only)');
 } finally {
   delete process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE;delete process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE;
   if (previousNodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previousNodeEnv;
