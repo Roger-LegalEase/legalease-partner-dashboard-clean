@@ -44,13 +44,13 @@
  * told, in participant-instructions.md, to write the court name by hand where
  * the list cannot express it.
  *
- * Fourth, NHJB-2956 SECTION II IS NOT USED ON THIS ROUTE. It is the
- * third-party release block, and this packet requests the participant's own
- * record for their own annulment. Its two controls are refused as not
- * applicable on this route rather than left unexplained — and one of them is
- * worth a reviewer's eye: the control New Hampshire put on the "NAME OF
- * PERSON/ENTITY TO RECEIVE RECORD" line is a dropdown of family and probate
- * courts.
+ * Fourth, NHJB-2956 SECTION II DEPENDS ON THE REQUEST METHOD. Its printed
+ * instructions require it for every mailed request and third-party release;
+ * only an in-person request for one's own record uses Section I alone. The
+ * recipient control is a dropdown of family and probate courts. The participant
+ * is told to obtain Criminal Records Unit instructions before mailing if that
+ * dropdown cannot express the intended recipient, and to complete Section II
+ * with the notarization the mailed-request instructions require.
  *
  * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
@@ -69,19 +69,6 @@ import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKey
   from "./rcap-packet-completeness/completeness-contract.mjs";
 import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
-
-/*
- * The calibrated page rasterizer, resolved wherever it lives.
- *
- * The Captain branch moved this module from scripts/lib/ to scripts/raster/ at
- * 5f144ec, and fifteen builders on that branch — including this one — still
- * import the old path, which is not there. Rather than pick one and break on
- * the other base, the import is tried at the new path first and falls back to
- * the old. Only a genuinely missing module is caught: a syntax error or a
- * failed dependency inside the module still throws, because a rasterizer that
- * silently resolves to a stale copy is worse than one that refuses.
- */
-const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -277,6 +264,46 @@ function loadSelfHelpStops(memo) {
   return { record: registry, conditions, boundaries: track.selfHelpBoundaries ?? [] };
 }
 
+/*
+ * WHO MUST BE SERVED, IN THE RECORD'S OWN WORDS.
+ *
+ * VF01 failed SERVICE on this family at 7e01df1d8: the committed record answers
+ * the obligation in two sentences and the packet carried neither, while its two
+ * mentions of service implied the participant would serve somebody and named
+ * neither a person nor a method. Both sentences are read here rather than
+ * restated, from the same two records the fee and the stop conditions are read
+ * from, and both must agree. An emptied or reworded rule stops the build rather
+ * than letting the packet print prose this file remembers.
+ *
+ * The certificate-of-service disposition in the NHJB-2328 dictionary quotes the
+ * service sentence, so it is asserted here against the record too and cannot
+ * drift from it.
+ */
+const SERVICE_SENTENCE_QUOTED_IN_THE_DICTIONARY = "None by the participant. The court provides the copy to the prosecutor.";
+
+function loadServiceRule(memo) {
+  const registry = readGroundingRecord(GROUNDING_RECORDS.trackRegistry);
+  const track = (registry.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.trackRegistry} holds no track ${MEMO_TRACK_ID}`);
+
+  const service = track.rules?.service;
+  const notice = track.rules?.notice;
+  for (const [name, value] of [["rules.service", service], ["rules.notice", notice]]) {
+    assert.ok(typeof value === "string" && value.trim().length > 0,
+      `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} carries no ${name}, so the packet cannot state who is served`);
+  }
+  const fromMemo = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID)?.rules ?? {};
+  assert.equal(fromMemo.service, service,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on this track's service rule`);
+  assert.equal(fromMemo.notice, notice,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on this track's notice rule`);
+  assert.equal(service, SERVICE_SENTENCE_QUOTED_IN_THE_DICTIONARY,
+    "the NHJB-2328 certificate-of-service disposition quotes the record's service sentence verbatim; the record no "
+    + "longer says that, so the quotation would be stale");
+
+  return { record: registry, service, notice };
+}
+
 const SUPPLY = (what) => ({ policy: "supply", what });
 const WRITE = (fact) => ({ policy: "write", fact });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
@@ -345,8 +372,6 @@ const PARTICIPANT_ELECTION = "participant_sworn_narrative_or_legal_election";
  * refuses to let a court/clerk refusal class hide one. The platform does not
  * hold this participant's agencies, so each is declared and disclosed by name.
  */
-const AGENCY = (what) => SUPPLY(what);
-
 const FORM_FIELDS = {
   "NHJB-2317": {
     /* --- The caption ----------------------------------------------------- */
@@ -528,7 +553,7 @@ const FORM_FIELDS = {
     case1: { section: "Page Header", label: "Case Name repeated in the page header", ...SUPPLY("the same case name as the caption, repeated in the header of the later pages") },
     "case number1": { section: "Page Header", label: "Case Number repeated in the page header", ...WRITE("matter.case_number") },
 
-    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service — certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the certificate states what you did on the day you signed; service has not happened when the packet is prepared") },
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service — certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "this route requires no service by the participant \u2014 the record's rule is \u201cNone by the participant. The court provides the copy to the prosecutor.\u201d \u2014 so the certificate stays blank; the box is on the form because the same form serves routes where the filer does serve somebody") },
     "sig.1": { section: "Signature Block", label: "Name of Filer, entered at signature", ...PROTECT(SIGNATURE, "the whole block is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N; the packet does not present a signature block as further along than it is") },
     "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
     "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
@@ -582,11 +607,11 @@ const FORM_FIELDS = {
     },
     address: {
       section: "Section II — Third-Party Release", label: "Address of the person or entity to receive the record",
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party. This packet requests your own record for your own annulment, so Section II is never populated with participant data on this route")
+      ...SUPPLY("the record recipient’s address if you mail this request or authorize a third-party release; the pinned form requires both sections for all mailed requests. For an in-person request for your own record, its instructions require only Section I")
     },
     "court.family/probate1 CUSTOM": {
       section: "Section II — Third-Party Release", label: "Name of the person or entity to receive the record (selection)", selection: true,
-      ...NOT_ON_ROUTE("Section II is completed only when the record is released to a third party, and it is never populated with participant data on this route. See build-findings.json: the control New Hampshire put on this line is a dropdown of family and probate courts")
+      ...ELECTION("Complete the recipient name if mailing or authorizing a third-party release. This source offers only family and probate courts in its recipient dropdown; do not select an unrelated court. Before mailing, ask the Criminal Records Unit how to enter the intended recipient and complete Section II, including its required notarization. An in-person request for your own record requires only Section I")
     },
     "Clear Form": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
     "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
@@ -970,8 +995,59 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
 }
 
 /* ---- field map ------------------------------------------------------------- */
-function mapFor(source, census, report) {
+/*
+ * A VALUE THE FORM'S OWN /MaxLen WILL NOT HOLD.
+ *
+ * VF01 read this family at 7e01df1d8 and found the boundary fixture's case
+ * number blank in seven cells across three forms and its telephone blank on
+ * NHJB-2317, because those widgets declare /MaxLen 17 and 15 and the boundary
+ * values are 33 and 24 characters. The finalizer's refusal is right -- a
+ * truncated case number on a court filing is worse than a blank one -- but the
+ * refusal was recorded nowhere: the field map declared all eight as written,
+ * reports/actual-writes.json carried "unfittable": [] and the instructions told
+ * the participant the case number had been filled in.
+ *
+ * The finalizer records this class in report.refused with the reason
+ * value_exceeds_form_max_length rather than in report.unfittable, which is why
+ * an unfittable list read straight off the report was empty. It is the same
+ * kind of answer -- a value the form's geometry will not take -- so it is
+ * carried into the same place, with the measured length against the declared
+ * MaxLen, and the field becomes a refusal the participant is asked for.
+ */
+function maxLenRefusalsOf(report) {
+  return (report.refused ?? [])
+    .filter((r) => r.reason === "value_exceeds_form_max_length")
+    .map((r) => ({
+      field: r.field,
+      factId: r.factId ?? null,
+      reason: "value_exceeds_form_max_length",
+      category: "unfittable",
+      maxLength: r.maxLength ?? null,
+      valueLength: r.valueLength ?? null,
+      why:
+        `the widget declares /MaxLen ${r.maxLength} and the value this fixture holds is ${r.valueLength} characters, `
+        + "so the form itself will not hold it. The packet refuses the write rather than truncating it, because a "
+        + "shortened case number or telephone number on a court filing reads as a complete one."
+    }));
+}
+
+function mapFor(source, census, canonicalReport, boundaryReport) {
+  const canonical = sideOf(source, census, canonicalReport);
+  const boundary = sideOf(source, census, boundaryReport);
+  return {
+    formNumber: source.formNumber, documentId: source.formNumber, documentRole: source.instrumentKind,
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: ROUTE.routeKey },
+    structuralClass: "acroform",
+    explicitMappings: Object.fromEntries(canonical.writes.map((w) => [w.field, w.factId])),
+    roleRefusals: [], selectionControls: canonical.selectionControls,
+    canonicalWrites: canonical.writes, canonicalRefusals: canonical.refusals,
+    boundaryWrites: boundary.writes, boundaryRefusals: boundary.refusals
+  };
+}
+
+function sideOf(source, census, report) {
   const writtenNames = new Set(report.written.map((w) => w.field));
+  const unfittableByField = new Map(maxLenRefusalsOf(report).map((r) => [r.field, r]));
   const canonicalWrites = [];
   const canonicalRefusals = [];
   const selectionControls = [];
@@ -1004,6 +1080,26 @@ function mapFor(source, census, report) {
                 + "opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
             }
             : {})
+        });
+      }
+      else if (unfittableByField.has(r.name)) {
+        /* The form will not hold the value. Recorded as a refusal the
+         * participant must answer, with the measurement that produced it, so
+         * the map stops declaring a write that did not happen. */
+        const u = unfittableByField.get(r.name);
+        canonicalRefusals.push({
+          ...base,
+          reason: `the value the platform holds is longer than this box: ${u.why}`,
+          category: null, completenessClass: null, class: null,
+          disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true, identity: `${source.formNumber} field ${r.key}`,
+          factId: r.fact ?? null, routeDetermined: false,
+          unfittable: true, declaredMaxLength: u.maxLength, valueLength: u.valueLength,
+          widgetLocations: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
+          why: u.why,
+          participantMustSupply:
+            `write this in by hand if the box is blank on your packet. The box accepts at most ${u.maxLength} `
+            + "characters; a longer value is left blank rather than shortened."
         });
       }
       else {
@@ -1066,14 +1162,7 @@ function mapFor(source, census, report) {
     });
   }
 
-  return {
-    formNumber: source.formNumber, documentId: source.formNumber, documentRole: source.instrumentKind,
-    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: ROUTE.routeKey },
-    structuralClass: "acroform",
-    explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
-    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
-    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
-  };
+  return { writes: canonicalWrites, refusals: canonicalRefusals, selectionControls };
 }
 
 /* ---- the builder's own count of the nine counters --------------------------- */
@@ -1183,16 +1272,57 @@ function writeJson(rel, value) {
 }
 
 function requiredBeforeFilingItems(maps) {
-  return maps.flatMap((m) => m.canonicalRefusals
-    .filter((r) => r.requiredBeforeFiling === true)
-    .map((r) => ({
-      document: m.formNumber, field: r.field, page: r.page,
-      section: r.sectionHeading, disclosureLabel: r.effectiveLabel,
-      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-    })));
+  const item = (m, r, fixture) => ({
+    document: m.formNumber, field: r.field, page: r.page,
+    section: r.unfittable
+      ? `${r.sectionHeading} (form pages ${[...new Set(r.widgetLocations.map((w) => w.page))].join(", ")})`
+      : r.sectionHeading,
+    disclosureLabel: r.effectiveLabel,
+    identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply,
+    ...(r.unfittable === true
+      ? {
+        conditional: true,
+        conditionDescription:
+          "only where the value the platform holds is longer than this box's own /MaxLen, in which case the box is "
+          + "delivered blank rather than truncated",
+        declaredMaxLength: r.declaredMaxLength ?? null,
+        valueLengthThatDidNotFit: r.valueLength ?? null,
+        widgetLocations: r.widgetLocations,
+        fixturesInWhichThisBoxIsBlank: [fixture]
+      }
+      : {})
+  });
+  const rows = maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling === true).map((r) => item(m, r, "canonical")));
+  const seen = new Map(rows.map((r) => [`${r.document}\u0000${r.field}`, r]));
+  /*
+   * A box the CANONICAL render fills and the BOUNDARY render cannot. It is a
+   * blank the participant must fill on the paper they are handed, so it is
+   * declared here rather than left to the reader to discover, and it is
+   * declared conditionally because it is not blank on every packet.
+   */
+  for (const m of maps) {
+    for (const r of m.boundaryRefusals) {
+      if (r.requiredBeforeFiling !== true || r.unfittable !== true) continue;
+      const key = `${m.formNumber}\u0000${r.field}`;
+      if (seen.has(key)) {
+        const existing = seen.get(key);
+        if (existing.conditional) existing.fixturesInWhichThisBoxIsBlank.push("boundary");
+        continue;
+      }
+      const next = item(m, r, "boundary");
+      seen.set(key, next);
+      rows.push(next);
+    }
+  }
+  return rows;
 }
 
-function participantInstructions(maps, rbf, fee, stops) {
+/** The conditional rows above, alone, for the paragraph that names them. */
+function unfittableRequiredItems(maps) {
+  return requiredBeforeFilingItems(maps).filter((r) => r.conditional === true);
+}
+
+function participantInstructions(maps, rbf, unfittableItems, fee, stops, SERVICE) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -1207,13 +1337,39 @@ function participantInstructions(maps, rbf, fee, stops) {
     "- **NHJB-2956**, _Criminal History Record Information Release Authorization_ — how you request your own record from the State Police.", "",
     `All four are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, ""
   );
+  /*
+   * WHAT THIS SENTENCE MAY CLAIM.
+   *
+   * It used to name the case number and the telephone number flatly, and on a
+   * packet whose case number is longer than the form's own 17-character box
+   * that was false on the paper: the box is delivered blank. The claim is now
+   * conditional on what the render actually wrote, and where a box would not
+   * hold its value the boxes are named immediately below.
+   */
   out.push(
     "The platform filled in what it holds about you and your case: your name, your date of birth, your street address, "
-    + "your city or town, your state, your ZIP code, your phone, your e-mail and the case number. On NHJB-2956, the "
+    + "your city or town, your state, your ZIP code, your e-mail, and your telephone number and the case number "
+    + "**wherever the form's own box is long enough to hold them**. On NHJB-2956, the "
     + "State Police release, it also filled the LAST, FIRST and MI boxes from the parts of your name and wrote your "
     + "address on that form's single STREET/CITY/STATE/ZIP CODE line. Everything else is yours, and every one of those "
     + "blanks is listed below by the form and the section it is in.", ""
   );
+  if (unfittableItems.length > 0) {
+    out.push("## Boxes the form itself is too short to hold", "");
+    out.push(
+      "New Hampshire sets a character limit on some of these boxes in the form file itself, and where the value the "
+      + "platform holds is longer than the limit **the box is delivered blank rather than shortened**. A case number or "
+      + "a telephone number that has been cut to fit reads as a whole one, and on a court filing that is worse than an "
+      + "empty box. **Check every box named here on your own packet, and write the value in by hand if it is blank.** "
+      + "The clerk has to be able to match the petition, the fee-waiver motion and the statement of assets to one "
+      + "case, and the case number is how that is done.", ""
+    );
+    out.push("| Form | Section | The box | The form's limit |", "| --- | --- | --- | --- |");
+    for (const i of unfittableItems) {
+      out.push(`| ${i.document} | ${i.section} | ${i.disclosureLabel} | ${i.declaredMaxLength} characters |`);
+    }
+    out.push("");
+  }
 
   out.push("## One offence, one petition", "");
   out.push(
@@ -1227,6 +1383,23 @@ function participantInstructions(maps, rbf, fee, stops) {
     + "the list at the top of NHJB-2317, which carries every circuit-court district division and every superior court. "
     + "This packet does not state a courthouse address, because the platform holds no court directory and an unsourced "
     + "address in a filing instruction is worse than none.", ""
+  );
+  /*
+   * WHO MUST BE SERVED. The committed record answers this obligation in two
+   * sentences and the packet did not carry either of them, while its two
+   * mentions of service implied the participant would serve somebody and named
+   * neither a person nor a method. The record's own words are quoted here.
+   */
+  out.push("## Who else has to be told", "");
+  out.push(
+    "**Nobody is served by you on this route.** The service rule states: "
+    + `“${SERVICE.service}” The notice rule explains how the prosecutor learns of the petition: `
+    + `“${SERVICE.notice}”`, ""
+  );
+  out.push(
+    "So there is no step here for you. You do not mail, deliver or hand a copy of this petition to the prosecutor, to "
+    + "the police, or to anyone else; the court does that. Nothing in this packet is filed or sent for you either — "
+    + "you file the petition with the clerk, and the copy to the prosecutor is the court's to provide.", ""
   );
   out.push("## What it costs", "");
   out.push(
@@ -1266,7 +1439,7 @@ function participantInstructions(maps, rbf, fee, stops) {
   out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
   out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
   out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
-  out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
+  out.push("8. **Request your record from the State Police using NHJB-2956.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Follow the request method printed in the form’s INSTRUCTIONS block: an **in-person request for your own record requires only Section I**; a **third-party release requires Sections I and II**; and **every mailed request requires both sections completed and Section II notarized**. Section II is left blank for you to complete when required, including the recipient name and address, your signature and date, and the notary’s signature, date, seal and commission expiration. The source’s recipient-name dropdown lists only family and probate courts. **Before mailing, ask the Criminal Records Unit how to enter your intended recipient and complete that block; do not select an unrelated court or mail this request with Section II blank.**");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -1285,10 +1458,10 @@ function participantInstructions(maps, rbf, fee, stops) {
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and the date beside it, on every form that has one.** You sign them yourself, on the day you sign.");
   out.push("- **The whole signature block on NHJB-2311 and NHJB-2328** — name, address, city, state, zip, telephone and e-mail. New Hampshire names every box in that block sig.N, and the block is completed at signing.");
-  out.push("- **The certificate of service box on NHJB-2328.** It states what you did on the day you signed; service has not happened when this packet is prepared.");
+  out.push("- **The certificate of service box on NHJB-2328.** **This route requires no service by you** — the record says service is “None by the participant. The court provides the copy to the prosecutor.” — so the certificate stays blank. It is on the form because the same form is used where a filer does have to serve somebody; on this route you have nobody to certify sending a copy to.");
   out.push("- **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.");
   out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
-  out.push("- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.");
+  out.push("- **Section II of NHJB-2956** — complete it for a mailed request or third-party release; all mailed requests require Section II notarized. Only an in-person request for your own record needs Section I alone. See step 8 for the recipient-name dropdown limitation and the completion steps.");
   out.push("");
 
   out.push("## Where self-help ends", "");
@@ -1331,10 +1504,86 @@ function participantInstructions(maps, rbf, fee, stops) {
   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
   return `${out.join("\n")}\n`;
 }
+/* Source-independent regression for refusal reporting, not a packet acceptance.
+ * It runs the real finalizer on synthetic form controls. It neither substitutes
+ * these controls for the pinned NH forms nor writes a family artifact. */
+async function selfTest() {
+  const pdf = await PDFDocument.create();
+  const page = pdf.addPage([612, 792]);
+  const repeatedHeaderPage = pdf.addPage([612, 792]);
+  const form = pdf.getForm();
+  const definitions = [
+    ["case number", "matter.case_number", "Case Number", 17, 680],
+    ["telnum.1", "participant.phone", "Telephone Number", 15, 620]
+  ];
+  const rows = definitions.map(([name, fact, effectiveLabel, maxLength, y]) => {
+    const field = form.createTextField(name);
+    field.setMaxLength(maxLength);
+    field.addToPage(page, { x: 72, y, width: 300, height: 24 });
+    if (name === "case number") field.addToPage(repeatedHeaderPage, { x: 72, y, width: 300, height: 24 });
+    const rect = field.acroField.getWidgets()[0].getRectangle();
+    return { name, key: name, fact, effectiveLabel, maxLength, page: 1, rect,
+      widgets: field.acroField.getWidgets().map((w, i) => ({ page: i + 1, rect: w.getRectangle() })),
+      section: "Synthetic caption", type: "text", policy: "write" };
+  });
+  const bytes = await pdf.save();
+  const source = { formNumber: "NHJB-2317", instrumentKind: "primary_filing", title: "SYNTHETIC REFUSAL TEST",
+    bytes, sha256: crypto.createHash("sha256").update(bytes).digest("hex") };
+  const census = { rows, pageText: [] };
+  const canonical = await renderDocument(source, census, "canonical");
+  const boundary = await renderDocument(source, census, "boundary");
+  assert.equal(canonical.report.written.length, 2);
+  assert.equal(boundary.report.written.length, 0);
+  const refused = maxLenRefusalsOf(boundary.report);
+  assert.equal(refused.length, 2);
+  for (const r of refused) {
+    const expected = definitions.find(([name]) => name === r.field);
+    assert.equal(r.maxLength, expected[3]);
+    assert.equal(r.valueLength, String(factsFor("boundary")[expected[1]]).length);
+    assert.ok(r.valueLength > r.maxLength);
+  }
+  const map = mapFor(source, census, canonical.report, boundary.report);
+  assert.equal(map.canonicalWrites.length, 2);
+  assert.equal(map.boundaryWrites.length, 0);
+  assert.equal(map.boundaryRefusals.length, 2);
+  const required = requiredBeforeFilingItems([map]);
+  assert.equal(required.length, 2);
+  assert.equal(required.reduce((n, r) => n + r.widgetLocations.length, 0), 3);
+  assert.ok(required.every((r) => r.conditional && r.fixturesInWhichThisBoxIsBlank.join() === "boundary"));
+  const reversed = requiredBeforeFilingItems([mapFor(source, census, boundary.report, canonical.report)]);
+  assert.ok(reversed.every((r) => r.fixturesInWhichThisBoxIsBlank.join() === "canonical"));
+  const both = requiredBeforeFilingItems([mapFor(source, census, boundary.report, boundary.report)]);
+  assert.ok(both.every((r) => r.fixturesInWhichThisBoxIsBlank.join() === "canonical,boundary"));
+  const fee = loadFeeGrounding();
+  const service = loadServiceRule(fee.record);
+  const instructions = participantInstructions([map], required, required, fee, loadSelfHelpStops(fee.record), service);
+  assert.ok(instructions.includes(service.service) && instructions.includes(service.notice));
+  assert.ok(instructions.includes("## Who else has to be told"));
+  assert.ok(instructions.includes("every mailed request requires both sections completed and Section II notarized"));
+  assert.ok(instructions.includes("in-person request for your own record requires only Section I"));
+  assert.ok(instructions.includes("do not select an unrelated court or mail this request with Section II blank"));
+  assert.ok(!instructions.includes("leave it blank, because this request is for your own record"));
+  assert.ok(instructions.includes("wherever the form's own box is long enough to hold them"));
+  for (const r of required) assert.ok(instructions.includes(r.disclosureLabel));
+  const changedMemo = structuredClone(fee.record);
+  changedMemo.data.tracks.find((t) => t.trackId === MEMO_TRACK_ID).rules.service = "";
+  assert.throws(() => loadServiceRule(changedMemo), /disagree/);
+  return { familyId: FAMILY_ID, status: "SELF_TEST_PASS", syntheticControls: 2,
+    syntheticWidgetInstances: 3,
+    canonicalWrites: 2, boundaryMaxLenRefusals: refused, familyArtifactsWritten: false,
+    limitation: "Synthetic control regression only; exact-source rebuild, visual review and determinism remain separate." };
+}
+
 /* ---- the entry point -------------------------------------------------------- */
 export async function runFamily(argv = process.argv.slice(2)) {
+  if (argv.includes("--self-test")) return selfTest();
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+  // Source checks and no-raster builds do not require Chromium or sharp.
+  // A requested raster still loads the same calibrated renderer and fails if
+  // its actual dependencies are unavailable.
+  const rasterizePageCalibrated = checkOnly || skipRaster ? null
+    : (await import("./raster/pdf-page-raster.mjs")).rasterizePageCalibrated;
 
   const { resolved, failures } = resolveSources();
   if (failures.length > 0) {
@@ -1353,6 +1602,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
    * fee: a record that stopped holding the eight stop conditions stops the build
    * rather than producing a packet that quietly omits them again. */
   const stops = loadSelfHelpStops(fee.record);
+
+  /* Bound before anything is composed, for the same reason as the fee and the
+   * stop conditions: the packet states who is served in the record's words or
+   * the build stops. */
+  const service = loadServiceRule(fee.record);
 
   const censuses = [];
   for (const source of resolved) {
@@ -1405,7 +1659,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const artifacts = [];
   const writeProofs = [];
   const rasterPages = [];
-  const maps = [];
+  /* The field map is built after BOTH fixtures are rendered, because the
+   * boundary side of it has to be what the boundary render actually did. Built
+   * from the canonical report alone it declared eight writes the boundary bytes
+   * do not carry. */
+  const reportsByFixture = new Map([["canonical", new Map()], ["boundary", new Map()]]);
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
@@ -1423,7 +1681,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
         nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
-        unfittable: report.unfittable,
+        /* The finalizer files a /MaxLen refusal under report.refused rather
+         * than under report.unfittable. Both are the same answer -- the form
+         * will not take this value -- so both are recorded here, with the
+         * measured length against the declared MaxLen. */
+        unfittable: [...report.unfittable, ...maxLenRefusalsOf(report)],
         actualWrites: proof.actualWrites
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -1432,7 +1694,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+      reportsByFixture.get(fixtureName).set(source.formNumber, report);
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -1468,8 +1730,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
   }
 
+  const maps = censuses.map(({ source, census }) => mapFor(
+    source, census,
+    reportsByFixture.get("canonical").get(source.formNumber),
+    reportsByFixture.get("boundary").get(source.formNumber)
+  ));
+
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, fee, stops);
+  const unfittableItems = unfittableRequiredItems(maps);
+  const instructionsText = participantInstructions(maps, rbf, unfittableItems, fee, stops, service);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1500,7 +1769,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
         trackId: MEMO_TRACK_ID,
-        fieldsQuotedOnParticipantSurfaces: ["rules.fees", "rules.feeWaiver", "destination.detail"],
+        fieldsQuotedOnParticipantSurfaces: ["rules.fees", "rules.feeWaiver", "destination.detail", "rules.service", "rules.notice"],
         whyItIsBound:
           "participant-instructions.md quotes this track's fee, single-fee-per-location rule and waiver papers verbatim. "
           + "Before this binding the packet told the participant no source it held established a fee, which was true of "
@@ -1509,14 +1778,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
         trackId: MEMO_TRACK_ID,
-        fieldsQuotedOnParticipantSurfaces: ["selfHelpStopConditions"],
+        fieldsQuotedOnParticipantSurfaces: ["selfHelpStopConditions", "rules.service", "rules.notice"],
         selfHelpStopConditionsCarriedVerbatim: stops.conditions.length,
         whyItIsBound:
           "participant-instructions.md prints all " + stops.conditions.length + " of this track's self-help stop "
           + "conditions word for word under 'Where self-help ends'. Independent verification measured the packet at 0 "
           + "of 8 carried while the record held all eight, so the record the sentences come from is bound by SHA-256 "
           + "here and the build asserts it still holds exactly eight, and that the intake memo agrees with it, before "
-          + "printing any of them."
+          + "printing any of them. The same two records must agree on rules.service and rules.notice before "
+          + "those statements are printed under the service heading."
       }
     ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
@@ -1717,15 +1987,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "description of the sentence all blank.",
       "NHJB-2317 page 2: every one of the ten certification boxes unticked, the pending-charges box empty, and the "
         + "signature and date blank.",
-      "NHJB-2317 page 3: untouched. It is the court's own order and is marked FOR COURT USE ONLY.",
+      "NHJB-2317 page 3: its shared case-number header is filled only if the complete value fits; the court order, "
+        + "its elections and judicial signature/date remain blank.",
       "NHJB-2311: the case number and the applicant's name in the opening line, and the entire signature block blank — "
-        + "name, address, city, state, zip, telephone, e-mail, signature and date. The signature box shows the form's "
-        + "own printed hint, 'Enter /s/ before name'; that is the form's ink, not this build's.",
+        + "name, address, city, state, zip, telephone, e-mail, signature and date. The source's placeholder "
+        + "'Enter /s/ before name' is removed under the recorded participant-input appearance disposition; "
+        + "the signature line must be empty.",
       "NHJB-2328 page 1: name, date of birth, residence address and case number written; every financial line and both "
-        + "take-home columns blank. The Total lines are NOT blank and are not meant to be — NHJB-2328 ships its three "
-        + "computed totals with the value 0, so the flattened packet prints \"Total $ 0.00\" on pages 1 and 2. That is "
-        + "the form's own default, recorded in reports/actual-writes.json as a document-authored appearance; a total "
-        + "carrying anything else is a defect.",
+        + "take-home columns blank. The three Total lines on pages 1 and 2 must be blank: the source's "
+        + "precomputed zero values are removed under the recorded participant-input appearance dispositions. "
+        + "No financial figures or totals are held for this participant.",
       "NHJB-2328 pages 2 and 3: every expense, asset and liability line blank, the certificate-of-service box unticked, "
         + "and the whole signature block blank.",
       "NHJB-2956: the date of birth written; the LAST, FIRST and MI boxes written and the (MAIDEN/ALIAS) box between "
@@ -1891,9 +2162,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
           "Section II of NHJB-2956 is the third-party release block, and the control New Hampshire put on its \"NAME OF "
           + "PERSON/ENTITY TO RECEIVE RECORD\" line is a dropdown of family and probate courts.",
         consequence:
-          "This packet requests the participant's own record for their own annulment, so Section II is refused as not "
-          + "applicable on this route and is never populated with participant data. The dropdown is recorded here for "
-          + "the reviewer rather than worked around."
+          "The source requires Section II for every mailed request and every third-party release; only an in-person "
+          + "request for one’s own record uses Section I alone. The recipient address is conditionally required and "
+          + "the recipient selection is disclosed. Step 8 requires the participant to ask the Criminal Records Unit "
+          + "how to enter the intended recipient before mailing, and to complete Section II with notarization. "
+          + "No unrelated court, recipient identity, signature or notarial act is supplied by the platform."
       },
       {
         finding:
@@ -1943,6 +2216,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
   runFamily()
-    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .then((r) => {
+      console.log(JSON.stringify(r, null, 2));
+      if (r.status === "BLOCKED_SOURCE" || r.status === "STOPPED") process.exitCode = 1;
+    })
     .catch((e) => { console.error(e); process.exit(1); });
 }

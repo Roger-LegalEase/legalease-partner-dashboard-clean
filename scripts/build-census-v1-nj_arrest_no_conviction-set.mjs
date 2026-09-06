@@ -32,7 +32,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const require = createRequire(import.meta.url);
 const {
   PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown,
-  PDFOptionList, PDFRawStream, PDFName, StandardFonts, decodePDFRawStream,
+  PDFOptionList, PDFRawStream, PDFDict, PDFName, StandardFonts, decodePDFRawStream,
   pushGraphicsState, popGraphicsState, translate, drawObject,
 } = require("pdf-lib");
 
@@ -704,6 +704,59 @@ const NJ_KIT_OFFICIAL_COMPONENTS = Object.freeze({
   }),
 });
 
+// FIX88: a petition record is complete or untouched, just like an order row.
+// Optional continuation lines are not mandatory cells. No offence citation,
+// sentence or completion event is derived from the fixture's charge description.
+const NJ_PETITION_ARREST_DATE_BLANK = Object.freeze({
+  page: 18,
+  printed: "“I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1",
+  whatGoesThere: "The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file.",
+});
+const NJ_PETITION_ARREST_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), paragraph 1, delivered page 18",
+  fields: ["arrestOff1", "arrestStatute", "arrestMuni", "origCaseNums"],
+});
+const NJ_PETITION_DISMISSAL_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), item (a), delivered page 18",
+  fields: ["dismissDt", "dismissOff1", "dismissCrt"],
+});
+const NJ_PETITION_CONVICTION_ROW = Object.freeze({
+  row: "Petition for Expungement (Form A), item (d), delivered page 19",
+  fields: ["guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
+    "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"],
+});
+const NJ_CONVICTION_BLANK_DECLARATIONS = Object.freeze(Object.fromEntries([
+  ["guiltyOff2", "name of offense(s), continuation line if needed"],
+  ["guiltyStatute", "in violation of N.J.S.A. (statute(s))"],
+  ["guiltyFinal1", "final sentence, first line"],
+  ["guiltyFinal2", "final sentence, continuation line if needed"],
+  ["guiltyTimeType", "jail/prison/incarceration time"],
+  ["guiltyDocCmpltDt", "date jail/prison/incarceration was completed"],
+  ["guiltyProbDt", "date probation was completed"],
+  ["guiltyFineDt", "date fines were paid"],
+].map(([field, caption]) => [field, {
+  blankTreatment: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+  refusalClass: null, routeDetermined: false,
+  identity: `NJ-CN-10557 field ${field}`,
+  effectiveLabel: `${caption} — Form A, item (d), delivered page 19`,
+  reason: "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this cell. Verify the applicable offence, sentence and completion facts from the court record; do not guess an event, date or citation. The whole conviction paragraph is left untouched until its required facts can be supplied together.",
+}])));
+
+// One source field serves two legally different paragraphs. Only its page-18
+// widget answers this route's ordinary dismissal fact; page 19 is a diversion
+// assertion this route neither selects nor establishes. Bind both measured
+// widget identities so source geometry drift fails closed.
+const NJ_ORDINARY_DISMISSAL_COURT_WIDGETS = Object.freeze({
+  dismissCrt: {
+    allWidgets: [
+      { widgetIndex: 0, page: 18, rect: { x: 315.144, y: 179.395, width: 135.691, height: 17.333 } },
+      { widgetIndex: 1, page: 19, rect: { x: 314.515, y: 674.833, width: 157.618, height: 13.769 } },
+    ],
+    writableWidgetIndexes: [0],
+    reason: "Only Form A item (a), page 18, is an ordinary-dismissal court. The same source field's page-19 item (c) widget asserts a diversion dismissal and must remain untouched on this route.",
+  },
+});
+
 const NJ_ORDER_ARREST_ROW_1 = Object.freeze({
   row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
   fields: ["arrest1Dt", "arrest1Statute", "arrest1CaseNum"],
@@ -1000,6 +1053,18 @@ const PA_490_PETITION_DECLARATIONS = Object.freeze({
   }),
 });
 
+// Source-record affiant identity is supplied from the complaint/citation before
+// filing when available. It is not a service act and no such identity is held.
+const PA_AFFIANT_RECORD_DECLARATIONS = Object.freeze(Object.fromEntries([
+  "Name of Affiant", "AffiantAddr1", "AffiantAddr2", "AffiantAddrCity",
+  "AffiantAddrState", "AffiantAddrZip", "NameAddressOfAffiant", "AddressOfAffiant",
+].map((field) => [field, Object.freeze({
+  refusalClass: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+  requiredBeforeFiling: true, routeDetermined: false, completesAfterService: false,
+  effectiveLabel: "Name and mailing address of the affiant as shown on the complaint or citation, if available",
+  reason: "REQUIRED_BEFORE_FILING: copy the affiant's name and mailing address from the complaint or citation, if available. The platform holds no affiant identity. This is a source-record fact, not proof of service; do not wait until after service or guess a missing value.",
+})])));
+
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
@@ -1048,7 +1113,7 @@ Object.assign(FAMILY, {
     ["dismiss"], { origCaseNums: "matter.case_number",
       dismissDt: "matter.disposition_date", dismissOff1: "matter.charge",
       dismissCrt: "matter.court" },
-    "The route election is the measured existing dismissed control on page 18; no box is invented.",
+    "The route election is the measured existing dismissed control on page 18; no box is invented. The court name is bound only to item (a). Item (c) on page 19 is for diversion dismissals and stays wholly untouched; diversion questions remain a self-help stop. If any required fact of item (a) cannot print, its date, charge and court are all withheld together.",
     {
       /*
        * FIX01/RP-2: FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP.
@@ -1161,21 +1226,17 @@ Object.assign(FAMILY, {
        * fifty declared items as correct and found one blank missing from them:
        * paragraph 1 of the sworn Petition, delivered page 18. It carries no
        * AcroForm widget, so it can reach no field map and no widget-derived
-       * list; the packet nevertheless HOLDS the arrest date and prints it on
-       * the proposed order at page 31, so a participant filing this petition
-       * would swear to a paragraph whose own date line is empty. The plea
-       * bargain pair on page 19 is the same class: a printed participant
+       * list; the packet nevertheless HOLDS the arrest date. The order row is
+       * now withheld for row integrity, so FIX88 also removes the obsolete
+       * instruction to copy a date from that blank row. The plea bargain pair
+       * is on page 18, not page 19: a printed participant
        * election, delivered unmarked, disclosed nowhere.
        */
       unwidgetedParticipantBlanks: [
+        NJ_PETITION_ARREST_DATE_BLANK,
         {
           page: 18,
-          printed: "\u201cI was arrested/taken into custody on (date) ______\u201d \u2014 Petition for Expungement (Form A), paragraph 1",
-          whatGoesThere: "The arrest or custody date. This packet holds it and prints it on the proposed Expungement Order at delivered page 31; copy the same date onto this line by hand. There is no fill-in box on this line for any build to write into.",
-        },
-        {
-          page: 19,
-          printed: "\u201cWas the dismissal a result of a plea bargain? [ ] Yes [ ] No\u201d \u2014 Petition for Expungement (Form A), item a",
+          printed: "“Was the dismissal a result of a plea bargain? [ ] Yes [ ] No” — Petition for Expungement (Form A), item a",
           whatGoesThere: "Your own answer. This is an election about your case, not a fact the platform holds, and it is delivered unmarked; mark the box that is true before you sign.",
         },
       ],
@@ -1509,7 +1570,8 @@ Object.assign(FAMILY, {
        * kit for the other four New Jersey families and they are not in this
        * lane's grant.
        */
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      exactWidgetBindings: NJ_ORDINARY_DISMISSAL_COURT_WIDGETS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_DISMISSAL_ROW],
     }
   ),
   "nj_clean_slate-set": njFamily(
@@ -1524,6 +1586,7 @@ Object.assign(FAMILY, {
       guiltyCrt: "matter.court" },
     "The measured conviction control is marked; no clean-slate or marijuana election is made.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       registryGuidance: {
         trackId: "nj_disorderly_persons",
         sections: [
@@ -1576,7 +1639,9 @@ Object.assign(FAMILY, {
     {
       fitTextPerWidget: true,
       deny: ["ExpungeCntyName"],
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      // The existing FIX13 entrypoint owns these installed conviction-blank
+      // disclosures. Preserve them so rebuild and --check read the same map.
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "nj_indictable_conviction-set": njFamily(
@@ -1585,6 +1650,7 @@ Object.assign(FAMILY, {
     },
     "The measured conviction control is marked; degree and statutory eligibility remain unselected.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
        * FIX76, COMPONENT_SET. The route declares nine components. This family
        * bound the four official-form ones and delivered none of the five
@@ -1643,15 +1709,17 @@ Object.assign(FAMILY, {
        * nothing; this is that setting, not a new one.
        */
       fitTextPerWidget: true,
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "nj_ordinance-set": njFamily(
     "obligation:track-only:NJ:nj_ordinance", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; the ordinance characterization is not inferred into another control.",
+    "The measured conviction control is marked; the ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
     {
+      unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
        * FIX76, COMPONENT_SET. Eight declared components, four bound and four
        * process-guidance ones delivered nowhere; see the note on
@@ -1695,7 +1763,8 @@ Object.assign(FAMILY, {
       // and carried the same truncated boundary name on the same fourteen
       // delivered pages.
       fitTextPerWidget: true,
-      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+      declarations: NJ_CONVICTION_BLANK_DECLARATIONS,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1, NJ_PETITION_ARREST_ROW, NJ_PETITION_CONVICTION_ROW],
     }
   ),
   "ny_160_59_petition-set": {
@@ -2052,7 +2121,9 @@ Object.assign(FAMILY, {
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     documents: [
       cloneDoc(PA_490_PETITION, {
-        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, declarations: PA_490_PETITION_DECLARATIONS,
+        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED,
+        declarations: { ...PA_490_PETITION_DECLARATIONS, ...PA_AFFIANT_RECORD_DECLARATIONS },
+        preserveUnwrittenSelectionBackgrounds: true,
       }),
       /*
        * FIX85. On order page 1 the two caption blanks this packet writes --
@@ -2068,19 +2139,37 @@ Object.assign(FAMILY, {
        * untouched, as is the petition, which carries no such widget at all.
        */
       cloneDoc(PA_490_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS },
-        honorWidgetBorderStyle: true }),
+        honorWidgetBorderStyle: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       PA_IFP_MDJ,
     ],
     supplementalDocuments: [PA_490_SERVICE_CERTIFICATE],
     derivedFacts: PA_490_COMPOSED_ORDER_FACTS,
-    notes: ["The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
+    discloseHeldButNotPrinted: true,
+    requiredAttachments: {
+      trackId: "pa_490_nonconviction",
+      lead: "Obtain the current Pennsylvania State Police criminal-history report and the magisterial district court docket sheet before filing. Attach the PSP report obtained within 60 days before filing. Check every charge and disposition on the docket sheet; confirm that no misdemeanor, felony or murder charge was filed alongside the summary offenses. Correct any conflicting packet answer before filing.",
+    },
+    selfHelpBoundariesFromRegistry: { trackId: "pa_490_nonconviction" },
+    feeAndWaiver: [
+      "County filing fees vary; no confirmed statewide fee schedule is established. Ask the clerk of the courts of the judicial district where the charges were disposed what that court charges.",
+      "In forma pauperis relief is available. The Magisterial District Court affidavit is published statewide (PA-IFP-MDJ). It is a conditional component when you seek to proceed in forma pauperis; this packet retains its exact source but does not generate or complete its sworn financial facts. If you cannot pay the filing fee, ask the clerk for the current published affidavit and filing procedure.",
+    ],
+    filingDestination: [
+      "File the verified Rule 490 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed. The destination is based on where the charges were disposed. Ask that clerk for its current street address and local filing procedure.",
+    ],
+    service: [
+      "Serve the attorney for the Commonwealth concurrently with filing, as Rule 490 requires. The Commonwealth has 30 days after service to file a consent or objection or take no action. Ask the filing clerk for the accepted local method and office address; complete the certificate only after service actually occurs.",
+    ],
+    notes: ["Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.",
+      "The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
       "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.",
       "The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 490 governs and leaves every local-method and performed-service fact blank.",
       "Item 10 of the proposed order carries the citation date, the arrest date and the arresting agency, and item 3 carries the one-line petitioner address, from the same held facts the petition prints on its own page."],
     guidance: {
       afterTheTable: [
-        "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
-        "The filing fee and whether it can be waived, the method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+        "Complete the source-record blanks before filing, when the form says the information is available. Ask the clerk of the courts of the judicial district where the charges were disposed about missing records and local procedure.",
+        "The sections below state the established filing destination, IFP availability, service recipient and timing, and required records. The county fee amount, local service method and street addresses remain for that clerk to confirm.",
         "Who must be served, and when, is established and is not one of the open questions above: Pa.R.Crim.P. 490 requires service on the attorney for the Commonwealth concurrently with filing, and the certificate of service in this packet states exactly that and nothing more.",
       ],
       selfHelpEnds: [
@@ -2088,7 +2177,7 @@ Object.assign(FAMILY, {
         "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
         "- any blank listed above that you cannot complete from your own court records;",
         "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
-        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the court where the charges were filed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
+        "When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the courts of the judicial district where the charges were disposed answers procedural questions — filing, fees, copies and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.",
       ],
       notYours: [
         "**The fee-waiver affidavit (PA-IFP-MDJ)** is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.",
@@ -2117,7 +2206,10 @@ Object.assign(FAMILY, {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_790_nonconviction:path-a-non-conviction-expungement"],
     implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     documents: [
-      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, fitTextPerWidget: true }),
+      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, fitTextPerWidget: true,
+        normalizeMissingAppearanceSubtype: true,
+        preserveUnwrittenSelectionBackgrounds: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       /*
        * FIX85, on the second family dealt to this lane. VF05 measured the same
        * defect on this order that VF02 measured on the Rule 490 one, and the
@@ -2128,11 +2220,15 @@ Object.assign(FAMILY, {
        * drawing one rule. 9,504 packet-owned dark pixels across the two order
        * fixtures. Same option, same reason, and it reaches nothing else here.
        */
-      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, fitTextPerWidget: true,
-        honorWidgetBorderStyle: true }),
+      cloneDoc(PA_790_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS, Text15: "matter.charge" },
+        normalizeMissingAppearanceSubtype: true,
+        fitTextPerWidget: true,
+        honorWidgetBorderStyle: true,
+        declarations: PA_AFFIANT_RECORD_DECLARATIONS }),
       PA_IFP_CCP,
     ],
     supplementalDocuments: [PA_790_SERVICE_CERTIFICATE],
+    derivedFacts: PA_490_COMPOSED_ORDER_FACTS,
     discloseHeldButNotPrinted: true,
     requiredAttachments: {
       trackId: "pa_790_nonconviction",
@@ -2231,7 +2327,8 @@ Object.assign(FAMILY, {
         + "its face; ask the clerk of the courts you file with. Who must be served, and when, is established and is "
         + "not one of those open questions.",
     ],
-    notes: ["The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
+    notes: ["Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.",
+      "The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.",
       "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.",
       "The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 790 governs and leaves every local-method and performed-service fact blank."],
     guidance: {
@@ -2388,6 +2485,74 @@ function refusalReason(refusalClass) {
   return "The field remains blank under its recorded participant, later-act, or protected-owner treatment.";
 }
 
+// Source-independent engineering regression, explicitly separate from packet
+// acceptance: its blank 19-page PDF is synthetic and is never a source fixture.
+async function selfTestFix88() {
+  const doc = FAMILY["nj_arrest_no_conviction-set"].documents[0];
+  const bound = NJ_ORDINARY_DISMISSAL_COURT_WIDGETS.dismissCrt;
+  const field = { name: "dismissCrt", type: "text", multiline: false,
+    widgets: bound.allWidgets, effectiveLabel: "name of Court" };
+  const census = { fields: [field], documentTextLines: [], pageTextByPage: [] };
+  const map = fieldMapFor(doc, census);
+  assert.deepEqual(map[0].writableWidgetIndexes, [0]);
+  assert.throws(() => fieldMapFor(doc, { ...census,
+    fields: [{ ...field, widgets: field.widgets.map((widget) => ({ ...widget, page: widget.page + 1 })) }] }),
+  /exact widget binding drift/);
+  const pdf = await PDFDocument.create();
+  for (let n = 0; n < 19; n += 1) pdf.addPage([612, 792]);
+  const court = pdf.getForm().createTextField("dismissCrt");
+  for (const widget of bound.allWidgets) court.addToPage(pdf.getPages()[widget.page - 1], {
+    ...widget.rect, borderWidth: 0,
+  });
+  const sourceBytes = Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+  const facts = { "matter.court": "Synthetic Ordinary Dismissal Court" };
+  const render = (exactFieldMap = map, unwritableFields = []) => finalizeEastOfficialForm({
+    sourceBytes, expectedSha256: sha256(sourceBytes), census: census.fields,
+    facts, explicitMappings: { dismissCrt: "matter.court" }, exactFieldMap,
+    documentTextLines: [], unwritableFields, title: "FIX88 synthetic binding regression",
+  });
+  const first = await render();
+  const second = await render();
+  assert.equal(sha256(first.bytes), sha256(second.bytes), "identical synthetic inputs must be deterministic");
+  const written = first.report.written.find((row) => row.field === "dismissCrt");
+  assert.ok(written, "ordinary-dismissal court must render");
+  assert.deepEqual(written.widgets.map((widget) => widget.page), [18]);
+  assert.deepEqual(written.withheldWidgets.map((widget) => widget.page), [19]);
+  const firstPdf = await PDFDocument.load(first.bytes);
+  assert.ok(extractTextItems(firstPdf.getPages()[17]).some((item) => item.text === facts["matter.court"]));
+  assert.deepEqual(extractTextItems(firstPdf.getPages()[18]), [], "diversion page must carry no participant text");
+  // When a peer cell fails, the actual second-pass shape must also block the
+  // scoped overlay. This exercises both writer paths, not a report-only mock.
+  const withheld = await render(map.map((row) => ({ ...row, decision: "refuse", factId: null })),
+    [{ field: "dismissCrt", class: "required_before_filing" }]);
+  assert.ok(!withheld.report.written.some((row) => row.field === "dismissCrt"));
+  const withheldPdf = await PDFDocument.load(withheld.bytes);
+  assert.deepEqual(extractTextItems(withheldPdf.getPages()[17]), []);
+  assert.deepEqual(extractTextItems(withheldPdf.getPages()[18]), []);
+  for (const id of ["nj_disorderly_persons-set", "nj_indictable_conviction-set", "nj_ordinance-set"]) {
+    const config = FAMILY[id].documents[0];
+    assert.deepEqual(FAMILY[id].unwidgetedParticipantBlanks, [NJ_PETITION_ARREST_DATE_BLANK]);
+    assert.ok(participantInstructions(FAMILY[id], []).includes("date verified from the court record"));
+    assert.ok(config.repeatingRowGroups.includes(NJ_PETITION_CONVICTION_ROW));
+    const mappings = factMappingsForDocument(config);
+    // FIX13 owns disorderly's installed declarations. Exercise the same
+    // installed-map preservation and declaration precedence as build/check.
+    const installed = id === "nj_disorderly_persons-set"
+      ? installedRefusalRows(readJson(`${officialOut(id, FAMILY[id].jurisdiction)}/production-field-map.json`))
+      : new Map();
+    for (const name of ["guiltyStatute", "guiltyFinal1", "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"]) {
+      assert.equal(mappings[name], undefined, `${id}/${name}: no invented case fact`);
+      const [row] = fieldMapFor(config, { fields: [{ name, widgets: [] }] }, installed);
+      assert.equal(row.decision, "refuse", `${id}/${name}: withheld until verified`);
+      assert.equal(row.factId, null, `${id}/${name}: no invented case fact`);
+      assert.equal(row.requiredBeforeFiling, true, `${id}/${name}: disclosed requirement survives rebuild`);
+    }
+  }
+  assert.equal(FAMILY["nj_clean_slate-set"].documents[0].exactWidgetBindings, undefined);
+  assert.deepEqual(FAMILY["nj_clean_slate-set"].documents[0].repeatingRowGroups, []);
+  console.log("FIX88 source-independent binding regression: PASS (page 18 only, no diversion spill, whole-row withholding blocks both writers, deterministic synthetic bytes, source geometry drift denied; no packet acceptance)");
+}
+
 async function selfTest(familyId) {
   assert.equal(
     process.env.RCAP_PDFTOPPM ? true : POPPLER_PDFTOPPM === "pdftoppm",
@@ -2503,9 +2668,15 @@ async function selfTest(familyId) {
     .reduce((count, mappings) => count + Object.keys(mappings).length, 0), 41);
   for (const [documentId, mappings] of Object.entries(SHARED_EXACT_FACT_ALLOWLIST)) {
     assert.ok(configuredDocumentIds.has(documentId), `${documentId}: shared exact map has no configured document`);
-    for (const factId of Object.values(mappings)) {
-      assert.ok(resolveFact(factsCanonical, factId) != null,
-        `${documentId}: exact map names an unavailable fixture fact ${factId}`);
+    // Validate against the same jurisdiction/family-derived facts used by the
+    // build; raw seed facts omit derived values such as participant.state_zip.
+    const documentConfigs = Object.values(FAMILY)
+      .filter((config) => config.documents.some((doc) => doc.documentId === documentId));
+    for (const config of documentConfigs) {
+      for (const factId of Object.values(mappings)) {
+        assert.ok(resolveFact(familyFacts(config), factId) != null,
+          `${documentId}: exact map names an unavailable fixture fact ${factId}`);
+      }
     }
   }
   const exactOverlaySource = await PDFDocument.create();
@@ -2909,7 +3080,14 @@ function fieldMapFor(doc, census, installed = new Map()) {
       // neighboring page text and is fallible for wide fields; carrying it on
       // an allowlisted write lets one caption shadow a differently-named blank
       // and read as "this fact is written beside it".
+      const binding = doc.exactWidgetBindings?.[field.name];
+      if (binding) {
+        assert.deepEqual(field.widgets.map(({ widgetIndex, page, rect }) => ({ widgetIndex, page, rect })),
+          binding.allWidgets, `${doc.documentId}/${field.name}: exact widget binding drift`);
+      }
       return { field: field.name, decision: "candidate_write", factId,
+        ...(binding ? { writableWidgetIndexes: binding.writableWidgetIndexes,
+          widgetBindingReason: binding.reason } : {}),
         decisionBasis: Object.hasOwn(sharedMappings, field.name)
           ? "shared exact terminal-name fact allowlist; shared semantic finalizer still controls"
           : "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
@@ -3078,7 +3256,13 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
         reason: "no_value_for_exact_mapping" });
       continue;
     }
-    const fittedWidgets = field.widgets.map((widget) => ({
+    const writableWidgets = mapping.writableWidgetIndexes
+      ? field.widgets.filter((widget) => mapping.writableWidgetIndexes.includes(widget.widgetIndex))
+      : field.widgets;
+    if (mapping.writableWidgetIndexes) {
+      assert.ok(writableWidgets.length, `${mapping.field}: exact mapping has no writable widget`);
+    }
+    const fittedWidgets = writableWidgets.map((widget) => ({
       widget,
       fit: fitTextToWidget({
         font, text: String(value), rect: widget.rect, multiline: field.multiline === true,
@@ -3100,7 +3284,11 @@ async function overlayExactMappedFacts({ bytes, census, fieldMap, facts, report 
         rect: widget.rect, fontSize: fit.fontSize, outcome: fit.outcome, ...appearance });
     }
     written.push({ field: mapping.field, factId: mapping.factId,
-      kind: "exact_measured_fact_overlay", widgets: widgetWrites });
+      kind: "exact_measured_fact_overlay", widgets: widgetWrites,
+      ...(mapping.writableWidgetIndexes ? {
+        withheldWidgets: field.widgets.filter((widget) => !mapping.writableWidgetIndexes.includes(widget.widgetIndex)),
+        widgetBindingReason: mapping.widgetBindingReason,
+      } : {}) });
   }
 
   if (written.length === 0) return { bytes, report: { ...report,
@@ -3148,6 +3336,38 @@ async function finalizeEastOfficialForm(options) {
     const sourceDoc = await PDFDocument.load(options.sourceBytes, {
       ignoreEncryption: true, updateMetadata: false,
     });
+    // FIX85: the exact PA790 sources contain blank widget appearance streams
+    // with a BBox but no Subtype. Flatten promotes these to page XObjects,
+    // where /Subtype /Form is required. Add only that missing dictionary key
+    // to these existing streams; retain source stream bytes and all other keys.
+    const appearanceSubtypesNormalized = [];
+    if (options.normalizeMissingAppearanceSubtype === true) {
+      const seen = new Set();
+      for (const field of sourceDoc.getForm().getFields()) {
+        for (const [widgetIndex, widget] of field.acroField.getWidgets().entries()) {
+          const ap = widget.dict.lookup(PDFName.of("AP"));
+          if (!(ap instanceof PDFDict)) continue;
+          const visit = (value, appearancePath) => {
+            const item = sourceDoc.context.lookup(value);
+            if (item instanceof PDFRawStream) {
+              if (seen.has(item) || item.dict.has(PDFName.of("Subtype"))
+                || !item.dict.has(PDFName.of("BBox"))) return;
+              seen.add(item);
+              const streamSha256 = sha256(item.contents);
+              item.dict.set(PDFName.of("Subtype"), PDFName.of("Form"));
+              assert.equal(sha256(item.contents), streamSha256,
+                "appearance subtype normalization must preserve stream bytes");
+              appearanceSubtypesNormalized.push({ field: field.getName(), widgetIndex,
+                appearancePath, bbox: item.dict.lookup(PDFName.of("BBox")).toString(),
+                streamSha256, onlyDictionaryKeyAdded: "Subtype", value: "Form" });
+            } else if (item instanceof PDFDict) {
+              for (const [key, child] of item.entries()) visit(child, `${appearancePath}/${key.decodeText()}`);
+            }
+          };
+          for (const [key, value] of ap.entries()) visit(value, key.decodeText());
+        }
+      }
+    }
     const neutralizedChoices = [];
     for (const field of sourceDoc.getForm().getFields()) {
       if (!(field instanceof PDFCheckBox || field instanceof PDFRadioGroup
@@ -3181,7 +3401,7 @@ async function finalizeEastOfficialForm(options) {
     // appearance generation off leaves each widget's /Off exactly as the pinned
     // form ships it; the empty appearance is supplied one step later, in the
     // only place that knows which fields this run actually wrote.
-    const preparedSourceBytes = neutralizedChoices.length
+    const preparedSourceBytes = neutralizedChoices.length || appearanceSubtypesNormalized.length
       ? Buffer.from(await sourceDoc.save({
         useObjectStreams: false, updateMetadata: false, updateFieldAppearances: false,
       }))
@@ -3189,6 +3409,12 @@ async function finalizeEastOfficialForm(options) {
     const { exactFieldMap = [], ...officialOptions } = options;
     const result = await finalizeOfficialForm({
       ...officialOptions,
+      // A shared AcroForm field writes every widget. For an explicitly scoped
+      // mapping, withhold that field here and let the existing measured overlay
+      // place the fact only at the source-bound widget selected above.
+      unwritableFields: [...(officialOptions.unwritableFields ?? []),
+        ...exactFieldMap.filter((row) => row.writableWidgetIndexes)
+          .map((row) => ({ field: row.field, class: "route_selection_or_role" }))],
       sourceBytes: preparedSourceBytes,
       expectedSha256: sha256(preparedSourceBytes),
       // FIX50's opt-in, for every document this host finalizes. With the save
@@ -3200,6 +3426,9 @@ async function finalizeEastOfficialForm(options) {
       // this run ticked, are both untouched.
       suppressSynthesizedAppearances: true,
     });
+    if (options.normalizeMissingAppearanceSubtype === true) {
+      result.report.appearanceSubtypesNormalized = appearanceSubtypesNormalized;
+    }
     result.report.boundOriginalSourceSha256 = options.expectedSha256 ?? sha256(options.sourceBytes);
     result.report.choiceNeutralization = {
       performedBeforeFlatten: neutralizedChoices.length > 0,
@@ -3656,6 +3885,13 @@ async function proofFromArtifact(file, census, fieldMap, report, facts, label,
       : (field?.widgets ?? []).map((widget) => drawnAt(appearances, {
         page: widget.page, rect: widget.rect, tolerance: 3,
       }).map((entry) => String(entry.text ?? "").trim()).filter(Boolean));
+    for (const widget of write.withheldWidgets ?? []) {
+      assert.deepEqual(overlayTextAt(widget.page, widget.rect), [],
+        `${label}/${write.field}: an excluded widget carries participant text`);
+      assert.deepEqual(drawnAt(appearances, { page: widget.page, rect: widget.rect, tolerance: 1 })
+        .map((entry) => String(entry.text ?? "").trim()).filter(Boolean), [],
+      `${label}/${write.field}: an excluded widget carries a flattened field value`);
+    }
     const drawn = byWidget.flat();
     const exactValueObserved = byWidget.length > 0
       && byWidget.every((chunks) => appearanceMatchesExpected(chunks, expected));
@@ -4486,6 +4722,8 @@ async function buildOfficial(familyId, config) {
         alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
         fitTextPerWidget: doc.fitTextPerWidget === true,
         honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
+        preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
+        normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
         title: `${config.jurisdiction} ${doc.documentId} ${fixture} review artifact`,
       });
       let finalized = await finalizeWith(mappings, new Set());
@@ -4855,6 +5093,9 @@ async function buildOfficial(familyId, config) {
       heldButNotPrinted: row.heldButNotPrinted ?? [],
       selections: row.report.selections,
       choiceNeutralization: row.report.fieldFinalizer.choiceNeutralization,
+      ...(row.report.fieldFinalizer.appearanceSubtypesNormalized ? {
+        appearanceSubtypesNormalized: row.report.fieldFinalizer.appearanceSubtypesNormalized,
+      } : {}),
       proof: row.proof,
     })),
   });
@@ -5214,6 +5455,8 @@ async function checkOfficial(familyId, config) {
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       fitTextPerWidget: doc.fitTextPerWidget === true,
       honorWidgetBorderStyle: doc.honorWidgetBorderStyle === true,
+      preserveUnwrittenSelectionBackgrounds: doc.preserveUnwrittenSelectionBackgrounds === true,
+        normalizeMissingAppearanceSubtype: doc.normalizeMissingAppearanceSubtype === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     let finalized = await finalizeWith(mappings, new Set());
@@ -6472,6 +6715,7 @@ async function checkPa6308Stop() {
 }
 
 export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
+  if (argv.includes("--self-test-fix88")) { await selfTestFix88(); return; }
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
   if (Object.hasOwn(FAMILY, familyId)) {

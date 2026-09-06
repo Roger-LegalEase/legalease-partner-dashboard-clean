@@ -10,6 +10,7 @@ These files are deterministic review fixtures made from exact held official sour
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.
+- Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.
 - The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.
 - The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.
 - The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 790 governs and leaves every local-method and performed-service fact blank.
@@ -22,7 +23,11 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `AffiantAddr1` | the form prints `List name and mailing address of the affiant as shown on the` beside it — complete this only after service has actually occurred |
+| 1 | `AffiantAddr1` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddr2` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrCity` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrState` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
+| 1 | `AffiantAddrZip` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 1 | `Aliases2` | the form prints `Address: Alias(es)` beside it |
 | 1 | `Aliases3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `Aliases4` | the measurement could reach no printed caption; read the printed page |
@@ -47,6 +52,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `GradeRow3` | the measurement could reach no printed caption; read the printed page |
 | 1 | `GradeRow4` | the measurement could reach no printed caption; read the printed page |
 | 1 | `GradeRow5` | the form prints `If the sentence imposed included a fine, costs or restitutio` beside it |
+| 1 | `Name of Affiant` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 1 | `Offense Tracking Number OTN` | the form prints `Philadelphia Municipal Court or Court of Common Pleas Offens` beside it |
 | 1 | `PA Statute TitleRow1` | the form prints `(Title)` beside it |
 | 1 | `PA Statute TitleRow2` | the measurement could reach no printed caption; read the printed page |
@@ -74,7 +80,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 2 | `AddressOfAffiant` | the form prints `7.Name and mailing address of the affiant as shown on the co` beside it — complete this only after service has actually occurred |
+| 2 | `AddressOfAffiant` | the form prints `Name and mailing address of the affiant as shown on the complaint or citation, if available` beside it |
 | 2 | `AgenciesServed` | the form prints `AOPC Rev` beside it |
 | 2 | `Alias1` | the form prints `2.Alias(es)` beside it |
 | 2 | `Alias2` | the measurement could reach no printed caption; read the printed page |
@@ -83,7 +89,6 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `OTN` | the form prints `9.Offense Tracking Number (OTN)` beside it |
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
 | 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
-| 2 | `Text15` | the form prints `applicable dispositions (attach additional sheets if needed)` beside it |
 
 ### pa_790_nonconviction-certificate-of-service-3
 
@@ -107,6 +112,7 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | --- | --- | --- | --- | --- |
 | `PA-RCRIM-P-790-ORDER` | `County` | `matter.county` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 167.6pt and the box gives 155pt of usable width (rectangle 159 × 12pt) | boundary |
 | `PA-RCRIM-P-790-ORDER` | `Defendant` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 160.45pt of usable width (rectangle 164.45 × 15.043pt) | boundary |
+| `PA-RCRIM-P-790-ORDER` | `PetitionersAddress` | `participant.address_one_line` | the value does not fit this box at a size a court could read — measured by this build's own fitter | boundary |
 | `PA-RCRIM-P-790-PETITION` | `Addr1` | `participant.street_address` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 162.4pt and the box gives 162.2pt of usable width (rectangle 166.2 × 11.854pt) | boundary |
 | `PA-RCRIM-P-790-PETITION` | `AddrCity` | `participant.city` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 177.3pt and the box gives 111.71pt of usable width (rectangle 115.71 × 10.916pt) | boundary |
 | `PA-RCRIM-P-790-PETITION` | `AddrZip` | `participant.zip` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 32pt and the box gives 27.855pt of usable width (rectangle 31.855 × 10.218pt) | boundary |

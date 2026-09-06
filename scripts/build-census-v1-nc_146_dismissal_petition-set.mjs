@@ -408,6 +408,7 @@ const SPEC = {
   ],
 
   stopConditions: [
+    "your case was dismissed through a **deferred prosecution agreement or conditional discharge** — the committed track registry names this as a self-help stop because the fee and rules differ. Get help from a North Carolina lawyer before filing;",
     "the charge was dismissed under G.S. 15A-1008 for lack of capacity to proceed — paragraph 2 of the petition excludes that dismissal in terms;",
     "what you want expunged is a conviction rather than a dismissal — this form is for dismissed charges and a different AOC form covers a conviction;",
     "what you want is a DNA record removed — that is an application under G.S. 15A-146(b1), a separate matter with a 20-day service requirement on the district attorney before the hearing, and it is not this packet;",
@@ -1825,7 +1826,7 @@ function writeJson(rel, value) {
   fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function requiredBeforeFilingItems(maps) {
+export function requiredBeforeFilingItems(maps) {
   const order = Object.fromEntries(SPEC.components.map((c, i) => [c, i]));
   return maps.flatMap((m) => (m.canonicalRefusals ?? [])
     .filter((r) => r.requiredBeforeFiling === true)
@@ -1837,7 +1838,7 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => (order[a.document] - order[b.document]) || a.field.localeCompare(b.field));
 }
 
-function participantInstructions(maps, rbf) {
+export function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];

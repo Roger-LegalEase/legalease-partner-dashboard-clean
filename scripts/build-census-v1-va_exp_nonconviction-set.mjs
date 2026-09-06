@@ -741,6 +741,19 @@ function selfHelpStops() {
   return { conditions, dotson, narrowReading };
 }
 
+function recordPreparation() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, TRACK_REGISTRY), "utf8"));
+  const track = (registry.tracks ?? []).find((t) => t.trackId === TRACK_ID);
+  assert.ok(track, `the track registry carries no entry for ${TRACK_ID}`);
+  const records = (track.participantFilingRequirements ?? []).filter((r) => r.requiredBeforeFiling);
+  assert.equal(records.length, 3, "CC-1473 record-preparation requirements changed; inspect the current record before rebuilding");
+  const checks = (track.packetSet?.participantActionRequired ?? [])
+    .filter((r) => r.kind === "confirm_answer" && r.requiredBeforeFiling).map((r) => r.description);
+  assert.equal(checks.length, 3, "CC-1473 record-confirmation requirements changed");
+  assert.ok(/twenty-one days/.test(track.rules.notice), "CC-1473 service response rule changed");
+  return { rows: records.map((r) => `${r.name} — ${r.requirement === "required" ? "required" : "conditional"} before filing. Obtain from ${r.obtainedFrom}. ${r.howToObtain}`), checks, notice: track.rules.notice };
+}
+
 function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
@@ -755,6 +768,7 @@ function composedBody(componentId, facts) {
     L.push("To: the Attorney for the Commonwealth for the county or city where this petition is filed.", "");
     L.push(`Enclosed is a copy of the petition for expungement filed by ${name}. The petition's own checklist (CC-1473, page 2) requires that a copy of the petition be served on the Commonwealth's Attorney in the county or city in which the petition is filed. This is that copy.`, "");
     L.push("The petitioner asks the Attorney for the Commonwealth to state, in writing and to the court, whether the Commonwealth objects to the expungement sought by the enclosed petition. A statement that the Commonwealth does not object is not required for the petition to proceed, and nothing in this request asks the Attorney for the Commonwealth to agree to anything.", "");
+    L.push(recordPreparation().notice, "");
     L.push("The petition itself does not say how service must be made, and neither does this page. Ask the clerk of the circuit court where you file how the copy must be served, and use that method. The petitioner is not represented by counsel; correspondence about this petition should go to the address printed on the petition's signature block.", "");
     L.push("NAME AND MAILING ADDRESS OF THE ATTORNEY FOR THE COMMONWEALTH");
     L.push("(the petitioner writes it here before service; the circuit court clerk can provide it)");
@@ -772,6 +786,11 @@ function composedBody(componentId, facts) {
     L.push("File the petition first. The checklist words this request around the court where the petition WAS filed, so it is made after filing, not before.");
   } else if (componentId === "records_checklist") {
     L.push("The petition asks for facts that live on your own court and arrest records. Gather these before you fill it in, and keep them together with the packet.", "");
+    const preparation = recordPreparation();
+    L.push("RECORDS TO OBTAIN AND CHECK BEFORE FILING", "");
+    for (const row of preparation.rows) L.push(`[ ] ${row}`);
+    for (const check of preparation.checks) L.push(`[ ] ${check}`);
+    L.push("", "FACTS TO COMPLETE FROM THOSE RECORDS", "");
     L.push("[ ] The specific charge or charges to be expunged, worded exactly as your court record words them.");
     L.push("[ ] The disposition of each charge: acquitted, nolle prosequi, or otherwise dismissed - the petition makes you check exactly one basis.");
     L.push("[ ] The date or dates of final disposition, and the court that disposed of the charge or charges.");
@@ -787,6 +806,7 @@ function composedBody(componentId, facts) {
     L.push("WHERE THIS GOES", "");
     L.push("File the petition with the CIRCUIT COURT of the county or city in which the charge was disposed of - the petition's own checklist says so. Write that court's city or county and street address into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416.", "");
     L.push("WHAT YOU DO, IN ORDER", "");
+    L.push("Before completing these steps, obtain your own CCRE record and the court case papers, and check the packet answers against them using the Records Checklist. Your own CCRE copy is separate from the court copy requested after filing.", "");
     L.push("1. Complete every item this packet's participant instructions list. Each one names the page and the words printed beside the blank.");
     L.push("2. Check exactly one basis box - acquitted, or nolle prosequi / otherwise dismissed - to match how your charge actually ended. Before you tick the second box, read THE DOTSON SCREEN below: it is a hard gate on that box, and it is the one place where ticking it and filing can be the wrong thing to do.");
     L.push("3. Sign and date the petition yourself, and mark nothing in the clerk's certification block at the foot of page 1: that block is the clerk's.");
@@ -1272,6 +1292,12 @@ function participantInstructions(maps, rbf, routeSelections) {
   out.push("| `filing_instructions` | where the packet goes and in what order |");
   out.push("");
 
+  out.push("## Records to obtain and check before filing", "");
+  const preparation = recordPreparation();
+  for (const row of preparation.rows) out.push(`- ${row}`);
+  for (const check of preparation.checks) out.push(`- ${check}`);
+  out.push("", "Your own CCRE copy is different from the copy sent to the court. Obtain and check your own records before filing; establish the case before requesting CCRE to forward the court copy.", "");
+  out.push("**After service.** " + preparation.notice, "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the document, the page and the printed words next to the blank.");
   out.push(`2. **Read every checkbox and tick the ones that are true for you.** Each is a statement about your own record or a choice only you can make, and the platform ticks none of them for you except the ${routeSelections.length} boxes the route decides — set out under *What the packet answered for you* below. In Part 1, the form says **CHECK ONE**: acquitted, or nolle prosequi / otherwise dismissed. **Before you tick either Part 1 box, read *The Dotson screen* immediately below this list: it is a hard gate on that election.**`);

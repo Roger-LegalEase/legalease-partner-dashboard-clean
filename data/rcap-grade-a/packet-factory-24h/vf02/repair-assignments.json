@@ -1192,5 +1192,46 @@
     "grantsNothing": "A repair assignment approves no output, opens no commercial route and creates no fulfillment record."
    }
   ]
- }
+ },
+  "vf02Nc146IndependentRead20260906": {
+    "worker": "Codex independent reviewer /root/fix91_recovery; current NC assignment only",
+    "assignments": [
+      {
+        "itemId": "nc_146_dismissal_petition-set",
+        "lane": "VF02",
+        "verifiedAtBase": "c7c572c1ea9023136725ee015071c21544d2d751",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+        "canonicalSha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
+        "boundarySha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
+        "rowVerdict": "BLOCKED_SOURCE",
+        "failedProofObligations": [
+          "SELF_HELP_STOP"
+        ],
+        "decisiveDefect": "The exact bound track object selfHelpStopConditions includes: \"A deferred prosecution or conditional discharge dismissal, which carries the fee and different rules.\" Current participant-instructions.md has no such stop in its When to stop and get help section. Its fee section, step8 and What this packet does not tell you instead explain the fee switch and how to confirm the disposition; none says to stop self-help and get help before proceeding for that class. All other governed stop categories are conveyed. Source-receipt also claims the guide quotes the track stops verbatim, which does not hold for this omitted condition.",
+        "requiredRepair": "Add the existing governed deferred-prosecution/conditional-discharge self-help stop to the family-specific generated guide and builder text. No legal reinterpretation or new source is needed for this exact committed condition. Re-review the guide after repair; preserve all existing stops, accurate ZIP/DOB disclosures and packet bytes unless independently required.",
+        "sourceRecoverySeparate": [
+          {
+            "documentId": "AOC-CR-287",
+            "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+            "byteLength": 257828,
+            "pathInCustody": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf"
+          },
+          {
+            "documentId": "AOC-CR-287-INSTRUCTIONS",
+            "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+            "byteLength": 217744,
+            "pathInCustody": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf"
+          },
+          {
+            "documentId": "AOC-CV-226",
+            "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+            "byteLength": 269426,
+            "pathInCustody": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf"
+          }
+        ],
+        "preserve": "All existing guide stops and ZIP/DOB correction; all packet/source/approval/raster records. This review assigns no source-pin substitution and grants no acceptance."
+      }
+    ],
+    "note": "Current row remains BLOCKED_SOURCE under the governing row-stop rule; known inspectable failure is recorded here for source-independent repair, not relabeled as a source pass."
+  }
 }

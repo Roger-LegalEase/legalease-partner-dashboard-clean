@@ -19,6 +19,7 @@ import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { verifiedAlCaptionChanges } from "../../data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/shared-semantics-expectations.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(rootDir);
@@ -122,9 +123,13 @@ fs.rmSync(stage, { recursive: true, force: true });
 const movedKeys = [...before.keys()]
   .filter((k) => JSON.stringify(before.get(k)) !== JSON.stringify(after.get(k))).sort();
 const diffRecord = readJson(DIFF);
-const expectedKeys = [...(diffRecord?.expectedChangeKeys ?? [])].sort();
+const alExpectedKeys = verifiedAlCaptionChanges({
+  projection: "charge", baseCommit: BASE_SHA, before, after,
+  baseline: baseModule, semantics, check
+});
+const expectedKeys = [...(diffRecord?.expectedChangeKeys ?? []), ...alExpectedKeys].sort();
 
-check("the committed diff exists and names an expected-change set", expectedKeys.length > 0, DIFF);
+check("the committed diff exists and names an expected-change set", (diffRecord?.expectedChangeKeys?.length ?? 0) > 0, DIFF);
 const unexpected = movedKeys.filter((k) => !expectedKeys.includes(k));
 const missing = expectedKeys.filter((k) => !movedKeys.includes(k));
 check("no field outside the expected-change set moves", unexpected.length === 0,

@@ -1,0 +1,17 @@
+node:fs:1012
+  binding.rename(
+          ^
+
+Error: EXDEV: cross-device link not permitted, rename '/tmp/ut-completeness-raster-GhIQYJ/page-01.png' -> '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/raster/canonical/page-01.png'
+    at Object.renameSync (node:fs:1012:11)
+    at rasterPacket (file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ut_pet_acquittal-set.mjs:1886:8)
+    at async runUtahCompletenessRepair (file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ut_pet_acquittal-set.mjs:2568:20)
+    at async file:///workspaces/legalease-partner-dashboard-clean/scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs:3:1 {
+  errno: -18,
+  code: 'EXDEV',
+  syscall: 'rename',
+  path: '/tmp/ut-completeness-raster-GhIQYJ/page-01.png',
+  dest: '/workspaces/legalease-partner-dashboard-clean/data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/raster/canonical/page-01.png'
+}
+
+Node.js v24.14.0

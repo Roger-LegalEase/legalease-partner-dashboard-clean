@@ -75,7 +75,7 @@
       "why": "the email address in this block is the petitioner's, because this packet is filed without counsel"
     }
   ],
-  "requiredBeforeFilingCount": 28,
+  "requiredBeforeFilingCount": 27,
   "requiredBeforeFiling": [
     {
       "document": "CC-1201",
@@ -186,17 +186,6 @@
       "identity": "CC-1201 field User.FullNameOfArrest",
       "why": "the platform holds no value for this and the participant supplies it before filing: the full name you were arrested under, if it is not the name you go by now",
       "participantMustSupply": "the full name you were arrested under, if it is not the name you go by now"
-    },
-    {
-      "document": "ccre_forwarding_request",
-      "field": "ccre_forwarding_request.request_date",
-      "page": 1,
-      "y": null,
-      "printedContext": "Date of the request to the Central Criminal Records Exchange",
-      "disclosureLabel": "Date of the request to the Central Criminal Records Exchange",
-      "identity": "ccre_forwarding_request field request_date",
-      "why": "the request is made after the petition is filed, so the date is not known when the packet is built",
-      "participantMustSupply": "the date you actually make the request to the Central Criminal Records Exchange, which is after the petition is filed"
     },
     {
       "document": "commonwealth_service_and_stipulation_request",
@@ -5704,6 +5693,19 @@
           "factId": "matter.court",
           "kind": "composed_text",
           "document": "ccre_forwarding_request"
+        },
+        {
+          "field": "ccre_forwarding_request.date_of_birth",
+          "page": 1,
+          "printedLabel": "Petitioner's date of birth",
+          "printedLine": "Petitioner's date of birth",
+          "effectiveLabel": "Petitioner's date of birth",
+          "regionHeading": "Petitioner's date of birth",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
         }
       ],
       "canonicalRefusals": [
@@ -5748,12 +5750,11 @@
           "regionHeading": "Date of the request to the Central Criminal Records Exchange",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: the date the request to the Central Criminal Records Exchange is actually made",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "reason": "signature or date field; the participant dates this request when it is actually made, after filing",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
           "identity": "ccre_forwarding_request field request_date",
           "factId": null,
           "routeDetermined": false,
@@ -5800,6 +5801,19 @@
           "factId": "matter.court",
           "kind": "composed_text",
           "document": "ccre_forwarding_request"
+        },
+        {
+          "field": "ccre_forwarding_request.date_of_birth",
+          "page": 1,
+          "printedLabel": "Petitioner's date of birth",
+          "printedLine": "Petitioner's date of birth",
+          "effectiveLabel": "Petitioner's date of birth",
+          "regionHeading": "Petitioner's date of birth",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
         }
       ],
       "boundaryRefusals": [
@@ -5844,12 +5858,11 @@
           "regionHeading": "Date of the request to the Central Criminal Records Exchange",
           "sectionHeading": null,
           "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "the participant supplies this before filing: the date the request to the Central Criminal Records Exchange is actually made",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "reason": "signature or date field; the participant dates this request when it is actually made, after filing",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
           "identity": "ccre_forwarding_request field request_date",
           "factId": null,
           "routeDetermined": false,

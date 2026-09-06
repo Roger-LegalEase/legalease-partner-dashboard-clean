@@ -13,6 +13,7 @@
 // not 97 percent filable, it is unfilable.
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
@@ -56,6 +57,9 @@ const normalizeRow = (row, document = null) => ({
   page: row.page ?? row.widgets?.[0]?.page ?? row.widgets?.[0]?.pageIndex ?? null,
   document: row.documentId ?? row.formNumber ?? document,
   factId: row.factId ?? row.fact ?? null,
+  printedLabel: row.printedLabel ?? null,
+  sectionHeading: row.sectionHeading ?? null,
+  sourceIdentity: row.selectionId ?? row.field ?? row.fieldName ?? row.fieldId ?? null,
   /*
    * Whether this row is a CHECKBOX rather than a place to write a fact. Read
    * from the schema where it says so, and otherwise from the printed caption: a
@@ -76,6 +80,7 @@ const normalizeRow = (row, document = null) => ({
    * row that says nothing from a row that says false.
    */
   declared: {
+    sourcePresentation: row.sourcePresentation ? { ...row.sourcePresentation, verified: false } : null,
     disposition: row.completenessDisposition ?? null,
     ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
     routeDetermined: row.routeDetermined === true,
@@ -197,11 +202,77 @@ function readFieldRows(fieldMap) {
   return { writes: [], blanks: [], schema: null };
 }
 
-function auditFamily(dir, familyId) {
+/** Validate an opt-in source presentation against the independently rebuilt
+ * census and receipt. A declaration is never its own evidence. */
+export function verifySourcePresentation(blank, { census, receipt, fieldMap, actualWrites, rendered, root = ROOT }) {
+  const claim = blank.declared.sourcePresentation;
+  if (!claim) return null;
+  const fail = (failure) => ({ ...claim, verified: false, failure });
+  const doc = census?.documents?.find((d) => d.formNumber === blank.document);
+  const source = receipt?.documents?.find((d) => d.formNumber === blank.document);
+  if (!doc || !source || !/^[a-f0-9]{64}$/.test(claim.sourceSha256 ?? "")
+    || source.sha256 !== claim.sourceSha256 || doc.sourceSha256 !== claim.sourceSha256) return fail("source presentation does not bind the exact census and source receipt");
+  const identity = claim.sourceField;
+  if (identity !== blank.sourceIdentity) return fail("source presentation names a different field");
+  const measured = doc.documentPolicy?.sourceFieldEvidence?.[identity];
+  const terminal = (doc.fields ?? []).find((f) => f.name === identity || f.selectionId === identity);
+  const map = fieldMap.maps?.find((m) => m.formNumber === blank.document);
+  const ok = (basis) => ({ ...claim, verified: true, basis });
+  if (claim.kind === "instruction_reference") {
+    if (!doc.documentPolicy?.referenceOnly || doc.documentPolicy?.documentAcceptsFill !== false
+      || !/instructions/i.test(source.pathInArchive ?? "") || !terminal) return fail("reference declaration lacks a measured instruction-only source element");
+    return ok("measured element of an exact-source instruction component, not a filing blank");
+  }
+  if (!terminal || !measured || !Array.isArray(measured.annotationFlags) || !measured.annotationFlags.length) return fail("source presentation lacks first-hand widget evidence");
+  if (terminal.protectCategory) return fail("a source-protected field cannot be excused as presentation");
+  if (claim.kind === "viewer_button" && measured.pdfType === "PDFButton") return ok("exact-source push button, not a participant fact field");
+  if (claim.kind === "hidden_widget" && measured.annotationFlags.every((f) => (f & 2) === 2)) return ok("every widget is hidden in the exact source; no printed participant blank");
+  if (claim.kind === "nonprinting_panel" && measured.annotationFlags.every((f) => (f & 4) === 0)
+    && doc.documentPolicy?.nonprintingSourceControls?.includes(identity)) return ok("measured nonprinting source UI panel control");
+
+  const companion = claim.representedByField;
+  const companionSource = doc.documentPolicy?.sourceFieldEvidence?.[companion];
+  if (claim.kind === "caption_template") {
+    if (!measured.readOnly || !String(measured.sourceValue ?? "").trim() || !companionSource) return fail("caption template lacks read-only source text or its companion field");
+    // A manual caption remains owed: the exact companion must be disclosed as
+    // required before filing. A read-only widget alone never excuses a fact.
+    if (claim.manualCompanion === true) {
+      const pending = map?.canonicalRefusals?.find((r) => r.field === companion && r.requiredBeforeFiling === true);
+      if (!pending || !(fieldMap.requiredBeforeFiling ?? []).some((r) => r.field === companion && r.document === blank.document)) return fail("caption's manual companion is not a disclosed required filing blank");
+      return ok("source caption template represents the separately disclosed, still-required manual companion");
+    }
+  } else if (claim.kind === "materialized_control") {
+    const binding = doc.documentPolicy?.sourceChoiceCaption;
+    if (!binding || binding.factId !== claim.factId || binding.displayField !== companion
+      || !doc.documentPolicy?.completedCaptionFields?.includes(identity)) return fail("screen control lacks an exact source calculation/companion binding");
+  } else return fail("unrecognised or unsupported source presentation kind");
+
+  if (!claim.factId || !companionSource || !companionSource.annotationFlags.every((f) => (f & 4) === 4 && (f & 3) === 0)) return fail("companion is not a current printable source field for the same fact");
+  const artifacts = rendered?.artifacts ?? [];
+  if (!artifacts.length || actualWrites?.derivedFromArtifactBytes !== true) return fail("companion has no artifact-derived write evidence");
+  for (const artifact of artifacts) {
+    const mapWrites = map?.[`${artifact.fixture}Writes`] ?? [];
+    if (!mapWrites.some((w) => w.field === companion && w.factId === claim.factId && ["fit", "shrunk"].includes(w.outcome))) return fail(`missing same-fact companion map write for ${artifact.fixture}`);
+    const proof = actualWrites.documents?.find((d) => d.fixture === artifact.fixture && d.formNumber === blank.document && d.sourceSha256 === claim.sourceSha256);
+    const write = proof?.actualWrites?.find((w) => w.field === companion && w.factId === claim.factId);
+    if (!write || write.visibleInArtifactBytes !== true || write.everyWidgetVisibleInArtifactBytes !== true
+      || !String(write.expected ?? "").trim() || write.drawnText !== write.expected) return fail(`missing complete visible same-fact companion write for ${artifact.fixture}`);
+    if (claim.kind === "materialized_control" && write.expected !== doc.documentPolicy.sourceChoiceCaption.exportedCaption) return fail("printable companion text differs from the source option export");
+    if (!artifact.pageManifest?.some((p) => p.formNumber === blank.document && p.sourceSha256 === claim.sourceSha256)) return fail("artifact does not contain the bound source component");
+    try {
+      const bytes = fs.readFileSync(path.resolve(root, artifact.file));
+      if (createHash("sha256").update(bytes).digest("hex") !== artifact.sha256) return fail("companion evidence belongs to stale artifact bytes");
+    } catch { return fail("companion artifact is missing"); }
+  }
+  return ok("same fact is visibly written at its exact-source printable companion in every current fixture");
+}
+
+export function auditFamily(dir, familyId) {
   const fieldMap = readIf(`${dir}/production-field-map.json`);
   const actualWrites = readIf(`${dir}/reports/actual-writes.json`);
   const rendered = readIf(`${dir}/reports/rendered-artifacts.json`);
   const receipt = readIf(`${dir}/source-receipt.json`);
+  const census = readIf(`${dir}/field-census.census-v1.json`);
   const approval = readIf(`${dir}/approval-request.json`);
 
   const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
@@ -262,7 +333,11 @@ function auditFamily(dir, familyId) {
   for (const w of writes) {
     const doc = String(w.document ?? "");
     if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Set());
-    for (const key of [normLabel(w.label), normLabel(w.name)]) {
+    // A footer/section heading is shared page context, not a fact identity.
+    // Exact field names, specific printed labels and fact ids still bind.
+    const specificLabel = normLabel(w.label) !== normLabel(w.sectionHeading) ? w.label
+      : normLabel(w.printedLabel) !== normLabel(w.sectionHeading) ? w.printedLabel : null;
+    for (const key of [normLabel(specificLabel), normLabel(w.name)]) {
       if (key.length >= 4) writtenInDocument.get(doc).add(key);
     }
   }
@@ -276,6 +351,7 @@ function auditFamily(dir, familyId) {
   for (const blank of blanks) {
     const declared = {
       ...blank.declared,
+      sourcePresentation: verifySourcePresentation(blank, { census, receipt, fieldMap, actualWrites, rendered }),
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
         || writtenBeside(blank)
     };
@@ -440,6 +516,7 @@ function auditFamily(dir, familyId) {
 }
 
 // ---- enumerate ---------------------------------------------------------------------
+if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
 const families = [];
 for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   const stateDir = path.join(ROOT, OVERLAYS, state);
@@ -708,4 +785,5 @@ if (MUTATIONS) {
   console.log(`  every mutated file restored byte-for-byte: ${restored}`);
   if (!restored || undetected > 0) { console.error("the completeness verifier proves less than it claims."); process.exit(1); }
   console.log(`\nOK completeness mutations — ${cases.length + writeCases.length + rbfCases.length} case(s), every injected defect caught and the accepted path proved reachable.`);
+}
 }

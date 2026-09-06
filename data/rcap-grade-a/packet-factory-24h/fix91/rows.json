@@ -3,9 +3,384 @@
   "lane": "FIX91",
   "laneKind": "repair",
   "status": "COMPLETED",
-  "baseSha": "b9de3cca5562d168aa43d83ce724bac954db19f7",
-  "completedAt": "2026-09-06T04:24:57.219687+00:00",
+  "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+  "completedAt": "2026-09-06T05:29:36.803114+00:00",
   "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "lane": "FIX91",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "buildHost": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "branch": "fix91-ne-court-choices",
+      "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+      "selectedCaptainSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+      "completedAt": "2026-09-06T05:29:36.803114+00:00",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX91 ne-setaside-custodial-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK FIX91 ne-setaside-custodial-set (repair, grant set 7fa71fd1020d2260)"
+      },
+      "pushedImplementationCheckpoints": [
+        "a49d7aac7f7109f3ca37fba2e14826daf8a4df16",
+        "a0aea2a77f39e70d721b99741f9b75dc790ce9fd"
+      ],
+      "finalChanges": "This return and final protected-date classifications are in the following branch commit; no historical commit was rewritten.",
+      "verdictRepaired": {
+        "lane": "VF06",
+        "return": "data/rcap-grade-a/packet-factory-24h/vf06/ne-current-20260906/RETURN.json",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS: local source-print fidelity only"
+      ],
+      "whatChanged": {
+        "courtCaptions": "All three forms in both fixtures visibly carry IN THE DISTRICT COURT OF. Exact source DISTRICT export and source calculation bind the screen dropdown to printable TYPEOFCOURTRESULTS; no JavaScript executed. County exact-option refusals remain.",
+        "filingChecklist": "Instruction-sheet example fragments, source UI controls and duplicate source templates are not participant filing blanks. The guide correctly states that final PDFs have no interactive fields. CC6:11 and DC1:15 datesigned, and the CC6:11.2 court-order Text4 date, use existing protected refusal classes and are excluded from the before-filing checklist.",
+        "sourcePrint": "Nine measured Print=false DC1:15 panel widgets are suppressed. Button63.0 Print=true authored appearance is retained exactly through existing PRESERVE_SOURCE_APPEARANCE and detachNestedControlFields:true. No shared finalizer/runtime changes or new option were needed.",
+        "genericCompletenessSemantics": "Source-presentation declarations bind to exact census/receipt identities. A materialized screen control requires the same fact, source component, printed companion and visible artifact-derived write in both current fixtures, with actual artifact hashes checked. Source captions with a manual companion require that companion to remain disclosed. Generic footer-only text no longer establishes fact availability; exact fact IDs, field names and specific labels still do. No family-name exception.",
+        "preserved": "Prior five prefills per fixture, boundary case-number fit refusals, signatures, service acts, judicial fields, source revisions, source bytes, legal questions, approvals and closed routes are preserved."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc",
+          "byteLength": 3666568,
+          "pages": 5,
+          "finalAcroFields": 0,
+          "countyNotInvented": true,
+          "printPanelAbsent": true,
+          "sourcePrintButtonPreserved": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695",
+          "byteLength": 3667327,
+          "pages": 5,
+          "finalAcroFields": 0,
+          "countyNotInvented": true,
+          "printPanelAbsent": true,
+          "sourcePrintButtonPreserved": true
+        }
+      ],
+      "determinism": {
+        "result": "PASS",
+        "buildExitCodes": [
+          0,
+          0
+        ],
+        "filesCompared": 22,
+        "allFilesByteIdentical": true,
+        "pdfsUnchangedSinceFinal300dpiInspection": true,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix91/completion/determinism-complete.json"
+      },
+      "acceptance": [
+        {
+          "name": "build-1",
+          "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "exitCode": 0
+        },
+        {
+          "name": "build-2",
+          "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+          "exitCode": 0
+        },
+        {
+          "name": "builder-check",
+          "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "court-current",
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "prior-prefills",
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "self-test",
+          "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "completeness",
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "source-presentation-mutations",
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/completion/test-source-presentation.mjs",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "case-determined",
+          "command": "node scripts/rcap-packet-completeness/verify-case-determined-exception.mjs",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "declaration-keys",
+          "command": "node scripts/rcap-packet-completeness/verify-declared-keys-reach-the-contract.mjs",
+          "exitCode": 0,
+          "result": "PASS"
+        },
+        {
+          "name": "baseline negative control",
+          "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs /tmp/fix91-court-repair/baseline-family",
+          "exitCode": 1,
+          "result": "PASS_EXPECTED_REFUSAL",
+          "finding": "Old actual PDF fails the current source-bound court caption assertion."
+        },
+        {
+          "name": "actual final 300dpi button fidelity",
+          "result": "PASS",
+          "finding": "0 changed pixels against source-print crop in each final fixture; prior faulty checkpoint differs by 4063 pixels.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-evidence.json"
+        },
+        {
+          "name": "global environment preflight",
+          "exitCode": 1,
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+          "finding": "Exact four family sources and real Poppler/Chromium render passed. Full Master Library and environment declaration unavailable. Dirty/unpublished checkpoint failures recorded historically; branch subsequently published. No full-corpus pass claimed.",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/environment-final.json"
+        }
+      ],
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "findings": [],
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix91/completion/completeness-complete.json"
+      },
+      "regressions": {
+        "sourcePresentationChecks": 24,
+        "caseDeterminedChecks": 8,
+        "declarationKeysReachContract": true,
+        "actualUnchangedComparisons": [
+          "nj-arrest-no-conviction-set",
+          "nc-146-dismissal-petition-set"
+        ],
+        "missingCompanionWrongFactWrongDocumentNonprintingStaleFalseProofUnknownBlankProtectedFieldAndUnmadeRouteElectionNegatives": "PASS; see complete-source-presentation-mutations.log",
+        "isolatedMutations": "Only temporary copies of evidence were mutated; canonical family and live authority were not altered for tests."
+      },
+      "localVisualInspection": {
+        "pages": 10,
+        "changedPagesReinspected": 2,
+        "otherPages": "8 fresh renders are pixel-identical to the 8 pages already inspected during this repair.",
+        "dpi": 300,
+        "sourceButtonPixelDifference": {
+          "canonical": 0,
+          "boundary": 0
+        },
+        "evidence": "data/rcap-grade-a/packet-factory-24h/fix91/completion/visual-evidence.json"
+      },
+      "sourceRecovery": {
+        "root": "/tmp/fix91-recovery/exact-source-tree",
+        "exactSources": [
+          {
+            "form": "CC-6-11",
+            "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "bytes": 3003355,
+            "exact": true
+          },
+          {
+            "form": "CC-6-11.2",
+            "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "bytes": 2766067,
+            "exact": true
+          },
+          {
+            "form": "CC-6-11A",
+            "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "bytes": 821244,
+            "exact": true
+          },
+          {
+            "form": "DC-1-15",
+            "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "bytes": 8485306,
+            "exact": true
+          }
+        ],
+        "fullMasterLibraryAvailableHere": false,
+        "sourcePinsChanged": false
+      },
+      "testDoubles": [],
+      "executableInputs": "data/rcap-grade-a/packet-factory-24h/fix91/completion/executable-inputs.json",
+      "obligationsThisRowDoesNotDischarge": [
+        "Fresh central raster receipt for canonical dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc and boundary a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695 is still required.",
+        "Independent current-byte all-obligation review is Captain-owned. This repair worker does not self-approve.",
+        "Conviction-description/date legal-design question remains.",
+        "DC6:7.1 fee-waiver source/legal mismatch remains a release hold.",
+        "Full Master Library and environment declarations are not established by the exact four-source subset.",
+        "No worker image was published, no hosted acceptance performed, and no delivery route was opened."
+      ],
+      "remainingEngineeringDependencies": [],
+      "independentVerdictIssued": false,
+      "approvalIssued": false,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-checks.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-court-current.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-prior-prefills.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/determinism-complete.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/visual-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-source-presentation-mutations.log"
+      ],
+      "changedPaths": [
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-01.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-02.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-01.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-02.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/RETURN.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/build-complete-1.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/build-complete-2.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-boundary-crop.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-canonical-crop.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/button-source-300dpi.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-baseline-negative-control.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-builder-check.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-case-determined.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-checks.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-completeness.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-court-current.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-declaration-keys.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-prior-prefills.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-self-test.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/complete-source-presentation-mutations.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/completeness-complete.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/determinism-complete.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/executable-inputs.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/boundary/page-1.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/boundary/page-2.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/boundary/page-3.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/boundary/page-4.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/boundary/page-5.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/canonical/page-1.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/canonical/page-2.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/canonical/page-3.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/canonical/page-4.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/local-300dpi/canonical/page-5.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/test-source-presentation.mjs",
+        "data/rcap-grade-a/packet-factory-24h/fix91/completion/visual-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/RETURN.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/baseline-negative-control.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/build-final-7.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/build-final-8.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-current-300dpi.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-operation-trace.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-source-300dpi.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/check-final.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/checks.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/completeness-detail.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/completeness-examples.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/completeness.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/court-current.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/determinism-final.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/environment-final.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/environment-final.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/boundary/page-1.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/boundary/page-2.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/boundary/page-3.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/boundary/page-4.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/boundary/page-5.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/canonical/page-1.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/canonical/page-2.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/canonical/page-3.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/canonical/page-4.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-300dpi/canonical/page-5.png",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-visual-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/prior-five-prefills.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/self-test.log",
+        "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+        "data/rcap-grade-a/packet-factory-24h/fix91/rows.json",
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "captainCorrection": {
+        "reason": "The completed repair reported all nine measured counters under completeness.counters, but omitted the required countersAfter field. Projected the unchanged measurements into the required return field after rerunning current packet completeness and exact-source court-caption verification. No failed obligation or acceptance gate was removed.",
+        "evidence": [
+          "data/rcap-grade-a/packet-factory-24h/fix91/completion/completeness-complete.json",
+          "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json"
+        ],
+        "currentSourceCheck": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+        "currentSourceCheckResult": "PASS",
+        "newPacketAcceptances": 0,
+        "currentRasterAndIndependentRereadStillRequired": true
+      }
+    }
+  ],
+  "continuations": [
+    {
+      "status": "CHECKPOINT_DEPENDENCIES_PENDING",
+      "branch": "fix91-ne-court-choices",
+      "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+      "familyId": "ne-setaside-custodial-set",
+      "return": "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/RETURN.json",
+      "historicalRowsPreserved": true
+    },
+    {
+      "status": "COMPLETED_PENDING_INDEPENDENT_REVIEW",
+      "branch": "fix91-ne-court-choices",
+      "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+      "familyId": "ne-setaside-custodial-set",
+      "return": "data/rcap-grade-a/packet-factory-24h/fix91/completion/RETURN.json"
+    }
+  ],
+  "priorCompletedRows": [
     {
       "itemId": "ne-setaside-custodial-set",
       "familyId": "ne-setaside-custodial-set",

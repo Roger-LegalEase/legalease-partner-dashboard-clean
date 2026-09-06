@@ -28,6 +28,7 @@ import {
 } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
+import { APPEARANCE_DISPOSITION } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { checkboxCandidates, strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import {
   captionDescribesChargeValue,
@@ -146,8 +147,8 @@ const FAMILY_CONFIGS = Object.freeze({
         "**File the petition and the proposed order in your EXISTING criminal case, with the clerk of the sentencing court.** "
         + "This is not a new case: it goes into the case file that already exists.",
         "**Which court is the sentencing court** — the Nebraska county court or district court that imposed the sentence. "
-        + "The caption on the packet reads \"IN THE ______ COURT OF ______ COUNTY, NEBRASKA\" and both blanks are yours to "
-        + "complete: write the court type (county or district) and the county from your own sentencing record.",
+        + "The court type is already filled from the case information; check it against your sentencing record. "
+        + "Confirm the county from that same record and write it in the county blank before filing.",
         "**How you may file** — in person, by mail, or by fax if you are filing for yourself.",
         "**One petition per conviction.** If you have more than one conviction to set aside, each needs its own separate packet."
       ],
@@ -327,16 +328,19 @@ const FAMILY_CONFIGS = Object.freeze({
      */
     namedFactWrites: {
       "CC-6-11": [
+        { factId: "matter.court", fields: ["TYPEOFCOURTRESULTS"] },
         { factId: "matter.case_number", fields: ["Text2"] },
         { factId: "participant.full_legal_name", fields: ["defendant"] },
         { factId: "participant.street_address", fields: ["streetaddress"] },
         { factId: "participant.email", fields: ["emailaddress"] }
       ],
       "CC-6-11.2": [
+        { factId: "matter.court", fields: ["TYPEOFCOURTRESULTS"] },
         { factId: "matter.case_number", fields: ["Text2"] },
         { factId: "participant.full_legal_name", fields: ["defendant"] }
       ],
       "DC-1-15": [
+        { factId: "matter.court", fields: ["TYPEOFCOURTRESULTS"] },
         { factId: "matter.case_number", fields: ["Text38"] },
         { factId: "participant.full_legal_name", fields: ["defendant"] },
         { factId: "participant.street_address", fields: ["streetaddress"] },
@@ -354,7 +358,39 @@ const FAMILY_CONFIGS = Object.freeze({
      * width, but the narrative wrapper reserves a trailing space and refuses
      * it. One single-line name needs no narrative separator. Other named facts
      * retain their existing narrative channel. No source bytes change. */
-    standardNamedFactWrites: { "CC-6-11": ["defendant"], "DC-1-15": ["defendant"] },
+    standardNamedFactWrites: {
+      "CC-6-11": ["defendant", "TYPEOFCOURTRESULTS"],
+      "CC-6-11.2": ["TYPEOFCOURTRESULTS"],
+      "DC-1-15": ["defendant", "TYPEOFCOURTRESULTS"]
+    },
+    // Exact source option exports supply the printable caption. Its calculation
+    // copies the screen-only dropdown value; no PDF JavaScript is executed.
+    sourceChoiceCaptions: Object.fromEntries(["CC-6-11", "CC-6-11.2", "DC-1-15"].map((form) => [form, {
+      choiceField: "TYPEOFCOURTDROPDOWN", displayField: "TYPEOFCOURTRESULTS", factId: "matter.court"
+    }])),
+    referenceOnlyDocuments: ["CC-6-11A"],
+    // The source marks these screen-only panel fields nonprinting. Its printed
+    // output retains Button63.0 (Add next person), which is deliberately absent.
+    nonprintingSourceControls: {
+      "DC-1-15": ["Text20", "Text24", "divorce", "Group27", "Text4", "Text12", "emancipation", "Text2", "Text19"]
+    },
+    classifyNonFilingSourceControls: true,
+    completedCaptionTemplates: { "DC-1-15": ["plaintiffdefendant"] },
+    manualCaptionTemplates: ["fullcountystatementRIGHT", "enter the county"],
+    preservePrintedSourceButtons: { "DC-1-15": ["Button63.0"] },
+    sourceProtectedFields: {
+      "CC-6-11": { datesigned: "signature_or_date_participant_completion" },
+      "CC-6-11.2": { Text4: "court_prosecutor_clerk_or_agency_owned" },
+      "DC-1-15": { datesigned: "signature_or_date_participant_completion" }
+    },
+    flattenedCaptionGuidance: true,
+    beforeFilingIntroduction: [
+      "Complete the applicable unresolved filing items below by hand before filing.",
+      "The court type is filled from the known case information. Confirm the county",
+      "against the existing case: the available county value could not be matched",
+      "to an official county option, so no substitute is printed. These PDFs have no",
+      "interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete."
+    ],
     /*
      * FIX81, KNOWN_PREFILLS. The caption court and county, said as the widget is.
      *
@@ -371,25 +407,17 @@ const FAMILY_CONFIGS = Object.freeze({
      */
     measuredRefusals: {
       "CC-6-11": {
-        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
         DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
-        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
         fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" },
-        "enter the type of court": { holds: ["matter.court"], expect: "read_only_text" },
         "enter the county": { holds: ["matter.county"], expect: "read_only_text" }
       },
       "CC-6-11.2": {
-        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
         DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
-        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
         fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" },
-        "enter the type of court": { holds: ["matter.court"], expect: "read_only_text" },
         "enter the county": { holds: ["matter.county"], expect: "read_only_text" }
       },
       "DC-1-15": {
-        TYPEOFCOURTDROPDOWN: { holds: ["matter.court"], expect: "choice_dropdown" },
         DROPDOWNCOUNTY2: { holds: ["matter.county"], expect: "choice_dropdown" },
-        TYPEOFCOURTRESULTS: { holds: ["matter.court"], expect: "read_only_text" },
         fullcountystatementRIGHT: { holds: ["matter.county"], expect: "read_only_text" }
       }
     },
@@ -1622,10 +1650,12 @@ export function participantInstructionsMarkdown(familyId, config, items) {
     "",
     `This packet is built for ${config.routeKeys.join(", ")}.`,
     "",
-    "Every field listed below is blank on the packet and the filing needs it. The",
-    "platform does not hold the value, and it is not guessed: a guessed arresting",
-    "agency is worse than a blank one, because the blank is visible and the guess is",
-    "not. Complete each one by hand before you file.",
+    ...(config.beforeFilingIntroduction ?? [
+      "Every field listed below is blank on the packet and the filing needs it. The",
+      "platform does not hold the value, and it is not guessed: a guessed arresting",
+      "agency is worse than a blank one, because the blank is visible and the guess is",
+      "not. Complete each one by hand before you file."
+    ]),
     "",
     `Required before filing: ${items.length} field(s).`,
     ""
@@ -1739,14 +1769,20 @@ function prepareAcroPolicy(census, policy, namedFactWrites = []) {
     if (!reason) reason = unsafeReason(subject, field.regionHeading, decision.factId);
     if (!reason && decision.writable && !approvedFactLabel(decision.factId, subject)) reason = "binding_not_approved_by_exact_caption_gate";
     if (reason && namedFactFields.has(field.name)) {
-      assert.equal(reason, CAPTION_GATE_REASON,
-        `${field.name}: a named-fact write may only lift ${CAPTION_GATE_REASON}, not ${reason}`);
+      const sourceCaption = policy.sourceChoiceCaption;
+      const exactSourceCaption = sourceCaption?.displayField === field.name
+        && sourceCaption.factId === decision.factId && decision.factId === "matter.court";
+      assert.ok(reason === CAPTION_GATE_REASON || (exactSourceCaption
+        && reason === "fact_class_is_not_permitted_for_prefill_in_this_lane"),
+      `${field.name}: a named-fact write may only lift ${CAPTION_GATE_REASON}, not ${reason}`);
       namedFactExemptions.push({
         field: field.name,
         liftedBuildPolicyReason: reason,
         printedLabelHarvested: field.effectiveLabel ?? null,
         writtenBy: "narrativeAcrossFields",
-        why: "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
+        why: exactSourceCaption
+          ? "the known court matches an exact source choice; its source-defined export is written into the source's calculated printable caption"
+          : "the harvested caption did not match the descriptor this field name already binds; the platform holds the value and writes it at this widget's own /Rect"
       });
       reason = null;
     }
@@ -1781,6 +1817,8 @@ function prepareAcroPolicy(census, policy, namedFactWrites = []) {
       })
     });
   });
+  applyDocumentFilingDispositions(unwritableFields, policy);
+  applyDocumentFilingDispositions(selectionControls, policy);
   return { explicitMappings, unwritableFields, preclassification, selectionControls, namedFactWrites, namedFactExemptions };
 }
 
@@ -1917,6 +1955,8 @@ function prepareFlatPolicy(census, policy) {
       });
     return withCompletenessDisposition({ ...control }, { ...context, disposition });
   });
+  applyDocumentFilingDispositions(withheld, policy);
+  applyDocumentFilingDispositions(selectionControls, policy);
   return { anchors, withheld, explicitMappings, protectedRules, selectionControls };
 }
 
@@ -2246,7 +2286,7 @@ const readablePdfString = (value) => String(value ?? "")
   .trim();
 
 /** The participant-facing sentence a measured refusal earns, from the measurement. */
-function measuredRefusalWhy(measured, held) {
+function measuredRefusalWhy(measured, held, flattenedDelivery = false) {
   const box = `page ${measured.page}, /Rect [${measured.rect.x} ${measured.rect.y} `
     + `${round(measured.rect.x + measured.rect.width)} ${round(measured.rect.y + measured.rect.height)}]`;
   if (measured.pdfType === "choice_dropdown") {
@@ -2255,6 +2295,13 @@ function measuredRefusalWhy(measured, held) {
     const matched = held
       .map((value) => ({ value, option: optionOffering(offered, value) }))
       .filter((row) => row.option !== null);
+    if (flattenedDelivery) {
+      assert.equal(matched.length, 0, "a held exact option must be filled, not disclosed as unavailable");
+      return `Confirm the county of the existing case and write it on the printed caption. `
+        + `The source offers ${offered.length} counties, but the held review value(s) `
+        + `${notOffered.map((value) => `"${value}"`).join(", ")} match none of them; no substitute was selected. `
+        + `The delivered PDF is flattened and has no interactive dropdown.`;
+    }
     return `this is not a typed blank: it is a PDF drop-down (/FT /Ch, ${box}) whose list holds `
       + `${measured.optionCount} entr(ies), ${offered.length} of them values. Choose the value from the list in a PDF `
       + `viewer, or write it by hand on the printed caption. The platform holds this fact and does not write it here `
@@ -2289,6 +2336,7 @@ export function applyMeasuredRefusalRows(rows, measuredRefusals) {
     if (!measured) continue;
     row.why = measured.why;
     row.reason = measured.why;
+    if (measured.readOnly && measured.flattenedDelivery) row.requiredBeforeFiling = false;
     row.measurementBasis = "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build";
     row.measuredWidget = {
       pdfType: measured.pdfType, fieldFlags: measured.fieldFlags, readOnly: measured.readOnly,
@@ -2301,17 +2349,132 @@ export function applyMeasuredRefusalRows(rows, measuredRefusals) {
   return rows;
 }
 
+// The only opt-in is the Nebraska family above. Original source bytes are
+// still handed unchanged to the existing finalizer with their pinned SHA.
+async function sourceChoiceCaption(source, binding, heldFacts) {
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+  const form = doc.getForm();
+  const choice = form.getField(binding.choiceField);
+  const display = form.getField(binding.displayField);
+  assert.ok(choice instanceof PDFDropdown && !choice.isReadOnly());
+  assert.ok(display instanceof PDFTextField && display.isReadOnly());
+  assert.ok(display.acroField.getWidgets().every((widget) => (widget.dict.get(PDFName.of("F"))?.asNumber?.() & 4) === 4),
+    `${source.formNumber}: caption display is not printable`);
+  const calculation = display.acroField.dict.lookup(PDFName.of("AA")).lookup(PDFName.of("C")).lookup(PDFName.of("JS"));
+  const script = calculation.decodeText?.() ?? new TextDecoder().decode(decodePDFRawStream(calculation).decode());
+  assert.equal(script.trim(), `event.value = this.getField("${binding.choiceField}").value;`,
+    `${source.formNumber}: source caption calculation changed`);
+  const heldValue = resolveFact(heldFacts, binding.factId);
+  assert.equal(typeof heldValue, "string");
+  const wanted = heldValue.trim().replace(/\s+court$/i, "").toUpperCase();
+  const entries = choice.acroField.getOptions().filter((entry) => entry.display?.decodeText() === wanted);
+  assert.equal(entries.length, 1, `${source.formNumber}: known court must match exactly one source option`);
+  const exportedCaption = entries[0].value.decodeText();
+  assert.ok(exportedCaption && !/^_+$/.test(wanted));
+  return { ...binding, heldValue, selectedDisplayOption: wanted, exportedCaption,
+    calculation: script.trim(), sourceSha256: source.sha256,
+    method: "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed" };
+}
+
+function applyDocumentFilingDispositions(rows, policy) {
+  for (const row of rows ?? []) {
+    const protectedRole = policy.sourceProtectedFields?.[row.field];
+    if (protectedRole) {
+      row.requiredBeforeFiling = false;
+      row.completenessClass = row.category = row.class = protectedRole;
+      row.completenessDisposition = "PROTECTED_FIELD";
+      row.reason = row.why = protectedRole === "signature_or_date_participant_completion"
+        ? "date beside the participant signature; complete only when signing, and on the certificate only after the mailing act"
+        : "date of the court's proposed order beside BY THE COURT / JUDGE; completed by the court";
+      continue;
+    }
+    const completedCaption = policy.completedCaptionFields?.includes(row.field);
+    const nonprintingControl = policy.nonprintingSourceControls?.includes(row.field);
+    const nonFilingControl = policy.nonFilingSourceControls?.find((item) => item.field === row.field);
+    const manualTemplate = policy.manualCaptionTemplates?.includes(row.field);
+    if (!policy.referenceOnly && !completedCaption && !nonprintingControl && !nonFilingControl && !manualTemplate) continue;
+    row.requiredBeforeFiling = false;
+    const kind = policy.referenceOnly ? "instruction_reference" : completedCaption ? "materialized_control"
+      : manualTemplate ? "caption_template" : nonprintingControl ? "nonprinting_panel" : nonFilingControl.kind;
+    row.sourcePresentation = {
+      kind, sourceSha256: policy.sourceSha256, sourceField: row.selectionId ?? row.field,
+      ...(completedCaption ? { representedByField: policy.sourceChoiceCaption.displayField, factId: policy.sourceChoiceCaption.factId } : {}),
+      ...(manualTemplate ? { representedByField: "DROPDOWNCOUNTY2", manualCompanion: true } : {}),
+      ...(nonFilingControl?.kind === "caption_template" ? { representedByField: "defendant", factId: "participant.full_legal_name" } : {})
+    };
+    row.completenessDisposition = kind === "materialized_control" ? "MATERIALIZED_SOURCE_CONTROL" : "NON_FILING_SOURCE_ELEMENT";
+    row.completenessClass = row.category = row.class = null;
+    row.why = row.reason = policy.referenceOnly
+      ? "reference-only instruction-sheet example; not a participant filing blank"
+      : manualTemplate ? "source caption template represents the county blank, which remains separately disclosed for manual completion"
+      : nonprintingControl ? "source case-selector panel control is explicitly nonprinting; not a filing blank"
+      : nonFilingControl ? nonFilingControl.why
+      : "screen-only source court control; its known option is already rendered in the printable court caption";
+  }
+  return rows;
+}
+
 async function renderOneDocument(source, config, fixture) {
   // The route the packet is built for travels with the document policy, so a
   // selection control can say whether the election is one the ROUTE determines
   // or one that genuinely belongs to the participant.
-  const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null };
-  const facts = factsFor(config, fixture);
+  const caption = (config.sourceChoiceCaptions ?? {})[source.formNumber] ?? null;
+  const nonprintingControls = (config.nonprintingSourceControls ?? {})[source.formNumber] ?? [];
+  const policy = { ...policyFor(source), routeKey: config.routeKeys[0] ?? null,
+    ...(config.classifyNonFilingSourceControls ? { sourceSha256: source.sha256, manualCaptionTemplates: config.manualCaptionTemplates } : {}),
+    ...(config.sourceProtectedFields?.[source.formNumber] ? { sourceProtectedFields: config.sourceProtectedFields[source.formNumber] } : {}),
+    ...(config.referenceOnlyDocuments?.includes(source.formNumber) ? { referenceOnly: true } : {}),
+    ...(nonprintingControls.length ? { nonprintingSourceControls: nonprintingControls } : {}),
+    ...(caption ? { completedCaptionFields: [caption.choiceField, "enter the type of court"] } : {}) };
+  const heldFacts = factsFor(config, fixture);
+  const captionBinding = caption ? await sourceChoiceCaption(source, caption, heldFacts) : null;
+  if (captionBinding) policy.sourceChoiceCaption = captionBinding;
+  const facts = captionBinding ? { ...heldFacts, [caption.factId]: captionBinding.exportedCaption } : heldFacts;
   /* FIX81. Facts this family writes at a named widget, per document. A family
    * that declares none passes an empty list and is byte-unaffected. */
   const namedFactWrites = (config.namedFactWrites ?? {})[source.formNumber] ?? [];
   if (source.indexEntry.structuralClassObserved === "acroform") {
     const census = await censusAcro(source);
+    const appearanceDispositions = new Map();
+    if (nonprintingControls.length || config.classifyNonFilingSourceControls) {
+      const original = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+      if (config.classifyNonFilingSourceControls) {
+        policy.nonFilingSourceControls = [];
+        policy.sourceFieldEvidence = {};
+        for (const field of original.getForm().getFields()) {
+          const widgets = field.acroField.getWidgets();
+          policy.sourceFieldEvidence[field.getName()] = {
+            pdfType: field.constructor.name, readOnly: field.isReadOnly(),
+            annotationFlags: widgets.map((widget) => widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0),
+            sourceValue: field.getText?.() ?? null
+          };
+          const hidden = widgets.length && widgets.every((widget) =>
+            ((widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0) & 2) === 2);
+          const button = field.constructor.name === "PDFButton";
+          const captionTemplate = config.completedCaptionTemplates?.[source.formNumber]?.includes(field.getName());
+          if (captionTemplate) assert.ok(field.isReadOnly() && field.getText()?.includes("Defendant/Respondent"));
+          if (button || hidden || captionTemplate) policy.nonFilingSourceControls.push({ field: field.getName(),
+            kind: button ? "viewer_button" : hidden ? "hidden_widget" : "caption_template",
+            why: button ? "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+              : hidden ? "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+                : "source caption template; the defendant name is filled at the separate writable caption field" });
+        }
+      }
+      for (const name of config.preservePrintedSourceButtons?.[source.formNumber] ?? []) {
+        const field = original.getForm().getField(name);
+        assert.equal(field.constructor.name, "PDFButton");
+        assert.ok(field.acroField.getWidgets().every((widget) =>
+          ((widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0) & 7) === 4));
+        appearanceDispositions.set(name, APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE);
+      }
+      for (const name of nonprintingControls) {
+        const widgets = original.getForm().getField(name).acroField.getWidgets();
+        assert.ok(widgets.length && widgets.every((widget) =>
+          ((widget.dict.get(PDFName.of("F"))?.asNumber?.() ?? 0) & 4) === 0),
+        `${source.formNumber}/${name}: source field is printable; refusing suppression`);
+        appearanceDispositions.set(name, APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE);
+      }
+    }
     const policyData = prepareAcroPolicy(census, policy, namedFactWrites);
     const standardNamedFields = new Set((config.standardNamedFactWrites ?? {})[source.formNumber] ?? []);
     const narrativeWrites = namedFactWrites.filter((entry) => {
@@ -2366,12 +2529,15 @@ async function renderOneDocument(source, config, fixture) {
        * caller names fact ids and field names only, and the shared module
        * resolves, protects, fits and refuses. Empty for every other family. */
       narrativeAcrossFields: narrativeWrites,
+      appearanceDispositions,
+      ...(config.preservePrintedSourceButtons?.[source.formNumber]?.length ? { detachNestedControlFields: true } : {}),
       ...(standardNamedFields.size ? {
         alignWidgetFontSizeToFit: true,
         evaluateDeclaredMinimumSize: true
       } : {}),
       title: source.formNumber
     });
+    if (captionBinding) result.report.sourceChoiceCaption = captionBinding;
     const proof = await verifyAcroBytes(source, census, policyData, result.bytes, result.report, facts, fixture);
     /* FIX81. The measurement each declared caption widget earns, read from the
      * pinned binary on this build and asserted against the declaration. */
@@ -2396,9 +2562,9 @@ async function renderOneDocument(source, config, fixture) {
         .flatMap((persona) => (expectation.holds ?? []).map((factId) => resolveFact(factsFor(config, persona), factId)))
         .filter((value) => typeof value === "string" && value.trim());
       const held = [...new Set(heldEverywhere)];
-      const why = measuredRefusalWhy(row, held);
+      const why = measuredRefusalWhy(row, held, config.flattenedCaptionGuidance === true);
       assert.ok(why, `${source.formNumber}/${field}: no measurement sentence could be composed`);
-      measuredRefusals.push({ ...row, holdsFactIds: expectation.holds ?? [], heldValues: held, why,
+      measuredRefusals.push({ ...row, ...(config.flattenedCaptionGuidance ? { flattenedDelivery: true } : {}), holdsFactIds: expectation.holds ?? [], heldValues: held, why,
         optionsSample: row.options ? row.options.slice(0, 6) : null, options: undefined });
     }
     return { source, policy, census, policyData, fixture, bytes: result.bytes, report: result.report, proof, measuredRefusals };
@@ -2492,7 +2658,7 @@ export function dispositionRowsFor(item, report) {
   };
   return {
     written: report.written.map((row) => withCompletenessDisposition(row, contextFor(row, false))),
-    refused: report.refused.map((row) => withCompletenessDisposition(row, contextFor(row, true)))
+    refused: applyDocumentFilingDispositions(report.refused.map((row) => withCompletenessDisposition(row, contextFor(row, true))), item.policy)
   };
 }
 

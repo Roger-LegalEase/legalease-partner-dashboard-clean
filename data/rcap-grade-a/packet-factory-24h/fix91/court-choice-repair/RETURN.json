@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-scoped-repair-return/v1",
+  "lane": "FIX91",
+  "status": "CHECKPOINT_DEPENDENCIES_PENDING",
+  "familyId": "ne-setaside-custodial-set",
+  "branch": "fix91-ne-court-choices",
+  "selectedCaptainSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+  "baseSha": "c5dae62fec6da2900b5a46ac2880666da9052e99",
+  "createdAt": "2026-09-06T05:16:17.411408+00:00",
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX91 ne-setaside-custodial-set",
+    "exitCode": 0,
+    "result": "CLAIM_OK FIX91 ne-setaside-custodial-set (repair, grant set 7fa71fd1020d2260)"
+  },
+  "repaired": {
+    "knownCourt": "Source DISTRICT display option exports IN THE DISTRICT COURT OF; exact source calculation links TYPEOFCOURTDROPDOWN to printable TYPEOFCOURTRESULTS. Six actual current caption writes pass at 300dpi. No JavaScript executed, county not invented.",
+    "filingGuidance": "Removed seven instruction-sheet fragments and nonfiling source UI/templates from participant checklist; corrected claims of interactive controls in zero-field flattened delivery.",
+    "sourcePrint": "Nine DC1:15 case-selector panel widgets have Print=false and are suppressed through existing API. Print=true Add next person is retained; its missing authored outline remains FAILED.",
+    "priorPrefills": "All ten actual checks of the prior five assigned prefills pass.",
+    "scope": "NE configuration and generated family outputs only; source bytes unchanged and no sibling output generated."
+  },
+  "fixtures": {
+    "canonical": {
+      "sha256": "4f0b5ad8f9b01d6a3c2774a9233cf315a7d54e57f7f5d41dc5197ae8aedd2222",
+      "bytes": 3666686
+    },
+    "boundary": {
+      "sha256": "c1b2ff856ff484b25cc6f7031a6a6e36fb41536b7108911ea5de73235156b9f5",
+      "bytes": 3667445
+    }
+  },
+  "acceptance": [
+    {
+      "name": "court-current",
+      "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "prior-five-prefills",
+      "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "completeness",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "result": "FAIL_MISSING_REQUIRED_FACTS",
+      "commandSucceededButAuditFailed": true,
+      "detail": "5 knownRequiredFieldsMissing; 71 unclassifiedBlanks. Exit 0 is not a pass."
+    },
+    {
+      "name": "self-test",
+      "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "baseline-negative-control",
+      "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs /tmp/fix91-court-repair/baseline-family",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "result": "PASS"
+    },
+    {
+      "name": "deterministic-builds",
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/tmp/fix91-recovery/exact-source-tree NODE_PATH=/tmp/fix91-tools/node_modules node scripts/build-census-v1-ne-setaside-custodial-set.mjs (twice)",
+      "exitCodes": [
+        0,
+        0
+      ],
+      "result": "PASS",
+      "logs": [
+        "build-final-7.log",
+        "build-final-8.log"
+      ]
+    },
+    {
+      "name": "builder-check",
+      "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+      "exitCode": 0,
+      "result": "PASS",
+      "detail": "10 raster pages"
+    },
+    {
+      "name": "environment-preflight",
+      "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set --branch fix91-ne-court-choices --require-rasterizer --json /tmp/fix91-court-repair/environment-final.json",
+      "exitCode": 1,
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "detail": "12/17 pass. Exact 4/4 family sources, Poppler and real Chromium render pass. Full corpus, environment declaration, unpublished branch and dirty checkout fail."
+    }
+  ],
+  "remainingDependencies": [
+    {
+      "paths": [
+        "scripts/rcap-official-forms/rcap-active-content.mjs",
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs"
+      ],
+      "finding": "Button63.0 Print=true original source AP outline is lost when structural suppression drops AP, nested detach fails and updateFieldAppearances regenerates the caption. Source and current 300dpi crops plus operation trace attached.",
+      "owner": "FIX90 shared dependency owner; NE caller remains FIX91. Awaiting preservePrintedSourceButtons default-false capability."
+    },
+    {
+      "paths": [
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+      ],
+      "finding": "No faithful current declared path for reference-only instruction fragments, source UI or materialized screen controls; shared generic footer causes false fact-availability match. Actual audit FAIL despite exit0.",
+      "owner": "Captain authorized FIX91 bounded generic semantics correction after this checkpoint; work continues."
+    }
+  ],
+  "retainedHolds": [
+    "No fresh central raster receipt for changed hashes.",
+    "Independent current-byte reread pending; this repair worker issues no independent approval.",
+    "Conviction-description/date legal-design question retained.",
+    "DC6:7.1 fee-waiver source/legal mismatch retained.",
+    "Boundary overlong case number refusals on three forms retained.",
+    "Full source corpus and environment declaration unavailable."
+  ],
+  "testDoubles": [],
+  "localOnly": "Actual source-bound PDFs, Poppler/Chromium tools and file bytes; no hosted acceptance.",
+  "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/checks.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/determinism-final.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/local-visual-evidence.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/completeness-detail.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/completeness-examples.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-operation-trace.json",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-source-300dpi.png",
+    "data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/button-current-300dpi.png"
+  ],
+  "routesOpened": 0,
+  "productionTouched": false
+}

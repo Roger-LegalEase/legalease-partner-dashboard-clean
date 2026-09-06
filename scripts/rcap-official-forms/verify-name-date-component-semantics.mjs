@@ -21,6 +21,7 @@ import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { verifiedAlCaptionChanges } from "../../data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/shared-semantics-expectations.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(rootDir);
@@ -183,9 +184,13 @@ fs.rmSync(stage, { recursive: true, force: true });
 const movedKeys = [...before.keys()]
   .filter((k) => JSON.stringify(before.get(k)) !== JSON.stringify(after.get(k))).sort();
 const record = readJson(RECORD);
-const expectedKeys = [...(record?.expectedChangeKeys ?? [])].sort();
+const alExpectedKeys = verifiedAlCaptionChanges({
+  projection: "nameDate", baseCommit: BASE_SHA, before, after,
+  baseline: baseModule, semantics, check
+});
+const expectedKeys = [...(record?.expectedChangeKeys ?? []), ...alExpectedKeys].sort();
 
-check("the committed record exists and names an expected-change set", expectedKeys.length > 0, RECORD);
+check("the committed record exists and names an expected-change set", (record?.expectedChangeKeys?.length ?? 0) > 0, RECORD);
 check("no field outside the expected-change set moves",
   movedKeys.filter((k) => !expectedKeys.includes(k)).length === 0,
   movedKeys.filter((k) => !expectedKeys.includes(k)).slice(0, 6).join("; "));
@@ -219,7 +224,7 @@ for (const [category, pattern] of baseModule.PROTECT_RULES) {
 check("no protect rule is weakened", weakened.length === 0, weakened.join("; "));
 
 /*
- * PROTECTION MAY BE GAINED. IT MAY NOT BE LOST.
+ * PROTECTION MAY BE GAINED. UNEXPLAINED PROTECTION LOSS FAILS.
  *
  * This read "no field's protect category changes" and forbade movement in both
  * directions, which made it assert that the protect rules must never improve --
@@ -237,13 +242,19 @@ check("no protect rule is weakened", weakened.length === 0, weakened.join("; "))
  * loss inside a change. Gaining protection where there was none is allowed, and
  * it is not unexamined: every moved field must still appear in the committed
  * record with a stated defect, which the check above holds at zero unexplained.
+ * The exact AL supplement corrects participant-caption false positives only
+ * after matching source identity and the full before/after refusal decisions;
+ * every negative control and the automatic-write prohibitions remain active.
  */
 const protectLost = movedKeys.filter((k) => {
   const was = before.get(k).protectCategory;
   const now = after.get(k).protectCategory;
-  return was !== now && was !== null;
+  // Source-bound AL captions name a participant allegation/election, not its
+  // owner. The supplement checks the entire exact transition and continued
+  // refusal. Every other loss, and every automatic write, still fails.
+  return was !== now && was !== null && !alExpectedKeys.includes(k);
 });
-check("no field loses or changes an existing protect category", protectLost.length === 0, protectLost.slice(0, 6).join("; "));
+check("no field loses or changes protection beyond the exact source-bound AL caption corrections", protectLost.length === 0, protectLost.slice(0, 6).join("; "));
 
 const nowWritable = movedKeys.filter((k) => before.get(k).bindingWritable === false && after.get(k).bindingWritable === true);
 check("no refused field becomes writable", nowWritable.length === 0, nowWritable.slice(0, 6).join("; "));
