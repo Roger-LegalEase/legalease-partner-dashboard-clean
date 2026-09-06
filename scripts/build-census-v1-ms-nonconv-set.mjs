@@ -40,7 +40,7 @@ import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
 import {
-  mapHelpers, composedMapOf, runIfMain, DOTS, ROOT
+  mapHelpers, composedMapOf, runIfMain, DOTS, KEEP_ON_ONE_PAGE, ROOT
 } from "./rcap-custom-pleading/composed-family-host.mjs";
 
 const FAMILY_ID = "ms-nonconv-set";
@@ -117,6 +117,63 @@ assert.deepEqual(COVER_HEADINGS,
   ["What this packet is", "Packet contents", "Records to have beside you", "Signing and notarization", "Important limits"],
   `${PACKET_SPECIFICATION}: the cover document's section set moved; the composed page must be re-read against it rather than silently renumbered`);
 
+/*
+ * THE PETITION'S SEVENTH SECTION, READ RATHER THAN RESTATED.
+ *
+ * The specification defines ms-petition-for-expungement as seven sections and
+ * its seventh is VERIFICATION: kind verification_on_oath, notarisationRequired
+ * true, with a body and a jurat of its own. VF01 measured the delivered packet
+ * against the specification section by section and found that section on no
+ * page -- neither rendered nor dispositioned -- and could not decide it,
+ * because the intake memo recorded notarization as unresolved while the
+ * specification made the jurat mandatory. The 2026-09-06 owner-relayed research
+ * settled which record governs: the specification (2.0.0) and Roger Roman's
+ * 2026-09-03 direction do, and the memo's "unresolved" note is not permission
+ * to omit the verification. The record is
+ * data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json
+ * and the research it carries is
+ * docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md
+ * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad).
+ *
+ * So the section is rendered, and it is rendered in the specification's own
+ * words: the body and the jurat below are read out of the specification on
+ * every build, exactly as the cover's static paragraphs are, so an edit to the
+ * specification reaches the page instead of drifting from it. Nothing sworn is
+ * answered for the participant, and every field of the notarial certificate is
+ * delivered blank.
+ */
+const PETITION_DOC = SPEC.documents.find((d) => d.documentId === "ms-petition-for-expungement");
+assert.ok(PETITION_DOC, `${PACKET_SPECIFICATION}: no document ms-petition-for-expungement`);
+const VERIFICATION = PETITION_DOC.sections.find((s) => s.heading === "VERIFICATION");
+assert.ok(VERIFICATION, `${PACKET_SPECIFICATION}: the petition document names no VERIFICATION section`);
+assert.equal(VERIFICATION.kind, "verification_on_oath",
+  `${PACKET_SPECIFICATION}: the VERIFICATION section is ${VERIFICATION.kind}, not verification_on_oath`);
+assert.equal(VERIFICATION.notarisationRequired, true,
+  `${PACKET_SPECIFICATION}: the VERIFICATION section no longer requires notarisation; the composed page must be re-read against it rather than shipping a jurat the record does not ask for`);
+for (const part of ["body", "jurat"]) {
+  assert.ok(typeof VERIFICATION[part] === "string" && VERIFICATION[part].length > 0,
+    `${PACKET_SPECIFICATION}: the VERIFICATION section carries no ${part}`);
+}
+/* The five fields the specification assigns to the notary, and the participant's
+ * own verification signature. Named here so a change to the specification's
+ * ownership table stops the build rather than leaving a field off the page. */
+const NOTARY_OWNED_FIELDS = SPEC.fieldOwnership.notaryOwnedFields ?? [];
+assert.deepEqual([...NOTARY_OWNED_FIELDS].sort(),
+  ["notary_commission_expiration", "notary_commission_identification_number", "notary_official_stamp",
+    "notary_printed_name", "notary_signature"],
+  `${PACKET_SPECIFICATION}: the notary-owned field set moved; the notarial certificate on the page must be re-read against it`);
+assert.ok((SPEC.fieldOwnership.participantAtSigningFields ?? []).includes("petition_verification_signature"),
+  `${PACKET_SPECIFICATION}: petition_verification_signature is no longer a participant-at-signing field`);
+/* {{participant_full_legal_name}} is the only placeholder either string carries,
+ * and it is the participant's own name. A second placeholder would be a fact
+ * this build does not hold, so it stops rather than printing the braces. */
+const fillVerification = (text, name) => {
+  const filled = text.replaceAll("{{participant_full_legal_name}}", name);
+  assert.ok(!/\{\{/.test(filled),
+    `${PACKET_SPECIFICATION}: the VERIFICATION text carries a placeholder this build holds no value for: ${filled}`);
+  return filled;
+};
+
 /* The delivery order the contents list prints. Each entry names the composed
  * component that carries it and the specification document it belongs to, so
  * the list cannot drift from what the packet actually delivers. */
@@ -155,14 +212,27 @@ function composedBody(componentId, facts) {
   const component = COMPONENTS.find((c) => c.id === componentId);
   const L = [];
   L.push(component.title.toUpperCase(), "");
-  const caption = (partyLine) => {
+  /*
+   * The caption. `compact` prints the same court, party and cause lines with a
+   * single short direction instead of the two long parentheticals, and it is
+   * used only on the verification sheet: that sheet must hold the oath, the
+   * jurat and the whole notarial certificate on one page, and the long form
+   * costs four lines the certificate needs. The direction it prints sends the
+   * participant to the petition's own caption, where the long form is printed
+   * in full, so nothing is lost -- and both blanks are declared and disclosed
+   * in participant-instructions.md either way.
+   */
+  const caption = (partyLine, { compact = false } = {}) => {
     L.push("IN THE .......................................... COURT OF .......................................... , MISSISSIPPI");
-    L.push("(WRITE THE COURT IN WHICH THE CASE WAS PENDING - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY)", "");
+    if (!compact) {
+      L.push("(WRITE THE COURT IN WHICH THE CASE WAS PENDING - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY)", "");
+    }
     L.push("STATE OF MISSISSIPPI");
     L.push("v.");
     L.push(`${name}, ${partyLine}`, "");
     L.push("Cause No. " + DOTS(44));
-    L.push("(copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing)", "");
+    if (compact) L.push("(Write the same court, county or city and cause number as the petition's caption.)", "");
+    else L.push("(copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing)", "");
   };
   if (componentId === "cover_and_contents") {
     L.push(`Prepared for ${name}`, "");
@@ -194,7 +264,7 @@ function composedBody(componentId, facts) {
 
     L.push("SIGNING AND NOTARIZATION", "");
     L.push(coverStatic("Signing and notarization"), "");
-    L.push("That paragraph is printed here word for word from the packet specification this route binds, which is the record that governs what this page must carry. The composed petition in this packet carries a simple truth statement and no separate verification or notarial block, because the legal-design intake record for this track records notarization as unresolved. The two records disagree on their face; this packet does not settle which of them governs, and the point is recorded as an open counsel question. Until it is settled, treat the paragraph above as the safer course, and ask the records office of the court that heard the case whether that court requires a verified or notarized petition. The filing instructions in this packet name the same office for the same question.", "");
+    L.push("That paragraph is printed here word for word from the packet specification this route binds, which is the record that governs what this page must carry, and the petition in this packet does what it says. The petition carries a VERIFICATION on its own sheet, under the petition's caption: a sworn statement in your name, a jurat, and a notarial certificate with the venue, the notary's signature and printed name, the commission details and the seal space all left blank. Notarization is required on this packet. It was once recorded as an unresolved question, and it is no longer one: the packet specification and the owner's direction of 3 September 2026 settle it, and the older intake note is not permission to leave the verification out. You still ask the records office of the court that heard the case about that court's own local requirements, as the filing instructions say, but not about whether to have the petition notarized.", "");
 
     L.push("IMPORTANT LIMITS", "");
     L.push(coverStatic("Important limits"), "");
@@ -229,11 +299,52 @@ function composedBody(componentId, facts) {
     L.push("SIXTH. The petitioner therefore requests that the Court enter an order expunging the record of the case described above, as Sec. 99-19-71(4) directs, with a nonpublic record retained by the Mississippi Criminal Information Center solely for the purpose Sec. 99-19-71(3) states.", "");
     L.push("I declare that the facts stated in this petition are true and correct.", "");
     L.push("DATE " + DOTS(30) + "   SIGNATURE OF PETITIONER " + DOTS(36), "");
-    L.push("(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)", "");
+    L.push("(The petitioner signs and dates this petition personally, in the notary's presence and at the same time as the verification on the next page - never in advance. Nothing on this page is signed or dated for the petitioner.)", "");
     L.push(`PRINTED NAME: ${name}`);
     L.push(`MAILING ADDRESS: ${address}`);
     L.push(`TELEPHONE: ${phone}`);
     L.push(`EMAIL: ${email}`);
+    /* The machine trailer closes the pleading half of the petition here, above
+     * the verification, for the reason the proposed order's trailer sits above
+     * its execution band: a route key printed under a notary's seal space is
+     * machine text inside a band the page assigns to somebody else. The global
+     * trailer at the foot of this function therefore skips primary_filing. */
+    L.push("", `Route: ${ROUTE.routeKeys[0]}`);
+    /*
+     * THE VERIFICATION, ON ITS OWN SHEET, UNDER THE PETITION'S CAPTION.
+     *
+     * It is a section of the petition document and it stays with the petition,
+     * but it takes a page of its own: the oath, the jurat and the notarial
+     * certificate are one act, and a notary cannot complete a certificate whose
+     * first half is on the previous sheet. The caption is repeated above it, in
+     * the same form the proposed order and the certificate of service repeat
+     * it, so the sheet is unmistakably part of this petition and not a loose
+     * page. Its two caption blanks are declared and disclosed like theirs.
+     */
+    L.push(KEEP_ON_ONE_PAGE);
+    caption("PETITIONER", { compact: true });
+    L.push("VERIFICATION", "");
+    L.push("(Part of the Petition for Expunction of Record above; filed attached to it.)", "");
+    L.push(fillVerification(VERIFICATION.body, name), "");
+    L.push("SIGNATURE OF PETITIONER " + DOTS(52), "");
+    L.push("(Signed in the notary's presence, after the oath or affirmation - never in advance. Nothing on this page "
+      + "is signed, dated or completed for the petitioner.)", "");
+    L.push("STATE OF " + DOTS(56));
+    L.push("COUNTY OF " + DOTS(55), "");
+    L.push("(The venue is where the notarial act actually takes place. It is left blank here and is never taken from "
+      + "where the petitioner lives.)", "");
+    L.push(fillVerification(VERIFICATION.jurat, name), "");
+    L.push("SIGNATURE OF NOTARY PUBLIC " + DOTS(48), "");
+    L.push("PRINTED NAME OF NOTARY PUBLIC " + DOTS(45), "");
+    /* The two commission details sit together: they are one set of facts about
+     * the notary's own commission, and pairing them costs the sheet one row
+     * less than separating them, which is a row the seal space needs. */
+    L.push("MY COMMISSION EXPIRES " + DOTS(52));
+    L.push("COMMISSION IDENTIFICATION NUMBER " + DOTS(41), "");
+    L.push("SEAL - space for the notary's official stamp:", "", "", "");
+    L.push("(The notary completes this certificate, signs it and affixes the official stamp, after the petitioner "
+      + "appears in person, is identified, takes the oath or affirmation and signs above. Notary Rule 6.3 and Miss. "
+      + "Code Ann. Sec. 25-34-31. An acknowledgment is not the same notarial act.)");
   } else if (componentId === "proposed_order") {
     caption("PETITIONER");
     L.push("PROPOSED ORDER OF EXPUNGEMENT", "");
@@ -295,11 +406,19 @@ function composedBody(componentId, facts) {
     L.push("STEP TWO. Ask that court's records office for the case file, the docket sheet, and a certified copy of the order showing how the case ended. Copy the docket wording exactly; do not paraphrase it.");
     L.push("STEP THREE. Call that records office before filing and ask whether that court has its own preferred petition or order form or any additional requirement. Mississippi has no statewide form and practice varies by county and circuit district.");
     L.push("STEP FOUR. Fill in every dotted blank this packet's participant instructions list, from the records, and mark exactly one statutory disposition category - only the one your paperwork shows.");
-    L.push("STEP FIVE. Sign and date the petition yourself.");
+    L.push("STEP FIVE. Sign the petition and swear to the verification in front of a notary; the next section says how.");
     L.push("STEP SIX. File the petition, with the proposed order and the certificate of service, with the court in which the case was pending, and confirm the filing fee first. No fee amount is published in this packet: whether Sec. 99-19-72's fee reaches a subsection (4) petition at all is a recorded open question - there is no conviction to expunge - and county practice differs, so ask the court's records office for the amount, and for any pauper's-affidavit route if you cannot pay.");
     L.push("STEP SEVEN. Deliver a copy of the petition and the proposed order to the prosecuting authority contemporaneously with filing - for a municipal court case the city prosecutor, not the district attorney - and complete the certificate of service when the copy actually goes out. The ten days' written notice in Sec. 99-19-71(2)(b) belongs to the felony conviction subsection and is not imported here, but some districts expect notice and prosecutor approval as local practice.");
     L.push("STEP EIGHT. Expect that some districts want the district attorney to approve the order as to form before the judicial officer signs. That is a negotiation this packet does not conduct for you.");
     L.push("STEP NINE. After the order issues, obtain certified copies and deliver them to every agency named in the order.", "");
+    /* The signing and notarial act, in the words the 2026-09-06 research
+     * handoff supplies and the track registry records at
+     * rules.researchParticipantText.signingAndNotarization. Printed here as
+     * its own section rather than as a step, because it governs the petition,
+     * the verification and the order in which they are completed. */
+    L.push("SIGNING THE PETITION AND THE VERIFICATION", "");
+    L.push("Do not sign the Petition or Verification in advance. Complete and check the factual information first. Bring the packet and satisfactory identification to a notary. Take the oath or affirmation and sign in the notary's presence. Have the notary complete the certificate and affix the official stamp. Keep the verification attached to the petition. The packet is not ready for filing until the required signatures and notarial act are complete.", "");
+    L.push("A notary who only watches you sign has not done this: the rules require personal appearance, identification and an oath or affirmation, and an acknowledgment is a different act. The notary states where the act happens - where you are standing, not where you live.", "");
     L.push("WHAT THE ORDER DOES, FROM THE RECORD", "");
     L.push("- Relief under subsection (4) is mandatory on the statute's own words - 'shall expunge' - once the case falls in a statutory category.");
     L.push("- Fingerprint records are excepted from expungement.");
@@ -317,7 +436,7 @@ function composedBody(componentId, facts) {
     L.push("- you are not a United States citizen - a non-conviction disposition can still carry immigration consequences.", "");
     L.push("WHAT THIS PACKET DOES NOT TELL YOU", "");
     L.push("- The filing fee amount, and whether Sec. 99-19-72's fee reaches a subsection (4) petition in this court. The records office of the court that heard the case is the authority that can answer both.");
-    L.push("- Whether your court requires verification or notarization of the petition. Neither archived model is verified or notarized and the question is unresolved, so the petition carries a simple truth statement; the same office can say whether that court expects more.");
+    L.push("- Whether your court has local requirements of its own beyond the notarized verification in this packet - preferred wording, an extra copy, a cover sheet. The same office can tell you. Whether the petition must be notarized is not open: it must be, and the verification is in the packet.");
     L.push("- Your court's own preferred forms or local requirements, which vary by county and district. Ask before you file.", "");
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of composed pleadings and process pages. Mississippi publishes no statewide expungement form, which is why these pages are composed. It is not legal advice, it is not filed for you, and it does not decide the classification of an ambiguous docket entry.");
@@ -330,11 +449,32 @@ function composedBody(componentId, facts) {
      * branch now refuses instead of falling through. */
     throw new Error(`${componentId}: no composed body is defined for this component`);
   }
-  if (componentId !== "proposed_order") L.push("", `Route: ${ROUTE.routeKeys[0]}`);
+  /* primary_filing prints its own trailer above the verification; the proposed
+   * order prints its own above the execution band. */
+  if (componentId !== "proposed_order" && componentId !== "primary_filing") {
+    L.push("", `Route: ${ROUTE.routeKeys[0]}`);
+  }
   return L.join("\n");
 }
 
 /* ---- the field maps -------------------------------------------------------------- */
+/*
+ * A blank on the notarial certificate.
+ *
+ * A notarial certificate belongs to the commissioned officer who performs the
+ * act, not to the person who swears to the petition, so these are refused on
+ * the same footing as a court, clerk or prosecutor field: not blanks the
+ * participant fills, and not facts the platform holds. The shared refusal class
+ * is the one the closed vocabulary carries for a field owned by an official
+ * other than the participant; the reason says the notary owns it, because
+ * saying "the court completes it" of a notary's seal would be untrue on the
+ * face of the record.
+ */
+const NOTARY_BLANK = (id, label, why) => ({
+  ...mapHelpers("primary_filing").courtBlank(id, label, why),
+  reason: "notarial-certificate field; the notary public performs the act and completes the certificate"
+});
+
 function maps() {
   const out = [];
   {
@@ -394,7 +534,45 @@ function maps() {
       h.protectedBlank("petitioner_signature", "Signature of the petitioner on the petition",
         "the petitioner signs the petition personally"),
       h.protectedBlank("signature_date", "Date beside the petitioner's signature on the petition",
-        "a date written before the petition is signed would be false")
+        "a date written before the petition is signed would be false"),
+      /* The verification sheet's own caption, in the same shape the proposed
+       * order and the certificate of service declare theirs. */
+      h.rbf("verification_court", "Court named in the caption above the verification, with its county or city",
+        "the same court and county (or city) as the petition's caption",
+        "the court the case was pending in is a case fact the participant establishes from the record"),
+      h.rbf("verification_cause_number", "Cause number in the caption above the verification",
+        "the same cause number as the petition's caption",
+        "no case identifier is held for this record"),
+      h.protectedBlank("petition_verification_signature", "Signature of the petitioner on the verification",
+        "the specification places petition_verification_signature among the participant-at-signing fields; the "
+        + "petitioner signs the verification in the notary's presence, after the oath or affirmation, and never in "
+        + "advance"),
+      /* The notarial certificate. The notary is the officer who owns every one
+       * of these, which is why they are refused rather than left for the
+       * participant: the participant may not complete a certificate of an act
+       * performed by somebody else. The specification names all five in
+       * fieldOwnership.notaryOwnedFields and they are asserted against it
+       * above; the venue is part of the same certificate and is never inferred
+       * from where the participant lives. */
+      NOTARY_BLANK("notarial_venue_state", "State of - the venue of the notarial act, in the notarial certificate",
+        "the venue is the place where the notarial act happens, which the notary states; it is never taken from the "
+        + "petitioner's residence"),
+      NOTARY_BLANK("notarial_venue_county", "County of - the venue of the notarial act, in the notarial certificate",
+        "the venue is the place where the notarial act happens, which the notary states; it is never taken from the "
+        + "petitioner's residence"),
+      NOTARY_BLANK("notarial_date", "Day, month and year on the jurat - the date of the notarial act",
+        "the date of a notarial act is the day it is performed; the notary enters it then, and a date written in "
+        + "advance would be false"),
+      NOTARY_BLANK("notary_signature", "Signature of the notary public on the jurat",
+        "the notary signs their own certificate after administering the oath or affirmation"),
+      NOTARY_BLANK("notary_printed_name", "Printed name of the notary public",
+        "the notary prints their own name on their own certificate"),
+      NOTARY_BLANK("notary_commission_expiration", "My commission expires - the notary's commission expiry",
+        "the notary's commission details are the notary's own and are entered by them"),
+      NOTARY_BLANK("notary_commission_identification_number", "Commission identification number of the notary public",
+        "the notary's commission details are the notary's own and are entered by them"),
+      NOTARY_BLANK("notary_official_stamp", "Seal - the space for the notary's official stamp",
+        "Miss. Code Ann. Sec. 25-34-31 requires the notary's official stamp on the certificate; the notary affixes it")
     ];
     out.push(composedMapOf("primary_filing", FAMILY, writes, refusals));
   }
@@ -495,8 +673,13 @@ function participantInstructions(rbf) {
   out.push("| Your own Mississippi criminal history record — advisable, so you see every case before you file | Mississippi Criminal Information Center |");
   out.push("");
 
-  out.push("## The items you must supply", "");
-  out.push("Each is printed on its page as a labelled dotted blank. Fill every one from the records.", "");
+  /* The signing sequence, in the words the 2026-09-06 research handoff supplies
+   * and the track registry records at
+   * rules.researchParticipantText.signingAndNotarization. */
+  out.push("## Signing the petition and the verification", "");
+  out.push("**Do not sign the Petition or Verification in advance. Complete and check the factual information first. Bring the packet and satisfactory identification to a notary. Take the oath or affirmation and sign in the notary's presence. Have the notary complete the certificate and affix the official stamp. Keep the verification attached to the petition. The packet is not ready for filing until the required signatures and notarial act are complete.**", "");
+  out.push("The verification is the last sheet of the petition and it carries the petition's caption, so it stays with the petition and is filed attached to it. Everything sworn in it is your statement about your own case; nothing in it is answered for you and nothing on it is signed or dated for you.", "");
+  out.push("A notary who only watches you sign has not done what this petition needs. Mississippi's notary rules require personal appearance, identification, and an oath or affirmation before you sign; an acknowledgment is a different notarial act and does not satisfy a verification. The notary states the state and county where the act happens — that is the place you are standing in, not where you live, and it is left blank in this packet for that reason.", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${titles[doc] ?? doc}`, "");
     out.push("| The blank on the document | What to write |", "| --- | --- |");
@@ -506,7 +689,8 @@ function participantInstructions(rbf) {
 
   out.push("## Things the platform deliberately left blank", "");
   out.push("- **The four statutory disposition marks.** Only you know how your case ended, only the true category is pleaded, and no 'with prejudice' qualifier is added unless your order itself says so.");
-  out.push("- **Your signature and every date beside a signature.**");
+  out.push("- **Your signature and every date beside a signature**, including your signature on the verification, which you write in the notary's presence and not before.");
+  out.push("- **The whole notarial certificate on the verification** — the state and county of the venue, the day, month and year of the notarial act, the notary's signature and printed name, the commission expiry, the commission identification number and the seal space. Those belong to the notary, who completes them after administering the oath or affirmation. The venue is the place the act happens and is never taken from your address.");
   out.push("- **The finding paragraph's adoption, the entry line, and the judicial signing block of the proposed order.** The order is the Court's.");
   out.push("- **The APPROVED AS TO FORM block.** Some districts expect prosecutor sign-off; it is never pre-signed.");
   out.push("- **The certificate of service's date, manner marks and signature**, completed only when the copy actually goes out.");
@@ -568,26 +752,47 @@ const FAMILY = {
         thisBuildDidNotEditTheManifest: true
       }
     ],
-    openLegalQuestions: [
+    /* The question that used to stand here -- which record governs the
+     * notarised verification, the specification or the intake memo's
+     * "unresolved" note -- is answered and is no longer carried. The answer is
+     * the specification's, recorded on 2026-09-06 in
+     * data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json
+     * from the research handoff at
+     * docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md
+     * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad),
+     * relayed by the owner, and mirrored in the track registry at
+     * ms-nonconv.rules.notarization and researchResolvedQuestions. The petition
+     * now renders the VERIFICATION section, so the specification is satisfied
+     * at section granularity and not only at document granularity. */
+    openLegalQuestions: [],
+    resolvedLegalQuestions: [
       {
         question:
           "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which "
           + "makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake "
           + "memo, which records notarization as unresolved and prints a simple truth statement?",
-        specificationSays:
-          "finalVerificationRequirements: 'The participant signs the petition and verification in the notary's "
-          + "physical presence after the notary administers an oath or affirmation.'",
-        memoSays:
-          "data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv: notarization is unresolved and "
-          + "the petition carries a simple truth statement rather than a notarized verification.",
+        answer:
+          "The specification (internal specificationVersion 2.0.0) and Roger Roman's direction of 2026-09-03 govern. "
+          + "The verification and jurat are mandatory and the memo's unresolved note is not permission to omit them. "
+          + "This settles LegalEase's recorded output requirement; it is not a claim that Sec. 99-19-71(4) "
+          + "independently mandates a separate notary page.",
         howThisBuildTreatsIt:
-          "It does not resolve it. No verification block and no notarial certificate was added to the petition, the "
-          + "order or the certificate of service. The cover's signing-and-notarization page prints the "
-          + "SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, "
-          + "says on the page that it is printed from the specification, states that the composed petition carries a "
-          + "truth statement instead, and sends the participant to the records office of the court that heard the "
-          + "case - which is what the filing instructions already do.",
-        unresolvedBy: "FIX01; counsel or the owner settles it"
+          "The petition renders the specification's VERIFICATION section on a sheet of its own under the petition's "
+          + "caption: the specification's own body and jurat, read from the specification on every build, with the "
+          + "participant's verification signature, the venue, the notarial date, the notary's signature and printed "
+          + "name, the commission details and the seal space all delivered blank and all declared as refusals. The "
+          + "cover states that notarization is required and no longer describes the point as open, and the filing "
+          + "instructions carry the record's signing sequence.",
+        recordBasis: {
+          decisionRecord: "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          researchHandoff: "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          researchHandoffSha256: "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+          preparedBy: "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon",
+          createsApproval: false,
+          note: "Research relayed by the owner and applied through the existing records. It is not counsel approval "
+            + "and not packet acceptance; output-level approval remains a separate act on exact hashes."
+        },
+        resolvedBy: "FIX107, carrying the record into the packet text"
       }
     ]
   },

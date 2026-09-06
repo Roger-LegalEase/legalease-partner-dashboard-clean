@@ -63,11 +63,13 @@
         "pages": {
           "canonical": [
             3,
-            4
+            4,
+            5
           ],
           "boundary": [
             3,
-            4
+            4,
+            5
           ]
         }
       },
@@ -85,12 +87,12 @@
         "why": null,
         "pages": {
           "canonical": [
-            5,
-            6
+            6,
+            7
           ],
           "boundary": [
-            5,
-            6
+            6,
+            7
           ]
         }
       },
@@ -109,12 +111,12 @@
         "why": null,
         "pages": {
           "canonical": [
-            7,
-            8
+            8,
+            9
           ],
           "boundary": [
-            7,
-            8
+            8,
+            9
           ]
         }
       },
@@ -132,12 +134,12 @@
         "why": null,
         "pages": {
           "canonical": [
-            9,
-            10
+            10,
+            11
           ],
           "boundary": [
-            9,
-            10
+            10,
+            11
           ]
         }
       }
@@ -149,13 +151,21 @@
         "thisBuildDidNotEditTheManifest": true
       }
     ],
-    "openLegalQuestions": [
+    "openLegalQuestions": [],
+    "resolvedLegalQuestions": [
       {
         "question": "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake memo, which records notarization as unresolved and prints a simple truth statement?",
-        "specificationSays": "finalVerificationRequirements: 'The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation.'",
-        "memoSays": "data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv: notarization is unresolved and the petition carries a simple truth statement rather than a notarized verification.",
-        "howThisBuildTreatsIt": "It does not resolve it. No verification block and no notarial certificate was added to the petition, the order or the certificate of service. The cover's signing-and-notarization page prints the SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, says on the page that it is printed from the specification, states that the composed petition carries a truth statement instead, and sends the participant to the records office of the court that heard the case - which is what the filing instructions already do.",
-        "unresolvedBy": "FIX01; counsel or the owner settles it"
+        "answer": "The specification (internal specificationVersion 2.0.0) and Roger Roman's direction of 2026-09-03 govern. The verification and jurat are mandatory and the memo's unresolved note is not permission to omit them. This settles LegalEase's recorded output requirement; it is not a claim that Sec. 99-19-71(4) independently mandates a separate notary page.",
+        "howThisBuildTreatsIt": "The petition renders the specification's VERIFICATION section on a sheet of its own under the petition's caption: the specification's own body and jurat, read from the specification on every build, with the participant's verification signature, the venue, the notarial date, the notary's signature and printed name, the commission details and the seal space all delivered blank and all declared as refusals. The cover states that notarization is required and no longer describes the point as open, and the filing instructions carry the record's signing sequence.",
+        "recordBasis": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+          "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+          "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+          "preparedBy": "ChatGPT, research and implementation analysis; relayed by Roger Roman; not Lawrence Blackmon",
+          "createsApproval": false,
+          "note": "Research relayed by the owner and applied through the existing records. It is not counsel approval and not packet acceptance; output-level approval remains a separate act on exact hashes."
+        },
+        "resolvedBy": "FIX107, carrying the record into the packet text"
       }
     ],
     "grantsNothing": "Conformance to the specification's document set is a build assertion. It is not independent verification, not a raster acceptance and not an approval."
@@ -166,27 +176,27 @@
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "canonical",
-      "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
-      "byteLength": 29578,
-      "pageCount": 10
+      "sha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+      "byteLength": 33154,
+      "pageCount": 11
     },
     {
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "boundary",
-      "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
-      "byteLength": 29851,
-      "pageCount": 10
+      "sha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+      "byteLength": 33493,
+      "pageCount": 11
     }
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
-      "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
-      "byteLength": 29578,
-      "pageCount": 10,
+      "sha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+      "byteLength": 33154,
+      "pageCount": 11,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -218,41 +228,48 @@
         },
         {
           "packetPage": 5,
-          "component": "proposed_order",
-          "documentId": "proposed_order",
-          "sourcePage": 1,
+          "component": "primary_filing",
+          "documentId": "primary_filing",
+          "sourcePage": 3,
           "sourceSha256": null
         },
         {
           "packetPage": 6,
           "component": "proposed_order",
           "documentId": "proposed_order",
-          "sourcePage": 2,
+          "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 7,
+          "component": "proposed_order",
+          "documentId": "proposed_order",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
           "component": "certificate_of_service",
           "documentId": "certificate_of_service",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 8,
+          "packetPage": 9,
           "component": "attachment",
           "documentId": "attachment",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 10,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 10,
+          "packetPage": 11,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 2,
@@ -279,9 +296,9 @@
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
-      "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
-      "byteLength": 29851,
-      "pageCount": 10,
+      "sha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+      "byteLength": 33493,
+      "pageCount": 11,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -313,41 +330,48 @@
         },
         {
           "packetPage": 5,
-          "component": "proposed_order",
-          "documentId": "proposed_order",
-          "sourcePage": 1,
+          "component": "primary_filing",
+          "documentId": "primary_filing",
+          "sourcePage": 3,
           "sourceSha256": null
         },
         {
           "packetPage": 6,
           "component": "proposed_order",
           "documentId": "proposed_order",
-          "sourcePage": 2,
+          "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 7,
+          "component": "proposed_order",
+          "documentId": "proposed_order",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
           "component": "certificate_of_service",
           "documentId": "certificate_of_service",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 8,
+          "packetPage": 9,
           "component": "attachment",
           "documentId": "attachment",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 9,
+          "packetPage": 10,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 10,
+          "packetPage": 11,
           "component": "instructions",
           "documentId": "instructions",
           "sourcePage": 2,

@@ -59,6 +59,33 @@ export const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
 
 export const DOTS = (n = 84) => ".".repeat(n);
 
+/*
+ * A block that must stand whole on one page.
+ *
+ * The renderer below flows text and starts a new page when it runs out of
+ * room, which is right for a narrative page and wrong for a block whose parts
+ * only mean anything together: a verification, its jurat and its notarial
+ * certificate split across two sheets is a notarial act the notary cannot
+ * complete on the page the oath is on. FIX107 needed one for the Mississippi
+ * petition's VERIFICATION section.
+ *
+ * Emitting this as its own line in a composed body means two things: start a
+ * new page here, and everything from here to the next such line or to the end
+ * of the document must fit on that page. If it does not fit, the build stops
+ * rather than delivering a split block. The assertion is what makes it worth
+ * having: a page count cannot say it, because the same block sits on a
+ * different page number in the canonical and the boundary fixture whenever a
+ * longer name pushes the pages before it along.
+ *
+ * It is opt-in and inert. The only new branch is an equality test against a
+ * line built from a Unicode private-use codepoint, so no committed record's
+ * text and no composed body that does not emit it can reach the branch, and
+ * every family that does not use it renders exactly the bytes it rendered
+ * before. sanitizePdfText leaves the codepoint alone, and the test runs on the
+ * same sanitized string the drawing loop reads.
+ */
+export const KEEP_ON_ONE_PAGE = "PAGE-BREAK";
+
 /* Source markup a PDF page cannot render is removed before the normalisations
  * below, on the same footing as the characters they normalise away: emphasis
  * delimiters are markdown in participant-instructions.md and four black
@@ -146,8 +173,22 @@ async function renderComposedPdf(fullText, title) {
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
+  /* Set while a KEEP_ON_ONE_PAGE block is open. An automatic page break inside
+   * one is the failure the sentinel exists to catch, so it is recorded here
+   * and asserted once the whole document has been laid out. */
+  let keepBlockOpen = null;
+  let keepBlockOverflowed = null;
+  let keepBlockRows = 0;
+  let keepBlockRowsThatFit = 0;
   const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
+    if (y < margin) {
+      if (keepBlockOpen !== null && keepBlockOverflowed === null) {
+        keepBlockOverflowed = keepBlockOpen;
+        keepBlockRowsThatFit = keepBlockRows;
+      }
+      page = pdf.addPage([width, height]); y = height - margin;
+    }
+    if (keepBlockOpen !== null) keepBlockRows += 1;
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
@@ -173,7 +214,24 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /* The sentinel starts a new page unless the current one is already empty, so
+   * a block asking to stand alone never leaves a blank sheet in front of it,
+   * and it opens a block whose overflow is a build failure. */
+  const atTopOfPage = () => y === height - margin;
+  const lines = sanitizePdfText(fullText).split("\n");
+  for (const [index, raw] of lines.entries()) {
+    if (raw === KEEP_ON_ONE_PAGE) {
+      if (!atTopOfPage()) { page = pdf.addPage([width, height]); y = height - margin; }
+      keepBlockOpen = index;
+      continue;
+    }
+    for (const row of wrap(raw)) draw(row);
+  }
+  assert.equal(keepBlockOverflowed, null,
+    `${title}: the block that must stand whole on one page does not fit on it. It begins at composed line `
+    + `${(keepBlockOverflowed ?? 0) + 1}, needs ${keepBlockRows} rendered rows and the page holds `
+    + `${keepBlockRowsThatFit}, so ${keepBlockRows - keepBlockRowsThatFit} row(s) would be delivered on a second `
+    + "sheet. Shorten the block by that many rows; do not relax the check.");
   assert.equal(splitToken.hardSplits, 0,
     `${title}: a token was chopped mid-word to fit the column; it has no separator to break on and must not ship broken`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
@@ -442,6 +500,12 @@ function specificationConformance(family, artifacts, componentIds) {
     documents,
     ...(declared.manifestGaps ? { manifestGaps: declared.manifestGaps } : {}),
     ...(declared.openLegalQuestions ? { openLegalQuestions: declared.openLegalQuestions } : {}),
+    /* A question that used to be open and has since been answered is carried
+     * here with its answer and the record that settled it, so an emptied
+     * openLegalQuestions reads as "answered, and here is by what" rather than
+     * as "nobody ever asked". Optional: a family that declares none emits
+     * none, exactly as before. */
+    ...(declared.resolvedLegalQuestions ? { resolvedLegalQuestions: declared.resolvedLegalQuestions } : {}),
     grantsNothing: "Conformance to the specification's document set is a build assertion. It is not independent verification, not a raster acceptance and not an approval."
   };
 }
