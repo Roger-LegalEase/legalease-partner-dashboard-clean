@@ -7,11 +7,11 @@ This is a review fixture built from exact held official Utah forms. The platform
 Filing this packet has **two destinations, in this order**.
 
 1. **The Utah Bureau of Criminal Identification (BCI)** issues the certificate of eligibility this petition depends on. BCI's own Expungement Applicant Instructions direct you to apply to BCI, and BCI then sends a letter naming which incidents are eligible and what each certificate costs. Paragraph 1 of the petition (1000EX) is where that certificate's identification number goes.
-2. **The Utah district court for the county where the case was heard.** BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, 1000EX and 1020EX — and to take the certificate list "to the court that is listed for that case".
+2. **The district or justice court that decided the case.** The committed track registry records the destination as "Stage one, the Utah DPS Bureau of Criminal Identification; stage two, the court that decided the case", and states the second stage in full: "The participant then files the expungement petition, with the certificate attached and still valid, in the district or justice court that decided the case." Its venue rule says the same — "The court that decided the criminal case, district or justice court" — under Utah Code 77-40a-305. BCI's instructions direct you to "File a Cover Sheet, Petition to Expunge and Order on Petition to Expunge with the appropriate court" — in this packet, 1044XX, 1000EX and 1020EX — and to take the certificate list "to the court that is listed for that case".
 
 BCI's instructions also set a deadline between the two steps: you have **180 days, including weekends and holidays, from the date on the BCI letter** to petition the court. After that the certificates expire and you must reapply.
 
-The caption on the petition and the order is already marked **District Court**, and the county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm both.
+**The District/Justice election on the petition and the order is left blank for you to mark.** The committed track registry gives venue as "The court that decided the criminal case, district or justice court" and holds no fact saying which of the two decided your case — and neither does this packet, so it marks neither. In the caption of the petition (1000EX) and of the proposed order (1020EX) the line reads *In the [ ] District [ ] Justice Court of Utah*: **mark the one that matches the court named on your own case paperwork**, on every copy you file. The county is written from your case. The judicial district number and the court's street address are still blank and are yours to write; the clerk of that court will confirm all of them.
 
 ## What it costs, and how to ask for a waiver
 
@@ -55,6 +55,10 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - Signing city/country, participant signatures, and signing dates
 - Any optional recipient, victim, prosecutor, reply, or third-party-release content only if that component becomes applicable
 - Service method, address, date, and certification only if the prosecutor’s office will not accept service and you make some delivery yourself, and only after it happens; in the ordinary case the court sends the filing to the prosecuting attorney and the petitioner does not serve
+
+- **At least 30 days must have passed since the arrest before you file this petition.** (Utah Code 77-40a-302(1).) Count from the arrest date. Do not confuse this arrest-date waiting period with the certificate's 180-day validity.
+
+**Paragraph 5 of the proposed order (1020EX) is left unmarked.** It asserts that the prosecutor consented in writing and has no intent to refile. This packet holds neither fact and does not infer consent from a dismissal without prejudice. The committed track allows written prosecutor consent **or** at least 180 days since dismissal. If you rely on consent, supply the actual written consent; the court determines its findings from the evidence. The 180-day alternative does not establish the consent finding.
 
 **You must also have these in hand before you file. They are not blanks on the forms, and the packet cannot fill them for you.**
 
