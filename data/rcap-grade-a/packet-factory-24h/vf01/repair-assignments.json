@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF01",
  "worker": "VF-SRC-A",
- "assignmentCount": 25,
+ "assignmentCount": 26,
  "assignments": [
   {
    "itemId": "ak-courtview-set",
@@ -706,6 +706,41 @@
    },
    "whereToFix": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs, this family's own builder, and only this family's directory. Bind participant.city to NHJB-2317/'Mailing Address.2'; bind participant.last_name, first_name and middle_name to NHJB-2956/'name.1', 'name.3' and 'name.4'; and write the composed street-city-state-zip line into NHJB-2956/'Mailing Address1' (participant.city_state_zip exists in the shared registry and the components are all held, so the composed line is available even though no single registry fact names it). Each write goes at that widget's own /Rect read from the pinned binary. Where the shared binder cannot reach a box because New Hampshire's field name names a different line -- which is the real cause for 'Mailing Address.2' and for the four name boxes -- use one of the two channels the North Carolina siblings used without touching shared machinery: a family-local caption correction, or the finalizer's opt-in channel naming one fact and one field. Then remove the five rows from requiredBeforeFiling and from the per-form disclosure tables in participant-instructions.md, and delete the sentence 'the platform holds no value for this' wherever it now stands over a fact the fixture supplies.",
    "repairMustNotDo": "Do not write NHJB-2956/'name.2' (maiden name or alias), 'gender', 'hair', 'eyes', 'license' or 'States/short', and do not write NHJB-2956/'address', which is Section II's third-party recipient and which this route does not use. Do not write any cell of NHJB-2328's items 12, 13 or 14, and do not restore the three Total lines the published form ships pre-set to 0.00 -- clearing them is correct and the instructions explain why. Do not write into any sig.N field on NHJB-2311 or NHJB-2328, and do not restore the grey 'Enter /s/ before name' placeholder inside sig.8. Do not tick any box in NHJB-2317's page 2 certification, do not answer the hearing request, and do not select a court in either court list. Do not edit shared machinery, the source binding, the route key, the component set or any queue, ledger or legal-decision record, and do not open any commercial route. While repairing, fix reports/actual-writes.json's read-back encoding: it records drawnText 'Maria-Alejandra O\\u0092Shaughnessy-Whitfield' and matchesExpected false on three boundary writes, where the delivered bytes carry U+2019 and the page is correct. A central raster is owed on whatever new digests the rebuild produces, because the live RASTER_PASS receipt (run 33993241558, job 101379458225) binds canonical 09903a85... and boundary b1abb997... and will stop binding."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+   "lane": "VF01",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+   "verifiedAtBase": "f63954e3aa156a00010059ca8265081944933273",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefects": [
+    {
+     "obligation": "SOURCE_IDENTITY",
+     "repair": "Reconcile the four changed census row fields and refresh the committed source binding/anchors without claiming whole-row equivalence. Core legal projection is unchanged; legal/approval authority must not be added."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "repair": "Classify the existing page-1 IN THE ... COURT field in canonical and boundary maps/reports and explicitly disclose its completion from the established arrest circuit in participant instructions. Preserve signatures/court-owned fields. Do not claim a zero blank count until actual rendered blanks reconcile."
+    }
+   ],
+   "failedProofObligations": [
+    "SOURCE_IDENTITY",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 1,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/il-identity-current-20260906/RETURN.json",
+   "packetBytesChanged": false,
+   "repairPerformedByReader": false
   }
  ],
  "supersededLaneMembership": {
