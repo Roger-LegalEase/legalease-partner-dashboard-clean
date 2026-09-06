@@ -29,7 +29,7 @@ import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance
 
 const require = createRequire(import.meta.url);
 const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, PDFCheckBox, PDFRadioGroup,
-  decodePDFRawStream } = require("pdf-lib");
+  PDFTextField, PDFOperator, decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
 
@@ -963,6 +963,246 @@ function neutralizeSynthesizedBorderCharacteristics(acroField) {
 }
 
 /**
+ * A WIDGET WHOSE BORDER THE COURT DRAWS AS A WRITING RULE, DELIVERED AS A BOX.
+ *
+ * `/BS /S` is a widget's border STYLE (ISO 32000-1 12.5.4, Table 166). `/S`
+ * (solid) and the three decorated styles bound the whole annotation rectangle;
+ * `/U` means one thing and only one thing -- "a single line along the bottom of
+ * the annotation rectangle" -- and `/N` means no border at all. The style says
+ * WHERE the border colour in `/MK /BC` is painted, and pdf-lib's default text
+ * provider never reads it: it strokes a full rectangle from `/MK /BC` whatever
+ * `/BS /S` says, so a blank the court draws as a writing rule is regenerated as
+ * a boxed field.
+ *
+ * Pennsylvania's Rule 490 blank expungement order is the measured case, and
+ * VF02 measured it. Its order page 1 carries eight widgets with
+ * `/MK /BC [0 0 0]`. Six declare no `/BS` at all -- default solid -- and each
+ * ships an `/AP /N` that strokes a rectangle, so regenerating one coincides
+ * with the form. The other two are the two the packet writes a value into,
+ * DocketNumber and Defendant, and both declare `/BS << /S /U >>`; both ship an
+ * `/AP /N` that draws ONE horizontal line and nothing else
+ * (`0 G 0 0.5 m 171.2816 0.5 l s`). Delivered, each became a one-point black
+ * stroked rectangle -- about 3,157 and 3,244 dark pixels per fixture at 300 dpi
+ * -- around a caption blank the Pennsylvania Judiciary draws as a rule.
+ *
+ * THE RULE CANNOT SIMPLY BE LEFT TO THE PAGE, and this was measured before the
+ * remedy was chosen rather than assumed. The pinned order was rendered twice at
+ * 300 dpi, once whole and once with `/Annots` and `/AcroForm` removed: in the
+ * window of each of those two widgets the page content carries 0 dark pixels,
+ * against 2,680 and 2,856 whole. The court's writing rule at those two blanks
+ * exists ONLY inside the widget's own appearance stream. So dropping `/MK /BC`
+ * and letting pdf-lib regenerate would indeed remove the box -- and would take
+ * the rule with it, trading a border the form does not print for the loss of a
+ * rule the form does. At the adjacent control widget DefendantName, which
+ * carries no `/BC`, the rule IS page content (4,686 pixels either way), which
+ * is why that widget was never affected in the first place.
+ *
+ * So the remedy is to honour the declared style rather than to delete the
+ * border: `/MK /BC` is removed before regeneration, so pdf-lib synthesises no
+ * rectangle, and the underline `/BS /S /U` declares is drawn back into the
+ * regenerated appearance from the widget's own `/BS /W` and `/MK /BC`. What
+ * that reconstructs is the source's own stream: width defaults to 1, the stroke
+ * is centred at `/W / 2`, and the two Pennsylvania widgets ship exactly
+ * `0 G 0 0.5 m <bbox width> 0.5 l s`.
+ *
+ * TWO INDEPENDENT SIGNALS MUST AGREE before a widget is touched. The widget has
+ * to DECLARE an underline in `/BS /S`, and its shipped `/AP /N` has to paint no
+ * rectangle. Where the two disagree -- a widget declaring `/U` whose own
+ * appearance draws a box -- the form contradicts itself, and honouring either
+ * signal would change what the court's own form shows; those are refused and
+ * counted, never repaired. Anything unreadable is refused on the same terms the
+ * rest of this module refuses: refusing is the answer the pipeline already
+ * gives.
+ */
+
+/**
+ * The operators of a content stream, with strings, names, numbers and comments
+ * skipped, so `re` inside `/Frame` or inside `(a re b)` is never read as the
+ * rectangle operator.
+ */
+function contentStreamOperators(text) {
+  const operators = [];
+  let i = 0;
+  const isDelimiter = (c) => c === undefined || " \t\r\n\f\0()<>[]{}/%".includes(c);
+  while (i < text.length) {
+    const c = text[i];
+    if (" \t\r\n\f\0".includes(c)) { i += 1; continue; }
+    if (c === "%") { while (i < text.length && text[i] !== "\n" && text[i] !== "\r") i += 1; continue; }
+    if (c === "(") {
+      let depth = 1; i += 1;
+      while (i < text.length && depth > 0) {
+        if (text[i] === "\\") { i += 2; continue; }
+        if (text[i] === "(") depth += 1;
+        else if (text[i] === ")") depth -= 1;
+        i += 1;
+      }
+      continue;
+    }
+    if (c === "<") { // a hex string, or the start of a dictionary
+      if (text[i + 1] === "<") { i += 2; continue; }
+      while (i < text.length && text[i] !== ">") i += 1;
+      i += 1; continue;
+    }
+    if (c === ">") { i += text[i + 1] === ">" ? 2 : 1; continue; }
+    if (c === "/") { i += 1; while (!isDelimiter(text[i])) i += 1; continue; }
+    if ("[]{}".includes(c)) { i += 1; continue; }
+    let token = "";
+    while (!isDelimiter(text[i])) { token += text[i]; i += 1; }
+    if (token === "") { i += 1; continue; }
+    // A number is an operand, never an operator.
+    if (/^[+-]?(\d+\.?\d*|\.\d+)$/.test(token)) continue;
+    operators.push(token);
+  }
+  return operators;
+}
+
+const PATH_PAINTING_OPERATORS = new Set(["S", "s", "f", "F", "f*", "B", "B*", "b", "b*"]);
+
+/**
+ * Does the appearance the SOURCE ships for this widget paint a box?
+ *
+ * Answered from the operators of the stream, not from a substring of it, and
+ * the distinction that matters is how many SEGMENTS a painted subpath has. A
+ * box is `re`, which constructs one in a single operator, or a painted subpath
+ * of three or more segments -- which is how pdf-lib itself draws a border, as
+ * `0 0 m 0 h l w h l w 0 l h S`. A rule is one segment: `0 0.5 m <w> 0.5 l s`,
+ * which is what the two Pennsylvania widgets ship. `s` is not by itself a box;
+ * it closes the subpath before stroking, and closing a two-point line draws it
+ * back over itself.
+ *
+ * Returns `null` -- meaning "not answerable", which every caller must treat as
+ * "paints a box" -- for a widget with no `/AP`, an `/AP /N` that is a state
+ * dictionary rather than a stream, or a stream that cannot be decoded.
+ */
+const PATH_SEGMENT_OPERATORS = new Set(["l", "c", "v", "y"]);
+const BOX_SUBPATH_SEGMENTS = 3;
+
+export function sourceAppearancePaintsRectangle(pdfDoc, widget) {
+  const ap = widget.dict.lookup(PDFName.of("AP"));
+  if (!(ap instanceof PDFDict)) return null;
+  const normal = pdfDoc.context.lookup(ap.get(PDFName.of("N")));
+  if (!(normal instanceof PDFRawStream)) return null;
+  let text;
+  try { text = new TextDecoder().decode(decodePDFRawStream(normal).decode()); } catch { return null; }
+  let segments = 0;
+  let widest = 0;
+  let sawRectangle = false;
+  for (const operator of contentStreamOperators(text)) {
+    if (operator === "re") { sawRectangle = true; continue; }
+    if (operator === "m") { widest = Math.max(widest, segments); segments = 0; continue; }
+    if (PATH_SEGMENT_OPERATORS.has(operator)) { segments += 1; continue; }
+    if (PATH_PAINTING_OPERATORS.has(operator)) {
+      widest = Math.max(widest, segments);
+      // A path constructed with `re` and then painted is a box, whatever else
+      // the subpath counting says.
+      if (sawRectangle) return true;
+      segments = 0;
+      continue;
+    }
+    if (operator === "n") { sawRectangle = false; widest = Math.max(widest, segments); segments = 0; }
+  }
+  widest = Math.max(widest, segments);
+  return widest >= BOX_SUBPATH_SEGMENTS;
+}
+
+/** The stroke-colour operators for a `/MK /BC` array, or null if it sets none. */
+function strokeColorOperatorsFor(borderColor) {
+  if (!(borderColor instanceof PDFArray)) return null;
+  const components = borderColor.asArray().map((n) => (n instanceof PDFNumber ? n.asNumber() : NaN));
+  if (components.some((n) => !Number.isFinite(n))) return null;
+  // 12.5.6.19: an empty array means no colour, and so no border is painted.
+  if (components.length === 1) return `${components[0]} G`;
+  if (components.length === 3) return `${components.join(" ")} RG`;
+  if (components.length === 4) return `${components.join(" ")} K`;
+  return null;
+}
+
+/**
+ * The underline a widget DECLARES, or null when it declares none.
+ *
+ * Reads only `/BS /S`, `/BS /W` and `/MK /BC`. A width of 0 paints no border at
+ * all under 12.5.4, and a `/BC` that sets no colour paints none under 12.5.6.19;
+ * both are declarations of nothing, and nothing is what they get.
+ */
+export function declaredUnderlineBorder(widget) {
+  const bs = widget.dict.lookup(PDFName.of("BS"));
+  if (!(bs instanceof PDFDict)) return null;
+  const style = bs.get(PDFName.of("S"));
+  if (!(style instanceof PDFName) || style.asString() !== "/U") return null;
+  const declaredWidth = bs.lookup(PDFName.of("W"));
+  const width = declaredWidth instanceof PDFNumber ? declaredWidth.asNumber() : 1;
+  if (!Number.isFinite(width) || width <= 0) return null;
+  const mk = widget.dict.lookup(PDFName.of("MK"));
+  if (!(mk instanceof PDFDict)) return null;
+  const stroke = strokeColorOperatorsFor(mk.lookup(PDFName.of("BC")));
+  if (stroke === null) return null;
+  return { width, stroke };
+}
+
+/**
+ * Before appearances are generated: takes `/MK /BC` off every widget of a
+ * WRITTEN text field that declares an underline and ships an appearance
+ * agreeing there is no box, and returns what has to be drawn back afterwards.
+ *
+ * Only a written field, because an unwritten one is the other remedy's
+ * business: `suppressSynthesizedWidgetBorders` keeps or clears an unwritten
+ * widget and never reaches a written one, and this never reaches an unwritten
+ * one. The two do not overlap and neither changes what the other does.
+ */
+export function takeDeclaredUnderlineBordersOffWidgets(pdfDoc, form, writtenFields = new Set()) {
+  const pending = [];
+  const report = { widgets: [], refusedContradictoryAppearance: [], refusedUnreadableAppearance: [] };
+  for (const field of form.getFields()) {
+    const name = field.getName();
+    if (!writtenFields.has(name)) continue;
+    // A text field only. A button's border is drawn by its own state stream and
+    // a chooser's by a path this pipeline does not regenerate.
+    if (!(field instanceof PDFTextField)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      const underline = declaredUnderlineBorder(widget);
+      if (!underline) continue;
+      const paintsRectangle = sourceAppearancePaintsRectangle(pdfDoc, widget);
+      if (paintsRectangle === null) { report.refusedUnreadableAppearance.push(name); continue; }
+      if (paintsRectangle === true) { report.refusedContradictoryAppearance.push(name); continue; }
+      const mk = widget.dict.lookup(PDFName.of("MK"));
+      mk.delete(PDFName.of("BC"));
+      pending.push({ field: name, widget, underline });
+      report.widgets.push({ field: name, borderWidthPt: underline.width, stroke: underline.stroke });
+    }
+  }
+  return { pending, report };
+}
+
+/**
+ * After appearances are generated and before they are placed: draws the
+ * declared underline into each regenerated appearance.
+ *
+ * The line is drawn in the appearance's own /BBox space, which is the space the
+ * source's own stream draws its rule in, and it is drawn LAST so it cannot be
+ * clipped away by the text clip pdf-lib emits. Its own `q`/`Q` leaves the
+ * graphics state exactly as it found it.
+ */
+export function drawDeclaredUnderlineBorders(pdfDoc, pending) {
+  const drawn = [];
+  for (const { field, widget, underline } of pending) {
+    const ap = widget.dict.lookup(PDFName.of("AP"));
+    if (!(ap instanceof PDFDict)) continue;
+    const normal = pdfDoc.context.lookup(ap.get(PDFName.of("N")));
+    if (!normal || typeof normal.push !== "function") continue;
+    const bbox = normal.dict?.lookup?.(PDFName.of("BBox"));
+    if (!(bbox instanceof PDFArray)) continue;
+    const [x0, , x1] = bbox.asArray().map((n) => (n instanceof PDFNumber ? n.asNumber() : NaN));
+    if (!Number.isFinite(x0) || !Number.isFinite(x1)) continue;
+    const y = underline.width / 2;
+    const operators = ["q", underline.stroke, `${underline.width} w`, "[] 0 d",
+      `${x0} ${y} m`, `${x1} ${y} l`, "S", "Q"];
+    normal.push(...operators.map((operator) => PDFOperator.of(operator)));
+    drawn.push({ field, fromPt: [x0, y], toPt: [x1, y], widthPt: underline.width });
+  }
+  return drawn;
+}
+
+/**
  * Decides, per field, what survives into the flattened page.
  *
  * `writtenFields` are the fields this run actually bound a participant value
@@ -1109,7 +1349,33 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    * packet leaves for the participant to answer is ink the court's form does
    * not print, wherever it occurs.
    */
-  suppressSynthesizedWidgetBorders = false } = {}) {
+  suppressSynthesizedWidgetBorders = false,
+  /*
+   * Whether a WRITTEN text field's regenerated appearance honours the border
+   * STYLE its widget declares in `/BS /S`, instead of pdf-lib's unconditional
+   * rectangle.
+   *
+   * Off by default and deliberately, on exactly the reasoning the four options
+   * above give: the families sharing this module are rebuilt by different
+   * workers at different times, and a repair lane holding one family does not
+   * get to decide what the others' next rebuild produces. A caller that does
+   * not pass this keeps the bytes it has, to the byte -- and so does a widget
+   * that declares no `/BS /S /U`, an unwritten field, a field that is not a
+   * text field, and a widget whose own shipped appearance contradicts its
+   * declared style. See takeDeclaredUnderlineBordersOffWidgets and
+   * drawDeclaredUnderlineBorders for what each half refuses.
+   *
+   * This does NOT overlap suppressSynthesizedWidgetBorders. That option acts
+   * only on a field this run did not write; this one acts only on a field this
+   * run did write. A caller may pass both, and each still does exactly what it
+   * says on the fields it owns.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. `/BS /S` is a clause of the
+   * specification, not a judgement about ink, and a court's writing rule
+   * delivered as a boxed field is wrong wherever it occurs.
+   */
+  honorWidgetBorderStyle = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -1132,6 +1398,16 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
         { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders });
+      // Before appearances are generated, for the same reason the two steps
+      // around it run there: pdf-lib builds the border into the stream it
+      // generates from `/MK /BC`, so the colour comes off first and the line
+      // the style actually declares goes back on afterwards.
+      let pendingUnderlines = [];
+      if (honorWidgetBorderStyle) {
+        const taken = takeDeclaredUnderlineBordersOffWidgets(pdfDoc, form, writtenFields);
+        pendingUnderlines = taken.pending;
+        report.declaredWidgetBorderStyles = taken.report;
+      }
       // Before appearances are generated, for the same reason the background
       // strip runs before them: a state supplied here is a state pdf-lib does
       // not regenerate, whereas a stream replaced afterwards would be editing a
@@ -1143,6 +1419,12 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.
       form.updateFieldAppearances(defaultFont ?? undefined);
+      // AFTER the appearance exists and before it is measured or placed: the
+      // underline is part of the appearance, so a mapping fitted below must be
+      // computed with it already there.
+      if (honorWidgetBorderStyle && pendingUnderlines.length > 0) {
+        report.declaredWidgetBorderStyles.drawn = drawDeclaredUnderlineBorders(pdfDoc, pendingUnderlines);
+      }
       // AFTER appearances are generated and immediately before they are placed:
       // the mapping has to be computed against the streams that will actually
       // be stamped, including any pdf-lib has just generated, and flatten()'s

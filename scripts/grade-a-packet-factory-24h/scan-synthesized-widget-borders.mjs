@@ -45,6 +45,21 @@
 // that governs it. Widgets the source marks Hidden or NoView are not counted
 // either: they are dropped before any disposition is read.
 //
+// FIX85 ADDED A SECOND POPULATION, BEHIND --written, AND CHANGED NOTHING ABOUT
+// THE FIRST. The condition above is defined over fields a family does NOT
+// write. Its mirror image is a field the family DOES write whose widget carries
+// `/MK /BC` and whose shipped `/AP /N` paints no box: pdf-lib regenerates that
+// appearance for the value, reads `/MK /BC`, and strokes a rectangle where the
+// court's own form draws something else -- Pennsylvania's Rule 490 order draws
+// a single writing rule at two such widgets, delivered as about 3,157 and 3,244
+// dark pixels of black box per fixture. Run with --written this scan counts
+// that population and writes it to fix85/WRITTEN_MK_BORDER_COHORT.json; run
+// without it, it writes exactly what it wrote before, to the same place.
+//
+// The two conditions are measured with the FINALIZER'S OWN predicates, imported
+// rather than copied, so a cohort cannot drift from what the option would
+// actually do to the family listed in it.
+//
 // SOURCES ARE RESOLVED BY CONTENT HASH, NEVER BY DECLARED PATH. A receipt's
 // pathInArchive says where the bytes were when the family was built; opening it
 // would measure whatever is there now under a name the receipt happens to
@@ -58,12 +73,16 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFName, PDFDict, PDFArray, PDFNumber, PDFRawStream, PDFRef } = require("pdf-lib");
+const { sourceAppearancePaintsRectangle, declaredUnderlineBorder } = await import(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "rcap-official-forms", "rcap-active-content.mjs"));
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const CENSUS = path.join(rootDir, "data/rcap-all50/overlays/census-v1");
 const MASTER_QUEUE = path.join(rootDir, "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
 const DEFAULT_OUT = path.join(rootDir, "data/rcap-grade-a/packet-factory-24h/fix80");
 const OPT_IN_OPTION = "suppressSynthesizedWidgetBorders";
+const WRITTEN_OUT = path.join(rootDir, "data/rcap-grade-a/packet-factory-24h/fix85");
+const WRITTEN_OPT_IN_OPTION = "honorWidgetBorderStyle";
 
 const ANNOT_FLAG_HIDDEN = 1 << 1;
 const ANNOT_FLAG_NOVIEW = 1 << 5;
@@ -203,16 +222,91 @@ async function measure(bytes, writtenFieldNames) {
   return out;
 }
 
+/**
+ * The mirror population: a WRITTEN text field whose widget carries `/MK /BC`
+ * and whose shipped `/AP /N` paints no box.
+ *
+ * A written field always reaches form.updateFieldAppearances() with a
+ * regenerated appearance -- that is how the value gets onto the paper -- so
+ * `/MK /BC` is always read for it, and the question is only what the court's
+ * own form draws there. Where the shipped appearance draws a box, honouring
+ * `/MK /BC` coincides with the form and nothing is exposed. Where it draws a
+ * rule, a leader or nothing, the regenerated box is ink the form does not
+ * print.
+ *
+ * Both judgements come from the finalizer's own exported predicates, so this
+ * counts what the option would actually do and not an approximation of it.
+ * Widgets are split by whether the form DECLARES the mismatch in `/BS /S`:
+ *
+ *   DECLARED_UNDERLINE   `/BS << /S /U >>`, and the shipped appearance agrees.
+ *                        honorWidgetBorderStyle repairs exactly these.
+ *   UNDECLARED_MISMATCH  the widget declares a box style, or declares no style
+ *                        at all and so defaults to solid, yet its own shipped
+ *                        appearance draws no box. The form contradicts itself;
+ *                        the option refuses these and so does this report.
+ */
+async function measureWritten(bytes, writtenFieldNames) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const out = { widgets: 0, writtenWidgetsWithBorderCharacteristics: 0,
+    declaredUnderline: 0, undeclaredMismatch: 0, appearanceNotReadable: 0, exposed: [] };
+  let form;
+  try { form = doc.getForm(); } catch { return { ...out, unreadableForm: true }; }
+  for (const field of form.getFields()) {
+    const name = field.getName();
+    const dict = field.acroField.dict;
+    const fieldType = String(dict.lookup(PDFName.of("FT"))?.toString?.() ?? "");
+    // A text field only, on exactly the terms the option acts on: a button's
+    // border is drawn by its own state stream and a chooser's by a path this
+    // pipeline does not regenerate for a written value.
+    if (fieldType !== "/Tx") continue;
+    if (writtenFieldNames === null || !writtenFieldNames.has(name)) continue;
+    for (const widget of field.acroField.getWidgets()) {
+      out.widgets += 1;
+      if (isNonDisplayed(widget)) continue;
+      const mk = widget.dict.lookup(PDFName.of("MK"));
+      if (!(mk instanceof PDFDict) || mk.get(PDFName.of("BC")) === undefined) continue;
+      out.writtenWidgetsWithBorderCharacteristics += 1;
+
+      const paintsBox = sourceAppearancePaintsRectangle(doc, widget);
+      if (paintsBox === null) { out.appearanceNotReadable += 1; continue; }
+      if (paintsBox === true) continue;
+
+      const bs = widget.dict.lookup(PDFName.of("BS"));
+      const style = bs instanceof PDFDict ? bs.get(PDFName.of("S")) : undefined;
+      const declaredStyle = style instanceof PDFName ? style.asString() : null;
+      const underline = declaredUnderlineBorder(widget);
+      const why = underline ? "DECLARED_UNDERLINE" : "UNDECLARED_MISMATCH";
+      if (underline) out.declaredUnderline += 1; else out.undeclaredMismatch += 1;
+      const rect = widget.getRectangle();
+      out.exposed.push({ field: name, fieldType, why,
+        declaredBorderStyle: declaredStyle,
+        declaredBorderStyleMeaning: declaredStyle === null
+          ? "no /BS at all, so the default solid style: a border around the whole rectangle"
+          : ({ "/U": "a single line along the bottom of the annotation rectangle",
+            "/S": "a solid border around the whole rectangle",
+            "/D": "a dashed border around the whole rectangle",
+            "/B": "a beveled border around the whole rectangle",
+            "/I": "an inset border around the whole rectangle",
+            "/N": "no border" }[declaredStyle] ?? "a style this scan does not name"),
+        borderWidthPt: underline ? underline.width : null,
+        repairedByTheOptIn: Boolean(underline),
+        rect: { x: +rect.x.toFixed(2), y: +rect.y.toFixed(2),
+          width: +Math.abs(rect.width).toFixed(2), height: +Math.abs(rect.height).toFixed(2) } });
+    }
+  }
+  return out;
+}
+
 /** Whether this family's own builder passes the opt-in option, as committed. */
-function builderOptsIn(buildScript) {
+function builderOptsIn(buildScript, option = OPT_IN_OPTION) {
   if (!buildScript) return { buildScript: null, optsIn: false, why: "MASTER_QUEUE records no build script for this family" };
   const full = path.join(rootDir, buildScript);
   if (!fs.existsSync(full)) return { buildScript, optsIn: false, why: "the build script MASTER_QUEUE names is not in this tree" };
   const text = fs.readFileSync(full, "utf8");
   // Read as the caller passes it, so a mention in a comment is not mistaken for
   // a call site.
-  const optsIn = new RegExp(`${OPT_IN_OPTION}\\s*:\\s*true`).test(text);
-  return { buildScript, optsIn, why: optsIn ? `passes ${OPT_IN_OPTION}: true` : `does not pass ${OPT_IN_OPTION}` };
+  const optsIn = new RegExp(`${option}\\s*:\\s*true`).test(text);
+  return { buildScript, optsIn, why: optsIn ? `passes ${option}: true` : `does not pass ${option}` };
 }
 
 /**
@@ -224,24 +318,55 @@ function builderOptsIn(buildScript) {
  * unknown is reported as NOT_MEASURABLE_HERE rather than as a family that wrote
  * nothing.
  */
-function writtenFieldsBySourceDigest(dir) {
+function writtenFieldsBySourceDigest(dir, receipt = null) {
   const proof = readJson(path.join(dir, "reports/actual-writes.json"));
-  if (!proof || !Array.isArray(proof.documents)) return null;
+  if (!proof) return null;
   const byDigest = new Map();
-  for (const doc of proof.documents) {
-    const digest = typeof doc.sourceSha256 === "string" ? doc.sourceSha256.toLowerCase() : null;
-    if (!digest) continue;
+  const add = (digest, writes) => {
+    if (!digest) return;
     const names = byDigest.get(digest) ?? new Set();
-    for (const write of doc.actualWrites ?? []) if (write.field) names.add(write.field);
+    for (const write of writes ?? []) if (write?.field) names.add(write.field);
     byDigest.set(digest, names);
+  };
+  // Schema one: one entry per SOURCE, carrying the source digest directly.
+  if (Array.isArray(proof.documents)) {
+    for (const doc of proof.documents) {
+      add(typeof doc.sourceSha256 === "string" ? doc.sourceSha256.toLowerCase() : null, doc.actualWrites);
+    }
+    return byDigest;
   }
-  return byDigest;
+  /*
+   * Schema two, which the shared EAST host emits and which this scan could not
+   * read at all until FIX85: one entry per delivered ARTIFACT, keyed by the
+   * artifact's own digest and naming the source only by documentId. Every
+   * family on that host -- the five nj_*, the Pennsylvania and New York and
+   * Rhode Island sets among them -- was therefore reported
+   * NOT_MEASURABLE_HERE, including the family whose two widgets this option
+   * exists for. The source digest is recovered from the receipt's own
+   * documentId, which is the same identifier the artifact names, and a
+   * documentId the receipt does not carry stays unresolved rather than guessed.
+   */
+  if (Array.isArray(proof.artifacts)) {
+    const sourceDigestByDocumentId = new Map();
+    for (const doc of receipt?.documents ?? []) {
+      if (typeof doc.documentId === "string" && typeof doc.sha256 === "string") {
+        sourceDigestByDocumentId.set(doc.documentId, doc.sha256.toLowerCase());
+      }
+    }
+    for (const artifact of proof.artifacts) {
+      add(sourceDigestByDocumentId.get(artifact.documentId) ?? null, artifact.written);
+    }
+    return byDigest;
+  }
+  return null;
 }
 
 async function main() {
   const argv = process.argv.slice(2);
+  const written = argv.includes("--written");
   const outIndex = argv.indexOf("--out");
-  const outDir = outIndex >= 0 ? path.resolve(argv[outIndex + 1]) : DEFAULT_OUT;
+  const outDir = outIndex >= 0 ? path.resolve(argv[outIndex + 1]) : (written ? WRITTEN_OUT : DEFAULT_OUT);
+  const option = written ? WRITTEN_OPT_IN_OPTION : OPT_IN_OPTION;
 
   const roots = custodyRoots();
   if (roots.length === 0) {
@@ -267,7 +392,7 @@ async function main() {
       if (fixtures.length === 0) continue;
 
       const familyId = receipt.familyId ?? dirName;
-      const writesByDigest = writtenFieldsBySourceDigest(dir);
+      const writesByDigest = writtenFieldsBySourceDigest(dir, receipt);
       const documents = [];
       for (const doc of receipt.documents ?? []) {
         const declaredSha = typeof doc.sha256 === "string" ? doc.sha256.toLowerCase() : null;
@@ -293,7 +418,8 @@ async function main() {
         row.resolvedFrom = path.relative(rootDir, hits[0]);
         row.writtenFields = writesByDigest.get(declaredSha).size;
         try {
-          Object.assign(row, await measure(fs.readFileSync(hits[0]), writesByDigest.get(declaredSha)));
+          const measurement = written ? measureWritten : measure;
+          Object.assign(row, await measurement(fs.readFileSync(hits[0]), writesByDigest.get(declaredSha)));
         } catch (error) {
           row.resolution = "NOT_MEASURABLE_HERE";
           row.why = `resolved by hash but could not be read as a PDF form: ${error.message}`;
@@ -310,14 +436,23 @@ async function main() {
         familyDirectory: path.relative(rootDir, dir),
         implementationStrategy: receipt.implementationStrategy ?? null,
         masterQueueState: queueByFamily.get(familyId)?.state ?? "NOT_IN_MASTER_QUEUE",
-        builder: builderOptsIn(queueByFamily.get(familyId)?.buildScript ?? null),
+        builder: builderOptsIn(queueByFamily.get(familyId)?.buildScript ?? null, option),
         documentsDeclared: documents.length,
         documentsMeasured: measured.length,
         documentsNotMeasurableHere: notMeasurable.length,
-        unwrittenWidgetsWithBorderCharacteristics:
-          measured.reduce((n, d) => n + (d.unwrittenWidgetsWithBorderCharacteristics ?? 0), 0),
-        widgetsExposedNoSourceAppearance: measured.reduce((n, d) => n + (d.noSourceAppearance ?? 0), 0),
-        widgetsExposedAppearanceClearedByDrop: measured.reduce((n, d) => n + (d.appearanceClearedByDrop ?? 0), 0),
+        ...(written ? {
+          writtenWidgetsWithBorderCharacteristics:
+            measured.reduce((n, d) => n + (d.writtenWidgetsWithBorderCharacteristics ?? 0), 0),
+          widgetsExposedDeclaredUnderline: measured.reduce((n, d) => n + (d.declaredUnderline ?? 0), 0),
+          widgetsExposedUndeclaredMismatch: measured.reduce((n, d) => n + (d.undeclaredMismatch ?? 0), 0),
+          widgetsWhoseShippedAppearanceIsNotReadable:
+            measured.reduce((n, d) => n + (d.appearanceNotReadable ?? 0), 0)
+        } : {
+          unwrittenWidgetsWithBorderCharacteristics:
+            measured.reduce((n, d) => n + (d.unwrittenWidgetsWithBorderCharacteristics ?? 0), 0),
+          widgetsExposedNoSourceAppearance: measured.reduce((n, d) => n + (d.noSourceAppearance ?? 0), 0),
+          widgetsExposedAppearanceClearedByDrop: measured.reduce((n, d) => n + (d.appearanceClearedByDrop ?? 0), 0)
+        }),
         widgetsExposed: exposed.length,
         inCohort: exposed.length > 0,
         exposedWidgets: exposed,
@@ -337,7 +472,75 @@ async function main() {
     byJurisdiction[f.jurisdiction].familyIds.push(f.familyId);
   }
 
-  const report = {
+  const report = written ? {
+    schemaVersion: "rcap-written-widget-border-cohort/v1",
+    generatedBy: "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs --written",
+    lane: "FIX85",
+    readOnly: true,
+    question: "Which DELIVERING families bind an official form carrying a widget the family DOES write, with "
+      + "/MK /BC, whose own shipped /AP /N paints no box -- so regenerating the appearance for the value strokes "
+      + "a rectangle where the court's form draws a rule, a leader or nothing?",
+    resolution: {
+      method: "SHA-256 of the bytes, looked up in an index of every mounted custody. The receipt's declared path is "
+        + "recorded and never opened. Which fields a family wrote is read from its own delivered "
+        + "reports/actual-writes.json, which is read back from the artifact bytes. Whether a shipped appearance "
+        + "paints a box, and whether a widget declares an underline, are decided by the FINALIZER'S OWN exported "
+        + "predicates (sourceAppearancePaintsRectangle and declaredUnderlineBorder in "
+        + "scripts/rcap-official-forms/rcap-active-content.mjs), imported rather than copied, so this cannot "
+        + "drift from what the option would do.",
+      custodyRootsIndexed: roots,
+      filesIndexed: files
+    },
+    whatIsNotCounted: "A field the family did NOT write -- that is the other population, in fix80's own cohort. "
+      + "Anything that is not a text field. A widget the source marks Hidden or NoView. A widget with no /MK /BC. "
+      + "And a widget whose own shipped appearance DOES paint a box, because honouring /MK /BC there coincides "
+      + "with the form: on the Pennsylvania Rule 490 order six of the eight /MK /BC widgets are exactly that.",
+    twoWaysAWidgetIsExposed: {
+      DECLARED_UNDERLINE: "the widget declares /BS << /S /U >> -- 'a single line along the bottom of the "
+        + "annotation rectangle', ISO 32000-1 12.5.4 Table 166 -- and its own shipped appearance agrees, drawing "
+        + "one rule and no box. pdf-lib's default text provider never reads /BS /S and strokes a full rectangle "
+        + "from /MK /BC anyway. honorWidgetBorderStyle repairs exactly these.",
+      UNDECLARED_MISMATCH: "the widget declares a box style, or declares no style at all and so defaults to solid, "
+        + "yet its own shipped appearance draws no box. The form contradicts itself, honouring either signal would "
+        + "change what the court's own form shows, and the option REFUSES these. They are reported so the "
+        + "population is not hidden, and repaired by nobody here."
+    },
+    optInOption: WRITTEN_OPT_IN_OPTION,
+    howThisScanWasProvedToMeasureTheRightThing:
+      "It is run against a family whose exposure was measured in ink first. VF02 measured Pennsylvania's "
+      + "pa_490_nonconviction-set at exactly two exposed widgets -- PA-RCRIM-P-490-ORDER DocketNumber and "
+      + "Defendant on page 1, about 3,157 and 3,244 dark pixels of stroked rectangle at 300 dpi -- and this scan "
+      + "returns exactly those two for that family and no third, while returning none of the six /MK /BC widgets "
+      + "on the same page whose own appearance strokes a rectangle.",
+    totals: {
+      deliveringFamilyDirectoriesScanned: families.length,
+      familiesInCohort: cohort.length,
+      familiesInCohortStillOnTheOldDefault: stillOnTheOldDefault.length,
+      familiesInCohortAlreadyOptedIn: cohort.length - stillOnTheOldDefault.length,
+      widgetsInCohort: cohort.reduce((n, f) => n + f.widgetsExposed, 0),
+      widgetsInCohortDeclaredUnderline: cohort.reduce((n, f) => n + f.widgetsExposedDeclaredUnderline, 0),
+      widgetsInCohortUndeclaredMismatch: cohort.reduce((n, f) => n + f.widgetsExposedUndeclaredMismatch, 0),
+      widgetsWhoseShippedAppearanceIsNotReadable:
+        families.reduce((n, f) => n + (f.widgetsWhoseShippedAppearanceIsNotReadable ?? 0), 0),
+      familiesWithAtLeastOneSourceNotMeasurableHere: partiallyMeasurable.length,
+      documentsNotMeasurableHere: families.reduce((n, f) => n + f.documentsNotMeasurableHere, 0)
+    },
+    byJurisdiction,
+    cohort,
+    familiesWithSourcesNotMeasurableHere: partiallyMeasurable.map((f) => ({
+      familyId: f.familyId, jurisdiction: f.jurisdiction,
+      notMeasurable: f.documents.filter((d) => d.resolution === "NOT_MEASURABLE_HERE")
+        .map((d) => ({ formNumber: d.formNumber, declaredSha256: d.declaredSha256, why: d.why }))
+    })),
+    everyFamilyScanned: families.map((f) => ({
+      familyId: f.familyId, jurisdiction: f.jurisdiction, masterQueueState: f.masterQueueState,
+      inCohort: f.inCohort, widgetsExposed: f.widgetsExposed,
+      documentsNotMeasurableHere: f.documentsNotMeasurableHere, builderOptsIn: f.builder.optsIn
+    })),
+    grantsNothing: "A cohort is a measurement. It authorizes no rebuild, no route change and no promotion, and no "
+      + "family listed here is repaired by being listed. FIX85 opted in ONE family -- pa_490_nonconviction-set, "
+      + "which it holds a grant for -- and left every other family in this file measured and untouched."
+  } : {
     schemaVersion: "rcap-synthesized-widget-border-cohort/v1",
     generatedBy: "scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs",
     lane: "FIX80",
@@ -398,14 +601,21 @@ async function main() {
   };
 
   fs.mkdirSync(outDir, { recursive: true });
-  const jsonPath = path.join(outDir, "MK_BORDER_COHORT.json");
+  const jsonPath = path.join(outDir, written ? "WRITTEN_MK_BORDER_COHORT.json" : "MK_BORDER_COHORT.json");
   fs.writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
 
   console.log(`scanned ${families.length} delivering family directories`);
-  console.log(`cohort: ${cohort.length} families, ${report.totals.widgetsInCohort} widgets `
-    + `(${report.totals.widgetsInCohortNoSourceAppearance} with no source appearance, `
-    + `${report.totals.widgetsInCohortAppearanceClearedByDrop} cleared by the drop), `
-    + `${stillOnTheOldDefault.length} still on the old default`);
+  if (written) {
+    console.log(`cohort: ${cohort.length} families, ${report.totals.widgetsInCohort} widgets `
+      + `(${report.totals.widgetsInCohortDeclaredUnderline} declaring an underline, `
+      + `${report.totals.widgetsInCohortUndeclaredMismatch} an undeclared mismatch the option refuses), `
+      + `${stillOnTheOldDefault.length} still on the old default`);
+  } else {
+    console.log(`cohort: ${cohort.length} families, ${report.totals.widgetsInCohort} widgets `
+      + `(${report.totals.widgetsInCohortNoSourceAppearance} with no source appearance, `
+      + `${report.totals.widgetsInCohortAppearanceClearedByDrop} cleared by the drop), `
+      + `${stillOnTheOldDefault.length} still on the old default`);
+  }
   console.log(`not measurable here: ${report.totals.documentsNotMeasurableHere} documents `
     + `across ${partiallyMeasurable.length} families`);
   console.log(path.relative(rootDir, jsonPath));
