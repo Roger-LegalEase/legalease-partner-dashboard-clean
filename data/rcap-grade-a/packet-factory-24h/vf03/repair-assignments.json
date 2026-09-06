@@ -1,8 +1,8 @@
 {
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
- "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL",
- "assignmentCount": 33,
+ "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL + Codex VF03 NM 2026-09-06",
+ "assignmentCount": 36,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -1085,6 +1085,98 @@
    "rasterState": "RASTER_PASS bound to these exact digests (run 33999355114). A repair moves the bytes, so a fresh central raster is owed before anything reads the repaired bytes as proven.",
    "sharedHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, the shared EAST host. All four families here are built through it and the three conviction families deliver byte-identical fixtures, so a repair to the page-19 conviction paragraph reaches all three at once and must be checked against every other family on that host.",
    "grantsNothing": "A repair assignment is a finding, not an approval. It opens no route and creates no fulfillment record."
+  },
+  {
+   "itemId": "nm_conviction-set",
+   "familyId": "nm_conviction-set",
+   "lane": "VF03",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "SELF_HELP_STOP"
+   ],
+   "decisiveDefect": "72 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 6. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "72 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 6. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    },
+    "SELF_HELP_STOP": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "Current registry holds ten stops. The packet omits the felony, Crimes Against Household Members Act, unpaid/unclear financial obligations, intervening conviction, multiple-district and justice-narrative stops; it calls the justice narrative the part only you can write. Pending charges, objections, noncitizens and exclusion offenses are discussed, but they do not supply the omitted stops. See self-help-comparison.json."
+    }
+   },
+   "exactKnownMissingFields": "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+   "requiredChange": "Resolve held full mailing-address composition and the misnamed Form 4-223 petitioner-caption mapping with source-grounded explicit semantics, preserving genuine court/signature/service protection; render the held values visibly where appropriate and correct false unavailable-fact dispositions. Carry every current nm_conviction self-help stop into participant copy and correct the narrative invitation. ",
+   "dependencyCandidates": [
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+    "scripts/rcap-nm-flat-forms/nm-shared-documents.mjs",
+    "scripts/rcap-nm-flat-forms/nm-packet-host.mjs",
+    "scripts/build-census-v1-nm_conviction-set.mjs"
+   ],
+   "dependencyNote": "Exact mapping/fact dependencies are identified for Captain scheduling; this reviewer is not authorized to edit them. Do not bypass guardrails or invent a legal decision. The waiver-source question remains independently blocked even after mapping repairs.",
+   "reverification": "Changed bytes need their own current central raster receipt and independent verification, with exact-source rebuild/source-fidelity gates. No row here self-approves a repair."
+  },
+  {
+   "itemId": "nm_identity_theft-set",
+   "familyId": "nm_identity_theft-set",
+   "lane": "VF03",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "decisiveDefect": "48 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 4, boundary 4. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "48 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 4, boundary 4. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    }
+   },
+   "exactKnownMissingFields": "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+   "requiredChange": "Resolve held full mailing-address composition and the misnamed Form 4-223 petitioner-caption mapping with source-grounded explicit semantics, preserving genuine court/signature/service protection; render the held values visibly where appropriate and correct false unavailable-fact dispositions. ",
+   "dependencyCandidates": [
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+    "scripts/rcap-nm-flat-forms/nm-shared-documents.mjs",
+    "scripts/rcap-nm-flat-forms/nm-packet-host.mjs",
+    "scripts/build-census-v1-nm_identity_theft-set.mjs"
+   ],
+   "dependencyNote": "Exact mapping/fact dependencies are identified for Captain scheduling; this reviewer is not authorized to edit them. Do not bypass guardrails or invent a legal decision. The waiver-source question remains independently blocked even after mapping repairs.",
+   "reverification": "Changed bytes need their own current central raster receipt and independent verification, with exact-source rebuild/source-fidelity gates. No row here self-approves a repair."
+  },
+  {
+   "itemId": "nm_release_without_conviction-set",
+   "familyId": "nm_release_without_conviction-set",
+   "lane": "VF03",
+   "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+   "independentReviewer": "Codex VF03 NM independent reread 2026-09-06; this reviewer authored/repaired none of these NM families. FIX79 is the separate repair author. Prior Codex FIX90 work was NC/NH only.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS"
+   ],
+   "decisiveDefect": "64 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 7. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts.",
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "status": "FAIL_REPAIR_REQUIRED",
+     "detail": "64 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 7. See known-missing-fields.json for each field and the record's admitted implementation limitation. No absence of a registry descriptor is treated as absence of an address already held in parts."
+    }
+   },
+   "exactKnownMissingFields": "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+   "requiredChange": "Resolve held full mailing-address composition and the misnamed Form 4-223 petitioner-caption mapping with source-grounded explicit semantics, preserving genuine court/signature/service protection; render the held values visibly where appropriate and correct false unavailable-fact dispositions. Also connect the held magistrate case number to its actual lower-court line without weakening the global court protection. ",
+   "dependencyCandidates": [
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+    "scripts/rcap-nm-flat-forms/nm-shared-documents.mjs",
+    "scripts/rcap-nm-flat-forms/nm-packet-host.mjs",
+    "scripts/build-census-v1-nm_release_without_conviction-set.mjs"
+   ],
+   "dependencyNote": "Exact mapping/fact dependencies are identified for Captain scheduling; this reviewer is not authorized to edit them. Do not bypass guardrails or invent a legal decision. The waiver-source question remains independently blocked even after mapping repairs.",
+   "reverification": "Changed bytes need their own current central raster receipt and independent verification, with exact-source rebuild/source-fidelity gates. No row here self-approves a repair."
   }
  ],
  "supersededLaneMembership": {
