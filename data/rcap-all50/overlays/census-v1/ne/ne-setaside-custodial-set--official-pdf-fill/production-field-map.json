@@ -183,6 +183,11 @@
         "captionOnly": false,
         "documentAcceptsFill": true,
         "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "manualCaptionTemplates": [
+          "fullcountystatementRIGHT",
+          "enter the county"
+        ],
         "completedCaptionFields": [
           "TYPEOFCOURTDROPDOWN",
           "enter the type of court"
@@ -198,7 +203,161 @@
           "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
           "method": "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed"
         },
-        "nonFilingSourceControls": []
+        "nonFilingSourceControls": [],
+        "sourceFieldEvidence": {
+          "Text2": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "defendant": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text5": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text6": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Check Box7": {
+            "pdfType": "PDFCheckBox",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "noemailreason": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "noemailreason2": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "datesigned": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "printedname": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "streetaddress": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "citystatezip": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "telephone number": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "emailaddress": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "TYPEOFCOURTDROPDOWN": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "DROPDOWNCOUNTY2": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "TYPEOFCOURTRESULTS": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "IN THE                   COURT OF"
+          },
+          "fullcountystatementRIGHT": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "                            COUNTY, NEBRASKA "
+          },
+          "enter the type of court": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              36
+            ],
+            "sourceValue": "           \r    (Enter the type of court)"
+          },
+          "enter the county": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              36
+            ],
+            "sourceValue": "\r   (Enter the county name)"
+          }
+        }
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -233,7 +392,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "reason": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the type of court",
@@ -249,7 +416,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "reason": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -266,6 +441,14 @@
           "category": null,
           "requiredBeforeFiling": false,
           "reason": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -349,11 +532,19 @@
           "page": 1,
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -679,7 +870,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",
@@ -737,6 +936,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -770,7 +977,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -787,6 +1002,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1016,7 +1239,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",
@@ -1074,6 +1305,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1107,7 +1346,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -1124,6 +1371,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1262,6 +1517,11 @@
         "captionOnly": true,
         "documentAcceptsFill": true,
         "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "manualCaptionTemplates": [
+          "fullcountystatementRIGHT",
+          "enter the county"
+        ],
         "completedCaptionFields": [
           "TYPEOFCOURTDROPDOWN",
           "enter the type of court"
@@ -1277,7 +1537,81 @@
           "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
           "method": "source option export copied to its printable display, exactly as the source calculation specifies; no JavaScript executed"
         },
-        "nonFilingSourceControls": []
+        "nonFilingSourceControls": [],
+        "sourceFieldEvidence": {
+          "Text2": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "defendant": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text4": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "TYPEOFCOURTDROPDOWN": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "DROPDOWNCOUNTY2": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "TYPEOFCOURTRESULTS": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "IN THE                   COURT OF"
+          },
+          "fullcountystatementRIGHT": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "                            COUNTY, NEBRASKA "
+          },
+          "enter the type of court": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              36
+            ],
+            "sourceValue": "           \r    (Enter the type of court)"
+          },
+          "enter the county": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              36
+            ],
+            "sourceValue": "\r   (Enter the county name)"
+          }
+        }
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -1296,7 +1630,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "reason": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the type of court",
@@ -1312,7 +1654,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "reason": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -1329,6 +1679,14 @@
           "category": null,
           "requiredBeforeFiling": false,
           "reason": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1379,11 +1737,19 @@
           "page": 1,
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -1535,7 +1901,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",
@@ -1593,6 +1967,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1626,7 +2008,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -1643,6 +2033,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1724,7 +2122,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",
@@ -1782,6 +2188,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1815,7 +2229,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the type of court",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "enter the county",
@@ -1832,6 +2254,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 8392705, read-only bit set; annotation /F 36, NoView, page 1, /Rect [276.82 659.13 380.35 685.97]) that already carries the form's own words, \"(Enter the county name)\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+            "sourceField": "enter the county",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -1971,6 +2401,11 @@
         "captionOnly": false,
         "documentAcceptsFill": false,
         "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+        "manualCaptionTemplates": [
+          "fullcountystatementRIGHT",
+          "enter the county"
+        ],
         "referenceOnly": true
       },
       "structuralClass": "flat_pdf",
@@ -2000,11 +2435,17 @@
           "effectiveLabel": "drop-down lists.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
@@ -2030,11 +2471,17 @@
           "effectiveLabel": "case number.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
@@ -2060,11 +2507,17 @@
           "effectiveLabel": "exactly as it was",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
@@ -2090,11 +2543,17 @@
           "effectiveLabel": "you are asking to",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
@@ -2120,11 +2579,17 @@
           "effectiveLabel": "have set aside and",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
@@ -2150,11 +2615,17 @@
           "effectiveLabel": "telephone number,",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
@@ -2180,11 +2651,17 @@
           "effectiveLabel": "statement carefully.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
@@ -2210,11 +2687,17 @@
           "effectiveLabel": "the box, and use the",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
@@ -2244,7 +2727,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
@@ -2274,7 +2763,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
@@ -2304,7 +2799,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
@@ -2334,7 +2835,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
@@ -2364,7 +2871,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
@@ -2390,11 +2903,17 @@
           "effectiveLabel": "signed, your address,",
           "buildPolicyReason": "boxed_entry_requires_participant_or_authorized_official_completion",
           "buildPolicyCategory": null,
-          "completenessClass": "signature_or_date_participant_completion",
-          "category": "signature_or_date_participant_completion",
-          "class": "signature_or_date_participant_completion",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
@@ -2424,7 +2943,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
@@ -2454,7 +2979,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         }
       ],
       "selectionControls": [
@@ -2482,11 +3013,17 @@
           "effectiveLabel": "drop-down lists.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
@@ -2512,11 +3049,17 @@
           "effectiveLabel": "case number.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
@@ -2542,11 +3085,17 @@
           "effectiveLabel": "exactly as it was",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
@@ -2572,11 +3121,17 @@
           "effectiveLabel": "you are asking to",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
@@ -2602,11 +3157,17 @@
           "effectiveLabel": "have set aside and",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
@@ -2632,11 +3193,17 @@
           "effectiveLabel": "telephone number,",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
@@ -2662,11 +3229,17 @@
           "effectiveLabel": "statement carefully.",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
@@ -2692,11 +3265,17 @@
           "effectiveLabel": "the box, and use the",
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
@@ -2726,7 +3305,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
@@ -2756,7 +3341,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
@@ -2786,7 +3377,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
@@ -2816,7 +3413,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
@@ -2846,7 +3449,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
@@ -2872,11 +3481,17 @@
           "effectiveLabel": "signed, your address,",
           "buildPolicyReason": "boxed_entry_requires_participant_or_authorized_official_completion",
           "buildPolicyCategory": null,
-          "completenessClass": "signature_or_date_participant_completion",
-          "category": "signature_or_date_participant_completion",
-          "class": "signature_or_date_participant_completion",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
@@ -2906,7 +3521,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
@@ -2936,7 +3557,13 @@
           "category": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "reference-only instruction-sheet example; not a participant filing blank"
+          "why": "reference-only instruction-sheet example; not a participant filing blank",
+          "sourcePresentation": {
+            "kind": "instruction_reference",
+            "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "sourceField": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         }
       ],
       "offeredAnchors": [],
@@ -2953,6 +3580,11 @@
         "captionOnly": false,
         "documentAcceptsFill": true,
         "routeKey": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+        "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+        "manualCaptionTemplates": [
+          "fullcountystatementRIGHT",
+          "enter the county"
+        ],
         "nonprintingSourceControls": [
           "Text20",
           "Text24",
@@ -2982,137 +3614,795 @@
         "nonFilingSourceControls": [
           {
             "field": "adoptionof",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "plaintiffdefendant",
+            "kind": "caption_template",
             "why": "source caption template; the defendant name is filled at the separate writable caption field"
           },
           {
             "field": "emancipationof",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "namechange",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "adultnamechangeof",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "probateof",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "firstkid",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "secondkid",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "thirdkid",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "emancipationpetitioner",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "fourthkid",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "parent",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Button4",
+            "kind": "viewer_button",
             "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
           },
           {
             "field": "Button63.3",
+            "kind": "viewer_button",
             "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
           },
           {
             "field": "Button63.2",
+            "kind": "viewer_button",
             "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
           },
           {
             "field": "Button63.1",
+            "kind": "viewer_button",
             "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
           },
           {
             "field": "Button63.0",
+            "kind": "viewer_button",
             "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
           },
           {
             "field": "Text59.1",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text59.2",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text59.3",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text59.4",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text60.1",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text60.2",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text60.3",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text60.4",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text66",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text67",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text68",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text69",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text70",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text71",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text72",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           },
           {
             "field": "Text73",
+            "kind": "hidden_widget",
             "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
           }
-        ]
+        ],
+        "sourceFieldEvidence": {
+          "Text20": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "\r\r                                                         The items in this box will NOT print on your form."
+          },
+          "Text24": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Type of Case - Check only one:"
+          },
+          "divorce": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Civil, Small Claims, Traffic, and  Criminal (includes divorce, child support, custody, etc.)"
+          },
+          "Group27": {
+            "pdfType": "PDFRadioGroup",
+            "readOnly": false,
+            "annotationFlags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "sourceValue": null
+          },
+          "Text4": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Probate"
+          },
+          "Text12": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Adoption"
+          },
+          "emancipation": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Emancipation"
+          },
+          "Text2": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Name change - Minor"
+          },
+          "Text19": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": "Name change - Adult"
+          },
+          "adoptionof": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": "IN THE MATTER OF THE ADOPTION OF:\r__________________________________,\r                                             A Minor child."
+          },
+          "plaintiffdefendant": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "________________________________,\r                                  Plaintiff/Petitioner,\rvs.\r\r________________________________,\r                           Defendant/Respondent."
+          },
+          "emancipationof": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": "IN RE EMANCIPATION OF:\r________________________________,\r                                                Petitioner."
+          },
+          "namechange": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": "IN RE NAME CHANGE OF\r__________________________________,\r__________________________________,\r__________________________________,\r__________________________________,\r                                        Minor Child(ren) \rBy Parent or Guardian\r__________________________________."
+          },
+          "adultnamechangeof": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": "IN RE NAME CHANGE OF\r_________________________________,\r                                                  Petitioner."
+          },
+          "probateof": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": "IN THE MATTER OF THE ESTATE OF:\r________________________________,\r                                                 Decedent."
+          },
+          "firstkid": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "secondkid": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "plaintiff": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "thirdkid": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "emancipationpetitioner": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "fourthkid": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "defendant": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "parent": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text38": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text39": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text40": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text41": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text43": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text44": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text45": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text46": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text47": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text48": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text49": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text50": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text51": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text52": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text74": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Button4": {
+            "pdfType": "PDFButton",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "Button63.3": {
+            "pdfType": "PDFButton",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "Button63.2": {
+            "pdfType": "PDFButton",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "Button63.1": {
+            "pdfType": "PDFButton",
+            "readOnly": false,
+            "annotationFlags": [
+              6
+            ],
+            "sourceValue": null
+          },
+          "Button63.0": {
+            "pdfType": "PDFButton",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text59.0": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": "_______________________________"
+          },
+          "Text59.1": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "_______________________________"
+          },
+          "Text59.2": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "_______________________________"
+          },
+          "Text59.3": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "_______________________________"
+          },
+          "Text59.4": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "_______________________________"
+          },
+          "Text60.0": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": "______________________________________________________________________"
+          },
+          "Text60.1": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "______________________________________________________________________"
+          },
+          "Text60.2": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "______________________________________________________________________"
+          },
+          "Text60.3": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "______________________________________________________________________"
+          },
+          "Text60.4": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": "______________________________________________________________________"
+          },
+          "Text64": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text65": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text66": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text67": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text68": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text69": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text70": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text71": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text72": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "Text73": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              6,
+              6
+            ],
+            "sourceValue": null
+          },
+          "fullcountystatementRIGHT": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "______________ COUNTY, NEBRASKA "
+          },
+          "TYPEOFCOURTRESULTS": {
+            "pdfType": "PDFTextField",
+            "readOnly": true,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": "IN THE ___________ COURT OF"
+          },
+          "TYPEOFCOURTDROPDOWN": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "DROPDOWNCOUNTY2": {
+            "pdfType": "PDFDropdown",
+            "readOnly": false,
+            "annotationFlags": [
+              0
+            ],
+            "sourceValue": null
+          },
+          "printedname": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "streetaddress": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "citystatezip": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "telephone number": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "emailaddress": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "datesigned": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4,
+              4
+            ],
+            "sourceValue": null
+          },
+          "Text1": {
+            "pdfType": "PDFTextField",
+            "readOnly": false,
+            "annotationFlags": [
+              4
+            ],
+            "sourceValue": null
+          }
+        }
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
@@ -3131,7 +4421,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "source caption template; the defendant name is filled at the separate writable caption field"
+          "reason": "source caption template; the defendant name is filled at the separate writable caption field",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "plaintiffdefendant",
+            "representedByField": "defendant",
+            "factId": "participant.full_legal_name"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipationpetitioner",
@@ -3147,7 +4445,13 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "reason": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipationpetitioner"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text44",
@@ -3291,7 +4595,15 @@
           "completenessClass": null,
           "category": null,
           "requiredBeforeFiling": false,
-          "reason": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "reason": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "datesigned",
@@ -3404,11 +4716,17 @@
           "page": 1,
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Group27"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "selectionId": "TYPEOFCOURTDROPDOWN",
@@ -3439,11 +4757,19 @@
           "page": 1,
           "buildPolicyReason": "selection_requires_participant_or_authorized_official_choice",
           "buildPolicyCategory": null,
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": null,
+          "category": null,
+          "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -3687,7 +5013,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text20"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text24",
@@ -3703,7 +5035,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text24"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "divorce",
@@ -3719,7 +5057,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "divorce"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Group27",
@@ -3735,7 +5079,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Group27"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text4",
@@ -3751,7 +5101,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text12",
@@ -3767,7 +5123,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text12"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipation",
@@ -3783,7 +5145,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipation"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text2",
@@ -3799,7 +5167,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text19",
@@ -3815,7 +5189,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text19"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "adoptionof",
@@ -3831,7 +5211,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "adoptionof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "plaintiffdefendant",
@@ -3847,7 +5233,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source caption template; the defendant name is filled at the separate writable caption field"
+          "why": "source caption template; the defendant name is filled at the separate writable caption field",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "plaintiffdefendant",
+            "representedByField": "defendant",
+            "factId": "participant.full_legal_name"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipationof",
@@ -3863,7 +5257,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipationof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "namechange",
@@ -3879,7 +5279,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "namechange"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "adultnamechangeof",
@@ -3895,7 +5301,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "adultnamechangeof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "probateof",
@@ -3911,7 +5323,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "probateof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "firstkid",
@@ -3927,7 +5345,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "firstkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "secondkid",
@@ -3943,7 +5367,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "secondkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "plaintiff",
@@ -3975,7 +5405,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "thirdkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipationpetitioner",
@@ -3991,7 +5427,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipationpetitioner"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "fourthkid",
@@ -4007,7 +5449,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "fourthkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "parent",
@@ -4023,7 +5471,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "parent"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text39",
@@ -4263,7 +5717,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.3",
@@ -4279,7 +5739,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.2",
@@ -4295,7 +5761,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.1",
@@ -4311,7 +5783,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.0",
@@ -4327,7 +5805,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.0"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.0",
@@ -4359,7 +5843,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.2",
@@ -4375,7 +5865,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.3",
@@ -4391,7 +5887,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.4",
@@ -4407,7 +5909,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.0",
@@ -4439,7 +5947,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.2",
@@ -4455,7 +5969,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.3",
@@ -4471,7 +5991,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.4",
@@ -4487,7 +6013,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text64",
@@ -4535,7 +6067,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text66"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text67",
@@ -4551,7 +6089,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text67"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text68",
@@ -4567,7 +6111,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text68"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text69",
@@ -4583,7 +6133,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text69"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text70",
@@ -4599,7 +6155,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text70"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text71",
@@ -4615,7 +6177,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text71"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text72",
@@ -4631,7 +6199,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text72"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text73",
@@ -4647,7 +6221,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text73"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "fullcountystatementRIGHT",
@@ -4664,6 +6244,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"______________ COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -4697,7 +6285,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",
@@ -4887,7 +6483,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text20"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text24",
@@ -4903,7 +6505,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text24"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "divorce",
@@ -4919,7 +6527,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "divorce"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Group27",
@@ -4935,7 +6549,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Group27"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text4",
@@ -4951,7 +6571,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text12",
@@ -4967,7 +6593,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text12"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipation",
@@ -4983,7 +6615,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipation"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text2",
@@ -4999,7 +6637,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text19",
@@ -5015,7 +6659,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank"
+          "why": "source case-selector panel control is explicitly nonprinting; not a filing blank",
+          "sourcePresentation": {
+            "kind": "nonprinting_panel",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text19"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "adoptionof",
@@ -5031,7 +6681,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "adoptionof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "plaintiffdefendant",
@@ -5047,7 +6703,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source caption template; the defendant name is filled at the separate writable caption field"
+          "why": "source caption template; the defendant name is filled at the separate writable caption field",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "plaintiffdefendant",
+            "representedByField": "defendant",
+            "factId": "participant.full_legal_name"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipationof",
@@ -5063,7 +6727,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipationof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "namechange",
@@ -5079,7 +6749,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "namechange"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "adultnamechangeof",
@@ -5095,7 +6771,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "adultnamechangeof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "probateof",
@@ -5111,7 +6793,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "probateof"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "firstkid",
@@ -5127,7 +6815,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "firstkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "secondkid",
@@ -5143,7 +6837,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "secondkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "plaintiff",
@@ -5175,7 +6875,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "thirdkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "emancipationpetitioner",
@@ -5191,7 +6897,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "emancipationpetitioner"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "fourthkid",
@@ -5207,7 +6919,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "fourthkid"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "parent",
@@ -5223,7 +6941,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "parent"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text39",
@@ -5463,7 +7187,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.3",
@@ -5479,7 +7209,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.2",
@@ -5495,7 +7231,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.1",
@@ -5511,7 +7253,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Button63.0",
@@ -5527,7 +7275,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately"
+          "why": "source viewer button, not a field to complete; printed-appearance fidelity is checked separately",
+          "sourcePresentation": {
+            "kind": "viewer_button",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Button63.0"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.0",
@@ -5559,7 +7313,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.2",
@@ -5575,7 +7335,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.3",
@@ -5591,7 +7357,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text59.4",
@@ -5607,7 +7379,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text59.4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.0",
@@ -5639,7 +7417,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.1"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.2",
@@ -5655,7 +7439,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.2"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.3",
@@ -5671,7 +7461,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.3"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text60.4",
@@ -5687,7 +7483,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text60.4"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text64",
@@ -5735,7 +7537,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text66"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text67",
@@ -5751,7 +7559,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text67"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text68",
@@ -5767,7 +7581,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text68"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text69",
@@ -5783,7 +7603,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text69"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text70",
@@ -5799,7 +7625,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text70"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text71",
@@ -5815,7 +7647,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text71"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text72",
@@ -5831,7 +7669,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text72"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "Text73",
@@ -5847,7 +7691,13 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet"
+          "why": "source marks every widget hidden; this alternate or extra-row field is not printed in this packet",
+          "sourcePresentation": {
+            "kind": "hidden_widget",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "Text73"
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT"
         },
         {
           "field": "fullcountystatementRIGHT",
@@ -5864,6 +7714,14 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "this is not a blank: it is a READ-ONLY field (/Ff 1, read-only bit set, page 1, /Rect [278.95 672.45 504.66 690.45]) that already carries the form's own words, \"______________ COUNTY, NEBRASKA\", which the form's script rewrites when the drop-down beside it is used. Writing a fact into it would replace the form's printed text rather than fill a blank.",
+          "sourcePresentation": {
+            "kind": "caption_template",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "fullcountystatementRIGHT",
+            "representedByField": "DROPDOWNCOUNTY2",
+            "manualCompanion": true
+          },
+          "completenessDisposition": "NON_FILING_SOURCE_ELEMENT",
           "measurementBasis": "widget type, /Ff, /F, /Rect, option list and source-carried value read first hand from the pinned binary on this build",
           "measuredWidget": {
             "pdfType": "text",
@@ -5897,7 +7755,15 @@
           "completenessClass": null,
           "class": null,
           "requiredBeforeFiling": false,
-          "why": "screen-only source court control; its known option is already rendered in the printable court caption"
+          "why": "screen-only source court control; its known option is already rendered in the printable court caption",
+          "sourcePresentation": {
+            "kind": "materialized_control",
+            "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+            "sourceField": "TYPEOFCOURTDROPDOWN",
+            "representedByField": "TYPEOFCOURTRESULTS",
+            "factId": "matter.court"
+          },
+          "completenessDisposition": "MATERIALIZED_SOURCE_CONTROL"
         },
         {
           "field": "DROPDOWNCOUNTY2",

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = fileURLToPath(new URL('../../../../../', import.meta.url));
@@ -62,7 +63,11 @@ for (const fixture of ['canonical', 'boundary']) {
   }
   const notice = text[3].map(row => row.text).join(' ');
   assert.ok(!notice.includes('will NOT print'), 'nonprinting source panel leaked');
-  assert.ok(notice.includes('Add next person'), 'source-printable button lost');
+  // The original source appearance uses an embedded font encoding which the
+  // small overlay text reader does not decode. Read that preserved source text
+  // with Poppler; the separate 300dpi crop test checks its complete appearance.
+  const printedNotice = execFileSync('pdftotext', ['-f', '4', '-l', '4', '-layout', path.join(family, 'fixtures', fixture + '.pdf'), '-'], { encoding: 'utf8' });
+  assert.ok(printedNotice.includes('Add next person'), 'source-printable button lost');
   const fullText = text.flat().map(row => row.text).join(' ');
   assert.ok(!fullText.includes('Example County') && !fullText.includes('Saint Bartholomew'));
   const refusals = map.maps.filter(row => ['CC-6-11', 'CC-6-11.2', 'DC-1-15'].includes(row.formNumber));
