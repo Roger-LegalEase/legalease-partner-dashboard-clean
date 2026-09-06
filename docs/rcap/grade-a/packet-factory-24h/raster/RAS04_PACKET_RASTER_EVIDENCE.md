@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `01a9cbae47148c5c582e7e5f66f9548920fd7f53`
+**Minimum required ancestor:** `2a242f7036e83b0cc5ed1728b1f0264acbe4edf2`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -240,7 +240,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf` — `f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127`
 - boundary `data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf` — `6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab`
 - expected pages 1 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### rcap-ga-guidance-implementation
 
