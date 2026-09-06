@@ -107,17 +107,6 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    },
-    "acceptanceReceiptClearedByRebuild": {
-      "was": {
-        "verdict": "RASTER_PASS",
-        "workflowRunId": "33959453003",
-        "jobId": 101289018959,
-        "artifactId": null,
-        "boundToCanonicalSha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
-        "coversTheWholeFamily": true
-      },
-      "why": "The acceptance receipt this binding carried was a central RASTER_PASS over the fixture bytes as they stood before FIX79 rebuilt this family. Those bytes are superseded, so the receipt binds nothing delivered here and is cleared rather than left pointing at a digest this directory no longer holds. A fresh central raster is owed on the new bytes; FIX79 ran none and claims none."
     }
   },
   "proposedRepresentation": {
