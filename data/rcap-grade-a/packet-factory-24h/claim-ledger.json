@@ -5553,10 +5553,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX107",
+      "lane": "FIX118",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:29:20.902Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FIX107 returned COMPLETED at 9b2b3553d: the specification's VERIFICATION rendered with blank jurat and notarial fields, bytes moved (732e7f47/87e4bf90); central raster and independent re-read owed"
     },
     {
@@ -13818,7 +13818,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "02bf76aab1fb4c573608b1e6afd00b7a909d076910a3a759ca589edb246eb7a5",
+  "claimsDigest": "d0779a7f2e3ce142b73d8e16d3c425e082e27cab620b2c32ea7b3d22cf529ca8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -48318,6 +48318,17 @@
       "previouslyReleasedAt": "2026-09-06T21:14:05.488Z",
       "transferredAt": "2026-09-06T21:14:05.949Z",
       "reason": "VF05 independently re-reads the Rhode Island Chapter 12-1.3 family after the research answered the fee input, FIX109 carried it into the guide (a9c6602b1) and central raster run 34059634969 rendered it green"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX107",
+      "toLane": "FIX118",
+      "previouslyReleasedAt": "2026-09-06T20:29:20.902Z",
+      "transferredAt": "2026-09-06T21:32:45.669Z",
+      "reason": "FIX107 returned and its worktree is removed; VF04's FAIL on ARTIFACTS at 513f43c82 (product-wiring.json and approval-request.json carry the pre-FIX107 10-page digests, the stale no-raster statement and the retired openCounselQuestion/no-verification residue) is a bounded record repair for FIX118, fixtures untouched"
     }
   ],
   "grants": [
