@@ -5673,11 +5673,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "Current independent review completed and integrated; resume existing repair lane for all definite findings, preserving source/legal holds and separate post-repair reviewer."
+      "releaseReason": "No VF02 worker executing; transfer pending source-recovered read to independent VF06 reader"
     },
     {
       "subjectType": "packet-family",
@@ -6019,10 +6019,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T03:22:13.095Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13674,7 +13674,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "41f3244b4bb9ec8b7f3193ba192c3db960e0e3f58b3d77499bd0528a33da8409",
+  "claimsDigest": "3ca92a045b900f01cfedbd82d151eebafea93d40bd0fb17a0480a4d11825018d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -31671,6 +31671,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T07:19:24.041Z",
       "reason": "Completed New Jersey exact-source repair integrated; worker finished. Prior failure retained; fresh central raster acceptance and independent reread required."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T11:22:21.357Z",
+      "reason": "No VF02 worker executing; transfer pending source-recovered read to independent VF06 reader"
     }
   ],
   "reissues": [
@@ -46162,6 +46171,28 @@
       "previouslyReleasedAt": "2026-09-06T03:26:25.287Z",
       "transferredAt": "2026-09-06T05:10:44.904Z",
       "reason": "Codex delivery_continuation3 assigned after NC independent read: exact shared VA sealing host and four outputs only, repair current omitted CCRE DOB and existing record obtain/confirm requirements. Source pins/legal decisions unchanged; changed bytes need current evidence. Shared host ownership distinct from PA/VAexp and NE."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-06T11:22:21.357Z",
+      "transferredAt": "2026-09-06T11:22:21.557Z",
+      "reason": "Resume current independent acceptance on recovered exact source bytes; unchanged valid raster retained"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-06T03:22:13.095Z",
+      "transferredAt": "2026-09-06T11:22:21.699Z",
+      "reason": "Integrated FIX90 repair; exact sources recovered, new independent reviewer on unchanged valid raster bytes"
     }
   ],
   "grants": [
