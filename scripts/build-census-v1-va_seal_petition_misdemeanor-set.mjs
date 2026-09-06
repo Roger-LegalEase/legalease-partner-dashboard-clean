@@ -463,8 +463,8 @@ const COMPONENTS = [
  *
  * This host builds four Virginia families. Exactly one of them -- the
  * misdemeanour family -- is in this lane's grant, so exactly one of them is
- * changed. `routeLabel` and `feePosture` are read with a fallback everywhere
- * they are used, so the other three families render byte-for-byte as they did.
+ * changed by that historical lane. FIX87 now assigns a human-readable
+ * routeLabel to all four families; feePosture retains its existing fallback.
  *
  * ROUTE_IDENTITY. This family printed
  * obligation:track-pathway:VA:va_seal_petition_misdemeanor:petition-based-sealing
@@ -587,6 +587,7 @@ export const FAMILY_CONFIGS = Object.freeze({
      * the census key. No key is added to the census.
      */
     routeKey: "obligation:track-only:VA:va_seal_petition_felony",
+    routeLabel: "Class 5 or 6 or larceny felony sealing - Va. Code 19.2-392.12",
     feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-petition-felony-cc-1201-complete-set",
     legalName: "Petition to Seal a Class 5 or 6 Felony or an 18.2-95 Larceny Felony, Va. Code § 19.2-392.12",
@@ -623,6 +624,7 @@ export const FAMILY_CONFIGS = Object.freeze({
      * census carries once for this packet set and the one product-wiring.json
      * already bound. The fabricated :petition-based-sealing suffix is gone. */
     routeKey: "obligation:track-only:VA:va_seal_enumerated_seven_year",
+    routeLabel: "Sealing enumerated offences - Va. Code 19.2-392.12:1(A)",
     feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-enumerated-seven-year-cc-1203-complete-set",
     legalName: "Petition to Seal an Enumerated Offence After Seven Clean Years, Va. Code § 19.2-392.12:1(A)",
@@ -649,9 +651,10 @@ export const FAMILY_CONFIGS = Object.freeze({
      * third. See the note on va_seal_petition_misdemeanor-set above. */
     registryComponentOrder: true,
     jurisdiction: "VA",
-    /* This family's printed key is the key the census carries for it, and both
+    /* This family's internal key is the key the census carries for it, and both
      * of its route records already agreed; FIX73 confirmed it and left it. */
     routeKey: "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
+    routeLabel: "Sealing an ancillary matter - Va. Code 19.2-392.12:1(B)",
     feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-ancillary-matter-only-cc-1203-complete-set",
     legalName: "Petition to Seal an Ancillary Matter Left Behind by Automatic Sealing, Va. Code § 19.2-392.12:1(B) and (J)",
@@ -1105,7 +1108,7 @@ function composedBody(componentId, config, facts, form, feePosture, stopConditio
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.");
   }
-  L.push("", `Route: ${config.routeLabel ?? config.routeKey}`);
+  L.push("", `Route: ${config.routeLabel}`);
   return L.join("\n");
 }
 
@@ -1129,12 +1132,11 @@ const COMPOSED_TEXT_WIDTH = COMPOSED_PAGE_WIDTH - 2 * COMPOSED_MARGIN;
  * against a character count, because a character count is a guess about a
  * proportional font.
  *
- * A family that declares no routeLabel keeps printing its routeKey, which is
- * what the other three families on this host do.
+ * Every family must declare a readable routeLabel; internal route keys are
+ * retained only in the machine-readable records.
  */
 async function assertRouteLabel(config) {
   const label = config.routeLabel;
-  if (label === undefined) return;
   assert.ok(typeof label === "string" && label.trim().length > 0,
     `${config.routeKey}: declares an empty routeLabel, and the packet page prints the label`);
   assert.ok(!label.includes("obligation:"),
@@ -1778,7 +1780,7 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
   }
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.", "");
-  out.push(`_Route: ${config.routeLabel ?? config.routeKey}_`);
+  out.push(`_Route: ${config.routeLabel}_`);
   return `${out.join("\n")}\n`;
 }
 
