@@ -7054,10 +7054,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T22:24:04.534Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7341,10 +7341,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "VF02 returned on 2026-09-05 and is not executing; the grant stayed live after the return"
     },
     {
       "subjectType": "packet-family",
@@ -13757,7 +13758,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "929ca4d69d4d5378e1c5c45c1fab7802bf80b019619776247ff81d66c26de7e6",
+  "claimsDigest": "9b522950067fda5cb61db9698f44f78ee728a84b63a03a20b8f7a47009421cec",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32438,6 +32439,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T18:29:59.166Z",
       "reason": "FIX98 returned COMPLETED at d1165aed5: nine obligations repaired across the three families, nine counters zero each, siblings byte-identical; independent re-read and central raster owed"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-06T18:31:45.934Z",
+      "reason": "VF02 returned on 2026-09-05 and is not executing; the grant stayed live after the return"
     }
   ],
   "reissues": [
@@ -47680,6 +47690,28 @@
       "previouslyReleasedAt": "2026-09-05T11:34:40.209Z",
       "transferredAt": "2026-09-06T18:28:37.406Z",
       "reason": "the earlier lane returned and released; the standing verdict fails only SOURCE_IDENTITY, ARTIFACTS or a stale raster receipt on committed records that drifted underneath an exact pin while the family's own entries and bytes are unchanged; FIX106 re-pins them as one lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-06T18:31:45.934Z",
+      "transferredAt": "2026-09-06T18:31:46.061Z",
+      "reason": "VF06 re-reads Wisconsin after FIX98 confirmed FIX03's repairs on the delivered bytes (receipt a54566e0 bound)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nv-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-02T22:24:04.534Z",
+      "transferredAt": "2026-09-06T18:31:46.197Z",
+      "reason": "VF06 re-reads Nevada after FIX98's 300-dpi measurement on unchanged bytes (receipt 484995dd bound)"
     }
   ],
   "grants": [
