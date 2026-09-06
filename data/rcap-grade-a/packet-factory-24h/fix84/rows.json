@@ -1,0 +1,625 @@
+{
+ "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX84",
+ "rows": [
+  {
+   "itemId": "pa_790_nonconviction-set",
+   "familyId": "pa_790_nonconviction-set",
+   "jurisdiction": "PA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "shared-host-repair",
+   "repairedByThisLane": true,
+   "lane": "FIX84",
+   "branch": "fix84-pa790-nine",
+   "baseSha": "94859431860e19d153da050b09bd7880837282a8",
+   "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared EAST host, runEastFamily)",
+   "builderEntryPoint": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+   "verdictRepaired": {
+    "lane": "VF09",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "3a2f1cf3d",
+    "repairAssignmentId": "VF09-PA-790-NONCONVICTION-2026-09-05",
+    "failedObligationNames": [
+     "COMPONENT_SET",
+     "KNOWN_PREFILLS",
+     "REQUIRED_BEFORE_FILING",
+     "PROTECTED_FIELDS",
+     "CLIPPING_AND_OVERLAP",
+     "FILING_DESTINATION",
+     "FEE_AND_WAIVER",
+     "SERVICE",
+     "SELF_HELP_STOP"
+    ]
+   },
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX84 pa_790_nonconviction-set -> CLAIM_OK FIX84 pa_790_nonconviction-set (repair, grant set 84a475e1e92cf4d2), exit 0. Asserted before any family artifact was read.",
+   "fixtureHashCheckBeforeAnyEdit": "sha256sum over fixtures/ on the clean tree, run before any measurement or edit. rule-790-petition-canonical.pdf fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594 (121134 B, 1 page); rule-790-petition-boundary.pdf 20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253 (120457 B, 1 page); rule-790-order-canonical.pdf 99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73 (195332 B, 2 pages); rule-790-order-boundary.pdf b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15 (195114 B, 2 pages). All four equal the digests the assignment names and the digests VF09 read.",
+   "obligationsRepaired": [
+    "FEE_AND_WAIVER. participant-instructions.md line 89 told the participant that \"the filing fee and whether it can be waived ... are not established in this repository\" while the controlling record settles the waiver. The sentence is gone. A new section, \"## What it costs to file\", carries the record's own words and cites them: \"County filing fees vary and are not established by statute.\" and \"No confirmed statewide schedule exists.\" (registry rules.fees and the manifest's pay_fee action), then \"In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.\" (registry rules.feeWaiver and the manifest's apply_fee_waiver action), with the manifest's own two conditions quoted -- \"Applies only when the participant cannot pay the filing fee.\" and \"Applies only where the participant seeks to proceed in forma pauperis.\" NO AMOUNT IS WRITTEN. The county range the legal review reported is carried by the record but is recorded in that same track record as an unresolved question and a release_blocker for participant_instructions, so the guide names no figure and says why, and sends the participant to the clerk of the courts they file with for that court's own charge.",
+    "SERVICE. The same deleted sentence denied service. \"## Who must be served\" now carries, quoted and cited: \"Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.\" (registry rules.service and the manifest's serve_party action); the petition's own printed page 1 sentence \"When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.\", read off the delivered bytes with pdftotext -layout rather than quoted from memory; and \"A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.\" (registry rules.notice). The word Commonwealth occurred 0 times in the guide and now occurs 10. What remains unestablished is stated as exactly that and no more: the locally accepted service method and the office address, which no held source carries.",
+    "COMPONENT_SET. The manifest names four components and the packet delivered two. pa_790_nonconviction-certificate-of-service-3 is now RENDERED as a composed component, which is what the manifest defines it as (outputStrategy custom_pleading, officialFormId null, officialSourceUrl null): fixtures/certificate-of-service-canonical.pdf and fixtures/certificate-of-service-boundary.pdf, 1 page each, on exactly the terms this host already composes the Rule 490/790 certificate for pa_490_nonconviction-set and pa_6308_underage-set. NO OFFICIAL PENNSYLVANIA FORM WAS INVENTED OR IMPLIED. It states only the governed recipient and timing the manifest itself states from Pa.R.Crim.P. 790 and leaves the office and address served, the method, the date service occurred, and the signature and its date blank; the build asserts on the decoded bytes that \"attorney for the Commonwealth\" and \"concurrently with filing\" are present and that no service method is named. All four manifest components now carry a disposition in reports/rendered-artifacts.json manifestComponentDelivery (3 rendered, 1 not_generated with a stated reason).",
+    "CLIPPING_AND_OVERLAP. The five synthesized squares are gone, measured at 300 dpi against the pinned forms: petition Checkbox2 widget 0 31 -> 0 added dark pixels and widget 1 41 -> 0; order Checkbox1 34 -> 0, Checkbox2 37 -> 0, Checkbox3 35 -> 0. On the order fixtures, ALL added ink outside a declared write box fell from 106 pixels to 0. HOW IT WAS REPAIRED, STATED PRECISELY BECAUSE THE ASSIGNMENT'S PREMISE HAS MOVED: this family did not need a new opt-in. FIX62 (commit a94634c78) already made this host pass updateFieldAppearances:false at the intermediate save and suppressSynthesizedAppearances:true on every finalizeOfficialForm call it makes, unconditionally, and a94634c78 is an ancestor of VF09's own base 3a2f1cf3d. The committed pa_790 bytes were simply built before FIX62 and never rebuilt, so VF09 correctly measured the squares on stale bytes and attributed them to a missing opt-in that by then existed. A control rebuild of the untouched tree, run before any edit of this lane, reproduces exactly that: the four fixture digests move and the squares vanish with no source change at all. FIX50's cohort file still records this family at optsIn false; that record is about the family's own builder flag and is now moot for it, and this lane did not edit that file.",
+    "PROTECTED_FIELDS. Discharged by the same rebuild, and confirmed rather than inferred. The 177 pixels VF09 attributed to the judge's three alternative-relief boxes on order page 1 are 106 by this lane's window and threshold, and they are now 0 in both order fixtures. Whole-page attribution: on both order fixtures, added dark pixels lying outside every declared write /Rect = 0 at 300 dpi against the pinned form. The three sweep exceptions were windowed individually: the CourtSignature widget's /Rect (199.361 x 28.288 at 332.692,228.400) and its unscaled 100 x 100 footprint each carry 0 added pixels in both order fixtures, so the court's own signature block carries no packet ink.",
+    "KNOWN_PREFILLS. Discharged on the second branch the repair specification allows -- \"refuse the boundary persona explicitly rather than silently\" -- because the first branch is measurably unavailable here, and the measurement is given rather than asserted. fitTextPerWidget was turned on for both documents as the assignment directs. It moves no byte on this family and the reason is measured: NO TEXT FIELD ON EITHER FORM CARRIES MORE THAN ONE WIDGET (only Checkbox2 and Check Box1 on the petition do, and they are buttons), and the module states that a single-widget field measures identically with the flag on. Each of the eight values was then measured on its own single widget with the shared fitter, and every one needs a font size BELOW the module's declared 6.0pt readable floor to fit on one line: Full Name 4.989pt, Defendant (petition) 4.431pt, CountyOf 4.243pt, Addr1 5.992pt, AddrCity 3.781pt, AddrZip 5.219pt, County (order) 5.549pt, Defendant (order) 4.921pt. Wrapping does not save them either: Full Name at 6pt needs two lines, 13.8pt of height, in an 11.324pt box. Trying the declared minimum as a final rung (evaluateDeclaredMinimumSize) changes nothing, because 6.0pt is above every one of those eight requirements -- Addr1 misses by 0.2pt of width. So the eight are not printable at a size a court could read, and the repair is that they are no longer dropped in silence. participant-instructions.md now carries \"## Values this platform holds but did not print\" with one row per value, each naming the COMPONENT (the two Defendant rows were previously two identical lines because the field name is the same on the petition and the order), the fact, the fixture, and the arithmetic the refusal was decided on -- e.g. Full Name: \"at the 6pt minimum readable size the value needs 195.6pt and the box gives 162.691pt of usable width (rectangle 166.691 x 11.324pt)\". reports/actual-writes.json carries the same measurement per row under heldButNotPrinted.measurement.",
+    "SELF_HELP_STOP. All SEVEN recorded boundaries are now carried into participant-instructions.md word for word from the registry's selfHelpBoundaries for track pa_790_nonconviction, cited, under \"## Where self-help ends\". Case-insensitive greps of the delivered guide that VF09 recorded at 0: restitution 1, limited access 1, immigration 1, \"federal, military, tribal or out-of-state\" 1, mixed case 1. Nothing is softened and no boundary is paraphrased.",
+    "FILING_DESTINATION. \"## Where to file\" now names the court the route names, specified as the record specifies it: \"File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.\" (registry rules.filing and the manifest's file action), plus the record's venue and destination.detail quoted whole. The three things filed together are named. The guide's two former references to \"the clerk of the court where the charges were filed\" are corrected to the record's own specification -- the judicial district in which the charges were DISPOSED -- and that phrase now occurs 3 times.",
+    "REQUIRED_BEFORE_FILING. \"## Documents you must obtain and attach before you file\" names both Rule 790 attachments, carried word for word from the registry's participantFilingRequirements: the Pennsylvania State Police criminal history report obtained within 60 days before filing (with the Rule 790 attachment requirement, the 60-day window and the Commonwealth-waiver exception, all inside the record's own howToObtain sentence) and the complete docket sheet for the case. The lead sentence quotes the petition's own printed checkbox. Greps VF09 recorded at 0: \"State Police\" now present, \"docket sheet\" present, \"60 days\" present."
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER ON THE NEW BYTES. This lane's rasters are local measurement only and were deleted. data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json carries no row for this family and lists it under notEligible; product-wiring.json binding.acceptanceReceipt still records a central RASTER_PASS (workflow run 33531491985, job 99936307272) bound to canonical fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594, which this repair supersedes. That receipt therefore stops binding and a fresh central raster is owed. RASTER_QUEUE.json, MASTER_QUEUE.json and product-wiring.json were NOT opened for writing by this lane; repairing an acceptance receipt is not a repair lane's authority, so it is reported here instead of edited.",
+    "INDEPENDENT VERIFICATION. This lane changed the shared host, changed this family's configuration and rebuilt these bytes, so it verifies none of them. No verdict was written or replaced and no obligation is scored here.",
+    "product-wiring.json binding.packetComponents. It lists three of the four manifest components and still omits component:pa_790_nonconviction-certificate-of-service-3, while binding.instrumentKinds already names certificate_of_service. The file is captain-installed and deliberately preserved across the builder's own reset, so this lane did not edit it. The same gap is reported in the MASTER_QUEUE row's packetComponents field and is untouched here.",
+    "THE SHARED HOST'S --self-test, WHICH FAILS AND FAILED BEFORE THIS LANE. node scripts/build-census-v1-pa_790_nonconviction-set.mjs --self-test exits non-zero on 'NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip'. Confirmed pre-existing by stashing this lane's single script edit and re-running at the same base: the identical assertion fails at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2246 before the edit and at :2482 after it. participant.state_zip is composed in factsForJurisdiction and the self-test resolves against factsCanonical; the defect arrived with FIX76 and is neither introduced nor repaired here. --check passes: CHECK PASS (6 PDFs; 8 rasters), exit 0.",
+    "THE TWO SIBLING FAMILIES THAT ALREADY DRIFT FROM THE COMMITTED TREE. pa_6308_underage-set and nj_clean_slate-set rebuild to bytes other than the committed ones on this host, before any change of this lane, and they still do afterwards -- to the SAME bytes in both cases, so this lane added nothing to their drift. Their working-tree changes were reverted and neither is committed here. Neither is repaired.",
+    "THE TWO FORM-OWNED 'Check Box1' WIDGETS ON THE PETITION. They ship their own /Off appearance, and the doubled box VF09 disclosed and did not score is unchanged: 298 and 384 added dark pixels against the pinned form as published, identical before and after this repair. Measured further here and reported rather than adjudicated: against the pinned petition rendered with /Annots and /AcroForm removed the same two windows show 748 and 696 added pixels, so the ink there is a superposition of the form's own printed box and the form's own /Off appearance rather than 0 as a pure printed-box account would predict. Both layers are the source's; this lane changed neither and re-adjudicates nothing.",
+    "FIVE MISSING SOURCE PIXELS ON ORDER PAGE 1. A one-pixel-wide, five-pixel-tall run at x 104.4pt, y 689.0-690.0pt at 300 dpi -- the left edge of the Defendant widget rectangle -- where the write's appearance overpaints a printed rule. The identical five pixels are missing on the BEFORE bytes (same coordinate set, verified equal), so it is not introduced by this repair and is not repaired by it. VF09 reported zero missing source pixels; the difference is threshold and window, not bytes.",
+    "FIX50's SYNTHESIZED_OFF_APPEARANCE_COHORT.json, which still records this family at optsIn false. The record is about the family builder's own flag; the suppression now reaches it through the host. This lane did not edit that cohort file and repaired none of the other families in it.",
+    "THE WAVE-2 LEGAL BLOCK AND ANY ROUTE PROMOTION. Nothing here promotes a route, opens commercial authority, or clears MASTER_QUEUE. VF09 answered the wave-2 block's premise; this lane only built the repair it specified."
+   ],
+   "whatChanged": {
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": [
+     "PA_790_SERVICE_CERTIFICATE and PA_790_CERTIFICATE_LINES: a composed certificate of service for this family, documentId pa_790_nonconviction-certificate-of-service-3 (exactly the manifest's componentId), wired as supplementalDocuments. No official form is bound because the manifest defines the component as composed, and none is invented.",
+     "composedComponentSection reads the rule it cites from the component (document.ruleCitation) instead of hard-coding 'Pennsylvania Rule of Criminal Procedure 490'. pa_490_nonconviction-set declares none and keeps the literal it has always rendered, so its guide is byte-identical.",
+     "guidedParticipantInstructions now receives the heldButNotPrinted list participantInstructions already computed and threw away, and renders five opt-in sections between the blanks table and the self-help section: the held-but-not-printed disclosure, fee-and-waiver, filing destination, service, and required attachments. Every one is off unless the family declares it.",
+     "requiredAttachmentsSection: a new opt-in renderer that carries a route's participantFilingRequirements word for word. The guided template's only list is derived from the AcroForm census, so a document the participant must OBTAIN has no widget and could never appear in it.",
+     "registrySelfHelpBoundaries: a new opt-in renderer that carries a route's selfHelpBoundaries word for word into the self-help section, so the record is the list rather than whatever a family's author transcribed.",
+     "guidedParticipantInstructions now calls confirmBeforeFilingLine(config) in place of the hard-coded catch-all sentence. With no section declared it returns that sentence character for character, so the three other guided families are unaffected; with sections declared it stops claiming to cover a question a section below answers.",
+     "heldButNotPrintedSection takes an opt-in `detailed` mode that names the component and states the arithmetic each refusal was decided on. The default table is unchanged, so pa_6308_underage-set -- which renders the same eight rows -- is byte-identical.",
+     "The heldButNotPrinted rows carry a `measurement` object (rect, usable width, minimum readable size, required width or height at that size) read from the finalizer's own report.fieldFinalizer.unfittable, and only for a family that opts in.",
+     "The pa_790_nonconviction-set configuration: implementationStrategy official_pdf_fill_with_custom_service_certificate; fitTextPerWidget on both documents; supplementalDocuments; componentDelivery for all four manifest roles; feeAndWaiver, filingDestination, service, requiredAttachments, selfHelpBoundariesFromRegistry and discloseHeldButNotPrinted declared; the two 'not established in this repository' clauses about the fee, the waiver and the service duty removed and replaced by carried record sentences; the clerk re-specified as the record specifies it; the fee-waiver line under 'Blanks that are not yours to fill' rewritten so it no longer implies the availability of a waiver is unknown.",
+     "NOT CHANGED: no shared finalizer, no shared text-fitting module, no field census, no source pin, no other family's configuration, no queue, no legal record, no product wiring, no claim ledger beyond this lane's own release."
+    ],
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill": [
+     "Rebuilt in full. Two new fixtures (the composed certificate, canonical and boundary) with their rasters and contact sheets; four official fixtures rebuilt; participant-instructions.md, production-field-map.json, source-receipt.json, build-findings.json and both reports regenerated."
+    ]
+   },
+   "componentTable": {
+    "manifest": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId pa_790_nonconviction-set, version 1.0.0",
+    "declared": 4,
+    "rendered": 3,
+    "notGenerated": 1,
+    "pa_790_nonconviction-primary-filing-1": "RENDERED (required). PA-RCRIM-P-790-PETITION, rule-790-petition-canonical.pdf and rule-790-petition-boundary.pdf, page 1 of each, bound by content hash fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de.",
+    "pa_790_nonconviction-proposed-order-2": "RENDERED (required). PA-RCRIM-P-790-ORDER, rule-790-order-canonical.pdf and rule-790-order-boundary.pdf, pages 1 and 2 of each, bound by content hash 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95.",
+    "pa_790_nonconviction-certificate-of-service-3": "RENDERED AS A COMPOSED COMPONENT (required), which is what the manifest defines it as. certificate-of-service-canonical.pdf 22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5 (2754 B, 1 page) and certificate-of-service-boundary.pdf c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5 (2819 B, 1 page). Recorded in reports/rendered-artifacts.json pdfs and in source-receipt.json composedComponents with sourceBinary null. Disclosed to the participant under '## The certificate of service in this packet'.",
+    "pa_790_nonconviction-fee-waiver-4": "NOT GENERATED AND SO RECORDED (conditional). PA-IFP-CCP remains render:false and is now also an entry of reports/rendered-artifacts.json componentsNotGenerated keyed by componentId with a stated reason, alongside the source-only companion entry keyed by documentId. Both entries are true and describe the same component from two channels.",
+    "whyNotComponentsNotGeneratedForTheCertificate": "The alternative the assignment allows -- recording the certificate the way PA-IFP-CCP is recorded -- was not taken, because it is only correct where the builder cannot produce the component honestly. Here it can: the manifest defines the component as composed, the recipient and timing are governed facts the manifest itself states, and this same host already composes the identical Rule 490/790 certificate for two sibling families."
+   },
+   "writes": {
+    "note": "Every write on the four official fixtures, with the size the finalizer fitted it at and where the value comes from. No write is new: the four fixtures are byte-identical to a control rebuild of the untouched tree, so this lane added no ink to any official form. The two composed certificate writes are new because the component is new.",
+    "PA-RCRIM-P-790-PETITION canonical (13 writes)": [
+     {
+      "field": "Full Name",
+      "fittedSize": 9.324,
+      "valueSource": "participant.full_legal_name, exact held fixture fact",
+      "addedDarkPx300dpi": 3193
+     },
+     {
+      "field": "Defendant",
+      "fittedSize": 8.942,
+      "valueSource": "participant.full_legal_name",
+      "addedDarkPx300dpi": 2919
+     },
+     {
+      "field": "CountyOf",
+      "fittedSize": 7.218,
+      "valueSource": "matter.county",
+      "addedDarkPx300dpi": 1616
+     },
+     {
+      "field": "Addr1",
+      "fittedSize": 9.854,
+      "valueSource": "participant.street_address",
+      "addedDarkPx300dpi": 3191
+     },
+     {
+      "field": "Addr2",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "participant.address_line_2",
+      "addedDarkPx300dpi": 2180
+     },
+     {
+      "field": "AddrCity",
+      "fittedSize": 8.916,
+      "valueSource": "participant.city",
+      "addedDarkPx300dpi": 1704
+     },
+     {
+      "field": "AddrState",
+      "fittedSize": 8.96,
+      "valueSource": "participant.state",
+      "addedDarkPx300dpi": 466
+     },
+     {
+      "field": "AddrZip",
+      "fittedSize": 8.218,
+      "valueSource": "participant.zip",
+      "addedDarkPx300dpi": 751
+     },
+     {
+      "field": "CPDocketNumber",
+      "fittedSize": 9.703,
+      "valueSource": "matter.case_number",
+      "addedDarkPx300dpi": 2495
+     },
+     {
+      "field": "DOB",
+      "fittedSize": 9.16,
+      "valueSource": "participant.date_of_birth, SHARED_EXACT_FACT_ALLOWLIST",
+      "addedDarkPx300dpi": 1680
+     },
+     {
+      "field": "Name of Arresting Agency",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.citing_or_arresting_agency, SHARED_EXACT_FACT_ALLOWLIST",
+      "addedDarkPx300dpi": 4229
+     },
+     {
+      "field": "Date of Arrest",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.arrest_date",
+      "addedDarkPx300dpi": 1601
+     },
+     {
+      "field": "Date on Complaint",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.offense_date",
+      "addedDarkPx300dpi": 1468
+     }
+    ],
+    "PA-RCRIM-P-790-PETITION boundary (7 writes)": [
+     {
+      "field": "DOB",
+      "fittedSize": 9.16,
+      "valueSource": "participant.date_of_birth",
+      "addedDarkPx300dpi": 1680
+     },
+     {
+      "field": "AddrState",
+      "fittedSize": 8.96,
+      "valueSource": "participant.state",
+      "addedDarkPx300dpi": 466
+     },
+     {
+      "field": "CPDocketNumber",
+      "fittedSize": 8.203,
+      "valueSource": "matter.case_number (37 characters, shrunk to 8.203pt and legible)",
+      "addedDarkPx300dpi": 5720
+     },
+     {
+      "field": "Addr2",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "participant.address_line_2",
+      "addedDarkPx300dpi": 2788
+     },
+     {
+      "field": "Name of Arresting Agency",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.citing_or_arresting_agency",
+      "addedDarkPx300dpi": 4229
+     },
+     {
+      "field": "Date of Arrest",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.arrest_date",
+      "addedDarkPx300dpi": 1601
+     },
+     {
+      "field": "Date on Complaint",
+      "fittedSize": "exact-measured-fact overlay",
+      "valueSource": "matter.offense_date",
+      "addedDarkPx300dpi": 1468
+     }
+    ],
+    "PA-RCRIM-P-790-ORDER canonical (7 writes)": [
+     {
+      "field": "County",
+      "page": 1,
+      "fittedSize": 10,
+      "valueSource": "matter.county",
+      "addedDarkPx300dpi": 3037
+     },
+     {
+      "field": "Defendant",
+      "page": 1,
+      "fittedSize": 11,
+      "valueSource": "participant.full_legal_name",
+      "addedDarkPx300dpi": 7511
+     },
+     {
+      "field": "DocketNumber",
+      "page": 1,
+      "fittedSize": 11,
+      "valueSource": "matter.case_number",
+      "addedDarkPx300dpi": 6403
+     },
+     {
+      "field": "PetitionerName",
+      "page": 2,
+      "fittedSize": 11,
+      "valueSource": "participant.full_legal_name",
+      "addedDarkPx300dpi": 4333
+     },
+     {
+      "field": "PetitionersAddress",
+      "page": 2,
+      "fittedSize": 11,
+      "valueSource": "participant.street_address",
+      "addedDarkPx300dpi": 3939
+     },
+     {
+      "field": "PetitionersDOB",
+      "page": 2,
+      "fittedSize": 10.351,
+      "valueSource": "participant.date_of_birth, SHARED_EXACT_FACT_ALLOWLIST",
+      "addedDarkPx300dpi": 2063
+     },
+     {
+      "field": "Docket#",
+      "page": 2,
+      "fittedSize": 11,
+      "valueSource": "matter.case_number",
+      "addedDarkPx300dpi": 3237
+     }
+    ],
+    "PA-RCRIM-P-790-ORDER boundary (5 writes)": [
+     {
+      "field": "DocketNumber",
+      "page": 1,
+      "fittedSize": 7.5,
+      "valueSource": "matter.case_number",
+      "addedDarkPx300dpi": 7957
+     },
+     {
+      "field": "PetitionerName",
+      "page": 2,
+      "fittedSize": 10,
+      "valueSource": "participant.full_legal_name (70 characters, shrunk to 10pt and legible)",
+      "addedDarkPx300dpi": 13516
+     },
+     {
+      "field": "PetitionersAddress",
+      "page": 2,
+      "fittedSize": 11,
+      "valueSource": "participant.street_address",
+      "addedDarkPx300dpi": 13425
+     },
+     {
+      "field": "PetitionersDOB",
+      "page": 2,
+      "fittedSize": 10.351,
+      "valueSource": "participant.date_of_birth",
+      "addedDarkPx300dpi": 2063
+     },
+     {
+      "field": "Docket#",
+      "page": 2,
+      "fittedSize": 7,
+      "valueSource": "matter.case_number",
+      "addedDarkPx300dpi": 4158
+     }
+    ],
+    "pa_790_nonconviction-certificate-of-service-3 (2 writes per fixture, NEW)": [
+     {
+      "field": "Printed name",
+      "fittedSize": "composed static text, 10pt Courier body of the composed pleading",
+      "valueSource": "participant.full_legal_name; proved present in the decoded PDF text operators by the build's own writtenProof"
+     },
+     {
+      "field": "Docket number",
+      "fittedSize": "composed static text",
+      "valueSource": "matter.case_number; proved present in the decoded PDF text operators"
+     }
+    ],
+    "everyWriteInsideItsBox": "Measured at 300 dpi per write, isolated on its own /Rect: every write's added ink lies inside its own rectangle. Whole-page check on both order fixtures: added dark pixels outside every declared write /Rect = 0. On both petition fixtures the only added ink outside a declared write box is 682 pixels in the two form-owned 'Check Box1' rectangles (298 + 384), which is the doubling VF09 disclosed and did not score and which is identical before and after this repair.",
+    "eightValuesHeldAndNotPrinted": [
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "Full Name",
+      "fact": "participant.full_legal_name",
+      "sizeNeededOneLine": 4.989,
+      "requiredWidthAt6pt": 195.6,
+      "usableWidth": 162.691,
+      "rect": "166.691 x 11.324"
+     },
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "Defendant",
+      "fact": "participant.full_legal_name",
+      "sizeNeededOneLine": 4.431,
+      "requiredWidthAt6pt": 195.6,
+      "usableWidth": 144.489,
+      "rect": "148.489 x 10.942"
+     },
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "CountyOf",
+      "fact": "matter.county",
+      "sizeNeededOneLine": 4.243,
+      "requiredWidthAt6pt": 167.6,
+      "usableWidth": 118.52,
+      "rect": "122.520 x 9.218"
+     },
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "Addr1",
+      "fact": "participant.street_address",
+      "sizeNeededOneLine": 5.992,
+      "requiredWidthAt6pt": 162.4,
+      "usableWidth": 162.2,
+      "rect": "166.200 x 11.854"
+     },
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "AddrCity",
+      "fact": "participant.city",
+      "sizeNeededOneLine": 3.781,
+      "requiredWidthAt6pt": 177.3,
+      "usableWidth": 111.71,
+      "rect": "115.710 x 10.916"
+     },
+     {
+      "component": "PA-RCRIM-P-790-PETITION",
+      "field": "AddrZip",
+      "fact": "participant.zip",
+      "sizeNeededOneLine": 5.219,
+      "requiredWidthAt6pt": 32.0,
+      "usableWidth": 27.855,
+      "rect": "31.855 x 10.218"
+     },
+     {
+      "component": "PA-RCRIM-P-790-ORDER",
+      "field": "County",
+      "fact": "matter.county",
+      "sizeNeededOneLine": 5.549,
+      "requiredWidthAt6pt": 167.6,
+      "usableWidth": 155.0,
+      "rect": "159.000 x 12.000"
+     },
+     {
+      "component": "PA-RCRIM-P-790-ORDER",
+      "field": "Defendant",
+      "fact": "participant.full_legal_name",
+      "sizeNeededOneLine": 4.921,
+      "requiredWidthAt6pt": 195.6,
+      "usableWidth": 160.45,
+      "rect": "164.450 x 15.043"
+     }
+    ],
+    "eightValuesDisposition": "None can be printed at or above the 6.0pt declared readable floor, so none is printed and every one is now disclosed by component, fact, fixture and arithmetic on the participant page and in reports/actual-writes.json. Nothing is truncated and nothing is written at an illegible size."
+   },
+   "sentencesAsDelivered": {
+    "whereTheyAre": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md, grepped on the delivered file after the final build.",
+    "removed": "The whole of the old line 89: \"The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.\" One clause of it survives, narrowed to what really is unestablished: \"The method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to, are not established in this repository.\" A grep of the whole family directory for \"not established in this repository\" returns exactly that one line.",
+    "feeAndWaiver": [
+     "County filing fees vary and are not established by statute. -- registry rules.fees / manifest pay_fee, quoted and cited in the guide.",
+     "No confirmed statewide schedule exists. -- same source, quoted and cited.",
+     "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide. -- registry rules.feeWaiver / manifest apply_fee_waiver, quoted and cited.",
+     "Applies only when the participant cannot pay the filing fee. -- manifest apply_fee_waiver conditionDescription, quoted.",
+     "Applies only where the participant seeks to proceed in forma pauperis. -- manifest component pa_790_nonconviction-fee-waiver-4 conditionDescription, quoted.",
+     "NO AMOUNT IS WRITTEN ANYWHERE IN THE GUIDE. grep -c for '$132' and '$215' in participant-instructions.md returns 0 for each."
+    ],
+    "service": [
+     "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790. -- registry rules.service / manifest serve_party, quoted and cited.",
+     "A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action. -- registry rules.notice, quoted and cited.",
+     "When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth. -- the pinned petition's own printed page 1, read off the delivered fixture with pdftotext -layout and quoted as the form's words."
+    ],
+    "filingDestination": [
+     "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed. -- registry rules.filing / manifest file action, quoted and cited.",
+     "The clerk of the courts of the judicial district in which the charges were disposed. Statewide rules and forms; county instruction packets and filing fees vary. -- registry venue, quoted and cited.",
+     "Clerk of the courts of the judicial district in which the charges were disposed / File the Rule 790 petition and blank expungement order with the clerk of courts. A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. The Commonwealth has 60 days after service to file a consent or objection or take no action. -- registry destination.name and destination.detail, quoted and cited."
+    ],
+    "requiredBeforeFiling": [
+     "Pennsylvania State Police criminal history report obtained within 60 days before filing -- obtained from Pennsylvania State Police. Required before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it. -- registry participantFilingRequirements, quoted and cited.",
+     "Complete docket sheet for the case -- obtained from Clerk of courts, or the Unified Judicial System web docket sheets. Required before filing. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count. -- same source, quoted and cited.",
+     "I have attached a copy of my Pennsylvania State Police Criminal History which I have obtained within 60 days before filing this petition -- the petition's own printed checkbox, read off the delivered page."
+    ],
+    "selfHelpBoundaries": [
+     "Any charge in the case resulted in a conviction, making this a mixed case rather than a clean non-conviction.",
+     "The attorney for the Commonwealth files an objection, which puts the petition before the court on a contested basis.",
+     "Fines, costs or restitution remain unpaid, because Rule 790 requires the payment status to be stated.",
+     "Limited access has already attached to the record and the choice between sealing and the stronger expungement remedy matters to the participant.",
+     "The participant has immigration exposure.",
+     "The records of concern are federal, military, tribal or out-of-state.",
+     "If the attorney for the Commonwealth objects, self-help stops and the participant is referred to counsel.",
+     "All seven carried word for word from registry selfHelpBoundaries for track pa_790_nonconviction, cited in the guide. Nothing added, nothing softened."
+    ],
+    "grepProofOnTheDeliveredGuide": {
+     "In forma pauperis relief is available": 1,
+     "published statewide": 1,
+     "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.": 1,
+     "Within 60 days after service": 1,
+     "clerk of the courts of the judicial district in which the charges were disposed": 3,
+     "Pennsylvania State Police criminal history report obtained within 60 days before filing": 1,
+     "Complete docket sheet for the case": 1,
+     "immigration exposure": 1,
+     "restitution": 1,
+     "limited access": 1,
+     "federal, military, tribal or out-of-state": 1,
+     "mixed case": 1,
+     "County filing fees vary and are not established by statute.": 1,
+     "No confirmed statewide schedule exists.": 1,
+     "certificate of service": 6,
+     "Commonwealth (case-insensitive)": 10,
+     "not established in this repository (whole family directory)": 1
+    }
+   },
+   "pixelMeasurement": {
+    "method": "poppler pdftoppm, 300 dpi grayscale, every page of every fixture, before and after, into /tmp. Each delivered page differenced pixel for pixel against the pinned official form rendered at the same resolution, and separately against the pinned form with its /Annots and /AcroForm removed, so added ink is attributed to the packet or to the form's own page content rather than guessed at. Dark = luminance < 200. All rasters were deleted after measuring and none is committed from /tmp.",
+    "pagesChanged": "Petition page 1 in both fixtures and order page 1 in both fixtures. Order page 2 is unchanged in both fixtures.",
+    "untouchedPagesAt150dpi": "rule-790-order-canonical page 2 and rule-790-order-boundary page 2 are PIXEL-IDENTICAL before and after at 150 dpi (byte-equal arrays). The changed pages differ by 90 px (petition p1, both fixtures) and 162 px (order p1, both fixtures) at 150 dpi, and that difference is entirely the removal of the synthesized squares.",
+    "synthesizedSquares": {
+     "widgetsMeasured": "The five button widgets of the two pinned forms whose current /AS state has no stream in /AP /N, enumerated from the pinned binaries: petition Checkbox2 widget 0 (/Rect 8.760 x 8.138 at 47.520,191.062) and widget 1 (8.760 x 9.131 at 47.520,166.560), both /AS /Off with only /1 and /2 in /AP /N; order Checkbox1 (9.141 x 7.845 at 66.549,511.516), Checkbox2 (9.141 x 8.136 at 66.131,450.221) and Checkbox3 (9.141 x 8.136 at 66.585,388.885), each /AS /Off with only /On in /AP /N. That is VF09's set exactly.",
+     "before": "petition Checkbox2#0 31, Checkbox2#1 41; order Checkbox1 34, Checkbox2 37, Checkbox3 35. Added dark pixels against the pinned form, identical on canonical and boundary.",
+     "after": "0, 0, 0, 0, 0.",
+     "differenceFromVF09sCounts": "VF09 reported 31 and 78 on the petition and 68, 39 and 70 on the order. The rectangle set and the before/after direction agree exactly; the counts differ because this lane windows each rectangle without padding and thresholds at luminance 200. The measurement that decides the obligation -- nonzero before, zero after -- is the same either way."
+    },
+    "inkOnCourtOnlyControls": "0. On both order fixtures, added dark pixels lying outside every declared write /Rect = 0 at 300 dpi, which covers the judge's three relief boxes, the 'AND NOW, this ___ day of ___, 20___' line, the 'BY THE COURT' block and the Disposition blank in one measurement. Windowed individually, the CourtSignature widget /Rect (199.361 x 28.288 at 332.692,228.400) and its unscaled 100 x 100 footprint each add 0 pixels in both order fixtures.",
+    "missingSourcePixels": "0 on five of the six pages. Order page 1 shows 5 missing dark pixels, a one-pixel-wide five-pixel-tall run at x 104.4pt, y 689.0-690.0pt -- the left edge of the Defendant widget rectangle. The identical five pixels are missing on the BEFORE bytes (verified as the same coordinate set), so this repair neither introduces nor cures it.",
+    "composedCertificatePages": "Both certificate fixtures are one US Letter page. Ink bounding box x 72.0-527.5pt, y 396.0-727.4pt on both, so the 70-character boundary name and the 37-character boundary docket number are complete and well inside the page margins; 159805 dark pixels canonical, 185618 boundary at 300 dpi."
+   },
+   "placementSweep": {
+    "method": "For every flattened widget appearance placed by a Do, the page content stream was walked with a q/Q/cm interpreter, the placed Form XObject's /BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it lands on within 1pt read from the pinned binary (by landed origin, never by name), and cmScale x requiredScale required to equal 1, judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+    "result": "214 flattened widget appearances across the four fixtures -- 78 in each petition fixture and 29 in each order fixture, which is VF09's count and it did not move. 211 of 214 pass. The three that do not are the three VF09 named, by the same appearance names: /FlatWidget-7888911063 (CourtSignature, order page 1) in BOTH order fixtures, /BBox 100 x 100 against a /Rect of 199.361 x 28.288; and /FlatWidget-352453411 (Defendant caption) in the petition BOUNDARY fixture only, transformed BBox 161.479 x 10.2 against a /Rect of 148.489 x 10.942, which is the form's own untouched appearance geometry retained because that field was not written on the boundary fixture.",
+    "thoseThreeCarryZeroInk": "Measured, not inferred. CourtSignature: 0 added dark pixels at 300 dpi inside its /Rect and 0 inside its unscaled 100 x 100 footprint, in both order fixtures. Petition-boundary Defendant: 0 added dark pixels inside its /Rect and 0 inside its placed 161.479 x 10.2 footprint. So placements that carry ink and are misplaced: 0 of 214.",
+    "hostOverlayPlacements": "The exact-measured-fact overlay places a further 4 appearances on each petition fixture (DOB, Name of Arresting Agency, Date of Arrest, Date on Complaint) and 0 on the order fixtures. All 8 pass. Total placements swept: 222, of which 219 pass and the 3 exceptions are the empty ones above.",
+    "provedSensitive": "The same script was re-run on rule-790-petition-canonical.pdf with one appearance's /Matrix rewritten IN MEMORY from [1 0 0 1 0 0] to [0.8 0 0 0.8 0 0]. Unmutated it returns 82 of 82; mutated it returns 81 of 82 and names exactly the mutated appearance, /FlatWidget-7098480789, the Full Name widget, at 133.353 x 9.059 against a 166.691 x 11.324 rect -- a 33.34pt width error. A sweep that passes the delivered bytes and fails a one-appearance mutation by name is a live control."
+   },
+   "rebuild": {
+    "timesBuilt": 2,
+    "byteIdentical": true,
+    "evidence": "sha256 over every file of the family directory after build 1 and after build 2, folded to one digest: identical (c64f59453d1a9a4bf605eea5c185ba531e45b60b308c0ae27a8b16294a66b50f both times), including the two new certificate fixtures, all 8 raster PNGs, all 6 contact sheets and every JSON report. 29 files.",
+    "check": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check -> CHECK PASS (6 PDFs; 8 rasters), exit 0. It re-derives the field map, re-runs both finalize passes, re-renders the composed certificate deterministically and re-rasters every page.",
+    "selfTest": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --self-test -> FAILS, and failed identically before this lane's edit. See obligationsThisRowDoesNotDischarge.",
+    "controlRebuildBeforeAnyEdit": "Run first, on the untouched tree, to separate this lane's effect from the host's existing state. Rebuilding all eight families at base 94859431 with no source change moved exactly three directories: pa_790_nonconviction-set, pa_6308_underage-set and nj_clean_slate-set. The four pa_790 official fixtures produced by that control rebuild are byte-identical to the ones this lane finally delivers, which is the evidence that the synthesized-square repair is the FIX62 host behaviour reaching stale bytes rather than anything this lane invented. The tree was then restored with git checkout and verified equal to the committed digests before any edit was made."
+   },
+   "siblingByteIdentity": {
+    "method": "Every one of the eight families that shares this host was rebuilt after the edit and its whole directory folded to one sha256, compared against the committed tree and against the pre-edit control rebuild.",
+    "byteIdenticalToTheCommittedTree": [
+     "nj_arrest_no_conviction-set (0fbb7c486fc4ed42d7be7a86c14c831959bac44b40f580f3198ab75d7edb782c, 99 files)",
+     "nj_disorderly_persons-set (afa5e8dee235ca73730b3b97b51f83004303b9874b566f727de3c93801fb572c, 99 files)",
+     "nj_indictable_conviction-set (d3f4b7dbc155313e4f25385052ab94cc515153e9795852882b386b7519a07951, 99 files)",
+     "nj_ordinance-set (73593c716d0d69bff293cedf6eb3c1677a5edab79045eb6e83af4d0e92642ee6, 99 files)",
+     "pa_490_nonconviction-set (afb6b5f1a41cac392d81097e8b40cb05f9f46fcf21e6ac92f85e789d298bf8ef, 29 files)"
+    ],
+    "alreadyDriftingBeforeThisLane": {
+     "pa_6308_underage-set": "committed 2faf336e6e650540c30c83c702b34030c99910b6171a84150ec55d6b365edf54; pre-edit control rebuild f54b7cf8683ba446f15ecd359e4673296b1b8e4ecda524487aa0b3d3ee990e86; post-edit rebuild f54b7cf8683ba446f15ecd359e4673296b1b8e4ecda524487aa0b3d3ee990e86. IDENTICAL BEFORE AND AFTER THIS LANE'S EDIT, so this lane added nothing to its drift. Its working-tree changes were reverted and it is not committed here.",
+     "nj_clean_slate-set": "committed 535dc68bae809ea63b40ae5efed1cb5c273c5a906cb6009d755e84c501476dff; pre-edit control rebuild 9060222afe021cdb66f01da02d4773bb74c0b4ca5ec54e883da41547d713af88; post-edit rebuild 9060222afe021cdb66f01da02d4773bb74c0b4ca5ec54e883da41547d713af88. IDENTICAL BEFORE AND AFTER, same treatment."
+    },
+    "conclusion": "Diffing the post-edit rebuild of all eight directories against the pre-edit control rebuild of the same eight returns exactly one line: pa_790_nonconviction-set. No other family on this shared host moves a byte because of anything this lane changed."
+   },
+   "digests": {
+    "before": {
+     "rule-790-petition-canonical.pdf": {
+      "sha256": "fbdd5610da403add33e1d65db44f7d2fea1bec6c8d758f53dfd7223ecb048594",
+      "bytes": 121134,
+      "pages": 1
+     },
+     "rule-790-petition-boundary.pdf": {
+      "sha256": "20eb93f44c0adbfdd63091caf129099346f0f75cd96b84818dd18b083ba3c253",
+      "bytes": 120457,
+      "pages": 1
+     },
+     "rule-790-order-canonical.pdf": {
+      "sha256": "99747048f360cd1fc60f40fbe571dc9f9c0c7769f1a272005b51f3721a2d7e73",
+      "bytes": 195332,
+      "pages": 2
+     },
+     "rule-790-order-boundary.pdf": {
+      "sha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
+      "bytes": 195114,
+      "pages": 2
+     },
+     "certificate-of-service-canonical.pdf": "did not exist",
+     "certificate-of-service-boundary.pdf": "did not exist",
+     "familyDirectoryFolded": "c5b763d6eef4a265547f646a478002c5b041591c2eed720c5cf0cf5e96430439 over 23 files"
+    },
+    "after": {
+     "rule-790-petition-canonical.pdf": {
+      "sha256": "f490937fae4271f0cb29e601e8996ee0fb04716331a2045e590de6786457c127",
+      "bytes": 120916,
+      "pages": 1
+     },
+     "rule-790-petition-boundary.pdf": {
+      "sha256": "6b9dcd665e37e7eb72151f0f91fd147e659526688ad17d6eb0c439ebe94362ab",
+      "bytes": 120239,
+      "pages": 1
+     },
+     "rule-790-order-canonical.pdf": {
+      "sha256": "435351d34ed581dc768bd3333ee408e5e9f2886facc31ee932d0cb4664fe28c9",
+      "bytes": 195049,
+      "pages": 2
+     },
+     "rule-790-order-boundary.pdf": {
+      "sha256": "b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c",
+      "bytes": 194831,
+      "pages": 2
+     },
+     "certificate-of-service-canonical.pdf": {
+      "sha256": "22cebb678da63b83717b34381ce5bf052a3434b4322bacd49b9b2382b5460ea5",
+      "bytes": 2754,
+      "pages": 1
+     },
+     "certificate-of-service-boundary.pdf": {
+      "sha256": "c4855fc1098d63598d269a549a1e2f88f230fc7be06a58209c617e850fe50ee5",
+      "bytes": 2819,
+      "pages": 1
+     },
+     "familyDirectoryFolded": "c64f59453d1a9a4bf605eea5c185ba531e45b60b308c0ae27a8b16294a66b50f over 29 files"
+    },
+    "pinnedSourcesUnchanged": "PA-RCRIM-P-790-PETITION fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de (87647 B), PA-RCRIM-P-790-ORDER 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95 (151853 B), PA-IFP-CCP b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca (760989 B). No source pin was changed and all bind by exact SHA-256."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set. Before: PASS_COMPLETE, 20/173 written, exit 0. After: PASS_COMPLETE, 22/180 written, exit 0. All nine were zero before and are zero after, and that is the point rather than the proof: they were zero while nine obligations failed. Not one of them saw the absent certificate of service, the five synthesized squares, the eight dropped boundary values, or the four instruction sentences that contradicted the controlling record. The evidence for this repair is the bytes, the raster and the greps above, not these counters.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+     "resultBefore": "PASS_COMPLETE, nine counters zero, 20/173 written",
+     "resultAfter": "PASS_COMPLETE, nine counters zero, 22/180 written",
+     "exitCode": 0
+    },
+    "verify-identity-refresh-survives-rebuild.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    "verify-source-carried-values-are-dispositioned.mjs": {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+     "exitCode": 0
+    },
+    "builder --check": {
+     "command": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check",
+     "result": "CHECK PASS (6 PDFs; 8 rasters)",
+     "exitCode": 0
+    },
+    "builder --self-test": {
+     "command": "node scripts/build-census-v1-pa_790_nonconviction-set.mjs --self-test",
+     "result": "FAILS on 'NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip'",
+     "exitCode": 1,
+     "preExisting": true,
+     "howProved": "the identical assertion fails with this lane's one script edit stashed, at the same base commit"
+    }
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family pa_790_nonconviction-set --codex-cloud --minimum-captain-sha 94859431860e19d153da050b09bd7880837282a8, with MASTER_LIBRARY_SOURCE_DIR exported to /home/user/fix84-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. Run on the clean tree before any family artifact was edited.",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable.",
+    "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is the Alabama AL_ABPP-3_rev-2025-06-14.pdf, which the committed index names and no mounted custody holds. No Pennsylvania entry is absent or mismatched. This is the same single failure VF09 recorded.",
+    "familySourcesBind": "ok family_sources_bind: 5/5 source(s) bind by exact SHA-256 (custody_reconciliation). stale_artifact_block_consulted: block consistent (12 hashes, 6 families); 0 artifacts of this family in the block.",
+    "worktree": "/home/user/fix84-worktree, branch fix84-pa790-nine cut from 948594318 on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, worktree clean before the first build. private/ is a directory of read-only symlinks so the repository's own private/ ignore rule matches it and it tracks nothing; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm, Pillow 12.3.0, numpy 2.4.6."
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "CENTRAL RASTER ON THE NEW BYTES. Every raster taken here was local, at 300 dpi and 150 dpi under /tmp, for measurement only, and all of it was deleted. No central raster receipt covers these bytes and the one recorded in product-wiring.json is bound to the superseded canonical digest.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them.",
+    "The family's tracked raster PNGs and contact sheets ARE committed, because the family already tracks them and the builder regenerates them; the /tmp measurement rasters are not committed and were deleted."
+   ],
+   "queuesTouched": "None. RASTER_QUEUE.json, MASTER_QUEUE.json and the FIX50 cohort file were not opened for writing.",
+   "legalRecordsTouched": "None. data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-packet-set-manifests.json were read only; every sentence added to the packet is quoted from them and cited to them.",
+   "productWiringTouched": "None. product-wiring.json was read and reported on, not edited.",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "A repair is not an approval. This row opens no commercial route, clears no queue, replaces no verdict and scores no obligation. commercialAuthority remains false and runtimeSelectable remains false in every artifact of this family."
+  }
+ ]
+}
