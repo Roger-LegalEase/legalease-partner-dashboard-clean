@@ -1,0 +1,35 @@
+{
+  "verification": "post-fix-platform-reverification",
+  "executed_at_utc": "2026-09-01T00:00:00Z",
+  "captain_head": "48f74d82016795307e565220e38ce369cf43da5e",
+  "minimum_ancestor": {
+    "sha": "48f74d82016795307e565220e38ce369cf43da5e",
+    "result": "PASS"
+  },
+  "required_merge_refs": {
+    "codex/fix-consumer-launch-defects": "UNAVAILABLE",
+    "codex/fix-rcap-attribution-browser-runtime": "UNAVAILABLE",
+    "codex/fix-platform-verification-runtime": "UNAVAILABLE"
+  },
+  "prerequisite_result": "FAIL",
+  "adjudication_rule": "Only an executed passing case may be marked PASS; unavailable and unexecuted cases are FAIL.",
+  "results": {
+    "pr211_privacy": "FAIL",
+    "pr213_claim_continuity": "FAIL",
+    "pr212_receipt": "FAIL",
+    "dtc_database_matrix": { "passed": 0, "total": 0, "result": "FAIL" },
+    "rcap_database_matrix": { "passed": 0, "total": 0, "result": "FAIL" },
+    "attribution": "FAIL",
+    "clinic": "FAIL",
+    "browser_a11y": { "passed": 0, "total": 0, "result": "FAIL" }
+  },
+  "remaining_defects": [
+    "Required merged commit codex/fix-consumer-launch-defects is unavailable and cannot be proven in Captain HEAD.",
+    "Required merged commit codex/fix-rcap-attribution-browser-runtime is unavailable and cannot be proven in Captain HEAD.",
+    "Required merged commit codex/fix-platform-verification-runtime is unavailable and cannot be proven in Captain HEAD.",
+    "The configured environment blocks fetching the required refs from GitHub with CONNECT tunnel HTTP 403.",
+    "No post-fix case was executed because the required post-fix Captain head could not be established."
+  ],
+  "application_files_modified": 0,
+  "production_touched": false
+}
