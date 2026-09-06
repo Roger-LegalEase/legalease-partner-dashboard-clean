@@ -16784,6 +16784,529 @@
       ],
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "va_seal_ancillary_matter_only-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "verifiedAtBase": "b70ec78ef",
+      "worker": "VF02-VA-FOUR",
+      "verifiedBy": "VF02 independent verification, all fifteen obligations measured fresh in this container against the committed bytes at b70ec78ef; nothing carried from VF05 at ddc3b07d0 and nothing carried from the builder's report",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": null,
+      "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. The RASTER_QUEUE row records currentRasterState RASTER_PASS, and that receipt names workflow null, workflowRunId null, executionEnvironment \"Codespaces local calibrated raster runner\" and githubDispatch \"HTTP 403; no GitHub run was started or claimed\". Recorded exactly as the row states it. Under RASTER_QUEUE.rasterStateSemantics a locally produced pass is not the central gate's evidence and is treated as RASTER_PENDING for every routing and promotion decision; the family's own build-status.json says rendered_locally_pending_central_acceptance. No record in this tree binds a workflow run on c6b497cbee9f2c8fdf9567366d3bc26a89da68f4 to these bytes.",
+      "rasterCoverageNote": "the receipt's coverage covers canonical.pdf only; boundary.pdf is bound by hash but not rendered by that gate. This read rastered every page of BOTH fixtures at 300 dpi independently.",
+      "verdictCeilingApplied": null,
+      "fixtureDigestsConfirmedBeforeMeasuring": {
+        "canonical": "60962eef718b1048f55d7392818354057fa41636640ae20bc5ec34da49d9367e",
+        "boundary": "bbf887ccdc75f2cab73d6afb98e9bcc6607ceee248b551b4872c742a0c3f4992",
+        "matchesRasterQueueRow": true,
+        "method": "sha256sum recomputed on disk and compared to RASTER_QUEUE.rows[].documents[].sha256 before any measurement"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet is built for the route the record names. obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing occurs exactly once in the committed route-obligation census and is the key carried by production-field-map.json, product-wiring.json and the MASTER_QUEUE row alike. No machine key is printed anywhere on either fixture: 0 occurrences of \"obligation:\" across all 13 pages of canonical.pdf and boundary.pdf and in participant-instructions.md, and every composed component's last line prints the readable label \"Sealing an ancillary matter - Va. Code 19.2-392.12:1(B)\". RECORD DIVERGENCE, DISCLOSED BY THE BUILD AND NOT A REPAIR AGAINST IT: the delivered primary filing is CC-1203, while data/record-clearing/legal-design-track-registry.json packetSet.components[primary_filing].officialFormId, data/record-clearing/legal-design-packet-set-manifests.json and the MASTER_QUEUE row's officialFormFamily and sourceHashes all name CC-1201. production-field-map.json states officialFormMatchesAssignment false and build-findings.json carries the reasoned finding with its authority (data/rcap-ledger/track-pathway-crosswalk.json records this track's mechanism as Va. Code Sec. 19.2-392.12:1). Measured on the bytes: CC-1201's printed face reads PURSUANT TO VA. CODE Sec. 19.2-392.12 and carries no 19.2-392.12:1 section, while CC-1203's face reads PURSUANT TO VA. CODE Sec. 19.2-392.12:1(A) AND/OR (B) and contains this route's own section. The form the packet ships is the one the route's statute is printed on; the stale field is in the records, and correcting them is a Captain record action outside this lane's writable paths. Rebuilding onto CC-1201 would be the defect, so this is recorded rather than assigned as a repair.",
+          "evidence": "grep of the route key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (1 occurrence); pdftotext over both fixtures for \"obligation:\" (0) and for the printed Route line (4 composed components each); data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/production-field-map.json routeKeys and data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/product-wiring.json compared to the MASTER_QUEUE row"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "1/1 official source recomputed byte-for-byte from the Master Library here: CC-1203 = 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a, matching source-receipt.json sha256 and byteLength and the committed corpus index entry at STATES/VA/02_PACKET_FORMS/",
+          "evidence": "sha256 recomputed under MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and compared against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all five declared components (primary_filing, ccre_forwarding_request, commonwealth_service_and_stipulation_request, records_checklist, filing_instructions) are rendered and present in both fixtures and nothing outside the set appears; the 13-row pageManifest resolves to exactly those five contiguous runs in the registry's order",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/rendered-artifacts.json componentSet and pageManifest read page by page against data/record-clearing/legal-design-track-registry.json packetSet.components[].order, and against the page text extracted from both fixtures"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 8 facts the platform holds (participant.full_legal_name, date_of_birth, street_address, city, phone, email, matter.case_number, matter.court) are written and visible in the extracted text of both fixtures, each on the page it belongs to, including the CCRE forwarding request's date of birth that the FIX87 repair added; knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here",
+          "evidence": "each fixture value from FIXTURES in scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs searched page by page in pdftotext output of data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "24 declared items, all 24 named in participant-instructions.md by both their disclosureLabel and their participantMustSupply text (0 missing on each). Separately, every obtain_document and confirm_answer prerequisite the track registry and the packet-set manifest record for this track (they are byte-identical to one another) is carried verbatim into participant-instructions.md and onto the delivered records-checklist and filing-instructions pages, with each conditionDescription and obtainedFrom",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/production-field-map.json requiredBeforeFiling checked string by string against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md; track-registry and packet-set-manifest participantActionRequired checked against the markdown and against pdftotext of the assembled fixture"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every route-determined election is selected: 7 selection controls carry routeDetermined true and disposition selected_by_route, and all 7 are painted as marks inside their own measured boxes in BOTH fixtures; 0 route-determined controls left unmade. CC-1203 page 1 option II (Va. Code Sec. 19.2-392.12:1(B)) is marked, option I is not; writes fall in Section B (page 4) and Sections A (pages 2-3) carry no ink. requiredOptionsMissing=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/production-field-map.json selectionControls and routeSelectionsMade cross-checked against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/actual-writes.json routeSelectionMarks for both fixtures, and read at 300 dpi on the rendered pages"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here, and read directly on the pages: the repeating structures on this form (the second-matter block and the addendum block) carry no written cell at all in either fixture, so no row carries written cells beside required cells left blank. Where a numbered item block carries the case number beside blanks, every one of those blanks is a declared requiredBeforeFiling item disclosed to the participant by the words printed beside it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set, run without --write in this container on the committed bytes; 300 dpi page-versus-source ink diff showing zero added ink on the second-matter and addendum blocks of both fixtures"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. 0 of 46 declared write entries carry a protected label under the contract's own classifyField. Read at 300 dpi: the petition's DATE line and its signature rule are blank in both fixtures, and the mark the field map calls User.SignaturePetitioner1 is the 9.85 x 9.30 pt role checkbox printed beside \"SIGNATURE OF\", not the signature line. The composed service page prints \"This page is not a certificate of mailing and does not say that anything has been mailed\" and leaves its own DATE OF DELIVERY OR MAILING and SIGNATURE OF PETITIONER lines blank; the CCRE page leaves DATE OF THIS REQUEST and SIGNATURE OF PETITIONER blank. protectedWrites=0 measured here",
+          "evidence": "every canonicalWrites and boundaryWrites label passed through classifyField from scripts/rcap-packet-completeness/completeness-contract.mjs; 300 dpi crops of the signature block of both fixtures; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_ancillary_matter_only-set, run without --write in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "4/4 PDFs under fixtures/ are named by the record and all recompute byte-exact: canonical.pdf 60962eef718b1048f55d7392818354057fa41636640ae20bc5ec34da49d9367e and boundary.pdf bbf887ccdc75f2cab73d6afb98e9bcc6607ceee248b551b4872c742a0c3f4992 plus the two per-form primary-filing files bound by primaryFilingSha256; pageCount and byteLength match the record for both assembled fixtures, and the two assembled digests equal the ones the RASTER_QUEUE row pins",
+          "evidence": "sha256 recomputed for every PDF under data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/ against reports/rendered-artifacts.json artifacts[] (sha256, primaryFilingSha256, byteLength, pageCount) and against data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the rendered page order matches the packet manifest page by page in both fixtures: 13 pages, pdfinfo reports 13, and each page's extracted text carries the component the manifest names for that packetPage, in the registry order 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions",
+          "evidence": "pdfinfo and per-page pdftotext of both fixtures compared row by row against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest and against the registry component order"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no ink outside a measured write box. Placement sweep at 300 dpi over every page of both fixtures against the pinned official form: 91 added-ink regions on canonical and 171 on boundary, and 0 of them fall outside a write box or route-selection mark box declared in production-field-map.json and actual-writes.json. No synthesized appearance square and no regenerated border appears anywhere: the unwritten form pages differ from the pinned source by zero pixels. Across all 13 pages of both fixtures, 8085 words: 0 outside the page box, 0 outside a 0.25 in margin, 0 words under 5 pt, 0 overlapping word pairs. The new readable route label is legible and inside its text column on every composed component, and the boundary fixture's long name, address and 58-character email render in full inside their rules",
+          "evidence": "pdftoppm -r 300 of both fixtures and of the pinned CC-1203 bytes, per-pixel darker-than-source diff with connected-component boxes tested for containment in the declared boxes; pdftotext -bbox-layout word rectangles tested against each page's own MediaBox, a 0.25 in margin, a 5 pt height floor and neighbour overlap; rasters written under /tmp/vf02v and deleted after measuring"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Circuit Court for the city or county in the petition's caption, and adds that a General District Court or Juvenile and Domestic Relations District Court case still goes to the circuit court for that locality, which is the destination the committed track registry records for this track (Clerk of the circuit court of the locality where the case was disposed of)",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md \"Where you file this\" and the delivered filing-instructions page \"WHERE THIS GOES\", against data/record-clearing/legal-design-track-registry.json destination"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee and the waiver route are stated, quoted from the record and not invented. The registry rules.fees statement and the rules.feeWaiver statement each appear verbatim in participant-instructions.md and on the delivered pages of BOTH fixtures, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), with the CCRE's separate charge named as not a court fee",
+          "evidence": "registry rules.fees and rules.feeWaiver matched verbatim against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md and pdftotext of canonical.pdf and boundary.pdf (the composed pages render the section sign as \"Sec.\"; the markdown carries the literal section sign)"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who must be served and how: the Attorney for the Commonwealth for the county or city where the petition is filed, by delivery or by first-class mail with postage prepaid, quoted from the petition's own acknowledgment and matching the registry's service rule; a dedicated component page carries the copy and asks the Commonwealth to state its position, and the packet says plainly that it does not state the deadline",
+          "evidence": "the commonwealth_service_and_stipulation_request page of both fixtures and participant-instructions.md, against data/record-clearing/legal-design-track-registry.json rules.service and the acknowledgment text of the pinned CC-1203"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states where self-help ends. All 4 of this track's registry selfHelpStopConditions appear verbatim in participant-instructions.md under \"When to stop and get a lawyer\" and on the delivered filing-instructions page of BOTH fixtures (4/4, 0 missing in each of the three places). Nothing is abridged and no condition is softened",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for this track matched condition by condition against data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/participant-instructions.md and against pdftotext of canonical.pdf and boundary.pdf"
+        }
+      },
+      "appearanceFindingsRecordedNotFailed": [
+        "The record names CC-1201 for this family's primary_filing and the delivery is CC-1203. Recorded above under ROUTE_IDENTITY. A Captain record correction to legal-design-track-registry.json, legal-design-packet-set-manifests.json and the MASTER_QUEUE row is required; no repair against the packet is.",
+        "Page 13 of both fixtures carries nine words - the route label line - and is otherwise blank. The filing_instructions body ends on page 12, so the delivered packet ships one near-empty page. No obligation measures it: the pageManifest declares filing_instructions on pages 11 to 13 and the delivery matches, nothing is clipped, and the label is legible and inside its column. Recorded for the Captain as an appearance blemish, not scored as a failure.",
+        "The composed pages transliterate the section sign to \"Sec.\" throughout; participant-instructions.md carries the literal section sign. Consistent, unambiguous and legible, so the fee, self-help-stop and record-prerequisite quotations are word-for-word apart from that one substitution."
+      ],
+      "repairAssignmentId": null
+    },
+    {
+      "itemId": "va_seal_enumerated_seven_year-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "verifiedAtBase": "b70ec78ef",
+      "worker": "VF02-VA-FOUR",
+      "verifiedBy": "VF02 independent verification, all fifteen obligations measured fresh in this container against the committed bytes at b70ec78ef; nothing carried from VF05 at ddc3b07d0 and nothing carried from the builder's report",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": null,
+      "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. The RASTER_QUEUE row records currentRasterState RASTER_PASS, and that receipt names workflow null, workflowRunId null, executionEnvironment \"Codespaces local calibrated raster runner\" and githubDispatch \"HTTP 403; no GitHub run was started or claimed\". Recorded exactly as the row states it. Under RASTER_QUEUE.rasterStateSemantics a locally produced pass is not the central gate's evidence and is treated as RASTER_PENDING for every routing and promotion decision; the family's own build-status.json says rendered_locally_pending_central_acceptance. No record in this tree binds a workflow run on c6b497cbee9f2c8fdf9567366d3bc26a89da68f4 to these bytes.",
+      "rasterCoverageNote": "the receipt's coverage covers canonical.pdf only; boundary.pdf is bound by hash but not rendered by that gate. This read rastered every page of BOTH fixtures at 300 dpi independently.",
+      "verdictCeilingApplied": null,
+      "fixtureDigestsConfirmedBeforeMeasuring": {
+        "canonical": "3527d8b4f621e798537b4c276da302e6cd78e2c8903fbdd87c30f81c44571615",
+        "boundary": "44ee4594b5fed61454390047a269af54c10d046da39305c979511709ae9b6e37",
+        "matchesRasterQueueRow": true,
+        "method": "sha256sum recomputed on disk and compared to RASTER_QUEUE.rows[].documents[].sha256 before any measurement"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet is built for the route the record names. obligation:track-only:VA:va_seal_enumerated_seven_year occurs exactly once in the committed route-obligation census and is the key carried by production-field-map.json, product-wiring.json and the MASTER_QUEUE row alike. No machine key is printed anywhere on either fixture: 0 occurrences of \"obligation:\" across all 13 pages of canonical.pdf and boundary.pdf and in participant-instructions.md, and every composed component's last line prints the readable label \"Sealing enumerated offences - Va. Code 19.2-392.12:1(A)\". RECORD DIVERGENCE, DISCLOSED BY THE BUILD AND NOT A REPAIR AGAINST IT: the delivered primary filing is CC-1203, while data/record-clearing/legal-design-track-registry.json packetSet.components[primary_filing].officialFormId, data/record-clearing/legal-design-packet-set-manifests.json and the MASTER_QUEUE row's officialFormFamily and sourceHashes all name CC-1201. production-field-map.json states officialFormMatchesAssignment false and build-findings.json carries the reasoned finding with its authority (data/rcap-ledger/track-pathway-crosswalk.json records this track's mechanism as Va. Code Sec. 19.2-392.12:1). Measured on the bytes: CC-1201's printed face reads PURSUANT TO VA. CODE Sec. 19.2-392.12 and carries no 19.2-392.12:1 section, while CC-1203's face reads PURSUANT TO VA. CODE Sec. 19.2-392.12:1(A) AND/OR (B) and contains this route's own section. The form the packet ships is the one the route's statute is printed on; the stale field is in the records, and correcting them is a Captain record action outside this lane's writable paths. Rebuilding onto CC-1201 would be the defect, so this is recorded rather than assigned as a repair.",
+          "evidence": "grep of the route key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (1 occurrence); pdftotext over both fixtures for \"obligation:\" (0) and for the printed Route line (4 composed components each); data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/production-field-map.json routeKeys and data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/product-wiring.json compared to the MASTER_QUEUE row"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "1/1 official source recomputed byte-for-byte from the Master Library here: CC-1203 = 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a, matching source-receipt.json sha256 and byteLength and the committed corpus index entry at STATES/VA/02_PACKET_FORMS/",
+          "evidence": "sha256 recomputed under MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and compared against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all five declared components (primary_filing, ccre_forwarding_request, commonwealth_service_and_stipulation_request, records_checklist, filing_instructions) are rendered and present in both fixtures and nothing outside the set appears; the 13-row pageManifest resolves to exactly those five contiguous runs in the registry's order",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/rendered-artifacts.json componentSet and pageManifest read page by page against data/record-clearing/legal-design-track-registry.json packetSet.components[].order, and against the page text extracted from both fixtures"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 8 facts the platform holds (participant.full_legal_name, date_of_birth, street_address, city, phone, email, matter.case_number, matter.court) are written and visible in the extracted text of both fixtures, each on the page it belongs to, including the CCRE forwarding request's date of birth that the FIX87 repair added; knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here",
+          "evidence": "each fixture value from FIXTURES in scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs searched page by page in pdftotext output of data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "22 declared items, all 22 named in participant-instructions.md by both their disclosureLabel and their participantMustSupply text (0 missing on each). Separately, every obtain_document and confirm_answer prerequisite the track registry and the packet-set manifest record for this track (they are byte-identical to one another) is carried verbatim into participant-instructions.md and onto the delivered records-checklist and filing-instructions pages, with each conditionDescription and obtainedFrom",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/production-field-map.json requiredBeforeFiling checked string by string against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md; track-registry and packet-set-manifest participantActionRequired checked against the markdown and against pdftotext of the assembled fixture"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every route-determined election is selected: 7 selection controls carry routeDetermined true and disposition selected_by_route, and all 7 are painted as marks inside their own measured boxes in BOTH fixtures; 0 route-determined controls left unmade. CC-1203 page 1 option I (Va. Code Sec. 19.2-392.12:1(A)) is marked, option II is not; writes fall in Section A Part 1 (page 2) and Section B (pages 4-5) carries no ink. requiredOptionsMissing=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/production-field-map.json selectionControls and routeSelectionsMade cross-checked against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/actual-writes.json routeSelectionMarks for both fixtures, and read at 300 dpi on the rendered pages"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here, and read directly on the pages: the repeating structures on this form (the second-matter block and the addendum block) carry no written cell at all in either fixture, so no row carries written cells beside required cells left blank. Where a numbered item block carries the case number beside blanks, every one of those blanks is a declared requiredBeforeFiling item disclosed to the participant by the words printed beside it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set, run without --write in this container on the committed bytes; 300 dpi page-versus-source ink diff showing zero added ink on the second-matter and addendum blocks of both fixtures"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. 0 of 46 declared write entries carry a protected label under the contract's own classifyField. Read at 300 dpi: the petition's DATE line and its signature rule are blank in both fixtures, and the mark the field map calls User.SignaturePetitioner1 is the 9.85 x 9.30 pt role checkbox printed beside \"SIGNATURE OF\", not the signature line. The composed service page prints \"This page is not a certificate of mailing and does not say that anything has been mailed\" and leaves its own DATE OF DELIVERY OR MAILING and SIGNATURE OF PETITIONER lines blank; the CCRE page leaves DATE OF THIS REQUEST and SIGNATURE OF PETITIONER blank. protectedWrites=0 measured here",
+          "evidence": "every canonicalWrites and boundaryWrites label passed through classifyField from scripts/rcap-packet-completeness/completeness-contract.mjs; 300 dpi crops of the signature block of both fixtures; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_enumerated_seven_year-set, run without --write in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "4/4 PDFs under fixtures/ are named by the record and all recompute byte-exact: canonical.pdf 3527d8b4f621e798537b4c276da302e6cd78e2c8903fbdd87c30f81c44571615 and boundary.pdf 44ee4594b5fed61454390047a269af54c10d046da39305c979511709ae9b6e37 plus the two per-form primary-filing files bound by primaryFilingSha256; pageCount and byteLength match the record for both assembled fixtures, and the two assembled digests equal the ones the RASTER_QUEUE row pins",
+          "evidence": "sha256 recomputed for every PDF under data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/ against reports/rendered-artifacts.json artifacts[] (sha256, primaryFilingSha256, byteLength, pageCount) and against data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the rendered page order matches the packet manifest page by page in both fixtures: 13 pages, pdfinfo reports 13, and each page's extracted text carries the component the manifest names for that packetPage, in the registry order 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions",
+          "evidence": "pdfinfo and per-page pdftotext of both fixtures compared row by row against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest and against the registry component order"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no ink outside a measured write box. Placement sweep at 300 dpi over every page of both fixtures against the pinned official form: 92 added-ink regions on canonical and 170 on boundary, and 0 of them fall outside a write box or route-selection mark box declared in production-field-map.json and actual-writes.json. No synthesized appearance square and no regenerated border appears anywhere: the unwritten form pages differ from the pinned source by zero pixels. Across all 13 pages of both fixtures, 8583 words: 0 outside the page box, 0 outside a 0.25 in margin, 0 words under 5 pt, 0 overlapping word pairs. The new readable route label is legible and inside its text column on every composed component, and the boundary fixture's long name, address and 58-character email render in full inside their rules",
+          "evidence": "pdftoppm -r 300 of both fixtures and of the pinned CC-1203 bytes, per-pixel darker-than-source diff with connected-component boxes tested for containment in the declared boxes; pdftotext -bbox-layout word rectangles tested against each page's own MediaBox, a 0.25 in margin, a 5 pt height floor and neighbour overlap; rasters written under /tmp/vf02v and deleted after measuring"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Circuit Court for the city or county in the petition's caption, and adds that a General District Court or Juvenile and Domestic Relations District Court case still goes to the circuit court for that locality, which is the destination the committed track registry records for this track (Clerk of the circuit court of the locality where the case was disposed of)",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md \"Where you file this\" and the delivered filing-instructions page \"WHERE THIS GOES\", against data/record-clearing/legal-design-track-registry.json destination"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee and the waiver route are stated, quoted from the record and not invented. The registry rules.fees statement and the rules.feeWaiver statement each appear verbatim in participant-instructions.md and on the delivered pages of BOTH fixtures, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), with the CCRE's separate charge named as not a court fee",
+          "evidence": "registry rules.fees and rules.feeWaiver matched verbatim against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md and pdftotext of canonical.pdf and boundary.pdf (the composed pages render the section sign as \"Sec.\"; the markdown carries the literal section sign)"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who must be served and how: the Attorney for the Commonwealth for the county or city where the petition is filed, by delivery or by first-class mail with postage prepaid, quoted from the petition's own acknowledgment and matching the registry's service rule; a dedicated component page carries the copy and asks the Commonwealth to state its position, and the packet says plainly that it does not state the deadline",
+          "evidence": "the commonwealth_service_and_stipulation_request page of both fixtures and participant-instructions.md, against data/record-clearing/legal-design-track-registry.json rules.service and the acknowledgment text of the pinned CC-1203"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states where self-help ends. All 4 of this track's registry selfHelpStopConditions appear verbatim in participant-instructions.md under \"When to stop and get a lawyer\" and on the delivered filing-instructions page of BOTH fixtures (4/4, 0 missing in each of the three places). Nothing is abridged and no condition is softened",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for this track matched condition by condition against data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/participant-instructions.md and against pdftotext of canonical.pdf and boundary.pdf"
+        }
+      },
+      "appearanceFindingsRecordedNotFailed": [
+        "The record names CC-1201 for this family's primary_filing and the delivery is CC-1203. Recorded above under ROUTE_IDENTITY. A Captain record correction to legal-design-track-registry.json, legal-design-packet-set-manifests.json and the MASTER_QUEUE row is required; no repair against the packet is.",
+        "The composed pages transliterate the section sign to \"Sec.\" throughout; participant-instructions.md carries the literal section sign. Consistent, unambiguous and legible, so the fee, self-help-stop and record-prerequisite quotations are word-for-word apart from that one substitution."
+      ],
+      "repairAssignmentId": null
+    },
+    {
+      "itemId": "va_seal_petition_felony-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "verifiedAtBase": "b70ec78ef",
+      "worker": "VF02-VA-FOUR",
+      "verifiedBy": "VF02 independent verification, all fifteen obligations measured fresh in this container against the committed bytes at b70ec78ef; nothing carried from VF05 at ddc3b07d0 and nothing carried from the builder's report",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": null,
+      "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. The RASTER_QUEUE row records currentRasterState RASTER_PASS, and that receipt names workflow null, workflowRunId null, executionEnvironment \"Codespaces local calibrated raster runner\" and githubDispatch \"HTTP 403; no GitHub run was started or claimed\". Recorded exactly as the row states it. Under RASTER_QUEUE.rasterStateSemantics a locally produced pass is not the central gate's evidence and is treated as RASTER_PENDING for every routing and promotion decision; the family's own build-status.json says rendered_locally_pending_central_acceptance. No record in this tree binds a workflow run on c6b497cbee9f2c8fdf9567366d3bc26a89da68f4 to these bytes.",
+      "rasterCoverageNote": "the receipt's coverage covers canonical.pdf only; boundary.pdf is bound by hash but not rendered by that gate. This read rastered every page of BOTH fixtures at 300 dpi independently.",
+      "verdictCeilingApplied": null,
+      "fixtureDigestsConfirmedBeforeMeasuring": {
+        "canonical": "e99ca2b8ab006ac0c2dbaee9c049489be542e7bab1632f3a7f7a89f17a8f48ff",
+        "boundary": "d66a8f19d3a332d1a47cd8b831f3b0719f5eec87f2b1320ac1763648adacf580",
+        "matchesRasterQueueRow": true,
+        "method": "sha256sum recomputed on disk and compared to RASTER_QUEUE.rows[].documents[].sha256 before any measurement"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet is built for the route the record names. obligation:track-only:VA:va_seal_petition_felony occurs exactly once in the committed route-obligation census and is the key carried by production-field-map.json, product-wiring.json and the MASTER_QUEUE row alike. No machine key is printed anywhere on either fixture: 0 occurrences of \"obligation:\" across all 11 pages of canonical.pdf and boundary.pdf and in participant-instructions.md, and every composed component's last line prints the readable label \"Class 5 or 6 or larceny felony sealing - Va. Code 19.2-392.12\".",
+          "evidence": "grep of the route key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (1 occurrence); pdftotext over both fixtures for \"obligation:\" (0) and for the printed Route line (4 composed components each); data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/production-field-map.json routeKeys and data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/product-wiring.json compared to the MASTER_QUEUE row"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "1/1 official source recomputed byte-for-byte from the Master Library here: CC-1201 = 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78, matching source-receipt.json sha256 and byteLength and the committed corpus index entry at STATES/VA/02_PACKET_FORMS/",
+          "evidence": "sha256 recomputed under MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and compared against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all five declared components (primary_filing, ccre_forwarding_request, commonwealth_service_and_stipulation_request, records_checklist, filing_instructions) are rendered and present in both fixtures and nothing outside the set appears; the 11-row pageManifest resolves to exactly those five contiguous runs in the registry's order",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/rendered-artifacts.json componentSet and pageManifest read page by page against data/record-clearing/legal-design-track-registry.json packetSet.components[].order, and against the page text extracted from both fixtures"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 8 facts the platform holds (participant.full_legal_name, date_of_birth, street_address, city, phone, email, matter.case_number, matter.court) are written and visible in the extracted text of both fixtures, each on the page it belongs to, including the CCRE forwarding request's date of birth that the FIX87 repair added; knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here",
+          "evidence": "each fixture value from FIXTURES in scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs searched page by page in pdftotext output of data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "27 declared items, all 27 named in participant-instructions.md by both their disclosureLabel and their participantMustSupply text (0 missing on each). Separately, every obtain_document and confirm_answer prerequisite the track registry and the packet-set manifest record for this track (they are byte-identical to one another) is carried verbatim into participant-instructions.md and onto the delivered records-checklist and filing-instructions pages, with each conditionDescription and obtainedFrom",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/production-field-map.json requiredBeforeFiling checked string by string against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md; track-registry and packet-set-manifest participantActionRequired checked against the markdown and against pdftotext of the assembled fixture"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every route-determined election is selected: 6 selection controls carry routeDetermined true and disposition selected_by_route, and all 6 are painted as marks inside their own measured boxes in BOTH fixtures; 0 route-determined controls left unmade. CC-1201 page 1 B.2 \"This charge is a\": the misdemeanor branch is refused as outside this route and left blank, which is how a checkbox states \"not this branch\"; the two felony branches are left for the participant and participant-instructions.md says so in terms (\"Nothing about the offence level is decided for you. The route establishes that the offence is a felony under Va. Code Sec. 19.2-392.12; which felony provision your own record falls under is a fact about that record\"). requiredOptionsMissing=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/production-field-map.json selectionControls and routeSelectionsMade cross-checked against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/actual-writes.json routeSelectionMarks for both fixtures, and read at 300 dpi on the rendered pages"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here, and read directly on the pages: the repeating structures on this form (the second-matter block and the addendum block) carry no written cell at all in either fixture, so no row carries written cells beside required cells left blank. Where a numbered item block carries the case number beside blanks, every one of those blanks is a declared requiredBeforeFiling item disclosed to the participant by the words printed beside it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set, run without --write in this container on the committed bytes; 300 dpi page-versus-source ink diff showing zero added ink on the second-matter and addendum blocks of both fixtures"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. 0 of 46 declared write entries carry a protected label under the contract's own classifyField. Read at 300 dpi: the petition's DATE line and its signature rule are blank in both fixtures, and the mark the field map calls User.SignaturePetitioner1 is the 9.85 x 9.30 pt role checkbox printed beside \"SIGNATURE OF\", not the signature line. The composed service page prints \"This page is not a certificate of mailing and does not say that anything has been mailed\" and leaves its own DATE OF DELIVERY OR MAILING and SIGNATURE OF PETITIONER lines blank; the CCRE page leaves DATE OF THIS REQUEST and SIGNATURE OF PETITIONER blank. protectedWrites=0 measured here",
+          "evidence": "every canonicalWrites and boundaryWrites label passed through classifyField from scripts/rcap-packet-completeness/completeness-contract.mjs; 300 dpi crops of the signature block of both fixtures; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_felony-set, run without --write in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "4/4 PDFs under fixtures/ are named by the record and all recompute byte-exact: canonical.pdf e99ca2b8ab006ac0c2dbaee9c049489be542e7bab1632f3a7f7a89f17a8f48ff and boundary.pdf d66a8f19d3a332d1a47cd8b831f3b0719f5eec87f2b1320ac1763648adacf580 plus the two per-form primary-filing files bound by primaryFilingSha256; pageCount and byteLength match the record for both assembled fixtures, and the two assembled digests equal the ones the RASTER_QUEUE row pins",
+          "evidence": "sha256 recomputed for every PDF under data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/ against reports/rendered-artifacts.json artifacts[] (sha256, primaryFilingSha256, byteLength, pageCount) and against data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the rendered page order matches the packet manifest page by page in both fixtures: 11 pages, pdfinfo reports 11, and each page's extracted text carries the component the manifest names for that packetPage, in the registry order 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions",
+          "evidence": "pdfinfo and per-page pdftotext of both fixtures compared row by row against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest and against the registry component order"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no ink outside a measured write box. Placement sweep at 300 dpi over every page of both fixtures against the pinned official form: 88 added-ink regions on canonical and 179 on boundary, and 0 of them fall outside a write box or route-selection mark box declared in production-field-map.json and actual-writes.json. No synthesized appearance square and no regenerated border appears anywhere: the unwritten form pages differ from the pinned source by zero pixels. Across all 11 pages of both fixtures, 8263 words: 0 outside the page box, 0 outside a 0.25 in margin, 0 words under 5 pt, 0 overlapping word pairs. The new readable route label is legible and inside its text column on every composed component, and the boundary fixture's long name, address and 58-character email render in full inside their rules",
+          "evidence": "pdftoppm -r 300 of both fixtures and of the pinned CC-1201 bytes, per-pixel darker-than-source diff with connected-component boxes tested for containment in the declared boxes; pdftotext -bbox-layout word rectangles tested against each page's own MediaBox, a 0.25 in margin, a 5 pt height floor and neighbour overlap; rasters written under /tmp/vf02v and deleted after measuring"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Circuit Court for the city or county in the petition's caption, and adds that a General District Court or Juvenile and Domestic Relations District Court case still goes to the circuit court for that locality, which is the destination the committed track registry records for this track (Clerk of the circuit court of the locality where the case was disposed of)",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md \"Where you file this\" and the delivered filing-instructions page \"WHERE THIS GOES\", against data/record-clearing/legal-design-track-registry.json destination"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee and the waiver route are stated, quoted from the record and not invented. The registry rules.fees statement and the rules.feeWaiver statement each appear verbatim in participant-instructions.md and on the delivered pages of BOTH fixtures, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), with the CCRE's separate charge named as not a court fee",
+          "evidence": "registry rules.fees and rules.feeWaiver matched verbatim against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md and pdftotext of canonical.pdf and boundary.pdf (the composed pages render the section sign as \"Sec.\"; the markdown carries the literal section sign)"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who must be served and how: the Attorney for the Commonwealth for the county or city where the petition is filed, by delivery or by first-class mail with postage prepaid, quoted from the petition's own acknowledgment and matching the registry's service rule; a dedicated component page carries the copy and asks the Commonwealth to state its position, and the packet says plainly that it does not state the deadline",
+          "evidence": "the commonwealth_service_and_stipulation_request page of both fixtures and participant-instructions.md, against data/record-clearing/legal-design-track-registry.json rules.service and the acknowledgment text of the pinned CC-1201"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states where self-help ends. All 9 of this track's registry selfHelpStopConditions appear verbatim in participant-instructions.md under \"When to stop and get a lawyer\" and on the delivered filing-instructions page of BOTH fixtures (9/9, 0 missing in each of the three places). Nothing is abridged and no condition is softened",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for this track matched condition by condition against data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/participant-instructions.md and against pdftotext of canonical.pdf and boundary.pdf"
+        }
+      },
+      "appearanceFindingsRecordedNotFailed": [
+        "The composed pages transliterate the section sign to \"Sec.\" throughout; participant-instructions.md carries the literal section sign. Consistent, unambiguous and legible, so the fee, self-help-stop and record-prerequisite quotations are word-for-word apart from that one substitution."
+      ],
+      "repairAssignmentId": null
+    },
+    {
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "verifiedAtBase": "b70ec78ef",
+      "worker": "VF02-VA-FOUR",
+      "verifiedBy": "VF02 independent verification, all fifteen obligations measured fresh in this container against the committed bytes at b70ec78ef; nothing carried from VF05 at ddc3b07d0 and nothing carried from the builder's report",
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": null,
+      "rasterStateBinding": "NO WORKFLOW RUN IS BOUND. The RASTER_QUEUE row records currentRasterState RASTER_PASS, and that receipt names workflow null, workflowRunId null, executionEnvironment \"Codespaces local calibrated raster runner\" and githubDispatch \"HTTP 403; no GitHub run was started or claimed\". Recorded exactly as the row states it. Under RASTER_QUEUE.rasterStateSemantics a locally produced pass is not the central gate's evidence and is treated as RASTER_PENDING for every routing and promotion decision; the family's own build-status.json says rendered_locally_pending_central_acceptance. No record in this tree binds a workflow run on c6b497cbee9f2c8fdf9567366d3bc26a89da68f4 to these bytes.",
+      "rasterCoverageNote": "the receipt's coverage covers canonical.pdf only; boundary.pdf is bound by hash but not rendered by that gate. This read rastered every page of BOTH fixtures at 300 dpi independently.",
+      "verdictCeilingApplied": null,
+      "fixtureDigestsConfirmedBeforeMeasuring": {
+        "canonical": "32b06f4cd0794b9757e5cf52ced0b55a292cebc109ee4801457d7624aa24ef16",
+        "boundary": "1237dfee564cd3c0b4fd469266b570bcf454de0b2e3c001a96a3ce5dfa468c31",
+        "matchesRasterQueueRow": true,
+        "method": "sha256sum recomputed on disk and compared to RASTER_QUEUE.rows[].documents[].sha256 before any measurement"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set, run without --write in this container on the committed bytes"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet is built for the route the record names. obligation:track-only:VA:va_seal_petition_misdemeanor occurs exactly once in the committed route-obligation census and is the key carried by production-field-map.json, product-wiring.json and the MASTER_QUEUE row alike. No machine key is printed anywhere on either fixture: 0 occurrences of \"obligation:\" across all 11 pages of canonical.pdf and boundary.pdf and in participant-instructions.md, and every composed component's last line prints the readable label \"Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12\".",
+          "evidence": "grep of the route key against data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (1 occurrence); pdftotext over both fixtures for \"obligation:\" (0) and for the printed Route line (4 composed components each); data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json routeKeys and data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/product-wiring.json compared to the MASTER_QUEUE row"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "1/1 official source recomputed byte-for-byte from the Master Library here: CC-1201 = 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78, matching source-receipt.json sha256 and byteLength and the committed corpus index entry at STATES/VA/02_PACKET_FORMS/",
+          "evidence": "sha256 recomputed under MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 and compared against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/source-receipt.json and data/rcap-all50/local-source-corpus-index.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all five declared components (primary_filing, ccre_forwarding_request, commonwealth_service_and_stipulation_request, records_checklist, filing_instructions) are rendered and present in both fixtures and nothing outside the set appears; the 11-row pageManifest resolves to exactly those five contiguous runs in the registry's order",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json componentSet and pageManifest read page by page against data/record-clearing/legal-design-track-registry.json packetSet.components[].order, and against the page text extracted from both fixtures"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "all 8 facts the platform holds (participant.full_legal_name, date_of_birth, street_address, city, phone, email, matter.case_number, matter.court) are written and visible in the extracted text of both fixtures, each on the page it belongs to, including the CCRE forwarding request's date of birth that the FIX87 repair added; knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here",
+          "evidence": "each fixture value from FIXTURES in scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs searched page by page in pdftotext output of data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf and boundary.pdf; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set, run without --write in this container on the committed bytes"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "27 declared items, all 27 named in participant-instructions.md by both their disclosureLabel and their participantMustSupply text (0 missing on each). Separately, every obtain_document and confirm_answer prerequisite the track registry and the packet-set manifest record for this track (they are byte-identical to one another) is carried verbatim into participant-instructions.md and onto the delivered records-checklist and filing-instructions pages, with each conditionDescription and obtainedFrom",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json requiredBeforeFiling checked string by string against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md; track-registry and packet-set-manifest participantActionRequired checked against the markdown and against pdftotext of the assembled fixture"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "every route-determined election is selected: 7 selection controls carry routeDetermined true and disposition selected_by_route, and all 7 are painted as marks inside their own measured boxes in BOTH fixtures; 0 route-determined controls left unmade. CC-1201 page 1 B.2 \"This charge is a\": User.ChargeMisdemeanor is marked by route; the two felony branches are refused as outside this route. requiredOptionsMissing=0 measured here",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/production-field-map.json selectionControls and routeSelectionsMade cross-checked against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/actual-writes.json routeSelectionMarks for both fixtures, and read at 300 dpi on the rendered pages"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows=0 measured here, and read directly on the pages: the repeating structures on this form (the second-matter block and the addendum block) carry no written cell at all in either fixture, so no row carries written cells beside required cells left blank. Where a numbered item block carries the case number beside blanks, every one of those blanks is a declared requiredBeforeFiling item disclosed to the participant by the words printed beside it",
+          "evidence": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set, run without --write in this container on the committed bytes; 300 dpi page-versus-source ink diff showing zero added ink on the second-matter and addendum blocks of both fixtures"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. 0 of 46 declared write entries carry a protected label under the contract's own classifyField. Read at 300 dpi: the petition's DATE line and its signature rule are blank in both fixtures, and the mark the field map calls User.SignaturePetitioner1 is the 9.85 x 9.30 pt role checkbox printed beside \"SIGNATURE OF\", not the signature line. The composed service page prints \"This page is not a certificate of mailing and does not say that anything has been mailed\" and leaves its own DATE OF DELIVERY OR MAILING and SIGNATURE OF PETITIONER lines blank; the CCRE page leaves DATE OF THIS REQUEST and SIGNATURE OF PETITIONER blank. protectedWrites=0 measured here",
+          "evidence": "every canonicalWrites and boundaryWrites label passed through classifyField from scripts/rcap-packet-completeness/completeness-contract.mjs; 300 dpi crops of the signature block of both fixtures; node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_seal_petition_misdemeanor-set, run without --write in this container on the committed bytes"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "4/4 PDFs under fixtures/ are named by the record and all recompute byte-exact: canonical.pdf 32b06f4cd0794b9757e5cf52ced0b55a292cebc109ee4801457d7624aa24ef16 and boundary.pdf 1237dfee564cd3c0b4fd469266b570bcf454de0b2e3c001a96a3ce5dfa468c31 plus the two per-form primary-filing files bound by primaryFilingSha256; pageCount and byteLength match the record for both assembled fixtures, and the two assembled digests equal the ones the RASTER_QUEUE row pins",
+          "evidence": "sha256 recomputed for every PDF under data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/ against reports/rendered-artifacts.json artifacts[] (sha256, primaryFilingSha256, byteLength, pageCount) and against data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the rendered page order matches the packet manifest page by page in both fixtures: 11 pages, pdfinfo reports 11, and each page's extracted text carries the component the manifest names for that packetPage, in the registry order 1 primary_filing, 2 ccre_forwarding_request, 3 commonwealth_service_and_stipulation_request, 4 records_checklist, 5 filing_instructions",
+          "evidence": "pdfinfo and per-page pdftotext of both fixtures compared row by row against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json pageManifest and against the registry component order"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "no ink outside a measured write box. Placement sweep at 300 dpi over every page of both fixtures against the pinned official form: 89 added-ink regions on canonical and 180 on boundary, and 0 of them fall outside a write box or route-selection mark box declared in production-field-map.json and actual-writes.json. No synthesized appearance square and no regenerated border appears anywhere: the unwritten form pages differ from the pinned source by zero pixels. Across all 11 pages of both fixtures, 8227 words: 0 outside the page box, 0 outside a 0.25 in margin, 0 words under 5 pt, 0 overlapping word pairs. The new readable route label is legible and inside its text column on every composed component, and the boundary fixture's long name, address and 58-character email render in full inside their rules",
+          "evidence": "pdftoppm -r 300 of both fixtures and of the pinned CC-1201 bytes, per-pixel darker-than-source diff with connected-component boxes tested for containment in the declared boxes; pdftotext -bbox-layout word rectangles tested against each page's own MediaBox, a 0.25 in margin, a 5 pt height floor and neighbour overlap; rasters written under /tmp/vf02v and deleted after measuring"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet names the Circuit Court for the city or county in the petition's caption, and adds that a General District Court or Juvenile and Domestic Relations District Court case still goes to the circuit court for that locality, which is the destination the committed track registry records for this track (Clerk of the circuit court of the locality where the case was disposed of)",
+          "evidence": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md \"Where you file this\" and the delivered filing-instructions page \"WHERE THIS GOES\", against data/record-clearing/legal-design-track-registry.json destination"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the fee and the waiver route are stated, quoted from the record and not invented. The registry rules.fees statement and the rules.feeWaiver statement each appear verbatim in participant-instructions.md and on the delivered pages of BOTH fixtures, cited to Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), with the CCRE's separate charge named as not a court fee",
+          "evidence": "registry rules.fees and rules.feeWaiver matched verbatim against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md and pdftotext of canonical.pdf and boundary.pdf (the composed pages render the section sign as \"Sec.\"; the markdown carries the literal section sign)"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "who must be served and how: the Attorney for the Commonwealth for the county or city where the petition is filed, by delivery or by first-class mail with postage prepaid, quoted from the petition's own acknowledgment and matching the registry's service rule; a dedicated component page carries the copy and asks the Commonwealth to state its position, and the packet says plainly that it does not state the deadline",
+          "evidence": "the commonwealth_service_and_stipulation_request page of both fixtures and participant-instructions.md, against data/record-clearing/legal-design-track-registry.json rules.service and the acknowledgment text of the pinned CC-1201"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "the packet states where self-help ends. All 9 of this track's registry selfHelpStopConditions appear verbatim in participant-instructions.md under \"When to stop and get a lawyer\" and on the delivered filing-instructions page of BOTH fixtures (9/9, 0 missing in each of the three places). Nothing is abridged and no condition is softened",
+          "evidence": "data/record-clearing/legal-design-track-registry.json selfHelpStopConditions for this track matched condition by condition against data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/participant-instructions.md and against pdftotext of canonical.pdf and boundary.pdf"
+        }
+      },
+      "appearanceFindingsRecordedNotFailed": [
+        "The composed pages transliterate the section sign to \"Sec.\" throughout; participant-instructions.md carries the literal section sign. Consistent, unambiguous and legible, so the fee, self-help-stop and record-prerequisite quotations are word-for-word apart from that one substitution."
+      ],
+      "repairAssignmentId": null
     }
   ],
   "postfixRead": {
@@ -17191,5 +17714,26 @@
       "failedProofObligations": [],
       "selfHelpStop": "PASS",
       "evidenceDirectory": "data/rcap-grade-a/packet-factory-24h/vf02/nc146-stop-reread-20260906"
-    }
+    },
+  "vf02VaFourIndependentRead20260906": {
+    "verifiedAtBase": "b70ec78ef",
+    "branch": "vf02-va-four-read-0906",
+    "rowIndices": [109, 110, 111, 112],
+    "families": [
+      "va_seal_ancillary_matter_only-set",
+      "va_seal_enumerated_seven_year-set",
+      "va_seal_petition_felony-set",
+      "va_seal_petition_misdemeanor-set"
+    ],
+    "verdict": "PASS_COMPLETE_INDEPENDENT on all four",
+    "failedProofObligations": [],
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/13 passed, 2 failed, 4 not applicable. The two failures are private_is_git_ignored (private/ is a read-only symlink in this worktree; git status is clean and git check-ignore reports it ignored) and corpus_matches_committed_index (1 absent of 24 sampled, in the deterministic national spread and not a Virginia entry). family_sources_bind passed 1/1 by exact SHA-256, and both Virginia forms were recomputed byte-exact here.",
+    "rasterStateBinding": "NO WORKFLOW RUN IS BOUND on any of the four. Each RASTER_QUEUE row records currentRasterState RASTER_PASS from a receipt naming workflow null, workflowRunId null, executionEnvironment Codespaces local calibrated raster runner and githubDispatch HTTP 403. Treated as RASTER_PENDING for routing and promotion, per RASTER_QUEUE.rasterStateSemantics.",
+    "recordCorrectionRequiredOfTheCaptain": "va_seal_ancillary_matter_only-set and va_seal_enumerated_seven_year-set deliver CC-1203 while legal-design-track-registry.json, legal-design-packet-set-manifests.json and the MASTER_QUEUE row all name CC-1201 for their primary_filing. Measured on the bytes, CC-1203 is the form whose printed face carries Va. Code Sec. 19.2-392.12:1(A) and/or (B), which is these two tracks own statute; CC-1201 carries Sec. 19.2-392.12 and no Sec. 19.2-392.12:1 section. The build discloses the divergence in production-field-map.json and build-findings.json. The stale field is in the records. No repair is assigned against the packets.",
+    "appearanceFindingRecorded": "va_seal_ancillary_matter_only-set ships a 13th page carrying only the route label line; the filing_instructions body ends on page 12. No obligation measures it and it is not scored as a failure.",
+    "overlayDirectoriesModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "grantsReleased": 0
+  }
 }
