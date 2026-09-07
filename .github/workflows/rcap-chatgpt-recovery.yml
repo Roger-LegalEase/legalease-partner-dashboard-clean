@@ -94,7 +94,9 @@ jobs:
           import json,pathlib,hashlib,os
           record=json.loads((pathlib.Path(os.environ['EVIDENCE'])/'developer-visual-review.json').read_text())
           for artifact in record['artifacts']:
-            assert hashlib.sha256(pathlib.Path(artifact['file']).read_bytes()).hexdigest()==artifact['sha256'],artifact['file']
+            data=pathlib.Path(artifact['file']).read_bytes()
+            assert data.startswith(b'%PDF-'),artifact['file']
+            assert hashlib.sha256(data).hexdigest()==artifact['sha256'],artifact['file']
           print(f"All {len(record['artifacts'])} PDF hashes / {record['pagesReviewed']} reviewed pages match exactly.")
           active=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').read_text())
           assert not any(x.get('assignmentId',x.get('lane'))=='PF25' for x in active['assignments'])
@@ -153,15 +155,21 @@ jobs:
             subprocess.run(['git','add','--',p],check=True)
           print('Scoped files staged:',len(paths))
           PY
-          # Preserve issuer HTML verbatim, including its two original trailing spaces.
-          # Every authored/generated code and document remains under the whitespace check.
-          git diff --cached --check -- . ':!reference/delaware/sbi-process-20260907.html'
+          # PDF xref records intentionally have trailing spaces; PDF bytes are
+          # verified above by their exact reviewed SHA-256, not text whitespace.
+          # The issuer HTML also stays byte-identical to its official response.
+          git diff --cached --check -- . ':!reference/delaware/sbi-process-20260907.html' ':(glob,exclude)**/*.pdf'
+          git diff --cached --binary > "$RUNNER_TEMP/recovery-candidate.patch"
+          sha256sum "$RUNNER_TEMP/recovery-candidate.patch" > "$RUNNER_TEMP/recovery-candidate.sha256"
+          # Publish workflow changes separately through the authorized connector.
+          # Do not require workflow-administration permission for this job token.
+          git restore --staged .github/workflows/rcap-source-conveyor-ready.yml
           git config user.name 'LegalEase recovery (ChatGPT)'
           git config user.email 'noreply@legalease.com'
           git commit -m 'fix(rcap): repair DE MA VA PA packets, retain official inputs and restore generator convergence'
           git push origin "HEAD:refs/heads/$RECOVERY_BRANCH"
           git rev-parse HEAD | tee "$RUNNER_TEMP/published-sha.txt"
-      - name: Upload readable recovery evidence
+      - name: Upload readable recovery evidence and exact candidate
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -169,5 +177,7 @@ jobs:
           path: |
             data/rcap-grade-a/launch-recovery-2026-09-07/
             ${{ runner.temp }}/published-sha.txt
+            ${{ runner.temp }}/recovery-candidate.patch
+            ${{ runner.temp }}/recovery-candidate.sha256
           retention-days: 14
           if-no-files-found: error
