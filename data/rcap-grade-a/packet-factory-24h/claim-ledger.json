@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "241c072fc1fe7da9fa81f5fc77fca4de45961185",
+  "generatedAtCommit": "b70e2c162a800fdfce7615354a06d02c5d0a375e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5767,11 +5767,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T11:36:21.150Z",
-      "releaseReason": "Integrated exact-source independent legal hold 1bdb28ff1; no packet repair is authorized to resolve legal waiver mismatch"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13831,7 +13829,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "e4a38bdc4810f19b111c7654e5c1240ad21c1efc3cb69c0f7e9a10bc908a19ae",
+  "claimsDigest": "8a1469422fddf935005a47387bf0990d243db40f48f5c8dabe509a7f7898190c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40469,6 +40467,18 @@
       "familyState": "SOURCE_BLOCKED",
       "reissuedAt": "2026-09-07T12:13:24Z",
       "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-07T12:44:05Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
     }
   ],
   "transfers": [
