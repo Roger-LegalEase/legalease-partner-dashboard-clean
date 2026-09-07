@@ -1,41 +1,20 @@
 #!/usr/bin/env node
 /**
- * FABLE-PC census-v1 builder — six Nevada sealing routes under NRS chapter 179.
+ * Nevada artifact builder: six independently identified record-sealing routes.
  *
- *   node "scripts/build-census-v1-rcap-nv-custom-pleading.mjs" [--check] [--no-raster]
+ *   node scripts/build-census-v1-rcap-nv-custom-pleading.mjs [--check] [--no-raster]
  *
- * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
+ * The original committed SPEC is retained below for stable ordinary-route
+ * components. applyNvSpecialRoutes replaces only the NRS 179.271 and 179.273
+ * request/petition procedures using the current primary-authority correction.
+ * Those two routes are court-filed and have no submission fee; neither uses
+ * prosecutor preapproval. The pardon petition is not subject to prosecutorial
+ * review. The decriminalization request instead uses court notice and the
+ * statute's 10-judicial-day objection period, measured from receipt of notice.
  *
- * SIX STATUTORY ROUTES IN ONE FAMILY, all participant-filed, all built as
- * custom pleadings. The committed specifications record four composed
- * components for each route — petition, proposed order, declaration and
- * verification, and the prosecuting attorney's stipulation — and name no
- * official form.
- *
- * THE PETITION IS NOT THE FIRST STEP, AND THE PACKET SAYS SO. The committed
- * packet instructions record that the district attorney is: the state's own
- * instructions direct the petitioner to prepare the petition and order,
- * submit them to the DA's office with attachments, and only file with the
- * court clerk after the DA stipulates. The stipulation page is therefore
- * carried in the packet with EVERY line left to that office, and the filing
- * instructions state the order of operations.
- *
- * A FEE ANSWER THE REPOSITORY HOLDS. The committed instructions record that
- * the sex-trafficking fee waiver under NRS 179.245(9) is not a separate track
- * but a cross-cutting entitlement that zeroes out every fee in the process —
- * fingerprints, criminal history and certified copies included — and that it
- * must be surfaced wherever a fee is mentioned. It is surfaced on every
- * filing instructions page in this packet. DET-FEE-AND-WAIVER-001-A2: the
- * repository is wider than the family's own bound sources, and a fee answer
- * it holds is stated rather than delegated.
- *
- * AN ATTACHMENT WITHOUT WHICH THERE IS NO PACKET. NRS 179.245(2)(a) and
- * 179.255(3)(a) make a current verified criminal history from the Central
- * Repository a statutory attachment requirement. The record's own words are
- * carried: no repository record, no packet.
- *
- * A built family is a built family. It is not verified, not approved, not
- * sellable, and this builder issues no verdict on its own packets.
+ * The original four other routes are unchanged. No output here is an official
+ * court form, an independent packet verdict, or commercial delivery authority.
+ * Legal/independent review and actual product-path proof remain separate.
  */
 const SPEC = {
   "familyId": "rcap-nv-custom-pleading",
@@ -3850,6 +3829,7 @@ const SPEC = {
  * families cannot be changed for one of them without moving the bytes of the
  * rest, and every family here owns only itself.
  * ========================================================================== */
+import { applyNvSpecialRoutes } from "./rcap-packet-recovery/nv-special-routes.mjs";
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -3870,6 +3850,7 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+applyNvSpecialRoutes(SPEC);
 const OUT = SPEC.outDir;
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 const DOTS = (n = 84) => ".".repeat(n);
@@ -3916,7 +3897,7 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, pageBreakBefore = []) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
@@ -3953,7 +3934,13 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    // Explicit component-owned section boundaries do not affect other routes.
+    if (pageBreakBefore.includes(raw) && y < height - margin) {
+      page = pdf.addPage([width, height]); y = height - margin;
+    }
+    for (const row of wrap(raw)) draw(row);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -4314,7 +4301,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const body = composedBody(componentId, facts);
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
-      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title, COMPONENT[componentId].pageBreakBefore ?? []);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
         packet.addPage(p);
