@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { NC_FEE_WAIVER_COPY, NC_FEE_GUIDANCE, g106Map, writeNc146BranchFixtures } from './rcap-packet-recovery/nc-146-indigency.mjs';
 /**
  * FABLE-PD official-form packet family — North Carolina, expunction of
  * DISMISSED charges under G.S. 15A-146(a) or (a1).
@@ -85,6 +86,12 @@ const SPEC = {
 
   records: [
     {
+      recordId: "implementation:nc-146-indigency",
+      path: "scripts/rcap-packet-recovery/nc-146-indigency.mjs",
+      role: "Executable fee-component selection and assembly; implementation input only, not legal authority or counsel approval",
+      mustContain: ["selectNc146Components", "g106Map", "writeNc146BranchFixtures"]
+    },
+    {
       recordId: "packet-set-manifest:nc_146_dismissal_petition-set",
       path: "data/record-clearing/legal-design-packet-set-manifests.json",
       role:
@@ -95,7 +102,7 @@ const SPEC = {
       mustContain: [
         "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
         "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
-        "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        NC_FEE_WAIVER_COPY,
         "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
         "Obtain Copies of the charging documents, dismissal orders and judgments. Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding.",
         "Applies where the district attorney petitions rather than the participant. G.S. 15A-146 permits either."
@@ -132,6 +139,14 @@ const SPEC = {
   ],
 
   officialComponents: {
+    fee_waiver: {
+      sourceId: "official-form:AOC-G-106", documentId: "AOC-G-106", formNumber: "AOC-G-106",
+      officialTitle: "Petition To Proceed As An Indigent", revision: "REV-2024-11", instrumentKind: "fee_waiver",
+      sha256: "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+      acroform: true, captionOnly: false, explicitMappings: {}, unwritable: [],
+      retainedRepositoryPath: "reference/north-carolina/AOC-G-106-2024-11.pdf",
+      receiptPath: "data/rcap-grade-a/launch-recovery-2026-09-07/official-source-acquisition.json"
+    },
     petition: {
       sourceId: "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
       documentId: "AOC-CR-287",
@@ -166,7 +181,7 @@ const SPEC = {
       sha256: "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
       acroform: false
     },
-    fee_waiver: {
+    supplemental_financial_affidavit: {
       sourceId: "official-form:AOC-CV-226",
       documentId: "AOC-CV-226",
       formNumber: "AOC-CV-226",
@@ -260,22 +275,24 @@ const SPEC = {
 
   officialCells: {},
 
-  components: ["petition", "instructions", "fee_waiver"],
+  components: ["petition", "instructions", "fee_waiver", "supplemental_financial_affidavit", "participant_guide"],
   componentTitles: {
     petition: "AOC-CR-287 - Petition and Order of Expunction (Charges Dismissed)",
     instructions: "AOC-CR-287 - The Administrative Office of the Courts' own instructions",
-    fee_waiver: "AOC-CV-226 - Civil Affidavit of Indigency"
+    fee_waiver: "AOC-G-106 - Petition To Proceed As An Indigent",
+    supplemental_financial_affidavit: "AOC-CV-226 - Court-requested supplemental financial information",
+    participant_guide: "North Carolina dismissal packet - completion guide"
   },
   componentConditions: {
-    fee_waiver:
-      "Conditional. A true dismissal carries no fee. The committed packet-set manifest records that the $175.00 "
-      + "fee applies only where the charge was dismissed pursuant to a deferred prosecution agreement or a "
-      + "conditional discharge, and that the indigency waiver is available on AOC-CV-226 where a fee applies."
+    fee_waiver: "Only when the fee applies and the participant explicitly requests indigency treatment. AOC-G-106 is the operative petition. The deferred/conditional-discharge legal-review stop remains.",
+    supplemental_financial_affidavit: "Only with the selected G-106 branch and a recorded, specific court request for supplemental financial information; AOC-CV-226 is not the operative indigency petition and its inapplicable civil/arbitration oath must not be signed."
   },
   componentDescriptions: {
-    petition: "the AOC-approved petition. Side One is yours; Side Two is the court's findings, order and the clerk's certification",
-    instructions: "the AOC's own instruction sheet for this form, delivered exactly as published and unmarked",
-    fee_waiver: "the indigency affidavit, needed ONLY if a fee applies to your case and you cannot pay it"
+    petition: "AOC-CR-287: participant petition on Side One; court findings, order and clerk certification on Side Two remain blank",
+    instructions: "AOC-CR-287 official instructions, unchanged",
+    fee_waiver: "AOC-G-106 (Rev. 11/24), only for an explicitly requested indigency branch where a fee applies",
+    supplemental_financial_affidavit: "AOC-CV-226 (Rev. 4/23), supplemental financial information only upon a recorded specific court request",
+    participant_guide: "LegalEase completion guidance; not a substitute for any official form"
   },
 
   fixtures: {
@@ -305,11 +322,7 @@ const SPEC = {
 
   composedFromNote: null,
 
-  formIdentityNote:
-    "All three documents are the North Carolina Administrative Office of the Courts' own published forms, bound "
-    + "by exact SHA-256 through the committed corpus index and delivered as the AOC issues them. G.S. 15A-146(c) "
-    + "requires a petition under this section to be on a form approved by the AOC, so substituting or composing "
-    + "one would make the filing refusable on its face; nothing here is composed, substituted or invented.",
+  formIdentityNote: "Four exact official source documents are bound to verified retained bytes. AOC-G-106 is the operative selected indigency petition; CV-226 is a separately conditioned financial supplement. Official source pages are not rewritten. The separately labeled participant guide is LegalEase-authored, not an official form.",
 
   agencyTreatmentNote: null,
 
@@ -335,9 +348,9 @@ const SPEC = {
   instructionsHeading: "Filing instructions — expunging a dismissed North Carolina charge (G.S. 15A-146)",
 
   instructionsIntro: [
-    "This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only if a fee applies to your case — **AOC-CV-226, the Civil Affidavit of Indigency**. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why nothing here is a composed document.",
+    "This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only when a fee applies and you request indigency treatment — **AOC-G-106, Petition To Proceed As An Indigent**. CV-226 is a separately selected court-requested financial supplement, not the petition. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why the official forms are retained; the added LegalEase completion guide does not replace an official form.",
     "**Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.",
-    "The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.",
+    "The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. When G-106 is selected, it fills your known caption, name and address, and marks only the Expunction Petition purpose. When specifically requested, CV-226 carries your known personal details; all financial figures, signature dates and oath/provider/court entries remain unfilled.",
     "**The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a \"date of dismissal\". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.",
     "**Your ZIP code and your date of birth on Side One are filled in — check them.** They used to be left to you, because on that crowded row the shared caption reader was picking up the neighbouring \"Race\" and \"Full Social Security No.\" captions instead of their own and refusing the write. This build reads those two captions off the printed form itself, so both facts are now written where the form asks for them, as they already were on AOC-CV-226. The blanks beside them — Drivers License No., Drivers License State, Full Social Security No., Race, Sex and Age At Time Of Offense — are still empty, and the table below says which of them you must supply."
   ],
@@ -355,13 +368,7 @@ const SPEC = {
     "**The District / Superior division boxes in the caption are yours.** They follow the court the charge was brought in, and the clerk's office of that county can confirm which applies to your case."
   ],
 
-  feeAndWaiver: [
-    "**For a true dismissal there is no fee.** The committed packet-set manifest states it: \"none for a true dismissal.\"",
-    "**There is one exception and it is $175.00.** The same record: \"$175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement.\" The form itself carries the switch — Side One has a box reading *No charge listed above was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge and dismissal*, with a NOTE TO CLERK beside it: **if this box is checked, do not assess the $175.00 fee.** That box is a statement about your own case and this packet does not tick it for you.",
-    "**If the $175.00 does apply and you cannot pay it, AOC-CV-226 is in this packet for exactly that.** The manifest records the waiver as \"available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.\" The affidavit is a full financial statement and every money figure on it is yours; the platform writes none of them.",
-    "**A separate cost is expressly not yours.** The manifest records that the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner. That is the cost of carrying the order out, and it is not charged to you.",
-    "**If the clerk asks you for anything else**, that is a question about that office's own practice: **ask the clerk of superior court of the county where the charge was brought**, who is the office that assesses it, before you pay."
-  ],
+  feeAndWaiver: [...NC_FEE_GUIDANCE],
 
   service: [
     "**Nobody is served on this route.** The committed packet-set manifest records it in terms: \"none required by the AOC form for dismissals.\" There is no certificate of service on AOC-CR-287 and none is needed.",
@@ -386,7 +393,7 @@ const SPEC = {
     "**Tick the civil-revocation box only if a civil revocation of your driver's licence resulted from the offence.**",
     "**Read the deferred-prosecution box carefully.** Tick it only if no charge listed was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge. Ticking it truthfully is what tells the clerk not to assess the $175.00 fee.",
     "**Sign and date the petition where it says Signature Petitioner, and print your name beside it.**",
-    "**Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.",
+    "**Only where a fee applies and you request indigency treatment, use AOC-G-106.** Complete truthful personal and basis information; do not pre-execute provider or court certifications. CV-226 is supplemental only upon a specific court request. Do not sign inapplicable civil/arbitration wording; ask the court for appropriate directions. The deferred/conditional-discharge legal-review stop remains.",
     "**File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two."
   ],
 
@@ -397,7 +404,7 @@ const SPEC = {
     "**Your driver's licence number, your Social Security number, your race, your sex and your age at the time of the offence.** Government identifiers and personal descriptors the platform does not write onto any form.",
     "**The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.",
     "**Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.",
-    "**Every signature and every date beside one, on both forms.**"
+    "**Every execution signature and its date, on all selected forms. Provider and court certification blocks are not yours.**"
   ],
 
   notTold: [
@@ -760,7 +767,7 @@ const SPEC = {
             + "the platform does not invent a charge you did not have", 1));
         }
       }
-    } else if (componentId === "fee_waiver") {
+    } else if (componentId === "supplemental_financial_affidavit") {
       writes.push(
         h.write("ApplicantName", "Name Of Applicant", "participant.full_legal_name", 1),
         h.write("ApplicantCity", "City of the applicant", "participant.city", 1),
@@ -774,7 +781,7 @@ const SPEC = {
          * rather than the descriptor channel, because no shared descriptor
          * matches this caption however it is spelled. The caption below is the
          * one the pinned form PRINTS, measured at 300 dpi; the shared capture
-         * cuts it at 60 characters. See officialComponents.fee_waiver. */
+         * cuts it at 60 characters. See officialComponents.supplemental_financial_affidavit. */
         h.write("ApplicantStreetNumberAndStreetNameLine1",
           "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
           "participant.street_address", 1)
@@ -901,6 +908,10 @@ const SPEC = {
           "your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it",
           "the platform holds no financial fact for any participant, and a figure on a sworn affidavit may only come from the person swearing it", 1));
       }
+    } else if (componentId === "fee_waiver") {
+      return g106Map(h);
+    } else if (componentId === "participant_guide") {
+      writes.push(h.write("participant_name", "Participant full legal name on the completion guide", "participant.full_legal_name", 1));
     } else {
       // The AOC's own instruction sheet, delivered exactly as published.
       // Nothing is written on it and there is nothing on it to write.
@@ -942,7 +953,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { extractTextItems, groupIntoLines, extractPageGeometry } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay, finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
@@ -969,6 +980,19 @@ export const DOTS = (n = 84) => ".".repeat(n);
 
 const STRATEGY = SPEC.implementationStrategy ?? "participant_agency_application";
 const OFFICIAL = SPEC.officialComponents ?? {};
+for (const [id, name] of Object.entries({ petition: "AOC-CR-287-2025-12.pdf", instructions: "AOC-CR-287-instructions-2025-12.pdf", supplemental_financial_affidavit: "AOC-CV-226-2023-04.pdf" })) {
+  OFFICIAL[id].retainedRepositoryPath = `reference/north-carolina/${name}`;
+  OFFICIAL[id].receiptPath = "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-retained-source-receipt.json";
+}
+SPEC.composedBody = (component, facts) => {
+  assert.equal(component, "participant_guide");
+  return ["LEGALEASE COMPLETION GUIDE - NOT AN OFFICIAL COURT FORM", `Prepared for: ${facts["participant.full_legal_name"]}`, "", ...NC_FEE_GUIDANCE.flatMap(x=>[x,""]),
+    "Before filing: verify the county and existing case number; complete all five columns of every charge row from your court records. Check the correct existing division and truthful certifications. Sign and date only your own blocks. Leave court, clerk, provider and oath-officer entries to those actors.", "",
+    "For G-106: confirm the plaintiff caption, personal details, division and actual indigency basis. Expunction Petition is the selected purpose only. No benefit, legal-services representation or court approval is inferred.", "",
+    "Do not continue self-help on: a felony dismissed under a plea agreement, an incapable-to-proceed dismissal, a deferred-prosecution/conditional-discharge case, sequencing involving 15A-145.4 or 15A-145.6, DNA expunction, or immigration matters. Obtain legal review. The fee-branch examples demonstrate components, not clearance of these stops.", "",
+    "File an otherwise qualifying petition with the clerk of superior court in the county where the charge was brought. Keep charging/disposition records before filing and review the official instruction sheet. The clerk distributes a granted order; do not sign a court finding or certification."
+  ].join("\n");
+};
 const isOfficial = (componentId) => Object.hasOwn(OFFICIAL, componentId);
 
 /* ---- committed-record binding ------------------------------------------------ *
@@ -1059,34 +1083,24 @@ function resolveRecords() {
  * custody now and every custody but the Master Library writes
  * repository-relative paths. The pinned SHA-256 is what decides these are the
  * document's bytes, and it is re-computed from the file on disk. */
-function resolveOfficialDocuments() {
-  const bound = [];
-  const failures = [];
-  if (Object.keys(OFFICIAL).length === 0) return { bound, failures };
+async function resolveOfficialDocuments() {
+  const bound = [], failures = [];
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
-  const resolver = makeCorpusEntryResolver(index, {
-    repoRoot: ROOT, masterLibraryRoot: path.join(ROOT, MASTER_LIBRARY)
-  });
   for (const [componentId, doc] of Object.entries(OFFICIAL)) {
-    const entry = (index.entries ?? []).find((e) => e.sha256 === doc.sha256);
-    if (!entry) {
-      failures.push({ sourceId: doc.sourceId, componentId, sha256: doc.sha256, why: "no committed corpus-index entry carries this SHA-256" });
-      continue;
-    }
-    const file = resolver.resolve(entry);
-    if (!fs.existsSync(file)) {
-      failures.push({ sourceId: doc.sourceId, componentId, sha256: doc.sha256, path: entry.path, custody: entry.custody, why: "the corpus index names this document but its bytes are not mounted in this checkout" });
-      continue;
-    }
-    const bytes = fs.readFileSync(file);
-    const observed = crypto.createHash("sha256").update(bytes).digest("hex");
-    if (observed !== doc.sha256) {
-      failures.push({ sourceId: doc.sourceId, componentId, sha256: doc.sha256, observed, why: "the bytes on disk do not hash to the pinned SHA-256" });
-      continue;
-    }
-    bound.push({ componentId, doc, bytes, entry, custody: entry.custody, pathInCustody: entry.path });
+    try {
+      const file = path.join(ROOT, doc.retainedRepositoryPath);
+      const bytes = fs.readFileSync(file), observed = crypto.createHash("sha256").update(bytes).digest("hex");
+      assert.equal(observed, doc.sha256, `${doc.documentId}: retained source hash drift`);
+      const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, doc.receiptPath), "utf8"));
+      assert.ok(receipt.sources.some(x => x.repositoryPath === doc.retainedRepositoryPath && x.sha256 === observed && x.byteLength === bytes.length), `${doc.documentId}: retained source has no exact acquisition/custody receipt`);
+      const entry = (index.entries ?? []).find(e => e.sha256 === observed) ?? null;
+      if (entry) assert.equal(entry.byteLength, bytes.length, `${doc.documentId}: corpus byte length drift`);
+      const pdf = await PDFDocument.load(bytes, {ignoreEncryption:true,updateMetadata:false});
+      bound.push({componentId, doc, bytes, entry, custody:"verified_retained_official_source", pathInCustody:doc.retainedRepositoryPath,
+        retainedReceipt:doc.receiptPath, pageCount:pdf.getPageCount(), acroFieldCount:pdf.getForm().getFields().length });
+    } catch(error) { failures.push({sourceId:doc.sourceId,componentId,sha256:doc.sha256,why:error.message}); }
   }
-  return { bound, failures };
+  return {bound,failures};
 }
 
 /* ---- measured write boxes, read from the document's own strokes ---------------- *
@@ -1593,6 +1607,24 @@ async function renderComposedPdf(fullText, title) {
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
+async function markExpunctionPurpose(bytes, widget) {
+  const pdf=await PDFDocument.load(bytes,{updateMetadata:false});
+  const page=pdf.getPage(widget.page-1),r=widget.rect,inset=2;
+  assert.ok(r.width>6 && r.height>6 && r.x>=0 && r.y>=0 && r.x+r.width<=page.getWidth() && r.y+r.height<=page.getHeight());
+  const paths = p => extractPageGeometry(p).paths.filter(x=>/^(S|s)$/.test(x.paintedBy ?? ""));
+  const key = p => JSON.stringify([p.operator,p.paintedBy,p.x,p.y,p.width,p.height]);
+  const before=new Map();for(const p of paths(page))before.set(key(p),(before.get(key(p))??0)+1);
+  const a={x:r.x+inset,y:r.y+inset},b={x:r.x+r.width-inset,y:r.y+r.height-inset};
+  page.drawLine({start:a,end:b,thickness:0.8,color:rgb(0,0,0)});
+  page.drawLine({start:{x:a.x,y:b.y},end:{x:b.x,y:a.y},thickness:0.8,color:rgb(0,0,0)});
+  const output=Buffer.from(await pdf.save({useObjectStreams:false,updateMetadata:false}));
+  const reread=await PDFDocument.load(output,{updateMetadata:false});
+  const added=paths(reread.getPage(widget.page-1)).filter(p=>{const n=before.get(key(p))??0;if(n){before.set(key(p),n-1);return false;}return true;});
+  assert.equal(added.length,2,"Expunction purpose must add exactly two measured strokes");
+  for(const p of added)assert.ok(p.x>=r.x && p.y>=r.y && p.x+Math.abs(p.width)<=r.x+r.width && p.y+Math.abs(p.height)<=r.y+r.height,"Purpose mark leaves source box");
+  return {bytes:output,proof:{sourceField:"ExpunctionPetitionCbx",sourceSha256:OFFICIAL.fee_waiver.sha256,page:widget.page,rect:r,addedPaintedPaths:added,proof:"Two new strokes read from the saved PDF inside the exact source checkbox; other purpose and indigency controls remain unmarked."}};
+}
+
 /* ---- field-map helpers, in the maps-with-canonical-and-boundary shape -------- */
 function mapHelpers(componentId) {
   const base = (id, label, page = 1) => ({
@@ -1909,7 +1941,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const skipRaster = argv.includes("--no-raster");
 
   const { resolved, failures } = resolveRecords();
-  const { bound, failures: sourceFailures } = resolveOfficialDocuments();
+  const { bound, failures: sourceFailures } = await resolveOfficialDocuments();
   if (failures.length > 0 || sourceFailures.length > 0) {
     return {
       familyId: SPEC.familyId, status: "BLOCKED_SOURCE",
@@ -2010,6 +2042,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   const maps = SPEC.components.map((c) => composedMap(c));
   const artifacts = [];
+  const branchArtifacts = [];
   const writeProofs = [];
   const rasterPages = [];
   const pdfsDeclared = [];
@@ -2018,6 +2051,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = SPEC.fixtures[fixtureName];
+    const renderedComponents = new Map();
+    const routeControlProofs = [];
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
     packet.setTitle(`${SPEC.legalName} — ${fixtureName} fixture`);
@@ -2040,15 +2075,17 @@ export async function runFamily(argv = process.argv.slice(2)) {
           // mappings and its role classification, and then proves the result
           // from the artifact bytes rather than from the finalizer's report.
           const census = censusByComponent.get(componentId);
+          const componentMap = SPEC.mapFor(componentId, mapHelpers(componentId));
+          const g106Writes = new Map(componentMap.writes.filter(w=>w.factId).map(w=>[w.field.slice(componentId.length+1),w.factId]));
           const result = await finalizeOfficialForm({
             sourceBytes: b.bytes,
             expectedSha256: b.doc.sha256,
             census: census.fields,
             facts,
-            explicitMappings: b.doc.explicitMappings ?? {},
-            unwritableFields: (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
+            explicitMappings: componentId === "fee_waiver" ? Object.fromEntries(g106Writes) : b.doc.explicitMappings ?? {},
+            unwritableFields: componentId === "fee_waiver" ? census.fields.filter(f=>!g106Writes.has(f.name)).map(f=>({field:f.name})) : (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
             /* Opt-in, and empty for every document of this family but the
-             * fee_waiver. See officialComponents.fee_waiver.narrativeLines. */
+             * fee_waiver. See officialComponents.supplemental_financial_affidavit.narrativeLines. */
             narrativeAcrossFields: b.doc.narrativeLines ?? [],
             captionOnly: b.doc.captionOnly === true,
             documentTextLines: census.documentTextLines,
@@ -2071,6 +2108,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
           });
           bytes = result.bytes;
           report = result.report;
+          if(componentId === "fee_waiver") {
+            const control = census.fields.find(f=>f.name==="ExpunctionPetitionCbx");
+            assert.equal(control.widgets.length,1);
+            const w=control.widgets[0];assert.equal(w.page,1);
+            const marked = await markExpunctionPurpose(bytes,w);
+            bytes=marked.bytes;
+            routeControlProofs.push({field:"fee_waiver.ExpunctionPetitionCbx",document:"fee_waiver",factId:null,kind:"materialized_route_selection",foundInOutputBytes:true,...marked.proof});
+          }
           const writtenNames = new Set(report.written.map((w) => w.field));
           boxes = census.fields.flatMap((f) => (f.widgets ?? []).map((w) => ({
             key: f.name, page: w.page, rect: w.rect, written: writtenNames.has(f.name)
@@ -2119,6 +2164,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
           `${componentId}: the composed page must carry the participant's name`);
         componentBytes = await renderComposedPdf(body, SPEC.componentTitles[componentId]);
       }
+      renderedComponents.set(componentId, Buffer.from(componentBytes));
       const component = await PDFDocument.load(componentBytes, { ignoreEncryption: true, updateMetadata: false });
       for (const [i, p] of (await packet.copyPages(component, component.getPageIndices())).entries()) {
         packet.addPage(p);
@@ -2162,7 +2208,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         inkHere.reduce((n, a) => n + a.glyphsOutsideMeasuredWriteBoxes, 0),
       refusedFieldsWithInk: inkHere.flatMap((a) => a.refusedFieldsWithInk.map((r) => ({ ...r, documentId: a.documentId }))),
       officialInkAudits: inkHere,
-      actualWrites: proof.actualWrites
+      actualWrites: [...proof.actualWrites,...routeControlProofs]
     });
 
     artifacts.push({
@@ -2174,6 +2220,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
       file, documentId: "assembled_packet", role: SPEC.assembledPacketRole ?? "assembled_agency_application_packet",
       fixture: fixtureName, sha256, byteLength: packetBytes.length, pageCount: packet.getPageCount()
     });
+
+    const branches=await writeNc146BranchFixtures(renderedComponents,fixtureName,OUT);
+    for(const branch of branches) {
+      pdfsDeclared.push({...branch,documentId:"assembled_packet",role:"conditional_assembled_packet"});
+      branchArtifacts.push(branch);
+    }
 
     if (!skipRaster) {
       const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
@@ -2232,14 +2284,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       sha256: b.doc.sha256, byteLength: b.bytes.length,
       custody: b.custody, pathInCustody: b.pathInCustody,
       matchedBy: "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
-      corpusIndexAgrees: b.entry.sha256 === b.doc.sha256 && b.entry.byteLength === b.bytes.length,
-      pageCount: b.entry.pageCount, acroFieldCount: b.entry.acroFieldCount,
-      structuralClassObserved: b.entry.structuralClassObserved,
+      corpusIndexAgrees: b.entry ? b.entry.sha256 === b.doc.sha256 && b.entry.byteLength === b.bytes.length : null,
+      retainedReceiptAgrees: true, retainedReceipt: b.retainedReceipt, pathInRepository:b.doc.retainedRepositoryPath,
+      pageCount: b.pageCount, acroFieldCount: b.acroFieldCount,
+      structuralClassObserved: b.acroFieldCount ? "acroform" : "flat_pdf",
       instrumentKind: b.doc.instrumentKind ?? "participant_agency_application_form",
-      renderStrategy: (SPEC.officialCells?.[b.componentId] ?? []).length > 0 ? "measured_flat_overlay" : "delivered_unmodified"
+      renderStrategy: b.doc.acroform ? "role_constrained_official_pdf_fill" : (SPEC.officialCells?.[b.componentId] ?? []).length > 0 ? "measured_flat_overlay" : "delivered_unmodified"
     })),
     composedComponentsAuthoredByThisBuild: SPEC.components.filter((c) => !isOfficial(c)),
-    sourceBinaryCommitted: false, commercialRoutesOpened: 0,
+    sourceBinaryCommitted: true, commercialRoutesOpened: 0,
     whatThisReceiptDoesNotEstablish: [
       "that any output is approved for participant delivery",
       "that any record is eligible for the relief this family prepares for",
@@ -2277,6 +2330,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     boundOfficialDocuments: bound.map((b) => ({ documentId: b.doc.documentId, sha256: b.doc.sha256, custody: b.custody })),
     pdfs: pdfsDeclared,
     artifacts,
+    conditionalBranches: branchArtifacts,
+    canonicalAndBoundarySelection: "SYNTHETIC explicit court-requested-financial-supplement branch; not a finding of eligibility or indigency",
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
     byteDerivedHashes: true,

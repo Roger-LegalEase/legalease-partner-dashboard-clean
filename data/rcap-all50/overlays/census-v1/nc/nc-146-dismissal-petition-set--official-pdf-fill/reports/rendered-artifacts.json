@@ -6,26 +6,34 @@
   "componentSet": [
     "petition",
     "instructions",
-    "fee_waiver"
+    "fee_waiver",
+    "supplemental_financial_affidavit",
+    "participant_guide"
   ],
   "componentConditions": {
-    "fee_waiver": "Conditional. A true dismissal carries no fee. The committed packet-set manifest records that the $175.00 fee applies only where the charge was dismissed pursuant to a deferred prosecution agreement or a conditional discharge, and that the indigency waiver is available on AOC-CV-226 where a fee applies."
+    "fee_waiver": "Only when the fee applies and the participant explicitly requests indigency treatment. AOC-G-106 is the operative petition. The deferred/conditional-discharge legal-review stop remains.",
+    "supplemental_financial_affidavit": "Only with the selected G-106 branch and a recorded, specific court request for supplemental financial information; AOC-CV-226 is not the operative indigency petition and its inapplicable civil/arbitration oath must not be signed."
   },
   "boundOfficialDocuments": [
     {
+      "documentId": "AOC-G-106",
+      "sha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+      "custody": "verified_retained_official_source"
+    },
+    {
       "documentId": "AOC-CR-287",
       "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      "custody": "master_library"
+      "custody": "verified_retained_official_source"
     },
     {
       "documentId": "AOC-CR-287-INSTRUCTIONS",
       "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-      "custody": "master_library"
+      "custody": "verified_retained_official_source"
     },
     {
       "documentId": "AOC-CV-226",
       "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "custody": "master_library"
+      "custody": "verified_retained_official_source"
     }
   ],
   "pdfs": [
@@ -34,27 +42,557 @@
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_official_forms",
       "fixture": "canonical",
-      "sha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
-      "byteLength": 765177,
-      "pageCount": 5
+      "sha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+      "byteLength": 1010047,
+      "pageCount": 8
+    },
+    {
+      "fixture": "canonical-no_fee",
+      "baseFixture": "canonical",
+      "branch": "no_fee",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+      "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+      "byteLength": 497377,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "no_fee",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "no_fee",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "canonical-fee_paid",
+      "baseFixture": "canonical",
+      "branch": "fee_paid",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+      "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+      "byteLength": 497385,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "fee_paid",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "canonical-indigency_requested",
+      "baseFixture": "canonical",
+      "branch": "indigency_requested",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+      "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+      "byteLength": 738532,
+      "pageCount": 6,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "indigency_requested",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "canonical-requested_financial_supplement",
+      "baseFixture": "canonical",
+      "branch": "requested_financial_supplement",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+      "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+      "byteLength": 1009847,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": true,
+        "supplementalRequestReference": "SYNTHETIC TEST ONLY: recorded court request for financial information"
+      },
+      "selectionResult": {
+        "branch": "requested_financial_supplement",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
     },
     {
       "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_official_forms",
       "fixture": "boundary",
-      "sha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
-      "byteLength": 765379,
-      "pageCount": 5
+      "sha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+      "byteLength": 1010403,
+      "pageCount": 8
+    },
+    {
+      "fixture": "boundary-no_fee",
+      "baseFixture": "boundary",
+      "branch": "no_fee",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+      "sha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+      "byteLength": 497505,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "no_fee",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "no_fee",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "boundary-fee_paid",
+      "baseFixture": "boundary",
+      "branch": "fee_paid",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+      "sha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+      "byteLength": 497513,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "fee_paid",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "boundary-indigency_requested",
+      "baseFixture": "boundary",
+      "branch": "indigency_requested",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+      "sha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+      "byteLength": 738788,
+      "pageCount": 6,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "indigency_requested",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
+    },
+    {
+      "fixture": "boundary-requested_financial_supplement",
+      "baseFixture": "boundary",
+      "branch": "requested_financial_supplement",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+      "sha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+      "byteLength": 1010207,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": true,
+        "supplementalRequestReference": "SYNTHETIC TEST ONLY: recorded court request for financial information"
+      },
+      "selectionResult": {
+        "branch": "requested_financial_supplement",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true,
+      "documentId": "assembled_packet",
+      "role": "conditional_assembled_packet"
     }
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
-      "byteLength": 765177,
-      "pageCount": 5,
+      "sha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+      "byteLength": 1010047,
+      "pageCount": 8,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -80,35 +618,60 @@
         {
           "packetPage": 4,
           "component": "fee_waiver",
+          "documentId": "AOC-G-106",
+          "sourcePage": 1,
+          "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd"
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "documentId": "AOC-G-106",
+          "sourcePage": 2,
+          "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd"
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
           "documentId": "AOC-CV-226",
           "sourcePage": 1,
           "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
         },
         {
-          "packetPage": 5,
-          "component": "fee_waiver",
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
           "documentId": "AOC-CV-226",
           "sourcePage": 2,
           "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "documentId": "participant_guide",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
         "AOC-CR-287",
         "AOC-CR-287-INSTRUCTIONS",
-        "AOC-CV-226"
+        "AOC-G-106",
+        "AOC-CV-226",
+        "participant_guide"
       ],
       "components": [
         "petition",
         "instructions",
-        "fee_waiver"
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
       ]
     },
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
-      "byteLength": 765379,
-      "pageCount": 5,
+      "sha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+      "byteLength": 1010403,
+      "pageCount": 8,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -134,37 +697,581 @@
         {
           "packetPage": 4,
           "component": "fee_waiver",
+          "documentId": "AOC-G-106",
+          "sourcePage": 1,
+          "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd"
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "documentId": "AOC-G-106",
+          "sourcePage": 2,
+          "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd"
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
           "documentId": "AOC-CV-226",
           "sourcePage": 1,
           "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
         },
         {
-          "packetPage": 5,
-          "component": "fee_waiver",
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
           "documentId": "AOC-CV-226",
           "sourcePage": 2,
           "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "documentId": "participant_guide",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
         "AOC-CR-287",
         "AOC-CR-287-INSTRUCTIONS",
-        "AOC-CV-226"
+        "AOC-G-106",
+        "AOC-CV-226",
+        "participant_guide"
       ],
       "components": [
         "petition",
         "instructions",
-        "fee_waiver"
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
       ]
     }
   ],
+  "conditionalBranches": [
+    {
+      "fixture": "canonical-no_fee",
+      "baseFixture": "canonical",
+      "branch": "no_fee",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+      "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+      "byteLength": 497377,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "no_fee",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "no_fee",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "canonical-fee_paid",
+      "baseFixture": "canonical",
+      "branch": "fee_paid",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+      "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+      "byteLength": 497385,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "fee_paid",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "canonical-indigency_requested",
+      "baseFixture": "canonical",
+      "branch": "indigency_requested",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+      "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+      "byteLength": 738532,
+      "pageCount": 6,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "indigency_requested",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "canonical-requested_financial_supplement",
+      "baseFixture": "canonical",
+      "branch": "requested_financial_supplement",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+      "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+      "byteLength": 1009847,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": true,
+        "supplementalRequestReference": "SYNTHETIC TEST ONLY: recorded court request for financial information"
+      },
+      "selectionResult": {
+        "branch": "requested_financial_supplement",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "boundary-no_fee",
+      "baseFixture": "boundary",
+      "branch": "no_fee",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+      "sha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+      "byteLength": 497505,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "no_fee",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "no_fee",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "boundary-fee_paid",
+      "baseFixture": "boundary",
+      "branch": "fee_paid",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+      "sha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+      "byteLength": 497513,
+      "pageCount": 4,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": false,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "fee_paid",
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "boundary-indigency_requested",
+      "baseFixture": "boundary",
+      "branch": "indigency_requested",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+      "sha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+      "byteLength": 738788,
+      "pageCount": 6,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": false
+      },
+      "selectionResult": {
+        "branch": "indigency_requested",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    },
+    {
+      "fixture": "boundary-requested_financial_supplement",
+      "baseFixture": "boundary",
+      "branch": "requested_financial_supplement",
+      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+      "sha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+      "byteLength": 1010207,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "petition",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 2,
+          "component": "petition",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 3,
+          "component": "instructions",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 4,
+          "component": "fee_waiver",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 5,
+          "component": "fee_waiver",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 6,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 1
+        },
+        {
+          "packetPage": 7,
+          "component": "supplemental_financial_affidavit",
+          "sourcePage": 2
+        },
+        {
+          "packetPage": 8,
+          "component": "participant_guide",
+          "sourcePage": 1
+        }
+      ],
+      "components": [
+        "petition",
+        "instructions",
+        "fee_waiver",
+        "supplemental_financial_affidavit",
+        "participant_guide"
+      ],
+      "selection": {
+        "feeStatus": "fee_due",
+        "requestIndigency": true,
+        "supplementalRequested": true,
+        "supplementalRequestReference": "SYNTHETIC TEST ONLY: recorded court request for financial information"
+      },
+      "selectionResult": {
+        "branch": "requested_financial_supplement",
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "feeAssessed": false,
+        "indigencyEstablished": false,
+        "grantsEligibility": false,
+        "grantsDeliveryAuthority": false
+      },
+      "syntheticFixture": true
+    }
+  ],
+  "canonicalAndBoundarySelection": "SYNTHETIC explicit court-requested-financial-supplement branch; not a finding of eligibility or indigency",
   "packets": [
     {
       "fixture": "canonical",
       "documents": [
         "AOC-CR-287",
         "AOC-CR-287-INSTRUCTIONS",
-        "AOC-CV-226"
+        "AOC-G-106",
+        "AOC-CV-226",
+        "participant_guide"
       ]
     },
     {
@@ -172,215 +1279,16 @@
       "documents": [
         "AOC-CR-287",
         "AOC-CR-287-INSTRUCTIONS",
-        "AOC-CV-226"
+        "AOC-G-106",
+        "AOC-CV-226",
+        "participant_guide"
       ]
     }
   ],
-  "everyPageRastered": true,
+  "everyPageRastered": false,
   "byteDerivedHashes": true,
-  "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
-  "rasterSkipped": false,
-  "rasterPages": [
-    {
-      "fixture": "canonical",
-      "page": 1,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/canonical/page-01/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "c1c4494de2b2ec33654b9a50812ac1f83144514a03b30b99ad0309f7aebf4485"
-    },
-    {
-      "fixture": "canonical",
-      "page": 2,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/canonical/page-02/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.92,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "dd77f9d559b9c9f031f9a8e72e2f6ff7a1140ebf6b8590c563a0e578ada96d20"
-    },
-    {
-      "fixture": "canonical",
-      "page": 3,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/canonical/page-03/page.png",
-      "component": "instructions",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "2b7115fd434fd4a6e4d740fab479d0898774bac5a6ad552cceb407dc891c75c2"
-    },
-    {
-      "fixture": "canonical",
-      "page": 4,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/canonical/page-04/page.png",
-      "component": "fee_waiver",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "15373c42fa35c3daefd9e237294bf619a35822e1c6b1a57de24386a763c0932d"
-    },
-    {
-      "fixture": "canonical",
-      "page": 5,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/canonical/page-05/page.png",
-      "component": "fee_waiver",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "19cf49ce5cc8dddc44d0c787cd5f5a0bff33676fad2f9b083d918ed0c7f58629"
-    },
-    {
-      "fixture": "boundary",
-      "page": 1,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/boundary/page-01/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "0dcfdb9387d026508f016a602912da2485ed696c79bfd0208208bbf2e6796ca1"
-    },
-    {
-      "fixture": "boundary",
-      "page": 2,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/boundary/page-02/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.92,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "dd77f9d559b9c9f031f9a8e72e2f6ff7a1140ebf6b8590c563a0e578ada96d20"
-    },
-    {
-      "fixture": "boundary",
-      "page": 3,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/boundary/page-03/page.png",
-      "component": "instructions",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "2b7115fd434fd4a6e4d740fab479d0898774bac5a6ad552cceb407dc891c75c2"
-    },
-    {
-      "fixture": "boundary",
-      "page": 4,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/boundary/page-04/page.png",
-      "component": "fee_waiver",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "15e0956f2957d7fec213e42179738f1f1e46a608278bc516201a15971e16bb30"
-    },
-    {
-      "fixture": "boundary",
-      "page": 5,
-      "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/raster/boundary/page-05/page.png",
-      "component": "fee_waiver",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0.423,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_raster_pdf_page_raster",
-      "sha256": "19cf49ce5cc8dddc44d0c787cd5f5a0bff33676fad2f9b083d918ed0c7f58629"
-    }
-  ],
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
   "independentVerificationPending": true
 }

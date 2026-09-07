@@ -570,8 +570,18 @@ if (MUTATIONS) {
      * the harness refusing to call an empty mutation a pass.
      */
     { name: "a receipt on a family whose builder is not reproducible is caught", id: "L8",
-      file: "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
-      edit: (t) => t.replace(/^\s*stampDeterministic\([^)]*\);\s*$/m, "") },
+      file: (() => {
+        for (const family of passed) {
+          const file=`scripts/build-census-v1-${family}.mjs`;
+          const text=read(file);
+          if (/PDFDocument\.create\(\)/.test(text) && /^\s*stampDeterministic\([^)]*\);\s*$/m.test(text)
+            && !/setCreationDate\s*\(/.test(text)) return file;
+        }
+        throw new Error("L8 mutation needs a creating builder that actually holds a current raster receipt");
+      })(),
+      // This gate tests the absence of ANY deterministic stamp. Removing just
+      // the first of two calls did not create that defect and was rightly missed.
+      edit: (t) => t.replace(/^\s*stampDeterministic\([^)]*\);\s*$/gm, "") },
     { name: "dropping a row's coverage declaration is caught", id: "L7", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); delete j.rows[0].coverage; return `${JSON.stringify(j, null, 2)}\n`; } },
     /* Restores the verdict Captain withdrew. Its subject is built rather than

@@ -171,10 +171,10 @@ for (const r of records) {
     ambiguityProblems.push(`${r.jurisdiction}/${r.canonicalArtifactId}: the candidate list repeats itself`);
   }
 }
-// A negative test whose subject cannot exist proves nothing.
-const haveAmbiguous = records.some((r) => (r.heldCandidates ?? []).length > 1);
+// Zero remaining ambiguities is a valid goal state. The mutation harness
+// creates an isolated ambiguous subject instead of requiring a live defect.
 check("S11", "an identity matching several held artifacts is ambiguous, not silently resolved to the first",
-  ambiguityProblems.length === 0 && haveAmbiguous,
+  ambiguityProblems.length === 0,
   `${records.filter((r) => (r.heldCandidates ?? []).length > 1).length} ambiguous identit(ies); ${ambiguityProblems.length} problem(s): ${ambiguityProblems.slice(0, 2).join(" | ")}`);
 
 /* S12. The Captain's family reconciliation is a governed input, and the
@@ -185,18 +185,32 @@ const recInput = captainDeterminations.reconciliation42;
 const recOutput = reg.reconciliation42;
 const masterFamilies = new Map((master.families ?? []).map((f) => [f.familyId, f]));
 const expectedGroups = { A: 19, B: 19, C: 4, D: 28 };
-const expectedFamilyCount = Object.values(expectedGroups).reduce((sum, count) => sum + count, 0);
+const baseFamilyCount = Object.values(expectedGroups).reduce((sum, count) => sum + count, 0);
 const recProblems = [];
 const recRows = recInput?.families ?? [];
+// The original governed cohort remains 70. Later explicit determinations are
+// additional rows, not duplicates or permission to drop the original cohort.
+const laterRows = recRows.filter(r=>r.group === "LATER");
+const expectedFamilyCount = baseFamilyCount + laterRows.length;
+for (const r of laterRows) if (!r.determinedBy || !r.exactResidual || (r.disposition === "SOURCE_BLOCKED" && !(r.unresolvedObligations ?? []).length)) {
+  recProblems.push(`${r.familyId}: later source disposition lacks its named determination/residual`);
+}
+for (const r of recRows) if (!Object.hasOwn(expectedGroups,r.group) && r.group !== "LATER") {
+  recProblems.push(`${r.familyId}: unknown reconciliation group ${r.group}`);
+}
 if (recRows.length !== expectedFamilyCount) recProblems.push(`input has ${recRows.length} family rows`);
 if (new Set(recRows.map((r) => r.familyId)).size !== expectedFamilyCount) {
   recProblems.push(`input family ids are not ${expectedFamilyCount} unique values`);
 }
 for (const [group, count] of Object.entries(expectedGroups)) {
   const actual = recRows.filter((r) => r.group === group).length;
+  if (recOutput?.byGroup?.[group] !== actual) recProblems.push(`output group ${group} is stale`);
   if (actual !== count) recProblems.push(`group ${group} has ${actual}, expected ${count}`);
 }
+if ((recOutput?.byGroup?.LATER ?? 0) !== laterRows.length) recProblems.push("output later group is stale");
 for (const row of recRows) {
+  const projected = recOutput?.families?.find(x=>x.familyId===row.familyId);
+  if (!projected || projected.group!==row.group || projected.decidedDisposition!==row.disposition) recProblems.push(`${row.familyId}: governed output row is missing/stale`);
   const generated = masterFamilies.get(row.familyId);
   if (!generated) recProblems.push(`${row.familyId} absent from MASTER_QUEUE`);
   else if (row.disposition === "SOURCE_READY") {
@@ -253,9 +267,25 @@ if (MUTATIONS) {
     };
   };
 
+  // Manufacture an ambiguous test subject when real ambiguity has been
+  // resolved. Never require production data to retain a defect for a test.
+  const ambiguousSubject = j => {
+    const row = j.records.find(x=>(x.heldCandidates ?? []).length > 1 && !x.externallyVerified);
+    if (row) return row;
+    const template = j.records.find(x=>(x.heldCandidates ?? []).length > 0) ?? j.records[0];
+    if (!template) throw new Error("No retained candidate exists to seed the isolated ambiguity fixture");
+    const r = structuredClone(template);
+    r.canonicalArtifactId = "SYNTHETIC-AMBIGUITY-TEST";
+    r.externallyVerified = false;
+    r.heldCandidates = [{fileName:"synthetic-first-edition.pdf", path:"synthetic-first-edition.pdf", sha256:"1".repeat(64)}, {fileName:"synthetic-other-edition.pdf", path:"synthetic-other-edition.pdf", sha256:"2".repeat(64)}];
+    r.sourceState = "FAMILY_IDENTITY_AMBIGUOUS";
+    r.artifactSha256 = null;
+    j.records.push(r);
+    return r;
+  };
   const cases = [
     { id: "S1", name: "dropping an externally verified disposition is caught", file: REGISTRY,
-      edit: (j) => { const r = j.records.find((x) => x.externallyVerified); r.externallyVerified = false; return j; } },
+      edit: (j) => { const r = j.records.find((x) => x.externallyVerified); if (r) r.externallyVerified = false; else { const discharged=j.externalVerification?.dischargedBecauseNoCurrentSourceBlock; if (!discharged?.length) throw new Error("No verified active or discharged disposition to remove"); discharged.pop(); } return j; } },
     { id: "S2", name: "a plus-joined form-ID list in the issuer field is caught", file: REGISTRY,
       edit: (j) => { j.records[0].canonicalPublisher = "EXP-AD Request+EXP-AD Case List+FW-CIV-APPLICATION"; return j; } },
     { id: "S3", name: "a CSV row pasted into an official URL is caught", file: REGISTRY,
@@ -292,15 +322,24 @@ if (MUTATIONS) {
       /* An UNVERIFIED ambiguous record. Targeting a verified one gave the
        * mutation no subject: S11 exempts those on purpose, because a reviewer
        * who read the publisher's page outranks a substring match. */
-      edit: (j) => { const r = j.records.find((x) => (x.heldCandidates ?? []).length > 1 && !x.externallyVerified); if (!r) throw new Error("no unverified ambiguous record, so this mutation has no subject"); r.sourceState = "CURRENTNESS_UNVERIFIED"; r.artifactSha256 = r.heldCandidates[0].sha256; return j; } },
+      edit: (j) => { const r = ambiguousSubject(j); r.sourceState = "CURRENTNESS_UNVERIFIED"; r.artifactSha256 = r.heldCandidates[0].sha256; return j; } },
     { id: "S11", name: "a hash claimed while several artifacts match is caught", file: REGISTRY,
-      edit: (j) => { const r = j.records.find((x) => (x.heldCandidates ?? []).length > 1 && !x.externallyVerified); if (!r) throw new Error("no unverified ambiguous record, so this mutation has no subject"); r.artifactSha256 = r.heldCandidates[0].sha256; return j; } }
+      edit: (j) => { const r = ambiguousSubject(j); r.artifactSha256 = r.heldCandidates[0].sha256; return j; } }
   ];
   let allCaught = true;
   for (const c of cases) {
+    if (!results.find(r=>r.id===c.id)?.ok) { console.log(`NOT_RUN [${c.id}] ${c.name}: its real baseline already fails`); allCaught=false; continue; }
     const abs = path.join(ROOT, c.file);
     const original = fs.readFileSync(abs);
-    const mutated = `${JSON.stringify(c.edit(JSON.parse(original.toString("utf8"))), null, 2)}\n`;
+    const fixture = JSON.parse(original.toString("utf8"));
+    if (c.id === "S11") {
+      ambiguousSubject(fixture);
+      fs.writeFileSync(abs, `${JSON.stringify(fixture,null,2)}\n`);
+      let baseline;
+      try { baseline=rerun(); } finally { fs.writeFileSync(abs, original); }
+      if (!/ok\s+S11\b/.test(baseline)) throw new Error("Synthetic ambiguity fixture has no passing S11 baseline");
+    }
+    const mutated = `${JSON.stringify(c.edit(fixture), null, 2)}\n`;
     if (mutated === original.toString("utf8")) { console.log(`  MISSED   [${c.id}] ${c.name} — the mutation changed nothing`); allCaught = false; continue; }
     fs.writeFileSync(abs, mutated);
     const out = rerun();

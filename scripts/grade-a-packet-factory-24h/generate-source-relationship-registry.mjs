@@ -398,7 +398,7 @@ const registryDoc = {
     familiesExamined: (reconciliation42.families ?? []).length,
     byDisposition: Object.fromEntries(["SOURCE_READY", "PRODUCT_PATH_PENDING", "SOURCE_BLOCKED"]
       .map((state) => [state, (reconciliation42.families ?? []).filter((r) => r.disposition === state).length])),
-    byGroup: Object.fromEntries(["A", "B", "C"]
+    byGroup: Object.fromEntries(["A", "B", "C", "D", "LATER"]
       .map((group) => [group, (reconciliation42.families ?? []).filter((r) => r.group === group).length])),
     remainingSourceBlockedFamilyIds: (reconciliation42.families ?? [])
       .filter((r) => r.disposition === "SOURCE_BLOCKED").map((r) => r.familyId).sort(),
