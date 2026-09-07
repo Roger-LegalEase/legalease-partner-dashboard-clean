@@ -787,7 +787,7 @@ const promptFor = (lane) => {
 };
 
 const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "raster queue" });
-EMIT.emit(OUT, `${JSON.stringify(doc, null, 2)}\n`);
+EMIT.emit(OUT, `${JSON.stringify(rasterStableObject(doc), null, 2)}\n`);
 for (const l of LANES) EMIT.emit(`${PROMPTS}/${l}_PACKET_RASTER_EVIDENCE.md`, promptFor(l));
 EMIT.sweep(PROMPTS, (n) => n.endsWith(".md"));
 EMIT.finish();
@@ -796,3 +796,13 @@ if (CHECK) process.exit(0);
 console.log(`Wrote ${OUT} and ${LANES.length} raster prompts into ${PROMPTS}/`);
 console.log(`  ${rows.length} queued (${rows.filter((r) => r.currentRasterState === "RASTER_PENDING").length} RASTER_PENDING) · ${notEligible.length} not eligible`);
 for (const l of LANES) console.log(`    ${l}: ${byLane[l].length} famil(ies)`);
+
+
+// Deterministic output representation only. Document hashes and acceptance predicates are unchanged.
+function rasterStableObject(value) {
+  if (Array.isArray(value)) return value.map(rasterStableObject);
+  if (value && typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
+    return Object.fromEntries(Object.keys(value).sort().map(key => [key, rasterStableObject(value[key])]));
+  }
+  return value;
+}

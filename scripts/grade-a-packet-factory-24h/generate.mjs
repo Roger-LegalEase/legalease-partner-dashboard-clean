@@ -18,6 +18,7 @@
  */
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
+import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -2127,6 +2128,9 @@ for (const f of IN.scoreboard.familiesDetail) {
    * precedes every question about how good the instrument is. */
   const deliveryTypeRefusal = ownerDeliveryTypeRefusals.get(familyId) ?? null;
   const terminalTreatment = terminalTreatments.get(familyId) ?? null;
+  const reviewedGuidance = assessDeReviewedGuidance(ROOT, independentReturn, {
+    currentFamily: {familyId, directory, routeKeys: routes.map(r => r.routeKey)}
+  });
   /* Refused AND answered: the family rests in what it delivers, not in what it
    * may not. Refused and not yet answered stays WRONG_DELIVERY_TYPE, which is
    * where rcap-sc-custom-pleading correctly still sits. */
@@ -2158,6 +2162,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentReturn?.verdict === "BLOCKED_SOURCE"
     && (independentReturn.failedObligationNames ?? []).length > 0) state = "FAIL_REPAIR_REQUIRED";
   else if (independentReturn?.verdict === "BLOCKED_SOURCE") state = "VERIFY_PENDING";
+  else if (reviewedGuidance && legalBlocked) state = "LEGAL_BLOCKED";
+  else if (reviewedGuidance) state = reviewedGuidance.eligible ? "GUIDANCE_READY" : "VERIFY_PENDING";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.
@@ -2430,6 +2436,7 @@ for (const f of IN.scoreboard.familiesDetail) {
           evidencePath: independentReturn.evidencePath ?? null
         }
       : null,
+    ...(reviewedGuidance ? {reviewedGuidanceAdmission: reviewedGuidance} : {}),
     rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     /* Carried on the row so a reader sees the refusal and its grounds where the
@@ -2457,7 +2464,7 @@ for (const f of IN.scoreboard.familiesDetail) {
      * packet/source lapse returns a PASS to VERIFY_PENDING. Missing raster proof
      * leaves the verdict current and uses BUILT_RASTER_PENDING instead. */
     verificationLapsedBecause: (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
-      && state === "VERIFY_PENDING")
+      && state === "VERIFY_PENDING" && !reviewedGuidance)
       ? (boundSourceDriftedSinceVerdict(directory)
           ? { lapse: "BOUND_SOURCE_DRIFTED", ...boundSourceDriftedSinceVerdict(directory),
               meaning: "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source." }

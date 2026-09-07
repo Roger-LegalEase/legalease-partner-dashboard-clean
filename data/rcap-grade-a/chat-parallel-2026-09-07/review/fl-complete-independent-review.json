@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CHATB20260907",
+  "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B review session",
+  "sessionIdentity": "chatb-20260907-independent-02-continuation",
+  "reviewDate": "2026-09-07",
+  "counselApproval": false,
+  "productionTouched": false,
+  "packetFilesEdited": false,
+  "builderExecutedByReviewer": false,
+  "newRasterRequested": false,
+  "rows": [{
+    "familyId": "fl-early-juvenile-set",
+    "itemId": "fl-early-juvenile-set",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+    "packetPublicationCommit": "f6cbff2688d23c59d4f0f47328ac27176ce2fbb0",
+    "rasterAdmissionCommit": "b2cce8de5544a90ca6b0c683c347d3f752cfde53",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+    "routeKeys": ["obligation:track-pathway:FL:fl-early-juvenile:early-juvenile-expunction-943-0515"],
+    "coverage": {"completePdfs": 2, "pagesPerPdf": 5, "actualPageImagesIndividuallyInspected": 10, "fullPdfTextRead": true, "diagnosticProbesSubstitutedForPackets": false},
+    "completedRepairPreserved": "The page-one phone now clears the printed closing parenthesis in both complete PDFs. The full five-page packets and central raster are real and measured. This review does not ask C/A to repeat that finished phone repair or treat previous non-regression QA as an independent review of other page content.",
+    "priorRecordsRead": ["integration/fl-full-build-proof.json", "integration/fl-complete-pdf-tests.json", "integration/fl-de-hosted-validation/results.json", "the exact retained central fl-early-juvenile-set.verdict.json", "family source-receipt, map, actual-writes, blanks, manifest, both instruction files and product-wiring", "FL.memo.json track fl-early-juvenile, including adopted legal_design_approved_with_limitations"],
+    "findings": [
+      {
+        "id": "CHATB-FL-01", "owner": "C", "obligation": "CLIPPING_AND_OVERLAP", "severity": "repair_required",
+        "files": ["fixtures/canonical.pdf", "fixtures/boundary.pdf"], "page": 3,
+        "field": "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION.page3_last_name",
+        "observed": "The surname is written over the printed Name: heading, above rather than in the Last-name answer area. Canonical Reyes and boundary O'Shaughnessy-Whitfield both visibly collide with the Name: text. This occurs on a page unchanged by the phone repair.",
+        "measurement": "PyMuPDF top-left point coordinates: source Name: span bbox [41.4000,79.4550,71.9600,93.2250]; canonical Reyes bbox [65.0000,78.8625,89.0890,90.5415], origin [65,88]. The actual overlap was also examined in the retained full page and a crop using central paper calibration x0=204,y0=3,pxPerPt=3.3333333333.",
+        "correction": "Move the actual surname ink into the intended Last-name answer region; review all page3 identity values against their printed answer lines, preserve font floor and official fields, and test both full packets. Do not solve it by changing only a measured rectangle."
+      },
+      {
+        "id": "CHATB-FL-02", "owner": "C", "obligation": "CLIPPING_AND_OVERLAP", "severity": "repair_required",
+        "files": ["fixtures/canonical.pdf", "fixtures/boundary.pdf"], "page": 1,
+        "fields": ["page1_arresting_agency", "page1_arrest_date_1", "page1_charge_1"],
+        "observed": "The prefilled agency and first arrest-date/charge row sit below their answer rules and intersect those rules at the top of their glyphs in both fixtures. This was visible in each full page and in the calibrated canonical crop, not inferred solely from rectangles.",
+        "measurement": "PDF top-left points: agency rule y327.32599; canonical agency text bbox y323.86249..335.54150, baseline333. First date/charge rules y367.47598; text bbox y364.9375..375.24249, baseline373. The horizontal rules cross the printed values.",
+        "correction": "Place actual text above the appropriate answer lines and keep the row associations correct. Test both fixture agencies and the date/charge pair together; preserve the independently confirmed phone fix."
+      },
+      {
+        "id": "CHATB-FL-03", "owner": "C", "obligation": "KNOWN_PREFILLS", "severity": "repair_required",
+        "files": ["fixtures/boundary.pdf", "production-field-map.json", "reports/actual-writes.json"], "page": 2,
+        "field": "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION.page2_name",
+        "observed": "Pages1 and3 contain the held middle name Isabel, but page2 prints Maria-Alejandra O'Shaughnessy-Whitfield without Isabel. The actual-writes report reproduces that incomplete full-name expectation, so merely comparing to drawnText cannot catch the loss. The printed page2 label requests Last, First Middle.",
+        "correction": "Resolve the inconsistent full-name versus split-name fixture facts, then bind a consistent complete applicant name on page2 in the printed name order. Do not discard a held middle name; do not silently synthesize over a genuine participant identity conflict. Add a cross-page identity test."
+      },
+      {
+        "id": "CHATB-FL-04", "owner": "C", "obligation": "FEE_AND_WAIVER", "severity": "repair_required",
+        "files": ["participant-instructions.md", "filing-instructions.md"],
+        "observed": "Both LegalEase instruction files present the $75 payment as unconditional and explain only that the juvenile-diversion exception is not this route. Current 2026 section943.0515(1)(b)2.a expressly permits waiver by the executive director. No waiver choice or stop for seeking that decision is disclosed.",
+        "authority": "https://flsenate.gov/Laws/Statutes/2026/Chapter943/All#943.0515",
+        "correction": "Explain $75 unless the FDLE executive director grants a waiver; give a bounded route to request current waiver instructions from FDLE and preserve the payment obligation absent approval. Do not substitute a court indigency motion, claim automatic hardship eligibility, waive the fee in software, or confuse it with diversion. The statute settles existence and decision-maker; any unverified request mechanics must be identified as such."
+      },
+      {
+        "id": "CHATB-FL-05", "owner": "A", "obligation": "ARTIFACTS", "severity": "repair_required",
+        "file": "product-wiring.json",
+        "observed": "Current GitHub blob1e6ea52a03962cc4f5b4048ec16d8c00716a40d1 still proposes canonical ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7 and acceptance run33923497915/artifact9956098914. Actual current canonical is a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae and admitted raster is34130973793/artifact10022282708. Thus admitted central evidence has not been projected into this generated binding. This is not a missing raster.",
+        "correction": "Refresh the generated binding from current exact inventory/receipt, including the boundary and both page counts. Preserve FAIL_REPAIR_REQUIRED and closed payment/sponsorship; the old vf04 failure remains history rather than current approval. No new render is needed merely to repair the stale metadata."
+      },
+      {
+        "id": "CHATB-FL-06", "owner": "B source resolution / C implementation", "obligation": "SOURCE_IDENTITY", "severity": "source_reconciliation_required",
+        "observed": "The held renderer output and both submitted fixtures say Revised October2019. The official Florida Administrative Code reference Ref14426, used by current rule11C-7.010 effective08/30/2023, exposes a five-page FDLE40-028 with printed Revised June2021. Parsed official PDF text adds approved fingerprint vendors on pages3/5 and expressly requires physical paper rather than electronic submission on page5. These are substantive procedural additions absent from the reviewed2019 output, not a guessed new form number.",
+        "officialReference": "https://flrules.org/Gateway/reference.asp?No=Ref-14426",
+        "exactOfficialPdf": "https://www.flrules.org/gateway/readRefFile.asp?filename=FDLE+40-028+Early+Juvenile+Expunction+Final.pdf&refId=14426",
+        "currentRuleIndex": "https://flrules.org/gateway/ChapterHome.asp?Chapter=11C-7",
+        "correction": "Use the adopted June2021 instrument/source instructions for the next packet repair, or record a supported issuer-source reconciliation before retaining the2019 renderer edition. Preserve the acquired2019 bytes as history. Do not call the adopted source unavailable merely because the renderer path yields an older edition. The source identity and public URL are resolved here; obtaining and hashing the adopted raw binary remains outstanding.",
+        "limits": "The official reference page and complete five-page parsed PDF text were read. Screenshot requests and container download failed with cache/download errors; no visual inspection or raw-byte hash of the newly located2021 blank is claimed. This limitation does not reduce the10/10 actual packet-page inspection. No issuer response or acceptance/rejection of2019 is invented."
+      },
+      {
+        "id": "CHATB-FL-07", "owner": "C", "obligation": "SERVICE", "severity": "instruction_repair_required",
+        "files": ["participant-instructions.md", "filing-instructions.md"],
+        "observed": "The instructions refer only to the appropriate State Attorney/Statewide Prosecutor without expressly telling a participant whose included offenses span circuits to obtain approval from each circuit. Section943.0515(1)(b)2 expressly requires every affected circuit's state-attorney approval.",
+        "correction": "Add the each-affected-circuit approval requirement and a stop when any required approval is absent. Keep all prosecutor certification/decision fields blank. Do not call obtaining this certification ordinary civil service. The two reviewed one-arrest fixtures do not prove multi-circuit assembly; no such branch is claimed tested."
+      }
+    ],
+    "proofObligations": {
+      "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Exact early-juvenile FDLE agency route, not diversion or a court petition. Existing adopted design already authorizes the official application with later supporting items; no new counsel adoption is demanded for ordinary repairs."},
+      "SOURCE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "Exact2019 custody pin confirmed in receipt and A's retained full-build proof; new primary adopted2021 identity and procedural differences require reconciliation. See CHATB-FL-06; raw2021 digest is not measured."},
+      "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both outputs contain all five pages of the bound2019 packet: application, prosecutor statement, fingerprint sheet, official information and checklist. Required later certified dispositions/probation or diversion proof/representation letter are disclosed rather than fabricated. Completeness of that edition does not settle source freshness."},
+      "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "Read all56 declared writes and full PDF text; inspected all10 pages. Boundary page2 omits held Isabel despite pages1/3. Remaining declared identity/contact/arrest values are present; supplied-value correspondence alone is not sufficient to approve the conflicting full-name fact."},
+      "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "Driver-license if issued and birthplace blanks are identified; prosecutor certification, original dispositions, termination/diversion evidence, fingerprint completion and original supporting documents are disclosed. Signature and certification fields remain for the proper actor. The statutory fee exception is separately failed rather than hidden here."},
+      "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "No approval/rejection box, sworn five-year statement or notarial acknowledgment is auto-executed. Both fixtures illustrate the single agency instrument; no other selectable fee/circuit branch was executed or approved by this review."},
+      "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "Each fixture holds one arrest/charge pair, present together on page1; other participant rows remain entirely blank. Six prosecutor rows remain official-owned and blank. Instructions require all arrests/charges and no partial additional row. No multi-arrest capacity test is claimed."},
+      "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Viewed applicant execution/notary, all prosecutor fields/decisions/signatures and fingerprint official/ORI/impressions. None is filled. Optional SSN/alias data are not invented; fingerprint applicant signature/date remain blank."},
+      "ARTIFACTS": {"measured": true, "result": "FAIL", "finding": "Both actual complete PDFs and central ZIP/verdict/PNGs were rehashed and match current output pins. Current generated product-wiring nevertheless selects the old hash/receipt: CHATB-FL-05."},
+      "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "All five pages in each PDF were extracted/read and their central images individually inspected in order. No last-page omission or substitution of a diagnostic probe."},
+      "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "Phone collision resolved; eight other observed collision occurrences remain across two fixtures: three page1 values and one page3 name per fixture. Full-page views and calibrated close inspection support CHATB-FL-01/02."},
+      "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "Application goes to FDLE Seal & Expunge Section, POBox1489, TallahasseeFL32302-1489, after certification. Printed2019 and adopted2021 official materials agree on that destination. Not a court filing."},
+      "FEE_AND_WAIVER": {"measured": true, "result": "FAIL", "finding": "The $75 amount/payment methods and non-diversion scope are supported, but statutory executive-director waiver is missing from LegalEase guidance: CHATB-FL-04."},
+      "SERVICE": {"measured": true, "result": "FAIL", "finding": "Prosecutor completion step correctly retained; each-affected-circuit requirement needs explicit instruction coverage: CHATB-FL-07. No fabricated participant civil-service certificate."},
+      "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Age18 to under21 and pre18 conduct/five-year certification warning remain; denial of prosecutor approval, disputed record facts and immigration stop for help. No invented eligibility or live screening test. Existing decision treats age as screening/warning, not a prohibition on draft building."}
+    },
+    "nineCounters": {"knownRequiredFieldsMissing": 1, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": null, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 8, "allZero": false, "scope": "Two actual single-arrest fixtures only. Fee/circuit/source/binding defects are specified separately; no numeric estimate is substituted for their unexecuted conditional branches."},
+    "failedObligations": ["SOURCE_IDENTITY", "KNOWN_PREFILLS", "ARTIFACTS", "CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "SERVICE"],
+    "unmeasuredEvidence": ["Raw binary digest and visual appearance of the newly located adopted June2021 blank PDF", "Runtime screening/fulfillment and multi-arrest/multi-circuit/fee-waiver branch execution"],
+    "hashesMeasuredHere": {
+      "publicationZip": "b49709f02e3e4ce76de6a901158714193e959c7bf590d8243bfdf4b5b8f43ac9",
+      "rasterZip": "a5f1dad0e1cd2808c7a396b2a6f776cc4f740c1c95590ae23a1c65429f02229f",
+      "rasterVerdict": "f30e995ae92568a44a5ac33e72aa73af0e8a46094ebae641248f9807fed73dc1",
+      "fixtures/canonical.pdf": "a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae",
+      "fixtures/boundary.pdf": "9bd0ab0144742a973d38afe6b0880868581d88525eeb906c1da8499f74e58484",
+      "production-field-map.json": "ba252a424a8a19b7b368507b1b462eb17b093d8930f64444a515ab428f6feb80",
+      "participant-instructions.md": "84b179c2c2af91b702bc8a5af9bf3962458dcaf2e8074a8e6c2ce6e1715809fa",
+      "filing-instructions.md": "1529f843f914482211deee23452c8273056b4496b3c3c8d1d5f768ab424f1fc7",
+      "reports/actual-writes.json": "a0b354875d2b83218dd02d1c6c831b0eadda50277ac72fc61263936bbe42b1d5",
+      "reports/blanks-left-for-the-participant.json": "25630f305de997648cddf7ec2f6ee514ceb62395061f3793c2da70ebead2843c",
+      "reports/rendered-artifacts.json": "5ea4fd0e658767e0c2237e39e971d32d3f9b8292d20a6cc1a4dcdff09f862a59",
+      "source-receipt.json": "b144272c434b17da56884902dc3cd1c44bcd729628c607738bb0d06c8ea91cb8",
+      "product-wiring.json": "1534b9db3faf73283d4ff22fdfdaf877d2bb092947f538ce8900e67d07ed5699",
+      "packet-set-manifest.json": "64be33b70a2231471375072cacd0440145b1f90b061e4d9a4e67887d871df03b"
+    },
+    "currentGitBlobBindings": {"fixturesTree": "81006b4a50a1839f2fbdda7e494e6473d6931b7f", "canonical": "bec4813296ef67a07307937542686fb6ffdc9b4a", "boundary": "451e33eef1decd8146ff2f8fc99748ee34e6b8c5", "map": "96571e7d657b2c5014fd07ca40c7768a2d52a503", "participantInstructions": "83df49486f04b8a6940742ae2173e76e64fa916c", "filingInstructions": "932237e10c6989699cda7bbbfe7c56bdbc7aa8ef", "wiring": "1e6ea52a03962cc4f5b4048ec16d8c00716a40d1"},
+    "central": {"runId": 34130973793, "artifactId": 10022282708, "documentsDigest": "addc7f98666cfbefb155c56712b67dec7d8939adbf4c48ef36b76c0e015c1d24", "pages": 10},
+    "pageImageSha256MeasuredHere": {
+      "canonical/page-001.png": "915bcf40831f348d440078ba1df95887f61018c0ca941ea95c1f659fd6cbc469",
+      "canonical/page-002.png": "f6cda3e3efc506f08e57e96a99f171276030f6ecbedbc71cc8cb672e262e3df3",
+      "canonical/page-003.png": "7af322ed05be54c4e4e78bcdd18b746e362f67fb90a23139972b706ae58168e5",
+      "canonical/page-004.png": "0c7ec84eb4512436fb20d5c96103f37b3fd25bc5dcb1f42b2477cc9524d440c5",
+      "canonical/page-005.png": "1f4dfc295788696159792fd7f0f6e1d5905577d06ea5def46538f9bff09e8731",
+      "boundary/page-001.png": "e3794c457eaa941ddc6cf8ed634d6f5891e660619c3c2a4be11099952380282e",
+      "boundary/page-002.png": "3e72bc00458b14f0994fba302ca57c59f85058c9babd338d897fd3c70bc6c910",
+      "boundary/page-003.png": "b1e511403b6b00a9a5b33f679087ae47efd61ab8bd01da39392bc871b6834118",
+      "boundary/page-004.png": "0c7ec84eb4512436fb20d5c96103f37b3fd25bc5dcb1f42b2477cc9524d440c5",
+      "boundary/page-005.png": "1f4dfc295788696159792fd7f0f6e1d5905577d06ea5def46538f9bff09e8731"
+    },
+    "primarySourcesExamined": [
+      {"url": "https://www.fdle.state.fl.us/Seal-and-Expunge-Process/Early-Juvenile-Expungement", "scope": "Current official process, later documents, $75, applicant/notarial/prosecutor/fingerprint roles"},
+      {"url": "https://flsenate.gov/Laws/Statutes/2026/Chapter943/All", "scope": "Current2026 section943.0515 text: age/conduct, five-year condition, every affected circuit, executive-director waiver, sworn statement, preserved automatic fallback"},
+      {"url": "https://flrules.org/Gateway/reference.asp?No=Ref-14426", "scope": "Official adopted FDLE40-028 reference and current rule linkage"},
+      {"url": "https://flrules.org/gateway/ChapterHome.asp?Chapter=11C-7", "scope": "Current listed11C-7.010 version effective08/30/2023"},
+      {"url": "https://www.flrules.org/gateway/readRefFile.asp?filename=FDLE+40-028+Early+Juvenile+Expunction+Final.pdf&refId=14426", "scope": "Complete parsed five-page June2021 official form; no successful new-source screenshot or raw-byte download claimed"}
+    ],
+    "sourcePinAttribution": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb is the retained2019 source pin from the family receipt and A's full-build proof, not a newly measured blank-source digest by B. The two full generated PDFs and every listed map/instruction/report/image digest above were actually rehashed by B from downloaded artifacts.",
+    "handoff": {"A": "Consume current failure and repair stale binding; retain actual phone-build and10-page raster evidence as history. Do not promote this family from raster/non-regression alone.", "C": "Repair actual page1/page3 placements, reconcile the boundary name, add statutory waiver and each-circuit instructions, and use/reconcile the adopted2021 source. The former phone-only defect is closed, not reassigned.", "B": "Rereview new exact completed outputs after actual repairs. No external issuer inquiry was sent and no approval was invented.", "newTerminalPromotion": false, "checkoutOrSponsorshipOpened": false}
+  }]
+}

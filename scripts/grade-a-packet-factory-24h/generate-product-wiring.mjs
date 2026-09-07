@@ -15,6 +15,7 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
 import { bindDeclaredDeGuidance, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -154,7 +155,13 @@ const NON_GRANTS = [
   "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
 ];
 
-const alignDeclaredDelivery = (record, family) => family.familyId !== DE_FAMILY ? record
+const alignDeclaredDelivery = (record, family) => family.familyId === NC_FAMILY
+  ? bindDeclaredNcDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+      raster: exactRasterFor(family.familyId)
+    })
+  : family.familyId !== DE_FAMILY ? record
   : bindDeclaredDeGuidance(record, family, {
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
       receipt: read(`${family.directory}/source-receipt.json`),
@@ -216,7 +223,7 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if (f.familyId === DE_FAMILY) throw error;
+      if ([DE_FAMILY, NC_FAMILY].includes(f.familyId)) throw error;
       skipped++;
     }
     continue;

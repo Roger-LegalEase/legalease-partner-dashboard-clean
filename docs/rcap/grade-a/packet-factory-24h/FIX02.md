@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `4d85f05cb581bf220d5727107488973be50d56e1` (or the newer dispatch base)
+**Minimum required ancestor:** `d282d53498dc705927fe8b4109e62230fe99e529` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'al-felony-dwop-set' \
+  --family 'ri_deferred_sentence-set' \
   --codex-cloud \
-  --minimum-captain-sha 4d85f05cb581bf220d5727107488973be50d56e1
+  --minimum-captain-sha d282d53498dc705927fe8b4109e62230fe99e529
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
+- Assert only these 3 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ri_deferred_sentence-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-felony-dwop-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-exp-precompletion-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-exp-pardon-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -58,10 +59,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
+- `ri_deferred_sentence-set`
 - `al-felony-dwop-set`
-- `il-exp-precompletion-set`
+- `il-exp-pardon-set`
 
 ## What you receive
 
@@ -74,10 +76,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
+- `scripts/build-census-v1-ri_deferred_sentence-set.mjs`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
-- `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 
 ## Never write here
 

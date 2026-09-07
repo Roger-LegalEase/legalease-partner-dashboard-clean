@@ -22,6 +22,7 @@
  * anything else refuses, because a verdict nobody can read is not a verdict and
  * guessing at it is how a passing obligation becomes a repair lane.
  */
+import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda } from "./chat-review-inputs.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -152,12 +153,14 @@ const dirsUnder = (base, keep) => fs.existsSync(path.join(ROOT, base))
   : [];
 const sweep = [
   ...dirsUnder(RETURNS, () => true),
-  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n))
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n)),
+  ...chatReviewInputs(ROOT)
 ];
 const dirs = sweep.map((s) => s.name);
 
-for (const { base, name: d } of sweep) {
-  const p = path.join(ROOT, base, d, "rows.json");
+for (const { base, name: d, file, chat, inputSha256 } of sweep) {
+  const evidencePath = file ?? `${base}/${d}/rows.json`;
+  const p = path.join(ROOT, evidencePath);
   if (!fs.existsSync(p)) continue;
   let doc;
   try { doc = JSON.parse(fs.readFileSync(p, "utf8")); }
@@ -166,7 +169,7 @@ for (const { base, name: d } of sweep) {
   // Only lanes that are actually independent verification. A builder's own row
   // is not a verdict, and counting one would be the self-verification the whole
   // design refuses.
-  const isVerification = base === FACTORY_RETURNS
+  const isVerification = chat ? true : base === FACTORY_RETURNS
     ? (doc.laneKind ?? "") === "independent-verification" || /^vf\d+$/.test(d)
     : /verif/i.test(d) || /independent-review/i.test(d);
   /*
@@ -188,7 +191,14 @@ for (const { base, name: d } of sweep) {
    */
   const scoredTokens = new Set(JSON.stringify(doc).match(/[A-Z][A-Z_]{4,}/g) ?? []);
   const unscoredObligations = PROOF_OBLIGATIONS.filter((o) => !scoredTokens.has(o));
-  for (const r of list) {
+  for (const rawRow of list) {
+    let r = rawRow;
+    if (chat) {
+      try { r = normalizeBoundedChatFailure(ROOT, doc, rawRow); }
+      catch (e) { problems.push(`${evidencePath}/${rawRow.familyId}: ${e.message}`); continue; }
+      const problem = chatRowProblem(doc, r, PROOF_OBLIGATIONS);
+      if (problem) { problems.push(`${evidencePath}/${r.familyId}: ${problem}`); continue; }
+    }
     /*
      * A verifier may emit both a family verdict and child artifact rows.  In
      * those child rows `itemId` names the route/fixture measurement while the
@@ -259,13 +269,28 @@ for (const { base, name: d } of sweep) {
         blockedLegalObligations,
         blockedLegalObligationNames: blockedLegalObligations.map((x) => x.obligation).sort(),
       } : {}),
-      evidencePath: `${base}/${d}/rows.json`,
+      evidencePath,
+      ...(chat ? {
+        evidenceSha256: inputSha256,
+        reviewer: doc.reviewer,
+        sessionIdentity: doc.sessionIdentity,
+        reviewScope: r.reviewScope ?? doc.scope ?? null,
+        ...(r.reviewBaseSource ? {reviewBaseSource:r.reviewBaseSource} : {}),
+        candidateCodeCommit: r.candidateCodeCommit ?? doc.candidateCodeCommit ?? null,
+        packetPublicationCommit: r.packetPublicationCommit ?? null,
+        // A documented withdrawal is not inferred from file naming or dates.
+        supersedesEvidencePath: typeof doc.supersedesSubmittedDisposition === "string"
+          && path.basename(doc.supersedesSubmittedDisposition) === doc.supersedesSubmittedDisposition
+          ? `${base}/${doc.supersedesSubmittedDisposition}` : null,
+      } : {}),
       repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
         ? `${base}/${d}/repair-assignments.json` : null,
       reproduction: `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ${familyId}`
     });
   }
 }
+
+attachChatReviewAddenda(ROOT, rows);
 
 // One family, one CURRENT independent verdict. Lanes are minted in order, so
 // a later lane's read supersedes an earlier lane's — a family failed by VF06
@@ -318,6 +343,8 @@ const isAncestorOf = (a, b) => {
  * decides it — the same answer as before, rather than a confident wrong one.
  */
 const supersedes = (r, prior) => {
+  if (r.supersedesEvidencePath === prior.evidencePath) return true;
+  if (prior.supersedesEvidencePath === r.evidencePath) return false;
   if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
   if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
   /*
@@ -400,7 +427,7 @@ const doc = {
   verdictVocabulary: VERDICTS,
   obligationResultVocabulary: ['"PASS"', '"FAIL"', "true", "false"],
   obligationVocabularyNote: "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
-  supersessionRule: "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  supersessionRule: "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Exact per-document supersession of a submitted chat disposition is honored without removing the original. Chat source-audit/preparation schemas do not become packet verdicts; a complete chat pass requires per-row measured obligations and counters. Superseded rows remain as history with superseded: true",
   chronologySelections: chronologySelections.map((r) => ({
     familyId: r.familyId,
     selectedVerdict: r.selectedVerdict,
