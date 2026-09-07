@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+export const DE_FAMILY = 'de_mandatory_expungement-set';
+export const DE_ROUTE = 'obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
+
+// This corrects an existing declared deliverable; it does not infer that all
+// agency routes are guidance or approve this guide's legal contents.
+export function bindDeclaredDeGuidance(record, family, { report, receipt, instructions, hashFile }) {
+  if (family.familyId !== DE_FAMILY) return record;
+  assert.equal(record.family, DE_FAMILY, 'Wrong wiring family');
+  for (const routes of [family.routeKeys, record.routeKeys, receipt.routeKeys])
+    assert.deepEqual(routes, [DE_ROUTE], 'Guidance correction cannot change route scope');
+  assert.equal(report.familyId, DE_FAMILY);
+  assert.equal(receipt.familyId, DE_FAMILY);
+  assert.deepEqual(report.componentSet, ['agency_preparation_guide']);
+  assert.deepEqual(receipt.composedComponentsAuthoredByThisBuild, ['agency_preparation_guide']);
+  assert.equal(receipt.sourceBinaryCommitted, false);
+  assert.match(receipt.formIdentityNote, /output is process guidance, not an official application/);
+  assert.match(instructions, /There is no checkout and nothing to file from this guide/);
+  assert.match(instructions, /Do not submit it to a court or agency/);
+  assert.equal(record.status, 'DECLARED_NOT_INSTALLED', 'Do not rewrite an installed delivery contract');
+  assert.equal(record.authorityCreated, 'none');
+  assert.equal(record.currentState.generationAllowed, false);
+  assert.equal(record.binding.paymentEligible, false);
+  assert.equal(record.binding.sponsorshipEligible, false);
+  const docs = report.pdfs;
+  assert.equal(docs.length, 2, 'Guidance inventory is not the expected two complete outputs');
+  for (const fixture of ['canonical', 'boundary']) {
+    const matched = docs.filter(d => d.fixture === fixture);
+    assert.equal(matched.length, 1, 'Missing or duplicate fixture');
+    const d = matched[0];
+    assert.equal(d.file, `${family.directory}/fixtures/${fixture}.pdf`);
+    assert.equal(d.pageCount, 3);
+    assert.match(d.sha256, /^[a-f0-9]{64}$/);
+    assert.equal(hashFile(d.file), d.sha256, 'Current output hash mismatch');
+  }
+  const canonical = docs.find(d => d.fixture === 'canonical');
+  const result = structuredClone(record);
+  result.binding.deliveryType = 'process_guidance';
+  result.binding.instrumentKinds = ['no filing — process guidance'];
+  result.binding.packetComponents = ['agency_preparation_guide'];
+  result.binding.filingPermitted = false;
+  result.binding.deliveryBoundary = 'Preparation guidance only; do not file it with SBI or a court. SBI supplies its own subsequent paperwork.';
+  // A historical pass is not a current approval while review is pending.
+  if (!['GUIDANCE_READY', 'COMPLETE_PACKET_PROVEN'].includes(family.state)) {
+    const prior = result.binding.lastIndependentVerification;
+    if (prior) result.binding.historicalIndependentVerification = prior;
+    result.binding.lastIndependentVerification = null;
+    result.binding.independentReviewStatus = 'CURRENT_REVIEW_PENDING';
+  }
+  result.proposedRepresentation.outputStrategy = 'process_guidance';
+  result.proposedRepresentation.note = 'Declaration of the existing non-filed preparation guide. This metadata correction is not installed runtime fulfillment, independent content approval, eligibility or commercial authority.';
+  result.proposedRepresentation.components = [{
+    componentId: `${DE_FAMILY}-component-1`, role: 'participant_guide', order: 1,
+    documentId: 'agency_preparation_guide', file: canonical.file,
+    sha256: canonical.sha256, requirement: 'required'
+  }];
+  result.proposedRepresentation.fixtureBindings = docs.map(d => ({
+    fixture: d.fixture, file: d.file, sha256: d.sha256, pageCount: d.pageCount
+  }));
+  result.deliveryCorrectionBasis = {
+    sourceReceipt: `${family.directory}/source-receipt.json`,
+    instructions: `${family.directory}/participant-instructions.md`,
+    renderedArtifacts: `${family.directory}/reports/rendered-artifacts.json`,
+    rule: 'Honor the existing exact-route guidance declaration rather than the legacy agency-application label.',
+    createsApproval: false, opensCheckout: false
+  };
+  return result;
+}

@@ -1,0 +1,70 @@
+diff --git a/scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs b/scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs
+index 87d931a..deed337 100644
+--- a/scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs
++++ b/scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs
+@@ -14,6 +14,7 @@ import path from "node:path";
+ import crypto from "node:crypto";
+ import { fileURLToPath } from "node:url";
+ import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
++import { bindDeclaredDeGuidance, DE_FAMILY } from "./de-guidance-binding.mjs";
+ 
+ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+ const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+@@ -153,6 +154,14 @@ const NON_GRANTS = [
+   "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+ ];
+ 
++const alignDeclaredDelivery = (record, family) => family.familyId !== DE_FAMILY ? record
++  : bindDeclaredDeGuidance(record, family, {
++      report: read(`${family.directory}/reports/rendered-artifacts.json`),
++      receipt: read(`${family.directory}/source-receipt.json`),
++      instructions: fs.readFileSync(path.join(ROOT, family.directory, "participant-instructions.md"), "utf8"),
++      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex")
++    });
++
+ let written = 0, skipped = 0, refreshed = 0, bespokeBindingsPreserved = 0;
+ const digestsRepinned = [];
+ const digestFileMissing = [];
+@@ -188,7 +197,7 @@ for (const f of selectedFamilies) {
+    */
+   if (fs.existsSync(wiringPath)) {
+     try {
+-      const existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
++      let existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
+       const before = JSON.stringify(existing);
+       if (hasBespokeInstalledBinding(existing)) bespokeBindingsPreserved++;
+       else existing.binding = bindingFor(f);
+@@ -201,11 +210,15 @@ for (const f of selectedFamilies) {
+         digestsRepinned.push({ family: f.familyId, componentId: c.componentId ?? null, file: c.file, was: c.sha256, now: actual });
+         c.sha256 = actual;
+       }
++      existing = alignDeclaredDelivery(existing, f);
+       if (JSON.stringify(existing) !== before) {
+         if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
+         refreshed++;
+       } else skipped++;
+-    } catch { skipped++; }
++    } catch (error) {
++      if (f.familyId === DE_FAMILY) throw error;
++      skipped++;
++    }
+     continue;
+   }
+   if (!fs.existsSync(artifactsPath)) continue;
+@@ -265,7 +278,7 @@ for (const f of selectedFamilies) {
+       componentGroups[groupIndex.get(key)].renderings.push(d);
+     }
+   }
+-  const wiring = {
++  let wiring = {
+     schemaVersion: "rcap-census-v1-product-wiring/v1",
+     family: f.familyId,
+     routeKey: f.routeKeys[0] ?? null,
+@@ -312,6 +325,7 @@ for (const f of selectedFamilies) {
+       })
+     }
+   };
++  wiring = alignDeclaredDelivery(wiring, f);
+   if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+   console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${componentGroups.length} component(s) across ${docs.length} canonical rendering(s))`);
+   written++;
