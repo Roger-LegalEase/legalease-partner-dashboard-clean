@@ -8,6 +8,7 @@ from collections import Counter
 import hashlib,json,re
 import fitz
 from PIL import Image
+from mistaken_identity_completion_lists import emit_completion_lists
 _PIXELS={}
 _TEXT={}
 ROOT=Path(__file__).resolve().parents[3]
@@ -127,7 +128,7 @@ def generate():
         assert measured==variant['sha256'] and len(pdf)==variant['pages']
         fixture=variant['id'].split('.')[0]; packetdocs=[];metrics=dict(fixture=variant['id'],sha256=measured,valuesReportedByFinalizer=0,addedGlyphsReadFromOutputBytes=0,flattenedWidgetAppearancesReadFromOutputBytes=0,nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0,refusedFieldsWithInk=[])
         if variant['id']=='automatic-on-notice':
-            assert len(pdf)==1 and all(c['component']=='instructions' for c in variant['components'])
+            assert len(pdf)==2 and all(c['component']=='instructions' for c in variant['components'])
         else:
             facts=read(OUT/(fixture+'.fixture.json'));facts['opensNewCase']='.new-case.' in variant['id']
             coverage=read(OUT/(variant['id']+'.coverage.json'))
@@ -207,7 +208,7 @@ def generate():
             for w in page.get_text('words'):
                 if w[0]<0 or w[1]<0 or w[2]>page.rect.width+.1 or w[3]>page.rect.height+.1:metrics['nonWhitespaceGlyphsOutsideMeasuredWriteBoxes']+=1
         artifacts.append(dict(fixture=variant['id'],file=str((OUT/variant['packet']).relative_to(ROOT)),sha256=measured,pageCount=len(pdf),pageManifest=variant['components'],**{k:v for k,v in metrics.items() if k not in ['fixture','sha256']}))
-        packets.append(dict(fixture=variant['id'],file=str((OUT/variant['packet']).relative_to(ROOT)),sha256=measured,pages=len(pdf),documents=packetdocs or [{'formNumber':'instructions','pageCount':1}]))
+        packets.append(dict(fixture=variant['id'],file=str((OUT/variant['packet']).relative_to(ROOT)),sha256=measured,pages=len(pdf),documents=packetdocs or [{'formNumber':'instructions','pageCount':len(pdf)}]))
     source_census=[dict(formNumber=n[:-4],sourceSha256=bindings[n]['sha256'],fields=rows) for n,rows in census.items()]
     write(OUT/'field-census.census-v1.json',dict(schemaVersion=1,familyId=FAMILY,documents=source_census,staticFieldsAlsoEnumeratedInProductionMap=True))
     write(OUT/'source-receipt.json',dict(schemaVersion=1,familyId=FAMILY,allSourcesExact=all(sha((ROOT/b['path']).read_bytes())==b['sha256'] for b in bindings.values()),documents=list(bindings.values()),scope='Exact held source bytes, NOT independent edition acceptance',sourceEditionApproval='PENDING'))
@@ -215,9 +216,6 @@ def generate():
     write(OUT/'reports/actual-writes.json',dict(schemaVersion=1,familyId=FAMILY,derivedFromArtifactBytes=True,method='Independent readback of each complete PDF by PyMuPDF, not renderer self-report',artifacts=artifacts,documents=actual))
     write(OUT/'reports/rendered-artifacts.json',dict(schemaVersion=1,familyId=FAMILY,artifacts=artifacts,packets=packets))
     write(OUT/'approval-request.json',dict(schemaVersion=1,familyId=FAMILY,status='BUILT_CANDIDATE_REVIEW_PENDING',independentReview='PENDING_CHAT10',raster='PENDING_CHAT_A',noAdmissionGranted=True))
-    original=(OUT/'participant-instructions.md').read_text().split('\n## Exact before-filing completion ledger')[0]
-    extra='\n## Exact before-filing completion ledger\n\nThese are missing or applicability-unconfirmed facts, not signatures or court decisions. Obtain them from the participant, record holder or receiving clerk before filing. A value held elsewhere must be filled, not described as unavailable. Full SSN is supplied only when reasonably available; never substitute four digits. No attorney or redacted attachment is claimed.\n\n'
-    extra+='\n'.join(f'- {form}: {label}.' for form,label in sorted(required))+'\n'
-    (OUT/'participant-instructions.md').write_text(original.rstrip()+'\n'+extra)
+    emit_completion_lists(OUT,manifest,blanks)
     print(json.dumps(dict(variants=len(packets),pages=sum(p['pages'] for p in packets),writes=len(writes),blanks=len(blanks),sourceWidgets={n:len(r) for n,r in census.items()},fieldRectangleReadbackFailures=sum(a['nonWhitespaceGlyphsOutsideMeasuredWriteBoxes'] for a in artifacts),protectedRegionChanges=sum(len(a['refusedFieldsWithInk']) for a in artifacts))))
 if __name__=='__main__':generate()

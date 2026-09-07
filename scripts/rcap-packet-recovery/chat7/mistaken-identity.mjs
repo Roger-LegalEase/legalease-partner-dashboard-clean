@@ -9,6 +9,7 @@ import {fileURLToPath} from 'node:url';
 import {PDFDocument, StandardFonts} from 'pdf-lib';
 import {fitTextToWidget, applyFitToTextField, wrapToWidth} from '../../rcap-official-forms/rcap-text-fitting.mjs';
 import {sanitizeAndFlatten, scanBytesForActiveContent} from '../../rcap-official-forms/rcap-active-content.mjs';
+import {postOrderFollowThrough} from './mistaken-identity-follow-through.mjs';
 import {stampDeterministic} from '../../rcap-official-forms/rcap-deterministic-pdf-date.mjs';
 
 export const FAMILY = 'mo-610-145-mistaken-identity-set';
@@ -181,6 +182,9 @@ export async function proposedOrder(f,root=ROOT){
  return finish(doc,new Set(),{source:'CR311.pdf',mapped,protectedBlankRegions:[{page:1,rect:[34,319,545,350],reason:'Entire judicial findings, order directions and execution block'}]});
 }
 export function instructionPages(f){
+ return [...baseInstructionPages(f),postOrderFollowThrough()];
+}
+function baseInstructionPages(f){
  const p=f.participant,c=f.court||{};
  const identity=`Prepared for ${fullName(p)}. ${f.synthetic?'SYNTHETIC EXAMPLE: not an actual person or case. ':''}Route: ${f.route}.`;
  if(f.route==='automatic-on-notice')return [
@@ -241,14 +245,15 @@ export async function buildFamily({root=ROOT,outDir=path.join(root,OUTPUT_DIR)}=
  const fixtures={canonical:JSON.parse(await fs.readFile(path.join(helper,'canonical.json'),'utf8')),boundary:JSON.parse(await fs.readFile(path.join(helper,'boundary.json'),'utf8'))};
  // Fail before mutating any output when source custody differs.
  for(const name of Object.keys(SOURCES))await loadSource(name,root);
- await fs.mkdir(outDir,{recursive:true});const manifest={schemaVersion:1,familyId:FAMILY,status:'BUILT_CANDIDATE_NOT_INDEPENDENTLY_VERIFIED',rasterAdmission:'PENDING_CHAT_A',variants:[]};
+ await fs.mkdir(path.join(outDir,'instructions'),{recursive:true});const manifest={schemaVersion:1,familyId:FAMILY,status:'BUILT_CANDIDATE_NOT_INDEPENDENTLY_VERIFIED',rasterAdmission:'PENDING_CHAT_A',variants:[]};
  const write=(name,data)=>fs.writeFile(path.join(outDir,name),data);
+ const writeGuide=(name,facts)=>write(`instructions/${name}.md`,instructionPages(facts).map(x=>`# ${x.title}\n\n${x.paragraphs.join('\n\n')}`).join('\n\n')+'\n');
  for(const [fixture,input]of Object.entries(fixtures)){
   await write(`${fixture}.fixture.json`,json(input));
   for(const opensNewCase of [false,true])for(const proposedOrderRequested of [false,true]){
    const facts={...input,opensNewCase,proposedOrderRequested};const result=await buildPacket(facts,root);
    const name=`${fixture}.${opensNewCase?'new-case':'existing-case'}.${proposedOrderRequested?'with-order':'no-order'}`;
-   await write(`${name}.packet.pdf`,result.bytes);await write(`${name}.coverage.json`,json(result.coverage));
+   await writeGuide(name,result.facts);await write(`${name}.packet.pdf`,result.bytes);await write(`${name}.coverage.json`,json(result.coverage));
    manifest.variants.push({id:name,packet:`${name}.packet.pdf`,sha256:hash(result.bytes),pages:result.pages,components:result.coverage.map(({component,firstPage,lastPage,pages})=>({component,firstPage,lastPage,pages}))});
    if(opensNewCase&&proposedOrderRequested){await write(`${fixture}.packet.pdf`,result.bytes);for(const c of result.components)await write(`${fixture}.${c.id}.pdf`,c.bytes);}
   }
@@ -256,12 +261,14 @@ export async function buildFamily({root=ROOT,outDir=path.join(root,OUTPUT_DIR)}=
  for(const [fixture,input]of Object.entries(fixtures))for(const proposedOrderRequested of [false,true]){
   const result=await buildPacket({...input,opensNewCase:false,confidentialSheetRequired:true,proposedOrderRequested},root);
   const name=`${fixture}.existing-case.clerk-requires-sheet.${proposedOrderRequested?'with-order':'no-order'}`;
-  await write(`${name}.packet.pdf`,result.bytes);await write(`${name}.coverage.json`,json(result.coverage));
+  await writeGuide(name,result.facts);await write(`${name}.packet.pdf`,result.bytes);await write(`${name}.coverage.json`,json(result.coverage));
   manifest.variants.push({id:name,packet:`${name}.packet.pdf`,sha256:hash(result.bytes),pages:result.pages,components:result.coverage.map(({component,firstPage,lastPage,pages})=>({component,firstPage,lastPage,pages}))});
  }
  const automatic={...fixtures.boundary,route:'automatic-on-notice'};const auto=await buildPacket(automatic,root);
+ await writeGuide('automatic-on-notice',auto.facts);
  await write('automatic-on-notice.fixture.json',json(automatic));await write('automatic-on-notice.packet.pdf',auto.bytes);
  manifest.variants.push({id:'automatic-on-notice',packet:'automatic-on-notice.packet.pdf',sha256:hash(auto.bytes),pages:auto.pages,components:auto.coverage.map(({component,firstPage,lastPage,pages})=>({component,firstPage,lastPage,pages}))});
+ await write('post-order-follow-through.md',instructionPages(fixtures.canonical).slice(-1).map(x=>`# ${x.title}\n\n${x.paragraphs.join('\n\n')}`).join('\n\n')+'\n');
  await write('participant-instructions.md',instructionPages(fixtures.canonical).map(x=>`# ${x.title}\n\n${x.paragraphs.join('\n\n')}`).join('\n\n')+'\n');
  await write('source-manifest.json',json({sources:SOURCES,authorityChecked:'2026-09-07',authorityUrl:'https://revisor.mo.gov/main/OneSection.aspx?section=610.145',editionCheck:'Held editions inspected in full. Current official 16th Circuit index identifies CR301. Fresh byte-for-byte retrieval from courts.mo.gov was not established; do not construe custody hashes as legal approval.'}));
  await write('packet-manifest.json',json(manifest));

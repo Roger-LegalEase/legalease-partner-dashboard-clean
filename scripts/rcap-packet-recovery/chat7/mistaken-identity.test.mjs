@@ -45,7 +45,7 @@ test('all eight petition condition combinations have exact page/component covera
  for(const fixture of [canonical,boundary])for(const opensNewCase of [false,true])for(const proposedOrderRequested of [false,true]){
   const r=await buildPacket({...fixture,opensNewCase,proposedOrderRequested});
   assert.deepEqual(r.components.map(c=>c.id),['CR301',...(opensNewCase?['FI-05']:[]),...(proposedOrderRequested?['CR311']:[]),'instructions']);
-  assert.equal(r.pages,4+(opensNewCase?5:0)+(proposedOrderRequested?1:0));
+  assert.equal(r.pages,5+(opensNewCase?5:0)+(proposedOrderRequested?1:0));
   const d=await PDFDocument.load(r.bytes,{updateMetadata:false});assert.equal(d.getForm().getFields().length,0);
   assert.equal(r.coverage.at(-1).lastPage,r.pages);
   const petition=r.components[0];const fills=mapped(petition);
@@ -67,7 +67,7 @@ test('all eight petition condition combinations have exact page/component covera
  }
 });
 test('automatic notice produces guidance alone; does not default to a petition or claim an order exists',async()=>{
- const r=await buildPacket({...boundary,route:'automatic-on-notice'});assert.equal(r.pages,1);assert.deepEqual(r.components.map(c=>c.id),['instructions']);
+ const r=await buildPacket({...boundary,route:'automatic-on-notice'});assert.equal(r.pages,2);assert.deepEqual(r.components.map(c=>c.id),['instructions']);
  await assert.rejects(()=>buildPacket({...canonical,route:'automatic-on-notice'}),/AUTOMATIC_NOTICE_REQUIRES_DISMISSAL/);
 });
 test('missing optional identifiers remain blank; absent required case facts are disclosed, not invented',async()=>{
@@ -90,12 +90,13 @@ test('wrapper imports as an API without starting a build or changing the current
  const cwd=process.cwd();const api=await import('../../build-census-v1-mo-610-145-mistaken-identity-set.mjs');assert.equal(process.cwd(),cwd);assert.equal(api.buildPacket,buildPacket);assert.equal(api.importFacts,importFacts);
 });
 test('full CLI renderer twice compares EVERY generated family file, not a check-only probe',async()=>{
+ const cliEnv={...process.env};delete cliEnv.NODE_TEST_CONTEXT; // Do not export the test runner transport into a real CLI.
  const command=['scripts/build-census-v1-mo-610-145-mistaken-identity-set.mjs','--no-raster'];
  const snapshot=async()=>{const directory=path.join(ROOT,OUTPUT_DIR);const files=(await fs.readdir(directory,{recursive:true,withFileTypes:true})).filter(x=>x.isFile()).map(x=>path.relative(directory,path.join(x.parentPath??x.path,x.name))).sort();return Object.fromEntries(await Promise.all(files.map(async name=>[name,hash(await fs.readFile(path.join(directory,name)))])));};
- const first=spawnSync(process.execPath,command,{cwd:ROOT,encoding:'utf8',timeout:120000});assert.equal(first.status,0,first.stderr);
+ const first=spawnSync(process.execPath,command,{cwd:ROOT,env:cliEnv,encoding:'utf8',timeout:120000});assert.equal(first.status,0,first.stderr);
  const hashes1=await snapshot();await new Promise(r=>setTimeout(r,1100));
- const second=spawnSync(process.execPath,command,{cwd:ROOT,encoding:'utf8',timeout:120000});assert.equal(second.status,0,second.stderr);
+ const second=spawnSync(process.execPath,command,{cwd:ROOT,env:cliEnv,encoding:'utf8',timeout:120000});assert.equal(second.status,0,second.stderr);
  const hashes2=await snapshot();assert.deepEqual(hashes2,hashes1);assert.ok(Object.keys(hashes2).length>=30);
  const evidence=path.join(ROOT,'data/rcap-grade-a/chat-parallel-2026-09-07/chat7-build');await fs.mkdir(evidence,{recursive:true});
- await fs.writeFile(path.join(evidence,'mistaken-identity-determinism.json'),JSON.stringify({method:'Two complete CLI renders, separated by more than one second; exact filenames and SHA-256 of every generated family file',command:`node ${command.join(' ')}`,runs:[{exitCode:first.status,stdout:first.stdout},{exitCode:second.status,stdout:second.stdout}],fileCount:Object.keys(hashes2).length,identical:true,files:hashes2},null,2)+'\n');
+ await fs.writeFile(path.join(evidence,'mistaken-identity-correction-determinism.json'),JSON.stringify({method:'Two complete CLI renders, separated by more than one second; exact filenames and SHA-256 of every generated family file',command:`node ${command.join(' ')}`,runs:[{exitCode:first.status,stdout:first.stdout},{exitCode:second.status,stdout:second.stdout}],fileCount:Object.keys(hashes2).length,identical:true,files:hashes2},null,2)+'\n');
 });

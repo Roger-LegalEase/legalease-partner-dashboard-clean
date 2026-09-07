@@ -13,7 +13,7 @@ test('complete current four-component manifest and actual additional clerk-requi
  assert.equal(c.components.length,4);assert.equal(c.components[3].role,'filing_and_service_instructions');
  assert.equal(c.source.gitBlob,'cbdd97e1967dbc755c547272eb0a0a2a99ecc744');
  const f={...fixture,opensNewCase:false,confidentialSheetRequired:true,proposedOrderRequested:false};
- const r=await buildPacket(f);assert.equal(r.pages,9);assert.deepEqual(r.components.map(x=>x.id),['CR301','FI-05','instructions']);
+ const r=await buildPacket(f);assert.equal(r.pages,10);assert.deepEqual(r.components.map(x=>x.id),['CR301','FI-05','instructions']);
  assert.ok(r.components[0].audit.mapped.find(x=>x.field==='Case number'&&x.value===fixture.court.originalCaseNumber));
 });
 test('clerk selection cannot silently coerce a string or unknown condition',()=>{
@@ -37,7 +37,7 @@ test('every report blank uses the central closed vocabulary; unavailable facts a
 test('byte-derived field evidence covers every declared write in all thirteen variants',()=>{
  const m=read('production-field-map.json'),a=read('reports/actual-writes.json'),r=read('reports/rendered-artifacts.json');
  assert.equal(a.derivedFromArtifactBytes,true);assert.equal(r.packets.length,13);
- assert.equal(r.packets.reduce((n,p)=>n+p.pages,0),95);
+ assert.equal(r.packets.reduce((n,p)=>n+p.pages,0),108);
  assert.equal(a.documents.reduce((n,d)=>n+d.actualWrites.length,0),m.writes.length);
  assert.ok(a.documents.every(d=>d.actualWrites.every(w=>w.visibleInArtifactBytes)));
  assert.ok(a.artifacts.every(a=>a.refusedFieldsWithInk.length===0));
@@ -68,11 +68,11 @@ test('same printed Address on two different FI-05 parties does not invent a shar
  assert.ok(m.refusals.some(x=>x.fieldName==='Address_2'&&x.requiredBeforeFiling));
  assert.ok(!a.findings.some(x=>x.field?.endsWith('/Address_2')));
 });
-test('all original new-case PDF bytes remain identical to the preserved candidate',()=>{
+test('all official component PDF bytes remain identical; instruction PDFs intentionally change',()=>{
  const h=JSON.parse(fs.readFileSync(path.join(ROOT,'data/rcap-grade-a/chat-parallel-2026-09-07/chat7-build/preserved-output-hashes.json'),'utf8'));
  // Hashing is repeated here; the original packet is not rebuilt as a new source.
  return import('node:crypto').then(({createHash})=>{
- for(const [name,expected]of Object.entries(h))if(name.endsWith('.pdf')){
+ for(const [name,expected]of Object.entries(h))if(/\.(CR301|CR311|FI-05)\.pdf$/.test(name)){
    assert.equal(createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),expected,name);
  }
  });
