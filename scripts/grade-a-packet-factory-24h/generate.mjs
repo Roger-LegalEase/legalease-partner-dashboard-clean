@@ -16,6 +16,7 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
@@ -1084,7 +1085,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     && (reconciliation?.requireBoundAuthority !== true || boundAuthorities.length > 0);
   const ready = reasons.length === 0
     && (customAuthorityReady || bound.length > 0 || satisfiedByAuthority.length > 0);
-  return {
+  return applyUnresolvedSourceConstraints({
     ready,
     reasons,
     ...(satisfiedByAuthority.length
@@ -1109,7 +1110,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     boundCount: bound.length,
     custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED",
     directAttachment: true
-  };
+  }, reconciliation);
 }
 
 const slugOf = (id) => id.replace(/_/g, "-").toLowerCase();
@@ -2144,6 +2145,9 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "PRODUCT_PATH_PENDING") state = "PRODUCT_PATH_PENDING";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
+  /* A rejected source binding is not repaired by a prior completeness or
+   * semantic result. Preserve those findings, but do not call it buildable. */
+  else if (readiness.unresolvedObligations?.length && !legalBlocked) state = "SOURCE_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
    * readiness is true, that environment-scoped hold is no longer source work.
@@ -2408,6 +2412,7 @@ for (const f of IN.scoreboard.familiesDetail) {
       ? {
           group: sourceReconciliation.group,
           disposition: sourceReconciliation.disposition,
+          unresolvedObligations: [...(sourceReconciliation.unresolvedObligations ?? [])],
           exactNextAction: sourceReconciliation.exactNextAction,
           exactResidual: sourceReconciliation.exactResidual ?? null,
           permissionHold: sourceReconciliation.permissionHold ?? null,

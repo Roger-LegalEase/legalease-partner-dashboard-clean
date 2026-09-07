@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "976dbbc970acaf9db38a8d6a444254f03b48e0fe",
+  "minimumCaptainSha": "241c072fc1fe7da9fa81f5fc77fca4de45961185",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,11 +66,11 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 24,
+    "activeFamiliesExcluded": 21,
     "guidanceOnly": 0,
-    "remaining": 322,
+    "remaining": 325,
     "sourceReady": 80,
-    "sourceBlocked": 6,
+    "sourceBlocked": 9,
     "legalBlocked": 13,
     "verifyPending": 6,
     "repairRequired": 18,
@@ -78,11 +78,11 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 161,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "FAIL_REPAIR_REQUIRED": 39,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 80,
-    "SOURCE_BLOCKED": 6,
+    "SOURCE_BLOCKED": 9,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -92,10 +92,11 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_BOUND_BY_HELD_BYTES": 243,
+    "SOURCE_BOUND_BY_HELD_BYTES": 240,
     "SOURCE_GENUINELY_MISSING": 2,
     "SOURCE_IDENTITY_UNRESOLVED": 9,
-    "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3
+    "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
+    "SOURCE_ALREADY_HELD": 3
   },
   "activeOwnership": {
     "lanes": [
@@ -126,9 +127,6 @@
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
       "nj_ordinance-set",
-      "nm_conviction-set",
-      "nm_identity_theft-set",
-      "nm_release_without_conviction-set",
       "oh_marijuana_expungement-set",
       "pa_pardon_expungement-set",
       "ri_nonconviction_sealing-set",
@@ -185,7 +183,7 @@
     "familiesPerBuilder": 3.3,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 80 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 13 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -2790,6 +2788,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the newly custodied Act 346 petition and the already-bound order.",
         "exactResidual": null,
         "permissionHold": null,
@@ -3338,6 +3337,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Bind the pre/post petition-order pair selected by adjudication posture, then build.",
         "exactResidual": null,
         "permissionHold": null,
@@ -3764,6 +3764,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the newly custodied petition and already-bound uniform order.",
         "exactResidual": null,
         "permissionHold": null,
@@ -4181,6 +4182,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the already-bound petition and newly custodied veterans-court order.",
         "exactResidual": null,
         "permissionHold": null,
@@ -4311,6 +4313,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the held 10/30/2023 successor editions.",
         "exactResidual": null,
         "permissionHold": null,
@@ -4590,6 +4593,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the continuation region within held parent AOC-CREM2F-071221.",
         "exactResidual": null,
         "permissionHold": null,
@@ -4978,6 +4982,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the hash-bound 050625 petition and order identities; render the continuation inside the petition.",
         "exactResidual": null,
         "permissionHold": null,
@@ -5237,6 +5242,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [],
         "exactNextAction": "Place the R-26-0001-amended Form 31(a) and Form 31(b) specifications or exact current standalone binaries into governed custody.",
         "exactResidual": "R-26-0001 is acquired, but its amended Form 31(a)/(b) payload is not yet in governed source custody.",
         "permissionHold": null,
@@ -6626,6 +6632,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the San Diego County-scoped packet from the exact owner-custodied CRM-307 source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -6940,6 +6947,7 @@
       "sourceReconciliation": {
         "group": "C",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [],
         "exactNextAction": "Acquire the current Maine Judicial Branch JV-043 Petition to Seal Juvenile Case Records binary into governed custody.",
         "exactResidual": "The compiled route profile names JV-043, but its current official binary is not held.",
         "permissionHold": null,
@@ -7034,6 +7042,7 @@
       "sourceReconciliation": {
         "group": "C",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [],
         "exactNextAction": "Acquire Form 1231XX into governed custody and correct the route from Title 77 Chapter 40a-only custom pleading to the official PCRA petition plus an authority-grounded attachment.",
         "exactResidual": "The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle.",
         "permissionHold": null,
@@ -7128,6 +7137,7 @@
       "sourceReconciliation": {
         "group": "C",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [],
         "exactNextAction": "Acquire the exact current Utah State Courts Petition to Expunge Juvenile Court Records binary into governed custody.",
         "exactResidual": "The official Utah juvenile expungement petition is identified, but its current binary is not held in governed custody.",
         "permissionHold": null,
@@ -7244,6 +7254,7 @@
       "sourceReconciliation": {
         "group": "C",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [],
         "exactNextAction": "Do not acquire against this family. It is the RCW 13.50.260(1)-(2) court-initiated route and the participant files nothing, so it belongs in a guidance treatment rather than SOURCE_BLOCKED. Whether to open the (3) motion path as its own family, which is what the three JU forms actually serve, is a separate decision.",
         "exactResidual": "No byte is owed for this route. The earlier residual said the governed corpus holds JU 10.0320 only; it holds none of the three.",
         "permissionHold": null,
@@ -8007,6 +8018,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from JDF 683 and the corrected JDF 686 proposed granting-order component.",
         "exactResidual": null,
         "permissionHold": null,
@@ -11835,6 +11847,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build Form 281 with Form 281E only where charge continuation is required.",
         "exactResidual": null,
         "permissionHold": null,
@@ -11981,6 +11994,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact CIV EXP 02A, 02B, and 04A sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12083,6 +12097,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12225,6 +12240,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact CIV EXP 02A and 08A sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12351,6 +12367,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build with the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12463,6 +12480,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the written application and endorsement treatment required by Rule 11C-7.008; no uniform FDLE form exists.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12584,6 +12602,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the owner-custodied current FDLE early-juvenile application rendering.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12737,6 +12756,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build with the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12847,6 +12867,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the owner-custodied current FDLE juvenile-diversion application rendering.",
         "exactResidual": null,
         "permissionHold": null,
@@ -12976,6 +12997,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build with the sealing rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
         "exactResidual": null,
         "permissionHold": null,
@@ -14028,6 +14050,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build only the pre-July 1, 2013 route from the exact GCIC source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -14730,6 +14753,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the owner-custodied August 2024 Form 3; render its embedded certification section.",
         "exactResidual": null,
         "permissionHold": null,
@@ -15095,6 +15119,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the owner-custodied August 2024 Form 1; render its embedded certification section.",
         "exactResidual": null,
         "permissionHold": null,
@@ -15217,6 +15242,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the owner-custodied Form 2; compose its embedded certification and optional continuation sheet.",
         "exactResidual": null,
         "permissionHold": null,
@@ -15347,6 +15373,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build DCI-76 and DCI-77 as page components of the one owner-custodied combined official PDF.",
         "exactResidual": null,
         "permissionHold": null,
@@ -17162,6 +17189,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the four owner-custodied PRB application/acknowledgment instruments; keep EXP-AD Request only on the downstream court-petition stage where the route census uses it.",
         "exactResidual": null,
         "permissionHold": null,
@@ -18385,6 +18413,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -18567,6 +18596,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -18749,6 +18779,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -19332,6 +19363,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -19533,6 +19565,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -19734,6 +19767,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -19932,6 +19966,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -20079,6 +20114,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -20226,6 +20262,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
         "exactResidual": null,
         "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction",
@@ -20955,6 +20992,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact AOC-497 and AOC-497.2 sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -21066,6 +21104,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the exact owner-custodied AOC-275.18 source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -22467,6 +22506,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the exact Petition for Expungement under G.L. c. 276, § 100K.",
         "exactResidual": null,
         "permissionHold": null,
@@ -22806,6 +22846,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the shared Petition to Seal parent PDF.",
         "exactResidual": null,
         "permissionHold": null,
@@ -22915,6 +22956,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the exact current TC0057 petition.",
         "exactResidual": null,
         "permissionHold": null,
@@ -23026,6 +23068,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the box 4 route election within the shared Petition to Seal parent PDF.",
         "exactResidual": null,
         "permissionHold": null,
@@ -24049,6 +24092,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the exact current CR-218 source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -24300,6 +24344,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact CR-307 and CR-308 sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -24431,6 +24476,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from held MC 227; render page 3 proof of service as a parent-form component.",
         "exactResidual": null,
         "permissionHold": null,
@@ -24562,6 +24608,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build item 2.c and page 3 proof of service as components of held MC 227.",
         "exactResidual": null,
         "permissionHold": null,
@@ -25545,6 +25592,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -25705,6 +25753,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -25871,6 +25920,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -26032,6 +26082,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -26177,6 +26228,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact CR301 and FI-05 sources; do not substitute another Missouri form.",
         "exactResidual": null,
         "permissionHold": null,
@@ -26306,6 +26358,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms.",
         "exactResidual": null,
         "permissionHold": null,
@@ -27317,6 +27370,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the completed-record packet from Form B and all three separately identified supporting components.",
         "exactResidual": null,
         "permissionHold": null,
@@ -27538,6 +27592,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the serving-record packet from Form A and all three separately identified supporting components.",
         "exactResidual": null,
         "permissionHold": null,
@@ -28446,6 +28501,7 @@
       "sourceReconciliation": {
         "group": "LATER",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactResidual": "No missing binary remains for the four declared NC component sources. Legal review, current raster and independent packet acceptance remain separate and unchanged.",
         "permissionHold": null,
         "productQuestion": null,
@@ -28998,6 +29054,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the four owner-custodied North Dakota judiciary self-help instruments while preserving their nonmandatory disclaimer.",
         "exactResidual": null,
         "permissionHold": null,
@@ -29108,6 +29165,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build the regular-pardon packet from exact SFN 14859.",
         "exactResidual": null,
         "permissionHold": null,
@@ -31701,12 +31759,6 @@
           "tier": "exact_form_number"
         },
         {
-          "sourceId": "official-form:4-222",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-          "tier": "exact_identity_confirmed_from_document_text"
-        },
-        {
           "sourceId": "official-form:4-953",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
           "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
@@ -31737,11 +31789,13 @@
           "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-      "sourceBound": true,
+      "sourceStatus": "SOURCE_ALREADY_HELD",
+      "sourceBound": false,
       "sourceReadiness": {
-        "ready": true,
-        "reasons": [],
+        "ready": false,
+        "reasons": [
+          "official-form:4-222: SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+        ],
         "boundSources": [
           {
             "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
@@ -31749,13 +31803,6 @@
             "sha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
-          },
-          {
-            "sourceId": "official-form:4-222",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:4-953",
@@ -31806,13 +31853,28 @@
           "official-form:4-960.3",
           "official-form:NM-LOCAL-CONVICTION-ORDER"
         ],
-        "boundCount": 7,
+        "boundCount": 6,
         "custodyClass": "SOURCE_ALREADY_HELD",
-        "directAttachment": true
+        "directAttachment": true,
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "rejectedBindings": [
+          {
+            "sourceId": "official-form:4-222",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ]
       },
       "sourceReconciliation": {
         "group": "LATER",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
         "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
         "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
         "permissionHold": null,
@@ -31828,7 +31890,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
+        "sources do not bind"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -31876,9 +31938,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX95",
-      "activeOwnerLane": "rapid-repair",
+      "state": "SOURCE_BLOCKED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31889,8 +31951,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nm_identity_theft-set",
@@ -31936,12 +31997,6 @@
           "tier": "exact_form_number"
         },
         {
-          "sourceId": "official-form:4-222",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-          "tier": "exact_identity_confirmed_from_document_text"
-        },
-        {
           "sourceId": "official-form:4-951",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
           "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
@@ -31954,11 +32009,13 @@
           "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-      "sourceBound": true,
+      "sourceStatus": "SOURCE_ALREADY_HELD",
+      "sourceBound": false,
       "sourceReadiness": {
-        "ready": true,
-        "reasons": [],
+        "ready": false,
+        "reasons": [
+          "official-form:4-222: SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+        ],
         "boundSources": [
           {
             "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
@@ -31966,13 +32023,6 @@
             "sha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
-          },
-          {
-            "sourceId": "official-form:4-222",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:4-951",
@@ -31999,13 +32049,28 @@
           "official-form:4-960.1",
           "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER"
         ],
-        "boundCount": 4,
+        "boundCount": 3,
         "custodyClass": "SOURCE_ALREADY_HELD",
-        "directAttachment": true
+        "directAttachment": true,
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "rejectedBindings": [
+          {
+            "sourceId": "official-form:4-222",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ]
       },
       "sourceReconciliation": {
         "group": "LATER",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
         "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
         "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
         "permissionHold": null,
@@ -32021,7 +32086,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
+        "sources do not bind"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -32063,9 +32128,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX95",
-      "activeOwnerLane": "rapid-repair",
+      "state": "SOURCE_BLOCKED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_identity_theft-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -32076,8 +32141,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nm_release_without_conviction-set",
@@ -32136,12 +32200,6 @@
           "tier": "exact_form_number"
         },
         {
-          "sourceId": "official-form:4-222",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-          "tier": "exact_identity_confirmed_from_document_text"
-        },
-        {
           "sourceId": "official-form:4-952",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
           "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
@@ -32172,11 +32230,13 @@
           "tier": "exact_identity_confirmed_from_document_text"
         }
       ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-      "sourceBound": true,
+      "sourceStatus": "SOURCE_ALREADY_HELD",
+      "sourceBound": false,
       "sourceReadiness": {
-        "ready": true,
-        "reasons": [],
+        "ready": false,
+        "reasons": [
+          "official-form:4-222: SOURCE_IDENTITY_DETERMINATION_UNRESOLVED — official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+        ],
         "boundSources": [
           {
             "sourceId": "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
@@ -32184,13 +32244,6 @@
             "sha256": "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
             "tier": "exact_form_number",
             "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
-          },
-          {
-            "sourceId": "official-form:4-222",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
-            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
           },
           {
             "sourceId": "official-form:4-952",
@@ -32241,13 +32294,28 @@
           "official-form:4-960.2",
           "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET"
         ],
-        "boundCount": 7,
+        "boundCount": 6,
         "custodyClass": "SOURCE_ALREADY_HELD",
-        "directAttachment": true
+        "directAttachment": true,
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "rejectedBindings": [
+          {
+            "sourceId": "official-form:4-222",
+            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ]
       },
       "sourceReconciliation": {
         "group": "LATER",
         "disposition": "SOURCE_BLOCKED",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
         "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
         "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
         "permissionHold": null,
@@ -32263,7 +32331,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
+        "sources do not bind"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -32305,9 +32373,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX95",
-      "activeOwnerLane": "rapid-repair",
+      "state": "SOURCE_BLOCKED",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_release_without_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -32318,8 +32386,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nv_repository_removal-set",
@@ -33029,6 +33096,7 @@
       "sourceReconciliation": {
         "group": "A",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build with exact CR-106, CR-430, CR-430-INFO, CR-431, and CR-432 sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -35180,6 +35248,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build using the shared exact FI-05 source and the settled custom-pleading authority.",
         "exactResidual": null,
         "permissionHold": null,
@@ -36536,6 +36605,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Bind DC-33 and render its affidavit region, then compose the District Court proposed order for the decriminalised-conduct branch.",
         "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
@@ -36674,6 +36744,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Bind the held Superior-55 Part Three motion and compose the Superior Court felony/deferred proposed order.",
         "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
@@ -36844,6 +36915,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Keep Superior-55 Part Two bound and compose the Superior Court felony/deferred proposed order.",
         "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
@@ -37007,6 +37079,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Keep DC-33 Part Three A bound for District Court and compose the District Court proposed order.",
         "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
@@ -37260,6 +37333,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Keep DC-33 Part Three B bound for District Court and compose the District Court proposed order. The fewer-than-six statutory limit still has to be reconciled against the current form wording.",
         "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
@@ -38553,6 +38627,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the three separately bound Texas components.",
         "exactResidual": null,
         "permissionHold": null,
@@ -41115,6 +41190,7 @@
       "sourceReconciliation": {
         "group": "B",
         "disposition": "PRODUCT_PATH_PENDING",
+        "unresolvedObligations": [],
         "exactNextAction": "Bind held 1501CR, 1501CR-C, and 1502CR; add the route-fact decision that selects hearing form 1110GE or no-hearing form 1111GE.",
         "exactResidual": null,
         "permissionHold": null,
@@ -45647,6 +45723,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from exact SCA-C906 and SCA-C907 sources.",
         "exactResidual": null,
         "permissionHold": null,
@@ -45896,6 +45973,7 @@
       "sourceReconciliation": {
         "group": "D",
         "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
         "exactNextAction": "Build from the exact current SCA-C907 source.",
         "exactResidual": null,
         "permissionHold": null,
@@ -46498,12 +46576,12 @@
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 80,
-    "sourceObligationsAssigned": 10,
+    "sourceObligationsAssigned": 13,
     "actualPromotedAndReleased": 80,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 7,
+    "prospectiveReleasesAcrossSourceLanes": 10,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

@@ -22,6 +22,8 @@ import {
   repairRowsJointlyDischargeFailure
 } from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
+import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
+import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -602,7 +604,22 @@ function run() {
     /* A live repair grant is already a dispatch, including a deliberately held
      * off-roster lane. It must not be replaced merely to make this text search
      * find an internal prompt. */
-    const dispatchedSomewhere = (familyId) => repairText.includes(familyId)
+    // A recorded Captain assignment is the same live dispatch recognized by
+    // generate.mjs and F24. Require both the current owner and a dated deal;
+    // an arbitrary high FIX number or a bare claim is not evidence of dispatch.
+    const repairLedger = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
+    const captainRepairEvidence = (familyId) => {
+      const family = master.families.find((row) => row.familyId === familyId);
+      const claims = (repairLedger?.claims ?? []).filter((claim) =>
+        claim.subjectType === "packet-family" && claim.subjectId === familyId
+        && ["repair", "shared-host-repair"].includes(claim.laneKind)
+        && claim.released !== true && claim.lane === family?.activeOwner);
+      if (claims.length !== 1 || !captainDealtLiveGrant(repairLedger, claims[0])) return null;
+      return { familyId, lane: claims[0].lane,
+        failedObligationNames: family.failedObligationNames ?? [],
+        failedObligations: family.failedObligations ?? [] };
+    };
+    const dispatchedSomewhere = (familyId) => Boolean(captainRepairEvidence(familyId)) || repairText.includes(familyId)
       || vermontText.includes(familyId)
       || a.some((assignment) =>
         (assignment.lane === "rapid-repair" || assignment.lane === "shared-host-repair")
@@ -618,7 +635,8 @@ function run() {
      * is what has to name its obligation.
      */
     const evidenceFor = (familyId) => {
-      const out = [];
+      const captain = captainRepairEvidence(familyId);
+      const out = captain ? [JSON.stringify(captain)] : [];
       for (const text of [repairText, vermontText]) {
         if (!text) continue;
         let doc = null;
@@ -638,6 +656,21 @@ function run() {
       const fam = master.families.find((f) => f.familyId === r.familyId);
       if (!fam) { returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and is not in the queue at all`); continue; }
       if (PROVEN.has(fam.state)) returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and the queue still calls it ${fam.state}`);
+      // A governed source-identity refusal is a prerequisite to packet repair,
+      // not permission to forget the independent packet defects. Keep every
+      // exact failed obligation pending while the source conveyor fixes it.
+      const sourceWait = fam.state === "SOURCE_BLOCKED" && fam.sourceReadiness?.ready === false
+        && fam.sourceReconciliation?.disposition === "SOURCE_BLOCKED"
+        && (fam.sourceReconciliation.unresolvedObligations ?? []).length > 0
+        && fam.sourceReconciliation.unresolvedObligations.every(id =>
+          fam.sourceReadiness.unresolvedObligations?.includes(id));
+      if (sourceWait) {
+        for (const name of r.failedObligationNames ?? []) {
+          if (!(fam.failedObligationNames ?? []).includes(name))
+            returnedVerdictProblems.push(`${r.familyId} lost pending ${name} while awaiting its rejected source binding`);
+        }
+        continue;
+      }
       if (!dispatchedSomewhere(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
       const forThisFamily = evidenceFor(r.familyId);
       for (const o of r.failedObligationNames ?? []) {
@@ -1301,7 +1334,8 @@ function run() {
     for (const c of ledger.claims ?? []) {
       if (c.released === true || c.subjectType !== "packet-family") continue;
       const held = master.families.find((f) => f.familyId === c.subjectId && f.activeOwner === c.lane);
-      if (held) dispatched.add(`${c.subjectType}::${c.subjectId}::${c.operation}`);
+      if (held || captainDealtLiveGrant(ledger, c))
+        dispatched.add(`${c.subjectType}::${c.subjectId}::${c.operation}`);
     }
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
@@ -1431,7 +1465,26 @@ function run() {
       if (!(r.blockedLegalObligations ?? []).some((o) => o.finding))
         legalProblems.push(`${r.familyId} has a current BLOCKED_LEGAL_INPUT verdict without an extracted finding`);
     }
+    // The generator also consumes stopped repair-lane findings. Read their
+    // actual return, not merely the label in MASTER_QUEUE, and keep the hold.
+    const stoppedRepairHolds = [];
+    for (const family of master.families) {
+      const ref = family.laneReturnLegalHold?.evidencePath;
+      if (family.legalInputBasis !== "LANE_RETURN_BLOCKED_LEGAL_INPUT"
+        || ownerReclassified.has(family.familyId) || !ref) continue;
+      try {
+        const absolute = path.resolve(ROOT, ref);
+        if (!absolute.startsWith(`${ROOT}${path.sep}`)) throw new Error("outside repository");
+        const doc = JSON.parse(fs.readFileSync(absolute, "utf8"));
+        const finding = doc.rows?.find((row) => (row.itemId ?? row.familyId) === family.familyId
+          && ["STOPPED", "BLOCKED_LEGAL_INPUT"].includes(row.status)
+          && (row.stopClass === "BLOCKED_LEGAL_INPUT" || row.status === "BLOCKED_LEGAL_INPUT")
+          && typeof row.exactQuestion === "string" && row.exactQuestion.trim().length > 0);
+        if (finding) stoppedRepairHolds.push(family.familyId);
+      } catch { /* The reciprocal hold/evidence check below still refuses it. */ }
+    }
     const heldByLane = [...new Set([
+      ...stoppedRepairHolds,
       ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL" && !ownerReclassified.has(r.familyId)).map((r) => r.familyId),
       ...currentVerifierHolds.map((r) => r.familyId),
     ])];
@@ -1444,7 +1497,13 @@ function run() {
     const repairers = new Set(liveClaims.filter((c) => c.laneKind === "repair" || c.laneKind === "shared-host-repair").flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
     for (const f of heldByLane) {
       if (builders.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a builder`);
-      if (repairers.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a repairer`);
+      const relatedRepairClaims = liveClaims.filter((c) =>
+        ["repair", "shared-host-repair"].includes(c.laneKind)
+        && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(f));
+      const boundedOnly = relatedRepairClaims.length === 1
+        && boundedRepairAuthorization(familyById.get(f), relatedRepairClaims[0], read(LEDGER), read);
+      if (repairers.has(f) && !boundedOnly)
+        legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a repairer without recorded bounded-work authority`);
       const fam = familyById.get(f);
       if (fam && fam.legalInputStatus !== "OPEN_LEGAL_INPUT") {
         legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and the queue still calls it ${fam.legalInputStatus}`);
@@ -1517,6 +1576,18 @@ console.log(`\n${first.results.length - first.failed.length}/${first.results.len
 
 if (MUTATIONS) {
   console.log("\nmutations:");
+  const rereadMaster = read(MASTER);
+  const rereadReturns = read(`${DIR}/VERIFIER_RETURNS.json`);
+  const rereadCompletions = readRepairCompletions(ROOT);
+  const rereadSubject = rereadMaster.families
+    .filter((family) => family.state === "VERIFY_PENDING"
+      && family.selectedIndependentVerdict?.verdict === "FAIL_REPAIR_REQUIRED")
+    .map((family) => {
+      const verdict = rereadReturns.rows.find((r) => r.familyId === family.familyId
+        && r.isIndependentVerification && !r.superseded && r.verdict === "FAIL_REPAIR_REQUIRED");
+      return verdict ? repairCompletionAfterVerdict(ROOT, rereadCompletions, verdict) : null;
+    }).find(Boolean);
+  if (!rereadSubject) throw new Error("F35 requires a current causal post-repair return; use isolated reader fixtures when the live queue has none");
   const targets = { master: path.join(ROOT, MASTER), active: path.join(ROOT, ACTIVE), collisions: path.join(ROOT, COLLISIONS), checkpoint: path.join(ROOT, CHECKPOINT), ledger: path.join(ROOT, LEDGER), raster: path.join(ROOT, RASTER), stale: path.join(ROOT, STALE),
     /* A live dispatched prompt in a SUBDIRECTORY. The prompt checks read only
      * the top level until C13 edited this exact file -- stripping its isolation
@@ -1524,7 +1595,7 @@ if (MUTATIONS) {
      * F14 and F25 all report ok on a 27/27 gate. */
     repairPrompt: path.join(ROOT, PROMPTS, "washington-repair/WAR03_WA_RERENDER_1.md"),
     verifierReturns: path.join(ROOT, DIR, "VERIFIER_RETURNS.json"),
-    fix02Rows: path.join(ROOT, DIR, "fix02/rows.json"),
+    causalRepairRows: path.join(ROOT, rereadSubject.evidencePath),
     washingtonRepair: path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"),
     rasterQueue: path.join(ROOT, DIR, "RASTER_QUEUE.json") };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
@@ -1572,8 +1643,27 @@ if (MUTATIONS) {
     }
     const row = (vr.rows ?? []).find((r) => r.isIndependentVerification
       && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
-      && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)));
+      && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId))
+      && read(ACTIVE).assignments.some((lane) =>
+        ["rapid-repair", "shared-host-repair"].includes(lane.lane)
+        && lane.items?.includes(r.familyId)));
     if (!row) throw new Error("F29 mutations require a currently-failed family whose repair has not already released");
+    return row.familyId;
+  };
+  const captainFamilyF29Judges = () => {
+    const master = read(MASTER);
+    const ledger = read(LEDGER);
+    const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+    const row = (returns.rows ?? []).find((r) => r.isIndependentVerification
+      && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
+      && (r.failedObligationNames ?? []).length
+      && master.families.some((f) => f.familyId === r.familyId
+        && ledger.claims.some((c) => c.subjectId === f.familyId
+          && c.lane === f.activeOwner && c.released !== true
+          && ["repair", "shared-host-repair"].includes(c.laneKind)
+          && captainDealtLiveGrant(ledger, c)))
+      && !read(ACTIVE).assignments.some((a) => a.items?.includes(r.familyId)));
+    if (!row) throw new Error("No live off-roster Captain repair subject for F29 controls");
     return row.familyId;
   };
   const directAttachmentSourceReady = (j) => {
@@ -1581,10 +1671,20 @@ if (MUTATIONS) {
       && candidate.sourceReadiness?.directAttachment === true
       && Array.isArray(candidate.sourceReadiness.boundSources)
       && candidate.sourceReadiness.boundSources.length === 0);
-    if (!family) {
-      throw new Error("F13 direct-attachment mutation requires a SOURCE_READY direct-attachment family with no bound sources");
-    }
-    return family;
+    if (family) return family;
+    // Completed production work need not stay SOURCE_READY just to seed a
+    // positive control. Clone its source-only facts into an isolated fixture.
+    const template = j.families.find((candidate) =>
+      candidate.sourceReadiness?.directAttachment === true
+      && candidate.sourceReadiness.ready === true
+      && candidate.sourceReadiness.boundSources?.length === 0
+      && ["custom_pleading", "participant_agency_application"].includes(candidate.implementationStrategy));
+    if (!template) throw new Error("No valid direct-attachment facts exist to seed the F13 control");
+    const fixture = structuredClone(template);
+    fixture.familyId = "SYNTHETIC-F13-DIRECT-ATTACHMENT";
+    fixture.state = "SOURCE_READY";
+    j.families.push(fixture);
+    return fixture;
   };
   /* Recompute the grant-set identity the way the ledger and claim.mjs do, so a
    * mutation that legitimately adds or removes a grant is judged on the rule it
@@ -1676,7 +1776,13 @@ if (MUTATIONS) {
     { on: "active", id: "F18", name: "a promotion lane that drops the exact-bytes rule is caught", mutate: (j) => { j.assignments.find((x) => /^PROMO/.test(x.assignmentId)).promotionRule = "promote what the lane has resolved"; return j; } },
     { on: "active", id: "F19", name: "a builder that drops the refill rule is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "packet-build").refillRule = "the lane works through its list"; return j; } },
     { on: "active", id: "F20", name: "an empty verifier marked launchable is caught", mutate: (j) => { const v = j.assignments.find((x) => x.lane === "independent-verification"); v.items = []; v.launchNow = true; return j; } },
-    { on: "active", id: "F20", name: "a verifier naming a commit this repository does not have is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").verifiesCommit = "0123456789abcdef0123456789abcdef01234567"; return j; } },
+    { on: "active", id: "F20", name: "a verifier naming a commit this repository does not have is caught", mutate: (j) => {
+        const lane = j.assignments.find((x) => x.lane === "independent-verification" && x.items?.length);
+        if (!lane) throw new Error("F20 missing-commit mutation requires a nonempty verifier");
+        lane.launchNow = true;
+        lane.verifiesCommit = "0123456789abcdef0123456789abcdef01234567";
+        return j;
+      } },
     { on: "active", id: "F21", name: "a verifier that owns a write path into what it verifies is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "independent-verification").ownedPaths.push("data/rcap-all50/overlays/census-v1/**"); return j; } },
     { on: "active", id: "F22", name: "an executable family dropped from every builder is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
     /* No builder claims a shared host in a correct dispatch, so this hands a
@@ -1754,6 +1860,43 @@ if (MUTATIONS) {
         assignment.detail = (assignment.detail ?? []).filter((row) => row.familyId !== familyId);
         return { master, ledger: withClaimsDigest(ledger), active };
       } },
+    { on: "ledger", id: "F29", expectPass: true, name: "an intact current Captain repair remains dispatched", mutate: (j) => {
+        captainFamilyF29Judges(); return j;
+      } },
+    { on: "ledger", id: "F29", name: "a Captain repair without its recorded current deal is caught", mutate: (j) => {
+        const familyId = captainFamilyF29Judges();
+        for (const key of ["transfers", "reissues", "grants"]) j[key] = (j[key] ?? []).filter((r) => r.subjectId !== familyId);
+        return j;
+      } },
+    { on: "master", id: "F29", name: "a Captain claim inconsistent with the current family owner is caught", mutate: (j) => {
+        j.families.find((f) => f.familyId === captainFamilyF29Judges()).activeOwner = "FIX-NOT-THE-OWNER";
+        return j;
+      } },
+    { on: "master", id: "F29", name: "a Captain repair that loses the exact failed obligations is caught", mutate: (j) => {
+        const family = j.families.find((f) => f.familyId === captainFamilyF29Judges());
+        family.failedObligationNames = []; family.failedObligations = [];
+        return j;
+      } },
+    { on: "master", id: "F29", expectPass: true, name: "an explicit source refusal retains its packet defects without executable repair", mutate: (j) => {
+        if (!j.families.some(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length))
+          throw new Error("No governed source-wait subject for F29");
+        return j;
+      } },
+    { on: "master", id: "F29", name: "source wait cannot discard a measured packet defect", mutate: (j) => {
+        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
+        if (!f) throw new Error("No governed source-wait subject for F29");
+        f.failedObligationNames = []; return j;
+      } },
+    { on: "master", id: "F29", name: "source wait cannot invent an unresolved identity determination", mutate: (j) => {
+        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
+        if (!f) throw new Error("No governed source-wait subject for F29");
+        f.sourceReconciliation.unresolvedObligations = []; return j;
+      } },
+    { on: "master", id: "F29", name: "source wait cannot coexist with ready source bindings", mutate: (j) => {
+        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
+        if (!f) throw new Error("No governed source-wait subject for F29");
+        f.sourceReadiness.ready = true; return j;
+      } },
     { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
     /* F31-F32. Administrative claim history never outranks a later packet
      * read, and a substantive source block never loops back to verification. */
@@ -1809,8 +1952,16 @@ if (MUTATIONS) {
         const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
         const sourceBlock = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
         if (!sourceBlock) throw new Error("F32 reread mutation requires a current BLOCKED_SOURCE verdict");
-        const claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
-        if (!claim) throw new Error(`F32 reread mutation requires a released verification claim for ${sourceBlock.familyId}`);
+        let claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
+        if (!claim) {
+          // A blocked family correctly may never have received a verification
+          // claim. Seed the invalid live-claim shape inside this mutation only.
+          const template = j.claims.find((c) => c.laneKind === "independent-verification" && c.released === true);
+          if (!template) throw new Error("F32 needs an independent claim schema for its isolated control");
+          claim = { ...structuredClone(template), subjectType: "packet-family",
+            subjectId: sourceBlock.familyId, familyId: sourceBlock.familyId, familyIds: [sourceBlock.familyId] };
+          j.claims.push(claim);
+        }
         claim.released = false;
         claim.releasedAt = null;
         return withClaimsDigest(j);
@@ -1877,16 +2028,17 @@ if (MUTATIONS) {
      * verdict base to HEAD, preserving F31's selection identity while proving
      * that repair evidence and family artifacts must actually postdate the
      * failed verdict. */
-    { on: "fix02Rows", id: "F35", name: "a live reread whose exact repair completion is revoked is caught", mutate: (j) => {
+    { on: "causalRepairRows", id: "F35", name: "a live reread whose exact repair completion is revoked is caught", mutate: (j) => {
         const master = read(MASTER);
         const liveRereads = new Set((master.families ?? [])
           .filter((f) => f.state === "VERIFY_PENDING" && f.selectedIndependentVerdict?.verdict === "FAIL_REPAIR_REQUIRED")
           .map((f) => f.familyId));
         const row = (j.rows ?? []).find((candidate) =>
           liveRereads.has(candidate.itemId ?? candidate.familyId)
+          && (candidate.itemId ?? candidate.familyId) === (rereadSubject.row.itemId ?? rereadSubject.row.familyId)
           && candidate.status === "COMPLETED"
           && candidate.repairedByThisLane === true);
-        if (!row) throw new Error("F35 repair-return mutation requires a live post-failure reread completed by FIX02");
+        if (!row) throw new Error("F35 selected causal repair return does not contain its completed family row");
         row.status = "STOPPED";
         return j;
       } },

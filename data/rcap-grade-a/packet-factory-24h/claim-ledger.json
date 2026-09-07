@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "976dbbc970acaf9db38a8d6a444254f03b48e0fe",
+  "generatedAtCommit": "241c072fc1fe7da9fa81f5fc77fca4de45961185",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -12794,8 +12794,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:08.204Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -12878,8 +12877,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:08.782Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -12920,8 +12918,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:09.065Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -13834,7 +13831,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c51cc00ce9f34c44900a6fe51687b346325d0171c5ce231ecc7e301e361e9c3b",
+  "claimsDigest": "e4a38bdc4810f19b111c7654e5c1240ad21c1efc3cb69c0f7e9a10bc908a19ae",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40442,6 +40439,36 @@
       "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
       "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
       "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_identity_theft-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_release_without_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
