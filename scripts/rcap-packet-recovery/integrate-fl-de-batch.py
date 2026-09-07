@@ -77,9 +77,10 @@ de_pdfs = {str(DE_HOME / 'fixtures' / (name + '.pdf')): digest(DE_HOME / 'fixtur
 target = 'scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs'
 assert git('hash-object', target) == '87d931a3b073a8187be605245147390acba4829b'
 patch = BASE / 'de-wiring-generator.patch'
+assert digest(patch) == '4f777ef555c0d9e37156649a59dcf27ad908cd642f7361401a6b742542d8216c'
 subprocess.run(['git', 'apply', '--check', str(patch)], check=True)
 subprocess.run(['git', 'apply', str(patch)], check=True)
-assert git('hash-object', target) == 'deed3377771abc0625190102b985924d4846d4b8' if False else True
+assert git('hash-object', target) == 'deed3379e229a567db630b157ec814adc3371b95'
 check('de-constraints-before', ['node', 'scripts/grade-a-packet-factory-24h/test-de-guidance-binding.mjs'])
 for i in [1, 2]:
     check('de-generate-' + str(i), ['node', target, '--family', DE])
