@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1abf22128565800e74be7d036790f4b9794c1d31",
+  "generatedAtCommit": "acdb5b3f8f6395753271abb895108cb2159a0eb7",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4710,6 +4710,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T23:49:49.026Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "itemId": null,
+      "familyId": "ma-bmc-multi-set",
+      "familyIds": [
+        "ma-bmc-multi-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX116",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13817,24 +13832,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ma-bmc-multi-set",
-      "itemId": null,
-      "familyId": "ma-bmc-multi-set",
-      "familyIds": [
-        "ma-bmc-multi-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX116",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "0f0054bbcc11760be91b141f81912349a9ca144f4ef07877d7a3278e9df1068b",
+  "claimsDigest": "61fcd490afe3e62f59ee4b6eb80b10fa5d452a3de19784005761785bded003f3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",

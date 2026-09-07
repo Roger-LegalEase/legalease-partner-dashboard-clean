@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `1abf22128565800e74be7d036790f4b9794c1d31`
+**Minimum required ancestor:** `acdb5b3f8f6395753271abb895108cb2159a0eb7`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -118,10 +118,10 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### de_mandatory_expungement-set
 
-- canonical `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `1234befd09bd234d02f341b6170148e6ef4167e81520f9417957cdacec0b81e1`
-- boundary `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `508aba1109f3a7369a0d8e8caeecf58f70b8a5825b431e2a536f0fe50f3ef130`
+- canonical `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a`
+- boundary `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a`
 - expected pages 3 · requested scale 2.5
-- built by VF07
+- built by (no builder lane recorded)
 
 ### ga-felony-j1-set
 

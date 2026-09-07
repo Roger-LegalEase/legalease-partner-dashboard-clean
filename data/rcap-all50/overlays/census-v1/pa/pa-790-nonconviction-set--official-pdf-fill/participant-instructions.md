@@ -11,9 +11,10 @@ These files are deterministic review fixtures made from exact held official sour
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.
 - Item 11 of the proposed order prints the held charge description. Add each applicable disposition from your court record before filing; the printed description does not establish how a charge ended. The affiant name and mailing address come from the complaint or citation, if available, before filing, and are not completed-service facts.
-- The fee-waiver motion is retained only as conditional source evidence; no financial or sworn fact is filled.
 - The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.
-- The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 790 governs and leaves every local-method and performed-service fact blank.
+- CPCMS 2046 is rendered and assembled only into the requested fee-waiver branch. Financial, sworn and execution fields remain for the participant.
+- The composed certificate records all Rule 576 recipient and performed-service details. It is not represented as an official court form.
+- The proposed order is optional; selection does not execute any court-owned finding.
 
 ## The blanks you must fill in before filing
 
@@ -90,19 +91,90 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 2 | `PetitionersSSN` | the form prints `5.PetitionerÕs Social Security Number` beside it |
 | 1 | `PresentedBy` | the form prints `_______________________________________ presented by` beside it |
 
+### PA-IFP-CCP
+
+| Page | Form field | What the form says |
+| --- | --- | --- |
+| 1 | `Address1` | the measurement could reach no printed caption; read the printed page |
+| 1 | `Address2` | the measurement could reach no printed caption; read the printed page |
+| 1 | `Address3` | the measurement could reach no printed caption; read the printed page |
+| 1 | `AddressofPresentEmployer` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AddressofProperty` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren1` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren10` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren11` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren12` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren2` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren3` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren4` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren5` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren6` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren7` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren8` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AgesofDependentChildren9` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AmountOwedAutomobile` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AmountOwedRealEstate` | the measurement could reach no printed caption; read the printed page |
+| 2 | `AssessedValue` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Cash` | the measurement could reach no printed caption; read the printed page |
+| 2 | `CertificatesofDeposits` | the measurement could reach no printed caption; read the printed page |
+| 2 | `CheckingAccount` | the measurement could reach no printed caption; read the printed page |
+| 1 | `ContributionsfromChildren` | the measurement could reach no printed caption; read the printed page |
+| 1 | `ContributionsfromParents` | the measurement could reach no printed caption; read the printed page |
+| 2 | `CostofVehicle` | the measurement could reach no printed caption; read the printed page |
+| 1 | `CountyCourtCity` | the measurement could reach no printed caption; read the printed page |
+| 1 | `CountyCourtPhoneNumber` | the measurement could reach no printed caption; read the printed page |
+| 1 | `CountyCourtZip` | the measurement could reach no printed caption; read the printed page |
+| 1 | `DateofLastEmplyment` | the measurement could reach no printed caption; read the printed page |
+| 2 | `DependentsNonMinor` | the measurement could reach no printed caption; read the printed page |
+| 2 | `DependentsNonMinor2` | the measurement could reach no printed caption; read the printed page |
+| 2 | `DependentSpouse` | the measurement could reach no printed caption; read the printed page |
+| 1 | `JudicialDistrict` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Loans` | the measurement could reach no printed caption; read the printed page |
+| 2 | `MakeofVehicle` | the measurement could reach no printed caption; read the printed page |
+| 2 | `ModelofVehicle` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Mortgages` | the measurement could reach no printed caption; read the printed page |
+| 1 | `NameofPresentEmployer` | the measurement could reach no printed caption; read the printed page |
+| 2 | `OtherAssests` | the measurement could reach no printed caption; read the printed page |
+| 1 | `OtherContributions` | the measurement could reach no printed caption; read the printed page |
+| 2 | `OtherObligations` | the measurement could reach no printed caption; read the printed page |
+| 1 | `PA` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Realtionship` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Relationship2` | the measurement could reach no printed caption; read the printed page |
+| 2 | `Rent` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SalaryfromPresentEmployer` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SalaryLastEmployment` | the measurement could reach no printed caption; read the printed page |
+| 2 | `SavingsAccount` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpouseName` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesEmployer` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesEmployerAddress` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesLastEmployment` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesLastEmploymentTypeofWork` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesSalary` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesSalaryLastEmployer` | the measurement could reach no printed caption; read the printed page |
+| 1 | `SpousesTypeofWork` | the measurement could reach no printed caption; read the printed page |
+| 2 | `StocksandBonds` | the measurement could reach no printed caption; read the printed page |
+| 1 | `TypeofWorkLastEmployment` | the measurement could reach no printed caption; read the printed page |
+| 1 | `TypeofWorkPresentEmployer` | the measurement could reach no printed caption; read the printed page |
+| 2 | `YearofVehicle` | the measurement could reach no printed caption; read the printed page |
+
 ### pa_790_nonconviction-certificate-of-service-3
 
 | Page | Form field | What the form says |
 | --- | --- | --- |
-| 1 | `Date service actually occurred` | the form prints `Date service actually occurred:` beside it — complete this only after service has actually occurred |
-| 1 | `Office and address where the copy was served` | the form prints `Office and address where the copy was served:` beside it — complete this only after service has actually occurred |
-| 1 | `Service method accepted by the filing court` | the form prints `Service method accepted by the filing court:` beside it — complete this only after service has actually occurred |
+| 1 | `Commonwealth recipient address` | the form prints `Commonwealth attorney service address:` beside it — complete this only after service has actually occurred |
+| 1 | `Commonwealth recipient name` | the form prints `Commonwealth attorney name:` beside it — complete this only after service has actually occurred |
+| 1 | `Commonwealth recipient telephone` | the form prints `Commonwealth attorney telephone number:` beside it — complete this only after service has actually occurred |
+| 1 | `Court administrator address` | the form prints `Court administrator service address:` beside it — complete this only after service has actually occurred |
+| 1 | `Court administrator name` | the form prints `Court administrator name:` beside it — complete this only after service has actually occurred |
+| 1 | `Court administrator telephone` | the form prints `Court administrator telephone number:` beside it — complete this only after service has actually occurred |
+| 1 | `Service date` | the form prints `Date of service (identify each recipient if different):` beside it — complete this only after service has actually occurred |
+| 1 | `Service manner` | the form prints `Manner of service (identify each recipient if different):` beside it — complete this only after service has actually occurred |
 
-Do not leave one of these blank because you are unsure. Ask the clerk of the courts of the judicial district in which your charges were disposed — the office named under **Where to file** below.
+Complete required blanks from your actual case records. Ask the filing clerk about procedure or unknown county office addresses; ask counsel about eligibility or disputed legal facts.
 
-The method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to, are not established in this repository. Ask that same clerk. An unsourced figure or address in a filing instruction would be worse than none.
+Service methods are governed by Rules 576 and 576.1, not left wholly unspecified. See the service section and do not infer consent to email.
 
-What it costs to file and whether that cost can be waived, where this packet is filed, who must be served and when, and the documents you must obtain and attach are each established, and each is answered in its own section below rather than left for you to work out.
+This reference set contains alternative components. The selected IFP branch includes the motion; the no-IFP branch excludes it. The order remains optional. Neither branch proves legal eligibility or launch approval.
 
 ## Values this platform holds but did not print
 
@@ -110,6 +182,9 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 
 | Component | Source field | The fact | Why it is not printed | Measured on |
 | --- | --- | --- | --- | --- |
+| `PA-IFP-CCP` | `CountyName` | `matter.county` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 167.6pt and the box gives 74.742pt of usable width (rectangle 78.742 × 14pt) | boundary |
+| `PA-IFP-CCP` | `DefendantAddress` | `participant.address_one_line` | the value does not fit this box at a size a court could read — measured by this build's own fitter | boundary |
+| `PA-IFP-CCP` | `DefendantName` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 180.144pt of usable width (rectangle 184.144 × 14pt) | boundary |
 | `PA-RCRIM-P-790-ORDER` | `County` | `matter.county` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 167.6pt and the box gives 155pt of usable width (rectangle 159 × 12pt) | boundary |
 | `PA-RCRIM-P-790-ORDER` | `Defendant` | `participant.full_legal_name` | the value does not fit this box at a size a court could read — at the 6pt minimum readable size the value needs 195.6pt and the box gives 160.45pt of usable width (rectangle 164.45 × 15.043pt) | boundary |
 | `PA-RCRIM-P-790-ORDER` | `PetitionersAddress` | `participant.address_one_line` | the value does not fit this box at a size a court could read — measured by this build's own fitter | boundary |
@@ -122,33 +197,33 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 
 ## What it costs to file
 
-**No statewide filing-fee schedule is established, so this packet names no figure.** This route's committed record says so in its own words: “County filing fees vary and are not established by statute.” and “No confirmed statewide schedule exists.” — `data/record-clearing/legal-design-track-registry.json`, track `pa_790_nonconviction`, `rules.fees`, and `data/record-clearing/legal-design-packet-set-manifests.json`, packetSetId `pa_790_nonconviction-set`, the `pay_fee` action, which carries the identical sentence. The county figures the legal review reported are recorded in that same track record as an unresolved question and a release blocker for cost copy, so no number is printed here for you to rely on. **Ask the clerk of the courts you file with what that court charges to file a Rule 790 expungement petition.**
+County filing fees vary. No verified county fee is supplied by this packet; obtain the filing court's current schedule. The county-fee and artifact-specific approval holds remain open. No statewide price is invented.
 
-**A fee waiver is available, and the motion for it is published statewide.** The record says so in its own words: “In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.” — the same track record, `rules.feeWaiver`, and the packet-set manifest's `apply_fee_waiver` action, which carries the identical sentence. The manifest records the condition on it — “Applies only when the participant cannot pay the filing fee.” — and names the motion as a conditional component of this packet set: “Applies only where the participant seeks to proceed in forma pauperis.”
+When you select a request to proceed in forma pauperis, the packet includes the actual statewide Court of Common Pleas motion, CPCMS 2046 (PA-IFP-CCP), not merely a link or retained source. Complete its financial information accurately. The court decides whether relief is granted.
 
-**This packet does not generate that motion.** The Court of Common Pleas Motion to Proceed In Forma Pauperis (`PA-IFP-CCP`) is held here as exact source evidence, bound by SHA-256 `b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca`, and no fixture is rendered from it. Nothing on it is a blank on this filing. If you cannot pay the filing fee, ask the clerk of the courts you file with for the current published motion.
+The IFP component is omitted when you do not select it. Unknown amounts are blank, never zero. Review the form, complete any required certification, and sign and date only yourself. Do not include third-party personal identifiers contrary to the form's confidentiality instructions.
 
 ## Where to file
 
-**File with the clerk of the courts of the judicial district in which the charges were disposed.** This route's committed record states the destination in its own words: “File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.” — `data/record-clearing/legal-design-track-registry.json`, track `pa_790_nonconviction`, `rules.filing`, and `data/record-clearing/legal-design-packet-set-manifests.json`, packetSetId `pa_790_nonconviction-set`, the `file` action, which carries the identical sentence. The record keys the destination to the judicial district in which the charges were **disposed**.
+File the verified Rule 790 petition and required attachments with the clerk of courts of the judicial district where the charges were disposed. Obtain the required current Pennsylvania State Police history and case records.
 
-**Three things are filed together**, and that sentence names them: the verified Rule 790 petition, the blank expungement order, and the attached Pennsylvania State Police criminal history report. The report is yours to obtain — see **Documents you must obtain and attach before you file** below.
+The proposed order is an OPTIONAL convenience. The AOPC states that these proposed orders are not mandatory. Include it only when selected, leaving judicial findings, signature and dates blank.
 
-**Venue and destination, as the same record records them.** Venue: “The clerk of the courts of the judicial district in which the charges were disposed. Statewide rules and forms; county instruction packets and filing fees vary.” Destination: “Clerk of the courts of the judicial district in which the charges were disposed” — “File the Rule 790 petition and blank expungement order with the clerk of courts. A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. The Commonwealth has 60 days after service to file a consent or objection or take no action.” Carried word for word from `venue` and `destination` in that track record.
+Include CPCMS 2046 when the IFP request is selected. Serve the Commonwealth concurrently with filing and comply with Rule 576 service on the court administrator. Confirm local filing logistics and the county fee without guessing.
 
 ## Who must be served
 
-**The attorney for the Commonwealth, concurrently with filing.** This route's committed record states it in its own words: “Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.” — `data/record-clearing/legal-design-track-registry.json`, track `pa_790_nonconviction`, `rules.service`, and `data/record-clearing/legal-design-packet-set-manifests.json`, packetSetId `pa_790_nonconviction-set`, the `serve_party` action, which carries the identical sentence.
+Serve the attorney for the Commonwealth concurrently with filing the Rule 790 petition. Rule 576 also requires service on the court administrator. Serve each represented party through its attorney, or an unrepresented party directly.
 
-**The petition's own printed page says the same thing.** Page 1 of the Rule 790 petition in this packet prints: “When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.”
+Rule 576 permits service on counsel by delivery or mailing to the attorney, including the other methods the rule expressly permits. Mail to an unrepresented party must be certified, registered or first-class mail addressed to the residence, business or confinement. Service on the court administrator may be mailed or delivered as Rule 576(b)(3) provides. Party service by fax or electronic means requires a written, document-specific request; electronic service on the court administrator requires local-rule authorization. For electronic filing, follow Rule 576.1 and the authorized system. An email address on letterhead alone is not consent.
 
-**What follows service, and when.** The record states it: “A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.” — the same track record, `rules.notice`. An objection is one of the points where self-help ends; see **Where self-help ends** below.
+Complete and sign the certificate only after service. Give the date and manner of service, and each recipient's name, address and telephone number. Confirm the actual county office and service addresses; LegalEase does not invent them or perform service.
 
-**What is not established, and is not the same question.** The repository does not establish which method of service your filing court accepts, or the office address of the attorney for the Commonwealth in your county. The certificate of service in this packet leaves both blank rather than naming one, and says so on its face; ask the clerk of the courts you file with. Who must be served, and when, is established and is not one of those open questions.
+The Commonwealth may consent, object or take no action within 60 days after service. Opposition or a scheduled hearing remains a self-help stopping point. Do not infer consent from silence or prefill anyone's response.
 
 ## Documents you must obtain and attach before you file
 
-Rule 790 turns on the two documents below and this packet cannot supply either of them: they are records about you, held by other offices. The petition's own printed page carries a checkbox for the first — “I have attached a copy of my Pennsylvania State Police Criminal History which I have obtained within 60 days before filing this petition” — and the record's filing sentence lists it among the three things filed together. **Obtain both before you file.**
+Obtain the required case-specific records before filing. The petition calls for a Pennsylvania State Police criminal-history report obtained within 60 days before filing. The proposed order is optional, not a third mandatory filing component.
 
 - **Pennsylvania State Police criminal history report obtained within 60 days before filing** — obtained from Pennsylvania State Police. Required before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.
 - **Complete docket sheet for the case** — obtained from Clerk of courts, or the Unified Judicial System web docket sheets. Required before filing. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.
@@ -157,15 +232,9 @@ Each line above is carried word for word from `data/record-clearing/legal-design
 
 ## Where self-help ends
 
-This packet prepares the Pennsylvania Rule of Criminal Procedure 790 petition, the proposed order and a certificate of service for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:
+This packet prepares a Rule 790 petition and certificate, an optional order, and the IFP motion when requested. Review and complete the selected documents yourself.
 
-- whether your charges are eligible for expungement — a legal judgment this packet does not make;
-
-- any blank listed above that you cannot complete from your own court records;
-
-- anything the attorney for the Commonwealth objects to, and any hearing the court schedules.
-
-When you reach one of those points, stop and ask someone with the authority to answer. The clerk of the courts of the judicial district in which the charges were disposed — the office this packet is filed with — answers procedural questions such as that court's own filing fee, copies, local practice and service addresses. Only a lawyer admitted to practice in Pennsylvania may advise you on eligibility, on what to argue, or at a contested hearing; if you cannot afford one, ask that same clerk's office how to reach the county's legal aid or lawyer referral service. This packet is not legal advice, and no lawyer has reviewed your case in preparing it.
+Stop for uncertain eligibility, facts you cannot establish, a Commonwealth objection, or a scheduled hearing. The clerk answers procedural questions; legal aid or Pennsylvania counsel handles legal advice and contested proceedings.
 
 **Every boundary this route's own record records.** Each line below is carried word for word from `data/record-clearing/legal-design-track-registry.json`, track `pa_790_nonconviction`, `selfHelpBoundaries`. If any of them reaches your case, stop and get advice from a lawyer before you sign or file:
 
@@ -179,13 +248,13 @@ When you reach one of those points, stop and ask someone with the authority to a
 
 ## Blanks that are not yours to fill
 
-- **The fee-waiver motion (PA-IFP-CCP)** — the Court of Common Pleas Motion to Proceed In Forma Pauperis — is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. Whether a waiver is available is not an open question: see **What it costs to file** above.
-- **The proposed order** carries the court's blocks; submit them blank.
-- **Every signature and signature date** is yours to complete after you have read the finished packet.
+- The IFP motion is conditional, not source-only. Complete all applicable financial information yourself; no missing value has been silently set to zero. Only you complete the certification and execute the form.
+- The OPTIONAL proposed order carries judicial findings and execution blocks; leave them for the court.
+- All participant signatures, execution dates and performed-service details remain unexecuted until you actually complete the required act.
 
 ## The certificate of service in this packet
 
-- **What it is.** `certificate-of-service-canonical.pdf` and `certificate-of-service-boundary.pdf` are this packet's certificate of service (component `pa_790_nonconviction-certificate-of-service-3`). Pennsylvania Rule of Criminal Procedure 790 requires the petition and the proposed order to be served on the attorney for the Commonwealth concurrently with filing, and the certificate is the paper that records that you did it. It is composed by this packet, not an official court form, so check the filing court's own local requirements before you file it.
+- **What it is.** `certificate-of-service-canonical.pdf` and `certificate-of-service-boundary.pdf` are this packet's certificate of service (component `pa_790_nonconviction-certificate-of-service-3`). Pennsylvania Rules of Criminal Procedure 576, 576.1 and 790 requires the petition and the proposed order to be served on the attorney for the Commonwealth concurrently with filing, and the certificate is the paper that records that you did it. It is composed by this packet, not an official court form, so check the filing court's own local requirements before you file it.
 - **What this packet filled in.** Printed name and Docket number. Nothing else.
-- **What is yours to complete, and only after service has actually occurred.** Office and address where the copy was served (the certificate prints `Office and address where the copy was served:`); Service method accepted by the filing court (the certificate prints `Service method accepted by the filing court:`); Date service actually occurred (the certificate prints `Date service actually occurred:`); Signature of petitioner after service (the certificate prints `Signature of petitioner after service:`); Date signed (the certificate prints `Date signed:`). LegalEase does not serve anyone, does not know which office you served, and does not fill any of these in. The repository does not establish which method of service your filing court accepts, so the certificate leaves that blank rather than naming one; ask the clerk of the court where you file.
+- **What is yours to complete, and only after service has actually occurred.** Commonwealth recipient name (the certificate prints `Commonwealth attorney name:`); Commonwealth recipient address (the certificate prints `Commonwealth attorney service address:`); Commonwealth recipient telephone (the certificate prints `Commonwealth attorney telephone number:`); Court administrator name (the certificate prints `Court administrator name:`); Court administrator address (the certificate prints `Court administrator service address:`); Court administrator telephone (the certificate prints `Court administrator telephone number:`); Service manner (the certificate prints `Manner of service (identify each recipient if different):`); Service date (the certificate prints `Date of service (identify each recipient if different):`); Signature of petitioner after service (the certificate prints `Signature of petitioner after service:`); Date signed (the certificate prints `Date signed:`). LegalEase does not serve anyone, does not know which office you served, and does not fill any of these in. The repository does not establish which method of service your filing court accepts, so the certificate leaves that blank rather than naming one; ask the clerk of the court where you file.
 - **Do not sign or date it in advance.** Sign and date the certificate after service has happened, not before.

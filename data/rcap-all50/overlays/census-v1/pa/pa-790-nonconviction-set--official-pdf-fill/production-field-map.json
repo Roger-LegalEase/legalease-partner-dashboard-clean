@@ -2427,17 +2427,20 @@
     },
     {
       "documentId": "PA-IFP-CCP",
-      "documentRole": "CONDITIONAL_FEE_WAIVER_SOURCE_ONLY",
-      "generatedParticipantArtifact": false,
+      "documentRole": "conditional_fee_waiver",
+      "generatedParticipantArtifact": true,
       "fields": [
         {
           "field": "CertificationofCompliance",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "PROTECTED",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CertificationofCompliance",
           "effectiveLabel": "CertificationofCompliance",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "Participant certification election; never inferred or selected by the platform.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2450,16 +2453,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
         },
         {
           "field": "JudicialDistrict",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "of ________________",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field JudicialDistrict",
+          "effectiveLabel": "JudicialDistrict",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2472,16 +2479,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "NameofPresentEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "If you are presently employed, state employer",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field NameofPresentEmployer",
+          "effectiveLabel": "NameofPresentEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2494,16 +2505,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AddressofPresentEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AddressofPresentEmployer",
+          "effectiveLabel": "AddressofPresentEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2516,16 +2531,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "TypeofWorkPresentEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Type of Work",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field TypeofWorkPresentEmployer",
+          "effectiveLabel": "TypeofWorkPresentEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2538,16 +2557,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SalaryfromPresentEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SalaryfromPresentEmployer",
+          "effectiveLabel": "SalaryfromPresentEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2560,16 +2583,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DateofLastEmplyment",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "The date of my last employment was",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field DateofLastEmplyment",
+          "effectiveLabel": "DateofLastEmplyment",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2582,16 +2609,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SalaryLastEmployment",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SalaryLastEmployment",
+          "effectiveLabel": "SalaryLastEmployment",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2604,16 +2635,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "TypeofWorkLastEmployment",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Type of Work",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field TypeofWorkLastEmployment",
+          "effectiveLabel": "TypeofWorkLastEmployment",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2626,16 +2661,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpouseName",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Spouse's name",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpouseName",
+          "effectiveLabel": "SpouseName",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2648,16 +2687,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "If spouse is presently employed, state employer",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesEmployer",
+          "effectiveLabel": "SpousesEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2670,16 +2713,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesEmployerAddress",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesEmployerAddress",
+          "effectiveLabel": "SpousesEmployerAddress",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2692,16 +2739,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesSalary",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesSalary",
+          "effectiveLabel": "SpousesSalary",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2714,16 +2765,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesTypeofWork",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Type of Work",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesTypeofWork",
+          "effectiveLabel": "SpousesTypeofWork",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2736,16 +2791,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesLastEmployment",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "The date of spouse's last employment was",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesLastEmployment",
+          "effectiveLabel": "SpousesLastEmployment",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2758,16 +2817,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesSalaryLastEmployer",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Salary or Wages per Month",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesSalaryLastEmployer",
+          "effectiveLabel": "SpousesSalaryLastEmployer",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2780,16 +2843,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SpousesLastEmploymentTypeofWork",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Type of Work",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SpousesLastEmploymentTypeofWork",
+          "effectiveLabel": "SpousesLastEmploymentTypeofWork",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2802,16 +2869,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "ContributionsfromChildren",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Contributions from Children",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field ContributionsfromChildren",
+          "effectiveLabel": "ContributionsfromChildren",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2824,16 +2895,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "ContributionsfromParents",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Contributions from Children",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field ContributionsfromParents",
+          "effectiveLabel": "ContributionsfromParents",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2846,16 +2921,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "OtherContributions",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Contributions from Parents",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field OtherContributions",
+          "effectiveLabel": "OtherContributions",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2868,16 +2947,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Cash",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Checking Account",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Cash",
+          "effectiveLabel": "Cash",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2890,16 +2973,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CertificatesofDeposits",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Certificates of Deposit",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CertificatesofDeposits",
+          "effectiveLabel": "CertificatesofDeposits",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2912,16 +2999,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "StocksandBonds",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Certificates of Deposit",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field StocksandBonds",
+          "effectiveLabel": "StocksandBonds",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2934,16 +3025,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "SavingsAccount",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Checking Account",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field SavingsAccount",
+          "effectiveLabel": "SavingsAccount",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2956,16 +3051,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "OtherAssests",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Stocks and Bonds",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field OtherAssests",
+          "effectiveLabel": "OtherAssests",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2978,16 +3077,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AddressofProperty",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Assessed Value",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AddressofProperty",
+          "effectiveLabel": "AddressofProperty",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3000,16 +3103,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AssessedValue",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Assessed Value",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AssessedValue",
+          "effectiveLabel": "AssessedValue",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3022,16 +3129,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "MakeofVehicle",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Model",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field MakeofVehicle",
+          "effectiveLabel": "MakeofVehicle",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3044,16 +3155,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "ModelofVehicle",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Cost",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field ModelofVehicle",
+          "effectiveLabel": "ModelofVehicle",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3066,16 +3181,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "YearofVehicle",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Amount Owed",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field YearofVehicle",
+          "effectiveLabel": "YearofVehicle",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3088,16 +3207,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CostofVehicle",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Cost",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CostofVehicle",
+          "effectiveLabel": "CostofVehicle",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3110,16 +3233,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Rent",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Mortgages",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Rent",
+          "effectiveLabel": "Rent",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3132,16 +3259,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Loans",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Loans",
           "effectiveLabel": "Loans",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3154,16 +3285,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Mortgages",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Mortgages",
           "effectiveLabel": "Mortgages",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3176,16 +3311,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "OtherObligations",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Loans",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field OtherObligations",
+          "effectiveLabel": "OtherObligations",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3198,16 +3337,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DependentSpouse",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Ages of Minor Children, if any",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field DependentSpouse",
+          "effectiveLabel": "DependentSpouse",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3220,16 +3363,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Realtionship",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Relationship",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Realtionship",
+          "effectiveLabel": "Realtionship",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3242,16 +3389,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DependentsNonMinor2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Name",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field DependentsNonMinor2",
+          "effectiveLabel": "DependentsNonMinor2",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3264,16 +3415,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Relationship2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Relationship",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Relationship2",
+          "effectiveLabel": "Relationship2",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3286,16 +3441,17 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Date",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Signature of PetitionerDate",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": "PROTECTED",
+          "effectiveLabel": "Date",
+          "reason": "Participant execution; never prefilled.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3308,16 +3464,21 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "requiredBeforeFiling": false,
+          "identity": "PA-IFP-CCP field Date"
         },
         {
           "field": "AgesofDependentChildren1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Ages of Minor Children, if any",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren1",
+          "effectiveLabel": "AgesofDependentChildren1",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3330,16 +3491,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Ages of Minor Children, if any",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren2",
+          "effectiveLabel": "AgesofDependentChildren2",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3352,16 +3517,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren3",
           "effectiveLabel": "AgesofDependentChildren3",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3374,16 +3543,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren4",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren4",
           "effectiveLabel": "AgesofDependentChildren4",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3396,16 +3569,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren5",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren5",
           "effectiveLabel": "AgesofDependentChildren5",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3418,16 +3595,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren6",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren6",
           "effectiveLabel": "AgesofDependentChildren6",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3440,16 +3621,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren7",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren7",
           "effectiveLabel": "AgesofDependentChildren7",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3462,16 +3647,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren8",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren8",
           "effectiveLabel": "AgesofDependentChildren8",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3484,16 +3673,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren9",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren9",
           "effectiveLabel": "AgesofDependentChildren9",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3506,16 +3699,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren10",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren10",
           "effectiveLabel": "AgesofDependentChildren10",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3528,16 +3725,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren11",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren11",
           "effectiveLabel": "AgesofDependentChildren11",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3550,16 +3751,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AgesofDependentChildren12",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AgesofDependentChildren12",
           "effectiveLabel": "AgesofDependentChildren12",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3572,16 +3777,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CheckingAccount",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Checking Account",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CheckingAccount",
+          "effectiveLabel": "CheckingAccount",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3594,16 +3803,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DependentsNonMinor",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Name",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field DependentsNonMinor",
+          "effectiveLabel": "DependentsNonMinor",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3616,16 +3829,14 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DocketNumber",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Docket No",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "decision": "candidate_write",
+          "factId": "matter.case_number",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3655,10 +3866,10 @@
           "field": "PetitionerSignature",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Signature of PetitionerDate",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "refusalClass": "signature_or_date_participant_completion",
+          "blankTreatment": "PROTECTED",
+          "effectiveLabel": "PetitionerSignature",
+          "reason": "Participant execution; never prefilled.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3671,16 +3882,15 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "requiredBeforeFiling": false,
+          "identity": "PA-IFP-CCP field PetitionerSignature"
         },
         {
           "field": "CountyName",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "of",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "decision": "candidate_write",
+          "factId": "matter.county",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3710,10 +3920,10 @@
           "field": "Address1",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "County Clerk of Courts",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "refusalClass": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "effectiveLabel": "Address1",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3726,16 +3936,21 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "requiredBeforeFiling": true,
+          "identity": "PA-IFP-CCP field Address1"
         },
         {
           "field": "Address2",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Address",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Address2",
+          "effectiveLabel": "Address2",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3748,16 +3963,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AmountOwedRealEstate",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Amount Owed",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AmountOwedRealEstate",
+          "effectiveLabel": "AmountOwedRealEstate",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3770,16 +3989,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "AmountOwedAutomobile",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Amount Owed",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field AmountOwedAutomobile",
+          "effectiveLabel": "AmountOwedAutomobile",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3792,16 +4015,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "Address3",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field Address3",
           "effectiveLabel": "Address3",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3814,16 +4041,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CountyCourtCity",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CountyCourtCity",
           "effectiveLabel": "CountyCourtCity",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3836,16 +4067,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "PA",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "Telephone",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field PA",
+          "effectiveLabel": "PA",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3858,16 +4093,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CountyCourtZip",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CountyCourtZip",
           "effectiveLabel": "CountyCourtZip",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3880,16 +4119,20 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "CountyCourtPhoneNumber",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "PA-IFP-CCP field CountyCourtPhoneNumber",
           "effectiveLabel": "CountyCourtPhoneNumber",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual financial, dependent, employment or court-caption information; an unknown amount is not zero.",
+          "completesAfterService": false,
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3902,16 +4145,14 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "refusalClass": null
         },
         {
           "field": "DefendantName",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "DefendantName",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "decision": "candidate_write",
+          "factId": "participant.full_legal_name",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3972,12 +4213,9 @@
         },
         {
           "field": "DefendantAddress",
-          "decision": "refuse",
-          "factId": null,
-          "refusalClass": "source_only_not_generated",
-          "blankTreatment": null,
-          "effectiveLabel": "DefendantAddress",
-          "reason": "This companion is held as exact source evidence and is not a generated participant artifact; a blank on a document the participant never receives is never a filing fact of this packet, and nothing is ever written into it.",
+          "decision": "candidate_write",
+          "factId": "participant.address_one_line",
+          "decisionBasis": "family exact terminal-name participant-fact allowlist; shared semantic finalizer still controls",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -4010,46 +4248,116 @@
           "factId": "matter.case_number"
         },
         {
-          "field": "Office and address where the copy was served",
+          "field": "Commonwealth recipient name",
           "decision": "refuse",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "pa_790_nonconviction-certificate-of-service-3 field Office and address where the copy was served",
-          "effectiveLabel": "Office and address where the copy was served:",
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Commonwealth recipient name",
+          "effectiveLabel": "Commonwealth attorney name:",
           "page": 1,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "widgets": [],
           "completesAfterService": true,
-          "widgets": []
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
         },
         {
-          "field": "Service method accepted by the filing court",
+          "field": "Commonwealth recipient address",
           "decision": "refuse",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "pa_790_nonconviction-certificate-of-service-3 field Service method accepted by the filing court",
-          "effectiveLabel": "Service method accepted by the filing court:",
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Commonwealth recipient address",
+          "effectiveLabel": "Commonwealth attorney service address:",
           "page": 1,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "widgets": [],
           "completesAfterService": true,
-          "widgets": []
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
         },
         {
-          "field": "Date service actually occurred",
+          "field": "Commonwealth recipient telephone",
           "decision": "refuse",
           "factId": null,
           "blankTreatment": "REQUIRED_BEFORE_FILING",
           "requiredBeforeFiling": true,
           "routeDetermined": false,
-          "identity": "pa_790_nonconviction-certificate-of-service-3 field Date service actually occurred",
-          "effectiveLabel": "Date service actually occurred:",
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Commonwealth recipient telephone",
+          "effectiveLabel": "Commonwealth attorney telephone number:",
           "page": 1,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "widgets": [],
           "completesAfterService": true,
-          "widgets": []
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+        },
+        {
+          "field": "Court administrator name",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Court administrator name",
+          "effectiveLabel": "Court administrator name:",
+          "page": 1,
+          "widgets": [],
+          "completesAfterService": true,
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+        },
+        {
+          "field": "Court administrator address",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Court administrator address",
+          "effectiveLabel": "Court administrator service address:",
+          "page": 1,
+          "widgets": [],
+          "completesAfterService": true,
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+        },
+        {
+          "field": "Court administrator telephone",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Court administrator telephone",
+          "effectiveLabel": "Court administrator telephone number:",
+          "page": 1,
+          "widgets": [],
+          "completesAfterService": true,
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+        },
+        {
+          "field": "Service manner",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Service manner",
+          "effectiveLabel": "Manner of service (identify each recipient if different):",
+          "page": 1,
+          "widgets": [],
+          "completesAfterService": true,
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
+        },
+        {
+          "field": "Service date",
+          "decision": "refuse",
+          "factId": null,
+          "blankTreatment": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "routeDetermined": false,
+          "identity": "pa_790_nonconviction-certificate-of-service-3 field Service date",
+          "effectiveLabel": "Date of service (identify each recipient if different):",
+          "page": 1,
+          "widgets": [],
+          "completesAfterService": true,
+          "reason": "REQUIRED_BEFORE_FILING: complete the actual recipient or performed-service fact after service; never infer or prefill it."
         },
         {
           "field": "Signature of petitioner after service",
@@ -4059,9 +4367,9 @@
           "requiredBeforeFiling": false,
           "effectiveLabel": "Signature of petitioner after service:",
           "page": 1,
-          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "widgets": [],
           "completesAfterService": true,
-          "widgets": []
+          "reason": "Participant signature or execution date; never prefilled."
         },
         {
           "field": "Date signed",
@@ -4071,9 +4379,9 @@
           "requiredBeforeFiling": false,
           "effectiveLabel": "Date signed:",
           "page": 1,
-          "reason": "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+          "widgets": [],
           "completesAfterService": true,
-          "widgets": []
+          "reason": "Participant signature or execution date; never prefilled."
         }
       ]
     }
