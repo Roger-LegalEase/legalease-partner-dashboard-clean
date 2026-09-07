@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "chat6-source-handoff/v1",
+  "recordId": "CHAT6-GROUP03-UT-SPECIAL-TRANSPORT",
+  "familyIds": ["ut_pet_special_certificate-set"],
+  "preservesGroup02Commit": "4d2e02dbf16c011724d9d914aafacf18108d2709",
+  "sourceAcquisition": {
+    "originalIssuerAcquisitionReceiptDate": "2026-09-02T16:52:05Z",
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/src04/CODEX_CS1_SRC4_ACQUISITION.json",
+    "evidenceGitBlob": "26092f268a021c6acfa70c453ab9556c10d29f9a",
+    "laterCustodyRecovery": "2026-09-07 via the two existing owner Drive files in Group02",
+    "thisContinuation": "2026-09-07: rehashed mounted originals, created a new deterministic transport ZIP, uploaded it, downloaded it through connected Drive, and rehashed ZIP and both members",
+    "freshIssuerDownload": false
+  },
+  "artifact": {
+    "fileName": "chat6-ut-special-source-handoff-20260907.zip",
+    "byteLength": 205453,
+    "sha256": "b2b753287df6857cf3a7904c0de8ca4e28836770b2a74104a6835fc69ea99427",
+    "memberCount": 2,
+    "driveFileId": "1TsRn2j2e6Nq-0rzooFNNll_nV6NVelQY",
+    "driveUrl": "https://drive.google.com/file/d/1TsRn2j2e6Nq-0rzooFNNll_nV6NVelQY/view?usp=drivesdk",
+    "uploadedAt": "2026-09-07T18:13:17.489Z",
+    "downloadedReadbackSha256": "b2b753287df6857cf3a7904c0de8ca4e28836770b2a74104a6835fc69ea99427",
+    "access": "Successful authenticated connected-Drive download in this session. Not public; no permissions changed. Other worker installation is not observed.",
+    "archiveIdentityNote": "New transport ZIP, distinct from Group02 ZIP hash 5c12247a...; both original PDF member bytes are unchanged. Archive metadata changes do not change source identity."
+  },
+  "sources": [
+    {
+      "sourceId": "1001EX",
+      "familyIds": ["ut_pet_special_certificate-set"],
+      "issuer": "Utah State Courts",
+      "printedFormNumber": "1001EXF",
+      "printedRevision": "2023-04-10",
+      "editionEvidence": "Printed footer: Approved April 11, 2022 / Revised April 10, 2023; not inferred from upload date",
+      "byteLength": 112139,
+      "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+      "gitBlob": "44327a0d9239f88ee6148093d11e040da979ba26",
+      "archiveMember": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+      "officialLocator": "https://legacy.utcourts.gov/howto/expunge/docs/1001EX_Petition_to_Expunge_Records_Special_Certificate.pdf",
+      "custodyFileId": "1sHLFJOcqbdk2Z4Gs-KBP_PSib2rqw7HW",
+      "pageCount": 4,
+      "acroFormWidgets": 0,
+      "encrypted": false
+    },
+    {
+      "sourceId": "1021EX",
+      "familyIds": ["ut_pet_special_certificate-set"],
+      "issuer": "Utah State Courts",
+      "printedFormNumber": "1021EXF",
+      "printedRevision": "2025-04-14",
+      "editionEvidence": "Printed footer: Approved April 11, 2022 / Revised April 14, 2025; not inferred from upload date",
+      "byteLength": 104276,
+      "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+      "gitBlob": "005d568245c1fd349ba48bbb57041a355f19ae40",
+      "archiveMember": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+      "officialLocator": "https://legacy.utcourts.gov/howto/expunge/docs/1021EX_Order_Special_Certificate.pdf",
+      "custodyFileId": "1zHmG__sBZ3c41xBQIfBfXotHQ_fwp_Av",
+      "pageCount": 2,
+      "acroFormWidgets": 0,
+      "encrypted": false
+    }
+  ],
+  "destinationInstallation": {
+    "status": "NOT_OBSERVED",
+    "permittedPrefix": "reference/chat-parallel-2026-09-07/chat6/ut-special/",
+    "instruction": "Destination owner verifies ZIP SHA256, exact two-member inventory, sizes and SHA256; safely extracts without overwriting a different file; rehashes destination bytes before source-registry binding. Installation is not packet approval. A applies registry changes; this record changes none."
+  },
+  "preservedConsequences": [
+    "Use special 1001EX/1021EX, not ordinary 1000EX/1020EX. Do not require both ordinary and special certificates.",
+    "Participant supplies truthful episode facts, special-certificate ID, eligibility/public-interest narrative and signature. No automatically executed assertions.",
+    "Use District/Justice venue from actual case; 1044XX does not make every matter district court.",
+    "All judicial findings, disposition choices, hearing selection/date and signature belong to court; prosecutor acceptance/consent belongs to prosecutor.",
+    "Reuse compatible shared inputs with conditional roles. This receipt preserves Group02's full procedural record and does not reopen it or grant counsel/output approval."
+  ],
+  "localChecks": {
+    "sha256AndSizeMatches": 2,
+    "zipCrcCheck": "PASS",
+    "exactMemberInventory": "PASS",
+    "downloadedZipSha256Match": true,
+    "downloadedArchiveExtractedByteMatches": 2,
+    "commandExitCode": 0,
+    "packetTestsRun": 0,
+    "independentPacketApproval": false,
+    "productionTouched": false
+  },
+  "unresolved": ["Destination worker source installation and read-back", "Existing Group02 packet mapping/build/review consequences, unchanged"]
+}
