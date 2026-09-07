@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+  "minimumCaptainSha": "976dbbc970acaf9db38a8d6a444254f03b48e0fe",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -29,7 +29,7 @@
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "be95d239b714710788e904eb4e07f931c449251cdd94c44e52c8795c3ade69b0",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "7caa56533f328df4c2a9182f2da3b865ebc761f18d2d4acf4c890780a713f6c1",
-    "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "353884cfc41485601e95906d4c06d2b78e40720dbb5aaadbcbb03e482b9f704d"
+    "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d"
   },
   "stateVocabulary": [
     "SOURCE_BLOCKED",
@@ -71,22 +71,23 @@
     "remaining": 322,
     "sourceReady": 80,
     "sourceBlocked": 6,
-    "legalBlocked": 14,
-    "verifyPending": 9,
+    "legalBlocked": 13,
+    "verifyPending": 6,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 158,
+    "COMPLETE_PACKET_PROVEN": 161,
     "FAIL_REPAIR_REQUIRED": 42,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 80,
-    "VERIFY_PENDING": 9,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 14,
+    "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 6,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -184,7 +185,7 @@
     "familiesPerBuilder": 3.3,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 80 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -3898,10 +3899,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -3931,7 +3929,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
@@ -27740,10 +27738,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -27773,7 +27768,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -28251,10 +28246,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -28284,7 +28276,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
@@ -28467,17 +28459,45 @@
         "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "an open legal input"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "legalHoldReclassification": null,
+      "legalHoldReclassification": {
+        "familyId": "nc_146_dismissal_petition-set",
+        "disposition": "POST_REPAIR_REREAD_REQUIRED",
+        "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+        "recordedBy": "ChatGPT completion integration; implementation of the existing owner-relayed contract, not a new owner/counsel decision",
+        "legalInputAnsweredBy": {
+          "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-04.json",
+          "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-BATCH-04",
+          "relayedBy": "Roger Roman, 2026-09-06",
+          "isCounselApproval": false
+        },
+        "repairCommit": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+        "repairEvidence": {
+          "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+          "officialSource": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+          "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+          "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "regressionLog": "data/rcap-grade-a/completion-pass-2026-09-07/nc-regressions.log",
+          "passedChecks": 19,
+          "executedRun": "34112045004"
+        },
+        "priorIndependentVerdict": {
+          "lane": "vf06",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+          "failedRequirement": "AOC-CV-226 was incorrectly presented as the operative expunction indigency petition"
+        },
+        "nextState": "VERIFY_PENDING",
+        "whyNotPass": "The exact AOC-G-106 is now held and delivered by the selected branch, satisfying the existing missing-instrument repair direction. The former VF06 finding remains in history and is NOT replaced with PASS. Current outputs must pass full central raster and a fresh independent fifteen-obligation reread. Fee-bearing deferred/conditional cases still stop for participant-specific legal review; no eligibility, indigency, execution, or delivery authority is inferred.",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+      },
       "laneReturnLegalHold": {
         "familyId": "nc_146_dismissal_petition-set",
         "foundBy": [
@@ -28509,7 +28529,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "LEGAL_BLOCKED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
