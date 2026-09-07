@@ -21,9 +21,10 @@
 //   KNOWN_PREFILLS, second finding. Page 4 row 1's charge cell printed "Charge
 //   exactly as shown on the court disposition" -- a direction to the participant
 //   standing where the charge goes, on a page signed under 735 ILCS 5/1-109. The
-//   fixtures carry an actual charge now: the canonical and boundary pair the
-//   proven ar-act531-set, ct-cleanslate-petition-set, id_isp_expungement-set,
-//   in_section1_petition-set and nd-nonconviction-close-petition-set already use.
+//   committed synthetic test fixtures now carry test charge strings. These
+//   are NOT findings about a real Illinois case or evidence of eligibility.
+//   Chat C preserves those existing test inputs; a missing charge or an
+//   instruction masquerading as a charge is refused before rendering.
 //
 //   Unscored observation, answered. The guide named interior AcroForm ids
 //   ("Complete arrest60 on EXP-AD Case List page 1") as required-before-filing
@@ -44,6 +45,10 @@
 //   widgets offer /Yes and /No, so it is answered No here and item 12 answers
 //   Yes, which is what the printed form asks a seal-only filer to do.
 //
+// Chat C: the boundary reuses the existing canonical synthetic charge, not
+// the old prose about an extended statutory description. Unknown real charge
+// input is rejected, not substituted with either fixture.
+//
 // SOURCE CUSTODY. The EXP-AD Case List (sha256 b72d30d2...) lives in custody
 // nationwide_recovery_pool_2026_09_02, which is not mounted in every container.
 // resolveSources refuses by name where it is absent, and --self-test reads the
@@ -55,6 +60,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
+import { validateSealingRecord } from "./rcap-packet-recovery/chat3/il-input-contract.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_REL = "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill";
@@ -75,7 +81,7 @@ const SOURCES = [
 
 const FIXTURES = {
   canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Possession of a controlled substance", arrestDate: "03/12/2021", outcome: "Dismissed", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line", arrestDate: "11/29/2023", outcome: "Acquitted or dismissed as certified", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Possession of a controlled substance", arrestDate: "11/29/2023", outcome: "Acquitted or dismissed as certified", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
 };
 
 function resolveSources() {
@@ -326,6 +332,15 @@ async function fillDocument(source, fixtureName, fixture) {
 }
 
 async function buildPacket(sources, fixtureName, fixture) {
+  // Validate before any PDF rendering or output write. Never turn missing
+  // record facts into an instruction, a case number, or a guessed charge.
+  validateSealingRecord(fixture);
+  assert.equal(sources.length, SOURCES.length, "exact official component set required");
+  for (let index = 0; index < SOURCES.length; index += 1) {
+    const expected = SOURCES[index], supplied = sources[index];
+    assert.equal(supplied.documentId, expected.documentId, "official component order drift");
+    assert.equal(sha256(supplied.bytes), expected.sha256, `source hash drift: ${expected.documentId}`);
+  }
   const filled = [];
   for (const source of sources) filled.push({ source, ...(await fillDocument(source, fixtureName, fixture)) });
   const packet = await PDFDocument.create();
@@ -358,14 +373,14 @@ async function build() {
   fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   const routeSummary = "Education-based sealing after completion of the last sentence and every printed eligibility condition in item 22.";
-  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
+  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals, fixtureData: "committed synthetic test data, not participant records", inputContract: "scripts/rcap-packet-recovery/chat3/il-input-contract.mjs" });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
-  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
+  writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, syntheticFixturesOnly: true, perFixture: Object.entries(packets).map(([fixture, packet]) => ({ fixture, actualWrites: packet.writes })), documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), danglingAnnotationReferencesPruned: packet.danglingAnnotsPruned, refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires. Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and the educational credential evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.\n\n**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.\n\n**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects; the court sets a contested hearing; the transcript or certified disposition is ambiguous; a case is unrecognized or may involve identity theft; federal or out-of-state records are involved; a motion to vacate, modify, or reconsider is needed; the petition is denied; the printed education-route facts do not match; or immigration consequences may be involved.\n`);
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nObtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires. The charge column must contain the actual charges from the corresponding certified disposition, never an instruction or a substituted case number. Packet generation must stop when that charge fact is missing; do not guess it. Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and the educational credential evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.\n\n**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.\n\n**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects; the court sets a contested hearing; the transcript or certified disposition is ambiguous; a case is unrecognized or may involve identity theft; federal or out-of-state records are involved; a motion to vacate, modify, or reconsider is needed; the petition is denied; the printed education-route facts do not match; or immigration consequences may be involved.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order, clerk case numbers, and later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
@@ -418,5 +433,9 @@ function selfTest() {
   console.log("il-seal-edu-set self-test passed");
 }
 
-if (process.argv.includes("--self-test")) selfTest();
-else await build();
+// Importing the host for regression tests must not generate a packet as a side effect.
+export { build, buildPacket, fillDocument, resolveSources, FIXTURES, SOURCES, ORDER_COURT_OWNED };
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (process.argv.includes("--self-test")) selfTest();
+  else await build();
+}
