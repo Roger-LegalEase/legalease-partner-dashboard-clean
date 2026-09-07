@@ -1,0 +1,32 @@
+name: RCAP completion pass
+on:
+  push:
+    branches: [chatgpt/launch-recovery-20260906]
+    paths: [.github/workflows/rcap-completion-pass.yml]
+permissions:
+  contents: read
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Capture exact recovery delta and full commit-only ancestry
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/completion"
+          git diff --binary c6af0d84134216c5d0757e5543ccf3fcaa42f19c HEAD > "$RUNNER_TEMP/completion/current.patch"
+          git rev-list HEAD | git pack-objects --stdout > "$RUNNER_TEMP/completion/commits.pack"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/completion/tree.txt"
+          git rev-parse HEAD > "$RUNNER_TEMP/completion/sha.txt"
+          git rev-parse HEAD^{tree} > "$RUNNER_TEMP/completion/tree-sha.txt"
+          sha256sum "$RUNNER_TEMP/completion/current.patch" > "$RUNNER_TEMP/completion/patch.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-completion-checkpoint-${{ github.run_id }}
+          path: ${{ runner.temp }}/completion/
+          retention-days: 3
+          if-no-files-found: error
