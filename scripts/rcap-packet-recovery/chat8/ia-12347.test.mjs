@@ -1,0 +1,44 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PDFDocument} from 'pdf-lib';
+import {fixtureFacts,validateFacts,renderFixture,SOURCE,SOURCE_SHA256,ROOT} from './ia-12347.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const base=()=>fixtureFacts().canonical;
+for(const [n,f]of Object.entries(fixtureFacts()))test(`complete actual Form4 ${n}`,async()=>{
+ const r=await renderFixture(f);assert.equal(r.actualWrites.length+r.blanks.length,46);assert.equal(r.pageCount,4);assert.equal(r.components.length,2);assert.equal((await PDFDocument.load(r.packet)).getForm().getFields().length,0);
+ assert.ok(r.blanks.some(b=>b.fieldId==='printed.signature'));assert.ok(r.blanks.some(b=>b.fieldId==='2.86-4.01.00'&&b.completenessDisposition==='PARTICIPANT_ELECTION_GENUINE'));assert.ok(!r.actualWrites.some(b=>b.fieldId==='2.86-4.01.00'));
+ assert.ok(!r.actualWrites.some(w=>w.fieldId.includes('sig.b.')||w.fieldId==='2.86-4.sig.AB'||/cert\.0[234]$/.test(w.fieldId)));
+ assert.equal(r.assessment.courtDebtIsNotPrecondition,true);
+ if(n==='missing-contact'){assert.equal(r.blanks.filter(b=>b.completenessDisposition==='REQUIRED_BEFORE_FILING').length,12);assert.ok(r.instructions.flatMap(x=>x.paragraphs).some(x=>x.includes('DO NOT FILE YET')));}
+ if(n==='boundary')assert.equal(r.assessment.twoYearAnniversary,f.filingDate);
+});
+const reject=(name,fn)=>test(name,async()=>{const f=base();fn(f);await assert.rejects(renderFixture(f));});
+for(const k of ['name','caseNumber','convictionDate','filingDate','historyComplete','acknowledgedCopy','acknowledgedConfidential','selfRepresented','convictionStatementConfirmed','cleanPeriodStatementConfirmed'])reject(`missing ${k} is refused`,f=>delete f[k]);
+reject('wrong alcohol route',f=>f.offense.equivalentTo='123.46');
+reject('wrong statute even with asserted equivalent',f=>f.offense.citation='321J.2');
+reject('unconfirmed ordinance',f=>{f.offense.kind='local_equivalent';f.offense.confirmation=null;});
+reject('deferred judgment is not this conviction',f=>f.disposition='deferred_judgment');
+reject('juvenile adjudication is not this district-court case',f=>f.proceeding='juvenile');
+reject('unexpired two-year window',f=>f.convictionDate='2025-01-15');
+reject('invalid calendar date',f=>f.convictionDate='2022-02-30');
+reject('leap-day anniversary is not silently rolled',f=>f.convictionDate='2024-02-29');
+reject('other criminal conviction in clean window',f=>f.laterConvictions=[{date:'2023-01-01',citation:'714.2(5)',kind:'other',categoryConfirmed:true}]);
+reject('unknown traffic category',f=>f.laterConvictions=[{date:'2023-01-01',citation:'321.285',kind:'chapter_321_simple',categoryConfirmed:null}]);
+reject('chapter321J is not chapter321',f=>f.laterConvictions=[{date:'2023-01-01',citation:'321J.2',kind:'chapter_321_simple',categoryConfirmed:true}]);
+reject('future history fact',f=>f.laterConvictions=[{date:'2030-01-01',citation:'714.2(5)',kind:'other',categoryConfirmed:true}]);
+reject('other conviction on exact anniversary requires timing review',f=>f.laterConvictions=[{date:'2024-01-15',citation:'714.2(5)',kind:'other',categoryConfirmed:true}]);
+reject('invented signature not accepted',f=>f.signature='Avery Example');
+reject('invented service date not accepted',f=>f.serviceDate='2026-09-07');
+reject('invented judge approval not accepted',f=>f.orderGranted=true);
+reject('long known name not truncated or shrunk below floor',f=>f.name='Alexandra '.repeat(18).trim());
+reject('invalid phone not shortened',f=>f.phone='3195550101123');
+reject('whitespace-only known contact not missing shortcut',f=>f.address=' ');
+test('paid, unpaid and unknown debt have same route result',()=>{for(const v of ['paid','unpaid','unknown']){const f=base();f.courtDebtBalanceStatus=v;assert.equal(validateFacts(f).courtDebtIsNotPrecondition,true);}});
+test('real source hash drift refused',async()=>{const b=await fs.readFile(path.join(ROOT,SOURCE));await assert.rejects(renderFixture(base(),{sourceBytes:Buffer.concat([b,Buffer.from('drift')])}),/source/);});
+test('PDF import alone does not run build',async()=>{const mod=await import('../../build-census-v1-ia-12347-set.mjs');assert.equal(typeof mod.buildFamily,'function');});
+
+reject('broad 123.47 is not possession subsection3',f=>f.offense.citation='123.47');
+reject('furnishing alcohol is not underage-possession route',f=>f.offense.citation='123.47(1)');
+test('Form4 geometry must be bound to its own source',async()=>{const m=JSON.parse(await fs.readFile(path.join(ROOT,'scripts/rcap-packet-recovery/chat8/form4-source-map.json')));m.sourceSha256='0'.repeat(64);await assert.rejects(renderFixture(base(),{sourceMap:m}),/source-map/);});
+test('invalid overlay box is refused',async()=>{const m=JSON.parse(await fs.readFile(path.join(ROOT,'scripts/rcap-packet-recovery/chat8/form4-source-map.json')));m.areas[0].rect.x=-10;await assert.rejects(renderFixture(base(),{sourceMap:m}),/Invalid measured/);});
