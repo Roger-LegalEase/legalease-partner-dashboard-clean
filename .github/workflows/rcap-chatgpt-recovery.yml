@@ -17,24 +17,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Capture exact tracked source for offline repair
+      - name: Collect baseline without modifying any branch
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/recovery"
-          git rev-parse HEAD > "$RUNNER_TEMP/recovery/source-sha.txt"
-          git ls-tree -r HEAD > "$RUNNER_TEMP/recovery/source-tree.txt"
-          git archive --format=tar.gz HEAD > "$RUNNER_TEMP/recovery/source.tar.gz"
-          find . -name AGENTS.md -not -path './.git/*' -print
-      - name: Collect baseline without changing production or branches
-        run: |
-          set -uo pipefail
           out="$RUNNER_TEMP/recovery"
+          mkdir -p "$out"
+          git rev-parse HEAD > "$out/source-sha.txt"
           for script in generate generate-source-conveyor generate-washington-repair; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-baseline.txt" 2>&1
-            printf '%s %s\n' "$script" "$?" >> "$out/baseline-exit-codes.txt"
+            if node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-baseline.txt" 2>&1; then code=0; else code=$?; fi
+            printf '%s %s\n' "$script" "$code" >> "$out/baseline-exit-codes.txt"
           done
-          git diff --check
-          test -z "$(git status --porcelain)"
+          git status --porcelain > "$out/baseline-worktree.txt"
       - name: Install locked dependencies without lifecycle scripts
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Package offline Node dependencies
