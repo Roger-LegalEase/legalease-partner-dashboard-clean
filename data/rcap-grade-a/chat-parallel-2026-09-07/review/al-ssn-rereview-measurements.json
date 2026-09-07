@@ -1,0 +1,92 @@
+{
+  "schemaVersion":"chatb-al-ssn-rereview-measurements/v1",
+  "reviewer":"ChatGPT, GPT-6 Astra Pro, separate Chat2/B review session",
+  "reviewDate":"2026-09-07",
+  "candidateCodeCommit":"058e0acd2489be6ce75ac81c7152b8793df0a82e",
+  "archive":{"driveFileId":"1KAqOnUfNWXoA5KrTfsV9gY6mFLgyQ9CQ","bytesMeasured":9723430,"sha256Measured":"6cd5ce96d08398436bf0de895b39b57927cb76fd8573a8c991e216535581fcd7","filesSafelyExtracted":55,"hostPatchSha256Measured":"f73872f67cee0e66db42cf930d9ba0aa81d1fed8f02e4d9510e13f8eab2f8d18","outputPatchSha256Measured":"3b2297dfde9857903bab5a1678daf4dc7e9794ac524a56c0dd85ed0c29f72eeb"},
+  "execution":{
+    "checker":"al-ssn-independent-audit.py","checkerCommit":"1fcc9c4214fff5dbd327fb4fbfa87a2198fc0236","checkerGitBlobMeasuredAndReadBack":"e7b1f23c3b374302a6992c33801682ff15d0e29e","checkerSha256Measured":"8d8a39af2389aec7d7b4e7d01a7b80ab2b293b167c27384b9feaef391d200da1",
+    "command":"python al-ssn-independent-audit.py --candidate <safely-extracted-6cd5ce96-candidate> --sources <retained-blank-source-directory> --archive <6cd5ce96-zip> --out <review-output-directory>","exitCode":0,
+    "completeMachineOutputSha256":"82968fb27aa524b4cc6d5c6cc42fef02d499cfe0f5ed83facf518e701eb906b6",
+    "pymupdfVersion":"1.26.7","pageRenderMatrix":[1.5,1.5],"alpha":false,"packetBuildersExecuted":0,
+    "summary":{"completePdfs":8,"sourcePageComparisons":88,"sourceWordInstances":35920,"nativeSourceGlyphs":184400,"missingOrMovedSourceGlyphs":0,"missingOrMovedSourceWords":384,"sourceDimensionMismatches":0,"sourceFieldDispositions":1728,"textWriteChecks":236,"textWriteMismatchCount":0,"cr65SeparateSsnChecksPassed":8,"c10HeldLastFourOmissions":4,"uniqueFullPngs":24,"additionalPngAliases":64,"readInputsUnchanged":58,"controls":14,"positiveControls":3,"rejectionControls":11},
+    "interpretation":"Exit0 reports completed measurements and controls, not a family pass. All216 source widget identities occur exactly once as a write or refusal in each fixture map and actual-writes partition. This does not make every disposition semantically correct. All236 declared text values were located in their actual source-widget regions; undeclared held facts can still be omitted.",
+    "textVersusVisibleInk":"384 raw word-token comparisons differ at underline/punctuation joins after flattening. All184400 source-native non-whitespace characters match their original rectangles within0.25point, so these word results do not establish source text loss. Visible overpaint on expired was nevertheless observed and independently compared below. Matching text/glyph extraction is NOT a visual pass.",
+    "harnessCorrection":"Initial direct get_textbox equality included source labels/underlines and produced reviewer assertions, not packet defects. Final known-write checks subtract matching source words and exclude all-underline/punctuation furniture; independent character comparison preserves source punctuation. Successful final output and its exact script are recorded above."
+  },
+  "sources":[
+    {"documentId":"CR-65","printedRevision":"10/2024","pagesMeasured":8,"bytesMeasured":468056,"uniqueWidgetsMeasured":108,"sha256Measured":"c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39","sourcePath":"CODEX-CS1-SRC2__CR-65__c2e0c7bd7abc.pdf"},
+    {"documentId":"C-10-CRIMINAL","printedRevision":"5/2024","pagesMeasured":3,"bytesMeasured":711433,"uniqueWidgetsMeasured":108,"sha256Measured":"527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8","sourcePath":"AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf"}
+  ],
+  "families":[
+    {"familyId":"al-felony-dwop-set","packets":[
+      {"fixture":"canonical","pages":11,"bytes":905857,"sha256Measured":"178e636e677071cec95459533ede4d04ffe8944d5c7cc62a6ccb1f781142a439","gitBlobMeasured":"0d244ce38063ae173c6536f732c9b01f843d2452","suppliedSsnLastFour":"0428","cr65SsnObserved":"0428","c10SsnObserved":"","caseNumberObserved":"CC-2021-004217","mapWrites":32,"mapRefusals":184},
+      {"fixture":"canonical-ssn-missing","pages":11,"bytes":905898,"sha256Measured":"29293d1c8a306cdc765bc70ba2184ad95626c6c69addc9414c29bc30eac1ef6e","gitBlobMeasured":"a279f352df27700bd0d698fb1e1563219672fd3a","suppliedSsnLastFour":null,"cr65SsnObserved":"","c10SsnObserved":"","caseNumberObserved":"CC-2021-004217","mapWrites":31,"mapRefusals":185},
+      {"fixture":"boundary","pages":11,"bytes":906096,"sha256Measured":"cd2fadc86c2321b8af0e5f7ef8b8754530624f2c0c7bafe02c89243e420910dd","gitBlobMeasured":"e0bb6096b826a2e999fb49fefe4c17dc8cc3254b","suppliedSsnLastFour":"0073","cr65SsnObserved":"0073","c10SsnObserved":"","caseNumberObserved":"CC-2024-000001.99","mapWrites":32,"mapRefusals":184},
+      {"fixture":"boundary-ssn-missing","pages":11,"bytes":906139,"sha256Measured":"214144a454de0363912738128ac891581f5c0a3a4ce532097ee822b3bb727b10","gitBlobMeasured":"afff9f1b3e9b4f26e155a908f2074187c677eb1c","suppliedSsnLastFour":null,"cr65SsnObserved":"","c10SsnObserved":"","caseNumberObserved":"CC-2024-000001.99","mapWrites":31,"mapRefusals":185}
+    ],"fileSha256Measured":{
+      "production-field-map.json":"d4d0add0b1c00b7017e0df853aa78d0dd0eb7f8cbd7b1c2786a7801fef5642f6",
+      "participant-instructions.md":"4214132ad0462ddc64954650c1ccb1d54fed5ec2f3af6efc97d91ec062cd4af6",
+      "filing-instructions.md":"4bbae3931d68c1cf0966b3808ab16fb55135912afa12ea02a9826a5566dfd4bd",
+      "source-receipt.json":"02c6d0b673964bed7d3aaa894106e4fd8dc64a7ec3f138121f658973eb2f8c6e",
+      "reports/actual-writes.json":"592eaa9bc57bcf5d25feeb149a4435635441747d6a0e46afb9023984908cd88c",
+      "reports/rendered-artifacts.json":"270eeedb579bd413c33a0c67b051565c07dddb3dfe477595a8acbdbebebae76b",
+      "reports/build-summary.json":"095df40ce9c1c8fb7fb365491f44dc49f6108272da6b2d315925b72bc9bf2eb1",
+      "scripts/build-census-v1-al-felony-dwop-set.mjs":"e6374ee85b4fe1abe791bd2733e7ca1be43e70788c93a7b16c12507e5c7e6717"
+    }},
+    {"familyId":"al-felony-nonconviction-90-set","packets":[
+      {"fixture":"canonical","pages":11,"bytes":905663,"sha256Measured":"d8244b347d3766409a5333218207335dfe50a5dd0189e83cff9817bc2c35d3c2","gitBlobMeasured":"98ceb12e508974cb7daf600daf0b7509931160e2","suppliedSsnLastFour":"0428","cr65SsnObserved":"0428","c10SsnObserved":"","caseNumberObserved":"CC-2021-004217","mapWrites":31,"mapRefusals":185},
+      {"fixture":"canonical-ssn-missing","pages":11,"bytes":905704,"sha256Measured":"2e266f4cd932a0c8c6b03087023fd128c60358a1a78ee403052406e970d7ba44","gitBlobMeasured":"f1fd64dbe6eb9165eb7236face1a61a76614494d","suppliedSsnLastFour":null,"cr65SsnObserved":"","c10SsnObserved":"","caseNumberObserved":"CC-2021-004217","mapWrites":30,"mapRefusals":186},
+      {"fixture":"boundary","pages":11,"bytes":905902,"sha256Measured":"7cc1abfcb7cb69de596931a65cf638fa2cebfbb620124d1218402effe9896a63","gitBlobMeasured":"dc58c55e7032f0f11b6eefb5b786fedbd5a85cfb","suppliedSsnLastFour":"0073","cr65SsnObserved":"0073","c10SsnObserved":"","caseNumberObserved":"CC-2024-000001.99","mapWrites":31,"mapRefusals":185},
+      {"fixture":"boundary-ssn-missing","pages":11,"bytes":905945,"sha256Measured":"b3c5c812c2099601553ad61279dd1ea2af1e63083d8167f9cec9be6b7a34c023","gitBlobMeasured":"76e556c0df6b5c6bde60b7fc53cb49f837d733b5","suppliedSsnLastFour":null,"cr65SsnObserved":"","c10SsnObserved":"","caseNumberObserved":"CC-2024-000001.99","mapWrites":30,"mapRefusals":186}
+    ],"fileSha256Measured":{
+      "production-field-map.json":"13e2199af6c901acf094999d42523f19008e8912ff22f53b2675eb0672df2a3c",
+      "participant-instructions.md":"265a00377bdafd3e6b787438bd46da5e4052b032ce18606c53d072600c561748",
+      "filing-instructions.md":"0f8fb66cb068299e0465196e827cc4aa7fc13dc90826b4bc34fac7854d7d3fe0",
+      "source-receipt.json":"86c8bb03d644ed1548298060676cbf0af27d1789bc5d75033dac6c8fd8a2a3df",
+      "reports/actual-writes.json":"b3616f73149342f1e1784d2b6ba0eb997270b2fcdf8f04377d24984fe7050425",
+      "reports/rendered-artifacts.json":"e1b619f1756f966681216457e052313dc0a2890132dc1260ede0e7b135a8e91e",
+      "reports/build-summary.json":"2dadb185fdbcaf24ef4b97765ae83048ad38b126d32760bb6cecc3dc1faa095b",
+      "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs":"ca4cd03a95936c578026238fcb7f5fedf173766d82bd5d79b29dbf0810dbffa5"
+    }}
+  ],
+  "helperProbes":{
+    "checker":"al-ssn-helper-probes.mjs","checkerCommit":"73abac0927b23b4a489f91fb91eb4b78f40aacb1","checkerSha256Measured":"59034fa344b62a13cd2a8407c8fd715ab67c6664dded8d50fd6e524e0a599361","helperSha256Measured":"ed1badbd1ec8fcd32b0238952a2056167e1646816db68525fb3b6d0715122b50","resultSha256Measured":"f9ffca47dc2353ef7e3dd76a09297405d4b5df7a85c16e6c1864bcf744a7b693","nodeVersion":"v22.16.0","exitCode":0,"cases":24,"acceptedOrMissingCases":12,"rejectedInvalidCases":12,"sourceUnchanged":true,"packetBuildersExecuted":0,
+    "acceptedResults":{"no_fact":null,"explicit_null":null,"empty_string":null,"case_looks_like_digits":null,"full_ssn_not_dedicated":null,"snake_case_not_bound":null,"separate_case_and_last4":"0091","different_case_same_last4":"0091","same_case_different_last4":"0428","canonical_leading_zero":"0428","boundary_leading_zeros":"0073","all_zero_format_only":"0000"},
+    "invalidInputsRejected":["CC-2021-004217","123456789","123-45-6789","428",428," 0428","0428 ","１２３４","unknown",true,{},["0428"]],
+    "scope":"Actual direct helper probes, not C's full renderer tests, real identity verification or whole-packet field propagation. Separate-case test uses CC-2099-765432.10 and0091. Format-valid0000 does not establish a real participant SSN."
+  },
+  "visualCoverage":{
+    "completePageInstances":88,"distinctFullPngsIndividuallyViewed":24,"exactAliasesBeyondFirst":64,
+    "D":"al-felony-dwop-set","N":"al-felony-nonconviction-90-set",
+    "aliasNotation":"Each path below is family-alias/fixture/page-number; expand to pages/<exact-family-id>/<fixture>/page-NNN.png. All listed hashes are measured PNG-byte SHA256, not whole-PDF hashes.",
+    "pngHashAliasesMeasured":{
+      "1afa78ff052bcfaa96bcb4a1609414c3e035ccfae2ecf27e826c93fb3aabd22d":["D/boundary/3","D/boundary-ssn-missing/3"],
+      "1f294fdd6bd41b4d5025bf312727f0143f0260c4c1d38cd2c3018ad796315384":["D/canonical/7","D/canonical-ssn-missing/7","D/boundary/7","D/boundary-ssn-missing/7","N/canonical/7","N/canonical-ssn-missing/7","N/boundary/7","N/boundary-ssn-missing/7"],
+      "27a45b1a94f68770f1534c37c730a6a39dce5bf9110254d614b4b8f37e30e844":["D/boundary/2","D/boundary-ssn-missing/2","N/boundary/2","N/boundary-ssn-missing/2"],
+      "2c36cd7ef6b6ddcab3328a37245c372edd60a7e6e5ca795007e0273281c771e5":["N/canonical/3","N/canonical-ssn-missing/3"],
+      "3584ab76e8267e59936f42877dbaaa020fc8acf0e3dc9d7a0ee789879e840521":["D/boundary/1","N/boundary/1"],
+      "37f3119ce7c201a57358fd6f71c01837ae53303ab7cff2106434993831d19e1a":["D/boundary/10","D/boundary-ssn-missing/10","N/boundary/10","N/boundary-ssn-missing/10"],
+      "4e05c2618c63e35e64a9d99e2cdb42d2b4337d2d63b29d5fddef6ee9df80815c":["D/canonical/2","D/canonical-ssn-missing/2","N/canonical/2","N/canonical-ssn-missing/2"],
+      "56b08df74b642f6ec7b5052a2c4dc3e3d253dd72e45c966608a056522043a6d3":["N/boundary/3","N/boundary-ssn-missing/3"],
+      "5b70f508cb2ace264e5ec5405e2c0ed6420a06cb16d4f5b3030af61ef0f2c9bd":["D/boundary/5","D/boundary-ssn-missing/5","N/boundary/5","N/boundary-ssn-missing/5"],
+      "7a7c7124f7c52200a8ac97cef046de10c32b1dc1fc3c2e375c5227fdeb8f8735":["D/canonical/5","D/canonical-ssn-missing/5","N/canonical/5","N/canonical-ssn-missing/5"],
+      "7f7198fd8b49ad563ec457311a0a9bc680fd6d70b894848313795c87a41853cd":["D/canonical/4","D/canonical-ssn-missing/4","N/canonical/4","N/canonical-ssn-missing/4"],
+      "8d68a123b5bc3b86685761fc404f57b243b7cb6464107fac23d2eb4210d1543a":["D/boundary/4","D/boundary-ssn-missing/4","N/boundary/4","N/boundary-ssn-missing/4"],
+      "95fe367f5c9db9db8a0a2db492d4cee424758a518e8df077b0af61a196fba8a8":["D/canonical/11","D/canonical-ssn-missing/11","D/boundary/11","D/boundary-ssn-missing/11","N/canonical/11","N/canonical-ssn-missing/11","N/boundary/11","N/boundary-ssn-missing/11"],
+      "9e6af3c143f6f446e919d20455037ca9d8a0093cfa065fed3aa50099a9293453":["D/canonical/9","D/canonical-ssn-missing/9","N/canonical/9","N/canonical-ssn-missing/9"],
+      "9f76c36b2659015d0f9e26d213e633170728c5afc5fd7e226b29403dd06f8c89":["D/boundary/9","D/boundary-ssn-missing/9","N/boundary/9","N/boundary-ssn-missing/9"],
+      "a0f5d01ae9098e3c5189da63d248bdd9b8fab2728b4565ad842287caf7f3350a":["D/boundary-ssn-missing/1","N/boundary-ssn-missing/1"],
+      "a66be27e0f9168434116512f95d0e044c04b0d957248fbca21e8561250edff5e":["D/canonical/6","D/canonical-ssn-missing/6","N/canonical/6","N/canonical-ssn-missing/6"],
+      "b6d972d41d30b4111cfabb5f523e0204fc5c88957667d1ee1cf1440fb2f35cf9":["D/canonical/8","D/canonical-ssn-missing/8","N/canonical/8","N/canonical-ssn-missing/8"],
+      "bf8ea744f4ff46541634bfec108685ca32b64380413ca3e61a9933d9988ec3db":["D/canonical-ssn-missing/1","N/canonical-ssn-missing/1"],
+      "c4a64058941640b89bb325becab888684b7e1e970ad4cc6227fa997e624b0806":["D/canonical/3","D/canonical-ssn-missing/3"],
+      "cedc8215b540ff74c0116f98b09d5b7d3df8ce6526622d17fa2c4f43d835d530":["D/canonical/10","D/canonical-ssn-missing/10","N/canonical/10","N/canonical-ssn-missing/10"],
+      "cf2f9b0e22bc9c190e39b7c3ecea48e7f2fe152cda852ec0edeaacff283e3564":["D/canonical/1","N/canonical/1"],
+      "ebfe4bac064fe3b6e589186153449f393023ef7e5f4e7faa615898f49bdf6bec":["D/boundary/8","D/boundary-ssn-missing/8","N/boundary/8","N/boundary-ssn-missing/8"],
+      "fafab50947c3c8c7f6ec9eb75e13b5628dc2f15f47b3e89974c01725649c8c86":["D/boundary/6","D/boundary-ssn-missing/6","N/boundary/6","N/boundary-ssn-missing/6"]
+    },
+    "sourceInkComparison":{"page":3,"regionTopLeftPoints":[40,146,61,161],"matrix":[5,5],"sourceAnnotationsOnAndOffVisuallyChecked":true,"candidateRegionRawRgbSha256":"a1fa6fe5ed06dd2fbedeed5566d7ee0fc5f3adb053520456861c99f5ac84d70f","unannotatedSourceRegionRawRgbSha256":"f6247b4c3b4bfdf552fe591a68190859951043c316dd41e901c46a2b6c5bce80","pixelsDifferent":447,"priorCandidateSameRegionMatches":4,"interpretation":"The flattened candidate visibly masks part of expired although the native source glyphs remain extractable. The same defect is present in all four older b6b3-candidate PDFs: not a regression caused by the new SSN correction. It was newly identified during this complete source/appearance comparison. A suspected C-10 Number-label defect was separately compared to the source and NOT substantiated; it is not reported as a defect."}
+  },
+  "limits":["No full renderer was invoked by this reviewer.","No central acceptance is inferred from locally rendered PNGs.","The exact new candidate outputs are bound to the archive, not assumed published at old GitHub fixture paths.","This evidence closes measurement gaps; the associated negative review controls the disposition, not the successful process exit."]
+}
