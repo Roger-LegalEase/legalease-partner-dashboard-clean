@@ -1,0 +1,35 @@
+name: RCAP immutable completion snapshot
+on:
+  push:
+    branches: [chatgpt/completion-verification-20260907]
+    paths: [.github/workflows/rcap-completion-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 4d8a4699f19e41df95c94a1e94d83a4f56f8efce
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export exact tracked delta and commit ancestry
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/snapshot"
+          mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = 4d8a4699f19e41df95c94a1e94d83a4f56f8efce
+          git diff --binary c6af0d84134216c5d0757e5543ccf3fcaa42f19c HEAD > "$out/current.patch"
+          git rev-list HEAD | git pack-objects --stdout > "$out/commits.pack"
+          git ls-tree -r HEAD > "$out/tree.txt"
+          git rev-parse HEAD > "$out/sha.txt"
+          git rev-parse HEAD^{tree} > "$out/tree-sha.txt"
+          sha256sum "$out/current.patch" > "$out/patch.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: completion-snapshot-${{ github.run_id }}
+          path: ${{ runner.temp }}/snapshot/
+          retention-days: 3
+          if-no-files-found: error
