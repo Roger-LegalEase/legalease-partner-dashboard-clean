@@ -1,0 +1,161 @@
+name: Finish Nevada central raster receipt
+on:
+  push:
+    branches: [chatgpt/independent-nv-20260907]
+    paths: [.github/workflows/rcap-nv-raster-receipt-finish.yml]
+permissions:
+  contents: read
+concurrency:
+  group: rcap-nv-raster-receipt-finish
+  cancel-in-progress: false
+jobs:
+  verify_and_retain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+      actions: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Verify completed run, exact archive, current packet bytes and page counts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/chatgpt/independent-nv-20260907
+          python3 -m pip install --quiet --disable-pip-version-check PyMuPDF==1.26.7
+          python3 - <<'PY'
+          import collections, datetime, hashlib, io, json, os, pathlib, subprocess, urllib.error, urllib.parse, urllib.request, zipfile
+          import fitz
+          repo = 'Roger-LegalEase/legalease-partner-dashboard-clean'
+          packet = '3794a1a1ace8ad3e85423122afd380cabcd58140'
+          family = 'rcap-nv-custom-pleading'
+          run_id, artifact_id = 34101879269, 10011501772
+          expected_zip = '6fde1c5ee037702ebca44bd7a05071825ed32119086f457226e5afe69f58e3e4'
+          expected = {'canonical': '1d72131dcf8adefe7142cb2241aa97811b4c90892342d1422d3441b649e293bf', 'boundary': '5274a3d33329f447612a9736ac31442a760dc24b4aa2acdc01d7061175578596'}
+          root = pathlib.Path('data/rcap-grade-a/nv-completion-2026-09-07/central-raster')
+          root.mkdir(parents=True, exist_ok=True)
+          diagnostics = pathlib.Path(os.environ['RUNNER_TEMP']) / 'nv-receipt-check'
+          diagnostics.mkdir(parents=True, exist_ok=True)
+          report = {'familyId': family, 'packetCommit': packet, 'checkedHead': os.environ['GITHUB_SHA'], 'centralRunId': run_id, 'artifactId': artifact_id, 'expectedZipSha256': expected_zip, 'terminalStatusChanged': False, 'independentSemanticApproval': False, 'productionTouched': False, 'operationalReceiptIngestion': 'NOT_CLAIMED'}
+          token = os.environ['GH_TOKEN']
+          def api(suffix):
+              req = urllib.request.Request('https://api.github.com/repos/' + repo + suffix, headers={'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'User-Agent': 'LegalEase-completion'})
+              with urllib.request.urlopen(req, timeout=45) as response:
+                  return json.load(response)
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          try:
+              assert os.environ['GITHUB_REPOSITORY'] == repo
+              subprocess.run(['git', 'merge-base', '--is-ancestor', packet, 'HEAD'], check=True)
+              run = api('/actions/runs/' + str(run_id))
+              assert run['status'] == 'completed' and run['conclusion'] == 'success', 'Central run is not successful'
+              jobs = api('/actions/runs/' + str(run_id) + '/jobs?per_page=100')['jobs']
+              wanted = {'Synthetic canary and live negative controls', 'Plan the family matrix', family}
+              found = {job['name']: job for job in jobs if job['name'] in wanted}
+              assert set(found) == wanted and all(j['status'] == 'completed' and j['conclusion'] == 'success' for j in found.values()), 'Required central jobs are not all successful'
+              meta = api('/actions/artifacts/' + str(artifact_id))
+              assert not meta['expired'] and meta['workflow_run']['id'] == run_id
+              assert meta['name'] == 'rcap-raster-rcap-nv-custom-pleading-34101879269'
+              assert meta.get('digest') == 'sha256:' + expected_zip
+              request = urllib.request.Request('https://api.github.com/repos/' + repo + '/actions/artifacts/' + str(artifact_id) + '/zip', headers={'Authorization': 'Bearer ' + token, 'User-Agent': 'LegalEase-completion'})
+              try:
+                  with urllib.request.build_opener(NoRedirect).open(request, timeout=45) as response:
+                      archive = response.read(100_000_001)
+              except urllib.error.HTTPError as redirect:
+                  assert redirect.code in (301, 302, 303, 307, 308), 'Artifact download refused'
+                  url = redirect.headers['Location']
+                  assert urllib.parse.urlsplit(url).scheme == 'https'
+                  # The storage request intentionally receives no GitHub credential.
+                  with urllib.request.urlopen(url, timeout=90) as response:
+                      archive = response.read(100_000_001)
+              assert len(archive) <= 100_000_000 and hashlib.sha256(archive).hexdigest() == expected_zip, 'Artifact archive digest mismatch'
+              source_paths = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', '-z', packet]).decode().split('\0')
+              source_paths = [p for p in source_paths if p.endswith('.pdf') and ('/nv/' in p.lower() or 'rcap-nv-' in p.lower())]
+              matched = {}
+              for rel in source_paths:
+                  obj = packet + ':' + rel
+                  size = int(subprocess.check_output(['git', 'cat-file', '-s', obj]))
+                  if size > 50_000_000:
+                      continue
+                  data = subprocess.check_output(['git', 'show', obj])
+                  digest = hashlib.sha256(data).hexdigest()
+                  for fixture, expected_digest in expected.items():
+                      if digest != expected_digest:
+                          continue
+                      current = pathlib.Path(rel).read_bytes()
+                      assert hashlib.sha256(current).hexdigest() == expected_digest, 'Current packet changed since raster: ' + rel
+                      with fitz.open(stream=current, filetype='pdf') as pdf:
+                          assert len(pdf) == 44, 'Unexpected complete packet page count'
+                      matched[fixture] = {'file': rel, 'sha256': digest, 'pages': 44}
+              assert set(matched) == set(expected), 'Could not bind both rastered PDFs to exact current repository paths'
+              with zipfile.ZipFile(io.BytesIO(archive)) as z:
+                  assert sum(i.file_size for i in z.infolist()) <= 1_000_000_000, 'Unexpected decompressed archive size'
+                  candidates = []
+                  for info in z.infolist():
+                      if not info.filename.lower().endswith('.json') or 'verdict' not in info.filename.lower() or info.file_size > 5_000_000:
+                          continue
+                      body = z.read(info)
+                      value = json.loads(body)
+                      if not isinstance(value, dict):
+                          continue
+                      text = json.dumps(value)
+                      if family in text and packet in text and 'RASTER_PASS' in text and all(d in text for d in expected.values()):
+                          candidates.append((info.filename, body, value))
+                  assert len(candidates) == 1, 'No unique hash-bound family verdict found'
+                  member, raw_verdict, verdict = candidates[0]
+                  report['verdictArchivePath'] = member
+                  report['verdictSha256'] = hashlib.sha256(raw_verdict).hexdigest()
+                  report['verdictFields'] = {k: v for k, v in verdict.items() if isinstance(v, (str, int, bool))}
+                  target = root / 'verified-central-verdict.json'
+                  if target.exists():
+                      assert target.read_bytes() == raw_verdict, 'A different verdict already occupies this receipt path'
+                  else:
+                      target.write_bytes(raw_verdict)
+              report.update(status='ARCHIVE_AND_CURRENT_PACKET_BYTES_VERIFIED', archiveDigestVerified=True, jobs={name: j['conclusion'] for name,j in found.items()}, fixtures=matched, totalPages=88, checkedAt=datetime.datetime.now(datetime.timezone.utc).isoformat())
+              report['qualification'] = 'Authentic central raster receipt retained against unchanged packet bytes. This does not grant independent semantic approval, terminal status, live delivery, or operational queue ingestion.'
+              (root / 'verified-central-receipt.json').write_text(json.dumps(report, indent=2) + '\n')
+              print('Verified the completed central run, exact archive digest, and both unchanged 44-page repository PDFs.')
+          except Exception as exc:
+              report.update(status='VERIFICATION_FAILED', errorType=type(exc).__name__, error=str(exc) if isinstance(exc, AssertionError) else 'See the failing verification step; no receipt publication is authorized.')
+              raise
+          finally:
+              (diagnostics / 'result.json').write_text(json.dumps(report, indent=2) + '\n')
+          PY
+      - name: Publish only verified receipt files on the Nevada branch
+        run: |
+          set -euo pipefail
+          branch=chatgpt/independent-nv-20260907
+          test "$GITHUB_REF" = "refs/heads/$branch"
+          test "$(git ls-remote origin "refs/heads/$branch" | cut -f1)" = "$GITHUB_SHA"
+          git add -- data/rcap-grade-a/nv-completion-2026-09-07/central-raster/verified-central-verdict.json data/rcap-grade-a/nv-completion-2026-09-07/central-raster/verified-central-receipt.json
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git config user.name 'LegalEase completion (ChatGPT)'
+            git config user.email 'noreply@legalease.com'
+            git commit -m 'evidence(rcap-nv): retain verified completed 88-page central raster against exact current packet bytes'
+            git push origin "HEAD:refs/heads/$branch"
+          fi
+          git rev-parse HEAD > "$RUNNER_TEMP/nv-receipt-check/published-sha.txt"
+      - name: Record the observed publication on the existing PR
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('data/rcap-grade-a/nv-completion-2026-09-07/central-raster/verified-central-receipt.json','utf8'));
+            const sha = fs.readFileSync(process.env.RUNNER_TEMP + '/nv-receipt-check/published-sha.txt','utf8').trim();
+            const body = `Central raster receipt verified and retained at ${sha}. Central run ${report.centralRunId}, artifact ${report.artifactId}; exact archive SHA-256 and both unchanged 44-page current PDFs verified. Receipt: data/rcap-grade-a/nv-completion-2026-09-07/central-raster/verified-central-receipt.json. This is receipt publication, not independent semantic approval, terminal promotion, operational queue ingestion, or production deployment. Completion run: ${context.runId}.`;
+            await github.rest.issues.createComment({...context.repo, issue_number:225, body});
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nv-receipt-finalization-${{ github.run_id }}
+          path: ${{ runner.temp }}/nv-receipt-check/
+          retention-days: 14
+          if-no-files-found: error
