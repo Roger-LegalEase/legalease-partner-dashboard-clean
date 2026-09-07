@@ -1,4 +1,4 @@
-name: RCAP Chat 1 finish NC text integration
+name: RCAP Chat 1 NC exact text and causal review integration
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
@@ -17,7 +17,8 @@ jobs:
       contents: write
       actions: read
     env:
-      PRIOR: e8c3dfa1a422445dd363fdd40cc7fb3bacce103d
+      PRIOR: 21a269f31a7dff8084d6c74ecdb553be5979ba03
+      REVIEW: 262027e7b5e7678cc7ea9fa8323bfffba3566e47
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
@@ -27,113 +28,127 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Recover only the three measured implementation files, not pre-commit derived history
+      - name: Recover exact authored text and retain the independent delta without inventing a pass
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD^)" = "$PRIOR"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          mkdir -p "$RUNNER_TEMP/nc-final"
+          mkdir -p "$RUNNER_TEMP/nc-causal"
+          git fetch origin "$REVIEW"
           python3 - <<'PY'
           import hashlib,io,json,os,pathlib,subprocess,urllib.request,zipfile
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-final';base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY'];sha=lambda b:hashlib.sha256(b).hexdigest()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-causal';base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY'];sha=lambda b:hashlib.sha256(b).hexdigest()
           def get(endpoint):
               req=urllib.request.Request(base+endpoint,headers={'Accept':'application/vnd.github+json'});req.add_unredirected_header('Authorization','Bearer '+os.environ['GH_TOKEN']);return urllib.request.urlopen(req,timeout=120)
-          with get('/actions/artifacts/10033266987') as r:meta=json.load(r)
-          expected='bb2fd97e4c84771cfccb4fced53efe04d1af03cd233fe88f1bb62b9fe845d18c'
-          assert meta['id']==10033266987 and not meta['expired'] and meta['digest']=='sha256:'+expected
-          assert meta['workflow_run']['id']==34162958073 and meta['workflow_run']['head_sha']==os.environ['PRIOR']
-          with get('/actions/artifacts/10033266987/zip') as r:raw=r.read()
-          assert len(raw)==220770 and sha(raw)==expected
+          with get('/actions/artifacts/10033383950') as r:meta=json.load(r)
+          expected='de4df60b73feb23d75fb3415b1b8a516215bca2393d0ddb78c80e9256746196b'
+          assert meta['id']==10033383950 and not meta['expired'] and meta['digest']=='sha256:'+expected
+          assert meta['workflow_run']['id']==34163334165 and meta['workflow_run']['head_sha']==os.environ['PRIOR']
+          with get('/actions/artifacts/10033383950/zip') as r:raw=r.read()
+          assert len(raw)==279540 and sha(raw)==expected
           z=zipfile.ZipFile(io.BytesIO(raw));assert len(z.namelist())==len(set(z.namelist())) and all('/' not in n and n not in ['.','..'] for n in z.namelist())
-          bindings=json.loads(z.read('input-bindings.json'));test=json.loads(z.read('text-test-results.json'))
-          assert bindings['authorCommit']=='4c79607c7985e1f7b95ece153f3d16867b49007e' and bindings['workflowInputCommit']==os.environ['PRIOR']
-          assert test['negativeCount']==8 and test['allBytesMatched'] and test['pdfFilesWritten']==0
+          bindings=json.loads(z.read('input-bindings.json'));assert bindings['authorCommit']=='4c79607c7985e1f7b95ece153f3d16867b49007e'
           files={f['path']:f for f in bindings['files']};assert len(files)==3
-          expected_files={'scripts/build-census-v1-nc_146_dismissal_petition-set.mjs','data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md','scripts/rcap-packet-recovery/chat3/test-nc-guide-chronology.mjs'}
-          assert set(files)==expected_files
-          patch=z.read('unpublished.patch');assert sha(patch)=='0e2c6150de17074b6b5e9ceb33027f59db4cc31dc022cd28bc579b0324aa284a'
-          p=out/'recovered.patch';p.write_bytes(patch);includes=['--include='+s for s in sorted(files)]
+          names={'scripts/build-census-v1-nc_146_dismissal_petition-set.mjs','data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md','scripts/rcap-packet-recovery/chat3/test-nc-guide-chronology.mjs'}
+          assert set(files)==names
+          p=out/'recovered.patch';p.write_bytes(z.read('unpublished.patch'));includes=['--include='+s for s in sorted(names)]
           subprocess.run(['git','apply','--check',*includes,str(p)],check=True);subprocess.run(['git','apply',*includes,str(p)],check=True)
           for name,f in files.items():assert sha(pathlib.Path(name).read_bytes())==f['sha256'],name
-          changed=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines());assert changed==expected_files
-          subprocess.run(['git','add','--',*sorted(changed)],check=True)
-          (out/'input-bindings.json').write_bytes(z.read('input-bindings.json'));(out/'author-handoff.json').write_bytes(z.read('author-handoff.json'))
-          (out/'source-artifact.json').write_text(json.dumps({'artifactId':10033266987,'sha256':expected,'sourceRunId':34162958073,'sourceInputCommit':os.environ['PRIOR'],'recoveredPatchSha256':sha(patch),'copiedDerivedMetadata':False},indent=2)+'\n')
-          master='data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json';(out/'master-before.json').write_bytes(pathlib.Path(master).read_bytes())
+          review_path='data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-delta-review-03.json'
+          review_bytes=subprocess.check_output(['git','show',os.environ['REVIEW']+':'+review_path])
+          blob=subprocess.check_output(['git','hash-object','--stdin'],input=review_bytes).decode().strip();assert blob=='cac7f051fa6e70b9102eecdd88ad0b04e209ca85'
+          dest=pathlib.Path(review_path);assert not dest.exists() or dest.read_bytes()==review_bytes;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(review_bytes)
+          g=pathlib.Path('scripts/grade-a-packet-factory-24h/generate.mjs');assert subprocess.check_output(['git','hash-object',str(g)]).decode().strip()=='684b58ea837e2289fe0c2ae637bbb29c27966159'
+          before=g.read_text();anchor='import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";';assert before.count(anchor)==1
+          before=before.replace(anchor,anchor+'\nimport { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";',1)
+          start='  const reclassificationRereadReturned = Boolean(independentReturn)'
+          end='    && !familyMovedSinceVerdict(independentReturn, directory, buildScript);'
+          assert before.count(start)==1
+          i=before.index(start);j=before.index(end,i)+len(end);original=before[i:j]
+          ordered=original.replace(start,'  const reclassificationReviewIsOrdered = Boolean(independentReturn)',1).replace('\n'+end,';',1)
+          after=ordered+'''\n  // A completed negative reread is a historical event, not current repair proof.\n  // Keep later edits subject to the ordinary causal repair-evidence checks below.\n  const reclassificationRereadReturned = orderedReclassificationReadReturned({\n    verdict: independentReturn?.verdict,\n    reviewIsOrdered: reclassificationReviewIsOrdered,\n    artifactsMoved: independentReturn\n      ? familyMovedSinceVerdict(independentReturn, directory, buildScript) : true\n  });'''
+          g.write_text(before[:i]+after+before[j:])
+          changes=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
+          assert changes==names|{str(g),review_path},sorted(changes)
+          subprocess.run(['git','add','--',*sorted(changes)],check=True)
+          (out/'input-bindings.json').write_bytes(z.read('input-bindings.json'))
+          (out/'source-artifact.json').write_text(json.dumps({'artifactId':10033383950,'sha256':expected,'sourceRunId':34163334165,'reviewCommit':os.environ['REVIEW'],'reviewBlob':blob,'copiedDerivedMetadata':False,'reviewVerdictChanged':False},indent=2)+'\n')
+          (out/'generator-change.json').write_text(json.dumps({'originalCondition':original,'replacementCondition':after,'grantsApproval':False},indent=2)+'\n')
+          (out/'master-before.json').write_bytes(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_bytes())
+          family=pathlib.Path('data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill');pdfs={str(p):sha(p.read_bytes()) for p in family.rglob('*.pdf')};assert len(pdfs)==10
+          (out/'pdf-inputs.json').write_text(json.dumps(pdfs,indent=2)+'\n')
           PY
+          node --check scripts/grade-a-packet-factory-24h/generate.mjs
+          node scripts/grade-a-packet-factory-24h/test-reclassification-review-order.mjs > "$RUNNER_TEMP/nc-causal/review-order-tests.json"
           git diff --cached --check
           git config user.name 'LegalEase integration (ChatGPT)'
           git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): apply exact authored NC clerk-certification chronology repair'
-          git rev-parse HEAD > "$RUNNER_TEMP/nc-final/text-implementation-sha.txt"
-      - name: Install locked dependencies
+          git commit -m 'fix(rcap): preserve returned failures while installing reviewed NC chronology'
+          git rev-parse HEAD > "$RUNNER_TEMP/nc-causal/implementation-sha.txt"
+      - name: Install locked validation dependencies
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Test actual Markdown and derive records from the committed text identity
+      - name: Derive records without promoting a failed family
         run: |
           set -euo pipefail
-          node scripts/rcap-packet-recovery/chat3/test-nc-guide-chronology.mjs > "$RUNNER_TEMP/nc-final/text-test-results.json"
+          node scripts/rcap-packet-recovery/chat3/test-nc-guide-chronology.mjs > "$RUNNER_TEMP/nc-causal/text-test-results.json"
           python3 - <<'PY'
           import json,os,pathlib,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-final'
-          generators=['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-causal'
+          commands=[['node','scripts/grade-a-packet-factory-24h/'+s+'.mjs'] for s in ['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']]
+          commands.append(['node','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','--family','nc_146_dismissal_petition-set'])
           for iteration in [1,2]:
-              for script in generators:
-                  log=out/(script+'-prepare-'+str(iteration)+'.log')
-                  with log.open('w') as f:code=subprocess.run(['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs'],stdout=f,stderr=subprocess.STDOUT,timeout=540).returncode
-                  assert code==0,(script,iteration)
+              for n,cmd in enumerate(commands):
+                  with (out/f'prepare-{iteration}-{n}.log').open('w') as log:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
+                  assert code==0,(cmd,iteration)
           changed=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
-          assert all(p.startswith(('data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/')) for p in changed),sorted(changed)
-          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) for p in changed)
-          master='data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json';old=json.loads((out/'master-before.json').read_text());new=json.loads(pathlib.Path(master).read_text())
-          states=lambda d:{f['familyId']:f['state'] for f in d['families']};a,b=states(old),states(new);assert set(a)==set(b)
-          diff={k:{'before':a[k],'after':b[k]} for k in a if a[k]!=b[k]}
-          assert set(diff)<= {'nc_146_dismissal_petition-set'} and b['nc_146_dismissal_petition-set'] in ['FAIL_REPAIR_REQUIRED','VERIFY_PENDING'],diff
-          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          assert {k:v for k,v in a.items() if v in terminal}=={k:v for k,v in b.items() if v in terminal}
-          (out/'derived-state-diff.json').write_text(json.dumps(diff,indent=2)+'\n')
+          wiring='data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/product-wiring.json'
+          assert all(p==wiring or p.startswith(('data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/')) for p in changed),sorted(changed)
+          old=json.loads((out/'master-before.json').read_text());new=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text());states=lambda d:{f['familyId']:f['state'] for f in d['families']}
+          assert states(old)==states(new),'No repair or approval transition is granted by this ordering correction'
+          assert states(new)['nc_146_dismissal_petition-set']=='FAIL_REPAIR_REQUIRED'
           (out/'derived-paths.json').write_text(json.dumps(sorted(changed),indent=2)+'\n')
           if changed:subprocess.run(['git','add','--',*sorted(changed)],check=True)
           PY
           git diff --cached --check
-          if ! git diff --cached --quiet; then git commit -m 'chore(rcap): derive repair and raster records after NC text commit'; fi
-      - name: Require all committed-state checks before publication
+          if ! git diff --cached --quiet; then git commit -m 'chore(rcap): retain causal repair assignments after NC text correction'; fi
+      - name: Require all committed-state and mutation checks
         run: |
           python3 - <<'PY'
           import hashlib,json,os,pathlib,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-final';commands=[];results=[]
-          for script in ['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']:
-              commands.append((script+'-check',['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs','--check']))
-          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
-              for mutation in [False,True]:commands.append((script+('-mutations' if mutation else ''),['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs']+(['--mutations'] if mutation else [])))
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-causal';commands=[];results=[]
+          for s in ['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']:commands.append((s+'-check',['node','scripts/grade-a-packet-factory-24h/'+s+'.mjs','--check']))
+          commands.append(('nc-wiring-check',['node','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','--family','nc_146_dismissal_petition-set','--check']))
+          commands.append(('review-order',['node','scripts/grade-a-packet-factory-24h/test-reclassification-review-order.mjs']))
+          for s in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
+              for mutation in [False,True]:commands.append((s+('-mutations' if mutation else ''),['node','scripts/grade-a-packet-factory-24h/'+s+'.mjs']+(['--mutations'] if mutation else [])))
           for name,cmd in commands:
               with (out/(name+'.log')).open('w') as log:
                   try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
                   except subprocess.TimeoutExpired:code=124
-              clean=not subprocess.check_output(['git','status','--porcelain']).strip();results.append({'name':name,'command':cmd,'exitCode':code,'cleanWorktreeRestored':clean})
-              (out/'commands.json').write_text(json.dumps(results,indent=2)+'\n');print(name,code,clean,flush=True)
+              clean=not subprocess.check_output(['git','status','--porcelain']).strip();results.append({'name':name,'command':cmd,'exitCode':code,'cleanWorktreeRestored':clean});(out/'commands.json').write_text(json.dumps(results,indent=2)+'\n');print(name,code,clean,flush=True)
               if code:print((out/(name+'.log')).read_text()[-6000:])
               assert code==0 and clean,name
-          bindings=json.loads((out/'input-bindings.json').read_text())
-          for f in bindings['files']:assert hashlib.sha256(pathlib.Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
-          master='data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json';new=json.loads(pathlib.Path(master).read_text())
+          sha=lambda b:hashlib.sha256(b).hexdigest();bindings=json.loads((out/'input-bindings.json').read_text())
+          for f in bindings['files']:assert sha(pathlib.Path(f['path']).read_bytes())==f['sha256'],f['path']
+          pdfs=json.loads((out/'pdf-inputs.json').read_text())
+          for p,h in pdfs.items():assert sha(pathlib.Path(p).read_bytes())==h,p
+          old=json.loads((out/'master-before.json').read_text());new=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text());states=lambda d:{f['familyId']:f['state'] for f in d['families']};assert states(old)==states(new)
           terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'};assert len(new['families'])==346 and sum(f['state'] in terminal for f in new['families'])==178
           text=json.loads((out/'text-test-results.json').read_text());assert text['negativeCount']==8 and text['allBytesMatched'] and text['pdfFilesWritten']==0
-          record={'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'inputCommit':os.environ['GITHUB_SHA'],'checkedCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'textImplementationCommit':(out/'text-implementation-sha.txt').read_text().strip(),'authorCommit':bindings['authorCommit'],'checks':results,'textTest':text,'stateChanges':json.loads((out/'derived-state-diff.json').read_text()),'terminalFamilies':178,'denominator':346,'terminalDelta':0,'ncState':next(f['state'] for f in new['families'] if f['familyId']=='nc_146_dismissal_petition-set'),'packetRebuilds':0,'packetPdfWrites':0,'independentGuideReviewPending':True,'productionTouched':False}
-          (out/'results.json').write_text(json.dumps(record,indent=2)+'\n')
+          (out/'results.json').write_text(json.dumps({'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'inputCommit':os.environ['GITHUB_SHA'],'checkedCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'implementationCommit':(out/'implementation-sha.txt').read_text().strip(),'checks':results,'textTest':text,'reviewOrderTests':json.loads((out/'review-order-tests.json').read_text()),'stateChanges':{},'terminalFamilies':178,'denominator':346,'terminalDelta':0,'ncState':states(new)['nc_146_dismissal_petition-set'],'identicalNcPdfs':len(pdfs),'packetRebuilds':0,'reviewVerdictEdited':False,'runtimeAcceptancePending':True,'productionTouched':False},indent=2)+'\n')
           PY
-      - name: Publish checked text and records without editing workflow files
+      - name: Publish exact text and evidence without editing workflow files
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import gzip,json,os,pathlib,shutil,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-final';assert json.loads((out/'results.json').read_text())['status']=='PASS'
-          dest=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-nc-chronology-integration');dest.mkdir(parents=True,exist_ok=True)
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nc-causal';assert json.loads((out/'results.json').read_text())['status']=='PASS';dest=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-nc-causal-integration');dest.mkdir(parents=True,exist_ok=True)
           for p in out.iterdir():
               if p.name in ['master-before.json','recovered.patch']:continue
               if p.suffix=='.log':
@@ -142,23 +157,22 @@ jobs:
           subprocess.run(['git','add','--',str(dest)],check=True)
           PY
           git diff --cached --check
-          git commit -m 'test(rcap): retain NC chronology execution and current-history acceptance checks'
+          git commit -m 'test(rcap): retain NC delta bindings, causal failure checks and unchanged packet proof'
           test -z "$(git status --porcelain)"
           test -z "$(git diff --name-only "$GITHUB_SHA" HEAD -- .github/workflows)"
           test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          git rev-parse HEAD > "$RUNNER_TEMP/nc-final/publication-sha.txt"
-          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/nc-final/published.patch"
+          git rev-parse HEAD > "$RUNNER_TEMP/nc-causal/publication-sha.txt"
       - name: Preserve exact candidate on failure
         if: failure()
         run: |
-          mkdir -p "$RUNNER_TEMP/nc-final"
-          git status --short > "$RUNNER_TEMP/nc-final/failure-status.txt"
-          git diff --binary "$GITHUB_SHA" > "$RUNNER_TEMP/nc-final/unpublished.patch"
+          mkdir -p "$RUNNER_TEMP/nc-causal"
+          git status --short > "$RUNNER_TEMP/nc-causal/failure-status.txt"
+          git diff --binary "$GITHUB_SHA" > "$RUNNER_TEMP/nc-causal/unpublished.patch"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: nc-text-final-${{ github.run_id }}
-          path: ${{ runner.temp }}/nc-final/
+          name: nc-causal-integration-${{ github.run_id }}
+          path: ${{ runner.temp }}/nc-causal/
           retention-days: 14
           if-no-files-found: error
