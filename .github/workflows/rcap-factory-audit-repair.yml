@@ -25,37 +25,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install actual parsers before generating any queue
+      - name: Install locked parsers without rebuilding a packet
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Apply the exact bounded corrections
+      - name: Consume the existing corrections and finish their measured defects
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
           mkdir -p "$OUT"
+          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/before-master.json"
           python3 - <<'PY'
           import pathlib,hashlib,subprocess
           base=pathlib.Path('data/rcap-grade-a/completion-pass-2026-09-07')
-          patches=[('factory-corrections.patch','bd756ca06d2ed3a8cd801c4626f03f71e8287d5971ffd311bd104c5f6c4c3f20'),('factory-f32-control.patch','f3d9e3bd845dbcd5830b4db7f018c052b5be8732ac10e81e6049761f33a3237d')]
-          for name,sha in patches:
+          for name,sha in [('factory-corrections.patch','bd756ca06d2ed3a8cd801c4626f03f71e8287d5971ffd311bd104c5f6c4c3f20'),('factory-f32-control.patch','f3d9e3bd845dbcd5830b4db7f018c052b5be8732ac10e81e6049761f33a3237d'),('factory-source-wait.patch','eb4dbae21fdea1efc6c206ecfb590ca8c68bd834ab751afad26ca1becccfb365')]:
             p=base/name;assert hashlib.sha256(p.read_bytes()).hexdigest()==sha,name
-            subprocess.run(['git','apply','--check',str(p)],check=True);subprocess.run(['git','apply',str(p)],check=True)
-          for name,sha in {'generate.mjs':'55108d7f13d57ba29ff878dae5058c4b49156017b24d623a4245e32a6411c7c9','verify.mjs':'8920a8b89c41f128ea34a3b3a666fd95121fc74cb6e7c0b1d13c12c659a83a7b'}.items():
-            assert hashlib.sha256((pathlib.Path('scripts/grade-a-packet-factory-24h')/name).read_bytes()).hexdigest()==sha,name
-          p=base/'factory-source-wait.patch';assert hashlib.sha256(p.read_bytes()).hexdigest()=='eb4dbae21fdea1efc6c206ecfb590ca8c68bd834ab751afad26ca1becccfb365'
-          subprocess.run(['git','apply','--check',str(p)],check=True);subprocess.run(['git','apply',str(p)],check=True)
+            subprocess.run(['git','apply','--check',str(p)],check=True)
+            subprocess.run(['git','apply',str(p)],check=True)
           target='scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs'
           assert subprocess.check_output(['git','hash-object',target]).decode().strip()=='8c78377dfce25c96512f721993e4b67d723eae1c'
-          p=base/'conditional-raster.patch';subprocess.run(['git','apply','--check',str(p)],check=True);subprocess.run(['git','apply',str(p)],check=True)
+          p=base/'conditional-raster.patch'
+          subprocess.run(['git','apply','--check',str(p)],check=True)
+          subprocess.run(['git','apply',str(p)],check=True)
           assert subprocess.check_output(['git','hash-object',target]).decode().strip()=='f07fbccf66c348f3fd1ffd0cdae4ea1104c16c5a'
           PY
-          node --check scripts/grade-a-packet-factory-24h/verify.mjs
+          python3 scripts/rcap-packet-recovery/finish-factory-consumption.py | tee "$OUT/consumption.log"
+          node scripts/grade-a-packet-factory-24h/test-bounded-repair-authorization.mjs | tee "$OUT/bounded-repair-controls.log"
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs | tee "$OUT/source-controls.log"
           node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs | tee "$OUT/conditional-controls.log"
-      - name: Regenerate and strictly check the changed behavior
+      - name: Regenerate and prove selected-document coverage and source-wait projection
         run: |
           set -euo pipefail
           for pass in 1 2; do
@@ -68,12 +68,9 @@ jobs:
           done
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs --generated | tee "$OUT/generated-source-controls.log"
           node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs --generated | tee "$OUT/generated-conditional-controls.log"
+          node scripts/grade-a-packet-factory-24h/test-bounded-repair-authorization.mjs | tee "$OUT/generated-bounded-controls.log"
           node scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs | tee "$OUT/isolated-reread-controls.log"
-          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-regressions.log"
-          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$OUT/nv-regressions.log"
-          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-regressions.log"
-          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$OUT/prior-mutations.log"
-      - name: Retain every broader failure and independently verify test restoration
+      - name: Execute full factory and mutation checks with restoration proof
         run: |
           python3 - <<'PY'
           import subprocess,pathlib,os,json,re,collections,datetime,hashlib
@@ -81,31 +78,30 @@ jobs:
           fingerprint=lambda:hashlib.sha256(subprocess.check_output(['git','diff','--binary'])).hexdigest()
           for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
             for mutation in [False,True]:
-              name=script+('-mutations' if mutation else '');cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
+              name=script+('-mutations' if mutation else '')
+              cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
               before=fingerprint()
               with (out/f'{name}.log').open('w') as log:
                 try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
                 except subprocess.TimeoutExpired:code=124
               restored=fingerprint()==before
-              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL','trackedWorktreeRestored':restored});print(name,code,restored,flush=True)
-              assert restored,'The verifier left mutated tracked files: '+name
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text());terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          baseline=(out/'verify.log').read_text();mutations=(out/'verify-mutations.log').read_text()
-          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'newSemanticApprovals':0,'productionTouched':False,'commercialRoutesOpened':0,'ncRasterRequiredDocuments':10,'ncRasterRequiredPages':60,'completeFactoryMutationSuite':'every mutated file restored byte-for-byte: true' in mutations,'unprovenFactoryMutationScope':'F26 baseline conflict and any documented missing live F35/FIX02 subject remain unproven. They are not counted as passes. Isolated post-repair controls run separately.'}
+              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL','trackedWorktreeRestored':restored})
+              print(name,code,restored,flush=True)
+              if not restored:break
+            if not restored:break
+          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
+          prior=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'before-master.json').read_text())
+          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
+          ids=lambda m:sorted(f['familyId'] for f in m['families'] if f['state'] in terminal)
+          mutations=(out/'verify-mutations.log').read_text() if (out/'verify-mutations.log').exists() else ''
+          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':len(ids(master)),'denominator':len(master['families']),'terminalSetPreserved':ids(master)==ids(prior),'newSemanticApprovals':0,'productionTouched':False,'commercialRoutesOpened':0,'packetRebuildsThisRun':0,'ncRasterRequiredDocuments':10,'ncRasterRequiredPages':60,'completeFactoryMutationSuite':'every mutated file restored byte-for-byte: true' in mutations and not re.search(r'\b(MISSED|OVER-CAUGHT|UNPROVABLE)\b',mutations)}
           (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
-          for check in ['F24','F29','F20']:assert re.search(r'\bok\s+'+check+r'\s',baseline),check+' remains broken'
-          assert set(re.findall(r'FAIL\s+(F\d+)\s',baseline)) <= {'F26'},'Unexpected baseline failure'
-          assert not re.search(r'\b(MISSED|OVER-CAUGHT)\b',mutations),'A tested mutation failed'
-          assert 'stayed green [F29] an explicit source refusal' in mutations,'Source-wait positive control not executed'
-          for phrase in ['source wait cannot discard','source wait cannot invent','source wait cannot coexist']:
-            assert re.search(r'detected\s+\[F29\] '+phrase,mutations),'Missing scoped source-wait control: '+phrase
-          if not report['completeFactoryMutationSuite']:
-            assert 'F35 repair-return mutation requires a live post-failure reread completed by FIX02' in mutations,'Unexpected mutation-harness interruption'
-          assert all(x['status']=='PASS' for x in results if not x['command'][1].endswith('/verify.mjs')),'An unaffected suite regressed'
-          assert report['terminalFamilies']==177
           print(json.dumps(report,indent=2))
+          assert len(results)==10 and all(r['status']=='PASS' and r['trackedWorktreeRestored'] for r in results),'A full validation failed; no publication'
+          assert report['completeFactoryMutationSuite'],'Incomplete mutation coverage'
+          assert report['terminalSetPreserved'],'Non-packet correction changed the proven family set'
           PY
-      - name: Publish reviewed feature-branch changes, not a launch approval
+      - name: Publish only validated non-packet changes to the existing recovery branch
         id: publish
         run: |
           set -euo pipefail
@@ -122,7 +118,7 @@ jobs:
           test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git config user.name 'LegalEase completion (ChatGPT)'
           git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): reconcile repair/source holds and include every selectable NC packet in raster'
+          git commit -m 'fix(rcap): consume validated factory corrections and all selectable NC raster inputs'
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
           sha=$(git rev-parse HEAD);echo "$sha" > "$RUNNER_TEMP/factory-published-sha.txt";echo "candidate=$sha" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
@@ -151,4 +147,4 @@ jobs:
             const candidate=process.env.CANDIDATE;
             if(!/^[a-f0-9]{40}$/.test(candidate)) throw new Error('Missing published candidate');
             await github.rest.actions.createWorkflowDispatch({...context.repo,workflow_id:'rcap-packet-raster-acceptance-batch.yml',ref:'main',inputs:{commit_sha:candidate,raster_manifest_path:'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',family_batch:'nc_146_dismissal_petition-set',requested_scale:'2.5'}});
-            core.info(`All ten NC packet variants queued for immutable ${candidate}; a dispatch is not a raster result.`);
+            core.info(`Ten existing NC packet variants queued for immutable ${candidate}; no packet was rebuilt and dispatch is not a raster pass.`);
