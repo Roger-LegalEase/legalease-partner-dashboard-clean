@@ -1,0 +1,46 @@
+--- a/scripts/grade-a-packet-factory-24h/verify.mjs
++++ b/scripts/grade-a-packet-factory-24h/verify.mjs
+@@ -638,6 +638,21 @@
+       const fam = master.families.find((f) => f.familyId === r.familyId);
+       if (!fam) { returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and is not in the queue at all`); continue; }
+       if (PROVEN.has(fam.state)) returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and the queue still calls it ${fam.state}`);
++      // A governed source-identity refusal is a prerequisite to packet repair,
++      // not permission to forget the independent packet defects. Keep every
++      // exact failed obligation pending while the source conveyor fixes it.
++      const sourceWait = fam.state === "SOURCE_BLOCKED" && fam.sourceReadiness?.ready === false
++        && fam.sourceReconciliation?.disposition === "SOURCE_BLOCKED"
++        && (fam.sourceReconciliation.unresolvedObligations ?? []).length > 0
++        && fam.sourceReconciliation.unresolvedObligations.every(id =>
++          fam.sourceReadiness.unresolvedObligations?.includes(id));
++      if (sourceWait) {
++        for (const name of r.failedObligationNames ?? []) {
++          if (!(fam.failedObligationNames ?? []).includes(name))
++            returnedVerdictProblems.push(`${r.familyId} lost pending ${name} while awaiting its rejected source binding`);
++        }
++        continue;
++      }
+       if (!dispatchedSomewhere(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
+       const forThisFamily = evidenceFor(r.familyId);
+       for (const o of r.failedObligationNames ?? []) {
+@@ -1829,1 +1844,21 @@
++    { on: "master", id: "F29", expectPass: true, name: "an explicit source refusal retains its packet defects without executable repair", mutate: (j) => {
++        if (!j.families.some(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length))
++          throw new Error("No governed source-wait subject for F29");
++        return j;
++      } },
++    { on: "master", id: "F29", name: "source wait cannot discard a measured packet defect", mutate: (j) => {
++        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
++        if (!f) throw new Error("No governed source-wait subject for F29");
++        f.failedObligationNames = []; return j;
++      } },
++    { on: "master", id: "F29", name: "source wait cannot invent an unresolved identity determination", mutate: (j) => {
++        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
++        if (!f) throw new Error("No governed source-wait subject for F29");
++        f.sourceReconciliation.unresolvedObligations = []; return j;
++      } },
++    { on: "master", id: "F29", name: "source wait cannot coexist with ready source bindings", mutate: (j) => {
++        const f = j.families.find(f => f.state === "SOURCE_BLOCKED" && f.sourceReadiness?.unresolvedObligations?.length && f.failedObligationNames?.length);
++        if (!f) throw new Error("No governed source-wait subject for F29");
++        f.sourceReadiness.ready = true; return j;
++      } },
+     { on: "verifierReturns", id: "F29", name: "an extraction with no verdicts at all is caught", mutate: (j) => { j.rows = []; j.failRepairRequiredFamilies = []; return j; } },
