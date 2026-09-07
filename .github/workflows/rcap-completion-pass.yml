@@ -4,52 +4,53 @@ on:
     branches: [chatgpt/launch-recovery-20260906]
     paths: [.github/workflows/rcap-completion-pass.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  sources:
+  retain_sources:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8
     steps:
-      - name: Read existing private source archive and select three official forms
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Import only the three verified blank public court forms
         env:
-          SOURCE_TOKEN: ${{ secrets.LEGALEASE_SOURCE_ARTIFACTS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/completion-inputs"
-          test -n "$SOURCE_TOKEN" || { echo 'Existing source-archive credential is unavailable to this workflow.'; exit 1; }
-          curl --fail --silent --show-error --location --retry 2 --max-time 180 \
-            -H "Authorization: Bearer $SOURCE_TOKEN" -H 'Accept: application/octet-stream' \
-            https://api.github.com/repos/Roger-LegalEase/legalease-source-artifacts/releases/assets/534450572 \
-            -o "$RUNNER_TEMP/source-archive.zip"
-          unset SOURCE_TOKEN
+          test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
           python3 - <<'PY'
-          import pathlib,os,hashlib,json,datetime,zipfile
-          temp=pathlib.Path(os.environ['RUNNER_TEMP']);out=temp/'completion-inputs';archive=temp/'source-archive.zip'
-          expected_archive='a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89'
-          assert hashlib.sha256(archive.read_bytes()).hexdigest()==expected_archive,'Archive digest mismatch'
-          wanted={
-            'a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed':'AOC-CR-287-2025-12.pdf',
-            'fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7':'AOC-CR-287-instructions-2025-12.pdf',
-            '74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f':'AOC-CV-226-2023-04.pdf'
-          }
-          receipts=[]
-          with zipfile.ZipFile(archive) as z:
-            for info in z.infolist():
-              if '/NC/' not in info.filename or not info.filename.lower().endswith('.pdf'):continue
-              data=z.read(info);sha=hashlib.sha256(data).hexdigest()
-              if sha not in wanted:continue
-              assert data.startswith(b'%PDF-')
-              name=wanted[sha];(out/name).write_bytes(data)
-              receipts.append({'file':name,'sha256':sha,'byteLength':len(data),'matchesPinnedHash':True,'sourceArchivePath':info.filename})
-          record={'runId':os.environ['GITHUB_RUN_ID'],'archiveAssetId':534450572,'archiveSha256':expected_archive,'recoveredAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sources':receipts,'freshIssuerDownload':False,'grantsApproval':False}
-          (out/'source-receipts.json').write_text(json.dumps(record,indent=2)+'\n')
-          assert set(x['sha256'] for x in receipts)==set(wanted),'Archive does not contain all three pinned NC sources'
-          print('Three official NC sources recovered with exact pinned hashes; no other archive contents published.')
+          import urllib.request,urllib.parse,pathlib,os,hashlib,json,zipfile,io,re
+          api='https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/issues/comments/5567366947'
+          req=urllib.request.Request(api,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+          with urllib.request.urlopen(req,timeout=30) as r: comment=json.load(r)
+          assert comment['user']['login']=='Roger-LegalEase'
+          match=re.search(r'^NC_PUBLIC_FORM_ZIP_URL=(https://[^\s]+)$',comment['body'],re.M);assert match
+          url=match.group(1);assert urllib.parse.urlsplit(url).hostname=='sdmntprcentralus.oaiusercontent.com'
+          with urllib.request.urlopen(url,timeout=60) as response:data=response.read(2000000)
+          assert hashlib.sha256(data).hexdigest()=='f32f8fb862dfad79b64a965a5470c3009f654731b92b7d5baa40f825a78a4ca3'
+          expected={
+            'AOC-CR-287-2025-12.pdf':'a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed',
+            'AOC-CR-287-instructions-2025-12.pdf':'fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7',
+            'AOC-CV-226-2023-04.pdf':'74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f'}
+          dest=pathlib.Path('reference/north-carolina');dest.mkdir(parents=True,exist_ok=True)
+          with zipfile.ZipFile(io.BytesIO(data)) as z:
+            assert set(z.namelist())==set(expected)|{'source-receipts.json'},'Unexpected archive entry'
+            for name,sha in expected.items():
+              body=z.read(name);assert body.startswith(b'%PDF-') and hashlib.sha256(body).hexdigest()==sha
+              target=dest/name
+              if target.exists():assert target.read_bytes()==body,'Different retained source already exists'
+              target.write_bytes(body)
+            record=json.loads(z.read('source-receipts.json'))
+          record.update(transferZipSha256=hashlib.sha256(data).hexdigest(),retainedAtRun=os.environ['GITHUB_RUN_ID'],publicBlankCourtFormsOnly=True)
+          out=pathlib.Path('data/rcap-grade-a/completion-pass-2026-09-07');out.mkdir(parents=True,exist_ok=True)
+          (out/'nc-source-custody.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('Three exact pinned blank official NC PDFs verified and retained; no signed transfer URL retained.')
           PY
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: rcap-completion-inputs-${{ github.run_id }}
-          path: ${{ runner.temp }}/completion-inputs/
-          retention-days: 3
-          if-no-files-found: error
+          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
+          git add -- reference/north-carolina/AOC-CR-287-2025-12.pdf reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf reference/north-carolina/AOC-CV-226-2023-04.pdf data/rcap-grade-a/completion-pass-2026-09-07/nc-source-custody.json
+          git diff --cached --check -- ':(glob,exclude)**/*.pdf'
+          git config user.name 'LegalEase completion (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git commit -m 'build(rcap): retain exact pinned NC court forms for the G106 branch repair'
+          git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
