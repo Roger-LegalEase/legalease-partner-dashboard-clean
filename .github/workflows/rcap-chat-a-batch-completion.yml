@@ -1,4 +1,4 @@
-name: RCAP Chat A batch completion
+name: RCAP completed Florida raster admission
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
@@ -9,13 +9,14 @@ concurrency:
   group: rcap-completion-publication
   cancel-in-progress: false
 jobs:
-  integrate:
+  admit:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     permissions:
       contents: write
-    outputs:
-      candidate: ${{ steps.publish.outputs.candidate }}
+      actions: read
+    env:
+      OUT: data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-raster
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,40 +25,93 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Prepare readers without rebuilding a packet
+      - name: Prepare readers and preserve current state
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Consume measured complete outputs, validate exact guidance and publish after all checks
-        id: publish
-        run: python3 scripts/rcap-packet-recovery/integrate-fl-de-batch.py
+          mkdir -p "$OUT" "$RUNNER_TEMP/receipt"
+          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/before.json"
+      - name: Fetch only the completed artifact and its actual provenance
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const cfg=JSON.parse(fs.readFileSync('data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-raster-config.json','utf8'));
+            const run=await github.rest.actions.getWorkflowRun({...context.repo,run_id:cfg.runId});
+            const jobs=await github.paginate(github.rest.actions.listJobsForWorkflowRun,{...context.repo,run_id:cfg.runId,per_page:100});
+            const meta=await github.rest.actions.getArtifact({...context.repo,artifact_id:cfg.artifactId});
+            if(meta.data.workflow_run?.id!==cfg.runId || meta.data.digest!=='sha256:'+cfg.zipSha256 || meta.data.expired) throw new Error('Artifact provenance mismatch');
+            const artifact=await github.rest.actions.downloadArtifact({...context.repo,artifact_id:cfg.artifactId,archive_format:'zip'});
+            const out=process.env.RUNNER_TEMP+'/receipt/';
+            fs.writeFileSync(out+'run.json',JSON.stringify(run.data));
+            fs.writeFileSync(out+'jobs.json',JSON.stringify({jobs}));
+            fs.writeFileSync(out+'raster.zip',Buffer.from(artifact.data));
+      - name: Verify whole inputs and every PNG before admitting the receipt
+        run: |
+          set -euo pipefail
+          python3 scripts/rcap-packet-recovery/admit-completed-fixture-raster.py data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-raster-config.json "$RUNNER_TEMP/receipt/raster.zip" "$RUNNER_TEMP/receipt/run.json" "$RUNNER_TEMP/receipt/jobs.json" > "$OUT/admission.log"
+          for pass in 1 2; do
+            for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
+              node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script-$pass.log" 2>&1 || { tail -60 "$OUT/$script-$pass.log"; exit 1; }
+            done
+          done
+          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -60 "$OUT/$script-check.log"; exit 1; }
+          done
+      - name: Verify all shared suites and the exact nonterminal transition
+        run: |
+          python3 - <<'PY'
+          import pathlib,subprocess,json,hashlib,os,collections
+          out=pathlib.Path(os.environ['OUT']);results=[]
+          fingerprint=lambda:hashlib.sha256(subprocess.check_output(['git','diff','--binary'])).hexdigest()
+          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
+            for mutation in [False,True]:
+              name=script+('-mutations' if mutation else '')
+              cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
+              before=fingerprint()
+              with (out/(name+'.log')).open('w') as log:
+                try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
+                except subprocess.TimeoutExpired:code=124
+              restored=fingerprint()==before
+              results.append({'command':cmd,'exitCode':code,'worktreeRestored':restored});print(name,code,restored,flush=True)
+              if not restored:break
+            if not restored:break
+          read=lambda p:json.loads(pathlib.Path(p).read_text())
+          master=read('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');prior=read(pathlib.Path(os.environ['RUNNER_TEMP'])/'before.json')
+          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
+          ids=lambda m:sorted(f['familyId'] for f in m['families'] if f['state'] in terminal)
+          states={f['familyId']:f['state'] for f in prior['families']}
+          changes=[{'familyId':f['familyId'],'before':states[f['familyId']],'after':f['state']} for f in master['families'] if states[f['familyId']]!=f['state']]
+          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':os.environ['GITHUB_SHA'],'results':results,'transitions':changes,'terminalSetPreserved':ids(master)==ids(prior),'terminalFamilies':len(ids(master)),'denominator':len(master['families']),'states':dict(collections.Counter(f['state'] for f in master['families'])),'packetRebuilds':0,'newIndependentApprovals':0,'productionTouched':False}
+          (out/'integration-results.json').write_text(json.dumps(report,indent=2)+'\n')
+          assert len(results)==10 and all(r['exitCode']==0 and r['worktreeRestored'] for r in results),'Shared checks failed'
+          assert report['terminalSetPreserved'] and changes==[{'familyId':'fl-early-juvenile-set','before':'BUILT_RASTER_PENDING','after':'VERIFY_PENDING'}],'Unexpected state transition'
+          PY
+      - name: Publish receipt evidence and derived state only
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import subprocess,os
+          prefixes=['data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',os.environ['OUT']+'/']
+          files=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
+          assert all(any(p.startswith(x) for x in prefixes) for p in files),files
+          for p in sorted(files):subprocess.run(['git','add','--',p],check=True)
+          PY
+          git diff --cached --check
+          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
+          git config user.name 'LegalEase integration (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git commit -m 'verify(rcap-fl): admit all ten current raster pages and move the repair to independent review'
+          git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
+          git rev-parse HEAD > "$RUNNER_TEMP/published-sha.txt"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: chat-a-fl-de-completion-${{ github.run_id }}
+          name: fl-raster-admission-${{ github.run_id }}
           path: |
-            data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-de-hosted-validation/
-            data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/
-            data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/product-wiring.json
+            data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-raster/
             ${{ runner.temp }}/published-sha.txt
           retention-days: 14
           if-no-files-found: error
-  raster:
-    needs: integrate
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    permissions:
-      contents: read
-      actions: write
-    steps:
-      - uses: actions/github-script@v7
-        env:
-          CANDIDATE: ${{ needs.integrate.outputs.candidate }}
-        with:
-          script: |
-            const candidate = process.env.CANDIDATE;
-            if (!/^[a-f0-9]{40}$/.test(candidate)) throw new Error('Missing published packet commit');
-            await github.rest.actions.createWorkflowDispatch({...context.repo,workflow_id:'rcap-packet-raster-acceptance-batch.yml',ref:'main',inputs:{commit_sha:candidate,raster_manifest_path:'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',family_batch:'fl-early-juvenile-set',requested_scale:'2.5'}});
-            core.info('Fresh full Florida raster dispatched; not a verdict or independent approval.');
