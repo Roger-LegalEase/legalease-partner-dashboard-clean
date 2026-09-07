@@ -1,36 +1,152 @@
-name: RCAP Chat 1 current integration snapshot
+name: RCAP Chat 1 bounded review and delivery integration
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
     paths: [.github/workflows/rcap-chat1-integration-current.yml]
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: rcap-chat1-current-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  snapshot:
+  integrate:
+    if: github.repository == 'Roger-LegalEase/legalease-partner-dashboard-clean' && github.ref == 'refs/heads/chatgpt/launch-recovery-20260906'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 40
+    env:
+      BASE: 24176d664c02f4f732fcf0ae03db63f14a77c820
+      REVIEW: d219b7cda0b5e7a315e7a735fe3d09cebf69075c
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
-          persist-credentials: false
-      - name: Export only the current delta and pinned review inputs
+      - name: Pin inputs and preserve original review ancestry
         run: |
           set -euo pipefail
-          out="$RUNNER_TEMP/chat1-current"
-          mkdir -p "$out"
-          git diff --binary c6af0d84134216c5d0757e5543ccf3fcaa42f19c HEAD > "$out/current.patch"
-          git rev-parse HEAD > "$out/sha.txt"
-          git rev-parse HEAD^{tree} > "$out/tree-sha.txt"
-          git ls-tree -r HEAD > "$out/tree.txt"
-          git rev-list HEAD | git pack-objects --stdout > "$out/commits.pack"
-          git archive --format=tar.gz 174e06550718a684f10aadd1e58f9b324a32ff30 data/rcap-grade-a/chat-parallel-2026-09-07/review docs/rcap/grade-a/chat-parallel-2026-09-07/review > "$out/review226.tar.gz"
-          git archive --format=tar.gz 4d2e02dbf16c011724d9d914aafacf18108d2709 data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal > "$out/research229.tar.gz"
-          (cd "$out"; sha256sum current.patch commits.pack tree.txt review226.tar.gz research229.tar.gz > SHA256SUMS)
-          test -z "$(git status --porcelain)"
-      - uses: actions/upload-artifact@v4
+          mkdir -p "$RUNNER_TEMP/chat1-integration"
+          test "$(git rev-parse HEAD^)" = "$BASE"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git config user.name 'LegalEase integration (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+          git cat-file -e "$REVIEW^{commit}"
+          python3 - <<'PY'
+          import os, subprocess
+          base=os.environ['BASE'];review=os.environ['REVIEW']
+          paths=subprocess.check_output(['git','diff','--name-only',base+'...'+review],text=True).splitlines()
+          prefixes=('data/rcap-grade-a/chat-parallel-2026-09-07/review/','docs/rcap/grade-a/chat-parallel-2026-09-07/review/')
+          assert len(paths)==14 and all(p.startswith(prefixes) for p in paths), paths
+          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff')) for p in paths)
+          print('Verified fourteen review-only paths on pinned Chat B commit')
+          PY
+          git merge --no-ff --no-commit "$REVIEW"
+      - name: Verify and apply the existing checksum-bound integration patch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,gzip,hashlib,json,os,pathlib,subprocess,urllib.request
+          entries=[
+           ('5a2a9e1193ef3d5dbfaabce7a9f2503ad5ff48b6','d00bac31aa2070bcb867a07a3dca800df8f90f70f375f308cd7a8db7f544195e',8000),
+           ('bc198cf49cb91df90f3365a84bdbdc10a62dceb2','6a4697293e3cc669c194919db64ffa52097360ec64c4de972d6dc06ce152a17a',8000),
+           ('00a68684077459ac08d508e85cc40dbfb107b0f8','c2852630cfe46fe5e28245985ae03991f56b460735cc0cd6d8f6195ddf10746f',6255)]
+          parts=[]
+          for i,(blob,digest,size) in enumerate(entries):
+           req=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/git/blobs/'+blob,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+           with urllib.request.urlopen(req,timeout=60) as response: obj=json.load(response)
+           raw=base64.b64decode(obj['content'])
+           assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==blob
+           if i==1:
+            # Reverse one measured base64 transport insertion; the original byte digest below is authoritative.
+            encoded=base64.b64encode(raw).decode()
+            assert len(raw)==8001 and encoded[5333]=='7'
+            raw=base64.b64decode(encoded[:5333]+encoded[5334:]+'=',validate=True)
+           assert len(raw)==size and hashlib.sha256(raw).hexdigest()==digest, (i,'chunk digest mismatch')
+           parts.append(raw)
+          archive=b''.join(parts)
+          assert hashlib.sha256(archive).hexdigest()=='3c4fc5875f52c00ddda08569d78a349225fe60567b9647d438694fb98fb54365'
+          payload=json.loads(gzip.decompress(archive))
+          assert payload['schemaVersion']=='chat1-exact-integration-patch/v1'
+          assert payload['baseCommit']==os.environ['BASE'] and payload['reviewCommit']==os.environ['REVIEW']
+          patch=payload['patch'].encode()
+          assert hashlib.sha256(patch).hexdigest()==payload['patchSha256']=='fcd3c87e3c585798c75fe51c84d3dc86144b2b8616897f6901fdbe32d698bc32'
+          prefix='scripts/grade-a-packet-factory-24h/'
+          scripts=['chat-review-inputs.mjs','de-reviewed-guidance.mjs','nc-declared-delivery.mjs','test-chat-review-inputs.mjs','test-de-reviewed-guidance.mjs','test-nc-declared-delivery.mjs','extract-verifier-returns.mjs','generate.mjs','generate-product-wiring.mjs','validate-chat1-integration.py']
+          expected={prefix+p for p in scripts}|{'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/local-focused-test-results.json','docs/rcap/grade-a/chat-parallel-2026-09-07/chat1-integration/ADMISSION_AND_DELIVERY.md'}
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-integration'
+          patchfile=out/'integration.patch';patchfile.write_bytes(patch)
+          actual={x.split('\t',2)[2] for x in subprocess.check_output(['git','apply','--numstat',str(patchfile)],text=True).splitlines()}
+          assert actual==expected==set(payload['fileSha256'])
+          subprocess.run(['git','apply','--check',str(patchfile)],check=True)
+          subprocess.run(['git','apply',str(patchfile)],check=True)
+          for p,h in payload['fileSha256'].items():assert hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()==h,p
+          final=payload['finalWorkflow'].encode()
+          assert hashlib.sha256(final).hexdigest()==payload['finalWorkflowSha256']
+          assert b'contents: read' in final and b'contents: write' not in final
+          pathlib.Path('.github/workflows/rcap-chat1-integration-current.yml').write_bytes(final)
+          (out/'input-bindings.json').write_text(json.dumps({k:v for k,v in payload.items() if k not in ['patch','finalWorkflow']},indent=2)+'\n')
+          print('Applied and rehashed all twelve implementation/evidence paths; final workflow is read-only')
+          PY
+      - uses: actions/setup-node@v4
         with:
-          name: chat1-current-${{ github.run_id }}
-          path: ${{ runner.temp }}/chat1-current/
-          retention-days: 3
+          node-version: 22
+      - name: Install locked validation dependencies
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Regenerate from complete history and enforce exact state changes
+        run: |
+          set -euo pipefail
+          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$RUNNER_TEMP/chat1-integration/prepare" --prepare
+          python3 - <<'PY'
+          import os,pathlib,subprocess
+          p=pathlib.Path('scripts/grade-a-packet-factory-24h/validate-chat1-integration.py').resolve()
+          ns={'__file__':str(p),'__name__':'integration_scope'};exec(compile(p.read_text(),str(p),'exec'),ns)
+          paths=ns['scope'](os.environ['GITHUB_SHA']);assert paths
+          subprocess.run(['git','add','--',*paths],check=True)
+          PY
+          git commit -m 'fix(rcap): consume independent reviews and bind DE guidance and NC delivery variants'
+          git rev-parse HEAD > "$RUNNER_TEMP/chat1-integration/implementation-sha.txt"
+      - name: Run all focused, normal and mutation suites before publication
+        run: |
+          set -euo pipefail
+          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$RUNNER_TEMP/chat1-integration/validate"
+      - name: Publish validated integration only to the unchanged recovery branch
+        run: |
+          set -euo pipefail
+          evidence='data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/hosted-validation'
+          mkdir -p "$evidence"
+          cp -R "$RUNNER_TEMP/chat1-integration/prepare" "$RUNNER_TEMP/chat1-integration/validate" "$evidence/"
+          cp "$RUNNER_TEMP/chat1-integration/input-bindings.json" "$RUNNER_TEMP/chat1-integration/implementation-sha.txt" "$evidence/"
+          git add -- "$evidence"
+          git commit -m 'test(rcap): retain executed full-history admission and factory validation'
+          python3 - <<'PY'
+          import os,pathlib
+          p=pathlib.Path('scripts/grade-a-packet-factory-24h/validate-chat1-integration.py').resolve()
+          ns={'__file__':str(p),'__name__':'integration_scope'};exec(compile(p.read_text(),str(p),'exec'),ns)
+          ns['scope'](os.environ['GITHUB_SHA']);ns['census'](os.environ['GITHUB_SHA'])
+          PY
+          test -z "$(git status --porcelain)"
+          remote=$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)
+          test "$remote" = "$GITHUB_SHA"
+          git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
+          git rev-parse HEAD > "$RUNNER_TEMP/chat1-integration/publication-sha.txt"
+          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/chat1-integration/published.patch"
+      - name: Preserve exact unpushed candidate on failure
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/chat1-integration"
+          git status --short > "$RUNNER_TEMP/chat1-integration/failure-status.txt"
+          git diff --binary "$GITHUB_SHA" > "$RUNNER_TEMP/chat1-integration/unpublished-candidate.patch"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chat1-integration-${{ github.run_id }}
+          path: ${{ runner.temp }}/chat1-integration/
+          retention-days: 14
           if-no-files-found: error
