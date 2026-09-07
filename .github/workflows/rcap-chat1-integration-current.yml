@@ -1,0 +1,36 @@
+name: RCAP Chat 1 current integration snapshot
+on:
+  push:
+    branches: [chatgpt/launch-recovery-20260906]
+    paths: [.github/workflows/rcap-chat1-integration-current.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Export only the current delta and pinned review inputs
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/chat1-current"
+          mkdir -p "$out"
+          git diff --binary c6af0d84134216c5d0757e5543ccf3fcaa42f19c HEAD > "$out/current.patch"
+          git rev-parse HEAD > "$out/sha.txt"
+          git rev-parse HEAD^{tree} > "$out/tree-sha.txt"
+          git ls-tree -r HEAD > "$out/tree.txt"
+          git rev-list HEAD | git pack-objects --stdout > "$out/commits.pack"
+          git archive --format=tar.gz 174e06550718a684f10aadd1e58f9b324a32ff30 data/rcap-grade-a/chat-parallel-2026-09-07/review docs/rcap/grade-a/chat-parallel-2026-09-07/review > "$out/review226.tar.gz"
+          git archive --format=tar.gz 4d2e02dbf16c011724d9d914aafacf18108d2709 data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal > "$out/research229.tar.gz"
+          (cd "$out"; sha256sum current.patch commits.pack tree.txt review226.tar.gz research229.tar.gz > SHA256SUMS)
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chat1-current-${{ github.run_id }}
+          path: ${{ runner.temp }}/chat1-current/
+          retention-days: 3
+          if-no-files-found: error
