@@ -1,0 +1,49 @@
+name: RCAP isolated recovery inspection
+on:
+  push:
+    branches: [chatgpt/launch-recovery-20260906]
+    paths: [.github/workflows/rcap-chatgpt-recovery.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Capture exact tracked source for offline repair
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/recovery"
+          git rev-parse HEAD > "$RUNNER_TEMP/recovery/source-sha.txt"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/recovery/source-tree.txt"
+          git archive --format=tar.gz HEAD > "$RUNNER_TEMP/recovery/source.tar.gz"
+          find . -name AGENTS.md -not -path './.git/*' -print
+      - name: Collect baseline without changing production or branches
+        run: |
+          set -uo pipefail
+          out="$RUNNER_TEMP/recovery"
+          for script in generate generate-source-conveyor generate-washington-repair; do
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-baseline.txt" 2>&1
+            printf '%s %s\n' "$script" "$?" >> "$out/baseline-exit-codes.txt"
+          done
+          git diff --check
+          test -z "$(git status --porcelain)"
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Package offline Node dependencies
+        run: tar -czf "$RUNNER_TEMP/recovery/node_modules.tar.gz" node_modules
+      - name: Upload temporary inspection artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-recovery-inspection-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery/
+          retention-days: 3
+          if-no-files-found: error
