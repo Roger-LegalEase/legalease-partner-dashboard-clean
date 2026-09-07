@@ -1,86 +1,90 @@
-# Three-chat execution split — September 7, 2026
+# Three-chat execution split: September 7, 2026
 
-Roger requested three simultaneous ChatGPT workstreams while Claude/Codex usage is exhausted. Execute concrete repairs, reviews, source resolution and integration. Do not turn this document into another factory. It assigns work; it grants no packet approval or production authority.
+Roger requested three simultaneous ChatGPT workers during the Claude/Codex usage pause. Execute actual repairs, reviews, source resolution and integration. Use this existing plan, not another management layer. Ordinary scoped implementation needs no new owner approval. This plan grants no packet approval or production authority.
 
-## Exact starting point
+## Verified completion checkpoint
 
 Repository: Roger-LegalEase/legalease-partner-dashboard-clean
-Assignment baseline: 03fbc59d262cf7da322a0c4f1d76f0d511f6b297
 Integration branch: chatgpt/launch-recovery-20260906 (PR #224)
+Captain branch: claude/legalease-sprint-captain-utucnw
 Captain base: ee4021b473018a469fea7a9a5325b41d1abff041
-Master inventory: data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json
-Master Git blob: cd8f74836553375a006b1fe6af0df64b5e2d0187
 
-Read AGENTS.md, docs/PRODUCT_CONTRACT.md, this document, current PR #224 discussion and the actual family contracts before writes. If GitHub Contents returns empty inline content for MASTER_QUEUE, fetch the exact blob above. It is a large file, not an empty inventory. Read current recovery/family commits before each batch; this baseline is immutable, not necessarily the current head.
+The original six-part NC/WI/DE completion payload IS APPLIED. Implementation 00d2425ca20f03468523b5d3bfa00ada59d7d6c8 and publication 55c4c3fabda46d524228e41d434d2f77be7caad4 are retained. Finalization f9f00d6c221f8f972663ea016b9055d8972c16d8 restored three falsely stale prior proofs. Wisconsin is genuinely new COMPLETE_PACKET_PROVEN. Nevada PR #225 is merged into recovery, not main, and its completed 88-page raster receipt is incorporated. Do not reapply the old payload or rebuild those packets as new work.
 
-The verified baseline is 177 terminal / 346 total: 161 COMPLETE_PACKET_PROVEN, 9 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE. There are 169 nonterminal families. The older chat summaries saying 176 or six transfer parts still unapplied were stale. The original NC/WI/DE patch is applied, Wisconsin is newly proven, and Nevada PR #225 is merged into recovery. Three restored AR/NC proofs are not three new promotions. These are candidate family categories, not blanket commercial delivery approval.
+The remaining factory correction patch is ALSO APPLIED AND PUBLISHED at 49ff69cdf9a110696cdf8dc5c29cb1b54ee6e54a. Hosted run 34120574428 succeeded: 37/37 factory checks, all 88 factory mutation cases, all ten normal/mutation suites, four generator convergence checks and exact tracked-worktree restoration. Source-wait projection, actual Captain bounded-repair authorization and the real causal F35 repair target were corrected. Legal holds were retained. No packet was rebuilt; the existing proven family set was unchanged. Evidence: data/rcap-grade-a/completion-pass-2026-09-07/factory-validation/. Artifact 10018221546, ZIP SHA256 0e6f20357bf253b0d2c37fdd129733ff02e8d755ae7aeba2fc457cb2b7af0ff9.
 
-## Complete primary allocation
+Current candidate census at that publication: 177/346 terminal, comprising 161 COMPLETE_PACKET_PROVEN + 9 GUIDANCE_READY + 2 HANDOFF_READY + 5 OUT_OF_SCOPE. This is not blanket commercial delivery approval or an independent re-audit of prior proofs. Remaining states: SOURCE_READY 80, FAIL_REPAIR_REQUIRED 39, PRODUCT_PATH_PENDING 20, LEGAL_BLOCKED 13, SOURCE_BLOCKED 9, VERIFY_PENDING 6, BUILT_RASTER_PENDING 1, WRONG_DELIVERY_TYPE 1. The three NM source-scope cases moved from repair to source-blocked without discarding packet defects. No new terminal promotion came from the factory correction.
 
-Derive exact family membership from MASTER_QUEUE at the baseline, without substituting a guessed list:
+NC full-inventory central raster run 34121189163 was dispatched for immutable 49ff69cdf9a110696cdf8dc5c29cb1b54ee6e54a. Check its actual result and coverage before claiming a pass. The earlier successful run 34114198034 covered only two diagnostic PDFs/16 pages, NOT the eight selectable PDFs/44 pages. Full inventory is ten PDFs/60 pages. Do not treat an old whole-family flag as proof of omitted outputs.
 
-- Chat A, original chat: PRODUCT_PATH_PENDING (20) and WRONG_DELIVERY_TYPE (1) = 21 families, plus all shared integration/runtime/CI/raster work.
-- Chat B, independent review/source chat: VERIFY_PENDING (6), BUILT_RASTER_PENDING (1), LEGAL_BLOCKED (13), SOURCE_BLOCKED (6) = 26 families, plus subsequent independent reviews of A/C output.
-- Chat C, packet implementation chat: FAIL_REPAIR_REQUIRED (42), SOURCE_READY (80) = 122 families, plus later packet implementation handed over by A/B.
+## Exact, complete primary allocation
 
-21 + 26 + 122 = 169, no missing or duplicate primary assignment. This is a division by work type and file ownership, not an equal estimate of effort. Full row-level CSV/JSON and self-contained prompts were also created in the original chat.
+Frozen assignment baseline: 03fbc59d262cf7da322a0c4f1d76f0d511f6b297
+Inventory: data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json
+Exact baseline Git blob: cd8f74836553375a006b1fe6af0df64b5e2d0187
 
-## Branches and single-writer boundaries
+Read AGENTS.md, docs/PRODUCT_CONTRACT.md, this document, current PR #224 discussion and actual family contracts before writes. An oversized API response with empty inline content is not an empty inventory: fetch the exact blob or a verified snapshot. Read current family commits before each batch. The frozen assignment prevents duplicate ownership; current status changes do not silently reassign a family.
 
-A works on chatgpt/launch-recovery-20260906.
-B's branch already exists: chatgpt/parallel-review-20260907.
-C's branch already exists: chatgpt/parallel-build-20260907.
-Both new branches start at the assignment baseline. Do not overwrite them with a forced reset. B/C open small PRs against recovery, never main. No other chat edits their branch. A alone integrates child PRs and computes the combined terminal delta.
+- A, this original chat: baseline PRODUCT_PATH_PENDING 20 and WRONG_DELIVERY_TYPE 1 = 21 primary families, plus all shared integration/runtime/CI/raster work.
+- B, independent review/source chat: baseline VERIFY_PENDING 6, BUILT_RASTER_PENDING 1, LEGAL_BLOCKED 13 and SOURCE_BLOCKED 6 = 26 primary families, plus subsequent independent reviews and NM source research.
+- C, packet implementation chat: baseline FAIL_REPAIR_REQUIRED 42 and SOURCE_READY 80 = 122 primary families, plus later packet repair handoffs.
 
-A owns shared queues/ledgers, source indexes, controlling route/legal registries, scripts/grade-a-packet-factory-24h/, central raster and CI workflows, application/runtime code under src/ and its tests, and general rendering primitives outside the packet-builder hosts. A does not concurrently edit C's packet hosts or B's review/source files.
+21 + 26 + 122 = 169, exactly every nonterminal baseline family, no duplicates. This is a functional split, not an equal effort estimate. The three now-source-blocked NM rows remain C-owned packet obligations with B performing the distinct source research. Full row-level JSON, a readable complete worklist and self-contained starting prompts are supplied in the original chat.
 
-B writes only its review/research evidence under data/rcap-grade-a/chat-parallel-2026-09-07/review/ and docs/rcap/grade-a/chat-parallel-2026-09-07/review/, and appropriately shareable official sources under reference/chat-parallel-2026-09-07/. B does not edit the packet bytes, maps, instructions or builders it independently reviews. Submit controlling-registry changes as precise proposals for A, not concurrent global edits.
+## Existing branches and single writers
 
-C owns its assigned packet-family directories under data/rcap-all50/overlays/, the applicable scripts/build-census-v1-*.mjs including shared packet-builder hosts, and its own helpers/tests/evidence under scripts/rcap-packet-recovery/chat3/, data/rcap-grade-a/chat-parallel-2026-09-07/build/ and docs/rcap/grade-a/chat-parallel-2026-09-07/build/. General library changes outside packet hosts go to A as proposed patches. C may run global generators locally but must not commit their shared output. Read the actual import graph before editing a host and test the affected importers.
+A: chatgpt/launch-recovery-20260906
+B: chatgpt/parallel-review-20260907
+C: chatgpt/parallel-build-20260907
 
-A product mapping that requires packet changes goes to C with the exact requirement; A does not become a second packet writer. B's source findings go to C for implementation and A for registry consumption. C's finished packets go to B for independent review. A checks current hashes and integrates. Read each other's PRs when needed; do not use Roger as a file courier. A blocked item does not stop unrelated work.
+B/C branches already exist at the frozen baseline. Do not recreate or force-reset them. Open small PRs against recovery, never main. A alone integrates child PRs and computes the combined terminal delta. Neither worker edits another worker's branch/worktree. Read sibling PRs and post completed batches to PR #224 instead of making Roger relay files.
 
-Existing paused-agent rosters are not a reason to abandon authorized work. Use the isolated branch, inspect newer competing commits, preserve other work and have A reconcile the shared ownership records. Do not touch another agent's active worktree or blindly revive old assignments.
+A owns shared queues/ledgers, source indexes, controlling route/legal registries, scripts/grade-a-packet-factory-24h/, central raster/CI workflows, runtime/application code under src/ and its tests, and general rendering primitives outside packet-builder hosts. A does not concurrently edit C's packet hosts or B's review files.
 
-## Chat A: first execution
+B writes only review/research evidence under data/rcap-grade-a/chat-parallel-2026-09-07/review/ and docs/rcap/grade-a/chat-parallel-2026-09-07/review/. Shareable blank official sources go under reference/chat-parallel-2026-09-07/. B does not edit the packet bytes, maps, instructions or builders it reviews. Propose exact controlling-registry edits for A rather than concurrently changing global files.
 
-1. Finish the bounded shared correction, starting with failed run 34117622516, artifact 10017016826, ZIP SHA-256 b6d3ef4adf736519f37ecfab83c960b8b0ef67a7778f9d0ccde9eb9240819ade. Scoped regeneration/regressions passed but publication was skipped. Retained logs show F26 (WY legal hold versus repair grant), F29 (three NM source-scope refusals versus required repair obligations), and mutation harness F35/FIX02 missing-live-subject failure. Fix actual source-wait/assignment logic and self-contained test fixtures; keep all real holds and prove mutation restoration. Do not present the temporary 39 repair / 9 source-blocked output as the published 42 / 6 baseline.
-2. Finish NC conditional raster coverage. Central run 34114198034 is a real pass for two diagnostic PDFs / 16 pages, NOT the eight selectable branch packets / 44 pages. The actual inventory is ten PDFs / 60 pages. Check reports/rendered-artifacts.json, publish the corrected full inventory and obtain missing central coverage. Preserve the old scoped result; its coversTheWholeFamily flag is insufficient when the manifest omitted deliverables.
-3. Consume B's current-byte independent findings for DE, RI, NV and NC. Preserve Wisconsin and the restored prior proofs. Admit only receipts matching all current relevant anchors, then derive state.
-4. Implement the 21 product/delivery rows. In particular SC's rcap-sc-custom-pleading must not replace required SCCA 223A1 GS with a custom pleading. Preserve the ten exact route keys and correct delivery, with C building the required packet. Execute the literal recorded venue/disposition/election/route-binding actions for AZ, KY, WI, WV and remaining product rows.
-5. Exercise nonproduction route-specific rendering/fulfillment, unknown-fact stops, wrong-family/stale-source rejection and selected component delivery. Commit tested small integrations and retain a factual Captain handoff. No cosmetic global redesign.
+C owns assigned packet-family directories under data/rcap-all50/overlays/, applicable scripts/build-census-v1-*.mjs including shared packet-builder hosts, and helpers/tests under scripts/rcap-packet-recovery/chat3/. Build evidence goes under data/rcap-grade-a/chat-parallel-2026-09-07/build/ and docs/rcap/grade-a/chat-parallel-2026-09-07/build/. General library/runtime/global registry changes go to A as exact proposed patches. C may run global generators locally but does not commit their shared outputs. Inspect actual imports: different state names do not prove different hosts.
 
-## Chat B: first execution
+A route fix requiring packet changes goes to C. B sends source findings to A for registry consumption and C for implementation. C's completed output goes to B for independent review; A checks current hashes and integrates. A blocked item does not stop unrelated work. Paused-agent rosters are not grounds for abandoning authorized isolated work, but preserve actual competing commits and never change another active worktree.
 
-Begin immediately on your existing review branch. Use the current independent-review schema and fifteen-obligation contract; name your actual separate chat/session identity. Do not impersonate counsel or another verifier. A same-model separate session is not a claim of licensed counsel approval.
+## Chat A: concrete work
 
-First review de_mandatory_expungement-set (two PDFs / six pages; central 34078415178). Then the four RI families ri_first_offender_felony-set, ri_first_offender_misdemeanor-set, ri_deferred_sentence-set and ri_multiple_misdemeanors-set (central 34059634969; read existing September 6 owner-relayed research and FIX109 fee repair). Then review rcap-nv-custom-pleading: all six routes and both 44-page PDFs, central 34101879269, artifact 10011501772, substantive packet commit 3794a1a1ace8ad3e85423122afd380cabcd58140. Existing pixel identity establishes non-regression, not legal correctness. Finally review every NC fee/indigency/supplemental branch while A completes missing raster coverage; no whole-family pass from its old 16-page receipt.
+1. Consume the completed full NC raster receipt after observing its real jobs/artifact and ten-document coverage; preserve the old scoped result without overstating it. The factory consumption itself is now complete, not an assignment to repeat.
+2. Consume B's current-byte independent findings for DE, RI, NV and NC. Preserve WI and restored prior proofs. Derive terminal state only from matching complete evidence.
+3. Implement the 21 product/delivery rows. In particular rcap-sc-custom-pleading may not substitute a custom pleading for required SCCA 223A1 GS. Preserve exact route keys and have C build the required instrument. Implement recorded venue/disposition/election/route bindings for AZ, KY, WI, WV and the remaining product rows.
+4. Exercise synthetic nonproduction rendering/fulfillment paths, unknown-fact stops, wrong-family/stale-source rejection and actual selected-component delivery. A good static packet is not proof of installed runtime fulfillment.
+5. Integrate small reviewed child PRs, run affected checks and prepare a factual Captain handoff with commits, evidence and real remaining work. No cosmetic redesign or new queue framework.
 
-For each read official sources, actual court/agency route, actor/destination, service/notice, fees/waivers, self-help limits, former findings, field/refusal maps, complete PDFs and guide. Visually inspect all pages of the reviewed outputs and bind source/map/instruction/output hashes. Check known facts, repeating rows, conditional components, protected execution blanks and text versus visible appearance. Submit a full independent pass only when earned; otherwise an exact defect or exact missing evidence. Do not rewrite the packet and approve your rewrite.
+## Chat B: concrete work
 
-Then resolve VA FIX115, MA FIX116 and PA FIX117 remaining legal/instrument/local-fee questions, followed by the other ten LEGAL_BLOCKED rows. Use current primary sources and existing decisions. Distinguish already-answered engineering, exact source identity, local clerk facts, future-effective law and genuine professional judgment. State instrument, actor, destination, trigger, timing/deadline, components, fee/waiver/service, self-help stop, authority and concrete implementation effect. Research is not fabricated counsel adoption. Do not demand a new approval for an already-settled ordinary build question.
+Start now on your existing review branch. Use the current independent-review schema and fifteen-obligation contract; state the actual separate chat/session identity. Same-model independent examination is not licensed counsel approval.
 
-Resolve the six baseline missing-source families: az_set_aside-set (adopted Form 31(a)/(b)); census-pending-family:ME:juvenile-sealing (JV-043); census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement (1231XX); census-pending-family:UT:path-m-juvenile-expungement (1174XX); census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260 (JU 10.0300/10.0315); ut_pet_special_certificate-set (1001EX/1021EX). Reuse held sources first and verify exact scope/edition/bytes. If A integrates three additional NM source-scope refusals, handle their exact source questions without pretending the original baseline had nine source-blocked families.
+First review de_mandatory_expungement-set: two PDFs/six pages, central 34078415178. Then ri_first_offender_felony-set, ri_first_offender_misdemeanor-set, ri_deferred_sentence-set and ri_multiple_misdemeanors-set against central 34059634969, existing September 6 research and FIX109 fee repair. Then rcap-nv-custom-pleading: all six routes and both 44-page PDFs, central 34101879269, artifact 10011501772, substantive packet commit 3794a1a1ace8ad3e85423122afd380cabcd58140. Existing pixel identity is non-regression proof, not legal correctness. Review every NC fee/indigency/supplemental output while A completes the full current receipt.
 
-Retain issuer URL/date/edition/digest/family mapping. Draft narrow external questions when truly needed; do not send them or invent an issuer response. Continue other work. Independently review C's completed small batches as they arrive.
+For every review read official sources, route/filing vehicle, actor/destination, notice/service, timing, fees/waivers, self-help limits, prior findings, field/refusal maps, complete PDFs and guide. Visually inspect every page in the claimed coverage and bind source/map/instruction/output hashes. Check known facts, repetition, conditional components, protected execution blanks and visible appearance. An earned pass is useful; an exact defect is useful. Do not repair an output and approve your own rewrite. Keep unmeasured evidence explicitly pending.
 
-## Chat C: first execution
+Resolve the 13 legal-labeled rows, beginning with VA FIX115, MA FIX116, PA FIX117 and UT limitations. Read adopted directions before treating a label as a new legal question: MA and UT limitations already have engineering next actions. Use current primary authority and state instrument, actor, destination, trigger, timing/deadline, required components, fee/waiver/service, self-help stop and concrete implementation effect. Research does not invent counsel adoption or local clerk confirmation. Do not demand another approval for a settled ordinary build decision.
 
-Begin actual repairs immediately, not another proposal. First batch:
+Resolve exact missing sources from retained custody first. Baseline source cases include AZ Form31(a)/(b), ME JV-043, UT1231XX, UT1174XX and UT1001EX/1021EX. CRITICAL: the existing WA juvenile family says DO NOT ACQUIRE AGAINST THIS FAMILY; its current record describes court-initiated treatment under RCW13.50.260 and calls for guidance. A separate participant-motion route and JU forms are not the same family. Correct the source/treatment mismatch instead of repeating generic JU-form acquisition. For nm_conviction-set, nm_identity_theft-set and nm_release_without_conviction-set, a held Sixth District 4-222 copy is not automatically statewide. Resolve actual locality/scope and preserve measured packet defects.
 
-- fl-early-juvenile-set: telephone value overlaps the printed area-code parenthesis. Correct actual placement/formatting in both fixtures, not merely the measured rectangle.
-- il-seal-edu-set: populate held contact data wrongly classified as protected order/signature fields; remove instructional prose in the charge field. Never invent a charge.
-- co_motion_seal_nonconviction-set: disclose the boundary address refusal accurately; fix required CBI election on JDF-478 without double-marking JDF-477 or reducing the accepted font floor.
-- al-felony-dwop-set and al-felony-nonconviction-90-set: disclose the mandatory prior-expungement attestation and make dependent fields conditional; correctly disclose pro se election without auto-attesting participant facts.
+Retain issuer URL, date, edition, digest and family mapping. Draft narrow external questions only when truly needed; do not send them or invent an issuer response. Continue other work and independently review C's completed small batches.
 
-Read the literal current defect before changing anything. Reuse a newer genuine repair instead of doing it twice. Build actual complete canonical/boundary and affected conditional PDFs, run focused regression/negative cases, visually inspect changed pages and test importer non-regression. A builder --check preflight is not a deterministic rebuild: execute the full renderer twice when claiming reproducibility. Commit a small useful batch and open a PR against recovery for B's review.
+## Chat C: concrete work
 
-Next build md_10105_favorable-set, ky_nonconviction_expungement-set and ga-nonconv-pre2013-set from their held official sources, then continue the remaining SOURCE_READY and failed families. Many recorded builder paths do not exist yet. Create the actual deliverable, not only a manifest or prompt. Use required official PDFs rather than drawing substitutes. Include practical participant instructions, correct service, fee/waiver choices and self-help boundaries. Guidance cannot stand in for a required filing and be counted as that filing.
+Begin actual repairs, not another proposal. First batch:
+- fl-early-juvenile-set: telephone value overlaps the printed area-code parenthesis. Fix actual placement/formatting in both fixtures, not merely the measured rectangle.
+- il-seal-edu-set: fill held contact facts wrongly treated as protected order/signature fields; remove instructional prose in the charge field. Do not invent a charge.
+- co_motion_seal_nonconviction-set: disclose the boundary address refusal accurately and repair required CBI election on JDF-478 without double-marking JDF-477 or reducing the font floor.
+- al-felony-dwop-set and al-felony-nonconviction-90-set: disclose mandatory prior-expungement attestation, make dependent fields conditional, and represent pro se selection without auto-attesting participant facts.
 
-You are the single writer for shared packet hosts across NJ/PA/OH/RI, AL, WA and other importer groups. Do not infer independence from a state name. General library changes and global registry/queue writes belong to A. NM's three wrong-scope source cases are not made usable by a form-number match. The separately named composed-treatment:nc_146_dismissal_petition serves the DNA-expunction application route; do not remove it as a duplicate of the repaired dismissal petition.
+Read the literal current defect before changing anything. Reuse a newer genuine repair. Build complete canonical/boundary and affected conditional outputs, run focused positive/negative cases, visually inspect changed pages and test importer non-regression. A builder --check is not deterministic regeneration: execute the full renderer twice when claiming reproducibility of new output. Do not rebuild unrelated finished packets for activity. Commit a small useful batch and open a PR against recovery for B's review.
 
-## Completion and boundaries
+Next build md_10105_favorable-set, ky_nonconviction_expungement-set and ga-nonconv-pre2013-set from held official sources, then the remaining SOURCE_READY and failed families. Some builder paths do not yet exist: create the deliverable, not only a manifest or skeleton. Use required official PDFs rather than substitutes; include practical filing/service instructions, fee/waiver selections and self-help boundaries. Guidance is not a required filing.
 
-Return exact family IDs, commits, changed paths, actual commands/results, output hashes and branch/page coverage, findings and remaining action after each small batch. Use existing status vocabulary; no new approvals from this document. A alone reports the integrated global terminal delta, separately identifying new promotions, restored old proofs and readiness that remains short of live delivery.
+C is the single packet-host writer across NJ/PA/OH/RI, AL, WA and other importer groups. General libraries/global registries remain A's. NM source questions go to B without losing C's repair work. The distinct composed-treatment:nc_146_dismissal_petition serves a DNA-expunction application route; do not remove it as a duplicate of the repaired ordinary dismissal petition.
 
-Do not deploy, push to main, run live migrations, modify RLS/auth/session/live Stripe/secrets, or send external inquiries without separate authorization. No production participant data in public artifacts. Preserve sources/history, not obsolete commercial authority. Use existing artifacts and normal connector file/blob access before creating transfer workflows. A tool attempt is not success; inspect the result. Finish all work possible in the current session without promising background delivery.
+## Completion boundaries
+
+After each small batch return exact families, commits, paths, actual commands/results, output hashes, branch/page coverage, findings and remaining action. A alone reports integrated global terminal counts, separating genuinely new promotions from restored prior proofs and from runtime/live-delivery readiness.
+
+Do not deploy, write main, run live migrations, modify RLS/auth/session/live Stripe/secrets, send external inquiries or publish participant data without separate authorization. Preserve useful sources/history, not retired commercial authority. Use existing artifacts and ordinary file/blob access before creating transfer workflows. Tool attempts are not success: inspect results. Complete what is possible in the current session without promising background work.
