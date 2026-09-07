@@ -8,40 +8,49 @@ permissions:
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           persist-credentials: false
-      - name: Capture tracked source and commit-only ancestry
+      - name: Acquire only named official public repair inputs
+        env:
+          OUT: ${{ runner.temp }}/recovery-inputs
         run: |
-          set -euo pipefail
-          out="$RUNNER_TEMP/recovery"
-          mkdir -p "$out/metadata"
-          git rev-parse HEAD > "$out/metadata/source-sha.txt"
-          git ls-tree -r HEAD > "$out/metadata/source-tree.txt"
-          git for-each-ref --format='%(objectname) %(refname)' refs/remotes/origin/ > "$out/metadata/source-refs.txt"
-          git rev-list HEAD | git pack-objects --stdout > "$out/metadata/commits.pack"
-          git archive --format=tar.gz HEAD | split -b 400M -d -a 2 - "$out/source.part."
-          sha256sum "$out"/source.part.* > "$out/metadata/parts.sha256"
+          python3 - <<'PY'
+          import os, json, hashlib, pathlib, datetime, urllib.request
+          out = pathlib.Path(os.environ['OUT']); out.mkdir(parents=True)
+          sources = [
+            ('VA-CC1473.pdf', 'https://www.vacourts.gov/forms/circuit/cc1473.pdf', '6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219'),
+            ('PA-IFP-CCP.pdf', 'https://www.pacourts.us/Storage/media/pdfs/20210515/215517-file-6679.pdf', 'b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca'),
+            ('PA-790-ORDER.pdf', 'https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf', '4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95'),
+            ('DE-27S23V.pdf', 'https://dsp.delaware.gov/wp-content/uploads/sites/118/2023/09/DE-Service-Code-Form_27S23V_DSP_Expungements-Pardons.pdf', None),
+            ('DE-SBI-process.html', 'https://dsp.delaware.gov/obtaining-a-certified-criminal-history/', None),
+            ('NC-G106.pdf', 'https://www.nccourts.gov/assets/documents/forms/g106ff%2010-25-2024.pdf?VersionId=pWEgUyskv7C0ph8Hpo.ql0cZ16GxWaPs', None),
+          ]
+          rows=[]
+          for name, url, expected in sources:
+            row={'file':name,'url':url,'expectedSha256':expected,'retrievedAt':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+            try:
+              request=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (compatible; LegalEase official-form verification)'})
+              with urllib.request.urlopen(request, timeout=45) as response:
+                data=response.read(20_000_001)
+                if len(data)>20_000_000: raise ValueError('source exceeds 20 MB bound')
+                row.update(status=response.status, finalUrl=response.url, contentType=response.headers.get('Content-Type'))
+              if name.endswith('.pdf') and not data.startswith(b'%PDF-'): raise ValueError('response is not a PDF')
+              digest=hashlib.sha256(data).hexdigest()
+              row.update(sha256=digest,byteLength=len(data),matchesPinnedHash=(digest==expected if expected else None))
+              (out/name).write_bytes(data)
+            except Exception as error:
+              row['error']=str(error)
+            rows.append(row)
+          (out/'download-evidence.json').write_text(json.dumps(rows,indent=2)+'\n')
+          print(json.dumps(rows,indent=2))
+          PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: rcap-recovery-source-00-${{ github.run_id }}
-          path: |
-            ${{ runner.temp }}/recovery/source.part.00
-            ${{ runner.temp }}/recovery/metadata/
+          name: rcap-recovery-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery-inputs/
           retention-days: 3
-          compression-level: 0
-      - uses: actions/upload-artifact@v4
-        with:
-          name: rcap-recovery-source-01-${{ github.run_id }}
-          path: ${{ runner.temp }}/recovery/source.part.01
-          retention-days: 3
-          compression-level: 0
-      - uses: actions/upload-artifact@v4
-        with:
-          name: rcap-recovery-source-02-${{ github.run_id }}
-          path: ${{ runner.temp }}/recovery/source.part.02
-          retention-days: 3
-          compression-level: 0
+          if-no-files-found: error
