@@ -1,4 +1,4 @@
-name: RCAP Chat 1 finish validated contract publication
+name: RCAP Chat 1 publish validated implementation only
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
@@ -17,7 +17,7 @@ jobs:
       contents: write
       actions: read
     env:
-      SOURCE_BASE: 5d3eb97ffaef7f025182450bbe9688e78154645f
+      PRIOR: bac2d51851caa16f7dfb945b65062427ddf20abe
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
@@ -27,138 +27,126 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Recover the exact already-tested implementation, excluding uncommitted log copies
+      - name: Recover validated files while preserving the current workflow unchanged
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "$SOURCE_BASE"
+          test "$(git rev-parse HEAD^)" = "$PRIOR"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          mkdir -p "$RUNNER_TEMP/chat1-publish"
+          mkdir -p "$RUNNER_TEMP/chat1-final"
           python3 - <<'PY'
-          import gzip,hashlib,io,json,os,pathlib,subprocess,urllib.request,zipfile
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-publish';sha=lambda b:hashlib.sha256(b).hexdigest()
-          root='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']
-          def request(endpoint):
-              r=urllib.request.Request(root+endpoint,headers={'Accept':'application/vnd.github+json'})
-              r.add_unredirected_header('Authorization','Bearer '+os.environ['GH_TOKEN'])
-              return urllib.request.urlopen(r,timeout=120)
-          with request('/actions/artifacts/10032686930') as r:meta=json.load(r)
-          digest='d0dce721534b5aa1066583dbbc04d84e454f5b811b97079ff8bac54fff333b57'
-          assert meta['id']==10032686930 and not meta['expired'] and meta['digest']=='sha256:'+digest
-          assert meta['workflow_run']['id']==34160832034 and meta['workflow_run']['head_sha']==os.environ['SOURCE_BASE']
-          with request('/actions/artifacts/10032686930/zip') as r:raw=r.read()
-          assert len(raw)==2391211 and sha(raw)==digest
+          import hashlib,io,json,os,pathlib,subprocess,urllib.request,zipfile
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-final';sha=lambda b:hashlib.sha256(b).hexdigest()
+          base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']
+          def get(endpoint):
+              req=urllib.request.Request(base+endpoint,headers={'Accept':'application/vnd.github+json'})
+              req.add_unredirected_header('Authorization','Bearer '+os.environ['GH_TOKEN'])
+              return urllib.request.urlopen(req,timeout=120)
+          with get('/actions/artifacts/10032913478') as response:meta=json.load(response)
+          digest='9692b7dc6fd5a22111b1bee3b36c9322636cb199350273298a1b5c441bd58a63'
+          assert meta['id']==10032913478 and not meta['expired'] and meta['digest']=='sha256:'+digest
+          assert meta['workflow_run']['id']==34161767548 and meta['workflow_run']['head_sha']==os.environ['PRIOR']
+          with get('/actions/artifacts/10032913478/zip') as response:raw=response.read()
+          assert len(raw)==250525 and sha(raw)==digest
           z=zipfile.ZipFile(io.BytesIO(raw));names=z.namelist()
           assert len(names)==len(set(names)) and all('/' not in n and n not in ['.','..'] for n in names)
-          result=json.loads(z.read('results.json'))
-          assert result['status']=='PASS' and result['inputCommit']==os.environ['SOURCE_BASE']
-          assert result['runId']=='34160832034' and result['checkedImplementation']=='caa433445b62f6824de08aef0524a0af86d4bd26'
-          assert len(result['checks'])==18 and all(x['exitCode']==0 and x['cleanWorktreeRestored'] for x in result['checks'])
-          assert result['terminalBefore']==result['terminalAfter']==178 and result['allFamilyStatesPreserved']
-          workflow='.github/workflows/rcap-chat1-integration-current.yml'
-          assert subprocess.check_output(['git','diff','--name-only',os.environ['SOURCE_BASE'],'HEAD'],text=True).splitlines()==[workflow]
-          patch=z.read('unpublished.patch');assert sha(patch)=='0e5cf33f39f56b5986f54a8181349fce7ca6dad292f0df8d376a2900ac91eb80'
-          patchpath=out/'saved.patch';patchpath.write_bytes(patch)
-          evidence='data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration/'
-          paths={r.split('\t',2)[2] for r in subprocess.check_output(['git','apply','--numstat',str(patchpath)],text=True).splitlines()}
-          implementation=json.loads(z.read('implementation-paths.json'));bindings=json.loads(z.read('input-bindings.json'))
-          assert len(implementation)==92 and len(implementation)==len(set(implementation))
-          assert paths-set(implementation)=={p for p in paths if p.startswith(evidence)}
-          assert set(implementation)<=paths and not any(p.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) for p in paths)
-          assert all(not pathlib.PurePosixPath(p).is_absolute() and '..' not in pathlib.PurePosixPath(p).parts for p in paths)
-          args=['--exclude='+evidence+'*']
-          subprocess.run(['git','apply','--check',*args,str(patchpath)],check=True)
-          subprocess.run(['git','apply',*args,str(patchpath)],check=True)
-          for f in bindings['files']:assert sha(pathlib.Path(f['path']).read_bytes())==f['afterSha256'],f['path']
-          current={p:sha(pathlib.Path(p).read_bytes()) for p in implementation}
-          (out/'recovered-inputs.json').write_text(json.dumps({'artifactId':10032686930,'archiveSha256':digest,'sourceRunId':34160832034,'sourceBase':os.environ['SOURCE_BASE'],'sourceCheckedImplementation':result['checkedImplementation'],'patchSha256':sha(patch),'implementationFileSha256':current,'packetRebuilds':0},indent=2)+'\n')
-          # Lossless raw logs and patches avoid treating terminal-format whitespace as source-code whitespace.
-          dest=pathlib.Path(evidence);dest.mkdir(parents=True,exist_ok=True);copies=[]
-          for name in names:
-              if name in ['registry-before.json','master-before.json','unpublished.patch','failure-status.txt']:continue
-              data=z.read(name);compressed=name.endswith(('.log','.patch'))
-              output=name+'.gz' if compressed else name
-              stored=gzip.compress(data,mtime=0) if compressed else data
-              if compressed:assert gzip.decompress(stored)==data
-              (dest/output).write_bytes(stored)
-              copies.append({'rawArtifactMember':name,'repositoryFile':evidence+output,'rawSha256':sha(data),'storedSha256':sha(stored),'losslessGzip':compressed})
-          (dest/'raw-evidence-custody.json').write_text(json.dumps({'artifactId':10032686930,'archiveSha256':digest,'sourceRunId':34160832034,'copies':copies,'rawTextAltered':False},indent=2)+'\n')
-          # Retire the one-shot publisher in the successful candidate itself.
-          pathlib.Path(workflow).write_text('name: RCAP Chat 1 read-only integration validation\non:\n  workflow_dispatch:\npermissions:\n  contents: read\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n          persist-credentials: false\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n      - name: Validate committed integration without rebuilding or publishing\n        run: |\n          set -euo pipefail\n          npm ci --ignore-scripts --no-audit --no-fund\n          sudo apt-get update -qq\n          sudo apt-get install -y --no-install-recommends poppler-utils\n          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do\n            node scripts/grade-a-packet-factory-24h/$script.mjs --check\n          done\n          for script in verify verify-source-conveyor verify-acq-promo-handoff verify-lane-contracts verify-source-relationship-model; do\n            node scripts/grade-a-packet-factory-24h/$script.mjs\n            node scripts/grade-a-packet-factory-24h/$script.mjs --mutations\n          done\n          test -z "$(git status --porcelain)"\n')
-          added=set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
-          changed=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|added
-          assert all(p in implementation or p==workflow or p.startswith(evidence) for p in changed)
-          subprocess.run(['git','add','--',*sorted(changed)],check=True)
-          print('Recovered exact 92 implementation paths and lossless original evidence; no PDF or approval changed.')
+          prior=json.loads(z.read('publication-validation.json'))
+          assert prior['status']=='PASS' and prior['runId']=='34161767548' and prior['workflowInputCommit']==os.environ['PRIOR']
+          assert prior['checkedCommit']=='ef3b82c104870de104d4734a68b0844790a9cf6e'
+          assert len(prior['checks'])==18 and all(c['exitCode']==0 and c['cleanWorktreeRestored'] for c in prior['checks'])
+          assert prior['allFamilyStatesPreserved'] and prior['terminalFamilies']==178 and prior['denominator']==346
+          files=prior['sourceEvidence']['implementationFileSha256'];assert len(files)==92
+          patch=z.read('unpublished.patch');assert sha(patch)=='12454b71024075f916e31fd8c19e4c763387977ac9629a681d58d1594deba13b'
+          p=out/'recovered.patch';p.write_bytes(patch)
+          workflow='.github/workflows/rcap-chat1-integration-current.yml';before=pathlib.Path(workflow).read_bytes()
+          changed=subprocess.check_output(['git','diff','--name-only',os.environ['PRIOR'],'HEAD'],text=True).splitlines();assert changed==[workflow]
+          paths=[r.split('\t',2)[2] for r in subprocess.check_output(['git','apply','--numstat',str(p)],text=True).splitlines()]
+          prefix='data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration/'
+          assert len(paths)==165 and len(paths)==len(set(paths))
+          assert all(x in files or x==workflow or x.startswith(prefix) for x in paths)
+          assert all(not pathlib.PurePosixPath(x).is_absolute() and '..' not in pathlib.PurePosixPath(x).parts for x in paths)
+          assert not any(x.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) for x in paths)
+          excluded='--exclude='+workflow
+          subprocess.run(['git','apply','--check',excluded,str(p)],check=True)
+          subprocess.run(['git','apply',excluded,str(p)],check=True)
+          assert pathlib.Path(workflow).read_bytes()==before
+          for path,h in files.items():assert sha(pathlib.Path(path).read_bytes())==h,path
+          (out/'prior-validation.json').write_text(json.dumps(prior,indent=2)+'\n')
+          (out/'recovery.json').write_text(json.dumps({'artifactId':10032913478,'archiveSha256':digest,'patchSha256':sha(patch),'workflowExcluded':workflow,'implementationFileSha256':files,'sourceRunId':34161767548,'inputCommit':os.environ['GITHUB_SHA'],'packetRebuilds':0},indent=2)+'\n')
+          actual=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
+          assert actual==set(paths)-{workflow}
+          subprocess.run(['git','add','--',*sorted(actual)],check=True)
+          print('Recovered all 164 non-workflow files, including 92 validated implementation paths; workflow unchanged.')
           PY
           git diff --cached --check
           git config user.name 'LegalEase integration (ChatGPT)'
           git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): publish reconciled contract integration with lossless evidence packaging'
-          git rev-parse HEAD > "$RUNNER_TEMP/chat1-publish/recovered-implementation-sha.txt"
-      - name: Install locked validation tools
+          git commit -m 'fix(rcap): integrate scoped contract corrections and preserve exact historical evidence'
+      - name: Install locked validation dependencies
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Verify the exact recovered committed candidate before publication
+      - name: Run complete committed-state validation before any push
         run: |
           python3 - <<'PY'
-          import hashlib,json,os,pathlib,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-publish';evidence=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration')
-          prior=json.loads((evidence/'results.json').read_text());bindings=json.loads((out/'recovered-inputs.json').read_text());results=[]
+          import collections,hashlib,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-final';prior=json.loads((out/'prior-validation.json').read_text());recovery=json.loads((out/'recovery.json').read_text());results=[]
           for c in prior['checks']:
-              name=c['name'];cmd=c['command']
+              name=c['name'];command=c['command']
+              assert command[0]=='node' and command[1].startswith('scripts/grade-a-packet-factory-24h/')
               with (out/(name+'.log')).open('w') as log:
-                  try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
+                  try:code=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
                   except subprocess.TimeoutExpired:code=124
               clean=not subprocess.check_output(['git','status','--porcelain']).strip()
-              results.append({'name':name,'command':cmd,'exitCode':code,'cleanWorktreeRestored':clean})
+              results.append({'name':name,'command':command,'exitCode':code,'cleanWorktreeRestored':clean})
               (out/'commands.json').write_text(json.dumps(results,indent=2)+'\n');print(name,code,clean,flush=True)
-              if code:print((out/(name+'.log')).read_text()[-5000:])
+              if code:print((out/(name+'.log')).read_text()[-6000:])
               assert code==0 and clean,name
-          for path,expected in bindings['implementationFileSha256'].items():assert hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==expected,path
+          for path,h in recovery['implementationFileSha256'].items():assert hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==h,path
           master='data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json'
-          before=json.loads(subprocess.check_output(['git','show',os.environ['SOURCE_BASE']+':'+master]));after=json.loads(pathlib.Path(master).read_text())
+          before=json.loads(subprocess.check_output(['git','show',os.environ['GITHUB_SHA']+':'+master]));after=json.loads(pathlib.Path(master).read_text())
           states=lambda d:{f['familyId']:f['state'] for f in d['families']};assert states(before)==states(after)
           terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'};count=sum(f['state'] in terminal for f in after['families'])
-          assert len(after['families'])==346 and count==178
-          record={'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'workflowInputCommit':os.environ['GITHUB_SHA'],'sourceEvidence':bindings,'checks':results,'allRecoveredImplementationBytesPreserved':True,'terminalFamilies':count,'denominator':346,'terminalDelta':0,'allFamilyStatesPreserved':True,'packetRebuilds':0,'productionTouched':False,'runtimeInstalled':False}
-          (out/'publication-validation.json').write_text(json.dumps(record,indent=2)+'\n')
+          assert count==178 and len(after['families'])==346
+          assert not subprocess.check_output(['git','diff','--name-only',os.environ['GITHUB_SHA'],'HEAD','--','.github/workflows']).strip()
+          result={'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'workflowInputCommit':os.environ['GITHUB_SHA'],'sourceArtifactId':10032913478,'sourceArchiveSha256':recovery['archiveSha256'],'checks':results,'all92ImplementationHashesMatched':True,'allFamilyStatesPreserved':True,'states':dict(collections.Counter(states(after).values())),'terminalFamilies':count,'denominator':346,'terminalDeltaThisContractBatch':0,'packetRebuilds':0,'productionTouched':False,'runtimeInstalled':False,'workflowFilesChangedByRunner':False}
+          (out/'results.json').write_text(json.dumps(result,indent=2)+'\n')
           PY
-      - name: Publish validated implementation and exact result to unchanged recovery
+      - name: Publish implementation with no workflow-file changes
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import gzip,hashlib,json,os,pathlib,shutil,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-publish';dest=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration/publication')
-          assert json.loads((out/'publication-validation.json').read_text())['status']=='PASS';dest.mkdir(parents=True,exist_ok=True)
+          import gzip,json,os,pathlib,shutil,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-final';assert json.loads((out/'results.json').read_text())['status']=='PASS'
+          dest=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration/final-publication');dest.mkdir(parents=True,exist_ok=True)
           for p in out.iterdir():
-              if p.name=='saved.patch':continue
+              if p.name=='recovered.patch':continue
               if p.suffix=='.log':
-                  raw=p.read_bytes();data=gzip.compress(raw,mtime=0);assert gzip.decompress(data)==raw;(dest/(p.name+'.gz')).write_bytes(data)
+                  b=p.read_bytes();encoded=gzip.compress(b,mtime=0);assert gzip.decompress(encoded)==b;(dest/(p.name+'.gz')).write_bytes(encoded)
               else:shutil.copyfile(p,dest/p.name)
           subprocess.run(['git','add','--',str(dest)],check=True)
           PY
           git diff --cached --check
-          git commit -m 'test(rcap): record recovered candidate checks and unchanged 178-family terminal set'
+          git commit -m 'test(rcap): record full committed-state checks and unchanged 178 terminal families'
           test -z "$(git status --porcelain)"
+          test -z "$(git diff --name-only "$GITHUB_SHA" HEAD -- .github/workflows)"
           test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          git rev-parse HEAD > "$RUNNER_TEMP/chat1-publish/publication-sha.txt"
-          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/chat1-publish/published.patch"
-      - name: Preserve exact candidate if a gate fails
+          git rev-parse HEAD > "$RUNNER_TEMP/chat1-final/publication-sha.txt"
+          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/chat1-final/published.patch"
+      - name: Preserve exact candidate if a check fails
         if: failure()
         run: |
-          mkdir -p "$RUNNER_TEMP/chat1-publish"
-          git status --short > "$RUNNER_TEMP/chat1-publish/failure-status.txt"
-          git diff --binary "$GITHUB_SHA" > "$RUNNER_TEMP/chat1-publish/unpublished.patch"
+          mkdir -p "$RUNNER_TEMP/chat1-final"
+          git status --short > "$RUNNER_TEMP/chat1-final/failure-status.txt"
+          git diff --binary "$GITHUB_SHA" > "$RUNNER_TEMP/chat1-final/unpublished.patch"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: chat1-publication-${{ github.run_id }}
-          path: ${{ runner.temp }}/chat1-publish/
+          name: chat1-final-${{ github.run_id }}
+          path: ${{ runner.temp }}/chat1-final/
           retention-days: 14
           if-no-files-found: error
