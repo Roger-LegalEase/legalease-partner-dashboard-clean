@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "cb02-independent-candidate-verification/v1",
+  "assignmentId": "CB02V-NY1",
+  "candidateId": "cb02-ny-160-55-legacy-1",
+  "verdict": "CANDIDATE_BLOCKED_MISSING_EVIDENCE",
+  "independence": {
+    "candidateDraftedByVerifier": false,
+    "candidateFilesModified": 0
+  },
+  "inputs": {
+    "minimumAncestor": "34ca308af92db091f0e702aff43f7b69de47652a",
+    "minimumAncestorPresent": false,
+    "candidateSourcePresent": false,
+    "binaryManifestPresent": false,
+    "canonicalFixturePresent": false,
+    "boundaryFixturePresent": false
+  },
+  "legalReferenceChecks": [
+    {
+      "check": "cohort_identity",
+      "result": "PASS_REFERENCE_ONLY",
+      "expected": "convictions before September 1, 1980",
+      "evidence": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json#LWD-2026-08-30-NY-Q54-LEGACY-160-55"
+    },
+    {
+      "check": "motion_branch",
+      "result": "PASS_REFERENCE_ONLY",
+      "expected": "current CPL § 160.55(3) expressly supplies the motion branch",
+      "evidence": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json#NY-160-55-LEGACY-COHORT-1"
+    },
+    {
+      "check": "district_attorney_notice",
+      "result": "PASS_REFERENCE_ONLY",
+      "expected": "the full motion is provided to the district attorney on not less than 20 days' notice",
+      "evidence": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json#NY-160-55-LEGACY-COHORT-1.noticeRule"
+    }
+  ],
+  "candidateChecks": {
+    "routeAndCohortIdentity": "BLOCKED_MISSING_CANDIDATE",
+    "controllingLegalDecision": "BLOCKED_MISSING_CANDIDATE",
+    "actorDestinationTriggerDeadline": "BLOCKED_MISSING_CANDIDATE",
+    "serviceNoticeFeeWaiver": "BLOCKED_MISSING_CANDIDATE",
+    "allegationsAttachmentsComponents": "BLOCKED_MISSING_CANDIDATE",
+    "selfHelpStop": "BLOCKED_MISSING_CANDIDATE",
+    "protectedAndLaterCompletionFields": "BLOCKED_MISSING_CANDIDATE",
+    "commercialAuthorityFalse": "BLOCKED_MISSING_CANDIDATE",
+    "statusNoncanonical": "BLOCKED_MISSING_CANDIDATE"
+  },
+  "binaryChecks": {
+    "pdfsGenerated": 0,
+    "twoCleanTemporaryDirectories": "NOT_CREATED_NO_RENDERABLE_CANDIDATE",
+    "twoRunByteDeterminism": "NOT_RUN_MISSING_CANDIDATE",
+    "expectedPathsHashesLengthsPageCounts": "NOT_RUN_MISSING_BINARY_MANIFEST",
+    "expectedHashesMatch": "NOT_RUN_MISSING_BINARY_MANIFEST",
+    "nonvisualCountersZero": "NOT_RUN_MISSING_OUTPUTS"
+  },
+  "environmentGate": {
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "passed": 11,
+    "applicable": 14,
+    "failedChecks": [
+      "cloud_checkout_contains_captain_base",
+      "assignment_present_in_this_checkout",
+      "family_sources_bind"
+    ]
+  },
+  "commercialAuthority": false,
+  "candidateStatus": "NONCANONICAL_UNAVAILABLE",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
