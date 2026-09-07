@@ -14,29 +14,34 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Collect baseline without modifying any branch
+      - name: Capture tracked source and commit-only ancestry
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/recovery"
-          mkdir -p "$out"
-          git rev-parse HEAD > "$out/source-sha.txt"
-          for script in generate generate-source-conveyor generate-washington-repair; do
-            if node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-baseline.txt" 2>&1; then code=0; else code=$?; fi
-            printf '%s %s\n' "$script" "$code" >> "$out/baseline-exit-codes.txt"
-          done
-          git status --porcelain > "$out/baseline-worktree.txt"
-      - name: Install locked dependencies without lifecycle scripts
-        run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Package offline Node dependencies
-        run: tar -czf "$RUNNER_TEMP/recovery/node_modules.tar.gz" node_modules
-      - name: Upload temporary inspection artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
+          mkdir -p "$out/metadata"
+          git rev-parse HEAD > "$out/metadata/source-sha.txt"
+          git ls-tree -r HEAD > "$out/metadata/source-tree.txt"
+          git for-each-ref --format='%(objectname) %(refname)' refs/remotes/origin/ > "$out/metadata/source-refs.txt"
+          git rev-list HEAD | git pack-objects --stdout > "$out/metadata/commits.pack"
+          git archive --format=tar.gz HEAD | split -b 400M -d -a 2 - "$out/source.part."
+          sha256sum "$out"/source.part.* > "$out/metadata/parts.sha256"
+      - uses: actions/upload-artifact@v4
         with:
-          name: rcap-recovery-inspection-${{ github.run_id }}
-          path: ${{ runner.temp }}/recovery/
+          name: rcap-recovery-source-00-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/recovery/source.part.00
+            ${{ runner.temp }}/recovery/metadata/
           retention-days: 3
-          if-no-files-found: error
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-recovery-source-01-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery/source.part.01
+          retention-days: 3
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-recovery-source-02-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery/source.part.02
+          retention-days: 3
+          compression-level: 0
