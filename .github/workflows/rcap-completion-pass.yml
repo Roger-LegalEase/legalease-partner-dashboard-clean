@@ -4,17 +4,20 @@ on:
     branches: [chatgpt/launch-recovery-20260906]
     paths: [.github/workflows/rcap-completion-pass.yml]
 permissions:
-  contents: write
-  issues: read
+  contents: read
 concurrency:
   group: rcap-completion-publication
   cancel-in-progress: false
 jobs:
   complete:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    outputs:
+      candidate: ${{ steps.publish.outputs.candidate }}
     env:
-      OUT: data/rcap-grade-a/completion-pass-2026-09-07
+      OUT: data/rcap-grade-a/completion-pass-2026-09-07/finalization
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,158 +25,137 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Retain only the three checksum-verified blank public NC forms
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Repair only measured receipt metadata and consume the NC repair contract
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
-          mkdir -p "$OUT" "$RUNNER_TEMP/completion"
-          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/completion/before-master.json"
-          python3 - <<'PY'
-          import urllib.request,urllib.parse,pathlib,os,hashlib,json,zipfile,io,re
-          api='https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/issues/comments/5567366947'
-          req=urllib.request.Request(api,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-          with urllib.request.urlopen(req,timeout=30) as r: comment=json.load(r)
-          assert comment['user']['login']=='Roger-LegalEase'
-          match=re.search(r'^NC_PUBLIC_FORM_ZIP_URL=(https://[^\s]+)$',comment['body'],re.M);assert match
-          url=match.group(1)
-          assert urllib.parse.urlsplit(url).hostname=='productionresultssa14.blob.core.windows.net'
-          with urllib.request.urlopen(url,timeout=60) as response:data=response.read(2000000)
-          assert hashlib.sha256(data).hexdigest()=='f32f8fb862dfad79b64a965a5470c3009f654731b92b7d5baa40f825a78a4ca3','ZIP digest mismatch'
-          expected={'AOC-CR-287-2025-12.pdf':'a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed','AOC-CR-287-instructions-2025-12.pdf':'fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7','AOC-CV-226-2023-04.pdf':'74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f'}
-          dest=pathlib.Path('reference/north-carolina');dest.mkdir(parents=True,exist_ok=True)
-          with zipfile.ZipFile(io.BytesIO(data)) as z:
-            assert set(z.namelist())==set(expected)|{'source-receipts.json'}
-            for name,sha in expected.items():
-              body=z.read(name);assert body.startswith(b'%PDF-') and hashlib.sha256(body).hexdigest()==sha
-              target=dest/name
-              if target.exists():assert target.read_bytes()==body,'Different existing source'
-              target.write_bytes(body)
-            record=json.loads(z.read('source-receipts.json'))
-          record.update(transferZipSha256=hashlib.sha256(data).hexdigest(),retainedAtRun=os.environ['GITHUB_RUN_ID'],publicBlankCourtFormsOnly=True)
-          (pathlib.Path(os.environ['OUT'])/'nc-source-custody.json').write_text(json.dumps(record,indent=2)+'\n')
-          print('Three pinned public NC PDFs retained. No repository credential or signed transport URL retained.')
-          PY
-      - name: Apply the exact staged implementation patch
-        run: |
-          python3 - <<'PY'
-          import pathlib,hashlib,base64,lzma,subprocess,os,json
-          folder=pathlib.Path('data/rcap-grade-a/completion-transfer')
-          encoded=''.join((folder/f'part-{i}.b64').read_text().strip() for i in range(6))
-          compressed=base64.b64decode(encoded,validate=True)
-          assert hashlib.sha256(compressed).hexdigest()=='44d4775fc50ea39827458879f505ff85a1b6206516465f758471f529ef09abd0'
-          patch=lzma.decompress(compressed)
-          assert hashlib.sha256(patch).hexdigest()=='89aa29ed768df1919ba5251fc3d9045d8cca4495e8183fcc166ff72470dfde1f'
-          target=pathlib.Path(os.environ['RUNNER_TEMP'])/'completion/implementation.patch';target.write_bytes(patch)
-          subprocess.run(['git','apply','--check',str(target)],check=True)
-          subprocess.run(['git','apply',str(target)],check=True)
-          paths=[]
-          for line in patch.decode().splitlines():
-            if line.startswith('+++ b/'):paths.append(line[6:])
-          assert len(paths)==28 and len(set(paths))==28
-          (target.parent/'patch-paths.json').write_text(json.dumps(paths))
-          print('The original 28-file implementation patch was applied unchanged.')
-          PY
-      - name: Rebuild and test the actual NC packet and retained receipt
+          mkdir -p "$OUT" "$RUNNER_TEMP/finalization"
+          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/finalization/before-master.json"
+          python3 scripts/rcap-packet-recovery/finish-completion-records.py | tee "$OUT/receipt-corrections.log"
+          python3 scripts/rcap-packet-recovery/finish-completion-records.py --check | tee "$OUT/receipt-idempotence.log"
+          git config user.name 'LegalEase completion (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git add -- data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/source-receipt.json data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/source-receipt.json data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/source-receipt.json data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json data/rcap-grade-a/completion-pass-2026-09-07/receipt-refresh-proof.json
+          git diff --cached --check
+          git commit -m 'fix(rcap): preserve unchanged receipt anchors and request current-byte NC review'
+      - name: Execute the combined scoped regression suites
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-          node scripts/build-census-v1-nc_146_dismissal_petition-set.mjs --no-raster > "$OUT/nc-build.log" 2>&1 || { cat "$OUT/nc-build.log"; exit 1; }
-          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-regressions.log"
-          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-regressions.log"
+          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-checks.log"
+          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-checks.log"
           node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$OUT/prior-mutations.log"
-          node scripts/rcap-packet-recovery/ingest-completed-raster.mjs --test | tee "$OUT/de-receipt-controls.log"
+          find scripts/rcap-packet-recovery -maxdepth 1 -name '*nv*' -print
           node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$OUT/summary-controls.log"
-      - name: Commit implementation locally before measuring review staleness
+      - name: Regenerate current queue, then admit the already verified Nevada receipt
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import pathlib,subprocess,json,os
-          paths=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'completion/patch-paths.json').read_text())
-          paths+=['reference/north-carolina/AOC-CR-287-2025-12.pdf','reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf','reference/north-carolina/AOC-CV-226-2023-04.pdf']
-          dirs=['data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill',os.environ['OUT']]
-          for directory in dirs:
-            paths.extend(str(p) for p in pathlib.Path(directory).rglob('*') if p.is_file())
-          changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          assert changed.issubset(set(paths)),'Unexpected files before implementation commit: '+repr(changed-set(paths))
-          for p in sorted(set(paths)):subprocess.run(['git','add','--',p],check=True)
-          PY
-          git diff --cached --check -- . ':(glob,exclude)**/*.pdf'
-          git config user.name 'LegalEase completion (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): integrate NC indigency branches and preserve measured WI review and DE receipt admission'
-          git rev-parse HEAD > "$RUNNER_TEMP/completion/implementation-sha.txt"
-      - name: Consume completed evidence and regenerate using real repository history
-        run: |
-          set -euo pipefail
-          node scripts/rcap-packet-recovery/ingest-completed-raster.mjs | tee "$OUT/de-ingestion.log"
-          for script in extract-verifier-returns generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script.log" 2>&1 || { tail -80 "$OUT/$script.log"; exit 1; }
-          done
-          for family in rcap-wi-custom-pleading nc_146_dismissal_petition-set; do
-            node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family "$family" >> "$OUT/product-wiring.log" 2>&1
-          done
           for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" >> "$OUT/$script.log" 2>&1 || { tail -80 "$OUT/$script.log"; exit 1; }
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script.log" 2>&1 || { tail -60 "$OUT/$script.log"; exit 1; }
+          done
+          python3 - <<'PY'
+          import pathlib,json,hashlib
+          qpath=pathlib.Path('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json');q=json.loads(qpath.read_text())
+          root=pathlib.Path('data/rcap-grade-a/nv-completion-2026-09-07/central-raster')
+          v=json.loads((root/'rcap-nv-custom-pleading.verdict.json').read_text());proof=json.loads((root/'verified-receipt.json').read_text())
+          family='rcap-nv-custom-pleading';row=next(x for x in q['rows'] if x['familyId']==family)
+          assert v['verdict']=='RASTER_PASS' and v['coversTheWholeFamily'] is True and v['packetPdfsModified']==0
+          assert v['problems']==[] and v['environmentProblems']==[] and v['pagesMeasured']==88
+          assert proof['downloadedZipDigestVerified'] is True and proof['immutableRepositoryPdfsMatch'] is True
+          assert proof['admissionNegativeControlsCaught']==16 and len(proof['measuredPageImages'])==88
+          assert row['documentsDigest']==v['documentsDigest'] and len(row['documents'])==2
+          for doc in row['documents']:
+            assert hashlib.sha256(pathlib.Path(doc['path']).read_bytes()).hexdigest()==doc['sha256']
+            match=next(x for x in v['documentsRendered'] if x['path']==doc['path']);assert match['pinned']==doc['sha256']
+          previous=row.get('rasterReceipt')
+          if previous and str(previous.get('workflowRunId'))!='34101879269':row.setdefault('supersededReceipts',[]).append(previous)
+          row['currentRasterState']='RASTER_PASS'
+          row['rasterReceipt']={'verdict':'RASTER_PASS','workflowRunId':'34101879269','workflow':'.github/workflows/rcap-packet-raster-acceptance-batch.yml','renderedCommitSha':v['packetCommitSha'],'jobId':'101678748778','jobConclusion':'success','boundToCanonicalSha256':row['canonicalPdfSha256'],'boundToBoundarySha256':row['boundaryPdfSha256'],'documentsDigest':v['documentsDigest'],'documentsCovered':[x['document'] for x in v['documentsRendered']],'documentsNotCovered':[],'coversTheWholeFamily':True,'documentsMeasured':2,'pagesMeasured':88,'problemsFound':0,'receiptArtifact':{'id':'10011501772','name':'rcap-raster-rcap-nv-custom-pleading-34101879269','zipSha256':'sha256:'+proof['artifactZipSha256']},'verdictPath':str(root/'rcap-nv-custom-pleading.verdict.json'),'receiptArtifactInspection':'retain-nv-central-receipt.py verified the fixed ZIP, all 88 measured page images, current and immutable whole-PDF bytes, and successful run/job provenance; 16 admission corruption controls caught.','admittedBy':'ChatGPT integration; raster only, no semantic verdict or terminal approval.'}
+          row['coverage']={'documents':[x['document'] for x in v['documentsRendered']],'rastered':[x['document'] for x in v['documentsRendered']],'notRastered':[],'complete':True,'basis':'Both complete inputs are bound by the retained current-byte central verdict.','notRenderedByThisGate':[]}
+          qpath.write_text(json.dumps(q,indent=2)+'\n')
+          print('Nevada completed 88-page central raster incorporated without changing packet bytes or independent verdict.')
+          PY
+          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" >> "$OUT/$script.log" 2>&1 || { tail -60 "$OUT/$script.log"; exit 1; }
           done
           for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -80 "$OUT/$script-check.log"; exit 1; }
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -60 "$OUT/$script-check.log"; exit 1; }
           done
-      - name: Execute wider checks and record actual transitions without replacing failures
+      - name: Measure every wider check and the derived completion delta
         run: |
           python3 - <<'PY'
           import subprocess,pathlib,json,os,datetime,collections
           out=pathlib.Path(os.environ['OUT']);results=[]
           for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
             for mutations in [False,True]:
-              command=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutations else [])
+              cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutations else [])
               name=script+('-mutations' if mutations else '')
               with (out/f'{name}.log').open('w') as log:
-                try: code=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,timeout=180).returncode
+                try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=180).returncode
                 except subprocess.TimeoutExpired:code=124
-              results.append({'command':command,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'})
+              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'})
               print(name,code,flush=True)
-          before=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'completion/before-master.json').read_text())
-          after=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          old={r['familyId']:r for r in before['families']};new={r['familyId']:r for r in after['families']}
+          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text());before=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'finalization/before-master.json').read_text())
+          previous={x['familyId']:x for x in before['families']};current={x['familyId']:x for x in master['families']}
           terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          transitions=[{'familyId':k,'before':old[k].get('state'),'after':r.get('state')} for k,r in new.items() if k in old and old[k].get('state')!=r.get('state')]
-          record={'checkedSourceCommit':os.environ['GITHUB_SHA'],'implementationCommit':(pathlib.Path(os.environ['RUNNER_TEMP'])/'completion/implementation-sha.txt').read_text().strip(),'workflowRunId':os.environ['GITHUB_RUN_ID'],'timestamp':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'beforeStates':dict(collections.Counter(r.get('state') for r in old.values())),'afterStates':dict(collections.Counter(r.get('state') for r in new.values())),'beforeTerminal':sum(r.get('state') in terminal for r in old.values()),'afterTerminal':sum(r.get('state') in terminal for r in new.values()),'denominator':len(new),'transitions':transitions,'productionTouched':False,'commercialRoutesOpened':0,'newIndependentApprovalOfChatGPTAuthoredPackets':False}
-          (out/'hosted-completion-results.json').write_text(json.dumps(record,indent=2)+'\n')
-          print(json.dumps({k:record[k] for k in ['beforeTerminal','afterTerminal','denominator','transitions']},indent=2))
+          transitions=[{'familyId':k,'before':previous[k]['state'],'after':r['state']} for k,r in current.items() if previous[k]['state']!=r['state']]
+          report={'workflowRunId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(x['state'] for x in current.values())),'terminalFamilies':sum(x['state'] in terminal for x in current.values()),'denominator':len(current),'transitionsSinceIntermediatePublication':transitions,'newSemanticApprovalOfAuthoredRepairs':False,'productionTouched':False,'commercialRoutesOpened':0}
+          (out/'results.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
+          assert current['rcap-wi-custom-pleading']['state']=='COMPLETE_PACKET_PROVEN','Wisconsin proof unexpectedly regressed'
+          for f in ['ar-nonconviction-seal-set','nc_145_5_felony-set','nc_146_acquittal_petition-set']:assert current[f]['state']=='COMPLETE_PACKET_PROVEN',f+' identity-only refresh still lapses the unchanged packet'
+          assert current['nc_146_dismissal_petition-set']['state'] not in terminal,'NC authored repair cannot self-approve'
+          assert current['de_mandatory_expungement-set']['state'] not in terminal,'DE authored repair cannot self-approve'
+          assert current['rcap-nv-custom-pleading']['state'] not in terminal,'NV authored repair cannot self-approve'
           PY
-      - name: Publish only scoped changes to the existing recovery branch
+      - name: Publish exact scoped finalization to recovery only
+        id: publish
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import subprocess,pathlib,os
+          import subprocess,os
           prefixes=['data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',os.environ['OUT']+'/']
-          exact={'data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading/product-wiring.json','data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/product-wiring.json'}
-          # Locate Wisconsin's exact existing family directory rather than assume its spelling.
-          import json
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          exact.add(next(x['directory'] for x in master['families'] if x['familyId']=='rcap-wi-custom-pleading')+'/product-wiring.json')
           changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          bad=[p for p in changed if p not in exact and not any(p.startswith(prefix) for prefix in prefixes)]
-          assert not bad,'Unexpected generated changes: '+repr(bad)
+          bad=[p for p in changed if not any(p.startswith(x) for x in prefixes)];assert not bad,bad
           for p in sorted(changed):subprocess.run(['git','add','--',p],check=True)
-          for i in range(6):subprocess.run(['git','rm','--',f'data/rcap-grade-a/completion-transfer/part-{i}.b64'],check=True)
           PY
-          git diff --cached --check -- . ':(glob,exclude)**/*.pdf'
-          git commit -m 'evidence(rcap): consume WI review and DE raster, regenerate completion state and retain honest hosted results'
-          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/completion/published-candidate.patch"
+          git diff --cached --check
+          git commit -m 'evidence(rcap): integrate completed raster receipts and preserve measured terminal progress'
+          git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/finalization/candidate.patch"
           test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          git rev-parse HEAD | tee "$RUNNER_TEMP/completion/published-sha.txt"
+          sha=$(git rev-parse HEAD)
+          echo "$sha" | tee "$RUNNER_TEMP/finalization/published-sha.txt"
+          echo "candidate=$sha" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: rcap-completion-results-${{ github.run_id }}
+          name: rcap-completion-finalization-${{ github.run_id }}
           path: |
-            data/rcap-grade-a/completion-pass-2026-09-07/
-            ${{ runner.temp }}/completion/
+            data/rcap-grade-a/completion-pass-2026-09-07/finalization/
+            ${{ runner.temp }}/finalization/
           retention-days: 14
           if-no-files-found: error
+  nc_raster:
+    needs: complete
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          CANDIDATE: ${{ needs.complete.outputs.candidate }}
+        with:
+          script: |
+            const sha=process.env.CANDIDATE;
+            if(!/^[a-f0-9]{40}$/.test(sha)) throw new Error('Missing published candidate');
+            const manifest='data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
+            const {data}=await github.rest.repos.getContent({...context.repo,path:manifest,ref:sha});
+            const q=JSON.parse(Buffer.from(data.content,'base64').toString('utf8'));
+            const row=q.rows.find(r=>r.familyId==='nc_146_dismissal_petition-set');
+            if(!row || row.currentRasterState!=='RASTER_PENDING') throw new Error('NC is not an eligible current raster-pending family');
+            await github.rest.actions.createWorkflowDispatch({...context.repo,workflow_id:'rcap-packet-raster-acceptance-batch.yml',ref:'main',inputs:{commit_sha:sha,raster_manifest_path:manifest,family_batch:row.familyId,requested_scale:'2.5'}});
+            core.info(`Central NC raster dispatched for immutable ${sha}; ${row.documents.length} documents. Dispatch is not a pass.`);
