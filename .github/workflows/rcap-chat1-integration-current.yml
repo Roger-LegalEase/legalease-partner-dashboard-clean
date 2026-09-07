@@ -26,7 +26,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/chat1-integration"
-          test "$(git rev-parse HEAD^)" = "$BASE"
+          test "$(git rev-parse HEAD^)" = "02f2a1194c7e26da6392740cba47792434a7d118"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           git config user.name 'LegalEase integration (ChatGPT)'
           git config user.email 'noreply@legalease.com'
@@ -83,6 +83,25 @@ jobs:
           subprocess.run(['git','apply','--check',str(patchfile)],check=True)
           subprocess.run(['git','apply',str(patchfile)],check=True)
           for p,h in payload['fileSha256'].items():assert hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()==h,p
+          fixes=[]
+          for blob in ['ea3de89d86365401926b14feac11099e95abb312','0ed2015807b87b13409ff640d7a0eca2d476e0e8','9964be861aae39dafc605cd9fe076e80318ed328','1b0f8ff7d2ca0bc3afb3ae48ba25c0ccd222a96e']:
+           req=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/git/blobs/'+blob,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+           with urllib.request.urlopen(req,timeout=60) as response: obj=json.load(response)
+           raw=base64.b64decode(obj['content'])
+           assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==blob
+           fixes.append(raw)
+          compressed=b''.join(fixes)
+          assert hashlib.sha256(compressed).hexdigest()=='85e66909bcc8da971a7070aa15c4de972efce7fb42f975b7bc47b5e6442b95a7'
+          correction=gzip.decompress(compressed)
+          assert hashlib.sha256(correction).hexdigest()=='f358f41b12faad3482b5dc9f92e268212667c1e7d8d9ef3876c6848d626bd056'
+          fixfile=out/'reconciliation-fix.patch';fixfile.write_bytes(correction)
+          actual={x.split('\t',2)[2] for x in subprocess.check_output(['git','apply','--numstat',str(fixfile)],text=True).splitlines()}
+          assert actual=={prefix+'validate-chat1-integration.py'}
+          subprocess.run(['git','apply','--check',str(fixfile)],check=True)
+          subprocess.run(['git','apply',str(fixfile)],check=True)
+          corrected=prefix+'validate-chat1-integration.py'
+          assert hashlib.sha256(pathlib.Path(corrected).read_bytes()).hexdigest()=='3a1dbb8b8799f80436806391ab5c5a695147d224f40829c2bf01bf4e27d7fd4a'
+          payload['reconciliationCorrection']={'patchSha256':hashlib.sha256(correction).hexdigest(),'file':corrected,'fileSha256':hashlib.sha256(pathlib.Path(corrected).read_bytes()).hexdigest()}
           final=payload['finalWorkflow'].encode()
           assert hashlib.sha256(final).hexdigest()==payload['finalWorkflowSha256']
           assert b'contents: read' in final and b'contents: write' not in final
