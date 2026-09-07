@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: rcap-factory-audit-repair
+  group: rcap-completion-publication
   cancel-in-progress: false
 jobs:
   repair:
@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 25
     permissions:
       contents: write
+    outputs:
+      candidate: ${{ steps.publish.outputs.candidate }}
     env:
       OUT: data/rcap-grade-a/completion-pass-2026-09-07/factory-validation
     steps:
@@ -23,6 +25,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install actual parsers before any generator
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Apply only the checksum-bound corrections
         run: |
           set -euo pipefail
@@ -32,19 +40,23 @@ jobs:
           import pathlib,hashlib,subprocess
           base=pathlib.Path('data/rcap-grade-a/completion-pass-2026-09-07')
           for name,sha in [('factory-corrections.patch','bd756ca06d2ed3a8cd801c4626f03f71e8287d5971ffd311bd104c5f6c4c3f20'),('factory-f32-control.patch','f3d9e3bd845dbcd5830b4db7f018c052b5be8732ac10e81e6049761f33a3237d')]:
-            p=base/name
-            assert hashlib.sha256(p.read_bytes()).hexdigest()==sha,name+' transfer changed'
-            subprocess.run(['git','apply','--check',str(p)],check=True)
-            subprocess.run(['git','apply',str(p)],check=True)
+            p=base/name;assert hashlib.sha256(p.read_bytes()).hexdigest()==sha,name+' changed'
+            subprocess.run(['git','apply','--check',str(p)],check=True);subprocess.run(['git','apply',str(p)],check=True)
           expected={'generate.mjs':'55108d7f13d57ba29ff878dae5058c4b49156017b24d623a4245e32a6411c7c9','verify.mjs':'8920a8b89c41f128ea34a3b3a666fd95121fc74cb6e7c0b1d13c12c659a83a7b'}
-          for name,sha in expected.items():
-            assert hashlib.sha256((pathlib.Path('scripts/grade-a-packet-factory-24h')/name).read_bytes()).hexdigest()==sha,name
-          print('Both code changes match the locally tested exact bytes.')
+          for name,sha in expected.items():assert hashlib.sha256((pathlib.Path('scripts/grade-a-packet-factory-24h')/name).read_bytes()).hexdigest()==sha,name
+          p=pathlib.Path('scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs')
+          assert subprocess.check_output(['git','hash-object',str(p)]).decode().strip()=='8c78377dfce25c96512f721993e4b67d723eae1c'
+          patch=base/'conditional-raster.patch'
+          subprocess.run(['git','apply','--check',str(patch)],check=True);subprocess.run(['git','apply',str(patch)],check=True)
+          assert subprocess.check_output(['git','hash-object',str(p)]).decode().strip()=='f07fbccf66c348f3fd1ffd0cdae4ea1104c16c5a'
+          print('Factory and conditional-raster changes match reviewed code bytes.')
           PY
           node --check scripts/grade-a-packet-factory-24h/generate.mjs
           node --check scripts/grade-a-packet-factory-24h/verify.mjs
+          node --check scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs | tee "$OUT/source-controls.log"
-      - name: Regenerate complete state without changing packet bytes or legal decisions
+          node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs | tee "$OUT/conditional-controls.log"
+      - name: Regenerate state and require complete conditional packet coverage
         run: |
           set -euo pipefail
           for pass in 1 2; do
@@ -56,50 +68,46 @@ jobs:
             node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -60 "$OUT/$script-check.log"; exit 1; }
           done
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs --generated | tee "$OUT/generated-source-controls.log"
+          node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs --generated | tee "$OUT/generated-conditional-controls.log"
+          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-regressions.log"
+          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$OUT/nv-regressions.log"
+          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-regressions.log"
+          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$OUT/prior-mutations.log"
       - name: Measure the whole factory and mutation suites with full Git history
         run: |
           python3 - <<'PY'
           import subprocess,pathlib,os,json,re,collections,datetime
           out=pathlib.Path(os.environ['OUT']);results=[]
-          scripts=['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']
-          for script in scripts:
+          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
             for mutation in [False,True]:
-              name=script+('-mutations' if mutation else '')
-              cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
+              name=script+('-mutations' if mutation else '');cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
               with (out/f'{name}.log').open('w') as log:
                 try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
                 except subprocess.TimeoutExpired:code=124
-              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'})
-              print(name,code,flush=True)
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'newSemanticApprovals':0,'productionTouched':False,'commercialRoutesOpened':0}
+              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'});print(name,code,flush=True)
+          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text());terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
+          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'newSemanticApprovals':0,'productionTouched':False,'commercialRoutesOpened':0,'ncRasterRequiredDocuments':10,'ncRasterRequiredPages':60}
           (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
-          # Do not waive the remaining WY legal/repair-claim conflict. These
-          # checks require the corrected checks themselves to pass, not an
-          # invented all-green factory verdict.
           baseline=(out/'verify.log').read_text()
-          for check in ['F24','F29','F20']:
-            assert re.search(r'\bok\s+'+check+r'\s',baseline),check+' remains broken'
-          remaining=set(re.findall(r'FAIL\s+(F\d+)\s',baseline))
-          assert remaining <= {'F26'},'Unexpected remaining factory failure: '+repr(remaining)
+          for check in ['F24','F29','F20']:assert re.search(r'\bok\s+'+check+r'\s',baseline),check+' remains broken'
+          remaining=set(re.findall(r'FAIL\s+(F\d+)\s',baseline));assert remaining <= {'F26'},'Unexpected remaining failure: '+repr(remaining)
           mutations=(out/'verify-mutations.log').read_text()
           assert 'every mutated file restored byte-for-byte: true' in mutations,'Mutation harness did not finish safely'
-          assert not re.search(r'\b(MISSED|OVER-CAUGHT)\b',mutations),'A control was missed or over-caught'
-          assert all(x['status']=='PASS' for x in results if x['command'][1].endswith('verify-source-relationship-model.mjs')),'Source relationship checks did not pass'
-          assert report['terminalFamilies']==177,'This non-packet correction must preserve the measured terminal set'
+          assert not re.search(r'\b(MISSED|OVER-CAUGHT)\b',mutations),'A mutation was missed/over-caught'
+          assert all(x['status']=='PASS' for x in results if x['command'][1].endswith('verify-source-relationship-model.mjs')),'Source model failed'
+          assert report['terminalFamilies']==177,'Non-packet fixes must preserve the measured terminal set'
           print(json.dumps(report,indent=2))
           PY
       - name: Publish scoped tested code and generated state to recovery only
+        id: publish
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import subprocess,os,pathlib
-          exact={'scripts/grade-a-packet-factory-24h/generate.mjs','scripts/grade-a-packet-factory-24h/verify.mjs'}
+          import subprocess,os
+          exact={'scripts/grade-a-packet-factory-24h/generate.mjs','scripts/grade-a-packet-factory-24h/verify.mjs','scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs'}
           prefixes=['data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',os.environ['OUT']+'/']
           changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          bad=[p for p in changed if p not in exact and not any(p.startswith(x) for x in prefixes)]
-          assert not bad,bad
+          bad=[p for p in changed if p not in exact and not any(p.startswith(x) for x in prefixes)];assert not bad,bad
           for p in sorted(changed):subprocess.run(['git','add','--',p],check=True)
           PY
           git diff --cached --check
@@ -107,9 +115,10 @@ jobs:
           test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git config user.name 'LegalEase completion (ChatGPT)'
           git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): reconcile real repair assignments and preserve source identity holds'
+          git commit -m 'fix(rcap): reconcile real repair assignments and require every conditional packet in raster'
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          git rev-parse HEAD > "$RUNNER_TEMP/factory-published-sha.txt"
+          sha=$(git rev-parse HEAD);echo "$sha" > "$RUNNER_TEMP/factory-published-sha.txt"
+          echo "candidate=$sha" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -120,3 +129,20 @@ jobs:
             ${{ runner.temp }}/factory-published-sha.txt
           retention-days: 14
           if-no-files-found: error
+  nc_raster:
+    needs: repair
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          CANDIDATE: ${{ needs.repair.outputs.candidate }}
+        with:
+          script: |
+            const candidate=process.env.CANDIDATE;
+            if(!/^[a-f0-9]{40}$/.test(candidate)) throw new Error('Missing published candidate');
+            await github.rest.actions.createWorkflowDispatch({...context.repo,workflow_id:'rcap-packet-raster-acceptance-batch.yml',ref:'main',inputs:{commit_sha:candidate,raster_manifest_path:'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',family_batch:'nc_146_dismissal_petition-set',requested_scale:'2.5'}});
+            core.info(`All ten NC packet variants queued for immutable ${candidate}; a dispatch is not a raster result.`);
