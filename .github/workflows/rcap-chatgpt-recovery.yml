@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 30
     env:
       EVIDENCE: data/rcap-grade-a/launch-recovery-2026-09-07
-      MASTER_LIBRARY_SOURCE_DIR: ${{ runner.temp }}/verified-corpus
+      MASTER_LIBRARY_SOURCE_DIR: /tmp/rcap-recovery-verified-corpus
     steps:
       - uses: actions/checkout@v4
         with:
