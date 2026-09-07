@@ -928,7 +928,6 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
     checkoutSessionId: input.checkoutSessionId,
     paymentIntentId: input.paymentIntentId,
     amountCents: input.amountCents ?? (input.paymentAllowed ? 5000 : undefined),
-    receiptUrl: input.receiptUrl,
     packetStatus: input.packetStatus,
     reminderAt: input.reminderAt,
     sourceSessionId: input.sourceSessionId
@@ -968,7 +967,6 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     checkoutSessionId: row.checkout_session_id ?? undefined,
     paymentIntentId: row.payment_intent_id ?? undefined,
     amountCents: row.amount_cents ?? undefined,
-    receiptUrl: row.receipt_url ?? undefined,
     packetStatus: row.packet_status ?? undefined,
     reminderAt: row.reminder_at ?? undefined,
     sourceSessionId: row.source_session_id ?? undefined

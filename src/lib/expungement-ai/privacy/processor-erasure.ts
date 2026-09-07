@@ -1,6 +1,10 @@
 import "server-only";
 
 import { APPROVED_PROCESSORS, type ApprovedProcessorKey } from "@/lib/expungement-ai/privacy/contract";
+import {
+  PrivacyProcessorConfigError,
+  requireProcessorConfig
+} from "@/lib/expungement-ai/privacy/processor-config";
 
 /**
  * What a processor actually did about an erasure, as opposed to what we hoped.
@@ -56,6 +60,8 @@ export type ProcessorErasureRequest = {
   userId: string;
   subjectPseudonym: string;
   email: string | null;
+  /** A durable provider reference from an earlier asynchronous acceptance. */
+  providerReference?: string | null;
 };
 
 export type ProcessorErasureOutcome = {
@@ -86,11 +92,6 @@ export function processorOutcomeIsSettled(
   if (PROCESSOR_SETTLED_STATUSES.includes(outcome.status)) return true;
   if (outcome.status === "sent" && !adapter.acknowledgementOffered) return true;
   return false;
-}
-
-function configured(name: string): string | null {
-  const value = process.env[name];
-  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
 }
 
 /**
@@ -125,9 +126,11 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
       required: true,
       acknowledgementOffered: true,
       async erase(request) {
-        const endpoint = configured("PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL");
-        const token = configured("PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN");
-        if (!endpoint || !token) {
+        let config;
+        try {
+          config = requireProcessorConfig("email_delivery") as { endpoint: string; token: string };
+        } catch (error) {
+          if (!(error instanceof PrivacyProcessorConfigError)) throw error;
           return {
             status: "pending",
             reference: null,
@@ -138,7 +141,7 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
             }
           };
         }
-        return transmit(endpoint, token, request, "suppress");
+        return transmit(config.endpoint, config.token, request, "suppress");
       }
     },
     {
@@ -164,9 +167,11 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
       required: true,
       acknowledgementOffered: true,
       async erase(request) {
-        const endpoint = configured("PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL");
-        const token = configured("PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN");
-        if (!endpoint || !token) {
+        let config;
+        try {
+          config = requireProcessorConfig("product_analytics") as { endpoint: string; token: string };
+        } catch (error) {
+          if (!(error instanceof PrivacyProcessorConfigError)) throw error;
           return {
             status: "pending",
             reference: null,
@@ -177,7 +182,7 @@ export function defaultProcessorAdapters(): ProcessorErasureAdapter[] {
             }
           };
         }
-        return transmit(endpoint, token, request, "erase");
+        return transmit(config.endpoint, config.token, request, "erase");
       }
     },
     {
@@ -207,19 +212,57 @@ async function transmit(
   request: ProcessorErasureRequest,
   action: "suppress" | "erase"
 ): Promise<ProcessorErasureOutcome> {
+  const checkingAsynchronousRequest = Boolean(request.providerReference);
   try {
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(20_000),
       body: JSON.stringify({
-        action,
+        action: checkingAsynchronousRequest ? "status" : action,
+        requestedAction: action,
+        providerReference: request.providerReference ?? null,
         subject: request.subjectPseudonym,
         email: request.email,
         requestId: request.requestId
       })
     });
-    const reference = response.headers.get("x-request-id");
+    const responseReference = response.headers.get("x-request-id");
+    const reference = checkingAsynchronousRequest ? request.providerReference! : responseReference;
     if (response.ok) {
+      // 202 means the provider accepted work for later processing. Its request
+      // reference proves submission, not erasure, so acknowledgement-enabled
+      // adapters must keep the deletion outstanding until a later retry gets
+      // a synchronous completion response.
+      if (response.status === 202) {
+        return reference
+          ? {
+            status: "sent",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: checkingAsynchronousRequest }
+          }
+          : {
+            status: "pending",
+            reference: null,
+            detail: { httpStatus: response.status, action, asynchronous: true, retryable: true, reason: "missing_provider_reference" }
+          };
+      }
+      if (checkingAsynchronousRequest) {
+        // The same configured endpoint is the status protocol: a retry sends
+        // action=status with the durable reference, and only a 2xx response
+        // echoing that exact reference proves completion.
+        return responseReference === request.providerReference
+          ? {
+            status: "acknowledged",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: true }
+          }
+          : {
+            status: "sent",
+            reference,
+            detail: { httpStatus: response.status, action, asynchronous: true, statusCheck: true, reason: "reference_not_confirmed" }
+          };
+      }
       // Acknowledged only when the provider hands back its own reference.
       // Without one there is nothing to show a participant or an auditor, so
       // the honest answer is that it was sent.
@@ -232,14 +275,16 @@ async function transmit(
     return {
       status: retryable ? "pending" : "failed",
       reference,
-      detail: { httpStatus: response.status, action, retryable }
+      detail: { httpStatus: response.status, action, retryable, asynchronous: checkingAsynchronousRequest, statusCheck: checkingAsynchronousRequest }
     };
   } catch (error) {
     return {
       status: "pending",
-      reference: null,
+      reference: request.providerReference ?? null,
       detail: {
         action,
+        asynchronous: checkingAsynchronousRequest,
+        statusCheck: checkingAsynchronousRequest,
         transportError: error instanceof Error ? error.message : String(error),
         retryable: true
       }

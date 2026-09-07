@@ -13,6 +13,7 @@ export type PrivacyRequestType = (typeof PRIVACY_REQUEST_TYPES)[number];
 export const PRIVACY_REQUEST_STATUSES = [
   "pending",
   "in_progress",
+  "partially_completed",
   "completed",
   "failed",
   "blocked_legal_hold",

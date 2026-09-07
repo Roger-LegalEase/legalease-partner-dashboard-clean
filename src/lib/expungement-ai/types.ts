@@ -131,7 +131,6 @@ export type ConsumerBriefcaseItem = {
   checkoutSessionId?: string;
   paymentIntentId?: string;
   amountCents?: 5000;
-  receiptUrl?: string;
   packetStatus?: "not_started" | "pending" | "generating" | "ready" | "failed" | "downloaded";
   reminderAt?: string;
   sourceSessionId?: string;

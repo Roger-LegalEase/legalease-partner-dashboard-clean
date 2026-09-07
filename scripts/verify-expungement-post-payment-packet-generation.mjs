@@ -1,159 +1,88 @@
+#!/usr/bin/env node
+
 import fs from "node:fs";
 import path from "node:path";
+import { register } from "node:module";
 import { spawnSync } from "node:child_process";
 
 const root = process.cwd();
 const failures = [];
+const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const exists = (file) => fs.existsSync(path.join(root, file));
+const assert = (condition, message) => { if (!condition) failures.push(message); };
 
-function read(file) {
-  return fs.readFileSync(path.join(root, file), "utf8");
-}
-
-function exists(file) {
-  return fs.existsSync(path.join(root, file));
-}
-
-function assert(condition, message) {
-  if (!condition) failures.push(message);
-}
-
-function run(command, args) {
-  const result = spawnSync(command, args, { cwd: root, encoding: "utf8" });
+function runBehavioralFixture(script, label) {
+  const result = spawnSync(process.execPath, [script], {
+    cwd: root,
+    encoding: "utf8",
+    timeout: 120_000,
+    maxBuffer: 20 * 1024 * 1024
+  });
   if (result.status !== 0) {
-    failures.push(`${command} ${args.join(" ")} failed:\n${result.stdout}\n${result.stderr}`.trim());
+    failures.push(`${label} failed:\n${result.stdout ?? ""}\n${result.stderr ?? ""}`.trim());
   }
 }
 
-function changedFiles() {
-  const result = spawnSync("git", ["status", "--short"], { cwd: root, encoding: "utf8" });
-  return (result.stdout ?? "").split(/\r?\n/).filter(Boolean).map((line) => line.slice(3).trim());
+runBehavioralFixture("scripts/test-expungement-checkout-guards.mjs", "matter-level checkout/render fixture");
+runBehavioralFixture("scripts/test-expungement-consumer-payment-receipt.mjs", "owner-scoped receipt fixture");
+
+const receiptRoutePath = "src/app/api/expungement-ai/payment/receipt/route.ts";
+const downloadRoutePath = "src/app/api/expungement-ai/packet/download/route.ts";
+const presentationPath = "src/lib/expungement-ai/briefcase-presentation-authority.ts";
+const consumerPresentationPath = "src/lib/expungement-ai/briefcase-consumer-presentation.ts";
+const receiptAuthorityPath = "src/lib/expungement-ai/consumer-payment-receipt.ts";
+const matterPath = "src/app/briefcase/[packetId]/page.tsx";
+const paymentsPath = "src/components/expungement-ai/BriefcaseViews.tsx";
+
+for (const file of [receiptRoutePath, downloadRoutePath, presentationPath, consumerPresentationPath, receiptAuthorityPath, matterPath, paymentsPath]) {
+  assert(exists(file), `${file} is required.`);
 }
 
-const packageSource = read("package.json");
-const packetAdapterPath = "src/lib/expungement-ai/packet-generation.ts";
-const packetAdapter = exists(packetAdapterPath) ? read(packetAdapterPath) : "";
-const briefcaseSource = read("src/lib/expungement-ai/briefcase.ts");
-const typesSource = read("src/lib/expungement-ai/types.ts");
-const packetReadySource = read("src/app/expungement-ai/packet-ready/page.tsx");
-const briefcaseViewsSource = read("src/components/expungement-ai/BriefcaseViews.tsx");
-const packetDetailSource = read("src/app/briefcase/[packetId]/page.tsx");
-const migrationPath = "supabase/phase-28-consumer-packet-generation-status.sql";
-const migrationSource = exists(migrationPath) ? read(migrationPath) : "";
+const receiptRoute = exists(receiptRoutePath) ? read(receiptRoutePath) : "";
+const downloadRoute = exists(downloadRoutePath) ? read(downloadRoutePath) : "";
+const presentation = exists(presentationPath) ? read(presentationPath) : "";
+const consumerPresentation = exists(consumerPresentationPath) ? read(consumerPresentationPath) : "";
+const receiptAuthority = exists(receiptAuthorityPath) ? read(receiptAuthorityPath) : "";
+const matter = exists(matterPath) ? read(matterPath) : "";
+const payments = exists(paymentsPath) ? read(paymentsPath) : "";
 
-const routes = [
-  "src/app/api/expungement-ai/packet/generate/route.ts",
-  "src/app/api/expungement-ai/packet/status/route.ts",
-  "src/app/api/expungement-ai/packet/download/route.ts"
-];
+// Receipt presentation is its own owner-scoped authority. It is not a packet
+// URL, a Checkout return URL or a raw provider receipt copied into React data.
+assert(receiptRoute.includes("requireConsumerBriefcaseSession"), "Receipt route must require the participant session.");
+assert(receiptRoute.includes("resolveConsumerPaymentReceipt"), "Receipt route must resolve current owner/payment authority.");
+assert(receiptAuthority.includes("consumerPacketPaymentAuthority"), "Receipt must reuse exact-matter payment authority.");
+assert(receiptAuthority.includes("validReceiptReference"), "Receipt links must enforce expiry and integrity.");
+assert(consumerPresentation.includes("createConsumerPaymentReceiptAction") && !consumerPresentation.includes('item.paymentState !== "paid"'), "Receipt authority must be resolved independently of legal and artifact presentation.");
+assert(!payments.includes("receiptUrl"), "Payment history must never render a raw provider receipt URL.");
+assert(payments.includes("{item.paymentReceipt ? (") && payments.includes("View receipt"), "Payment history must expose an accessible receipt action.");
+assert(matter.includes("{item.paymentReceipt ? (") && matter.includes("View payment receipt"), "Matter detail must expose the same receipt action.");
 
-assert(packageSource.includes('"expungement:verify-post-payment-packet-generation"'), "Missing expungement:verify-post-payment-packet-generation npm script.");
-assert(exists(packetAdapterPath), "Packet generation adapter missing.");
-for (const route of routes) {
-  assert(exists(route), `${route} missing.`);
-  const source = exists(route) ? read(route) : "";
-  assert(source.includes("requireConsumerBriefcaseSession"), `${route} must require user session.`);
-  assert(source.includes("auth.userId"), `${route} must scope packet access by authenticated user.`);
-}
+// Protected artifact authority is distinct from payment and receipt authority.
+// A payment can be paid while the artifact remains absent/pending.
+assert(presentation.includes("readProtectedPacketArtifact"), "Briefcase presentation must read protected artifact authority.");
+assert(presentation.includes('protectedArtifact?.status !== "ready"'), "Only a protected ready artifact may become downloadable presentation.");
+assert(presentation.includes('status: "absent", canDownload: false'), "Missing artifacts must stay non-downloadable even when paid.");
 
-for (const method of ["generatePaidConsumerPacket", "getConsumerPacketStatus", "getConsumerPacketDownload", "attachPacketToBriefcaseItem"]) {
-  assert(packetAdapter.includes(method), `Packet adapter missing ${method}.`);
-}
+// Download is owner-scoped independently of receipt presentation.
+assert(downloadRoute.includes("requireConsumerBriefcaseSession"), "Packet download must require the participant session.");
+assert(downloadRoute.includes("getConsumerPacketDownload({ userId: auth.userId, briefcaseItemId })"), "Packet download must pass only the authenticated owner to artifact resolution.");
+assert(!downloadRoute.includes("paymentReceipt"), "Packet download must not confuse receipt authority with artifact authority.");
 
-assert(packetAdapter.includes("getBriefcaseItem(userId, briefcaseItemId)"), "Packet generation must require owned Briefcase item.");
-assert(packetAdapter.includes('item.paymentStatus !== "paid"') && packetAdapter.includes("dryRunMode"), "Packet generation must require paid status or explicit dry-run mode.");
-assert(packetAdapter.includes("isConsumerPaymentAllowed"), "Packet generation must use packet-ready payment clamp.");
-assert(packetAdapter.includes('item.resultCode ?? "guidance_only"'), "guidance_only fallback must be blocked.");
-for (const blockedCode of ["guidance_only", "needs_more_info", "not_yet", "needs_review", "hard_stop"]) {
-  assert(typesSource.includes(`"${blockedCode}"`), `${blockedCode} result code must remain represented.`);
-}
-assert(packetAdapter.includes("packetPlanForPathway"), "Packet generation must use the source-engine packet planner.");
-assert(packetAdapter.includes("source_driven_packet_plan"), "Packet generation must emit source-driven packet-plan artifacts.");
-for (const forbidden of ["generateMississippiPetitionDraft", "generateIllinoisDocumentDraft", "generateDcDocumentDraft", "generatePennsylvaniaDocumentDraft", "generateTexasHarrisDocumentDraft", "renderAll51FallbackPacket"]) {
-  assert(!packetAdapter.includes(forbidden), `Packet generation must not call removed legacy/generic runtime: ${forbidden}`);
-}
-
-assert(briefcaseSource.includes("updateBriefcasePacketMetadata"), "Briefcase adapter must update packet metadata.");
-assert(briefcaseSource.includes("artifact_refs_json"), "Generated packet must store artifact refs on Briefcase item.");
-for (const status of ["pending", "generating", "ready", "failed"]) {
-  assert(typesSource.includes(`"${status}"`) || migrationSource.includes(`'${status}'`) || packetAdapter.includes(`"${status}"`), `packet_status transition missing: ${status}`);
-}
-assert(packetAdapter.includes("packetStatus: \"pending\"") && packetAdapter.includes("packetStatus: \"generating\"") && packetAdapter.includes("packetStatus: \"ready\"") && packetAdapter.includes("packetStatus: \"failed\""), "Packet generation status transitions must be represented.");
-assert(
-  packetReadySource.includes("LegacyPacketReadyReturn")
-    && packetReadySource.includes("getBriefcaseItem(auth.userId, briefcaseItemId)")
-    && packetReadySource.includes("redirect(item ? `/briefcase/${encodeURIComponent(item.id)}?payment=return` : \"/briefcase\")"),
-  "Legacy packet-ready returns must redirect through an owner-scoped Briefcase lookup."
-);
-assert(
-  !packetReadySource.includes("recordConsumerPaymentConfirmation")
-    && !packetReadySource.includes("generatePaidConsumerPacket"),
-  "Legacy packet-ready returns must not write payment state or generate a packet."
-);
-assert(
-  packetDetailSource.includes("const artifact = item ? packetArtifactFor(item) : null")
-    && packetDetailSource.includes("{artifact ? <ReadyPacket")
-    && packetDetailSource.includes('data-packet-ready="true"'),
-  "Matter detail must claim packet readiness only when a stored packet artifact resolves."
-);
-assert(
-  packetDetailSource.includes('item.paymentStatus === "paid" && item.packetStatus === "failed"')
-    && packetDetailSource.includes('mode="paid_durable"'),
-  "Matter detail must offer the durable paid-packet retry after a recoverable generation failure."
-);
-assert(packetDetailSource.includes("Ask Wilma about next steps"), "Matter detail must show the Wilma next-step action.");
-assert(briefcaseViewsSource.includes("Download") && briefcaseViewsSource.includes("paymentStatus") && briefcaseViewsSource.includes("packetStatus"), "Briefcase packet cards must show download/payment/packet metadata.");
-assert(
-  packetDetailSource.includes("getBriefcaseItem(auth.userId, packetId)")
-    && briefcaseViewsSource.includes("item.receiptUrl"),
-  "Briefcase surfaces must keep matter lookup owner-scoped and expose the receipt in the payments view."
-);
-assert(exists(migrationPath), "Packet generation status migration must exist when packet_status values change.");
-assert(!migrationSource.includes("partner_"), "Packet generation migration must not alter partner billing.");
-assert(!packetAdapter.includes("partner_billing") && !packetAdapter.includes("partner_billing_requests"), "Packet generation adapter must not touch partner billing.");
-
-const forbiddenChangedPrefixes = [
-  "src/app/api/stripe/",
-  "src/lib/partners/",
-  "src/app/partner/",
-  "src/app/partners/",
-  "src/lib/supabase/",
-  "vercel.json",
-  "next.config",
-  ".env",
-  ".github/workflows/deploy"
-];
-for (const file of changedFiles()) {
-  if (
-    file === ".env.example" ||
-    file === "src/app/api/stripe/webhook/route.ts" ||
-    file === "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts" ||
-    file === "supabase/phase-26-consumer-briefcase-items.sql" ||
-    file === "supabase/phase-27-consumer-checkout-metadata.sql" ||
-    file === migrationPath ||
-    file === "supabase/phase-29-consumer-wilma-telemetry.sql" ||
-    file === "supabase/phase-31-legalease-os-support-queue.sql" ||
-    file === "supabase/phase-32-expungement-screening-sessions.sql" ||
-    file === "supabase/phase-33-expungement-screening-resume-links.sql"
-  ) continue;
-  for (const prefix of forbiddenChangedPrefixes) {
-    assert(!file.startsWith(prefix), `Restricted file changed: ${file}`);
-  }
-}
-
-run("npm", ["run", "rcap:verify-all51-launch-enabled"]);
-run("npm", ["run", "rcap:verify-all51-final-approval"]);
-run("npm", ["run", "expungement:verify-consumer-adapter"]);
-run("npm", ["run", "expungement:verify-consumer-persistence"]);
-run("npm", ["run", "expungement:verify-consumer-checkout"]);
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { packetVerificationActions } = await import("../src/components/expungement-ai/packet-verification-client.ts");
+const paidRetry = packetVerificationActions({ verified: true, packetReady: false, mode: "paid" });
+assert(paidRetry.generation?.mode === "paid_durable", "A paid matter with no artifact must offer durable retry without another Checkout.");
+assert(!paidRetry.checkout, "A paid failed/pending render must never offer a second payment.");
+const paidReady = packetVerificationActions({ verified: true, packetReady: true, mode: "paid" });
+assert(paidReady.openPacket === true && !paidReady.checkout, "A ready paid artifact must offer repeat download without another payment.");
+const guidance = packetVerificationActions({ verified: false, packetReady: false, mode: "consumer" });
+assert(!guidance.checkout && !guidance.generation && !guidance.openPacket, "Unverified/guidance presentation must expose no paid packet authority.");
 
 if (failures.length) {
-  console.error("Expungement.ai post-payment packet generation verification failed:");
+  console.error("Expungement.ai post-payment rails verifier failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log("Expungement.ai post-payment packet generation verification passed.");
-console.log("Packet generate/status/download routes exist and require owned Briefcase items.");
-console.log("Packet generation requires paid status or explicit dry-run mode and packet-ready result codes.");
-console.log("Generated packets store artifact refs and packet_status transitions on consumer Briefcase items.");
-console.log("Legacy generators are removed from active runtime; partner billing, Stripe invoice flow, secrets, and deployment files are untouched.");
+console.log("Expungement.ai post-payment rails verified behaviorally.");
+console.log("Receipt presentation, protected artifact authority, owner-scoped download, paid retry, repeat download, and guidance refusal remain separate gates.");

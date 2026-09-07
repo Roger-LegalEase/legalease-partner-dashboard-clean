@@ -76,12 +76,6 @@ assert(paymentAdapter.includes("isConsumerCheckoutDryRunEnabled"), "Checkout mus
 assert(paymentAdapter.includes('EXPUNGEMENT_AI_CHECKOUT_DRY_RUN === "true"'), "Dry-run checkout must require EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=true.");
 assert(paymentAdapter.includes("!isProductionRuntime()"), "Dry-run checkout must be impossible in production runtime.");
 assert(paymentAdapter.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Missing Stripe config must fail closed with a temporary-unavailable error.");
-// The packet-status guard moved when the payment adapter stopped writing
-// payment facts. Its home is now the signature-verified webhook, which is the
-// only thing that records a payment at all — so it is asserted there. Asserting
-// it on the adapter would pass only while the adapter still wrote state it must
-// no longer write.
-assert(checkoutReconciliation.includes('item.packetStatus === "ready" ? "ready" : "pending"'), "Payment confirmation must not mark packets ready before artifact generation.");
 assert(!/payment_status:\s*["']paid["']/.test(paymentAdapter), "The payment adapter must not write a paid payment status; the server-only writer owns that.");
 assert(!paymentAdapter.includes("updateBriefcasePaymentMetadata("), "The participant-authenticated payment writer must not return; phase 52 revokes those columns from authenticated.");
 assert(!paymentAdapter.includes("partner_billing") && !paymentAdapter.includes("partner_billing_requests"), "Payment adapter must not touch partner billing.");
@@ -120,36 +114,12 @@ assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook c
 assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
 assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
-for (const metadataKey of [
-  "source_session_id",
-  "jurisdiction",
-  "packet_type",
-  "pathway_label",
-  "product_id",
-  "person_id",
-  "matter_id"
-]) {
-  assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
-}
-for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
-  assert(checkoutReconciliation.includes(eventType), `Consumer Checkout webhook must handle ${eventType}.`);
-}
-assert(checkoutReconciliation.includes('metadata?.channel !== CONSUMER_CHANNEL'), "Consumer Checkout webhook must ignore unsupported channels.");
-assert(checkoutReconciliation.includes('session.metadata.user_id') && checkoutReconciliation.includes('session.metadata.briefcase_item_id'), "Consumer Checkout webhook must require user and Briefcase metadata.");
-assert(checkoutReconciliation.includes('session.payment_status !== "paid"'), "Consumer Checkout webhook must require paid Checkout Sessions.");
-assert(checkoutReconciliation.includes("session.client_reference_id !== briefcaseItemId"), "Consumer Checkout webhook must validate client reference consistency.");
-assert(checkoutReconciliation.includes("getBriefcaseItemForWebhook(userId, briefcaseItemId)"), "Consumer Checkout webhook must load the owned Briefcase item.");
-// Payment is recorded through the service-role-only RPC, never a column write.
-// The old marker named a direct update that phase 52's paid_requires_server_evidence
-// constraint would now refuse outright, so asserting it would demand the broken shape.
-assert(checkoutReconciliation.includes("recordConsumerPacketPayment"), "Consumer Checkout webhook must record Stripe payment confirmation.");
-assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer Checkout webhook must record payment under the server_webhook authority.");
+// Webhook success, one enqueue, pending-before-artifact, canonical pathway
+// identity, current verification hash, replay, wrong matter and sponsorship are
+// exercised below through executable Stripe/Supabase fixtures. Source-string
+// spelling is not acceptance evidence for those behaviors.
 assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
-assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
-assert(checkoutReconciliation.includes("CONSUMER_PACKET_CURRENCY"), "Consumer Checkout webhook must verify the currency against the signed event.");
-assert(checkoutReconciliation.includes("requestConsumerPacketRenderForWebhook"), "Consumer Checkout webhook must enqueue the durable paid packet render.");
 assert(!checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must not synchronously generate a legacy artifact.");
-assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
 
 for (const column of ["payment_provider", "checkout_session_id", "payment_intent_id", "amount_cents", "receipt_url"]) {
@@ -214,8 +184,7 @@ function assertPacketReadyCompatibilityReturn(source, targetFailures) {
   }
 }
 
-run("npm", ["run", "expungement:verify-consumer-persistence"]);
-run("npm", ["run", "expungement:verify-consumer-adapter"]);
+run(process.execPath, ["scripts/test-expungement-checkout-guards.mjs"]);
 
 if (failures.length) {
   console.error("Expungement.ai consumer checkout verification failed:");

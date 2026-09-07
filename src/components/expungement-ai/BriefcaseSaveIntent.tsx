@@ -6,8 +6,9 @@ import { readClaimTokenFromUrl, submitClaim } from "@/lib/expungement-ai/claim/c
 
 /**
  * Completes a claim that arrived here rather than at the sign-in form -- an
- * email verification opened on a second device, an OAuth callback, or a
- * bookmarked handoff link followed while already signed in.
+ * email verification opened on a second device or a bookmarked handoff link
+ * followed while already signed in. OAuth and magic-link initiation are not
+ * exposed by the current consumer sign-in surface.
  *
  * Contract §15: landing on an empty Briefcase is a release-blocking failure, so
  * a token that reaches this page is claimed and the participant is moved to the

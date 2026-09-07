@@ -8,14 +8,11 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PartnerRecoveryState } from "@/components/partners/PartnerRecoveryState";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
-import {
-  CLAIM_TOKEN_PARAM,
-  isWellFormedClaimTokenValue,
-  submitClaim
-} from "@/lib/expungement-ai/claim/claim-handoff";
+import { submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 import {
   consumerAuthContinuationFrom,
-  consumerAuthContinuationQuery
+  consumerAuthContinuationQuery,
+  consumerSignInRecoveryPath
 } from "@/lib/expungement-ai/auth-continuation";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
@@ -59,11 +56,13 @@ export default function SetPasswordPage() {
 
   useEffect(() => {
     let isMounted = true;
+    let passwordRecoveryObserved = false;
     const supabase = createBrowserSupabaseClient();
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "PASSWORD_RECOVERY" && session && isMounted) {
+        passwordRecoveryObserved = true;
         setErrorMessage("");
         setState("ready");
       }
@@ -71,7 +70,8 @@ export default function SetPasswordPage() {
 
     async function detectInviteSession() {
       const searchParams = new URLSearchParams(window.location.search);
-      const detectedNextPath = safeAppRedirectPath(searchParams.get("next"));
+      const continuation = consumerAuthContinuationFrom(searchParams);
+      const detectedNextPath = continuation.nextPath;
       const firstAdminSetup = searchParams.get("first_admin") === "1";
       setIsFirstAdminSetup(firstAdminSetup);
       setNextPath(detectedNextPath);
@@ -80,6 +80,9 @@ export default function SetPasswordPage() {
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const accessToken = hashParams.get("access_token");
       const refreshToken = hashParams.get("refresh_token");
+      const recoveryRequested = searchParams.get("recovery") === "1"
+        || searchParams.get("type") === "recovery"
+        || hashParams.get("type") === "recovery";
 
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
@@ -130,6 +133,13 @@ export default function SetPasswordPage() {
       }
 
       if (data.session) {
+        // A password-recovery session earns the right to set a new password;
+        // it does not claim the pending result early. The claim runs only after
+        // updateUser succeeds below.
+        if (passwordRecoveryObserved || recoveryRequested) {
+          setState("ready");
+          return;
+        }
         if (isExpungementNext(detectedNextPath)) {
           const claimedNext = await claimExpungementPending(detectedNextPath);
           window.location.assign(claimedNext);
@@ -230,18 +240,20 @@ export default function SetPasswordPage() {
       }
     }
 
+    if (!isFirstAdminSetup && isExpungementNext(nextPath)) {
+      redirectPath = await claimExpungementPending(nextPath);
+    }
+
     setDiagnostic({ status: "success" });
     setSuccessMessage(
       isFirstAdminSetup
         ? "Password set. Opening your partner workspace..."
-        : "Password set. Opening your partner dashboard..."
+        : isExpungementNext(nextPath)
+          ? "Password set. Saving your result..."
+          : "Password set. Opening your partner dashboard..."
     );
     setState("saved");
-    if (isFirstAdminSetup) {
-      window.location.assign(safeAppRedirectPath(redirectPath));
-    } else {
-      window.location.assign(safeAppRedirectPath(nextPath));
-    }
+    window.location.assign(safeAppRedirectPath(redirectPath));
   }
 
   const isBusy = state === "checking" || state === "saving" || state === "saved";
@@ -459,7 +471,7 @@ function defaultNextPath() {
     return "/partner/dashboard";
   }
 
-  return safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
+  return consumerAuthContinuationFrom(new URLSearchParams(window.location.search)).nextPath;
 }
 
 // Strips the Supabase auth fragment and query while preserving the claim token,
@@ -469,8 +481,8 @@ function scrubAuthUrl(nextPath: string) {
   const search = new URLSearchParams(window.location.search);
   const cleanParams = new URLSearchParams(consumerAuthContinuationQuery({
     ...consumerAuthContinuationFrom(search),
-    nextPath: safeAppRedirectPath(nextPath)
-  }));
+    nextPath: safeAppRedirectPath(nextPath, "/briefcase")
+  }, search.get("recovery") === "1" ? { recovery: "1" } : {}));
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
 }
 
@@ -483,13 +495,13 @@ function isExpungementNext(nextPath: string) {
 // they land on the exact matter rather than a generic Briefcase.
 async function claimExpungementPending(nextPath: string) {
   const params = new URLSearchParams(window.location.search);
-  const claimToken = params.get(CLAIM_TOKEN_PARAM);
-  if (!isWellFormedClaimTokenValue(claimToken)) return safeAppRedirectPath(nextPath, "/briefcase");
-  const claimed = await submitClaim(claimToken);
-  if (claimed.ok) return claimed.redirectTo;
-  const continuation = consumerAuthContinuationFrom(params);
-  return `/expungement-ai/sign-in?${consumerAuthContinuationQuery(continuation, {
-    mode: "signin",
-    claimRetry: "1"
-  })}`;
+  const continuation = {
+    ...consumerAuthContinuationFrom(params),
+    nextPath: safeAppRedirectPath(nextPath, "/briefcase")
+  };
+  if (!continuation.claimToken) return continuation.nextPath;
+  const claimed = await submitClaim(continuation.claimToken);
+  return claimed.ok
+    ? claimed.redirectTo
+    : consumerSignInRecoveryPath(continuation, claimed.retryable);
 }

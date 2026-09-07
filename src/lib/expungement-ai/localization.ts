@@ -180,6 +180,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Los $50 cubren la generación del paquete de Expungement.ai. Las cuotas del tribunal, de agencias o de informes de antecedentes son aparte."
   },
   "payment.one_time": { en: "one-time", es: "pago único" },
+  "payment.paid": { en: "paid", es: "pagado" },
+  "payment.refunded": { en: "refunded", es: "reembolsado" },
   "payment.fee_note": {
     en: "You are paying for self-help packet preparation and filing instructions. Court approval is not promised. Expungement.ai is not a law firm and does not provide legal advice.",
     es: "Usted paga por la preparación de un paquete de autoayuda y por instrucciones de presentación. No se promete la aprobación del tribunal. Expungement.ai no es un bufete de abogados y no brinda asesoría legal."
@@ -248,6 +250,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.payment_history": { en: "Payment history", es: "Historial de pagos" },
   "briefcase.packet_label": { en: "Packet", es: "Paquete" },
   "briefcase.receipt": { en: "Receipt", es: "Recibo" },
+  "briefcase.view_receipt": { en: "View receipt", es: "Ver recibo" },
   "briefcase.no_payments": {
     en: "No payments yet. You only pay when a packet is ready, and you will see the price first.",
     es: "Aún no hay pagos. Solo paga cuando un paquete está listo, y verá el precio primero."
@@ -361,6 +364,36 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "signin.forgot": { en: "Forgot your password?", es: "¿Olvidó su contraseña?" },
   "signin.show_password": { en: "Show password", es: "Mostrar contraseña" },
   "signin.hide_password": { en: "Hide password", es: "Ocultar contraseña" },
+  "signin.claim_saving_title": { en: "Saving your result", es: "Guardando su resultado" },
+  "signin.claim_saving_body": {
+    en: "Your new password is set. We are saving your result to the exact matter now.",
+    es: "Su nueva contraseña está lista. Ahora estamos guardando su resultado en el asunto exacto."
+  },
+  "signin.claim_retry_title": {
+    en: "Your result is still waiting",
+    es: "Su resultado todavía está esperando"
+  },
+  "signin.pending_claim_error": {
+    en: "You are signed in, but we could not save your result yet. Retry saving it. Your preliminary result is still waiting for you.",
+    es: "Ha iniciado sesión, pero todavía no pudimos guardar su resultado. Intente guardarlo de nuevo. Su resultado preliminar sigue esperando."
+  },
+  "signin.claim_retrying": { en: "Retrying...", es: "Intentando de nuevo..." },
+  "signin.claim_retry_action": {
+    en: "Retry saving my result",
+    es: "Volver a intentar guardar mi resultado"
+  },
+  "signin.claim_error_title": {
+    en: "We could not save this result",
+    es: "No pudimos guardar este resultado"
+  },
+  "signin.claim_definitive_error": {
+    en: "We could not save this preliminary result. Continue to your Briefcase to check your saved matters or start another check.",
+    es: "No pudimos guardar este resultado preliminar. Continúe a su Maletín para revisar sus asuntos guardados o iniciar otra revisión."
+  },
+  "signin.claim_safe_next": {
+    en: "Continue to my Briefcase",
+    es: "Continuar a mi Maletín"
+  },
 
   "wilma.transport_fallback": { en: "I couldn't respond just now. Try again in a moment. The free screening and your Briefcase are still available.", es: "No pude responder en este momento. Inténtelo de nuevo en un momento. La evaluación gratuita y su Maletín siguen disponibles." },
   "wilma.challenge_pending": { en: "One sec - just finishing a quick security check, then send that again.", es: "Un segundo. Estamos terminando una revisión rápida de seguridad; luego envíe eso otra vez." },

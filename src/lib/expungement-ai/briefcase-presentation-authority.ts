@@ -12,6 +12,7 @@ import {
   consumerPacketPaymentAuthority,
   type ConsumerPaymentAuthorityProbe
 } from "@/lib/expungement-ai/consumer-payment-authority";
+import type { ConsumerPaymentReceiptAction } from "@/lib/expungement-ai/consumer-payment-receipt";
 import {
   readProtectedPacketArtifact,
   readProtectedPacketVerification,
@@ -93,7 +94,8 @@ export type BriefcasePresentationItem = {
       reviewSafety: { safe: boolean; reason: string };
     }
     | { status: "unavailable" };
-  paymentState: "paid" | "unpaid" | "sponsored" | "unavailable";
+  paymentState: "paid" | "refunded" | "unpaid" | "sponsored" | "unavailable";
+  paymentReceipt?: ConsumerPaymentReceiptAction;
   artifact: BriefcasePresentationArtifact;
 };
 
@@ -121,6 +123,7 @@ export function assembleBriefcasePresentationItem(input: {
   legalAuthority: BriefcaseLegalPresentationAuthority;
   protectedArtifact: ProtectedPacketArtifactRecord | null;
   paymentState: BriefcasePresentationItem["paymentState"];
+  paymentReceipt?: ConsumerPaymentReceiptAction | null;
 }): BriefcasePresentationItem {
   if (input.legalAuthority.status === "unavailable") {
     const artifact = sanitizeProtectedPresentationArtifact(input.protectedArtifact);
@@ -169,6 +172,9 @@ export function assembleBriefcasePresentationItem(input: {
     packetProgress: input.legalAuthority.packetProgress,
     packetDraft: input.legalAuthority.packetDraft,
     paymentState: input.paymentState,
+    ...((input.paymentState === "paid" || input.paymentState === "refunded") && input.paymentReceipt
+      ? { paymentReceipt: input.paymentReceipt }
+      : {}),
     artifact
   };
 }
@@ -297,6 +303,10 @@ export type BriefcasePresentationDependencies = {
     briefcaseItemId: string,
     consumerAuthUserId: string
   ): Promise<ConsumerPaymentAuthorityProbe>;
+  readPaymentReceiptAction?(input: {
+    consumerAuthUserId: string;
+    briefcaseItemId: string;
+  }): Promise<ConsumerPaymentReceiptAction | null>;
   readTrustedPendingSource(input: {
     consumerAuthUserId: string;
     item: ConsumerBriefcaseItem;
@@ -370,11 +380,18 @@ export async function decorateBriefcaseItemForPresentationWithDependencies(
     && Boolean(trustedSource.value.partnerSlug)
     ? "sponsored"
     : paymentPresentationState(paymentAuthority, trustedSource.ok);
+  const paymentReceipt = paymentState === "paid" && dependencies.readPaymentReceiptAction
+    ? await dependencies.readPaymentReceiptAction({
+      consumerAuthUserId: input.consumerAuthUserId,
+      briefcaseItemId: input.item.id
+    })
+    : null;
   return assembleBriefcasePresentationItem({
     item: input.item,
     legalAuthority,
     protectedArtifact: protectedArtifact.value,
-    paymentState
+    paymentState,
+    paymentReceipt
   });
 }
 

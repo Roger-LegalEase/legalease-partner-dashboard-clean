@@ -141,7 +141,7 @@ function stripeBoundaryViolations(input) {
   require(handoff.includes("anonymousSessionId:") && !handoff.includes("product:"), "Attribution must be resolved server-side, never declared by the browser.");
   require(handoff.includes("/api/expungement-ai/screening/pending"), "Completed DTC results must persist server-side before authentication.");
   require(handoff.includes("submitClaim(pending.claimToken)"), "Completed DTC results must be claimed before payment.");
-  require(handoff.includes('claimHandoffPath(pending.claimToken, "create")'), "Anonymous DTC auth handoff must retain the single-use claim token.");
+  require(handoff.includes('claimHandoffPath(pending.claimToken, "create", locale)'), "Anonymous DTC auth handoff must retain the single-use claim token and locale.");
   require(handoff.includes("SAVE_RESULT_ERROR") && handoff.includes("setPacketActionError(SAVE_RESULT_ERROR)"), "Result persistence failures must fail closed with a safe save error.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "Screening must not start payment or Checkout before packet information and review.");
   require(!handoff.includes('/expungement-ai/packet-ready"'), "Screening must not route to packet-ready before payment.");
