@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "acdb5b3f8f6395753271abb895108cb2159a0eb7",
+  "minimumCaptainSha": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "be95d239b714710788e904eb4e07f931c449251cdd94c44e52c8795c3ade69b0",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "7caa56533f328df4c2a9182f2da3b865ebc761f18d2d4acf4c890780a713f6c1",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "353884cfc41485601e95906d4c06d2b78e40720dbb5aaadbcbb03e482b9f704d"
@@ -72,22 +72,21 @@
     "sourceReady": 80,
     "sourceBlocked": 6,
     "legalBlocked": 14,
-    "verifyPending": 6,
+    "verifyPending": 9,
     "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 160,
+    "COMPLETE_PACKET_PROVEN": 158,
     "FAIL_REPAIR_REQUIRED": 42,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 80,
+    "VERIFY_PENDING": 9,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 14,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 1,
-    "VERIFY_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -3899,7 +3898,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -3929,7 +3931,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
@@ -12100,7 +12102,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -12130,7 +12135,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -27735,7 +27740,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -27765,7 +27773,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -28243,7 +28251,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -28273,7 +28284,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
@@ -28309,35 +28320,43 @@
         "participant_instructions",
         "primary_filing"
       ],
-      "officialFormFamily": "AOC-CR-287+AOC-CR-287-INSTRUCTIONS+AOC-CV-226",
+      "officialFormFamily": "AOC-CR-287+AOC-CR-287-INSTRUCTIONS+AOC-CV-226+AOC-G-106",
       "forms": [
         "AOC-CR-287",
         "AOC-CR-287-INSTRUCTIONS",
-        "AOC-CV-226"
+        "AOC-CV-226",
+        "AOC-G-106"
       ],
       "sourceIds": [
         "official-form:AOC-CR-287",
         "official-form:AOC-CR-287-INSTRUCTIONS",
-        "official-form:AOC-CV-226"
+        "official-form:AOC-CV-226",
+        "official-form:AOC-G-106"
       ],
       "sourceHashes": [
         {
           "sourceId": "official-form:AOC-CR-287",
-          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "path": "reference/north-carolina/AOC-CR-287-2025-12.pdf",
           "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "path": "reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf",
           "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CV-226",
-          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "path": "reference/north-carolina/AOC-CV-226-2023-04.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:AOC-G-106",
+          "path": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+          "sha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -28366,24 +28385,35 @@
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-287",
-            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+            "path": "reference/north-carolina/AOC-CR-287-2025-12.pdf",
             "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "path": "reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf",
             "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "official-form:AOC-CV-226",
-            "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+            "path": "reference/north-carolina/AOC-CV-226-2023-04.pdf",
             "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
+          },
+          {
+            "sourceId": "official-form:AOC-G-106",
+            "path": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+            "sha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -28410,17 +28440,26 @@
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 3,
+        "namedOfficialForms": 4,
         "effectiveOfficialSourceIds": [
           "official-form:AOC-CR-287",
           "official-form:AOC-CR-287-INSTRUCTIONS",
-          "official-form:AOC-CV-226"
+          "official-form:AOC-CV-226",
+          "official-form:AOC-G-106"
         ],
-        "boundCount": 6,
+        "boundCount": 7,
         "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
-      "sourceReconciliation": null,
+      "sourceReconciliation": {
+        "group": "LATER",
+        "disposition": "SOURCE_READY",
+        "exactResidual": "No missing binary remains for the four declared NC component sources. Legal review, current raster and independent packet acceptance remain separate and unchanged.",
+        "permissionHold": null,
+        "productQuestion": null,
+        "sourceReplacements": null,
+        "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
+      },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "BLOCKED_LEGAL_INPUT",
@@ -36268,10 +36307,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf12",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "chatgpt-independent-verification-pass-2",
+        "verifiedAtBase": "cd32cb7b846e99bd19d3172467d81f566a420d12",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/chatgpt-independent-verification-pass-2/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -36302,31 +36341,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "COMPONENT_SET",
-        "FILING_DESTINATION",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "All three component byte ranges exist, but the required component semantics do not. The registry marks wi_exp_certificate_of_discharge_followup-status-request-2 conditional and says it is used only when the participant wants to know whether the certificate issued rather than ask that it be issued. Both production-field-map.json and reports/rendered-artifacts.json record componentConditions as an empty object. The participant component table omits the only-if condition, while its generic steps direct the participant to fill every page for the route and file the pages together. The packet therefore directs both mutually distinct requests to every participant instead of preserving the registry's status-only condition.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Primary-request page 1 visibly leaves a TO/addressee line and tells the participant to write that office's name and address there. The registry independently requires the current mailing address of the supervising authority before sending. That blank is absent from production-field-map.json, blanks-left-for-the-participant.json and the primary request's required-items table, so it is unclassified and undisclosed. At the same time, the field map classifies a nonexistent primary-filing-1.case_number as protected even though the repaired primary letter explicitly says it is not filed with a court and no court assigns it a case number. The participant instructions compound the error by saying every case number in every caption is left blank until the court assigns one at filing, even though the real status-request page has a participant-supplied existing case or docket number.",
-          "evidence": null
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The request pages themselves name the correct administrative destination: send to the supervising or detaining authority, with the resulting certificate going to the clerk of circuit court. But participant-instructions.md affirmatively contradicts those pages by calling the act a filing, directing the participant to file the pages for the route, and saying the court assigns a case number at filing and all pages are filed together. The registry says in terms: not a court filing; send the written request to the supervising or detaining authority. Participant-facing instructions cannot contradict that destination.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",

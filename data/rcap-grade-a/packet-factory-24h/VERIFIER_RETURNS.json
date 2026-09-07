@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 85,
-    "rows": 948,
+    "returnDirectories": 86,
+    "rows": 949,
     "independentVerdicts": 243,
-    "failRepairRequired": 43,
-    "passIndependent": 179
+    "failRepairRequired": 42,
+    "passIndependent": 180
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -80,7 +80,6 @@
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-nv-custom-pleading",
-    "rcap-wi-custom-pleading",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "vt_exp_decriminalized-set"
@@ -19462,6 +19461,20 @@
     {
       "familyId": "rcap-wi-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "chatgpt-independent-verification-pass-2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cd32cb7b846e99bd19d3172467d81f566a420d12",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/chatgpt-independent-verification-pass-2/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wi-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "247b790b6",
@@ -19547,7 +19560,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wv-custom-pleading",

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs",
   "captainHead": null,
   "question": "What is actually blocking each source, and who can move it?",
-  "answer": "26 canonical artifact identities over 13 unique families. 0 require a person; everything else is ACQ, PROMO, DISC, Captain or counsel work.",
+  "answer": "17 canonical artifact identities over 6 unique families. 0 require a person; everything else is ACQ, PROMO, DISC, Captain or counsel work.",
   "whyTheOldListWasInvalid": {
     "verdict": "INVALID_AS_HUMAN_ONLY_DISPATCH",
     "structuralDefectsIndependentlyConfirmed": {
@@ -190,16 +190,18 @@
   },
   "reconciliation42": {
     "input": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
-    "familiesExamined": 70,
+    "familiesExamined": 74,
     "byDisposition": {
-      "SOURCE_READY": 53,
+      "SOURCE_READY": 59,
       "PRODUCT_PATH_PENDING": 7,
-      "SOURCE_BLOCKED": 10
+      "SOURCE_BLOCKED": 8
     },
     "byGroup": {
       "A": 19,
       "B": 19,
-      "C": 4
+      "C": 4,
+      "D": 28,
+      "LATER": 4
     },
     "remainingSourceBlockedFamilyIds": [
       "az_set_aside-set",
@@ -207,11 +209,9 @@
       "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
       "census-pending-family:UT:path-m-juvenile-expungement",
       "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
-      "ri_decriminalized-set",
-      "ri_deferred_sentence-set",
-      "ri_first_offender_felony-set",
-      "ri_first_offender_misdemeanor-set",
-      "ri_multiple_misdemeanors-set"
+      "nm_conviction-set",
+      "nm_identity_theft-set",
+      "nm_release_without_conviction-set"
     ],
     "laterSourceBlockersKeptSeparate": [
       "co_motion_seal_conviction-set",
@@ -306,7 +306,7 @@
         "familyId": "fl-10yr-bridge-set",
         "group": "A",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
         "exactNextAction": "Build with the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
         "exactResidual": null
       },
@@ -314,7 +314,7 @@
         "familyId": "fl-administrative-set",
         "group": "A",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Build the written application and endorsement treatment required by Rule 11C-7.008; no uniform FDLE form exists.",
         "exactResidual": null
       },
@@ -322,7 +322,7 @@
         "familyId": "fl-early-juvenile-set",
         "group": "A",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
         "exactNextAction": "Build from the owner-custodied current FDLE early-juvenile application rendering.",
         "exactResidual": null
       },
@@ -386,7 +386,7 @@
         "familyId": "ar-drug-court-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "VERIFY_PENDING",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
         "exactNextAction": "Bind the pre/post petition-order pair selected by adjudication posture, then build.",
         "exactResidual": null
       },
@@ -418,7 +418,7 @@
         "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "VERIFY_PENDING",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Build the continuation region within held parent AOC-CREM2F-071221.",
         "exactResidual": null
       },
@@ -426,7 +426,7 @@
         "familyId": "az_record_sealing_conviction-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Build from the hash-bound 050625 petition and order identities; render the continuation inside the petition.",
         "exactResidual": null
       },
@@ -441,48 +441,48 @@
       {
         "familyId": "ri_decriminalized-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
-        "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted participant-supplied order vehicle; preserve the court-specific motion selector.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; DC-33 alone also cannot serve non-District-Court cases."
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
+        "exactNextAction": "Bind DC-33 and render its affidavit region, then compose the District Court proposed order for the decriminalised-conduct branch.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build."
       },
       {
         "familyId": "ri_deferred_sentence-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
-        "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Bind the held Superior-55 Part Three motion and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "The route's DC-33 mapping is superseded by Superior-55 Part Three, whose instructions require an order that is not held or composition-authorized."
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "VERIFY_PENDING",
+        "exactNextAction": "Bind the held Superior-55 Part Three motion and compose the Superior Court felony/deferred proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build."
       },
       {
         "familyId": "ri_first_offender_felony-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
-        "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep Superior-55 Part Two bound and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "Superior-55 requires the filer to bring an order, but no exact order template or authority to compose one is held."
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "VERIFY_PENDING",
+        "exactNextAction": "Keep Superior-55 Part Two bound and compose the Superior Court felony/deferred proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build."
       },
       {
         "familyId": "ri_first_offender_misdemeanor-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
-        "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep DC-33 Part Three A bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; other trial courts require court-specific motion treatment."
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "VERIFY_PENDING",
+        "exactNextAction": "Keep DC-33 Part Three A bound for District Court and compose the District Court proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build."
       },
       {
         "familyId": "ri_multiple_misdemeanors-set",
         "group": "B",
-        "decidedDisposition": "SOURCE_BLOCKED",
-        "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep DC-33 Part Three B bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; current form wording also requires reconciliation against the fewer-than-six statutory limit."
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "VERIFY_PENDING",
+        "exactNextAction": "Keep DC-33 Part Three B bound for District Court and compose the District Court proposed order. The fewer-than-six statutory limit still has to be reconciled against the current form wording.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build."
       },
       {
         "familyId": "in_conviction_d6-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null
       },
@@ -490,7 +490,7 @@
         "familyId": "in_conviction_felony-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null
       },
@@ -498,7 +498,7 @@
         "familyId": "in_conviction_misd-set",
         "group": "B",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "COMPLETE_PACKET_PROVEN",
         "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
         "exactResidual": null
       },
@@ -555,8 +555,8 @@
         "group": "C",
         "decidedDisposition": "SOURCE_BLOCKED",
         "projectedState": "SOURCE_BLOCKED",
-        "exactNextAction": "Acquire or restore JU 10.0300 and JU 10.0315 into current governed custody; JU 10.0320 is already hash-bound.",
-        "exactResidual": "The current governed corpus holds JU 10.0320 only. Historical inventory records hashes for JU 10.0300 and JU 10.0315, but their bytes are absent from every current indexed custody, so they cannot be bound as ready."
+        "exactNextAction": "Do not acquire against this family. It is the RCW 13.50.260(1)-(2) court-initiated route and the participant files nothing, so it belongs in a guidance treatment rather than SOURCE_BLOCKED. Whether to open the (3) motion path as its own family, which is what the three JU forms actually serve, is a separate decision.",
+        "exactResidual": "No byte is owed for this route. The earlier residual said the governed corpus holds JU 10.0320 only; it holds none of the three."
       },
       {
         "familyId": "ca-diversion-seal-set",
@@ -594,7 +594,7 @@
         "familyId": "de_mandatory_expungement-set",
         "group": "D",
         "decidedDisposition": "SOURCE_READY",
-        "projectedState": "SOURCE_READY",
+        "projectedState": "VERIFY_PENDING",
         "exactNextAction": "Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF.",
         "exactResidual": null
       },
@@ -781,12 +781,43 @@
         "projectedState": "SOURCE_READY",
         "exactNextAction": "Build from the exact current SCA-C907 source.",
         "exactResidual": null
+      },
+      {
+        "familyId": "nm_conviction-set",
+        "group": "LATER",
+        "decidedDisposition": "SOURCE_BLOCKED",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+      },
+      {
+        "familyId": "nm_identity_theft-set",
+        "group": "LATER",
+        "decidedDisposition": "SOURCE_BLOCKED",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+      },
+      {
+        "familyId": "nm_release_without_conviction-set",
+        "group": "LATER",
+        "decidedDisposition": "SOURCE_BLOCKED",
+        "projectedState": "FAIL_REPAIR_REQUIRED",
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY."
+      },
+      {
+        "familyId": "nc_146_dismissal_petition-set",
+        "group": "LATER",
+        "decidedDisposition": "SOURCE_READY",
+        "projectedState": "LEGAL_BLOCKED",
+        "exactResidual": "No missing binary remains for the four declared NC component sources. Legal review, current raster and independent packet acceptance remain separate and unchanged."
       }
     ]
   },
   "counts": {
-    "uniqueCanonicalArtifacts": 26,
-    "uniqueFamilies": 13,
+    "uniqueCanonicalArtifacts": 17,
+    "uniqueFamilies": 6,
     "byState": {
       "PUBLIC_DOWNLOAD": 0,
       "PUBLIC_DOWNLOAD_BOT_BLOCKED": 0,
@@ -796,9 +827,9 @@
       "STALE_OR_VARIANT_ID": 0,
       "SOURCE_SCOPE_AND_VERSION_AMBIGUITY": 0,
       "MISSING_SOURCE_BINARY": 0,
-      "MISSING_CANONICAL_RELATIONSHIP_METADATA": 20,
+      "MISSING_CANONICAL_RELATIONSHIP_METADATA": 13,
       "CURRENTNESS_UNVERIFIED": 4,
-      "FAMILY_IDENTITY_AMBIGUOUS": 2,
+      "FAMILY_IDENTITY_AMBIGUOUS": 0,
       "UNSUPPORTED_RELATIONSHIP": 0,
       "STATUTORY_CUSTOM_PLEADING": 0,
       "LICENSE_PERMISSION_REVIEW": 0,
@@ -806,237 +837,11 @@
     },
     "residualHumanActionCount": 0,
     "externallyVerifiedRecords": 0,
-    "familiesNamingNoForm": 3
+    "familiesNamingNoForm": 0
   },
   "rankingRule": "unique canonical artifact and unique family. The old list summed row-family references, so one family counted several times and inflated its own rank.",
-  "familiesNamingNoForm": [
-    "ga-jail-k2-set",
-    "ma-bmc-multi-set",
-    "vt_seal_under_25-set"
-  ],
+  "familiesNamingNoForm": [],
   "records": [
-    {
-      "jurisdiction": "RI",
-      "canonicalArtifactId": "DC-33",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "ri_decriminalized-set",
-          "componentId": "DC-33",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_first_offender_misdemeanor-set",
-          "componentId": "DC-33",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_multiple_misdemeanors-set",
-          "componentId": "DC-33",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "ri_decriminalized-set",
-        "ri_first_offender_misdemeanor-set",
-        "ri_multiple_misdemeanors-set"
-      ],
-      "uniqueFamilyCount": 3,
-      "sourceIds": [
-        "official-form:DC-33",
-        "official-form:DC-33-AFFIDAVIT",
-        "official-form:DC-33-ORDER"
-      ],
-      "queueReasons": [
-        "official-form:DC-33-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-      ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "RI",
-      "canonicalArtifactId": "DC-33-ORDER",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "ri_decriminalized-set",
-          "componentId": "DC-33-ORDER",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_first_offender_misdemeanor-set",
-          "componentId": "DC-33-ORDER",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_multiple_misdemeanors-set",
-          "componentId": "DC-33-ORDER",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "ri_decriminalized-set",
-        "ri_first_offender_misdemeanor-set",
-        "ri_multiple_misdemeanors-set"
-      ],
-      "uniqueFamilyCount": 3,
-      "sourceIds": [
-        "official-form:DC-33",
-        "official-form:DC-33-AFFIDAVIT",
-        "official-form:DC-33-ORDER"
-      ],
-      "queueReasons": [
-        "official-form:DC-33-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-      ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "RI",
-      "canonicalArtifactId": "Superior-55",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "ri_deferred_sentence-set",
-          "componentId": "Superior-55",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_first_offender_felony-set",
-          "componentId": "Superior-55",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "ri_deferred_sentence-set",
-        "ri_first_offender_felony-set"
-      ],
-      "uniqueFamilyCount": 2,
-      "sourceIds": [
-        "official-form:Superior-55",
-        "official-form:Superior-55-ORDER"
-      ],
-      "queueReasons": [
-        "official-form:Superior-55-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-      ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "RI",
-      "canonicalArtifactId": "Superior-55-ORDER",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "ri_deferred_sentence-set",
-          "componentId": "Superior-55-ORDER",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        },
-        {
-          "routeOrFamilyId": "ri_first_offender_felony-set",
-          "componentId": "Superior-55-ORDER",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "ri_deferred_sentence-set",
-        "ri_first_offender_felony-set"
-      ],
-      "uniqueFamilyCount": 2,
-      "sourceIds": [
-        "official-form:Superior-55",
-        "official-form:Superior-55-ORDER"
-      ],
-      "queueReasons": [
-        "official-form:Superior-55-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-      ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
     {
       "jurisdiction": "AZ",
       "canonicalArtifactId": "R-26-0001 adopted Form 31(a)",
@@ -1128,116 +933,6 @@
         "official-form:R-26-0001 adopted Form 31(a): MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
         "official-form:R-26-0001 adopted Form 31(b): MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
       ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "CO",
-      "canonicalArtifactId": "JDF-612",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [
-        {
-          "artifactId": "jdf612",
-          "fileName": "JDF612.pdf",
-          "sha256": null
-        },
-        {
-          "artifactId": "jdf-612-motion-to-seal-conviction-records-rev-2024-08-07",
-          "fileName": "JDF-612__motion-to-seal-conviction-records__rev-2024-08-07.pdf",
-          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e"
-        }
-      ],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "FAMILY_IDENTITY_AMBIGUOUS",
-      "sourceStateBasis": "2 held artifacts match this identity (JDF612.pdf, JDF-612__motion-to-seal-conviction-records__rev-2024-08-07.pdf); which one the route requires is unsettled, and choosing by array order would state a guess as a measurement",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "co_motion_seal_conviction-set",
-          "componentId": "JDF-612",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles which document the route actually requires",
-      "uniqueFamilies": [
-        "co_motion_seal_conviction-set"
-      ],
-      "uniqueFamilyCount": 1,
-      "sourceIds": [
-        "official-form:JDF-612",
-        "official-form:JDF-615"
-      ],
-      "queueReasons": [],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "CO",
-      "canonicalArtifactId": "JDF-615",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [
-        {
-          "artifactId": "jdf615",
-          "fileName": "JDF615.pdf",
-          "sha256": null
-        },
-        {
-          "artifactId": "jdf-615-order-to-seal-conviction-records-rev-2024-08-07",
-          "fileName": "JDF-615__order-to-seal-conviction-records__rev-2024-08-07.pdf",
-          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647"
-        }
-      ],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "FAMILY_IDENTITY_AMBIGUOUS",
-      "sourceStateBasis": "2 held artifacts match this identity (JDF615.pdf, JDF-615__order-to-seal-conviction-records__rev-2024-08-07.pdf); which one the route requires is unsettled, and choosing by array order would state a guess as a measurement",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "co_motion_seal_conviction-set",
-          "componentId": "JDF-615",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles which document the route actually requires",
-      "uniqueFamilies": [
-        "co_motion_seal_conviction-set"
-      ],
-      "uniqueFamilyCount": 1,
-      "sourceIds": [
-        "official-form:JDF-612",
-        "official-form:JDF-615"
-      ],
-      "queueReasons": [],
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,
@@ -1859,141 +1554,6 @@
         "official-form:1001EX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
         "official-form:1021EX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
       ],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "WA",
-      "canonicalArtifactId": "Blake-001",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "wa_blake_vacatur_and_lfo_refund-set",
-          "componentId": "Blake-001",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "wa_blake_vacatur_and_lfo_refund-set"
-      ],
-      "uniqueFamilyCount": 1,
-      "sourceIds": [
-        "official-form:Blake-001",
-        "official-form:Blake-002",
-        "official-form:Blake-005"
-      ],
-      "queueReasons": [],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "WA",
-      "canonicalArtifactId": "Blake-002",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "wa_blake_vacatur_and_lfo_refund-set",
-          "componentId": "Blake-002",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "wa_blake_vacatur_and_lfo_refund-set"
-      ],
-      "uniqueFamilyCount": 1,
-      "sourceIds": [
-        "official-form:Blake-001",
-        "official-form:Blake-002",
-        "official-form:Blake-005"
-      ],
-      "queueReasons": [],
-      "verifiedNote": null,
-      "humanContactTarget": null,
-      "humanContactQuestion": null,
-      "humanAction": null
-    },
-    {
-      "jurisdiction": "WA",
-      "canonicalArtifactId": "Blake-005",
-      "canonicalArtifactTitle": "REQUIRES_LOOKUP — no printed title is recorded",
-      "canonicalPublisher": "REQUIRES_LOOKUP — no issuing body is recorded for this identity in any committed record",
-      "officialSourcePage": null,
-      "officialArtifactUrl": null,
-      "artifactSha256": null,
-      "humanReturn": null,
-      "heldPath": null,
-      "heldCandidates": [],
-      "localAmbiguityResolvedByVerification": false,
-      "sourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
-      "sourceStateBasis": "no canonical publisher, address or component locator is recorded for this identity",
-      "externallyVerified": false,
-      "aliases": [],
-      "components": [],
-      "relationships": [
-        {
-          "routeOrFamilyId": "wa_blake_vacatur_and_lfo_refund-set",
-          "componentId": "Blake-005",
-          "relationshipState": "ASSERTED_BY_THE_QUEUE_NOT_INDEPENDENTLY_CONFIRMED"
-        }
-      ],
-      "reuseStatus": {
-        "restricted": null,
-        "note": "not assessed"
-      },
-      "jurisdictionScope": "unknown",
-      "owner": "DISC settles source identity and the route or family relationship",
-      "uniqueFamilies": [
-        "wa_blake_vacatur_and_lfo_refund-set"
-      ],
-      "uniqueFamilyCount": 1,
-      "sourceIds": [
-        "official-form:Blake-001",
-        "official-form:Blake-002",
-        "official-form:Blake-005"
-      ],
-      "queueReasons": [],
       "verifiedNote": null,
       "humanContactTarget": null,
       "humanContactQuestion": null,

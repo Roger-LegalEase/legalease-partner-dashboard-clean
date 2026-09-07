@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `acdb5b3f8f6395753271abb895108cb2159a0eb7` (or the newer dispatch base)
+**Minimum required ancestor:** `00d2425ca20f03468523b5d3bfa00ada59d7d6c8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
   --codex-cloud \
-  --minimum-captain-sha acdb5b3f8f6395753271abb895108cb2159a0eb7
+  --minimum-captain-sha 00d2425ca20f03468523b5d3bfa00ada59d7d6c8
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -53,7 +53,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `EMBEDDED_SECTION` — 0 — the document is a section inside another form. There is no separate binary to request from anyone.
 - `STALE_OR_VARIANT_ID` — 0 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 0 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
-- `FAMILY_IDENTITY_AMBIGUOUS` — 2 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
+- `FAMILY_IDENTITY_AMBIGUOUS` — 0 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
 - `CURRENTNESS_UNVERIFIED` — 4 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 0 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
 - `LICENSE_PERMISSION_REVIEW` — 0 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
@@ -63,7 +63,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `STANDALONE_ARTIFACT` — 0 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 0 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 20 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 13 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
