@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CHAT4-20260907",
+  "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+  "sessionIdentity": "chat4-20260907-nc-nv-independent-01",
+  "reviewDate": "2026-09-07",
+  "counselApproval": false,
+  "packetFilesEdited": false,
+  "builderExecuted": false,
+  "newRasterRequested": false,
+  "productionTouched": false,
+  "publicationNote": "NC was published immediately as PR230 at 44cd232293b4cbb3aed337595ac670f65062044c on the assigned branch. It remains unchanged. This Nevada-only publication branch starts at the same authorized baseline so the still-open NC PR and this family can be consumed separately. Neither branch is reset or force-pushed.",
+  "rows": [{
+    "familyId": "rcap-nv-custom-pleading",
+    "itemId": "rcap-nv-custom-pleading",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "e26f669eed3000b923185484369a3752011e8d2e",
+    "packetInputCommit": "3794a1a1ace8ad3e85423122afd380cabcd58140",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+    "routeKeys": [
+      "obligation:track-only:NV:nv_seal_decrim",
+      "obligation:track-only:NV:nv_seal_multi",
+      "obligation:track-only:NV:nv_seal_pardon",
+      "obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245",
+      "obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing",
+      "obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259"
+    ],
+    "coverage": {
+      "completePdfPageSetsExamined": 2,
+      "pagesPerPdf": 44,
+      "pageInstancesIndividuallyVisuallyExamined": 88,
+      "unviewedAliasCoverage": 0,
+      "uniquePngDigestsMeasured": 77,
+      "pngsFreshlyRehashedAndMatchedToAdmission": 88,
+      "wholePdfSha256FreshlyMeasuredByThisSession": 0,
+      "method": "Downloaded existing central, publication and admission artifacts through connected GitHub. Hashed exact ZIP, verdict and all numbered PNG bytes locally. Individually displayed and examined every canonical and boundary page, including all unchanged routes. The archive verdict and retained admission verdict parse to identical objects but have different byte serialization/hashes, both explicitly retained below. Current and immutable fixture Git blob IDs match. Whole-PDF SHA256 values are source-reported pins, not this session's fresh whole-file measurements. No OCR, packet builder, reraster or inference of legal correctness from pixel identity.",
+      "recordScope": "Read current source-receipt, product-wiring, builder counters, complete delivered six-route instructions, current long-guide route/disclosure/execution sections, map route/component/selection declarations and representative actual-write/blank records including the false missing-DOB disclosure. The full 716486-byte field-map geometry and 65537/93713-byte write/blank files were not replayed exhaustively. Old source-snapshot Nevada PDFs and maps were explicitly rejected as current evidence. This completed failure review does not claim an exhaustive nine-counter PASS or fresh PDF-text readback."
+    },
+    "pageCoverage": [
+      {"route":"nv_seal_decrim","canonicalPages":[1,5],"boundaryPages":[1,5],"components":"petition1, proposed order2, declaration3, instructions4-5","finding":"Court-first written request, no submission fee, court notice and ten judicial days after notice receipt are preserved. Cross-cutting fee overstatement remains."},
+      {"route":"nv_seal_multi","canonicalPages":[6,13],"boundaryPages":[6,13],"components":"petition6-8, proposed order9, declaration10, stipulation11, instructions12-13","finding":"Underlying routes/consolidation named; ordinary-procedure, repeated-known-fact and record/order-detail defects remain. Existing mixed-county/municipal handoff is not silently removed."},
+      {"route":"nv_seal_pardon","canonicalPages":[14,18],"boundaryPages":[14,18],"components":"petition14, proposed order15, declaration16, instructions17-18","finding":"Proof of pardon, prior automatic sealing check, court-first/no prosecutor review/no submission fee are preserved. The authored unconditional-pardon scope is not expanded. Cross-cutting fee overstatement remains."},
+      {"route":"nv_seal_conviction","canonicalPages":[19,28],"boundaryPages":[19,28],"components":"petition19-22, proposed order23, declaration24, stipulation25, instructions26-28","finding":"Most differentiated waiting periods, DUI carve-back and dishonorable-discharge distinction survive. Medicaid qualification, statutory-procedure, required record details and known-DOB defects remain."},
+      {"route":"nv_seal_nonconviction","canonicalPages":[29,36],"boundaryPages":[29,36],"components":"petition29-31, proposed order32, declaration33, stipulation34, instructions35-36","finding":"Dismissal, declination and acquittal distinctions and possible later prosecution are retained. Ordinary-procedure, record/custodian/order and known-DOB defects remain."},
+      {"route":"nv_seal_reentry","canonicalPages":[37,44],"boundaryPages":[37,44],"components":"petition37-39, proposed order40, declaration41, stipulation42, instructions43-44","finding":"Full reentry route independently examined, not merely two special-route repairs. Distinct section179.259 timing, eligibility and procedure are omitted or replaced."
+      }
+    ],
+    "findings": [
+      {
+        "id":"CHAT4-NV-01",
+        "severity":"substantive_repair_required",
+        "owner":"A to route to the current Nevada packet/authority owner; Chat4 remains read-only",
+        "obligations":["ROUTE_IDENTITY","REQUIRED_BEFORE_FILING","SERVICE","SELF_HELP_STOP"],
+        "locations":"Both complete PDFs pages37-44; especially petition37-39, prosecutor stipulation42 and instructions43. Current guide reentry input table has only program identity/completion date and proof.",
+        "observed":"The route treats section179.259 as ordinary prosecutor-first sealing, includes a prosecutor stipulation and uses the ordinary30-day response machinery. It does not state the four-year period after successful completion, the defined qualifying programs/person or the Division of Parole and Probation good-cause hearing mechanism.",
+        "correction":"Implement section179.259 itself: four years after completion; qualifying participation/program under subsection6; single felony-punishable non-force/nonviolence offense, with the same-transaction rule; subsection5 child/sexual-offense exclusions; court may act without hearing unless the Division petitions for good cause not to seal and requests a hearing. Preserve court transmission and agency compliance under subsection2 and licensing/insurance access qualifications under subsections3-4. A local optional stipulation process may be described as local practice, not substituted for this statute. Add missing-fact disclosures and refuse to invent eligibility or a completion date.",
+        "authority":"https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec259",
+        "priorNotice":"PR224 comment5573151735; final coverage now88/88, not the44/88 interim count"
+      },
+      {
+        "id":"CHAT4-NV-02",
+        "severity":"procedure_and_instruction_repair_required",
+        "owner":"A/current Nevada packet owner",
+        "obligations":["ROUTE_OPTIONS","SERVICE","SELF_HELP_STOP"],
+        "locations":"Ordinary route instructions pages12-13,26-28,35-36,43-44 in both PDFs; current long guide steps5-6 and prosecutor-refusal stop.",
+        "observed":"The packet conditions filing on first obtaining prosecutor agreement and conflates that submission with the statutory notice procedure. The statewide explanation omits the no-stipulation filing path. For reentry it also imports the wrong actor/procedure, separately detailed in01.",
+        "correction":"For sections179.245 and179.255 distinguish court filing/notice from optional local prefiling stipulation review, and anchor the statutory30 days to receipt of the court's notice. A prosecutor refusal may remain the bounded product's legal-help stopping point; it is not a statement that the statute forbids filing or that every non-stipulated case is necessarily already contested. Clark County's own stipulation guide permits filing/requesting a hearing after denial. Preserve that local option without representing it as the only statewide legal route. Preserve the distinct271 ten-judicial-day and273 no-review procedures.",
+        "authorities":["https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec245","https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec255","https://www.clarkcountynv.gov/government/departments/district_attorney/divisions/criminal/sealing_of_records/record_sealing_forms_instructions/guideline-for-utilizing-the-stipulation-process"]
+      },
+      {
+        "id":"CHAT4-NV-03",
+        "severity":"fee_rule_repair_required",
+        "owner":"A/current Nevada packet and source-record owner",
+        "obligations":["FEE_AND_WAIVER","REQUIRED_BEFORE_FILING"],
+        "locations":"Cross-cutting fee/trafficking paragraphs in the six route instructions, ordinary petition fact prompts and current long-guide input tables.",
+        "observed":"The material says section179.245(9) waives every fee for sex trafficking OR involuntary servitude and extends that statement across the family. Current statutory wording is narrower: a petition pursuant to section179.245, where the petitioner was being sex trafficked pursuant to201.300 at the time of the crime.",
+        "correction":"Use that exact statutory trigger and route scope; preserve its broad list of covered government fees where applicable. Do not conflate the separate179.247 vacatur grounds with245(9). Retain the independently applicable no-submission-fee rules of271(2) and273(5). Keep general indigency relief/local cost confirmation distinct, without asserting a statewide price or inventing a waiver determination.",
+        "authority":"https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec245"
+      },
+      {
+        "id":"CHAT4-NV-04",
+        "severity":"waiting_period_repair_required",
+        "owner":"A/current Nevada packet and source-record owner",
+        "obligations":["ROUTE_IDENTITY","REQUIRED_BEFORE_FILING"],
+        "locations":"Both conviction packet sequences19-28, waiting-period summary repeated in filing instructions.",
+        "observed":"The seven-year Medicaid-fraud category is qualified as non-felony. Section179.245(1)(e) lists violations of422.540 through422.570 without that qualification; the non-felony wording attaches to the adjacent DUI and domestic-battery categories. Paragraph1(b) expressly excepts paragraph(e).",
+        "correction":"Remove the non-felony limitation from the422.540-422.570 category while preserving it for the applicable DUI/domestic-battery categories and preserving the proper later-of-release/suspended-sentence trigger. Do not route an otherwise covered felony Medicaid-fraud record into the ordinary five-year category.",
+        "authority":"https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec245"
+      },
+      {
+        "id":"CHAT4-NV-05",
+        "severity":"known_fact_prefill_repair_required",
+        "owner":"A/current Nevada packet owner",
+        "obligations":["KNOWN_PREFILLS","REQUIRED_BEFORE_FILING"],
+        "locations":"ItemC2 on pages7,20,30,38 of EACH PDF, plus current blanks report and long-guide tables.",
+        "observed":"DOB is visibly known and printed in the corresponding petition identity section/declaration, but itemC2 asks for the same DOB again and remains blank. The current multi blank record says the platform holds no value for fact_seaDateOfBirth, although participant.date_of_birth is present in actual-writes. Four duplicate DOB blanks per fixture/eight instances are independently observed. C1 also combines an already-known name with unknown aliases.",
+        "correction":"Resolve route-level DOB aliases to the known participant DOB and prefill every applicable occurrence; test cross-page consistency. Separate known legal name from any unanswered alias-history question rather than fabricating aliases. Do not count the blank as justified merely because a different fact key lacks a binding. This is a product-completeness failure, not a claim that DOB is absent everywhere from the legal document."
+      },
+      {
+        "id":"CHAT4-NV-06",
+        "severity":"record_scope_and_proposed_order_repair_required",
+        "owner":"A/current Nevada packet owner",
+        "obligations":["COMPONENT_SET","REQUIRED_BEFORE_FILING","REPEATING_ROWS"],
+        "locations":"Ordinary petitions6-8,19-22,29-31 and their proposed orders9,23,32; reentry order40; both fixtures. Long guide labels every deciding line of a proposed order as court-owned and supplies only its caption.",
+        "observed":"The ordinary petitions do not provide an explicit public/private record-custodian list comparable to the repaired special petitions. Conviction prompts request offense date rather than the separately required arrest date. Multi-record facts are a generic response area without per-record arrest/agency/charge/disposition reconciliation. Proposed orders have an empty operative ORDERS-that body and no prepared record/custodian list; the guide tells the participant to leave those substantive lines to the court.",
+        "correction":"Add the record-specific information and custodian list required by245(2)/255(3), including arrest date, and reconcile each additional record with its disposition and destination. Prepare requested sealing language/record identification in a clearly proposed order while keeping actual judicial findings, signatures and entry dates unexecuted. Do not confuse preparation of requested relief with fabrication of a judge's ruling. For a Clark County stipulated delivery, the current DA instructions require record details and custodians in BOTH petition and order and reject attachments that substitute for the sealable-items body. Other local delivery requirements must be scoped/confirmed, not inferred statewide from Clark. Keep unknown rows unasserted but disclose the actual missing fields.",
+        "authorities":["https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec245","https://www.leg.state.nv.us/nrs/nrs-179.html#NRS179Sec255","https://www.clarkcountynv.gov/government/elected_officials/county_district_attorney/divisions/criminal/record-sealing-forms-instructions"],
+        "qualification":"No claim that every statute independently mandates a separate proposed-order form. The failure concerns the declared prepared ordinary packet and any claimed local stipulated delivery, not an invented universal blank-form requirement."
+      },
+      {
+        "id":"CHAT4-NV-07",
+        "severity":"product_binding_repair_required",
+        "owner":"A",
+        "obligations":["ARTIFACTS","ROUTE_OPTIONS"],
+        "locations":"Current product-wiring.json, Git blob0584e3b94f78c7c5827e9e5c9a350613d95af78d.",
+        "observed":"Binding still points to old canonical0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e and raster33672468930/artifact9863889420. It proposes the complete six-route inventory as one unconditional primary filing. packetComponents and sourceVersion are empty. The current whole44-page inputs/admitted34101879269 receipt are different. DECLARED_NOT_INSTALLED and payment/sponsorship false remain, so no live bad delivery is alleged.",
+        "correction":"Refresh generated declarations to the exact current complete outputs and admitted receipt, with route-specific component selection and actual source/version identity. Preserve this independent failure, unknown-fact refusal and closed payment/sponsorship. Do not install an unconditional six-route diagnostic as a participant filing or discard the completed current raster as missing. Further substantive PDF repairs will require new hashes/evidence for the changed outputs."
+      }
+    ],
+    "proofObligations": {
+      "ROUTE_IDENTITY":{"measured":true,"result":"FAIL","finding":"All six grounds examined against current primary law. Reentry conditions/procedure and Medicaid waiting-period qualification fail01/04; special-route repairs remain preserved."},
+      "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"Bounded identity finding: correctly identified as composed pleadings, not an official statewide form. Current Legislature and identified local official instructions were examined. Repository source hashes are receipt-attributed, not fresh full-source corpus measurements; their identity does not prove the inherited statements legally correct."},
+      "COMPONENT_SET":{"measured":true,"result":"FAIL","finding":"Actual28 declared component groups appear in the two44-page inventories; ordinary proposed-order/record detail is incomplete under06. Two special routes correctly omit prosecutor stipulations."},
+      "KNOWN_PREFILLS":{"measured":true,"result":"FAIL","finding":"Known identity/contact text visibly present and readable, but four duplicate DOB fields per fixture remain blank and falsely classified unknown:05. No claim of fresh whole-PDF textual readback."},
+      "REQUIRED_BEFORE_FILING":{"measured":true,"result":"FAIL","finding":"Missing reentry eligibility/waiting predicates, incorrect fee trigger, missing ordinary record-detail disclosures and false DOB unknownness:01/03/04/05/06. No exhaustive84-blank replay claimed."},
+      "ROUTE_OPTIONS":{"measured":true,"result":"FAIL","finding":"Actual route page boundaries clear; special271/273 components differ correctly. Ordinary stipulation prerequisite and unconditional proposed product selection fail02/07; not an observed installed selection."},
+      "REPEATING_ROWS":{"measured":true,"result":"FAIL","finding":"Multi-record packet lacks adequate per-record detail/reconciliation and operative order identification:06. No overflow or complete multi-case runtime test was performed."},
+      "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"All88 visible pages examined: no fabricated participant/prosecutor/judge/notary signature, execution date or completed service certification. Empty proposed operative content is separately failed under06, not treated as a reason to execute a judicial finding."},
+      "ARTIFACTS":{"measured":true,"result":"FAIL","finding":"Fresh88PNG/ZIP/admission checks and matching immutable/current Git blob metadata identify the reviewed page sets. Generated wiring is stale07. Whole current PDF binary hashes were not independently remeasured; exact retrieval gap is recorded, not silently converted into PASS."},
+      "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"Both44-page sequences individually inspected with all six complete route ranges and28 actual component groups. No missing or duplicated page position observed."},
+      "CLIPPING_AND_OVERLAP":{"measured":true,"result":"PASS","finding":"Every full page instance examined, including long boundary name/address/email/phone. No observed clipping, overlap, unreadable fill, lost glyph or truncation. No new glyph-rectangle analysis or browser raster was run."},
+      "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"Bounded tribunal-identity review: convicting court for271/273/245 and reentry case, disposition/jurisdiction court for255, district consolidation under2595. Prefiling prosecutor route is separately failed02. Local caption/template acceptance and installed destination resolution are not universally certified."},
+      "FEE_AND_WAIVER":{"measured":true,"result":"FAIL","finding":"Special271/273 no-submission-fee repairs preserved. Cross-cutting245(9) trigger/scope overstated03. No local current dollar amount or indigency adjudication fabricated."},
+      "SERVICE":{"measured":true,"result":"FAIL","finding":"Special court-notice procedures retained. Ordinary notice timing/stipulation status and distinct reentry Division procedure fail01/02; post-order named-custodian implementation also requires06."},
+      "SELF_HELP_STOP":{"measured":true,"result":"FAIL","finding":"Existing contested, immigration/firearm, outside-Nevada, program uncertainty and multi-county/mixed-office boundaries observed, not generically broadened. They do not cure omitted reentry eligibility or justify misdescribing lack of stipulation as a statewide legal filing bar01/02."}
+    },
+    "failedObligations":["ROUTE_IDENTITY","COMPONENT_SET","KNOWN_PREFILLS","REQUIRED_BEFORE_FILING","ROUTE_OPTIONS","REPEATING_ROWS","ARTIFACTS","FEE_AND_WAIVER","SERVICE","SELF_HELP_STOP"],
+    "nineCounters": {
+      "knownRequiredFieldsMissing":4,
+      "requiredFactsNotCollected":null,
+      "unclassifiedBlanks":null,
+      "incompleteRows":null,
+      "requiredOptionsMissing":null,
+      "requiredComponentsMissing":null,
+      "invisibleWrites":null,
+      "protectedWrites":0,
+      "visualDefects":0,
+      "allZero":false,
+      "scope":"Four distinct duplicate DOB fields per fixture, eight page instances, are an observed lower bound rather than an exhaustive field count. Zero protected/visual defects means none observed in all88 pages. Nulls are not measured exhaustive counters; builder allNineZero is explicitly not adopted."
+    },
+    "centralEvidence": {
+      "runId":34101879269,
+      "artifactId":10011501772,
+      "zipBytesMeasured":25274805,
+      "zipSha256Measured":"6fde1c5ee037702ebca44bd7a05071825ed32119086f457226e5afe69f58e3e4",
+      "archiveVerdictSha256Measured":"82562a1aca173813e7e32520ed8526df68df886cf4fe25ee436aa92b7c209596",
+      "archiveVerdictGitBlobMeasured":"ff7f37ac36bb008c28f1d3944f97a2f600687680",
+      "admissionRun":34112882078,
+      "admissionArtifactId":10015076745,
+      "admissionZipSha256Measured":"e3f3051b00187d54e8c525c34d2195f1a12cdf5022112a9fd0ee3b1920c37a0e",
+      "retainedVerdictSha256Measured":"b0936bbb032d26d43a60f8ceff31b547c49096675894738b6bb3c8e4a516a309",
+      "retainedVerdictGitBlobMeasured":"49ac31e955cb5821ab806a88c1f5f8e82fd58031",
+      "verdictObjectsEqualDespiteDifferentSerialization":true,
+      "admissionPageImagesFreshlyCompared":88,
+      "priorAdmissionControlsReportedNotRerun":16,
+      "wholePdfDistinction":"page.pdf and page-calibration.pdf in the raster archive are one-page intermediates, not complete44-page inputs. Publication artifact10010780304 contains logs/evidence, not complete PDFs. Admission artifact10015076745 contains receipts, not complete inputs.",
+      "publicationArtifactZipSha256Measured":"8e5eb901ed064d0791d53de81d8810beb155112bd85606411725efd8971db37c"
+    },
+    "wholePdfIdentities": [
+      {"fixture":"canonical","pagesReportedAndVisuallyCovered":44,"bytesReportedByGitHub":122964,"sha256Reported":"1d72131dcf8adefe7142cb2241aa97811b4c90892342d1422d3441b649e293bf","sha256MeasuredByThisSession":false,"currentAndImmutableGitBlob":"b2c3fb024c3e303929c6e5e01716f223058ccbdc"},
+      {"fixture":"boundary","pagesReportedAndVisuallyCovered":44,"bytesReportedByGitHub":125173,"sha256Reported":"5274a3d33329f447612a9736ac31442a760dc24b4aa2acdc01d7061175578596","sha256MeasuredByThisSession":false,"currentAndImmutableGitBlob":"3044a120bd13da423a996d79b117975e97e88835"}
+    ],
+    "wholeHashAttribution":"Expansion pins, central verdict and downloaded admission currentRepositoryPdfs agree. Connected GitHub reports identical blobs/sizes at3794a1a... and reviewed recoverye26f669...; these are not relabeled local SHA256 measurements.",
+    "contextGitBlobsReadFromConnectedGitHub": {
+      "fixturesTree":"27e9e253d9db7aa133a249e18975ac6aa6c4b4af",
+      "production-field-map.json":"77a8a6786cb171e98c50c229fd460455249d376b",
+      "participant-instructions.md":"106aff8eca77c64c619479146c33755c7d6de0e9",
+      "product-wiring.json":"0584e3b94f78c7c5827e9e5c9a350613d95af78d",
+      "source-receipt.json":"7fede62176ffad4844bab8f3640a5b8b8ab866f6",
+      "reports/actual-writes.json":"d2f5fdbff341809aecf826e4a5baf5cd20c6c0c8",
+      "reports/blanks-left-for-the-participant.json":"18a71e5d1e04b933da0b9fa7c993833a323b3303",
+      "reports/completeness-counters.json":"b74e033c3922869bd48fd8981722c7ba5e7c4b48",
+      "reports/rendered-artifacts.json":"81911bcc58f64387f6f68f8d18cae109e5e95317"
+    },
+    "remainingRequirements": [
+      "A/current Nevada packet owner: exact substantive corrections01-06; preserve completed271/273 repairs and untouched useful output.",
+      "A: generated route-specific binding correction07; no payment/runtime/terminal authority is created by this review.",
+      "Obtain exact current complete PDFs for a fresh whole-file SHA256 and full text/write-map replay. Already tried central, publication and admission artifacts, GitHub blob UTF8, ranged base64 and direct raw retrieval. Binary blob decoding/direct network failed; ranged base64 exposes text but no mounted whole binary. Specific gap was posted once in224 comment5573084673. Do not rerender the packet merely to recover existing bytes.",
+      "For changed packet bytes, bind new complete output hashes, review all affected branches and obtain the needed central evidence. For instruction/binding-only changes with identical PDF bytes, do not repeat finished raster solely because another review exists.",
+      "A alone consumes evidence and derives shared integrated state. This failed review does not change the177/346 attributed baseline."
+    ],
+    "terminalPromotionClaimed":false
+  }]
+}
