@@ -1,160 +1,91 @@
-name: Nevada special-route completion
+name: Nevada special-route validation
 on:
   push:
     branches: [chatgpt/independent-nv-20260907]
-    paths: [.github/workflows/rcap-nv-special-completion.yml]
+    paths:
+      - .github/workflows/rcap-nv-special-completion.yml
+      - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/rcap-packet-recovery/nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
+      - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
+  pull_request:
+    paths:
+      - .github/workflows/rcap-nv-special-completion.yml
+      - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/rcap-packet-recovery/nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
+      - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
 permissions:
   contents: read
 jobs:
-  publish:
+  validate:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions:
-      contents: write
-    outputs:
-      candidate: ${{ steps.publish.outputs.candidate }}
     env:
-      EVIDENCE: data/rcap-grade-a/nv-completion-2026-09-07
       FAMILY_DIR: data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply the exact bounded builder integration
-        run: |
-          set -euo pipefail
-          test "$GITHUB_REF" = refs/heads/chatgpt/independent-nv-20260907
-          python3 - <<'PY'
-          import pathlib,hashlib
-          expected={
-            'scripts/rcap-packet-recovery/nv-special-routes.mjs':'08a0e7878603c931807490cdf447f967df63f349bbbfe615c1e270d266a8464b',
-            'scripts/rcap-packet-recovery/test-nv-special-routes.mjs':'5f49e9f1e38f6b4477cda756ddd10dfc06a26135fcfadc45165e3d6690829ce9',
-            'data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json':'7dcc809cca812fe308aecac03a94e1b2d4f9c9afc49b42231e1c8f03db025566'
-          }
-          for name,sha in expected.items():
-            assert hashlib.sha256(pathlib.Path(name).read_bytes()).hexdigest()==sha,'Reviewed input differs: '+name
-          p=pathlib.Path('scripts/build-census-v1-rcap-nv-custom-pleading.mjs');s=p.read_text()
-          final='71ee9620fa4aa6b580c63c61068fe89e33537c9ceed411ae62f30c9e9163c045'
-          if hashlib.sha256(p.read_bytes()).hexdigest()!=final:
-            assert hashlib.sha256(p.read_bytes()).hexdigest()=='25ef938e0526427a0d550c28454378629230dbb61c3cfcc06b8c77be0eef8ca5','Unexpected starting builder'
-            header='''#!/usr/bin/env node
-          /**
-           * Nevada artifact builder: six independently identified record-sealing routes.
-           *
-           *   node scripts/build-census-v1-rcap-nv-custom-pleading.mjs [--check] [--no-raster]
-           *
-           * The original committed SPEC is retained below for stable ordinary-route
-           * components. applyNvSpecialRoutes replaces only the NRS 179.271 and 179.273
-           * request/petition procedures using the current primary-authority correction.
-           * Those two routes are court-filed and have no submission fee; neither uses
-           * prosecutor preapproval. The pardon petition is not subject to prosecutorial
-           * review. The decriminalization request instead uses court notice and the
-           * statute's 10-judicial-day objection period, measured from receipt of notice.
-           *
-           * The original four other routes are unchanged. No output here is an official
-           * court form, an independent packet verdict, or commercial delivery authority.
-           * Legal/independent review and actual product-path proof remain separate.
-           */
-          '''
-            s=header+s[s.index('const SPEC = '):]
-            pairs=[
-              ('import assert from "node:assert/strict";', 'import { applyNvSpecialRoutes } from "./rcap-packet-recovery/nv-special-routes.mjs";\nimport assert from "node:assert/strict";'),
-              ('const OUT = SPEC.outDir;', 'applyNvSpecialRoutes(SPEC);\nconst OUT = SPEC.outDir;'),
-              ('async function renderComposedPdf(fullText, title) {', 'async function renderComposedPdf(fullText, title, pageBreakBefore = []) {'),
-              ('  for (const raw of sanitizePdfText(fullText).split("\\n")) for (const row of wrap(raw)) draw(row);', '  for (const raw of sanitizePdfText(fullText).split("\\n")) {\n    // Explicit component-owned section boundaries do not affect other routes.\n    if (pageBreakBefore.includes(raw) && y < height - margin) {\n      page = pdf.addPage([width, height]); y = height - margin;\n    }\n    for (const row of wrap(raw)) draw(row);\n  }'),
-              ('renderComposedPdf(body, COMPONENT[componentId].title)', 'renderComposedPdf(body, COMPONENT[componentId].title, COMPONENT[componentId].pageBreakBefore ?? [])')
-            ]
-            for old,new in pairs:
-              assert s.count(old)==1,'Builder integration anchor differs: '+old
-              s=s.replace(old,new)
-            assert hashlib.sha256(s.encode()).hexdigest()==final,'Integrated builder is not the exact tested builder'
-            p.write_text(s)
-          print('Exact tested builder and three reviewed inputs confirmed.')
-          PY
-      - name: Build and test the actual complete PDFs
+      - name: Install locked dependencies and existing PDF text reader
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-          node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --no-raster > "$EVIDENCE/build.log" 2>&1 || { cat "$EVIDENCE/build.log"; exit 1; }
-          node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --check --no-raster > "$EVIDENCE/determinism.log" 2>&1 || { cat "$EVIDENCE/determinism.log"; exit 1; }
-          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$EVIDENCE/regressions.log"
-          node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading | tee "$EVIDENCE/machine-completeness.log"
+      - name: Rebuild twice and compare every tracked family byte
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          out="$RUNNER_TEMP/nv-validation"
+          mkdir -p "$out"
+          # --check is an authority/map preflight, not a PDF regeneration.
+          # Exercise the real renderer twice, then compare against the committed
+          # outputs after EACH run. No receipt, approval, or queue is rewritten.
+          for pass in 1 2; do
+            node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --no-raster > "$out/rebuild-$pass.json" 2> "$out/rebuild-$pass.stderr"
+            python3 - "$out/rebuild-$pass.json" <<'PY'
+          import json,sys
+          result=json.load(open(sys.argv[1]))
+          assert result['familyId']=='rcap-nv-custom-pleading'
+          assert result['status']=='COMPLETED',result
+          assert result['nineCountersZero'] is True
+          assert result['packetsSelfVerified']==0
+          assert result['productionTouched'] is False
+          assert result['commercialRoutesOpened']==0
+          assert {x['fixture']:x['pages'] for x in result['artifactHashes']}=={'canonical':44,'boundary':44}
+          PY
+            git diff --exit-code -- "$FAMILY_DIR"
+            test -z "$(git ls-files --others --exclude-standard -- "$FAMILY_DIR")"
+          done
+          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$out/regressions.log"
+          node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading | tee "$out/machine-completeness.log"
           python3 - <<'PY'
           import pathlib,json,hashlib,os
-          record=json.loads((pathlib.Path(os.environ['EVIDENCE'])/'targeted-review.json').read_text())['afterRepair']
+          folder=pathlib.Path(os.environ['FAMILY_DIR'])
+          evidence=pathlib.Path('data/rcap-grade-a/nv-completion-2026-09-07/targeted-review.json')
+          reviewed=json.loads(evidence.read_text())['afterRepair']
+          hashes={}
           for fixture in ['canonical','boundary']:
-            p=pathlib.Path(os.environ['FAMILY_DIR'])/'fixtures'/f'{fixture}.pdf'
-            assert hashlib.sha256(p.read_bytes()).hexdigest()==record[fixture+'Sha256'],fixture+' differs from visually reviewed bytes'
-          print('Both exact visually reviewed complete PDF hashes match.')
+            actual=hashlib.sha256((folder/'fixtures'/f'{fixture}.pdf').read_bytes()).hexdigest()
+            assert actual==reviewed[fixture+'Sha256'],fixture+' differs from visually reviewed bytes'
+            hashes[fixture]=actual
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nv-validation'
+          result={'schemaVersion':'rcap-nv-read-only-validation/v1','checkedCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'event':os.environ['GITHUB_EVENT_NAME'],'fullRendererPasses':2,'eachRebuildMatchesCommittedFamilyBytes':True,'regressionChecks':30,'includedInMemoryNegativeControls':10,'pdfSha256':hashes,'independentApprovalGranted':False,'newTerminalPromotions':0,'productionTouched':False,'commercialRoutesOpened':0}
+          (out/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
+          print('Two actual complete PDF rebuilds match all committed family bytes and both visually reviewed hashes.')
           PY
-      - name: Derive a single-family manifest without editing the Captain queue
-        run: |
-          set -euo pipefail
-          node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs > "$EVIDENCE/raster-plan-generation.log" 2>&1 || { tail -80 "$EVIDENCE/raster-plan-generation.log"; exit 1; }
-          python3 - <<'PY'
-          import pathlib,json,os
-          q=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json').read_text())
-          rows=[r for r in q['rows'] if r['familyId']=='rcap-nv-custom-pleading']
-          assert len(rows)==1 and rows[0]['currentRasterState']=='RASTER_PENDING','NV is not eligible; no hold is overridden'
-          assert rows[0]['coverage']['complete'] is True
-          doc={'schemaVersion':'rcap-bounded-raster-input/v1','derivedBy':'scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs','sourceCommit':os.environ['GITHUB_SHA'],'rowCopiedWithoutModification':True,'rows':rows,'productionTouched':False,'commercialRoutesOpened':0,'grantsApproval':False}
-          (pathlib.Path(os.environ['EVIDENCE'])/'raster-input.json').write_text(json.dumps(doc,indent=2)+'\n')
-          PY
-          git restore -- data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json docs/rcap/grade-a/packet-factory-24h/raster
-          node scripts/rcap-raster-plan.mjs --manifest "$EVIDENCE/raster-input.json" --families rcap-nv-custom-pleading | tee "$EVIDENCE/raster-plan.log"
-      - name: Publish only scoped Nevada repair files
-        id: publish
-        run: |
-          set -euo pipefail
-          test "$(git ls-remote origin refs/heads/chatgpt/independent-nv-20260907 | cut -f1)" = "$GITHUB_SHA"
-          python3 - <<'PY'
-          import pathlib,subprocess,json,os,datetime
-          out=pathlib.Path(os.environ['EVIDENCE'])
-          (out/'hosted-result.json').write_text(json.dumps({'checkedSourceCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'builder':'PASS','determinism':'PASS','regressionChecks':30,'negativeControlsCaught':10,'exactReviewedPdfHashes':'PASS','rasterStatus':'REQUEST_NOT_YET_DISPATCHED','independentApprovalGranted':False,'newTerminalPromotions':0,'productionTouched':False,'commercialRoutesOpened':0},indent=2)+'\n')
-          paths=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          allowed=['data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/','data/rcap-grade-a/nv-completion-2026-09-07/']
-          bad=[p for p in paths if p!='scripts/build-census-v1-rcap-nv-custom-pleading.mjs' and not any(p.startswith(a) for a in allowed)]
-          assert not bad,'Unexpected changed paths: '+repr(bad)
-          for p in sorted(paths): subprocess.run(['git','add','--',p],check=True)
-          PY
-          git diff --cached --check -- ':(glob,exclude)**/*.pdf'
-          git config user.name 'LegalEase completion (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap-nv): rebuild special-route requests and petitions with exact tested procedure'
-          git push origin HEAD:refs/heads/chatgpt/independent-nv-20260907
-          echo "candidate=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          git rev-parse HEAD > "$RUNNER_TEMP/nv-published-sha.txt"
+          test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: nv-completion-${{ github.run_id }}
-          path: |
-            data/rcap-grade-a/nv-completion-2026-09-07/
-            ${{ runner.temp }}/nv-published-sha.txt
+          name: nv-read-only-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/nv-validation/
           retention-days: 14
           if-no-files-found: error
-  central_raster:
-    needs: publish
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      actions: write
-    steps:
-      - name: Dispatch the existing central raster gate for the exact published candidate
-        uses: actions/github-script@v7
-        env:
-          CANDIDATE: ${{ needs.publish.outputs.candidate }}
-        with:
-          script: |
-            const candidate=process.env.CANDIDATE;
-            if(!/^[a-f0-9]{40}$/.test(candidate)) throw new Error('Missing immutable published candidate');
-            await github.rest.actions.createWorkflowDispatch({ ...context.repo, workflow_id:'rcap-packet-raster-acceptance-batch.yml', ref:'main', inputs:{ commit_sha:candidate, raster_manifest_path:'data/rcap-grade-a/nv-completion-2026-09-07/raster-input.json', family_batch:'rcap-nv-custom-pleading', requested_scale:'2.5' }});
-            core.info(`Central raster requested for ${candidate}. A dispatch is not a raster verdict or terminal approval.`);
-            await core.summary.addHeading('Nevada repair published').addRaw(`Exact candidate: ${candidate}\n\nCentral raster requested; no independent approval or terminal promotion granted.`).write();
