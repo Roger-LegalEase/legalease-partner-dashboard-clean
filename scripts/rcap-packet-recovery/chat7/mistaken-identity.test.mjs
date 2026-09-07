@@ -91,7 +91,7 @@ test('wrapper imports as an API without starting a build or changing the current
 });
 test('full CLI renderer twice compares EVERY generated family file, not a check-only probe',async()=>{
  const command=['scripts/build-census-v1-mo-610-145-mistaken-identity-set.mjs','--no-raster'];
- const snapshot=async()=>{const directory=path.join(ROOT,OUTPUT_DIR);const files=(await fs.readdir(directory)).sort();return Object.fromEntries(await Promise.all(files.map(async name=>[name,hash(await fs.readFile(path.join(directory,name)))])));};
+ const snapshot=async()=>{const directory=path.join(ROOT,OUTPUT_DIR);const files=(await fs.readdir(directory,{recursive:true,withFileTypes:true})).filter(x=>x.isFile()).map(x=>path.relative(directory,path.join(x.parentPath??x.path,x.name))).sort();return Object.fromEntries(await Promise.all(files.map(async name=>[name,hash(await fs.readFile(path.join(directory,name)))])));};
  const first=spawnSync(process.execPath,command,{cwd:ROOT,encoding:'utf8',timeout:120000});assert.equal(first.status,0,first.stderr);
  const hashes1=await snapshot();await new Promise(r=>setTimeout(r,1100));
  const second=spawnSync(process.execPath,command,{cwd:ROOT,encoding:'utf8',timeout:120000});assert.equal(second.status,0,second.stderr);

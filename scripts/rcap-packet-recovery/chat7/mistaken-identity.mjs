@@ -36,6 +36,8 @@ function date(value, label) {
  */
 export function importFacts(input) {
  const f=structuredClone(input);
+ if(f.confidentialSheetRequired!==undefined && typeof f.confidentialSheetRequired!=='boolean')throw Error('CLERK_COMPONENT_CHOICES_REQUIRED');
+ if(f.participant?.ssn && !/^\d{3}-?\d{2}-?\d{4}$/.test(f.participant.ssn))throw Error('FULL_SSN_REQUIRED_IF_SUPPLIED');
  if(f.familyId!==FAMILY || f.schemaVersion!==1) throw Error('WRONG_FAMILY_OR_SCHEMA');
  if(!['petition','automatic-on-notice'].includes(f.route)) throw Error('UNKNOWN_ROUTE');
  const forbidden=/^(signature|signedAt|notary|notarized|judgeSignature|judgmentDate|courtFinding|hearingDate|serviceCompleted|clerkCertification|courtApproved)$/i;
@@ -110,6 +112,7 @@ async function fillWidgets(doc, values, checks=[], label='') {
  // All unmapped source controls are blank in the checksum-pinned originals.
  return finish(doc,written,{source:label,mapped,blanks});
 }
+export const needsConfidentialSheet = f => f.opensNewCase || f.confidentialSheetRequired === true;
 export async function petition(f,root=ROOT){
  const p=f.participant,c=f.court,a=f.arrest||{};
  const values={
@@ -189,7 +192,7 @@ export function instructionPages(f){
  {title:'Your mistaken-identity filing packet',paragraphs:[identity,`File in the court where the charge was last pending: ${c.county} County, Judicial Circuit ${c.circuit}, ${c.level} court${c.division?`, Division ${c.division}`:''}. Prior case: ${c.originalCaseNumber||'verify with the clerk'}. Do not use an unrelated court or a case-number guess. The sample case number is not a usable court identifier.`,
  'This CR301 route addresses charges brought under your identity because someone used your identifying information or because you were mistaken for someone else, with all resulting charges dismissed or a not-guilty finding. It is not ordinary arrest expungement, conviction expungement, or the separate identity-theft record-correction procedure under section 575.120.',
  'For a dismissal involving stolen or mistaken identity, first ask the clerk whether the prosecutor or judicial officer provided notice and whether the court already entered the automatic expungement order under section 610.145.1(2). Do not file a duplicate petition merely because the process is called automatic. If that route has not resolved the matter, review the petition route with the clerk.',
- `Included: CR301 petition; ${f.opensNewCase?'FI-05 confidential filing sheet because a new case is selected':'no FI-05 because the original case is selected'}; ${f.proposedOrderRequested?'CR311 proposed judgment because the court requests one':'no CR311 because the court does not request a proposed order'}; these instructions. FI-05 includes all four official pages and extra copies of its party page when needed.`,
+ `Included: CR301 petition; ${needsConfidentialSheet(f)?(f.opensNewCase?'FI-05 confidential filing sheet because a new case is selected':'FI-05 confidential filing sheet because the receiving clerk requires it in the existing case'):'no FI-05 because the original case is selected'}; ${f.proposedOrderRequested?'CR311 proposed judgment because the court requests one':'no CR311 because the court does not request a proposed order'}; these instructions. FI-05 includes all four official pages and extra copies of its party page when needed.`,
  'CR311 is only an unsigned proposed order. Printed court language is not a decision. No judge signature, judicial date, finding, hearing event, service return or notarial act has been supplied. Do not sign or date the order.']},
  {title:'Check, complete and file',paragraphs:[
  'Compare CR301 against the docket, dismissal entry or acquittal judgment, arrest record and your identification. Request copies from the clerk who holds the case. These records help establish the facts; do not invent an arrest citation, social security number, license number or court identifier. Bring relevant records to the hearing and follow the court\'s directions about filing attachments.',
@@ -224,7 +227,7 @@ export async function buildPacket(input,root=ROOT){
  const f=importFacts(input),components=[];
  if(f.route==='petition'){
   components.push({id:'CR301',...await petition(f,root)});
-  if(f.opensNewCase)components.push({id:'FI-05',...await confidentialSheet(f,root)});
+  if(needsConfidentialSheet(f))components.push({id:'FI-05',...await confidentialSheet(f,root)});
   if(f.proposedOrderRequested)components.push({id:'CR311',...await proposedOrder(f,root)});
  }
  components.push({id:'instructions',...await instructions(f)});
@@ -249,6 +252,12 @@ export async function buildFamily({root=ROOT,outDir=path.join(root,OUTPUT_DIR)}=
    manifest.variants.push({id:name,packet:`${name}.packet.pdf`,sha256:hash(result.bytes),pages:result.pages,components:result.coverage.map(({component,firstPage,lastPage,pages})=>({component,firstPage,lastPage,pages}))});
    if(opensNewCase&&proposedOrderRequested){await write(`${fixture}.packet.pdf`,result.bytes);for(const c of result.components)await write(`${fixture}.${c.id}.pdf`,c.bytes);}
   }
+ }
+ for(const [fixture,input]of Object.entries(fixtures))for(const proposedOrderRequested of [false,true]){
+  const result=await buildPacket({...input,opensNewCase:false,confidentialSheetRequired:true,proposedOrderRequested},root);
+  const name=`${fixture}.existing-case.clerk-requires-sheet.${proposedOrderRequested?'with-order':'no-order'}`;
+  await write(`${name}.packet.pdf`,result.bytes);await write(`${name}.coverage.json`,json(result.coverage));
+  manifest.variants.push({id:name,packet:`${name}.packet.pdf`,sha256:hash(result.bytes),pages:result.pages,components:result.coverage.map(({component,firstPage,lastPage,pages})=>({component,firstPage,lastPage,pages}))});
  }
  const automatic={...fixtures.boundary,route:'automatic-on-notice'};const auto=await buildPacket(automatic,root);
  await write('automatic-on-notice.fixture.json',json(automatic));await write('automatic-on-notice.packet.pdf',auto.bytes);
