@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
 import { bindDeclaredDeGuidance, DE_FAMILY } from "./de-guidance-binding.mjs";
 import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
+import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -92,8 +93,10 @@ const bindingFor = (f) => {
   const raster = exactRasterFor(f.familyId);
   const verdict = currentVerdict.get(f.familyId) ?? null;
   const has = (rel) => fs.existsSync(path.join(ROOT, f.directory, rel));
+  const filingCourtSelection = arizonaFilingCourtBinding(f);
   return {
     family: f.familyId,
+    ...(filingCourtSelection ? { filingCourtSelection } : {}),
     jurisdiction: f.jurisdiction,
     routeKeys: f.routeKeys,
     deliveryType: f.implementationStrategy,
@@ -223,7 +226,7 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, NC_FAMILY].includes(f.familyId)) throw error;
+      if ([DE_FAMILY, NC_FAMILY].includes(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;

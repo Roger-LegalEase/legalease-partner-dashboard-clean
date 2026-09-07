@@ -22,12 +22,23 @@ try {
   /* The generator imports its byte-identity rule from a sibling module; the
    * sandbox must carry both or the generator cannot start and the test reads
    * an empty stdout as a wrong answer. */
-  for (const file of ["generate-product-wiring.mjs", "acceptance-identity.mjs"]) {
-    fs.copyFileSync(
-      path.join(repoRoot, "scripts", "grade-a-packet-factory-24h", file),
-      path.join(scriptDir, file)
-    );
-  }
+  // Copy the actual static relative-import graph; do not mock admission rules.
+  const copied = new Set();
+  const copyModule = (rel) => {
+    const absolute = path.resolve(repoRoot, rel);
+    assert.ok(absolute.startsWith(repoRoot + path.sep), "dependency outside repository");
+    if (copied.has(absolute)) return;
+    copied.add(absolute);
+    const source = fs.readFileSync(absolute, "utf8");
+    const destination = path.join(sandbox, path.relative(repoRoot, absolute));
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.writeFileSync(destination, source);
+    for (const match of source.matchAll(/(?:from\s*|import\s*)["'](\.[^"']+)["']/g)) {
+      copyModule(path.relative(repoRoot, path.resolve(path.dirname(absolute), match[1])));
+    }
+  };
+  copyModule("scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs");
+  fs.symlinkSync(path.join(repoRoot, "node_modules"), path.join(sandbox, "node_modules"), "dir");
 
   const families = [familyId, otherFamilyId].map((id) => ({
     familyId: id,
@@ -95,7 +106,7 @@ try {
 
   const staleCheck = run("--check", "--family", familyId);
   assert.equal(staleCheck.status, 1, staleCheck.stderr || staleCheck.stdout);
-  assert.match(staleCheck.stdout, /1 record\(s\) need refresh/);
+  assert.match(staleCheck.stdout, /1 record\(s\) need refresh/, staleCheck.stderr);
   assert.equal(fs.readFileSync(wiringPath, "utf8"), initialWiring, "--check must not rewrite stale wiring");
 
   const firstRefresh = run("--family", familyId);
@@ -119,7 +130,43 @@ try {
   assert.equal(run("--check", "--family", familyId).status, 0, "refreshed wiring must pass check mode");
   assert.equal(fs.readFileSync(otherWiringPath, "utf8"), initialOtherWiring, "unselected wiring must stay byte-identical");
 
-  console.log("PASS product wiring refreshes artifact identity when exact bytes move");
+  // Exercise the actual generator CLI with both exact AZ family/route bindings.
+  // Synthetic bytes below test metadata identity only, never PDF acceptance.
+  const azRoutes = {
+    "az_record_sealing_arrest_no_charges-set": "obligation:track-pathway:AZ:az_record_sealing_arrest_no_charges:remedy-1-record-sealing",
+    "az_record_sealing_dismissal_not_guilty-set": "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty"
+  };
+  let azCliChecks = 0;
+  for (const [id, routeKey] of Object.entries(azRoutes)) {
+    const f = { ...families[0], familyId:id, jurisdiction:"AZ", directory:`data/families/${id}`, routeKeys:[routeKey] };
+    families.push(f);
+    const dir = path.join(sandbox, f.directory);
+    fs.mkdirSync(path.join(dir,"reports"),{recursive:true});
+    fs.writeFileSync(path.join(dir,"reports/rendered-artifacts.json"),JSON.stringify({artifacts:[]}));
+    const dest = path.join(dir,"product-wiring.json");
+    fs.writeFileSync(dest,JSON.stringify({family:id,generatedBy:"scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",proposedRepresentation:{components:[]}}));
+    const saveMaster = () => fs.writeFileSync(path.join(queueDir,"MASTER_QUEUE.json"),JSON.stringify({families}));
+    saveMaster();
+    const valid = run("--family",id); azCliChecks++;
+    assert.equal(valid.status,0,valid.stderr);
+    const exact = fs.readFileSync(dest,"utf8");
+    const binding = JSON.parse(exact).binding;
+    assert.equal(binding.filingCourtSelection.routeKey,routeKey);
+    assert.equal(binding.filingCourtSelection.status,"IMPLEMENTED_NOT_INSTALLED");
+    assert.equal(binding.filingCourtSelection.generationAllowed,false);
+    assert.equal(binding.paymentEligible,false); assert.equal(binding.sponsorshipEligible,false);
+    assert.equal(run("--check","--family",id).status,0); azCliChecks++;
+    for (const bad of [["wrong-route"],[routeKey,"additional-route"],[]]) {
+      f.routeKeys=bad;saveMaster();
+      const refused=run("--family",id);azCliChecks++;
+      assert.notEqual(refused.status,0,"Invalid AZ scope was silently skipped/accepted");
+      assert.match(refused.stderr,/cannot broaden family route scope/);
+      assert.equal(fs.readFileSync(dest,"utf8"),exact,"Refusal changed existing wiring");
+    }
+    f.routeKeys=[routeKey];saveMaster();
+  }
+  assert.equal(fs.readFileSync(otherWiringPath,"utf8"),initialOtherWiring);
+  console.log(JSON.stringify({status:"PASS",artifactIdentityAndStaleReceiptRegression:true,azCliChecks,azSuccessfulCliChecks:4,azRejectedRouteScopes:6,unselectedFilesUnchanged:true,syntheticMetadataOnly:true,packetRebuilds:0}));
 } finally {
   fs.rmSync(sandbox, { recursive: true, force: true });
 }

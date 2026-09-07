@@ -54437,14 +54437,36 @@
             "order": 3
           },
           {
+            "componentId": "il-seal-edu-proposed-denying-order-5",
+            "role": "proposed_order",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "EXP-AD Order Denying",
+            "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9ee52a9a-dfc9-4a4c-9264-0ecb1ce679d4/EXP-AD%20Order%20Denying.pdf",
+            "order": 4,
+            "notes": "ATJ 2906.6 (06/26), complete one-page official Denying Order. Only permitted caption, identity and recipient-contact fields may be prepared. All denial choices, case decisions, reasons, judge signature and entry date remain blank. Required alongside the Granting Order, not an election of the expected outcome. Raw source-byte custody, actual output and independent acceptance remain separate."
+          },
+          {
             "componentId": "il-seal-edu-fee-waiver-4",
             "role": "fee_waiver",
             "requirement": "conditional",
-            "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+            "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "FW-CIV-APPLICATION",
             "officialSourceUrl": null,
-            "order": 4
+            "order": 5
+          },
+          {
+            "componentId": "il-seal-edu-fee-waiver-order-6",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "FW-CIV-ORDER",
+            "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/aeb7187c-60d8-4245-b05c-7610a6745e56/FW-CIV%20Order.pdf",
+            "order": 6,
+            "notes": "ATJ 602.8 (08/25), all three official pages. Prepare only permitted caption/applicant identity. Leave every judicial full/partial/denied/continued election, financial finding, payment term, hearing setting, document demand, judge signature and entry date blank. Include only with the requested fee-waiver application. Raw source-byte custody, actual output and independent acceptance remain separate."
           }
         ],
         "participantActionRequired": [
@@ -92848,15 +92870,15 @@
           },
           {
             "kind": "complete_field",
-            "description": "Proof of Service — MC 227 page 3.",
+            "description": "After actual mailing, complete and sign the Proof of Service on MC 227 page 3 using the actual service facts. File or mail the completed proof to the court and keep the remaining copy. Do not certify service before it occurs.",
             "requirement": "required",
-            "requiredBeforeFiling": true
+            "requiredBeforeFiling": false
           },
           {
             "kind": "complete_field",
-            "description": "Notice of Hearing — MC 227 page 3.",
+            "description": "Use only hearing information supplied by the court for the Notice of Hearing on MC 227 page 3. Depending on local practice, the clerk may complete it at filing. Leave unassigned hearing information blank; do not invent a date, time, location or judge.",
             "requirement": "required",
-            "requiredBeforeFiling": true
+            "requiredBeforeFiling": false
           },
           {
             "kind": "complete_field",
@@ -92908,8 +92930,6 @@
           "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
           "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
           "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
-          "Proof of Service — MC 227 page 3.",
-          "Notice of Hearing — MC 227 page 3.",
           "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
           "Required. Subscribed and sworn before a deputy clerk or notary.",
           "Required, unless sworn before a deputy court clerk.",
@@ -93862,15 +93882,15 @@
           },
           {
             "kind": "complete_field",
-            "description": "Proof of Service — MC 227 page 3.",
+            "description": "After actual mailing, complete and sign the Proof of Service on MC 227 page 3 using the actual service facts. File or mail the completed proof to the court and keep the remaining copy. Do not certify service before it occurs.",
             "requirement": "required",
-            "requiredBeforeFiling": true
+            "requiredBeforeFiling": false
           },
           {
             "kind": "complete_field",
-            "description": "Notice of Hearing — MC 227 page 3.",
+            "description": "Use only hearing information supplied by the court for the Notice of Hearing on MC 227 page 3. Depending on local practice, the clerk may complete it at filing. Leave unassigned hearing information blank; do not invent a date, time, location or judge.",
             "requirement": "required",
-            "requiredBeforeFiling": true
+            "requiredBeforeFiling": false
           },
           {
             "kind": "complete_field",
@@ -93922,8 +93942,6 @@
           "Obtain Applicant fingerprint card RI-008. Get fingerprinted on applicant card RI-008 at a local law enforcement agency. A fee may apply. LegalEase cannot supply the card.",
           "Check your answer to \"Which Michigan court entered the conviction, and is it a district or circuit court?\" against Applicant fingerprint card RI-008, and correct the packet if they disagree.",
           "Verification, subscribed and sworn before a deputy clerk or notary — MC 227 verification block.",
-          "Proof of Service — MC 227 page 3.",
-          "Notice of Hearing — MC 227 page 3.",
           "Assaultive-crime and serious-misdemeanour characterisation — Eligibility screening.",
           "Required. Subscribed and sworn before a deputy clerk or notary.",
           "Required, unless sworn before a deputy court clerk.",
@@ -105451,7 +105469,7 @@
           },
           {
             "kind": "complete_field",
-            "description": "The full date of birth on CR375 — CR375 page 1, year of birth field.",
+            "description": "The year of birth only on CR375 — CR375 page 1, year of birth field.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
@@ -105515,7 +105533,7 @@
           "Any assertion that the participant's conduct would no longer be an offense, or would be a lesser offense, under Article XIV — Recited only as the participant's own sworn allegation.",
           "The case number in the caption — CR375 and FI-05 captions.",
           "The petitioner's signature and date — CR375 page 2, below the declaration under penalty of perjury.",
-          "The full date of birth on CR375 — CR375 page 1, year of birth field.",
+          "The year of birth only on CR375 — CR375 page 1, year of birth field.",
           "Any statement that Article XIV relief has already been granted on a particular case — Not present in the packet at all.",
           "The court's vacatur, release and expungement order and the certificate of expungement — Not generated.",
           "The petitioner signs CR375 beneath the declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
@@ -105723,7 +105741,7 @@
           "why": "The declaration is the participant's own sworn statement."
         },
         {
-          "item": "The full date of birth on CR375",
+          "item": "The year of birth only on CR375",
           "whereInPacket": "CR375 page 1, year of birth field",
           "why": "The form asks for the year of birth only. The packet supplies the year and nothing more; the full date belongs on the confidential FI-05."
         },
@@ -170330,15 +170348,10 @@
           },
           {
             "kind": "complete_field",
-            "description": "Judge name and order date — Blank expungement order, caption and signature block.",
-            "requirement": "required",
-            "requiredBeforeFiling": true
-          },
-          {
-            "kind": "complete_field",
-            "description": "List of agencies to receive the certified order — Order, distribution block.",
-            "requirement": "required",
-            "requiredBeforeFiling": true
+            "description": "When including the optional proposed order, identify the recipient agencies from actual docket and criminal-history facts; leave judicial completion for the court.",
+            "requirement": "conditional",
+            "requiredBeforeFiling": true,
+            "conditionDescription": "Only when the participant includes the optional proposed order."
           },
           {
             "kind": "sign",
@@ -170367,7 +170380,7 @@
           },
           {
             "kind": "file",
-            "description": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+            "description": "File the verified Rule 790 petition and the required Pennsylvania State Police criminal history report with the clerk of courts of the judicial district in which the charges were disposed. The blank proposed expungement order is optional, not a filing prerequisite; include it only when selected, with judicial findings and execution fields left blank.",
             "requirement": "required",
             "requiredBeforeFiling": false
           }
@@ -170378,8 +170391,7 @@
           "Obtain Complete docket sheet for the case. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
           "Check your answer to \"Did every charge in this case end without a conviction?\" against Complete docket sheet for the case, and correct the packet if they disagree.",
           "Petitioner signature, date and verification — Rule 790 petition, verification block.",
-          "Judge name and order date — Blank expungement order, caption and signature block.",
-          "List of agencies to receive the certified order — Order, distribution block.",
+          "When including the optional proposed order, identify the recipient agencies from actual docket and criminal-history facts; leave judicial completion for the court.",
           "The petitioner signs and verifies the petition.",
           "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
           "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide."
@@ -170400,7 +170412,7 @@
         }
       ],
       "rules": {
-        "filing": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+        "filing": "File the verified Rule 790 petition and the required Pennsylvania State Police criminal history report with the clerk of courts of the judicial district in which the charges were disposed. The blank proposed expungement order is optional, not a filing prerequisite; include it only when selected, with judicial findings and execution fields left blank.",
         "fees": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
         "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide. It is CPCMS 2046 (two pages, financial questions, an unsworn-falsification verification under 18 Pa.C.S. § 4904 rather than a notary block; no new printed revision date asserted), held in custody as PA-IFP-CCP (sha256 b1255ef0503f…). When the participant selects the fee-waiver branch the motion is rendered as part of the packet, not merely retained as source evidence: only the participant's actual financial information is written, no financial zeros are invented, the verification is never executed for the participant, and public-access-policy compliance is not marked without performing the applicable checks. The judge decides the request; submitting it is not an approval. If no waiver is requested the conditional exclusion is preserved. (Recorded 2026-09-06 from the owner-relayed research.)",
         "notice": "A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.",
@@ -170508,11 +170520,6 @@
           "why": "Rule 790 requires the petition to be verified by the petitioner."
         },
         {
-          "item": "Judge name and order date",
-          "whereInPacket": "Blank expungement order, caption and signature block",
-          "why": "The court completes and signs the order."
-        },
-        {
           "item": "List of agencies to receive the certified order",
           "whereInPacket": "Order, distribution block",
           "why": "The agencies that hold the record are identified from the docket and the criminal history report."
@@ -170520,7 +170527,7 @@
         {
           "item": "Leave the judge name, order date and signature blocks on the blank expungement order for the court to complete.",
           "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
-          "why": "Counsel classified this as an item the participant completes."
+          "why": "The participant leaves these judicial fields blank when including the optional proposed order; the court alone completes and executes its order."
         }
       ],
       "selfHelpBoundaries": [
