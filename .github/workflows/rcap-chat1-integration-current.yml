@@ -1,10 +1,10 @@
-name: RCAP Chat 1 bounded review and delivery integration
+name: RCAP Chat 1 bounded integration continuation
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
     paths: [.github/workflows/rcap-chat1-integration-current.yml]
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: rcap-chat1-current-${{ github.ref }}
   cancel-in-progress: false
@@ -13,8 +13,10 @@ jobs:
     if: github.repository == 'Roger-LegalEase/legalease-partner-dashboard-clean' && github.ref == 'refs/heads/chatgpt/launch-recovery-20260906'
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    permissions:
+      contents: write
     env:
-      BASE: 24176d664c02f4f732fcf0ae03db63f14a77c820
+      PRIOR: fa01d8a3290dad8d0fbf717cf341e21b91438fa8
       REVIEW: d219b7cda0b5e7a315e7a735fe3d09cebf69075c
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -22,106 +24,129 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
-      - name: Pin inputs and preserve original review ancestry
-        run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/chat1-integration"
-          test "$(git rev-parse HEAD^)" = "02f2a1194c7e26da6392740cba47792434a7d118"
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          git config user.name 'LegalEase integration (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
-          git cat-file -e "$REVIEW^{commit}"
-          python3 - <<'PY'
-          import os, subprocess
-          base=os.environ['BASE'];review=os.environ['REVIEW']
-          paths=subprocess.check_output(['git','diff','--name-only',base+'...'+review],text=True).splitlines()
-          prefixes=('data/rcap-grade-a/chat-parallel-2026-09-07/review/','docs/rcap/grade-a/chat-parallel-2026-09-07/review/')
-          assert len(paths)==14 and all(p.startswith(prefixes) for p in paths), paths
-          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff')) for p in paths)
-          print('Verified fourteen review-only paths on pinned Chat B commit')
-          PY
-          git merge --no-ff --no-commit "$REVIEW"
-      - name: Verify and apply the existing checksum-bound integration patch
+      - name: Pin existing work and recover only the saved failed-run candidate
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "$PRIOR"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$RUNNER_TEMP/chat1-integration"
+          git config user.name 'LegalEase integration (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
           python3 - <<'PY'
-          import base64,gzip,hashlib,json,os,pathlib,subprocess,urllib.request
-          entries=[
-           ('5a2a9e1193ef3d5dbfaabce7a9f2503ad5ff48b6','d00bac31aa2070bcb867a07a3dca800df8f90f70f375f308cd7a8db7f544195e',8000),
-           ('bc198cf49cb91df90f3365a84bdbdc10a62dceb2','6a4697293e3cc669c194919db64ffa52097360ec64c4de972d6dc06ce152a17a',8000),
-           ('00a68684077459ac08d508e85cc40dbfb107b0f8','c2852630cfe46fe5e28245985ae03991f56b460735cc0cd6d8f6195ddf10746f',6255)]
-          parts=[]
-          for i,(blob,digest,size) in enumerate(entries):
-           req=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/git/blobs/'+blob,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-           with urllib.request.urlopen(req,timeout=60) as response: obj=json.load(response)
-           raw=base64.b64decode(obj['content'])
-           assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==blob
-           if i==1:
-            # Reverse one measured base64 transport insertion; the original byte digest below is authoritative.
-            encoded=base64.b64encode(raw).decode()
-            assert len(raw)==8001 and encoded[5333]=='7'
-            raw=base64.b64decode(encoded[:5333]+encoded[5334:]+'=',validate=True)
-           assert len(raw)==size and hashlib.sha256(raw).hexdigest()==digest, (i,'chunk digest mismatch')
-           parts.append(raw)
-          archive=b''.join(parts)
-          assert hashlib.sha256(archive).hexdigest()=='3c4fc5875f52c00ddda08569d78a349225fe60567b9647d438694fb98fb54365'
-          payload=json.loads(gzip.decompress(archive))
-          assert payload['schemaVersion']=='chat1-exact-integration-patch/v1'
-          assert payload['baseCommit']==os.environ['BASE'] and payload['reviewCommit']==os.environ['REVIEW']
-          patch=payload['patch'].encode()
-          assert hashlib.sha256(patch).hexdigest()==payload['patchSha256']=='fcd3c87e3c585798c75fe51c84d3dc86144b2b8616897f6901fdbe32d698bc32'
-          prefix='scripts/grade-a-packet-factory-24h/'
-          scripts=['chat-review-inputs.mjs','de-reviewed-guidance.mjs','nc-declared-delivery.mjs','test-chat-review-inputs.mjs','test-de-reviewed-guidance.mjs','test-nc-declared-delivery.mjs','extract-verifier-returns.mjs','generate.mjs','generate-product-wiring.mjs','validate-chat1-integration.py']
-          expected={prefix+p for p in scripts}|{'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/local-focused-test-results.json','docs/rcap/grade-a/chat-parallel-2026-09-07/chat1-integration/ADMISSION_AND_DELIVERY.md'}
+          import hashlib,io,json,os,pathlib,subprocess,urllib.request,zipfile
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-integration'
-          patchfile=out/'integration.patch';patchfile.write_bytes(patch)
-          actual={x.split('\t',2)[2] for x in subprocess.check_output(['git','apply','--numstat',str(patchfile)],text=True).splitlines()}
-          assert actual==expected==set(payload['fileSha256'])
-          subprocess.run(['git','apply','--check',str(patchfile)],check=True)
-          subprocess.run(['git','apply',str(patchfile)],check=True)
-          for p,h in payload['fileSha256'].items():assert hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()==h,p
-          fixes=[]
-          for blob in ['ea3de89d86365401926b14feac11099e95abb312','0ed2015807b87b13409ff640d7a0eca2d476e0e8','9964be861aae39dafc605cd9fe076e80318ed328','1b0f8ff7d2ca0bc3afb3ae48ba25c0ccd222a96e']:
-           req=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/git/blobs/'+blob,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-           with urllib.request.urlopen(req,timeout=60) as response: obj=json.load(response)
-           raw=base64.b64decode(obj['content'])
-           assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==blob
-           fixes.append(raw)
-          compressed=b''.join(fixes)
-          assert hashlib.sha256(compressed).hexdigest()=='85e66909bcc8da971a7070aa15c4de972efce7fb42f975b7bc47b5e6442b95a7'
-          correction=gzip.decompress(compressed)
-          assert hashlib.sha256(correction).hexdigest()=='f358f41b12faad3482b5dc9f92e268212667c1e7d8d9ef3876c6848d626bd056'
-          fixfile=out/'reconciliation-fix.patch';fixfile.write_bytes(correction)
-          actual={x.split('\t',2)[2] for x in subprocess.check_output(['git','apply','--numstat',str(fixfile)],text=True).splitlines()}
-          assert actual=={prefix+'validate-chat1-integration.py'}
-          subprocess.run(['git','apply','--check',str(fixfile)],check=True)
-          subprocess.run(['git','apply',str(fixfile)],check=True)
-          corrected=prefix+'validate-chat1-integration.py'
-          assert hashlib.sha256(pathlib.Path(corrected).read_bytes()).hexdigest()=='3a1dbb8b8799f80436806391ab5c5a695147d224f40829c2bf01bf4e27d7fd4a'
-          payload['reconciliationCorrection']={'patchSha256':hashlib.sha256(correction).hexdigest(),'file':corrected,'fileSha256':hashlib.sha256(pathlib.Path(corrected).read_bytes()).hexdigest()}
-          final=payload['finalWorkflow'].encode()
-          assert hashlib.sha256(final).hexdigest()==payload['finalWorkflowSha256']
-          assert b'contents: read' in final and b'contents: write' not in final
-          pathlib.Path('.github/workflows/rcap-chat1-integration-current.yml').write_bytes(final)
-          (out/'input-bindings.json').write_text(json.dumps({k:v for k,v in payload.items() if k not in ['patch','finalWorkflow']},indent=2)+'\n')
-          print('Applied and rehashed all twelve implementation/evidence paths; final workflow is read-only')
+          repo=os.environ['GITHUB_REPOSITORY']; review=os.environ['REVIEW']; prior=os.environ['PRIOR']
+          headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+          base='https://api.github.com/repos/'+repo
+          def get_json(endpoint):
+              with urllib.request.urlopen(urllib.request.Request(base+endpoint,headers=headers),timeout=60) as response:return json.load(response)
+          meta=get_json('/actions/artifacts/10029199530')
+          assert meta['id']==10029199530 and not meta['expired']
+          assert meta['workflow_run']['id']==34150401392 and meta['workflow_run']['head_sha']==prior
+          expected='4c587f83bcfe9d329173182c347fe3c11940abd474b557be76fd55e9ba5cb849'
+          assert meta.get('digest')=='sha256:'+expected
+          with urllib.request.urlopen(urllib.request.Request(base+'/actions/artifacts/10029199530/zip',headers=headers),timeout=120) as response: archive=response.read()
+          assert hashlib.sha256(archive).hexdigest()==expected
+          z=zipfile.ZipFile(io.BytesIO(archive))
+          matches=[n for n in z.namelist() if pathlib.PurePosixPath(n).name=='unpublished-candidate.patch']
+          assert len(matches)==1,matches
+          patch=z.read(matches[0]); patchfile=out/'saved-candidate.patch';patchfile.write_bytes(patch)
+          changes=subprocess.check_output(['git','apply','--numstat',str(patchfile)],text=True).splitlines()
+          paths=[r.split('\t',2)[2] for r in changes]
+          prefixes=('scripts/grade-a-packet-factory-24h/','data/rcap-grade-a/','docs/rcap/grade-a/')
+          workflow='.github/workflows/rcap-chat1-integration-current.yml'
+          assert paths and len(paths)==len(set(paths))
+          assert all(p==workflow or p.startswith(prefixes) or (p.startswith('data/rcap-all50/overlays/') and p.endswith('/product-wiring.json')) for p in paths),paths
+          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) or '..' in pathlib.PurePosixPath(p).parts for p in paths)
+          review_paths=subprocess.check_output(['git','diff','--name-only','24176d664c02f4f732fcf0ae03db63f14a77c820...'+review],text=True).splitlines()
+          review_prefixes=('data/rcap-grade-a/chat-parallel-2026-09-07/review/','docs/rcap/grade-a/chat-parallel-2026-09-07/review/')
+          assert len(review_paths)==14 and all(p.startswith(review_prefixes) for p in review_paths),review_paths
+          subprocess.run(['git','merge','--no-ff','--no-commit',review],check=True)
+          exclusions=['--exclude='+p+'*' for p in review_prefixes]+['--exclude='+workflow]
+          subprocess.run(['git','apply','--check',*exclusions,str(patchfile)],check=True)
+          subprocess.run(['git','apply',*exclusions,str(patchfile)],check=True)
+          for p in review_paths:
+              assert pathlib.Path(p).read_bytes()==subprocess.check_output(['git','show',review+':'+p]),p
+          (out/'saved-candidate-inputs.json').write_text(json.dumps({'artifactId':10029199530,'failedRunId':34150401392,'archiveSha256':expected,'patchSha256':hashlib.sha256(patch).hexdigest(),'priorCommit':prior,'reviewCommit':review,'reviewFiles':review_paths,'patchFiles':paths,'publicationGrantedByRecovery':False},indent=2)+'\n')
+          print('Recovered exact saved candidate and preserved fourteen review inputs; no packet rebuilt.')
           PY
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install locked validation dependencies
+      - name: Install existing locked validation tools
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Regenerate from complete history and enforce exact state changes
+      - name: Stabilize raster JSON serialization without changing parsed receipt content
         run: |
           set -euo pipefail
-          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$RUNNER_TEMP/chat1-integration/prepare" --prepare
+          cp data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json "$RUNNER_TEMP/chat1-integration/raster-before.json"
+          python3 - <<'PY'
+          import pathlib,hashlib,json,os
+          p=pathlib.Path('scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs')
+          before=p.read_text()
+          assert 'function rasterStableStringify(' not in before,'An existing serialization repair requires reconciliation, not overwrite'
+          count=before.count('JSON.stringify(')
+          assert 0<count<=20,count
+          helper='''
+          // Serialize plain JSON objects deterministically; preserve array order and values.
+          // This changes representation only, not receipt eligibility or byte bindings.
+          function rasterStableStringify(value, replacer, space) {
+            function ordered(item) {
+              if (Array.isArray(item)) return item.map(ordered);
+              if (item && typeof item === 'object'
+                && (Object.getPrototypeOf(item) === Object.prototype || Object.getPrototypeOf(item) === null)
+                && typeof item.toJSON !== 'function') {
+                return Object.fromEntries(Object.keys(item).sort().map(key => [key, ordered(item[key])]));
+              }
+              return item;
+            }
+            return JSON.stringify(ordered(value), replacer, space);
+          }
+          '''
+          after=before.replace('JSON.stringify(', 'rasterStableStringify(')+'\n'+helper
+          p.write_text(after)
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-integration'
+          (out/'serialization-repair.json').write_text(json.dumps({'file':str(p),'beforeSha256':hashlib.sha256(before.encode()).hexdigest(),'afterSha256':hashlib.sha256(after.encode()).hexdigest(),'replacedSerializationCalls':count,'changesAcceptancePredicates':False},indent=2)+'\n')
+          # The same helper is tested separately without importing or executing the generator.
+          tests="import assert from 'node:assert/strict';\n"+helper+'''
+          const a = {z:[{b:2,a:1},null], a:{q:'hash',p:false}};
+          const b = {a:{p:false,q:'hash'}, z:[{a:1,b:2},null]};
+          const original = JSON.stringify(a);
+          assert.equal(rasterStableStringify(a,null,2),rasterStableStringify(b,null,2));
+          assert.deepEqual(JSON.parse(rasterStableStringify(a,null,2)),a);
+          assert.equal(JSON.stringify(a),original);
+          assert.notEqual(rasterStableStringify([1,2]),rasterStableStringify([2,1]));
+          assert.notEqual(rasterStableStringify({sha256:'a'}),rasterStableStringify({sha256:'b'}));
+          assert.notEqual(rasterStableStringify({complete:true}),rasterStableStringify({complete:false}));
+          assert.equal(rasterStableStringify(new Date('2026-09-07T00:00:00Z')),JSON.stringify(new Date('2026-09-07T00:00:00Z')));
+          assert.equal(rasterStableStringify({x:0,y:false,z:null}),'{"x":0,"y":false,"z":null}');
+          console.log('8 serialization controls passed; input values and array order preserved.');
+          '''
+          (out/'serialization-controls.mjs').write_text(tests)
+          PY
+          node --check scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
+          node "$RUNNER_TEMP/chat1-integration/serialization-controls.mjs" | tee "$RUNNER_TEMP/chat1-integration/serialization-controls.log"
+          node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
+          python3 - <<'PY'
+          import json,os,pathlib
+          before=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-integration/raster-before.json').read_text())
+          after=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json').read_text())
+          assert before==after,'Serialization-only repair changed parsed raster content; refusing publication'
+          print('Actual complete raster manifest is semantically unchanged.')
+          PY
+          node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs --check
+      - name: Prepare and validate complete-history integration
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/chat1-integration"
+          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$out/prepare" --prepare
+          node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs --check
           python3 - <<'PY'
           import os,pathlib,subprocess
           p=pathlib.Path('scripts/grade-a-packet-factory-24h/validate-chat1-integration.py').resolve()
@@ -129,21 +154,20 @@ jobs:
           paths=ns['scope'](os.environ['GITHUB_SHA']);assert paths
           subprocess.run(['git','add','--',*paths],check=True)
           PY
-          git commit -m 'fix(rcap): consume independent reviews and bind DE guidance and NC delivery variants'
-          git rev-parse HEAD > "$RUNNER_TEMP/chat1-integration/implementation-sha.txt"
-      - name: Run all focused, normal and mutation suites before publication
-        run: |
-          set -euo pipefail
-          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$RUNNER_TEMP/chat1-integration/validate"
-      - name: Publish validated integration only to the unchanged recovery branch
+          git diff --cached --check
+          git commit -m 'fix(rcap): consume saved independent review integration with stable raster serialization'
+          git rev-parse HEAD > "$out/implementation-sha.txt"
+          python3 scripts/grade-a-packet-factory-24h/validate-chat1-integration.py --base "$GITHUB_SHA" --out "$out/validate"
+          node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs --check
+      - name: Retain actual evidence and publish only validated recovery changes
         run: |
           set -euo pipefail
           evidence='data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/hosted-validation'
           mkdir -p "$evidence"
           cp -R "$RUNNER_TEMP/chat1-integration/prepare" "$RUNNER_TEMP/chat1-integration/validate" "$evidence/"
-          cp "$RUNNER_TEMP/chat1-integration/input-bindings.json" "$RUNNER_TEMP/chat1-integration/implementation-sha.txt" "$evidence/"
+          cp "$RUNNER_TEMP/chat1-integration/saved-candidate-inputs.json" "$RUNNER_TEMP/chat1-integration/serialization-repair.json" "$RUNNER_TEMP/chat1-integration/serialization-controls.mjs" "$RUNNER_TEMP/chat1-integration/serialization-controls.log" "$RUNNER_TEMP/chat1-integration/implementation-sha.txt" "$evidence/"
           git add -- "$evidence"
-          git commit -m 'test(rcap): retain executed full-history admission and factory validation'
+          git commit -m 'test(rcap): retain completed integration and serialization validation'
           python3 - <<'PY'
           import os,pathlib
           p=pathlib.Path('scripts/grade-a-packet-factory-24h/validate-chat1-integration.py').resolve()
@@ -151,12 +175,11 @@ jobs:
           ns['scope'](os.environ['GITHUB_SHA']);ns['census'](os.environ['GITHUB_SHA'])
           PY
           test -z "$(git status --porcelain)"
-          remote=$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)
-          test "$remote" = "$GITHUB_SHA"
+          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
           git rev-parse HEAD > "$RUNNER_TEMP/chat1-integration/publication-sha.txt"
           git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/chat1-integration/published.patch"
-      - name: Preserve exact unpushed candidate on failure
+      - name: Preserve an unpushed candidate if a gate fails
         if: failure()
         run: |
           mkdir -p "$RUNNER_TEMP/chat1-integration"
