@@ -1,136 +1,41 @@
-name: RCAP completion source-scope repair
+name: RCAP completion validation
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
-    paths: [.github/workflows/rcap-completion-pass.yml]
+    paths:
+      - .github/workflows/rcap-completion-pass.yml
+      - scripts/rcap-packet-recovery/test-nc-indigency.mjs
+      - scripts/rcap-packet-recovery/nc-indigency.mjs
 permissions:
   contents: read
-concurrency:
-  group: rcap-completion-publication
-  cancel-in-progress: false
 jobs:
-  repair:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-    env:
-      OUT: data/rcap-grade-a/completion-pass-2026-09-07/source-scope
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install the actual queue and packet reader dependencies before any generator
+      - name: Test published packet behavior without generating or publishing queue state
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Apply only the locally tested two-hunk source-scope correction
-        run: |
-          set -euo pipefail
-          test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
-          mkdir -p "$OUT" "$RUNNER_TEMP/source-scope"
-          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/source-scope/before-master.json"
-          python3 - <<'PY'
-          import pathlib,subprocess
-          p=pathlib.Path('scripts/grade-a-packet-factory-24h/generate.mjs')
-          assert subprocess.check_output(['git','hash-object',str(p)]).decode().strip()=='d38c25750d172b969e940f0b0aac594c21d4a646','Unexpected generator version'
-          text=p.read_text()
-          a='function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy, reconciliation) {\n  const reasons = [];'
-          b=a+'\n  // Exact bytes of the wrong scoped form do not satisfy an explicit governed\n  // source-identity finding. Preserve the defect until that finding is resolved.\n  if (reconciliation?.disposition === "SOURCE_BLOCKED") {\n    for (const id of reconciliation.unresolvedObligations ?? []) {\n      reasons.push(`${id}: GOVERNED_SOURCE_SCOPE_UNRESOLVED — ${reconciliation.exactResidual ?? "the recorded source identity remains unresolved"}`);\n    }\n  }'
-          c='  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";'
-          d=c+'\n  // Source-scope refusal outranks packet repair/proof, but never an explicit\n  // delivery or legal hold above it. Measured packet defects remain in the row.\n  else if (sourceReconciliation?.disposition === "SOURCE_BLOCKED"\n    && (sourceReconciliation.unresolvedObligations ?? []).length > 0\n    && !readiness.ready) state = "SOURCE_BLOCKED";'
-          assert text.count(a)==1 and text.count(c)==1
-          p.write_text(text.replace(a,b).replace(c,d))
-          assert subprocess.check_output(['git','hash-object',str(p)]).decode().strip()=='7b2d493a07adfa30895e57f29657ba20b9b416c6','Patch differs from tested candidate'
-          print('Exact two-hunk source-scope patch applied. No verifier refusal changed.')
-          PY
-          node --check scripts/grade-a-packet-factory-24h/generate.mjs
-      - name: Regenerate current evidence and prove exact source-refusal effects
-        run: |
-          set -euo pipefail
-          for pass in 1 2; do
-            for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
-              node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script-$pass.log" 2>&1 || { tail -80 "$OUT/$script-$pass.log"; exit 1; }
-            done
-          done
-          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -80 "$OUT/$script-check.log"; exit 1; }
-          done
-          node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs | tee "$OUT/source-model.log"
-          node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations | tee "$OUT/source-model-mutations.log"
-          python3 - <<'PY'
-          import pathlib,json,os,collections
-          before=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'source-scope/before-master.json').read_text())
-          after=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          old={r['familyId']:r for r in before['families']};new={r['familyId']:r for r in after['families']}
-          expected={'nm_conviction-set','nm_identity_theft-set','nm_release_without_conviction-set'}
-          changed={k for k in new if new[k]['state']!=old[k]['state']}
-          assert changed==expected,('Unexpected state transitions',changed)
-          for f in expected:
-            assert new[f]['state']=='SOURCE_BLOCKED' and new[f]['sourceReadiness']['ready'] is False
-            assert new[f]['failedObligationNames']==old[f]['failedObligationNames'],'A measured packet defect was lost'
-            assert new[f]['failedObligations']==old[f]['failedObligations'],'A measured finding was lost'
-            assert any('GOVERNED_SOURCE_SCOPE_UNRESOLVED' in x for x in new[f]['sourceReadiness']['reasons'])
-          terminals={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          assert sum(x['state'] in terminals for x in old.values())==sum(x['state'] in terminals for x in new.values())==177
-          record={'states':dict(collections.Counter(x['state'] for x in new.values())),'terminalFamilies':177,'denominator':len(new),'transitions':[{'familyId':f,'before':old[f]['state'],'after':new[f]['state'],'retainedFailedObligations':new[f]['failedObligationNames']} for f in sorted(changed)],'authority':'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json','packetBytesChanged':False,'verifierRulesWeakened':False,'newApprovals':0,'productionTouched':False}
-          (pathlib.Path(os.environ['OUT'])/'state-effect.json').write_text(json.dumps(record,indent=2)+'\n')
-          print(json.dumps(record,indent=2))
-          PY
-      - name: Run combined packet regressions and all wider checks with real exit codes
-        run: |
-          set -euo pipefail
-          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-regressions.log"
-          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$OUT/nv-regressions.log"
-          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-regressions.log"
-          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$OUT/prior-mutations.log"
-          node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$OUT/summary-controls.log"
-          python3 - <<'PY'
-          import pathlib,subprocess,json,os,datetime
-          out=pathlib.Path(os.environ['OUT']);results=[]
-          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
-            for mutations in [False,True]:
-              cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutations else [])
-              name=script+('-mutations' if mutations else '')
-              with (out/f'{name}.log').open('w') as log:
-                try: code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=180).returncode
-                except subprocess.TimeoutExpired:code=124
-              results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'})
-              print(name,code,flush=True)
-          record={'workflowRunId':os.environ['GITHUB_RUN_ID'],'checkedSourceCommit':os.environ['GITHUB_SHA'],'generatorBlob':'7b2d493a07adfa30895e57f29657ba20b9b416c6','recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'terminalFamilies':177,'newTerminalPromotionsFromSourceScopeFix':0,'productionTouched':False,'commercialRoutesOpened':0}
-          (out/'verification.json').write_text(json.dumps(record,indent=2)+'\n')
-          assert all(r['exitCode']==0 for r in results if 'verify-source-relationship-model.mjs' in r['command'][1]),'Source model repair did not pass'
-          PY
-      - name: Publish only the reviewed generator and its derived evidence
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import subprocess,os
-          prefixes=['data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',os.environ['OUT']+'/']
-          exact={'scripts/grade-a-packet-factory-24h/generate.mjs'}
-          changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          bad=[p for p in changed if p not in exact and not any(p.startswith(x) for x in prefixes)];assert not bad,bad
-          for p in sorted(changed):subprocess.run(['git','add','--',p],check=True)
-          PY
-          git diff --cached --check
-          git diff --cached --binary > "$RUNNER_TEMP/source-scope/candidate.patch"
-          git config user.name 'LegalEase completion (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): refuse governed wrong-scope source bindings and retain all measured packet defects'
-          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
-          git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          git rev-parse HEAD | tee "$RUNNER_TEMP/source-scope/published-sha.txt"
+          mkdir -p "$RUNNER_TEMP/completion-validation"
+          node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$RUNNER_TEMP/completion-validation/nc.log"
+          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$RUNNER_TEMP/completion-validation/nv.log"
+          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$RUNNER_TEMP/completion-validation/prior.log"
+          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$RUNNER_TEMP/completion-validation/mutations.log"
+          test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: rcap-source-scope-repair-${{ github.run_id }}
-          path: |
-            data/rcap-grade-a/completion-pass-2026-09-07/source-scope/
-            ${{ runner.temp }}/source-scope/
+          name: completion-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/completion-validation/
           retention-days: 14
           if-no-files-found: error
