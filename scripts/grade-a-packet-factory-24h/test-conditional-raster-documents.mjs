@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PDFDocument } from 'pdf-lib';
@@ -37,16 +38,57 @@ const mutations = [
 let caught=0;
 for(const mutate of mutations) { const d=structuredClone(original);mutate(d);assert.throws(()=>call(d));caught++; }
 assert.deepEqual(call(original), selected, 'Mutation tests must not change the original inventory');
-if(process.argv.includes('--generated')) {
- const q=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json')));
- const row=q.rows.find(r=>r.familyId==='nc_146_dismissal_petition-set');
- assert.ok(row, 'NC must remain eligible');
- assert.equal(row.documents.length, 10);
+// Inventory coverage is not permission to keep a semantically failed family active.
+function validateQueueCoverage(q, state) {
+ const id='nc_146_dismissal_petition-set';
+ const active=q.rows.filter(r=>r.familyId===id);
+ const history=(q.historicalRasterRows??[]).filter(r=>r.familyId===id);
+ if(state==='FAIL_REPAIR_REQUIRED') {
+  assert.equal(active.length,0,'A failed family must not remain raster-eligible');
+  assert.ok(q.notEligible.some(r=>r.familyId===id),'The failed-family exclusion must remain explicit');
+ }
+ const candidates=[...active,...history];
+ assert.equal(candidates.length,1,'Keep exactly one current-byte coverage row, active or historical');
+ const row=candidates[0];
+ assert.equal(row.documents.length,10);
  assert.equal(row.documents.reduce((n,d)=>n+d.pageCount,0),60);
  assert.equal(row.documents.filter(d=>d.conditionalPacketBranch).length,8);
  assert.equal(row.coverage.documents.length,5);
  assert.equal(row.coverage.complete,true);
+ assert.equal(new Set(row.documents.map(d=>d.path)).size,10);
  for(const d of selected) assert.ok(row.documents.some(r=>r.name===d.name && r.role===d.role));
+ for(const d of row.documents) {
+  assert.equal(d.path,dir+'/fixtures/'+d.name,'Coverage path must be an actual family fixture');
+  const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,d.path))).digest('hex');
+  assert.equal(d.sha256,actual,'Coverage must bind the current whole PDF, including historical evidence');
+ }
  assert.notEqual(row.documentsDigest,'2de39253b00245f2c36970c3ef3bdb90ba427d6cc54e122bd5c588c584ff7820','The old partial receipt must not match the widened set');
+ return {location:active.length?'active':'historical',documents:10,pages:60};
 }
-console.log(JSON.stringify({selectablePackets:8,selectablePages:44,diagnosticPages:16,allPages:60,admissionNegativeControlsCaught:caught,generatedCoverageChecked:process.argv.includes('--generated'),grantsApproval:false}));
+let generatedLocation=null,generatedRejectionControls=0;
+if(process.argv.includes('--generated')) {
+ const q=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json')));
+ const master=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json')));
+ const id='nc_146_dismissal_petition-set',state=master.families.find(f=>f.familyId===id).state;
+ generatedLocation=validateQueueCoverage(q,state).location;
+ const row=[...q.rows,...(q.historicalRasterRows??[])].find(r=>r.familyId===id);
+ const history={rows:[],historicalRasterRows:[structuredClone(row)],notEligible:[{familyId:id,why:['independent review failed']} ]};
+ const active={rows:[structuredClone(row)],historicalRasterRows:[],notEligible:[]};
+ assert.equal(validateQueueCoverage(history,'FAIL_REPAIR_REQUIRED').location,'historical');
+ assert.equal(validateQueueCoverage(active,'VERIFY_PENDING').location,'active');
+ const corruptions=[
+  d=>d.historicalRasterRows=[],
+  d=>d.rows.push(structuredClone(row)),
+  d=>d.notEligible=[],
+  d=>d.historicalRasterRows.push(structuredClone(row)),
+  d=>d.historicalRasterRows[0].documents.pop(),
+  d=>d.historicalRasterRows[0].documents[0].pageCount++,
+  d=>d.historicalRasterRows[0].documents[0].sha256='0'.repeat(64),
+  d=>d.historicalRasterRows[0].coverage.complete=false,
+  d=>d.historicalRasterRows[0].documentsDigest='2de39253b00245f2c36970c3ef3bdb90ba427d6cc54e122bd5c588c584ff7820',
+ ];
+ const originalQueue=JSON.stringify(q);
+ for(const mutate of corruptions) {const d=structuredClone(history);mutate(d);assert.throws(()=>validateQueueCoverage(d,'FAIL_REPAIR_REQUIRED'));generatedRejectionControls++;}
+ assert.equal(JSON.stringify(q),originalQueue);
+}
+console.log(JSON.stringify({selectablePackets:8,selectablePages:44,diagnosticPages:16,allPages:60,admissionNegativeControlsCaught:caught,generatedCoverageChecked:process.argv.includes('--generated'),generatedLocation,generatedPositiveControls:process.argv.includes('--generated')?2:0,generatedRejectionControls,grantsApproval:false}));
