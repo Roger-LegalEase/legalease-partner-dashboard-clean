@@ -19,6 +19,7 @@
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
+import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -2060,13 +2061,20 @@ for (const f of IN.scoreboard.familiesDetail) {
   const reclassificationRereadAnchor = holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED"
     ? holdReclassification.repairCommit
     : IN.legalHoldReclassification?.recordedAtCaptainSha;
-  const reclassificationRereadReturned = Boolean(independentReturn)
+  const reclassificationReviewIsOrdered = Boolean(independentReturn)
     && !["PASS", "BLOCKED_BEFORE_CLAIM"].includes(independentReturn.verdict)
     && isCommitish(independentReturn.verifiedAtBase)
     && isCommitish(reclassificationRereadAnchor)
     && (independentReturn.verifiedAtBase === reclassificationRereadAnchor
-      || readIsLaterThan(independentReturn.verifiedAtBase, reclassificationRereadAnchor))
-    && !familyMovedSinceVerdict(independentReturn, directory, buildScript);
+      || readIsLaterThan(independentReturn.verifiedAtBase, reclassificationRereadAnchor));
+  // A completed negative reread is a historical event, not current repair proof.
+  // Keep later edits subject to the ordinary causal repair-evidence checks below.
+  const reclassificationRereadReturned = orderedReclassificationReadReturned({
+    verdict: independentReturn?.verdict,
+    reviewIsOrdered: reclassificationReviewIsOrdered,
+    artifactsMoved: independentReturn
+      ? familyMovedSinceVerdict(independentReturn, directory, buildScript) : true
+  });
   const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
     .includes(holdReclassification?.disposition)
     && !reclassificationRereadReturned ? "VERIFY_PENDING" : null;

@@ -14,7 +14,7 @@ The platform filled what it holds: on Side One your name, your street address, y
 
 ## Who decides this, and what you do not file
 
-**The court decides, on your petition, and the clerk certifies first.** You file Side One with the clerk of superior court; the clerk completes the CERTIFICATION BY CLERK on Side Two; a judge makes the findings and signs the order.
+**The court decides before the clerk certifies copies.** Complete, sign and file Side One with the clerk of superior court. The court then decides the petition and enters its order. If an order of expunction is entered, the clerk makes copies, completes CERTIFICATION BY CLERK on each copy, and distributes the certified copies as the official instructions direct. Leave all findings, order and clerk-certification fields on Side Two blank.
 
 **You may not be the only person who can petition.** The committed packet-set manifest records that G.S. 15A-146 permits either the petitioner or the district attorney to petition, and that where the district attorney petitions instead, the form is AOC-CR-295 rather than this one. That form is not in this packet. If the district attorney has told you they will petition, ask the clerk whether you should file this one as well.
 
