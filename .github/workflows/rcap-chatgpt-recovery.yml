@@ -23,6 +23,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install existing builder renderer dependency
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftoppm -v
       - name: Apply exact reviewed patch on isolated recovery branch
         run: |
           set -euo pipefail
