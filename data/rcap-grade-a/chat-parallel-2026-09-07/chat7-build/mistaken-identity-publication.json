@@ -1,0 +1,47 @@
+{
+  "familyId": "mo-610-145-mistaken-identity-set",
+  "implementationCommit": "48fb4ea228b20fab01af4b4055ea6e00b7f072d5",
+  "branch": "chatgpt/extra-build-mo-20260907",
+  "target": "chatgpt/launch-recovery-20260906",
+  "status": "BUILT_CANDIDATE_BINARY_PUBLICATION_PENDING",
+  "terminalFamiliesAdded": 0,
+  "tests": {"command": "node --test scripts/rcap-packet-recovery/chat7/mistaken-identity.test.mjs", "exitCode": 0, "tests": 36, "pass": 36, "fail": 0, "skipped": 0, "durationMs": 13837.516308},
+  "pdfContent": {"command": "python scripts/rcap-packet-recovery/chat7/verify-pdf-content.py", "exitCode": 0, "variants": 9, "pages": 57, "mappedTextFound": true, "protectedExecutionPixelsUnchanged": true, "status": "PASS_DIAGNOSTIC_ONLY"},
+  "visualInspection": {"reviewer": "Chat 7 builder, not independent reviewer", "completeVariantPages": 57, "uniqueCompletePageImagesInspected": 27, "method": "PyMuPDF full-page images, individually or side-by-side, without cropped-off content", "result": "No visible clipping, label overwrite or judicial-execution contamination in inspected candidate pages"},
+  "sources": {
+    "CR301.pdf": {"sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8", "pages": 1, "bytes": 952015, "edition": "OSCA 07-17", "custody": "Roger-held petition-for-expungement-mistaken-identity.pdf"},
+    "CR311.pdf": {"sha256": "3ce91ab2c9bbcdb4f20cb72e99ee786a1b2e1979c2bc72831452addaff0eef40", "pages": 1, "bytes": 97529, "edition": "OSCA 07-17", "custody": "CODEX-CS1-SRC2__CR311__3ce91ab2c9bb.pdf"},
+    "FI-05.pdf": {"sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e", "pages": 4, "bytes": 298649, "edition": "SJRC 04-23; case-type pages 07-23", "custody": "GitHub artifact 9934370357: retrieved/primary-ledger/sources/MO-FI-05/source.pdf"}
+  },
+  "runtimeInputs": {
+    "nodeVersion": "22.16.0",
+    "packageLockSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+    "lockedDependenciesArtifact": 10001332747,
+    "lockedDependenciesArchiveSha256": "2d50888ddcae0deb0179ee0c89ce048801c6753943c6ed15210cf3c9256fe403",
+    "recoverySnapshotIsCurrentCheckout": false,
+    "sharedGitBlobsReconciledAtImplementationCommit": {
+      "scripts/rcap-official-forms/rcap-text-fitting.mjs": "d4e0078779d83caae7bcb7c23043de0134f2eaa7",
+      "scripts/rcap-official-forms/rcap-active-content.mjs": "9ad476007230fec3c93af258c086fe766101948b",
+      "scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs": "b37fb892350b74050b038ebb3a8cafa99640bd05"
+    }
+  },
+  "candidateArtifacts": {
+    "chat7-mistaken-identity-candidate-20260907.zip": {"sha256": "17a10e612bf2430af70a3da697903d9b20131c4504438f57142ebe592168ca06", "bytes": 5532236, "files": 47},
+    "chat7-mistaken-identity-complete-candidate.patch": {"sha256": "c37cd1d4bd7e052035f9ad336d80226d2c77969c420ecf9c8145c4885966ca47", "bytes": 7627092},
+    "chat7-mistaken-identity-binaries.patch": {"sha256": "6166f868a0955d019d575df89da133f58854d8197cb4ebb38aec635835b7351e", "bytes": 7064435}
+  },
+  "patchVerification": "Complete new-file patch applied in isolated empty staging directory; all 47 resulting files compared byte-for-byte with exact candidate payload. This is not an integration claim.",
+  "nativeGitTransportResult": "fatal: unable to access repository: Could not resolve host: github.com",
+  "repositoryPublication": "Six implementation/test/fixture files committed through connected GitHub. Large source and packet PDF bytes retained in checksum-bound candidate artifacts; not yet published to repository.",
+  "remaining": [
+    "Publish exact source and output binaries; no reacquisition of held CR301 is needed.",
+    "Reconcile latest whole packet-set manifest; large current manifest returned empty inline content. Current MO memo was checked, but historical manifest is not asserted current.",
+    "Confirm source-edition acceptance; held editions were inspected, fresh current PDF retrieval not established.",
+    "Add central verifier-compatible report schema and per-field closed-vocabulary blank dispositions; nine completeness counters not computed, not claimed zero.",
+    "Chat 10 independent review and Chat A calibrated raster admission/integration."
+  ],
+  "independentReview": "PENDING_CHAT_10",
+  "rasterAdmission": "PENDING_CHAT_A",
+  "sharedRuntimeRegistryQueueWorkflowChanges": false,
+  "otherFiveAssignedFamiliesCompleted": false
+}
