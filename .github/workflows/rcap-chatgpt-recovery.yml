@@ -1,183 +1,82 @@
-name: RCAP isolated recovery publication
+name: RCAP repaired packet validation
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
     paths: [.github/workflows/rcap-chatgpt-recovery.yml]
 permissions:
-  contents: write
-  actions: read
-concurrency:
-  group: rcap-chatgpt-recovery-publication
-  cancel-in-progress: false
+  contents: read
 jobs:
-  repair:
+  verify_repairs:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    env:
-      EVIDENCE: data/rcap-grade-a/launch-recovery-2026-09-07
-      MASTER_LIBRARY_SOURCE_DIR: /tmp/rcap-recovery-verified-corpus
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install existing builder renderer dependency
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Apply exact reviewed patch on isolated recovery branch
-        run: |
-          set -euo pipefail
-          test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
-          python3 - <<'PY'
-          import pathlib,base64,lzma,hashlib,subprocess
-          folder=pathlib.Path('data/rcap-grade-a/launch-recovery-bootstrap')
-          encoded=''.join((folder/f'part-{i}.b64').read_text().strip() for i in range(4))
-          patch=lzma.decompress(base64.b64decode(encoded,validate=True))
-          expected='157509cd53e071b96eb188aaee7d353bf5d4caa40e4b26aa030b7f98f0223291'
-          assert hashlib.sha256(patch).hexdigest()==expected,'Repair transfer checksum mismatch'
-          target=pathlib.Path('/tmp/recovery-implementation.patch');target.write_bytes(patch)
-          subprocess.run(['git','apply','--check',str(target)],check=True)
-          subprocess.run(['git','apply',str(target)],check=True)
-          print('Exact reviewed repair patch applied:',expected)
-          PY
-      - uses: actions/download-artifact@v4
-        with:
-          name: rcap-recovery-inputs-34074268547
-          run-id: 34074268547
-          github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/official-repair-inputs
-      - name: Verify and retain official sources and mount exact builder inputs
-        env:
-          INPUTS: ${{ runner.temp }}/official-repair-inputs
-        run: |
-          python3 - <<'PY'
-          import pathlib,os,json,hashlib,shutil
-          root=pathlib.Path('.');inputs=pathlib.Path(os.environ['INPUTS']);corpus=pathlib.Path(os.environ['MASTER_LIBRARY_SOURCE_DIR'])
-          record=json.loads((root/os.environ['EVIDENCE']/'official-source-acquisition.json').read_text())
-          for source in record['sources']:
-            data=(inputs/source['file']).read_bytes()
-            assert len(data)==source['byteLength']
-            assert hashlib.sha256(data).hexdigest()==source['sha256'],source['file']
-            target=root/source['repositoryPath'];target.parent.mkdir(parents=True,exist_ok=True)
-            if target.exists(): assert target.read_bytes()==data,'Refusing to overwrite a different retained source'
-            target.write_bytes(data)
-          mappings={
-            'VA-CC1473.pdf':['STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf','private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf'],
-            'PA-IFP-CCP.pdf':['STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf'],
-            'PA-790-ORDER.pdf':['STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf'],
-          }
-          for name,paths in mappings.items():
-            for rel in paths:
-              target=corpus/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(inputs/name,target)
-          data=pathlib.Path('reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf').read_bytes()
-          assert hashlib.sha256(data).hexdigest()=='fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de'
-          target=corpus/'STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf';target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
-          print('Six official sources verified and retained; exact VA and PA builder corpus mounted.')
-          PY
-      - name: Install locked dependencies and rebuild four families
+      - name: Install locked dependencies and the existing PDF text reader
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
-          for family in de_mandatory_expungement-set ma-bmc-multi-set va_exp_nonconviction-set; do
-            node "scripts/build-census-v1-$family.mjs" --no-raster > "$EVIDENCE/build-$family.log" 2>&1 || { cat "$EVIDENCE/build-$family.log"; exit 1; }
-          done
-          node scripts/build-census-v1-pa_790_nonconviction-set.mjs > "$EVIDENCE/build-pa_790_nonconviction-set.log" 2>&1 || { cat "$EVIDENCE/build-pa_790_nonconviction-set.log"; exit 1; }
-          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$EVIDENCE/regressions.log"
-          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$EVIDENCE/mutations.log"
-          node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$EVIDENCE/readiness-summary-controls.log"
-      - name: Verify reviewed PDF hashes and remove only obsolete PF25 prompt
-        run: |
-          python3 - <<'PY'
-          import json,pathlib,hashlib,os
-          record=json.loads((pathlib.Path(os.environ['EVIDENCE'])/'developer-visual-review.json').read_text())
-          for artifact in record['artifacts']:
-            data=pathlib.Path(artifact['file']).read_bytes()
-            assert data.startswith(b'%PDF-'),artifact['file']
-            assert hashlib.sha256(data).hexdigest()==artifact['sha256'],artifact['file']
-          print(f"All {len(record['artifacts'])} PDF hashes / {record['pagesReviewed']} reviewed pages match exactly.")
-          active=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').read_text())
-          assert not any(x.get('assignmentId',x.get('lane'))=='PF25' for x in active['assignments'])
-          ledger=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/claim-ledger.json').read_text())
-          assert all(x.get('released') is True for x in ledger['claims'] if x.get('lane')=='PF25')
-          pathlib.Path('docs/rcap/grade-a/packet-factory-24h/PF25.md').unlink()
-          PY
-      - name: Regenerate real factory outputs using full repository ancestry
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Check exact candidate and repaired behavior
         run: |
           set -euo pipefail
-          for script in generate generate-source-conveyor generate-washington-repair generate-raster-queue; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$EVIDENCE/$script.log" 2>&1 || { tail -80 "$EVIDENCE/$script.log"; exit 1; }
-          done
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$RUNNER_TEMP/recovery-validation"
+          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$RUNNER_TEMP/recovery-validation/regressions.log"
+          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$RUNNER_TEMP/recovery-validation/mutations.log"
+          node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$RUNNER_TEMP/recovery-validation/readiness-summary.log"
           for script in generate generate-source-conveyor generate-washington-repair; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$EVIDENCE/$script-check.log" 2>&1 || { tail -80 "$EVIDENCE/$script-check.log"; exit 1; }
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$RUNNER_TEMP/recovery-validation/$script.log" 2>&1 || { cat "$RUNNER_TEMP/recovery-validation/$script.log"; exit 1; }
           done
-      - name: Record actual factory results without manufacturing green checks
-        run: |
-          python3 - <<'PY'
-          import pathlib,subprocess,json,os,datetime,collections
-          out=pathlib.Path(os.environ['EVIDENCE']);results=[]
-          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
-            for mutations in [False,True]:
-              command=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutations else [])
-              name=script+('-mutations' if mutations else '')
-              with (out/f'{name}.log').open('w') as log:
-                try: code=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,timeout=180).returncode
-                except subprocess.TimeoutExpired: code=124
-              results.append({'command':command,'exitCode':code,'status':'PASS' if code==0 else 'FAIL'})
-              print(name,code,flush=True)
-          (out/'hosted-verification.json').write_text(json.dumps({'checkedSourceCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'timestamp':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'productionTouched':False,'commercialRoutesOpened':0,'independentApprovalGranted':False},indent=2)+'\n')
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          (out/'post-repair-census.json').write_text(json.dumps({'denominator':master.get('denominator'),'totals':master.get('totals'),'states':dict(collections.Counter(x.get('state','UNSPECIFIED') for x in master.get('families',[]))),'note':'Generated state, not an independent approval of ChatGPT-authored repairs.'},indent=2)+'\n')
-          PY
-      - name: Commit only bounded recovery paths to the isolated branch
-        env:
-          RECOVERY_BRANCH: chatgpt/launch-recovery-20260906
-        run: |
-          set -euo pipefail
-          exec > >(tee "$EVIDENCE/publication.log") 2>&1
-          test "$GITHUB_REF" = "refs/heads/$RECOVERY_BRANCH"
-          test "$(git ls-remote origin "refs/heads/$RECOVERY_BRANCH" | cut -f1)" = "$GITHUB_SHA"
-          git rm -- data/rcap-grade-a/launch-recovery-bootstrap/part-{0,1,2,3}.b64
-          python3 - <<'PY'
-          import subprocess,pathlib,json
-          exact={'.github/workflows/rcap-source-conveyor-ready.yml','scripts/build-census-v1-de_mandatory_expungement-set.mjs','scripts/build-census-v1-ma-bmc-multi-set.mjs','scripts/build-census-v1-va_exp_nonconviction-set.mjs','scripts/build-census-v1-nj_arrest_no_conviction-set.mjs','scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs','data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json'}
-          prefixes=['scripts/rcap-packet-recovery/','data/rcap-grade-a/launch-recovery-2026-09-07/','data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/','data/rcap-grade-a/launch-recovery-bootstrap/']
-          prefixes += ['data/rcap-all50/overlays/census-v1/'+p for p in ['de/de-mandatory-expungement-set--official-pdf-fill/','ma/ma-bmc-multi-set--custom-pleading/','va/va-exp-nonconviction-set--official-pdf-fill/','pa/pa-790-nonconviction-set--official-pdf-fill/']]
-          sources=json.loads(pathlib.Path('data/rcap-grade-a/launch-recovery-2026-09-07/official-source-acquisition.json').read_text())
-          exact.update(x['repositoryPath'] for x in sources['sources'])
-          paths=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          bad=[p for p in paths if p not in exact and not any(p.startswith(prefix) for prefix in prefixes)]
-          assert not bad,'Unexpected changed paths: '+repr(bad)
-          for p in sorted(paths):
-            if p.endswith('/publication.log'): continue
-            subprocess.run(['git','add','--',p],check=True)
-          print('Scoped files staged:',len(paths))
-          PY
-          # PDF xref records intentionally have trailing spaces; PDF bytes are
-          # verified above by their exact reviewed SHA-256, not text whitespace.
-          # The issuer HTML also stays byte-identical to its official response.
-          git diff --cached --check -- . ':!reference/delaware/sbi-process-20260907.html' ':(glob,exclude)**/*.pdf'
-          git diff --cached --binary > "$RUNNER_TEMP/recovery-candidate.patch"
-          sha256sum "$RUNNER_TEMP/recovery-candidate.patch" > "$RUNNER_TEMP/recovery-candidate.sha256"
-          # Publish workflow changes separately through the authorized connector.
-          # Do not require workflow-administration permission for this job token.
-          git restore --staged .github/workflows/rcap-source-conveyor-ready.yml
-          git config user.name 'LegalEase recovery (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): repair DE MA VA PA packets, retain official inputs and restore generator convergence'
-          git push origin "HEAD:refs/heads/$RECOVERY_BRANCH"
-          git rev-parse HEAD | tee "$RUNNER_TEMP/published-sha.txt"
-      - name: Upload readable recovery evidence and exact candidate
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: rcap-recovery-publication-${{ github.run_id }}
-          path: |
-            data/rcap-grade-a/launch-recovery-2026-09-07/
-            ${{ runner.temp }}/published-sha.txt
-            ${{ runner.temp }}/recovery-candidate.patch
-            ${{ runner.temp }}/recovery-candidate.sha256
+          name: rcap-repaired-packet-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery-validation/
           retention-days: 14
           if-no-files-found: error
+  central_raster:
+    needs: verify_repairs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the existing immutable-commit central raster workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflow_id = 'rcap-packet-raster-acceptance-batch.yml';
+            const start = new Date().toISOString();
+            await github.rest.actions.createWorkflowDispatch({
+              ...context.repo,
+              workflow_id,
+              ref: 'main',
+              inputs: {
+                commit_sha: context.sha,
+                raster_manifest_path: 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',
+                family_batch: 'de_mandatory_expungement-set,ma-bmc-multi-set,va_exp_nonconviction-set,pa_790_nonconviction-set',
+                requested_scale: '2.5'
+              }
+            });
+            core.info(`Central raster requested for exact packet commit ${context.sha}. This dispatch grants no packet or production approval.`);
+            for (let i=0; i<12; i++) {
+              await new Promise(resolve => setTimeout(resolve, 5000));
+              const { data } = await github.rest.actions.listWorkflowRuns({ ...context.repo, workflow_id, event: 'workflow_dispatch', per_page: 5 });
+              const run = data.workflow_runs.find(r => r.created_at >= start);
+              if (run) {
+                core.info(`CENTRAL_RASTER_RUN_ID=${run.id}`);
+                core.info(run.html_url);
+                await core.summary.addHeading('Central raster dispatched').addRaw(`Packet commit: ${context.sha}\n\nRun: ${run.html_url}\n\nNo terminal or production approval is granted by a dispatch.`).write();
+                break;
+              }
+            }
