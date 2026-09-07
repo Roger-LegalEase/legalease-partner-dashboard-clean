@@ -1,4 +1,4 @@
-name: RCAP Chat 1 reconciled contracts and Arizona selectors
+name: RCAP Chat 1 contract integration with unchanged-anchor proof
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
@@ -16,7 +16,8 @@ jobs:
     permissions:
       contents: write
     env:
-      EXPECTED_PARENT: 38e7bf5e684d5c3cdfb147929a3ee49668f36101
+      EXPECTED_PARENT: 693c22e00b7418cddfbf5f39de347628d991ec48
+      CONTRACT_BASE: 38e7bf5e684d5c3cdfb147929a3ee49668f36101
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
@@ -26,13 +27,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Verify exact current inputs and consume the two reconciled local patches
+      - name: Verify current inputs and install only the checksum-bound contract patch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD^)" = "$EXPECTED_PARENT"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$CONTRACT_BASE" HEAD
           mkdir -p "$RUNNER_TEMP/chat1-contracts"
           python3 - <<'PY'
           import base64,gzip,hashlib,json,os,pathlib,subprocess,urllib.request
@@ -45,12 +47,11 @@ jobs:
               req=urllib.request.Request(url,headers={'Accept':'application/vnd.github+json'})
               req.add_unredirected_header('Authorization','Bearer '+os.environ['GH_TOKEN'])
               with urllib.request.urlopen(req,timeout=60) as response: item=json.load(response)
-              raw=base64.b64decode(item['content']);assert gitblob(raw)==blob
-              chunks.append(raw)
+              raw=base64.b64decode(item['content']);assert gitblob(raw)==blob;chunks.append(raw)
           payload_bytes=base64.b64decode(b''.join(chunks),validate=True)
           assert len(payload_bytes)==20876 and sha(payload_bytes)=='436180e2adef3055723e6dc23cca472c4a77074e46b50c0f30d84bbf898db4ed'
           payload=json.loads(gzip.decompress(payload_bytes));assert payload['schemaVersion']=='chat1-bounded-contract-integration/v1'
-          assert payload['observedRecoveryHead']==os.environ['EXPECTED_PARENT']
+          assert payload['observedRecoveryHead']==os.environ['CONTRACT_BASE']
           prefix='scripts/rcap-packet-recovery/chat1/'
           expected={'data/record-clearing/legal-design-track-registry.json','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs'}|{prefix+p for p in ['source-contract-corrections.mjs','test-source-contract-corrections.mjs','il-education-components.mjs','test-il-education-components.mjs','az-filing-court.mjs','test-az-filing-court.mjs','test-pa-790-optional-order.mjs']}
           assert len(payload['files'])==10 and {f['path'] for f in payload['files']}==expected
@@ -64,100 +65,112 @@ jobs:
           (out/'master-before.json').write_bytes(master.read_bytes())
           patch=payload.pop('patch').encode();assert sha(patch)==payload['patchSha256']=='29e90a72f851eb4ae812d0349a731afd348451aab1895f83cbec2e9ec11f0ef8'
           patchfile=out/'implementation.patch';patchfile.write_bytes(patch)
-          paths={r.split('\t',2)[2] for r in subprocess.check_output(['git','apply','--numstat',str(patchfile)],text=True).splitlines()}
-          assert paths==expected
-          subprocess.run(['git','apply','--check',str(patchfile)],check=True)
-          subprocess.run(['git','apply',str(patchfile)],check=True)
+          assert {r.split('\t',2)[2] for r in subprocess.check_output(['git','apply','--numstat',str(patchfile)],text=True).splitlines()}==expected
+          subprocess.run(['git','apply','--check',str(patchfile)],check=True);subprocess.run(['git','apply',str(patchfile)],check=True)
           for f in payload['files']:assert sha(pathlib.Path(f['path']).read_bytes())==f['afterSha256'],f['path']
           before=json.loads((out/'registry-before.json').read_text());after=json.loads(registry.read_text())
           changed=[a['trackId'] for a,b in zip(before['tracks'],after['tracks']) if a!=b]
-          assert len(before['tracks'])==len(after['tracks'])==503
-          assert changed==payload['changedTrackIds']
+          assert len(before['tracks'])==len(after['tracks'])==503 and changed==payload['changedTrackIds']
           assert {k:v for k,v in before.items() if k!='tracks'}=={k:v for k,v in after.items() if k!='tracks'}
           payload['actualChangedTrackIds']=changed;payload['workflowInputCommit']=os.environ['GITHUB_SHA']
           (out/'input-bindings.json').write_text(json.dumps(payload,indent=2)+'\n')
-          print('Ten exact implementation paths installed. Five track objects changed; other 498 and current DE/NC handlers preserved.')
           PY
+      - name: Prove all affected historical anchors unchanged before refreshing identities
+        run: |
+          set -euo pipefail
+          python3 scripts/rcap-packet-recovery/chat1/test_registry_anchor_refresh.py --base "$GITHUB_SHA" | tee "$RUNNER_TEMP/chat1-contracts/anchor-controls.json"
+          python3 scripts/rcap-packet-recovery/chat1/registry_anchor_refresh.py --base "$GITHUB_SHA" --out "$RUNNER_TEMP/chat1-contracts/registry-anchor-refresh.json"
       - name: Install locked validation dependencies without rendering packets
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-      - name: Exercise focused fixes, update derived metadata and run combined validation
+      - name: Exercise focused fixes and regenerate derived records without changing family states
         run: |
           python3 - <<'PY'
-          import collections,hashlib,json,os,pathlib,subprocess
+          import hashlib,json,os,pathlib,subprocess
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-contracts';results=[]
-          def run(name,cmd):
+          def run(name,cmd,readonly=False):
               before=hashlib.sha256(subprocess.check_output(['git','diff','HEAD','--binary'])).hexdigest()
               with (out/(name+'.log')).open('w') as log:
                   try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
                   except subprocess.TimeoutExpired:code=124
               restored=hashlib.sha256(subprocess.check_output(['git','diff','HEAD','--binary'])).hexdigest()==before
               results.append({'name':name,'command':cmd,'exitCode':code,'trackedFilesRestored':restored})
-              (out/'commands.json').write_text(json.dumps(results,indent=2)+'\n')
-              print(name,code,'unchanged',restored,flush=True)
-              if code:print((out/(name+'.log')).read_text()[-7000:],flush=True)
-              return code,restored
-          scoped=['test-source-contract-corrections','test-il-education-components','test-az-filing-court','test-pa-790-optional-order']
-          for script in scoped:
-              code,restored=run(script,['node','scripts/rcap-packet-recovery/chat1/'+script+'.mjs']);assert code==0 and restored
+              (out/'prepare-commands.json').write_text(json.dumps(results,indent=2)+'\n');print(name,code,restored,flush=True)
+              if code:print((out/(name+'.log')).read_text()[-5000:])
+              assert code==0 and (not readonly or restored),name
+          for script in ['test-source-contract-corrections','test-il-education-components','test-az-filing-court','test-pa-790-optional-order']:
+              run(script,['node','scripts/rcap-packet-recovery/chat1/'+script+'.mjs'],True)
           for script in ['test-product-wiring-refreshes-artifact-identity','test-de-guidance-binding','test-de-reviewed-guidance','test-nc-declared-delivery']:
-              code,restored=run(script,['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs']);assert code==0 and restored
+              run(script,['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs'],True)
           generators=['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']
           for iteration in [1,2]:
-              for script in generators:
-                  code,_=run(script+'-prepare-'+str(iteration),['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs']);assert code==0
-          ids=['az_record_sealing_arrest_no_charges-set','az_record_sealing_dismissal_not_guilty-set']
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          for family in ids:
-              for check in [False,True]:
-                  command=['node','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','--family',family]+(['--check'] if check else [])
-                  code,restored=run(family+('-check' if check else '-generate'),command);assert code==0 and (not check or restored)
-          for script in generators:
-              code,restored=run(script+'-convergence',['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs','--check']);assert code==0 and restored
-          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
-              for mutation in [False,True]:
-                  command=['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs']+(['--mutations'] if mutation else [])
-                  code,restored=run(script+('-mutations' if mutation else ''),command);assert code==0 and restored
+              for script in generators:run(script+'-prepare-'+str(iteration),['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs'])
+          for family in ['az_record_sealing_arrest_no_charges-set','az_record_sealing_dismissal_not_guilty-set']:
+              run(family+'-generate',['node','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','--family',family])
           old=json.loads((out/'master-before.json').read_text());new=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          states=lambda doc:{f['familyId']:f['state'] for f in doc['families']}
-          assert states(old)==states(new),'Contract correction changed family states'
-          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          count=sum(f['state'] in terminal for f in new['families'])
-          assert len(new['families'])==346 and count==178
-          report={'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'inputCommit':os.environ['GITHUB_SHA'],'checks':results,'terminalBefore':178,'terminalAfter':count,'terminalDelta':0,'allFamilyStatesPreserved':True,'states':dict(collections.Counter(states(new).values())),'packetRebuilds':0,'packetApprovalsAdded':0,'runtimeInstalled':False,'productionTouched':False}
-          (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
-          print('All focused, convergence and ten normal/mutation suites passed; 178/346 and every family state preserved.')
+          states=lambda d:{f['familyId']:f['state'] for f in d['families']}
+          assert states(old)==states(new),'Family state changed despite unchanged source anchors'
+          manifest=json.loads((out/'input-bindings.json').read_text());exact={f['path'] for f in manifest['files']}
+          anchors=json.loads((out/'registry-anchor-refresh.json').read_text());exact|={r['path'] for r in anchors['receipts']}
+          for f in new['families']:
+              if f['familyId'] in ['az_record_sealing_arrest_no_charges-set','az_record_sealing_dismissal_not_guilty-set']:exact.add(f['directory']+'/product-wiring.json')
+          prefixes=('data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/')
+          changed=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
+          assert all(p in exact or p.startswith(prefixes) for p in changed),sorted(changed-exact)
+          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) for p in changed)
+          subprocess.run(['git','add','--',*sorted(changed)],check=True)
+          (out/'implementation-paths.json').write_text(json.dumps(sorted(changed),indent=2)+'\n')
           PY
-      - name: Publish only the validated scoped implementation to unchanged recovery
+          git diff --cached --check
+          git config user.name 'LegalEase integration (ChatGPT)'
+          git config user.email 'noreply@legalease.com'
+          git commit -m 'fix(rcap): install scoped contract fixes while preserving unchanged source anchors'
+          git rev-parse HEAD > "$RUNNER_TEMP/chat1-contracts/implementation-sha.txt"
+      - name: Validate the actual committed candidate with every normal and mutation suite
+        run: |
+          python3 - <<'PY'
+          import collections,hashlib,json,os,pathlib,subprocess
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-contracts';commands=[];results=[]
+          for script in ['extract-verifier-returns','generate','generate-source-conveyor','generate-washington-repair','generate-source-relationship-registry','generate-raster-queue']:
+              commands.append((script+'-convergence',['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs','--check']))
+          for family in ['az_record_sealing_arrest_no_charges-set','az_record_sealing_dismissal_not_guilty-set']:
+              commands.append((family+'-check',['node','scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs','--family',family,'--check']))
+          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
+              for mutation in [False,True]:commands.append((script+('-mutations' if mutation else ''),['node','scripts/grade-a-packet-factory-24h/'+script+'.mjs']+(['--mutations'] if mutation else [])))
+          for name,cmd in commands:
+              with (out/(name+'.log')).open('w') as log:
+                  try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
+                  except subprocess.TimeoutExpired:code=124
+              clean=not subprocess.check_output(['git','status','--porcelain']).strip()
+              results.append({'name':name,'command':cmd,'exitCode':code,'cleanWorktreeRestored':clean})
+              (out/'validate-commands.json').write_text(json.dumps(results,indent=2)+'\n');print(name,code,clean,flush=True)
+              if code:print((out/(name+'.log')).read_text()[-7000:])
+              assert code==0 and clean,name
+          old=json.loads((out/'master-before.json').read_text());new=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
+          states=lambda d:{f['familyId']:f['state'] for f in d['families']};assert states(old)==states(new)
+          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'};count=sum(f['state'] in terminal for f in new['families'])
+          assert len(new['families'])==346 and count==178
+          report={'status':'PASS','runId':os.environ['GITHUB_RUN_ID'],'inputCommit':os.environ['GITHUB_SHA'],'checkedImplementation':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'checks':results,'terminalBefore':178,'terminalAfter':count,'terminalDelta':0,'allFamilyStatesPreserved':True,'states':dict(collections.Counter(states(new).values())),'packetRebuilds':0,'packetApprovalsAdded':0,'runtimeInstalled':False,'productionTouched':False}
+          (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+      - name: Retain evidence and publish only to unchanged recovery
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json,os,pathlib,shutil,subprocess
-          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-contracts';manifest=json.loads((out/'input-bindings.json').read_text());assert json.loads((out/'results.json').read_text())['status']=='PASS'
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'chat1-contracts';assert json.loads((out/'results.json').read_text())['status']=='PASS'
           evidence=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/chat1-contracts-integration');evidence.mkdir(parents=True,exist_ok=True)
           for p in out.iterdir():
               if p.name not in ['registry-before.json','master-before.json']:shutil.copyfile(p,evidence/p.name)
-          exact={f['path'] for f in manifest['files']}
-          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
-          for f in master['families']:
-              if f['familyId'] in ['az_record_sealing_arrest_no_charges-set','az_record_sealing_dismissal_not_guilty-set']:exact.add(f['directory']+'/product-wiring.json')
-          prefixes=('data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',str(evidence)+'/')
-          changed=set(subprocess.check_output(['git','diff','--name-only','HEAD'],text=True).splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())
-          assert all(p in exact or p.startswith(prefixes) for p in changed),sorted(changed-exact)
-          assert not any(p.endswith(('.pdf','.docx','.ttf','.woff','.woff2')) for p in changed)
-          assert 'data/record-clearing/legal-design-track-registry.json' in changed
-          (out/'published-paths.json').write_text(json.dumps(sorted(changed),indent=2)+'\n')
-          subprocess.run(['git','add','--',*sorted(changed)],check=True)
+          subprocess.run(['git','add','--',str(evidence)],check=True)
           PY
           git diff --cached --check
-          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
-          git config user.name 'LegalEase integration (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'fix(rcap): reconcile MO MI IL PA contract corrections and AZ court selection'
+          git commit -m 'test(rcap): retain actual combined checks and fifteen unchanged-anchor comparisons'
           test -z "$(git status --porcelain)"
+          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
           git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
           git rev-parse HEAD > "$RUNNER_TEMP/chat1-contracts/publication-sha.txt"
           git diff --binary "$GITHUB_SHA" HEAD > "$RUNNER_TEMP/chat1-contracts/published.patch"
