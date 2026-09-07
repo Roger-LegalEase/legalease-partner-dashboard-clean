@@ -1,9 +1,10 @@
 """Byte-derived author QA; does not issue independent or central-raster approvals."""
 from pathlib import Path
-import hashlib,json,collections
+import hashlib,json,collections,argparse
 import fitz,numpy as np
 ROOT=Path(__file__).resolve().parents[3]
-E=ROOT/'data/rcap-grade-a/chat-parallel-2026-09-07/chat9-build'
+parser=argparse.ArgumentParser();parser.add_argument('--out');args=parser.parse_args()
+E=(ROOT/args.out) if args.out else ROOT/'data/rcap-grade-a/chat-parallel-2026-09-07/chat9-build'
 E.mkdir(parents=True,exist_ok=True)
 visual=E/'visual';visual.mkdir(exist_ok=True)
 sha=lambda b:hashlib.sha256(b).hexdigest()
