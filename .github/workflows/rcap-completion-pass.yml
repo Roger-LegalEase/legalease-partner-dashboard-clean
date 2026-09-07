@@ -23,6 +23,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install the actual queue and packet reader dependencies before any generator
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Apply only the locally tested two-hunk source-scope correction
         run: |
           set -euo pipefail
@@ -47,8 +53,10 @@ jobs:
       - name: Regenerate current evidence and prove exact source-refusal effects
         run: |
           set -euo pipefail
-          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script.log" 2>&1 || { tail -80 "$OUT/$script.log"; exit 1; }
+          for pass in 1 2; do
+            for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
+              node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script-$pass.log" 2>&1 || { tail -80 "$OUT/$script-$pass.log"; exit 1; }
+            done
           done
           for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
             node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -80 "$OUT/$script-check.log"; exit 1; }
@@ -77,9 +85,6 @@ jobs:
       - name: Run combined packet regressions and all wider checks with real exit codes
         run: |
           set -euo pipefail
-          npm ci --ignore-scripts --no-audit --no-fund
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils
           node scripts/rcap-packet-recovery/test-nc-indigency.mjs | tee "$OUT/nc-regressions.log"
           node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$OUT/nv-regressions.log"
           node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$OUT/prior-regressions.log"
