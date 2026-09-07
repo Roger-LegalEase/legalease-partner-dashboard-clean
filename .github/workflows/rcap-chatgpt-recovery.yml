@@ -51,10 +51,29 @@ jobs:
       contents: read
       actions: write
     steps:
-      - name: Dispatch the existing immutable-commit central raster workflow
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Dispatch eligible families through the existing central raster workflow
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
+            const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+            const requested = ['de_mandatory_expungement-set','ma-bmc-multi-set','va_exp_nonconviction-set','pa_790_nonconviction-set'];
+            const eligible = requested.filter(family => queue.rows.some(row => row.familyId === family && row.currentRasterState === 'RASTER_PENDING'));
+            const deferred = requested.filter(family => !eligible.includes(family)).map(family => ({
+              family,
+              status: 'NOT_DISPATCHED',
+              reasons: queue.notEligible?.find(row => row.familyId === family)?.why ?? ['not RASTER_PENDING in the current queue']
+            }));
+            core.info(JSON.stringify({packetCommit: context.sha, eligible, deferred}, null, 2));
+            if (!eligible.length) {
+              core.setFailed('No repaired family is currently eligible for central raster. No hold was changed and no raster pass is claimed.');
+              return;
+            }
             const workflow_id = 'rcap-packet-raster-acceptance-batch.yml';
             const start = new Date().toISOString();
             await github.rest.actions.createWorkflowDispatch({
@@ -63,8 +82,8 @@ jobs:
               ref: 'main',
               inputs: {
                 commit_sha: context.sha,
-                raster_manifest_path: 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',
-                family_batch: 'de_mandatory_expungement-set,ma-bmc-multi-set,va_exp_nonconviction-set,pa_790_nonconviction-set',
+                raster_manifest_path: manifest,
+                family_batch: eligible.join(','),
                 requested_scale: '2.5'
               }
             });
@@ -76,7 +95,8 @@ jobs:
               if (run) {
                 core.info(`CENTRAL_RASTER_RUN_ID=${run.id}`);
                 core.info(run.html_url);
-                await core.summary.addHeading('Central raster dispatched').addRaw(`Packet commit: ${context.sha}\n\nRun: ${run.html_url}\n\nNo terminal or production approval is granted by a dispatch.`).write();
-                break;
+                await core.summary.addHeading('Eligible central raster dispatched').addRaw(`Packet commit: ${context.sha}\n\nEligible: ${eligible.join(', ')}\n\nRun: ${run.html_url}\n\nDeferred, not passed:\n${JSON.stringify(deferred, null, 2)}\n\nNo terminal or production approval is granted by a dispatch.`).write();
+                return;
               }
             }
+            core.setFailed('Dispatch was accepted but its run identifier could not be confirmed. Do not infer a raster result.');
