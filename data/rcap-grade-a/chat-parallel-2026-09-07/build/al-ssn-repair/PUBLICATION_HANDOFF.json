@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-chat3-al-ssn-handoff/v1",
+  "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set"],
+  "reviewFindings": ["CHATB-AL-01", "CHATB-AL-02", "CHATB-AL-03"],
+  "baselineRecovery": "fa01d8a3290dad8d0fbf717cf341e21b91438fa8",
+  "priorCandidateCommit": "b6b3dc379f1de0dc22f5bcc8a6d08827ddccbbd6",
+  "archive": {
+    "driveFileId": "1KAqOnUfNWXoA5KrTfsV9gY6mFLgyQ9CQ",
+    "sha256": "6cd5ce96d08398436bf0de895b39b57927cb76fd8573a8c991e216535581fcd7",
+    "byteLength": 9723430,
+    "files": 55,
+    "uploadDownloadReadbackMatched": true
+  },
+  "componentPages": {"CR-65": 8, "C-10-CRIMINAL": 3},
+  "correctsPriorAuthorProse": "Eight plus three, not seven plus four. Each complete packet remains eleven pages.",
+  "implementation": "CR-65 page-1 Text2 receives only separately held ssnLast4, a four-digit string. Missing/null/empty leaves a disclosed blank. No fallback, coercion, trimming, derivation or smaller font. Case-to-expunge Text3 remains separately bound to caseNumber.",
+  "preserved": "Prior page-six history, conditional previous county/case/result, representation and protected execution policy remain unchanged.",
+  "fullBuilds": {"commandsPerPass": ["node scripts/build-census-v1-al-felony-dwop-set.mjs", "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs"], "passes": 2, "exitCodes": [0,0,0,0], "filesPerFamily": 12, "allGeneratedFilesMatched": true},
+  "tests": {"ssnCompleteRenderer": {"exitCode": 0, "positives": 23, "negativeControls": 35}, "priorCompletion": {"exitCode": 0, "completePositivePackets": 4, "negativeControls": 23, "conditionalCases": 9}, "completePdf": {"exitCode": 0, "packets": 8, "pages": 88, "negativeControls": 40}},
+  "visual": {"changedPageInstances": 8, "uniqueWholePageImagesExamined": 4, "exactPngAliases": 4, "unchangedPageComparisons": 80, "changesOutsideSsnRegion": 0, "authorQaOnly": true},
+  "outputs": [
+    {"family": "al-felony-dwop-set", "fixture": "canonical", "sha256": "178e636e677071cec95459533ede4d04ffe8944d5c7cc62a6ccb1f781142a439", "bytes": 905857, "pages": 11},
+    {"family": "al-felony-dwop-set", "fixture": "canonical-ssn-missing", "sha256": "29293d1c8a306cdc765bc70ba2184ad95626c6c69addc9414c29bc30eac1ef6e", "bytes": 905898, "pages": 11},
+    {"family": "al-felony-dwop-set", "fixture": "boundary", "sha256": "cd2fadc86c2321b8af0e5f7ef8b8754530624f2c0c7bafe02c89243e420910dd", "bytes": 906096, "pages": 11},
+    {"family": "al-felony-dwop-set", "fixture": "boundary-ssn-missing", "sha256": "214144a454de0363912738128ac891581f5c0a3a4ce532097ee822b3bb727b10", "bytes": 906139, "pages": 11},
+    {"family": "al-felony-nonconviction-90-set", "fixture": "canonical", "sha256": "d8244b347d3766409a5333218207335dfe50a5dd0189e83cff9817bc2c35d3c2", "bytes": 905663, "pages": 11},
+    {"family": "al-felony-nonconviction-90-set", "fixture": "canonical-ssn-missing", "sha256": "2e266f4cd932a0c8c6b03087023fd128c60358a1a78ee403052406e970d7ba44", "bytes": 905704, "pages": 11},
+    {"family": "al-felony-nonconviction-90-set", "fixture": "boundary", "sha256": "7cc1abfcb7cb69de596931a65cf638fa2cebfbb620124d1218402effe9896a63", "bytes": 905902, "pages": 11},
+    {"family": "al-felony-nonconviction-90-set", "fixture": "boundary-ssn-missing", "sha256": "b3c5c812c2099601553ad61279dd1ea2af1e63083d8167f9cec9be6b7a34c023", "bytes": 905945, "pages": 11}
+  ],
+  "patchDirectory": "data/rcap-grade-a/chat-parallel-2026-09-07/build/al-ssn-repair/",
+  "hostPatchSha256": "f73872f67cee0e66db42cf930d9ba0aa81d1fed8f02e4d9510e13f8eab2f8d18",
+  "packetOutputPatchSha256": "3b2297dfde9857903bab5a1678daf4dc7e9794ac524a56c0dd85ed0c29f72eeb",
+  "baselineHosts": ["5169dbf513a26719d1f6598979cabbc6d4062836", "7fb4787baf20c14ab00382d43a7f581a24ea443d"],
+  "baselineFamilyTrees": ["dc49c8c3d43e4d1cb3267d28b1db2edaca962251", "25ae4cb067f88a9f30b89ab4e954883bbf5f5879"],
+  "patchApplicationVerified": "Separate baseline copy: both host files and all 24 generated family files match final actual renderer bytes.",
+  "publicationBoundary": "This commit retains executable helper/tests and the exact candidate handoff. Both complete hosts and all PDF/map/instruction outputs are in the verified archive. Apply host.patch and packet-output.patch atomically before treating repository host/PDF paths as these candidates or running these tests there. Source/helper hashes, whole-output manifests, complete changed-page images and full logs are in the archive. No direct binary-file publication action was used.",
+  "remaining": ["A exact host/output publication and shared binding refresh", "Fresh central raster for changed whole PDFs", "Chat2 independent review", "Unrelated participant-required facts and procedural requirements are not auto-attested by this repair"],
+  "independentApproval": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
