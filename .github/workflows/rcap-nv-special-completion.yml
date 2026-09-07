@@ -7,6 +7,7 @@ on:
       - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
       - scripts/rcap-packet-recovery/nv-special-routes.mjs
       - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
       - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
       - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
   pull_request:
@@ -15,6 +16,7 @@ on:
       - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
       - scripts/rcap-packet-recovery/nv-special-routes.mjs
       - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
       - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
       - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
 permissions:
@@ -29,16 +31,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install locked dependencies and existing PDF text reader
+      - name: Install locked dependencies and isolated PDF review tools
         run: |
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
+          python3 -m venv "$RUNNER_TEMP/nv-pdf-review"
+          "$RUNNER_TEMP/nv-pdf-review/bin/pip" install --disable-pip-version-check PyMuPDF==1.26.7
       - name: Rebuild twice and compare every tracked family byte
         run: |
           set -euo pipefail
@@ -66,6 +71,7 @@ jobs:
           done
           node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$out/regressions.log"
           node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading | tee "$out/machine-completeness.log"
+          "$RUNNER_TEMP/nv-pdf-review/bin/python" scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py --output "$out/pixel-comparison.json" | tee "$out/pixel-comparison.log"
           python3 - <<'PY'
           import pathlib,json,hashlib,os
           folder=pathlib.Path(os.environ['FAMILY_DIR'])
@@ -77,9 +83,12 @@ jobs:
             assert actual==reviewed[fixture+'Sha256'],fixture+' differs from visually reviewed bytes'
             hashes[fixture]=actual
           out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nv-validation'
-          result={'schemaVersion':'rcap-nv-read-only-validation/v1','checkedCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'event':os.environ['GITHUB_EVENT_NAME'],'fullRendererPasses':2,'eachRebuildMatchesCommittedFamilyBytes':True,'regressionChecks':30,'includedInMemoryNegativeControls':10,'pdfSha256':hashes,'independentApprovalGranted':False,'newTerminalPromotions':0,'productionTouched':False,'commercialRoutesOpened':0}
+          comparison=json.loads((out/'pixel-comparison.json').read_text())
+          assert comparison['ordinaryRoutePagesPixelIdentical']==68
+          assert comparison['changedPagesBoundsChecked']==20
+          result={'schemaVersion':'rcap-nv-read-only-validation/v1','checkedCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'event':os.environ['GITHUB_EVENT_NAME'],'fullRendererPasses':2,'eachRebuildMatchesCommittedFamilyBytes':True,'regressionChecks':30,'includedInMemoryNegativeControls':10,'ordinaryRoutePagesPixelIdentical':68,'changedPagesBoundsChecked':20,'pixelComparisonSha256':hashlib.sha256((out/'pixel-comparison.json').read_bytes()).hexdigest(),'pdfSha256':hashes,'independentApprovalGranted':False,'newTerminalPromotions':0,'productionTouched':False,'commercialRoutesOpened':0}
           (out/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
-          print('Two actual complete PDF rebuilds match all committed family bytes and both visually reviewed hashes.')
+          print('Two complete rebuilds match all committed family bytes; 68 untouched pages match the pre-repair pixels; both reviewed PDF hashes confirmed.')
           PY
           test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@v4
