@@ -16,8 +16,6 @@ jobs:
       contents: write
     outputs:
       candidate: ${{ steps.publish.outputs.candidate }}
-    env:
-      OUT: data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-hosted-validation
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,120 +24,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Prepare committed-state readers
+      - name: Prepare readers without rebuilding a packet
         run: |
           set -euo pipefail
-          test "$GITHUB_REF" = refs/heads/chatgpt/launch-recovery-20260906
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
-          mkdir -p "$OUT"
-          cp data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json "$RUNNER_TEMP/master-before.json"
-      - name: Validate the actual local build inputs and publishable output bytes
-        run: |
-          python3 - <<'PY'
-          import pathlib,json,hashlib,subprocess,os
-          base=pathlib.Path('data/rcap-grade-a/chat-parallel-2026-09-07/integration')
-          proof=json.loads((base/'fl-full-build-proof.json').read_text())
-          digest=lambda p:hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
-          for p,h in proof['inputHashes'].items():assert digest(p)==h,'Build input changed: '+p
-          patch=base/'fl-complete-output.patch'
-          assert digest(patch)==proof['outputPatchSha256'],'Output delta changed'
-          subprocess.run(['git','apply','--check',str(patch)],check=True)
-          subprocess.run(['git','apply',str(patch)],check=True)
-          home=pathlib.Path(proof['familyDirectory'])
-          actual={str(p.relative_to(home)):digest(p) for p in sorted(home.rglob('*')) if p.is_file()}
-          assert actual==proof['fileHashes'],'Complete built family does not match two measured full builds'
-          ledger=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/claim-ledger.json').read_text())
-          claims=[c for c in ledger['claims'] if c.get('subjectId')==proof['familyId'] and c.get('laneKind') in ['repair','shared-host-repair']]
-          assert claims and all(c.get('released') is True for c in claims),'Another packet repair grant is live'
-          counts=json.loads((home/'reports/completeness-counters.json').read_text())['counters']
-          assert len(counts)==9 and all(x==0 for x in counts.values())
-          row={'itemId':proof['familyId'],'familyId':proof['familyId'],'status':'COMPLETED','laneKind':'repair','lane':'CHAT_A_INTEGRATION','repairedByThisLane':True,'builderAuthor':'Chat C; PR227 exact source repair','executedBy':'Chat A integration session','builder': 'scripts/build-census-v1-fl-early-juvenile-set.mjs','obligationsRepaired':['CLIPPING_AND_OVERLAP'],'countersAfter':counts,'counterBasis':'Complete renderer counters plus exact changed-phone pixel/geometry review; not an independent verdict','sourceRepairCommit':proof['sourceRepairCommit'],'testedPrHead':proof['testedPrHead'],'evidencePath':str(base/'fl-full-build-proof.json'),'fullRendererExecutions':2,'all15FilesIdenticalBetweenBuilds':True,'artifactHashes':proof['packetOutputs'],'obligationsThisRowDoesNotDischarge':['INDEPENDENT_VERIFICATION','CENTRAL_RASTER','COMMERCIAL_FULFILLMENT'],'summary':'Executed the unchanged phone-placement repair twice, checked both full changed pages and eight unchanged pixel-identical pages. Source identity retained. No legal or semantic approval created.'}
-          target=pathlib.Path('data/rcap-grade-a/packet-factory-24h/chat-a-integration/fl-completion.json')
-          assert not target.exists(),'Completion return already exists; do not reapply'
-          target.parent.mkdir(parents=True,exist_ok=True)
-          target.write_text(json.dumps({'schemaVersion':'rcap-repair-return/v1','lane':'CHAT_A_INTEGRATION','rows':[row]},indent=2)+'\n')
-          (pathlib.Path(os.environ['OUT'])/'input-output-verification.json').write_text(json.dumps({'inputFilesMatched':len(proof['inputHashes']),'completeFamilyFilesMatched':len(actual),'packetOutputs':proof['packetOutputs'],'hostedRendererExecutions':0,'previousLocalFullRendererExecutions':2,'independentApproval':False},indent=2)+'\n')
-          PY
-          node scripts/rcap-packet-recovery/chat3/test-fl-phone-placement.mjs > "$OUT/placement-tests.json"
-          pdfinfo data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf > "$OUT/canonical-pdfinfo.txt"
-          pdfinfo data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf > "$OUT/boundary-pdfinfo.txt"
-      - name: Derive current queue and fresh raster inventory
-        run: |
-          set -euo pipefail
-          for pass in 1 2; do
-            for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue; do
-              node "scripts/grade-a-packet-factory-24h/$script.mjs" > "$OUT/$script-$pass.log" 2>&1 || { tail -60 "$OUT/$script-$pass.log"; exit 1; }
-            done
-          done
-          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$OUT/$script-check.log" 2>&1 || { tail -60 "$OUT/$script-check.log"; exit 1; }
-          done
-      - name: Execute all factory suites and preserve the proven set
-        run: |
-          python3 - <<'PY'
-          import subprocess,pathlib,json,os,hashlib,collections
-          out=pathlib.Path(os.environ['OUT']);results=[]
-          fingerprint=lambda:hashlib.sha256(subprocess.check_output(['git','diff','--binary'])).hexdigest()
-          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
-            for mutation in [False,True]:
-              name=script+('-mutations' if mutation else '')
-              command=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
-              before=fingerprint()
-              with (out/(name+'.log')).open('w') as log:
-                try:code=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
-                except subprocess.TimeoutExpired:code=124
-              restored=fingerprint()==before
-              results.append({'command':command,'exitCode':code,'worktreeRestored':restored})
-              print(name,code,restored,flush=True)
-              if not restored:break
-            if not restored:break
-          read=lambda p:json.loads(pathlib.Path(p).read_text())
-          master=read('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json')
-          prior=read(pathlib.Path(os.environ['RUNNER_TEMP'])/'master-before.json')
-          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
-          ids=lambda m:sorted(f['familyId'] for f in m['families'] if f['state'] in terminal)
-          previous={f['familyId']:f['state'] for f in prior['families']}
-          transitions=[{'familyId':f['familyId'],'before':previous[f['familyId']],'after':f['state']} for f in master['families'] if previous[f['familyId']]!=f['state']]
-          raster=read('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json')
-          rows=[r for r in raster['rows'] if r['familyId']=='fl-early-juvenile-set']
-          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':os.environ['GITHUB_SHA'],'results':results,'transitions':transitions,'terminalSetPreserved':ids(master)==ids(prior),'terminalFamilies':len(ids(master)),'denominator':len(master['families']),'states':dict(collections.Counter(f['state'] for f in master['families'])),'flRasterRows':len(rows),'flRasterDocuments':len(rows[0]['documents']) if rows else 0,'packetRebuildsOnHost':0,'priorLocalCompleteBuilds':2,'newIndependentApprovals':0,'productionTouched':False}
-          (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
-          print(json.dumps(report,indent=2))
-          assert len(results)==10 and all(r['exitCode']==0 and r['worktreeRestored'] for r in results),'Factory validation failed'
-          assert report['terminalSetPreserved'],'Build integration must not manufacture terminal approval'
-          assert len(rows)==1 and len(rows[0]['documents'])==2 and rows[0]['currentRasterState']=='RASTER_PENDING','Full Florida inputs not queued'
-          assert all(t['familyId']=='fl-early-juvenile-set' for t in transitions),'Unrelated state changed'
-          PY
-      - name: Publish exact family outputs and generated evidence to recovery only
+      - name: Consume measured complete outputs, validate exact guidance and publish after all checks
         id: publish
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import pathlib,subprocess,os
-          home='data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/'
-          exact={home+n for n in ['fixtures/canonical.pdf','fixtures/boundary.pdf','reports/rendered-artifacts.json','source-receipt.json']}
-          prefixes=['data/rcap-grade-a/packet-factory-24h/','docs/rcap/grade-a/packet-factory-24h/',os.environ['OUT']+'/']
-          changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())|set(subprocess.check_output(['git','ls-files','--others','--exclude-standard']).decode().splitlines())
-          assert all(p in exact or any(p.startswith(x) for x in prefixes) for p in changed),sorted(changed)
-          for p in sorted(changed):subprocess.run(['git','add','--',p],check=True)
-          PY
-          git diff --cached --check
-          test "$(git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906 | cut -f1)" = "$GITHUB_SHA"
-          git config user.name 'LegalEase integration (ChatGPT)'
-          git config user.email 'noreply@legalease.com'
-          git commit -m 'build(rcap-fl): integrate complete deterministic phone repair outputs and fresh raster inventory'
-          git push origin HEAD:refs/heads/chatgpt/launch-recovery-20260906
-          echo "candidate=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          git rev-parse HEAD > "$RUNNER_TEMP/published-sha.txt"
+        run: python3 scripts/rcap-packet-recovery/integrate-fl-de-batch.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: chat-a-fl-completion-${{ github.run_id }}
+          name: chat-a-fl-de-completion-${{ github.run_id }}
           path: |
-            data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-hosted-validation/
+            data/rcap-grade-a/chat-parallel-2026-09-07/integration/fl-de-hosted-validation/
             data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/
+            data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/product-wiring.json
             ${{ runner.temp }}/published-sha.txt
           retention-days: 14
           if-no-files-found: error
@@ -158,5 +59,5 @@ jobs:
           script: |
             const candidate = process.env.CANDIDATE;
             if (!/^[a-f0-9]{40}$/.test(candidate)) throw new Error('Missing published packet commit');
-            await github.rest.actions.createWorkflowDispatch({...context.repo, workflow_id:'rcap-packet-raster-acceptance-batch.yml', ref:'main', inputs:{commit_sha:candidate,raster_manifest_path:'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',family_batch:'fl-early-juvenile-set',requested_scale:'2.5'}});
-            core.info('Fresh full Florida raster dispatched; dispatch is not a verdict or independent approval.');
+            await github.rest.actions.createWorkflowDispatch({...context.repo,workflow_id:'rcap-packet-raster-acceptance-batch.yml',ref:'main',inputs:{commit_sha:candidate,raster_manifest_path:'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json',family_batch:'fl-early-juvenile-set',requested_scale:'2.5'}});
+            core.info('Fresh full Florida raster dispatched; not a verdict or independent approval.');
