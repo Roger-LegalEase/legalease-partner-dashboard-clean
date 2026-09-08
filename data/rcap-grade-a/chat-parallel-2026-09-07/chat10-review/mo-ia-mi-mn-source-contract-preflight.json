@@ -1,0 +1,198 @@
+{
+  "schemaVersion": "chat10-source-contract-preflight/v1",
+  "reviewDate": "2026-09-07",
+  "reviewKind": "SOURCE_CONTRACT_FINDINGS_ONLY",
+  "reviewer": "Chat10 independent review session",
+  "assignmentBaseline": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+  "registry": {
+    "path": "data/record-clearing/legal-design-track-registry.json",
+    "providerGitBlobSha1": "5924798ceb808e8013ebb74838469ea9b39238d8",
+    "method": "Connected GitHub blob retrieval followed by relevant complete fields and surrounding sections; no claim that every registry entry was reviewed. This provider Git identity is not a locally measured whole-file SHA256."
+  },
+  "availability": {
+    "method": "Exact-branch PR searches, branch comparisons against the assignment baseline, and current relevant PR224 comments were checked before this preflight. All three compare responses returned identical, ahead0, behind0, files[]. No new packet artifact was returned or announced in the examined records. This is a bounded observation, not proof that an author has no unpublished local work.",
+    "branches": ["chatgpt/extra-build-mo-20260907", "chatgpt/extra-build-ia-20260907", "chatgpt/extra-build-mi-mn-20260907"],
+    "candidateOutputsReviewed": 0,
+    "candidateOutputPagesInspected": 0,
+    "packetApprovals": 0,
+    "terminalApprovals": 0
+  },
+  "findings": [
+    {
+      "id": "CHAT10-CONTRACT-MO-01",
+      "classification": "CONFIRMED_HELD_SOURCE_CONTRACT_DEFECT",
+      "families": ["mo-art-xiv-marijuana-set"],
+      "location": "registry track mo-art-xiv-marijuana, manualCompletionItems / participant action for CR375 birth information",
+      "observed": "The contract calls for the full date of birth in CR375 page1's year-of-birth field. Both actual held source pages were inspected; page1 explicitly requests Year of Birth, not full DOB.",
+      "action": "Chat7 should map a known DOB to its four-digit year only on CR375; A should correct the shared full-date manual-completion requirement. Keep any distinct confidential-sheet DOB requirement separate and source-bound. Missing source-required year must be disclosed; do not add month/day to this field.",
+      "testExpectation": "Synthetic DOB1990-04-12 produces only1990 in CR375's field. Month/day leakage fails. This vector was not rendered against a builder in this session.",
+      "sources": ["MO-CR375"]
+    },
+    {
+      "id": "CHAT10-CONTRACT-MI-01",
+      "classification": "CONFIRMED_PROCEDURAL_PHASE_DEFECT",
+      "families": ["mi_setaside_application-set", "mi_setaside_first_owi-set"],
+      "location": "registry requiredBeforeFiling lists and participant actions for MC227 Proof of Service and Notice of Hearing",
+      "observed": "Completed service proof and hearing information are treated as unconditional prefiling requirements. Current MC227 instead separates later mailing/proof from possible clerk assignment at filing.",
+      "action": "A should distinguish required components from when their factual execution becomes possible. Chat9 must not invent completed mailing, hearing dates or signatures to satisfy that flag; retain truthful later-completion disclosures.",
+      "testExpectation": "Unknown hearing date and not-yet-performed service remain unexecuted, not fictitiously satisfied and not misreported as lost known participant data.",
+      "sources": ["MI-MC227"]
+    },
+    {
+      "id": "CHAT10-CONTRACT-IA-01",
+      "classification": "PRIMARY_SOURCE_REQUIREMENT_VARIANCE",
+      "families": ["ia-dci77-set", "ia-901c3-set"],
+      "location": "Iowa DPS current criminal-history web instructions versus the DCI77 request page it links",
+      "observed": "The web instructions say gender is optional; the linked DCI77 labels it required. This is a real source-input conflict, not an observed output bug.",
+      "action": "Record the selected source/transport rule explicitly. Never guess a gender or silently declare the missing-gender branch accepted. Known volunteered data can be faithfully populated while the unknown-data treatment remains visibly unresolved.",
+      "sources": ["IA-DCI-WEB", "IA-DCI-PDF"]
+    }
+  ],
+  "preservedCorrectContracts": [
+    "Iowa DCI77 is already correctly classified in the registry as record acquisition, not record clearing; no misrouting defect is alleged.",
+    "The ordinary Missouri610.140 conviction petition is CR360, not CR375. Marijuana uses the separate CR375 authority.",
+    "Michigan first OWI uses MC227 item2c, not the MC227a marijuana form.",
+    "The Minnesota152.18 registry specifies EXP106 as its proposed order; do not replace it indiscriminately with EXP105.",
+    "An embedded certification/service page is not a missing standalone form. None of these source checks establishes a complete packet or an installed runtime defect."
+  ],
+  "commonFixtureExpectations": {
+    "status": "Expected acceptance/refusal behavior only; no Chat7/8/9 fixtures were rendered or approved here.",
+    "asOf": "2026-09-07",
+    "knownFacts": "Use one coherent synthetic person/case per fixture. Keep complete verified identifiers and addresses; exercise long-name, long-address and repeated-row boundaries without truncation.",
+    "unknownFacts": "Distinguish applicable unknown participant facts, unavailable external records, genuinely optional inputs, and later execution/judicial acts. A missing certified record is not cured by asserting attachment presence.",
+    "protectedFields": "Do not fabricate signatures, notarizations, actual service dates, court decisions or agency findings. Permitted proposed-order captions are not judicial approvals.",
+    "coverage": "Require complete current source-component output, affected selectable branches, whole-PDF/input hashes, every claimed page, and all fifteen existing review obligations before a later independent packet pass. Source summaries here do not satisfy those output obligations."
+  },
+  "families": [
+    {
+      "familyId": "mo-610-145-mistaken-identity-set", "owner": "Chat7", "order": 1,
+      "componentExpectation": "Recorded CR301 petition and CR311 judgment; confirm current faces and any actually applicable filing sheet. Do not use identity-theft CR300 as an interchangeable primary instrument.",
+      "fixtureExpectation": "A charge against the wrong person was dismissed or ended in acquittal; identify the court where last pending and the genuine mistaken/stolen-identity facts. Separate an already-completed automatic correction from a needed participant filing.",
+      "refusalExpectation": "Ordinary regret about a conviction is not mistaken identity. Judicial conclusions and signature remain unexecuted; do not charge the statutory victim court costs merely because another MO route has a fee.",
+      "sources": ["ASSIGNMENT", "MO-145"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set", "owner": "Chat7", "order": 2,
+      "componentExpectation": "Recorded CR300 motion and CR310 judgment; bind the victim-identification correction rather than a generic expungement petition.",
+      "fixtureExpectation": "Another offender falsely used the participant's identity and caused a record to be attributed to the participant; identify both the affected record and the correct innocent-person identifiers.",
+      "refusalExpectation": "Do not erase the actual offender's conviction or represent the innocent applicant as its perpetrator. Distinguish prosecutor-initiated correction from the victim's statutory motion.",
+      "sources": ["ASSIGNMENT", "MO-575"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set", "owner": "Chat7", "order": 3,
+      "componentExpectation": "Recorded CR145 petition and CR143 judgment, with applicable filing-sheet/fee-relief components separately bound.",
+      "fixtureExpectation": "Exercise the false-information/no-probable-cause branch separately from the specific dismissed/acquitted traffic branch, including commercial-license/vehicle exclusions where applicable.",
+      "refusalExpectation": "Do not require both alternative statutory grounds at once. A pending civil action relating to the arrest remains a disqualifying control; do not repurpose ordinary conviction relief.",
+      "sources": ["ASSIGNMENT", "MO-122"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mo-610-140-arrest-set", "owner": "Chat7", "order": 4,
+      "componentExpectation": "Recorded CR360 and CR370; arrest-specific selection and agency defendants must be distinct from the conviction variant.",
+      "fixtureExpectation": "Synthetic arrest2023-01-15, no charge filed through2026-09-07 and no intervening guilty finding; supply actual arrest location and every affected record holder. Exercise the18-month statutory threshold from arrest.",
+      "refusalExpectation": "A filed charge defeats this no-charge branch; do not substitute the sentence-completion clock. Additional real record holders require rows/continuation, not invented unnamed defendants.",
+      "sources": ["ASSIGNMENT", "MO-140"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mo-610-140-conviction-set", "owner": "Chat7", "order": 5,
+      "componentExpectation": "Registry primary CR360, recorded proposed CR370; applicable FI05 and GN10 only under their real scope. GN10's held source is DOCX, not an invented required PDF.",
+      "fixtureExpectation": "Use an independently screened eligible misdemeanor with all sentence terms completed2024-01-15 and no later offense/pending charge; separately exercise an eligible felony and the current3-year felony versus1-year misdemeanor clock.",
+      "refusalExpectation": "Excluded offenses, unpaid obligations, incomplete disposition, and lifetime limits remain real controls. Do not reuse an obsolete7/3-year rule or confuse conviction with no-charge arrest.",
+      "sources": ["ASSIGNMENT", "MO-140"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set", "owner": "Chat7", "order": 6,
+      "componentExpectation": "Actual held two-page CR375 plus the registry's applicable FI05 and conditional agency/case continuation. Apply CHAT10-CONTRACT-MO-01; source identity measured below.",
+      "fixtureExpectation": "Test year-only birth data, more than nine case rows and extra agencies. Select only the posture supported by the person's real incarceration/supervision facts; preserve the existing mandatory professional handoff for liberty relief.",
+      "refusalExpectation": "Do not equate a completed-sentence posture printed on the form with independent confirmation of every current petition entitlement. Current case-law reconciliation of the registry's completed-sentence fallback remains outside this held-source finding; no fallback approval is issued.",
+      "sources": ["ASSIGNMENT", "MO-CR375"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "ia-901c2-set", "owner": "Chat8", "order": 1,
+      "componentExpectation": "Current Rule2.86 Form1, three pages including certification; no invented additional service-form requirement.",
+      "fixtureExpectation": "All charges dismissed2025-01-15, obligations paid, and no excluded disposition; separately exercise an actual request to waive the180-day wait with its truthful supporting reason.",
+      "refusalExpectation": "A mixed conviction case, unknown financial status or an invented waiver attachment cannot be certified as satisfying all printed assertions. Preserve mutually exclusive representation/ground choices.",
+      "sources": ["IA-F1"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "ia-901c3-set", "owner": "Chat8", "order": 2,
+      "componentExpectation": "Current Form2, three pages, and the actual returned DCI history required by the rule; a blank DCI request is not that report.",
+      "fixtureExpectation": "Screen an eligible misdemeanor conviction dated2016-01-15; use an actual synthetic report-date2026-08-20 for intended filing2026-09-07. Independently check payment, pending charges, prior deferred judgments and one-time use.",
+      "refusalExpectation": "A report older than30days at filing, missing returned report, ineligible offense or unverified printed declarations must not be silently accepted. Release execution remains the participant's act.",
+      "sources": ["IA-F2", "IA-DCI-WEB"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "ia-12346-set", "owner": "Chat8", "order": 3,
+      "componentExpectation": "Rule2.86 Form3, specifically public-intoxication relief under123.46. Official index binding was found; the Form3 PDF retrieval failed, so its exact pages/fields/current face are not independently verified here.",
+      "fixtureExpectation": "Keep public intoxication distinct from123.47 underage possession and901C.3. Exercise its source-specific clean-period and disqualifying subsequent-offense choices only after reading the actual Form3.",
+      "refusalExpectation": "Do not substitute Form4 or infer Form3 field geometry from a neighboring form. This one retrieval limit does not stop the other Iowa builds.",
+      "sources": ["IA-INDEX", "ASSIGNMENT"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "ia-12347-set", "owner": "Chat8", "order": 4,
+      "componentExpectation": "Current Form4, two pages with certification, for underage possession/local equivalent, not the public-intoxication form.",
+      "fixtureExpectation": "Synthetic qualifying conviction2022-01-15; verify the two-year subsequent-conviction condition and its printed traffic exceptions rather than using the eight-year901C.3 clock.",
+      "refusalExpectation": "A disqualifying later conviction must fail this ground. Do not execute service certification or attorney identity for a self-represented applicant.",
+      "sources": ["IA-F4"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "ia-dci77-set", "owner": "Chat8", "order": 5,
+      "componentExpectation": "DCI77 request plus DCI76 billing and actual transport instructions; no court petition or fabricated DCI result. Preserve the registry's correct acquisition-only treatment.",
+      "fixtureExpectation": "Exercise one surname and two surname requests, required identity and return destination; distinguish online separate billing per request from the PDF's paper-batch instructions. Apply the gender-source variance finding.",
+      "refusalExpectation": "No completed DCI finding/date/processor stamp may be generated. Missing release is not universal proof of a clean record; for901C.3 the returned court-required report must follow the signed-release workflow.",
+      "sources": ["IA-DCI-WEB", "IA-DCI-PDF", "IA-F2"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mi_setaside_application-set", "owner": "Chat9", "order": 1,
+      "componentExpectation": "Current MC227: three application pages including service, plus its instruction page; certified convictions and independently obtained RI008 remain external requirements.",
+      "fixtureExpectation": "Separate courts, multiple convictions and prior deferred dismissals need truthful disclosure. Exercise the selected ordinary ground and its correct latest-event clock; keep clerk/notary execution blank.",
+      "refusalExpectation": "Apply CHAT10-CONTRACT-MI-01. Do not confuse the $50 MSP processing charge with LegalEase's product price or certify unavailable attachments.",
+      "sources": ["MI-MC227"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mi_setaside_first_owi-set", "owner": "Chat9", "order": 2,
+      "componentExpectation": "MC227 item2c and its embedded service page, not MC227a.",
+      "fixtureExpectation": "First eligible OWI, all sentence/discharge events no later than2021-01-15, no later conviction or prior successful OWI set-aside. Select the five-year OWI ground, not ordinary-misdemeanor item2e.",
+      "refusalExpectation": "A prior OWI or insufficient elapsed period cannot be hidden by the shared source. Apply the service-phase finding.",
+      "sources": ["MI-MC227"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mn_petition_15218-set", "owner": "Chat9", "order": 3,
+      "componentExpectation": "Registry EXP102 petition, EXP104 service and EXP106 proposed order; EXP101 instructions and conditional FEE102 according to actual fee treatment. Current form faces were not recovered here.",
+      "fixtureExpectation": "Qualifying controlled-substance disposition was discharged and dismissed under152.18, not merely ordinary probation or a still-pending diversion. Include required prior addresses, aliases and history, and a real affected-agency service list.",
+      "refusalExpectation": "Do not call every deferred disposition a favorable nonconviction for automatic fee waiver, or reuse EXP105 without checking its printed ground. Preserve proposed judicial findings and service execution.",
+      "sources": ["MN-02", "MN-03", "ASSIGNMENT"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set", "owner": "Chat9", "order": 4,
+      "componentExpectation": "EXP102/104 with the proposed-order variant actually matching the chosen subd3 ground; do not treat EXP105/106 as interchangeable. EXP101 and FEE102 applicability must be explicit.",
+      "fixtureExpectation": "Separate a favorable-resolution case under subd3(a)(1) from conviction/diversion branches and their waiting periods. Test the favorable-branch fee waiver independently of discretionary indigency relief.",
+      "refusalExpectation": "Do not translate every subd3 case into a favorable resolution or assume a hearing clock measured from filing; statutory notice is tied to service. Exact current form-selector approval remains unmeasured.",
+      "sources": ["MN-02", "MN-03", "ASSIGNMENT"], "outputReview": "NOT_AVAILABLE"
+    },
+    {
+      "familyId": "mn_petition_juvenile_as_adult-set", "owner": "Chat9", "order": 5,
+      "componentExpectation": "Adult criminal EXP102/104 packet with a source-matched proposed order, instructions and conditional fee relief; not an unrelated juvenile-court form family.",
+      "fixtureExpectation": "The person was certified for adult prosecution under260B.125 and has the qualifying final discharge or satisfactory probation discharge. Preserve certified-as-adult posture and original adult case identifiers.",
+      "refusalExpectation": "An ordinary juvenile adjudication or unfinished supervision does not prove this ground. Serve affected agencies/prosecutor; do not direct prohibited participant contact with a protected victim.",
+      "sources": ["MN-02", "MN-03", "ASSIGNMENT"], "outputReview": "NOT_AVAILABLE"
+    }
+  ],
+  "sources": [
+    {"id": "ASSIGNMENT", "path": "docs/rcap/grade-a/CHAT_PARALLEL_TEN_CHAT_2026-09-07.md", "ref": "778d1254a1f76f949a6e7de4f940f48c5261d129", "scope": "Complete connected read; recorded component orientation is not a new source-freshness certification. FI05/GN10 source faces not independently inspected in this preflight."},
+    {"id": "MO-145", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=610.145", "scope": "Current official text read; no form-page coverage."},
+    {"id": "MO-575", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=575.120", "scope": "Current official text read; no form-page coverage."},
+    {"id": "MO-122", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=610.122", "scope": "Current official text read; no form-page coverage."},
+    {"id": "MO-140", "url": "https://revisor.mo.gov/main/OneSection.aspx?section=610.140", "scope": "Current official text read, effective version January1,2025; no CR360/370 page inspection claimed."},
+    {"id": "MO-CR375", "driveFileId": "12B1sFOFVG-h_AAbpwPHw9Q4PpDucEJey", "edition": "SJRC10-24", "bytesMeasured": 694722, "pages": 2, "sha256Measured": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780", "visualPages": [1,2], "pngSha256Measured": ["4b56dd1dba6e048abe210cd1a855f1c2e5ea92209b19423a3202c9da16d1f3b9", "cc42e0bea434537429565b5bee631772b570b86a33179d3e6c0e9cfc5df3917d"], "renderer": "PyMuPDF1.26.7 Matrix2,alpha=false,144DPI", "scope": "Complete held source independently rehashed and both pages individually viewed. Statewide current form index returned403; no current-edition or current-case-law approval inferred."},
+    {"id": "MI-MC227", "url": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/mc227.pdf", "edition": "3/25", "pages": 4, "visualPages": [1,2,3,4], "rawSha256Measured": null},
+    {"id": "IA-INDEX", "url": "https://www.iowacourts.gov/iowa-courts/supreme-court/orders", "scope": "Official2024 forms adoption links read; Form3 download failed."},
+    {"id": "IA-F1", "url": "https://www.iowacourts.gov/collections/867/files/1962/embedDocument/", "edition": "August2024", "pagesTextRead": [1,2,3], "visualPages": [3], "rawSha256Measured": null},
+    {"id": "IA-F2", "url": "https://www.iowacourts.gov/collections/867/files/1965/embedDocument/", "edition": "August2024", "pagesTextRead": [1,2,3], "visualPages": [3], "rawSha256Measured": null},
+    {"id": "IA-F4", "url": "https://www.iowacourts.gov/collections/867/files/1971/embedDocument/", "edition": "August2024", "pagesTextRead": [1,2], "visualPages": [], "rawSha256Measured": null, "scope": "Text read; attempted screenshot failed."},
+    {"id": "IA-DCI-WEB", "url": "https://dps.iowa.gov/divisions-iowa-department-public-safety/iowa-division-criminal-investigation/criminal-history-record-check-information", "scope": "Current official page read; transport-specific instructions must not be flattened across online and paper batching."},
+    {"id": "IA-DCI-PDF", "url": "https://dps.iowa.gov/media/152/download?inline=", "editionPrintedOnRequest": "DCI77 9/22/21", "pagesTextRead": [1,2,3], "visualPages": [2,3], "rawSha256Measured": null, "scope": "Billing-page screenshot failed; request and instruction page screenshots succeeded."},
+    {"id": "MN-02", "url": "https://www.revisor.mn.gov/statutes/cite/609A.02", "scope": "Official served text read, labelled2025statutes. Full2026session-law reconciliation not claimed."},
+    {"id": "MN-03", "url": "https://www.revisor.mn.gov/statutes/cite/609A.03", "scope": "Official served petition/service/fee text read, labelled2025statutes. Dynamic Judicial forms page did not return actual EXP PDFs; no current form-face/geometry approval."}
+  ],
+  "integrationAction": "A consumes the two confirmed shared-contract corrections and the bounded Iowa source variance; Chats7/8/9 use the exact source-bound expectations within their existing build scope. No shared file was edited, no new permission or counsel approval was created, and no absent packet is approved."
+}
