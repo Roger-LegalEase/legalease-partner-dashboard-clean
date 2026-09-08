@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "rcap-grade-a-lane-return/v1",
+  "lane": "FIX101",
+  "laneKind": "repair",
+  "repairedByThisLane": true,
+  "status": "COMPLETED",
+  "wave": "FIX101/b75ac41e3/2026-09-08",
+  "worker": "FIX101 (repair lane; continued a lane an owner-wide STOP interrupted mid-work)",
+  "base": "b75ac41e3",
+  "branch": "fix101-pa-vt-ca",
+  "claims": [
+    "CLAIM_OK FIX101 pa_pardon_expungement-set (repair, grant set b57c80c9c7f46027); asserted inside this worktree before any family content was read; not released",
+    "CLAIM_OK FIX101 vt_exp_decriminalized-set (repair, grant set b57c80c9c7f46027); asserted inside this worktree before any family content was read; not released",
+    "CLAIM_OK FIX101 ca-17b-reduction-set (repair, grant set b57c80c9c7f46027); asserted inside this worktree before any family content was read; not released"
+  ],
+  "buildEnvironment": {
+    "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "familySourcesBind": "verify-packet-build-environment.mjs reports family_sources_bind ok for all three families at this base",
+    "checksThatFailAndWhy": [
+      "worktree_clean — this lane holds uncommitted repair edits by design",
+      "private_is_git_ignored — private/ is a read-only symlink into the primary checkout in this worktree layout",
+      "corpus_matches_committed_index — 1 absent of 24 sampled; none of the absent entries is a source of these three families, all of whose declared sources bind by exact SHA-256"
+    ]
+  },
+  "sharedBuildHostProof": {
+    "host": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+    "question": "does the host edit move any byte of a family this lane does not own?",
+    "arizonaFamiliesOnTheHost": [
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "az_marijuana_expungement_superior_court-set"
+    ],
+    "thirdArizonaFamily": "az_marijuana_expungement_limited_jurisdiction-set is built by its own standalone script scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs, which does not import this host, so the host edit cannot reach it. It was not rebuilt and its bytes were not touched.",
+    "method": "Both Arizona families were rebuilt twice at this base: once with the edited host and once with the host restored to its committed bytes by `git checkout --`. Every file under data/rcap-all50/overlays/census-v1/az was hashed after each run and the two sets were compared.",
+    "result": "IDENTICAL. The edited host and the committed host produce byte-identical Arizona output, file for file. The host edit moves no Arizona byte.",
+    "separatePreexistingArizonaDrift": "Rebuilding az_marijuana_expungement_arrest_no_charges-set at this base does NOT reproduce its committed bytes: build-findings.json, field-census.census-v1.json, participant-instructions.md, production-field-map.json and reports/rendered-artifacts.json all drift, and the participant page loses its filing/fee/service prose and the citing-or-arresting-agency write. This drift is IDENTICAL under the committed host, so it is pre-existing and is not this lane's doing. No Arizona PDF moves either way. Nothing under data/rcap-all50/overlays/census-v1/az was committed; the directory was restored to HEAD with `git checkout --`. Reported so the Captain can route it; it is not this lane's to repair.",
+    "sixSiblingCaFamiliesOnTheHost": {
+      "families": ["ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set", "ca-851-91-set", "ca-prop64-set"],
+      "method": "All six were rebuilt with the edited host; ca-1203-43-set was then rebuilt with the committed host (with ca-17b's directory temporarily returned to HEAD, because the committed host's cross-family assertion aborts on ca-17b's repaired byte-identical variants).",
+      "result": "For ca-1203-43-set every file is byte-identical between the two hosts EXCEPT product-wiring.json. Under the committed host that file loses its whole `binding` block — bound sources, acceptance receipt and last independent verification — and drifts from HEAD (8992762346e6e696dd8b9affb33d7762e4fbca253ed4b1aecd75186a30f9ef74). Under the edited host it reproduces HEAD exactly (459cdfb6bdd19fc81ab7334d5ab057e2cd87a51983557762bc0429f9251266bb). The edit therefore stops an invisible loss rather than causing one; no sibling PDF moves under either host. All six directories were restored to HEAD with `git checkout --` and none was committed.",
+      "residualSiblingDrift": "The six CA siblings also show raster/field-census/rendered-artifacts drift from HEAD on rebuild at this base, in the same pre-existing environmental class proven for Arizona under the committed host. Their PDFs do not move. Not repaired here and not committed."
+    }
+  },
+  "rows": [
+    {
+      "itemId": "ca-17b-reduction-set",
+      "lane": "FIX101",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
+      "whatWasActuallyFailing": "MASTER_QUEUE.json at the Captain head (a4bb5ac43) names NO failed obligation for this family: failedObligationNames and failedObligations are both empty, allNineCountersZero is true, and the state is FAIL_REPAIR_REQUIRED only because selectedIndependentVerdict is vf05's BLOCKED_SOURCE and verifierSourceHold blocks SOURCE_IDENTITY. The open work is inside the vf05 row itself (data/rcap-grade-a/packet-factory-24h/vf05/rows.json, verifiedAtBase 46360ba12): SOURCE_IDENTITY was NOT_MEASURABLE_HERE because the CR-180 bytes were absent from that checkout, and under failedProofObligationsObservedAfterSourceStop vf05 recorded four content FAILs that its row-stop rule prevented it from raising as a repair assignment — REPEATING_ROWS, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP. Those five are what this lane repaired.",
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY",
+        "REPEATING_ROWS",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "howEachWasRepaired": {
+        "SOURCE_IDENTITY": "The Master Library is mounted in this worktree, so the required CR-180 identity was recomputed first-hand rather than inferred: STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf hashes to 06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe at 110684 bytes, exactly the required value. CR-181 f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504 / 110123 and CR-106 f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a / 104278 also recompute exactly. source-receipt.json records all three paths and digests with binding EXACT_RECOMPUTED and did not move across the rebuild.",
+        "REPEATING_ROWS": "The platform holds no code, no section and no offence type for the conviction — the field map refuses all fifteen of those cells and the packet-set manifest sends the participant to the court docket for them — so the held facts do not permit writing row 1. The route's two writes into row 1 (Reduce1 = the 17(b) yes/no, Offense1 = the 17(d)(2) yes/no) are therefore withdrawn and the whole row is left empty, as the form's own instruction requires. Nothing was invented. The withdrawal is per-family, behind withdrawRouteTextControlsForRowIntegrity, set only on this family; the other four CR-180 families on the host write no conviction-table cell at all.",
+        "SELF_HELP_STOP": "The packet carried one of the four stop conditions the committed track registry holds for trackId ca-17b-reduction. All four are now printed in the registry's own words, together with its postGenerationHandoffs line distinguishing a routine hearing from a contested one.",
+        "FEE_AND_WAIVER": "The packet said waiver was not established. The committed manifest names FW-001 as the general California fee waiver form, and that is now printed as a separate form the participant asks the clerk for. No fee figure is published: the manifest records the fee as \"Unresolved and county-specific. Do not publish a figure.\", so the clerk still answers the amount.",
+        "SERVICE": "The packet said who and how were not established. The manifest names the prosecuting attorney and CR-106, and the registry's rules.notice states the timing (\"The prosecuting attorney must be given 15 days' notice of the petition the reduction is bundled with.\"). Both are printed verbatim and the clerk question is narrowed to the service method alone, which neither record states."
+      },
+      "disclosureOfWithheldValues": "A value the packet holds and does not print is disclosed or it is simply missing. reports/actual-writes.json, field-census.census-v1.json and production-field-map.json carry each withdrawn cell as heldButNotPrinted with withheldRouteFactId, withheldRouteValueByVariant and the stated reason, and participant-instructions.md carries a \"Values this packet holds and did not print\" table naming both cells, the printed caption beside each, and the exact yes/no the route held for each variant.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "verifierResult": "PASS_COMPLETE 8/187 written (was 10/187; the two withdrawn row-1 writes are the difference)",
+      "determinism": "Rebuilt twice from the committed tree; all 59 files under the family directory are byte-identical between the two runs. The directory was then restored from a snapshot and rebuilt once more, reproducing the snapshot exactly.",
+      "digests": {
+        "fixtures/pc-17b-felony-to-misdemeanor-canonical/cr-180-filled.pdf": {
+          "before": "bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36",
+          "beforeBytes": 61030,
+          "after": "b06cb00e40152c325fef1e5b2b9e9cb3203e5760019da0e3d36a5f5f0ba7556f",
+          "afterBytes": 60399,
+          "why": "row 1's two route writes withdrawn"
+        },
+        "fixtures/pc-17b-felony-to-misdemeanor-boundary/cr-180-filled.pdf": {
+          "before": "1901cba4ac7afd2b458dad315a2eaf08851a6e69fea555a0e1edfd7ccd356d9c",
+          "beforeBytes": 61301,
+          "after": "4bc40d3986c752d5b9b51fc1126873ce415f86127ac4133a7bb90eda8836be91",
+          "afterBytes": 60670,
+          "why": "row 1's two route writes withdrawn"
+        },
+        "fixtures/pc-17d2-misdemeanor-to-infraction-canonical/cr-180-filled.pdf": {
+          "before": "6e637c051b7fb7e8ca07ba93a4d8b41538336df0d3f447bb9ee7fbe047c3cda4",
+          "beforeBytes": 61031,
+          "after": "b06cb00e40152c325fef1e5b2b9e9cb3203e5760019da0e3d36a5f5f0ba7556f",
+          "afterBytes": 60399,
+          "why": "row 1's two route writes withdrawn; now byte-identical to the 17(b) canonical, because the withdrawn cells were the only ink that told the two variants apart"
+        },
+        "fixtures/pc-17d2-misdemeanor-to-infraction-boundary/cr-180-filled.pdf": {
+          "before": "926471af4b180c5f3a5457dca3444661aeca0e5fedd41ec61c371b235923d17c",
+          "beforeBytes": 61302,
+          "after": "4bc40d3986c752d5b9b51fc1126873ce415f86127ac4133a7bb90eda8836be91",
+          "afterBytes": 60670,
+          "why": "row 1's two route writes withdrawn; now byte-identical to the 17(b) boundary, for the same reason"
+        },
+        "raster/pc-17b-felony-to-misdemeanor-canonical/cr-180/page-01.png": {
+          "before": "8ab2f5298d31acde9c452d6a4e68855f4d7fc0818b6a009535b62e7e704e41ee",
+          "after": "9e521a829726dff4254cf9dfa4837bb5010d3f328e3fa2201c1370e536d19e58"
+        },
+        "raster/pc-17b-felony-to-misdemeanor-boundary/cr-180/page-01.png": {
+          "before": "4c5775d5512859cd9929005256f3a96765911f9abc931d62311e27fd84f77d1e",
+          "after": "cabff00625b4601024f239417e24a513c60b7885c22ccbe07558f6b489358d68"
+        },
+        "raster/pc-17d2-misdemeanor-to-infraction-canonical/cr-180/page-01.png": {
+          "before": "de2d81cbb017b262203e6f157d63e86bd9a3c0229a19ac2cec0bf0bab003f8b9",
+          "after": "9e521a829726dff4254cf9dfa4837bb5010d3f328e3fa2201c1370e536d19e58"
+        },
+        "raster/pc-17d2-misdemeanor-to-infraction-boundary/cr-180/page-01.png": {
+          "before": "617e2be28ad0359938c216cba100c1dd155cc7a53151a02f6eb55c387f7d0075",
+          "after": "cabff00625b4601024f239417e24a513c60b7885c22ccbe07558f6b489358d68"
+        },
+        "unchanged": "Every CR-181 (f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504) and CR-106 (f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a) companion copy in all four fixtures is unchanged, and source-receipt.json did not move."
+      },
+      "rasterInspection": "Every page whose bytes moved is CR-180 page 1, and it resolves to two distinct documents. Both were rastered at 300 dpi under /tmp with Poppler pdftoppm 24.02.0 and looked at, then deleted. The five-row conviction table is entirely empty in both, row 1 included; the item-1 conviction date, the county, the defendant name and the case number are present and inside their boxes; the boundary fixture's long name and long county do not clip or overlap; no checkbox at item 2 is marked.",
+      "productWiring": "binding.acceptanceReceipt is cleared to null because the receipt named canonical bfea87d6..., which this build replaced. binding.packetComponents, binding.sourceVersion and binding.lastIndependentVerification are carried forward unchanged; before this lane's host change the rebuild deleted the whole binding block.",
+      "obligationsThisRowDoesNotDischarge": [
+        "An independent re-read of every proof obligation. This lane built these bytes and cannot verify its own work; vf05's read is superseded by the rebuild and its BLOCKED_SOURCE verdict no longer describes the current tree.",
+        "Central raster acceptance. Bytes moved, so the family must be re-rendered centrally. RASTER_QUEUE.json is the Captain's and was not edited; its historical row still pins canonical bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36 and boundary 1901cba4ac7afd2b458dad315a2eaf08851a6e69fea555a0e1edfd7ccd356d9c. It should read canonical b06cb00e40152c325fef1e5b2b9e9cb3203e5760019da0e3d36a5f5f0ba7556f and boundary 4bc40d3986c752d5b9b51fc1126873ce415f86127ac4133a7bb90eda8836be91, and its per-document list must expect the 17(b) and 17(d)(2) primaries to be one document per fixture rather than two.",
+        "Output-level legal approval and independent human visual review.",
+        "KNOWN_PREFILLS, ROUTE_IDENTITY, COMPONENT_SET, ROUTE_OPTIONS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP and FILING_DESTINATION are not re-proved by this lane; vf05 passed them on the pre-repair bytes and they are owed a fresh independent measurement on these bytes."
+      ],
+      "leftOpen": [
+        "reports/actual-writes.json no longer carries any activeContentScan. It previously carried one per fixture inside routeTextReport, and that pass no longer runs because the route now writes nothing. The build still asserts scanBytesForActiveContent over the delivered bytes at the exact-mapping overlay, and that assertion must pass for the build to succeed, but its result is not serialized into any family record on this host. Serializing it would change the artifact-record shape for all six sibling CA families this lane does not own, so it was not done. Recorded for the Captain."
+      ]
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "lane": "FIX101",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "obligationsRepaired": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "howEachWasRepaired": {
+        "COMPONENT_SET": "Two separate defects under one name. First, product-wiring.json's binding.packetComponents named only the two official forms and omitted component:pa_pardon_expungement-process-guidance-1, the one component the committed packet-set manifest marks required and the whole of the automatic route's deliverable. The guidance pages are this builder's to compose, so they are now this builder's to declare: packetComponentsFromManifest reads data/record-clearing/legal-design-packet-set-manifests.json and writes all three component ids in the manifest's declared order, leaving every other key the generator wrote untouched. Second, vf30 found the rendered guidance saying it states no timetable. The composed guidance text had already been repaired in the committed tree by FIX02 at 2a44668e7, after vf30's read base d64ea2550, and now states the Board-to-AOPC quarterly transmission and the AOPC-to-court leg in the record's words; two new assertions in assertPaPardonParticipantRepairContract hold it there. But the COMMITTED RASTERS still showed the old page: raster/{canonical,boundary}/page-04/page.png carried the exact sentence vf30 quoted, \"This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from.\" They were regenerated from the delivered PDF.",
+        "REQUIRED_BEFORE_FILING": "The three manifest acts — obtain a copy of the pardon, confirm from that document whether it is unconditional, record the quarterly verification date — are in the delivered PDF and in participant-instructions.md at this base, placed there by FIX02 after vf30's read. They were NOT in the committed page-04 raster, which showed a guidance page with no pardon-copy step, no conditional/unconditional confirmation and no quarterly verification date field. The raster now matches the delivered page.",
+        "SELF_HELP_STOP": "Same shape. The three held stops — no pardon yet (out-of-scope referral), pardon type not determinable from the document, record still visible after the quarterly cycle when fallback availability is unclear — are in the delivered PDF at this base. The committed raster/{canonical,boundary}/page-05/page.png was 65998 bytes and carried ONLY the two route-key footer lines: no STOP AND GET HELP block at all. Regenerated, it is 164850 bytes and carries all three stops."
+      },
+      "whyTheRastersWereStale": "The last committed build of this family ran without a rasterizer: reports/rendered-artifacts.json declared rasterEngine null, rasterSkipped true and rasterPages [], and build-status.json said BUILT_RASTER_PENDING, while four PNGs from an older build stayed on disk under raster/. A record that names no rasters does not disclose that the rasters beside it are from a superseded document. A Chromium rasterizer is available in this worktree, so the rebuild re-rendered all ten pages and rendered-artifacts.json now names them.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "verifierResult": "PASS_COMPLETE 17/109 written; `--self-test` prints PA_PARDON_PARTICIPANT_REPAIR_CONTRACT_OK",
+      "determinism": "Rebuilt twice from the committed tree; every file under the family directory is byte-identical between the two runs, the ten regenerated rasters included.",
+      "digests": {
+        "fixtures/canonical.pdf": {
+          "before": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+          "after": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+          "moved": false
+        },
+        "fixtures/boundary.pdf": {
+          "before": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+          "after": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+          "moved": false
+        },
+        "componentPdfs": "canonical--PA-RCRIM-P-790-PETITION.pdf, canonical--PA-RCRIM-P-790-ORDER.pdf, boundary--PA-RCRIM-P-790-PETITION.pdf and boundary--PA-RCRIM-P-790-ORDER.pdf are all unchanged.",
+        "raster/canonical/page-04/page.png": {
+          "before": "ae0b159005ec91f4be07858db79982956d1351fe1409f922cc7a42e745202341",
+          "beforeBytes": 364631,
+          "after": "e4851e9026572461973600133dc276fd6e21d46a68a35c3b7b6dcd853f99a78d",
+          "afterBytes": 382128,
+          "why": "the committed pixels were the pre-FIX02 guidance page"
+        },
+        "raster/canonical/page-05/page.png": {
+          "before": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a",
+          "beforeBytes": 65998,
+          "after": "5508d48040038e43439e362271436e5316d8a388343ec9359e63dbfe88c0a533",
+          "afterBytes": 164850,
+          "why": "the committed pixels carried no STOP AND GET HELP block"
+        },
+        "raster/boundary/page-04/page.png": {
+          "before": "d671f0c15a9059864b1fc32d8b7400b9959d38e6fbe1d180c24047ba159d2f2a",
+          "beforeBytes": 368745,
+          "after": "df3566f927d0b41b2d9252e09d151828fd400ab42f11ccc5b473cfcd5122c19f",
+          "afterBytes": 386153
+        },
+        "raster/boundary/page-05/page.png": {
+          "before": "e66fea3589e4656478b79ba0d8d4634c512af28420e204194606c34b7028103a",
+          "beforeBytes": 65998,
+          "after": "5508d48040038e43439e362271436e5316d8a388343ec9359e63dbfe88c0a533",
+          "afterBytes": 164850
+        },
+        "raster/canonical/page-01..03 and raster/boundary/page-01..03": "re-rendered byte-identical to the committed PNGs, which is why only pages 4 and 5 appear as changed."
+      },
+      "rasterInspection": "Pages 4 and 5 of the delivered canonical packet were rastered at 300 dpi under /tmp with Poppler pdftoppm 24.02.0 and looked at, alongside the superseded committed PNGs, then deleted. Page 4 carries the pardon-copy step, the unconditional/conditional confirmation, the Board-to-AOPC-to-court quarterly cycle and the quarterly verification date line. Page 5 carries the three stops, the WHAT THIS PACKET IS NOT paragraph and both route keys. No clipping, no overlap.",
+      "buildStatusChange": "build-status.json rasterEngine null -> chromium_calibrated and rasterState BUILT_RASTER_PENDING -> rendered_locally_pending_central_acceptance, because a rasterizer was available. That literal is already carried by seven other families in this repository. It is a local-render statement and claims no central acceptance.",
+      "obligationsThisRowDoesNotDischarge": [
+        "An independent re-read of every proof obligation on these bytes. This lane repaired them and cannot verify its own work; vf30's read is at d64ea2550 and predates both FIX02's guidance repair and this lane's.",
+        "Central raster acceptance of the regenerated pages. No packet PDF moved, so the existing RASTER_PASS receipt bound to canonical fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5 still names the delivered bytes and binding.acceptanceReceipt is left intact; but the four regenerated PNGs are local evidence that no central run has produced.",
+        "Output-level legal approval and independent human visual review.",
+        "ROUTE_IDENTITY, SOURCE_IDENTITY, KNOWN_PREFILLS, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER and SERVICE are not re-proved here; vf30 passed them and they are owed a fresh independent measurement."
+      ],
+      "leftOpen": [
+        "The upstream defect vf30 pointed at is unrepaired and is not this lane's to edit: the route-obligation census's requiredSourceIds for BOTH pa_pardon routes list only the two `component:` ids for the official forms and not the process-guidance component. product-wiring.json's binding is generated from the factory queue row, which is derived from that census, so a central regeneration would drop the guidance component again until the census names it. The builder now writes the list from the committed manifest, which keeps the delivered record correct but does not fix the derivation."
+      ]
+    },
+    {
+      "itemId": "vt_exp_decriminalized-set",
+      "lane": "FIX101",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
+      "obligationsRepaired": ["ARTIFACTS"],
+      "howEachWasRepaired": {
+        "ARTIFACTS": "vf35's finding was that at its read base (5c718222c) product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes. Every record that names bytes was checked against the fixtures on disk before assuming a rebuild was needed, and the two central halves are already reconciled at this base: product-wiring.json's proposedRepresentation component and binding.acceptanceReceipt.boundToCanonicalSha256 both name 4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0, which is the canonical.pdf on disk, and RASTER_QUEUE.json's historical row for this family pins canonical 4d9b64e0... and boundary d56f5a0f..., both current. reports/rendered-artifacts.json names 18 files and all 18 hash to their recorded value; approval-request.json and build-findings.json name no file bytes. What was left was the family's own source-receipt.json, whose two non-form input records still named superseded bytes of files that have since changed in the tree. The rebuild recomputed them first-hand.",
+        "sourceReceiptRecomputation": {
+          "route-obligation-census": {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "before": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+            "beforeBytes": 2599752,
+            "after": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "afterBytes": 2629290,
+            "anchorStatementsReVerified": 3
+          },
+          "legal-design-track-registry": {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "before": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+            "beforeBytes": 16555956,
+            "after": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+            "afterBytes": 16586150,
+            "conditionCount": 11
+          },
+          "note": "Both are inputs the packet reads, not packet bytes. The three official Vermont form digests are unchanged and still bind exactly."
+        }
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "verifierResult": "PASS_COMPLETE 26/169 written",
+      "determinism": "Rebuilt twice from the committed tree; all 34 files under the family directory are byte-identical between the two runs.",
+      "digests": {
+        "fixtures/canonical.pdf": {
+          "before": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0",
+          "after": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0",
+          "moved": false
+        },
+        "fixtures/boundary.pdf": {
+          "before": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d",
+          "after": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d",
+          "moved": false
+        },
+        "componentPdfs": "canonical--200-00129.pdf, canonical--200-00132A.pdf, canonical--600-00228.pdf and the three boundary equivalents are all unchanged. No fixture byte moved in this family.",
+        "raster/canonical/page-07/page.png": {
+          "before": "555da21a86a8993ad53a6e498b5059fc01921c90a66e323d125cd09c1d2437d4",
+          "beforeBytes": 432973,
+          "after": "705e60452c42a3e9ae7859b39a2ccf1a24740a6391c2dd9ace1e79d0d7e5ba9c",
+          "afterBytes": 434032
+        },
+        "raster/canonical/page-08/page.png": {
+          "before": "50adfc75bca83540aaa0edc683c5609ba24e6882f80ffc34482d7e98ad94420d",
+          "beforeBytes": 369959,
+          "after": "8ebf8b9157d75e25496a52c22ef73154018feb8d52a16e0bddafc5880e437a89",
+          "afterBytes": 370676
+        },
+        "raster/boundary/page-07/page.png": {
+          "before": "e407589b95763ebe97287f1d810eead45df7c17c9ffd149967ba182964f2fdb9",
+          "beforeBytes": 439051,
+          "after": "7e7a8abba63dca881be1abb1a45dd0f24427df7208c4400640fead9168e37fd5",
+          "afterBytes": 440117
+        },
+        "raster/boundary/page-08/page.png": {
+          "before": "34410d556ac35b9af16228c1dcc2e84cd1a0b4bf6b64e30d8adc8deb5213b51e",
+          "beforeBytes": 446599,
+          "after": "cb26c7257f5d6dc1507c19a5566b3dc28e5d3ba62cff147c7641c2baca3452c6",
+          "afterBytes": 447523
+        },
+        "whyTheFourRastersMoved": "Renderer-level only. The delivered PDF did not change, and the superseded PNG for canonical page 8 was compared against the regenerated one and against a fresh 300 dpi render of the delivered page: the visible content is the same on all three. reports/rendered-artifacts.json now names the four regenerated PNGs, so the record and the bytes on disk agree. The change was kept rather than reverted because a mixed tree — new source-receipt beside old rasters — is a tree no build reproduces."
+      },
+      "rasterInspection": "Pages 7 and 8 of the delivered canonical packet were rastered at 300 dpi under /tmp with Poppler pdftoppm 24.02.0 and looked at, then deleted. Page 7 carries the filing destination, the packet contents, the no-fee rule under 32 V.S.A. Sec. 1431(e) and the stipulation workflow; page 8 carries the prosecutor identity in the census's own words and all eleven committed stopping conditions. No clipping, no overlap.",
+      "obligationsThisRowDoesNotDischarge": [
+        "An independent re-read of every proof obligation on these bytes. This lane rebuilt them and cannot verify its own work.",
+        "SOURCE_IDENTITY, which vf35 recorded as NOT_MEASURABLE_HERE. The three official Vermont form binaries live under a custody not mounted in this worktree; verify-packet-build-environment.mjs binds all three by content hash rather than at the declared path, which is not the same as recomputing them from their own custody.",
+        "Central raster re-acceptance is NOT owed for a PDF byte move, because no PDF byte moved; the RASTER_PASS receipt bound to canonical 4d9b64e0... and boundary d56f5a0f... still names the delivered bytes, and the central raster row already reads correctly. The four regenerated local PNGs are local evidence only.",
+        "Output-level legal approval and independent human visual review.",
+        "ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER and SELF_HELP_STOP are not re-proved here; vf35 passed them and they are owed a fresh independent measurement."
+      ],
+      "leftOpen": []
+    }
+  ],
+  "centralFilesNotEdited": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "grantsReleased": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "routesChanged": 0,
+  "productionTouched": false,
+  "subagentsCreated": 0
+}
