@@ -1,10 +1,14 @@
 <!-- SESSION10 RESUME CHECKPOINT -->
 # Session10 continuation — published190/346
 
-Latest source/evidence publication is `b984e32e6b1fa073e4070fb18373f5d2ae434266`,
-verified on local HEAD and the recovery remote. The final evidence checkpoint
-following it changes only this handoff and retained run evidence; its exact SHA
-is available with `git rev-parse HEAD` and `git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906`.
+The 190-family proof and Nevada CI evidence were published and remote-verified at
+`be2c98668c5ee8326c74a7ec00d2ccef5e2116a3`. The subsequent CT provisional receipt
+input commit is `8572b955a88713adbe2da674bbc95e85b9bd3adb`; its source changes are
+limited to the existing two-fixture importer's filename handling and the actual
+completed receipt. Thirteen generation/convergence checks passed in the existing
+scratch checkout. The derived checkpoint changes no family state: 190/346 remains.
+Resolve the final publication SHA with `git rev-parse HEAD` and
+`git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906`.
 
 Census190 publication, local and remote verified at that step:
 `6555324611a4a148ec1a46d6367521728378f077`, branch
@@ -83,7 +87,21 @@ inputs. It retains required preflight, serialized publication and prior-attempt
 reconciliation; no new workflow system or criteria waiver. Successor wrappers
 34240617659,34242632513 and34243199880 passed; unchanged inputs produce no new central
 request. Final190 wrapper34243823722 completed SUCCESS; its actual log confirms no new
-central request. Both actual central runs are complete. Source/evidence integration
+central request. A later final history read also found completed CT provisional
+central `34243539560`, dispatched by wrapper `34243199880` at immutable
+`a6cadb0bf023a77ca8216f151b14c3a4dfac5adf`. Its canary, plan and family job
+`102120994648` all passed. Artifact `10063270695` SHA256
+`3ab57219e873e44eb3c15256c745a6e941bbfc65c4788216eeafb2c1a23b794a` proves both
+current PDFs and all four pages. It is distinct from the old canonical-only,
+different-PDF CT receipt and from Iowa. That receipt is now consumed, with no
+terminal gain and no semantic reapproval. All 194 unrelated queue rows and prior
+receipts were preserved. The existing importer now matches the renderer's exact
+safe filename rule while retaining the full logical family identity. Its 18
+existing controls and 20 independent corruption refusals passed; six ZIP boundary
+cases and unchanged safe-name behavior were independently checked. Evidence:
+`session10/resume-ct-provisional-central/` and
+`session10/resume-independent-admission-review/ct-provisional-central-final/`.
+All three central runs are complete. Source/evidence integration
 head65d48617dc60b2a745ba22d62fe05992323e8c26 now includes the reviewed receipt-only
 NV correction. Its eight committed-state/factory/source checks all passed, without
 regenerating unchanged outputs. The terminal census remains190. Actual Nevada
@@ -152,6 +170,19 @@ Original recovered full SHAs/process/path inventory remain inresume-recovery-sta
 no interrupted commit was reset. Last disk1.7GB/workspaces,34GB/tmp. Unique code and
 receipts remain persistent; only reproducible scratch uses/tmp. No main push,
 production route/auth/RLS/payment/configuration change or deployment occurred.
+
+Urgent disk checkpoint: the sequential audit found 1.7 GiB free both before and
+after inspection, and only 23% inode use. Nothing was deleted: the apparently
+temporary 230 MiB is tracked, manifest-referenced review material. Preserve the
+13 GiB workspace footprint (including all worktrees), roughly 12 GiB of system
+and home material, and 1.9 GiB of retained image storage. No sufficiently large
+disposable cache was verified. A larger-storage machine has been requested to
+restore at least 5 GiB free before heavy batches. The existing small publication
+fits: its generated files total 7.8 MB and were already validated before the
+pause. Downloads, packet builds, raster expansion, dependency installation and
+large tests remain suspended. No Codespace restart, deletion, rebuild, worktree
+cleanup, Git repacking or backup was performed. Disk finding:
+`session10/resume-disk-recovery/recovery-result.json`.
 
 The record below is historical.
 <!-- END SESSION10 RESUME CHECKPOINT -->
