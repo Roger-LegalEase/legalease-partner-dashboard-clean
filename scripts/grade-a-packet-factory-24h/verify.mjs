@@ -1652,6 +1652,22 @@ if (MUTATIONS) {
   const promptTarget = path.join(ROOT, PROMPTS, "PF01.md");
   const originalPrompt = fs.readFileSync(promptTarget);
   const firstPF = (j) => j.assignments.find((x) => x.lane === "packet-build" && x.items.length > 0);
+  // Finishing all current verifier assignments must not remove F20's test
+  // subject. Construct the same committed packet assignment for both controls;
+  // only the negative control changes its commit to a missing one.
+  const committedVerifierSubject = (j) => {
+    const lane = j.assignments.find((x) => x.lane === "independent-verification");
+    const family = read(MASTER).families.find((f) => f.state === "COMPLETE_PACKET_PROVEN" && f.directory);
+    const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim();
+    if (!lane || !family) throw new Error("F20 controls require a verifier lane and a committed complete packet");
+    execFileSync("git", ["cat-file", "-e", `${commit}:${family.directory}`], { cwd: ROOT, stdio: "ignore" });
+    lane.items = [family.familyId];
+    lane.itemCount = 1;
+    lane.packetDirectories = [family.directory];
+    lane.launchNow = true;
+    lane.verifiesCommit = commit;
+    return lane;
+  };
   const heldSourceReady = (j) => {
     const family = j.families.find((candidate) => {
       const readiness = candidate.sourceReadiness;
@@ -1826,10 +1842,12 @@ if (MUTATIONS) {
     { on: "active", id: "F18", name: "a promotion lane that drops the exact-bytes rule is caught", mutate: (j) => { j.assignments.find((x) => /^PROMO/.test(x.assignmentId)).promotionRule = "promote what the lane has resolved"; return j; } },
     { on: "active", id: "F19", name: "a builder that drops the refill rule is caught", mutate: (j) => { j.assignments.find((x) => x.lane === "packet-build").refillRule = "the lane works through its list"; return j; } },
     { on: "active", id: "F20", name: "an empty verifier marked launchable is caught", mutate: (j) => { const v = j.assignments.find((x) => x.lane === "independent-verification"); v.items = []; v.launchNow = true; return j; } },
+    { on: "active", id: "F20", expectPass: true, name: "a verifier can read its named packet at an existing commit", mutate: (j) => {
+        committedVerifierSubject(j);
+        return j;
+      } },
     { on: "active", id: "F20", name: "a verifier naming a commit this repository does not have is caught", mutate: (j) => {
-        const lane = j.assignments.find((x) => x.lane === "independent-verification" && x.items?.length);
-        if (!lane) throw new Error("F20 missing-commit mutation requires a nonempty verifier");
-        lane.launchNow = true;
+        const lane = committedVerifierSubject(j);
         lane.verifiesCommit = "0123456789abcdef0123456789abcdef01234567";
         return j;
       } },
