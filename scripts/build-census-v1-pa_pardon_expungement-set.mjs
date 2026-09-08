@@ -60,6 +60,7 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/pa";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -85,6 +86,68 @@ const DOCUMENT_OF_COMPONENT = {
   proposed_order: "PA-RCRIM-P-790-ORDER",
   process_guidance: "process_guidance"
 };
+
+/*
+ * THE COMPONENT LIST THE FAMILY'S OWN WIRING RECORD CARRIES.
+ *
+ * This family delivers three components and always has: the Rule 790 petition,
+ * the blank order tendered with it, and the composed process-guidance pages
+ * that carry the second route -- the route on which nothing is filed at all.
+ * The packet-set manifest declares all three, and `process_guidance` is the one
+ * it marks `required`; the other two are conditional on the automatic route not
+ * having cleared the record.
+ *
+ * binding.packetComponents named only the two official forms. It is derived by
+ * scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs from the
+ * factory queue row, and that row is derived in turn from the route-obligation
+ * census, whose requiredSourceIds for BOTH pa_pardon routes list the two
+ * `component:` ids and not the guidance one. So a route resolver reading this
+ * family's binding would install a packet missing the only component the
+ * manifest calls required, and missing the component that is the whole of the
+ * automatic route's deliverable.
+ *
+ * An earlier repair lane read that derivation and stopped rather than edit the
+ * family file, on the reasoning that a central regeneration would overwrite it.
+ * The ownership answer since: the guidance component is this builder's to emit
+ * -- it composes those pages outright, from no source -- and therefore this
+ * builder's to declare. So the list is written here, from the committed
+ * manifest, in the manifest's declared order, and every other key in the wiring
+ * record is left exactly as its generator wrote it.
+ *
+ * This states what the packet contains. It opens no route, installs nothing,
+ * and grants no commercial authority; the record says so in its own words three
+ * keys further down and this does not touch that.
+ *
+ * The route census remains the upstream defect and is not this lane's to edit:
+ * a regeneration of product-wiring.json from the queue would drop the guidance
+ * component again until the census names it.
+ */
+function packetComponentsFromManifest(familyId) {
+  const manifests = JSON.parse(fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFESTS), "utf8"));
+  const set = (manifests.packetSets ?? []).find((p) => p.packetSetId === familyId);
+  assert.ok(set, `${PACKET_SET_MANIFESTS} declares no packet set ${familyId}`);
+  const declared = [...(set.components ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const roles = declared.map((c) => c.role);
+  for (const role of COMPONENTS) {
+    assert.ok(roles.includes(role), `the manifest declares no ${role} component for ${familyId}`);
+  }
+  for (const role of roles) {
+    assert.ok(COMPONENTS.includes(role), `the manifest declares a ${role} component this builder does not render`);
+  }
+  return declared.map((c) => `component:${c.componentId}`);
+}
+
+function declarePacketComponents(outDir, familyId) {
+  const wiringPath = path.join(ROOT, outDir, "product-wiring.json");
+  if (!fs.existsSync(wiringPath)) return null;
+  const wiring = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
+  if (!wiring.binding || typeof wiring.binding !== "object") return null;
+  const before = JSON.stringify(wiring);
+  wiring.binding.packetComponents = packetComponentsFromManifest(familyId);
+  const after = JSON.stringify(wiring);
+  if (after !== before) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+  return wiring.binding.packetComponents;
+}
 
 /* ------------------------------------------------------------------ *
  * The petition. Named entries are the writes, the protected fields and the
@@ -910,6 +973,7 @@ function writeArtifacts(ctx) {
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
+  declarePacketComponents(outDir, familyId);
   W("approval-request.json", `${JSON.stringify({
     schemaVersion: "rcap-family-approval-request/v1", familyId,
     requested: "visual review and counsel review", buildStatus: "state_built",
@@ -1108,6 +1172,25 @@ export function assertPaPardonParticipantRepairContract() {
     "process_guidance.pardon_type_confirmation",
     "process_guidance.quarterly_verification_date"
   ], "the production field map must carry the three non-widget required actions");
+
+  /* The held timetable, stated as the record states it: Board of Pardons to
+   * AOPC quarterly, AOPC to the court of common pleas, court orders the
+   * expungement. A guidance page that named a quarterly date field without
+   * saying whose cycle it is would still be denying the timetable. */
+  assert.match(guidance, /Board of Pardons transmits eligible records to AOPC quarterly/,
+    "process guidance must state the Board-to-AOPC quarterly transmission");
+  assert.match(guidance, /AOPC sends the record to the court of common pleas/,
+    "process guidance must state the AOPC-to-court leg of the quarterly cycle");
+
+  /* The guidance pages are a component of the packet, so the family's binding
+   * has to name them. The manifest is the authority for which components exist
+   * and in what order. */
+  const components = packetComponentsFromManifest("pa_pardon_expungement-set");
+  assert.deepEqual(components, [
+    "component:pa_pardon_expungement-process-guidance-1",
+    "component:pa_pardon_expungement-primary-filing-2",
+    "component:pa_pardon_expungement-proposed-order-3"
+  ], "binding.packetComponents must name all three manifest components in declared order");
   console.log("PA_PARDON_PARTICIPANT_REPAIR_CONTRACT_OK");
 }
 
