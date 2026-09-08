@@ -39,14 +39,11 @@
   "registryPullByDigestStatus": "pending_hosted_acceptance",
   "registryPullByDigestNote": "Publication run 34265052706 proved the immutable digest and the source-SHA-only tag. Acceptance must still authenticate to GHCR, pull this exact digest, verify its OCI revision label names c065d2485b97be9a9c53313551226b0b6c3c9cfb, and prove the unconfigured startup refusal exits 2. Nothing was deployed or started by publication.",
   "supersededPublication": {
-    "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
-    "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+    "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
     "disposition": "superseded_by_source_drift",
-    "why": "Historically valid for b680a4e4 and retained unchanged in GHCR. Its Dockerfile predated the runtime-data COPY set, so acceptance run 34262980303 measured it exiting 1 on a missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts instead of the required unconfigured exit 2. The 194-family recovery integration merged at c065d248 carries the corrected Dockerfile and the 122-file runtime data manifest, so a publication from that exact source supersedes it. No historical tag or digest was moved and the failing acceptance evidence is retained.",
-    "publicationRunId": 33764350427,
-    "publicationArtifactId": 9896904080,
-    "lastAcceptanceRunId": 34262980303,
-    "lastAcceptanceConclusion": "failure"
+    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged.",
+    "publicationRunId": 32307070302
   },
   "supersededChain": [
     {
@@ -374,5 +371,6 @@
     "productionSessionsRevoked": false,
     "disposition": "superseded_by_republication",
     "why": "Accepted a different image (sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864). Retained as history; it says nothing about sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802."
-  }
+  },
+  "supersededPublicationMeaning": "The publication the retired source-binding exception in data/rcap-render/worker-source-binding-exception.json covers. It is an anchor for that record, not a pointer at the most recent superseded image; the immediately previous publication (b680a4e4) is the head of supersededChain."
 }
