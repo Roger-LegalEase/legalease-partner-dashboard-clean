@@ -8,7 +8,7 @@ import { FAMILY as GA_FAMILY, fixtures as gaFixtures, validateGa } from '../rcap
 import { mdConditionalRasterDocuments } from './md-conditional-raster-documents.mjs';
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
-  if (report?.familyId === 'md_10110_conviction-set') return mdConditionalRasterDocuments({report, fixtures, root});
+  if (['md_10110_conviction-set', 'md_cannabis_petition-set'].includes(report?.familyId)) return mdConditionalRasterDocuments({report, fixtures, root});
   const declared = (report?.pdfs ?? []).filter(d => d?.role === 'conditional_assembled_packet');
   const selected = [];
   const seen = new Set();

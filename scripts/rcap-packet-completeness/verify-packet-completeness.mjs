@@ -276,7 +276,7 @@ export function verifySourcePresentation(blank, { census, receipt, fieldMap, act
 
 export function auditFamily(dir, familyId) {
   const fieldMap = readIf(`${dir}/production-field-map.json`);
-  if (familyId === "md_10110_conviction-set" && dir === MD_CONDITIONAL_DIRECTORIES[familyId]) return auditMdConditionalCandidate(
+  if (["md_10110_conviction-set", "md_cannabis_petition-set"].includes(familyId) && dir === MD_CONDITIONAL_DIRECTORIES[familyId]) return auditMdConditionalCandidate(
     {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
   if (familyId === IA_FORM1_FAMILY && dir === IA_FORM1_DIRECTORY) return auditIaForm1ExpectedOutcomes(
     {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
@@ -569,6 +569,8 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
           && status?.familyId === MD_NATIVE_FAMILY) families.push({dir, familyId: MD_NATIVE_FAMILY});
       else if (dir === MD_CONDITIONAL_DIRECTORIES['md_10110_conviction-set'] && map
           && status?.familyId === 'md_10110_conviction-set') families.push({dir, familyId: 'md_10110_conviction-set'});
+      else if (dir === MD_CONDITIONAL_DIRECTORIES['md_cannabis_petition-set'] && map
+          && status?.familyId === 'md_cannabis_petition-set') families.push({dir, familyId: 'md_cannabis_petition-set'});
       else if (dir === `${OVERLAYS}/ga/ga-nonconv-pre2013-set--official-pdf-fill` && map
           && status?.familyId === 'ga-nonconv-pre2013-set') families.push({dir, familyId: 'ga-nonconv-pre2013-set'});
       continue;

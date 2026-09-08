@@ -169,7 +169,7 @@ const miMoOptions = (family) => ({
   hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
   raster: exactRasterFor(family.familyId)
 });
-const alignDeclaredDelivery = (record, family) => family.familyId === "md_10110_conviction-set"
+const alignDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "md_cannabis_petition-set"].includes(family.familyId)
   ? bindDeclaredMdConditionalDelivery(record, family, miMoOptions(family))
   : family.familyId === IA_FORM1_FAMILY
   ? bindDeclaredIaForm1Delivery(record, family, miMoOptions(family))
@@ -257,7 +257,7 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;
