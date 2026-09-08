@@ -451,5 +451,100 @@
       "sha256": "614ef85e0758b7e9c95d00b082bfdc494c7b7c95f05ee796b8bb393443e0684c"
     }
   ],
+  "componentSet": {
+    "countedFrom": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=co_motion_seal_conviction-set].components",
+    "groundingRecordSha256": "a14ef7db60888b5a31e9d19d4bead51aad7c975d5ad6cdf78c7ac8bda4a03abd",
+    "requiredByTheRoute": 4,
+    "renderedHere": 2,
+    "complete": false,
+    "packetSetCompletenessState": "incomplete",
+    "whyTheSharedCounterCannotSeeThis": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs derives its component denominator from this family's own field map and source receipt, never from the packet-set manifest, so requiredComponentsMissing reads 0 whether or not the route's set is complete. Nine counters at zero is necessary and not sufficient.",
+    "components": [
+      {
+        "componentId": "co_motion_seal_conviction-primary-filing-1",
+        "role": "primary_filing",
+        "officialFormId": "JDF-612",
+        "disposition": "RENDERED",
+        "renderedAs": "JDF-612",
+        "packetPages": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "reason": "the source binds by exact SHA-256 in a mounted custody and the component is rendered from it"
+      },
+      {
+        "componentId": "co_motion_seal_conviction-proposed-order-2",
+        "role": "proposed_order",
+        "officialFormId": "JDF-615",
+        "disposition": "RENDERED",
+        "renderedAs": "JDF-615",
+        "packetPages": [
+          6,
+          7,
+          8
+        ],
+        "reason": "the source binds by exact SHA-256 in a mounted custody and the component is rendered from it"
+      },
+      {
+        "componentId": "co_motion_seal_conviction-notice-3",
+        "role": "required_filing",
+        "officialFormId": null,
+        "requiredOfficialFormId": "JDF-614",
+        "disposition": "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+        "identityResolved": true,
+        "identityResolvedFrom": "JDF-611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e) names it \"JDF 614 Notice (Just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
+        "reason": "JDF 614 is required by the route and its identity is established, but its binary is not here: the committed corpus index records it at LegalEase Colorado/JDF614.pdf, sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555787 bytes, in custody nationwide_recovery_pool_2026_09_02, which this container does not mount. A source that does not bind may not be rendered and may not be substituted, so the component is absent and the participant is told so by form number in participant-instructions.md.",
+        "digestProvenance": "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted",
+        "cautionForWhoeverRendersIt": null,
+        "disclosedToTheParticipant": true,
+        "whatWouldChangeThis": "mount nationwide_recovery_pool_2026_09_02 or promote the binary into the Master Library, then re-hash and render"
+      },
+      {
+        "componentId": "co_motion_seal_conviction-second-order-4",
+        "role": "proposed_order",
+        "officialFormId": null,
+        "requiredOfficialFormId": "JDF-613",
+        "disposition": "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+        "identityResolved": true,
+        "identityResolvedFrom": "JDF-611 (sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e) names it \"JDF 613 Order (just do §§ A-C)\" in its own \"File the Request\" list, read from the guide's bytes at build time",
+        "reason": "JDF 613 is required by the route and its identity is established, but its binary is not here: the committed corpus index records it at LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf, sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545525 bytes, in custody nationwide_recovery_pool_2026_09_02, which this container does not mount. A source that does not bind may not be rendered and may not be substituted, so the component is absent and the participant is told so by form number in participant-instructions.md.",
+        "digestProvenance": "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted",
+        "cautionForWhoeverRendersIt": "The index filename calls JDF 613 the ORDER DENYING the request to seal. If that is right, the \"second order\" this route requires is the denial order tendered with the grant order rather than a second grant, and it must not be described to a participant as a second grant order until the JDF-613 bytes confirm it. This build could not confirm it: the custody is not mounted, and the guide's own list says only \"Order (just do §§ A-C)\".",
+        "disclosedToTheParticipant": true,
+        "whatWouldChangeThis": "mount nationwide_recovery_pool_2026_09_02 or promote the binary into the Master Library, then re-hash and render"
+      }
+    ]
+  },
+  "groundingSourcesQuoted": [
+    {
+      "formNumber": "JDF-611",
+      "title": "Guide to Sealing Conviction Records (single case)",
+      "sha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+      "byteLength": 606173,
+      "pageCount": 2,
+      "pathInArchive": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+      "quotedOnParticipantSurfaces": [
+        {
+          "key": "fileTheRequest",
+          "page": 1,
+          "text": "File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)"
+        },
+        {
+          "key": "feeIsTheClerks",
+          "page": 2,
+          "text": "The Clerk will let you know the fee (if any) when filing."
+        },
+        {
+          "key": "waiverForms",
+          "page": 2,
+          "text": "If you cannot afford the fees, also file:  JDF 205 Motion to Waive Fees  JDF 206 Order (Just do §§ A-C)"
+        }
+      ],
+      "howItWasRead": "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in STREAM order. This document interleaves its glyph runs, so the repository's own groupIntoLines() reader returns them scrambled (\"JDF 2 M0o5tion to Waive Fees\"); the stream itself is clean, and pdftotext agrees with the stream."
+    }
+  ],
   "independentVerificationPending": true
 }

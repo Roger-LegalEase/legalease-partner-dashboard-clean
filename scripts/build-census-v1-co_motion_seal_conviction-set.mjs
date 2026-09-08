@@ -118,6 +118,103 @@ const GROUNDING_RECORDS = Object.freeze({
   packetSetManifest: "data/record-clearing/legal-design-packet-set-manifests.json"
 });
 
+/*
+ * THE OFFICIAL GUIDE, BOUND BY DIGEST AND READ AT BUILD TIME.
+ *
+ * JDF 611 is the Colorado Judicial Department's own step-by-step guide for this
+ * exact route, and this packet already cited it by name when it disclosed the
+ * component gap. It also answers two things the packet used to say it could not
+ * answer, and both were measured against these bytes by VF07 at base 453ecee9:
+ *
+ *   THE FEE AND THE WAIVER. The packet said "The fee position for a motion to
+ *   seal a conviction record is not established in any source this packet
+ *   holds" and sent the participant to the clerk to ask what to do if they
+ *   cannot pay. The guide states the amount is the clerk's to give and states
+ *   the WAIVER by form number. Half of that sentence was true and half of it
+ *   denied a held source.
+ *
+ *   THE TWO MISSING COMPONENTS' IDENTITIES. The packet told the participant, in
+ *   bold, that no form number existed for the notice or the second order and
+ *   that "none should be inferred", on the stated ground that the guide renders
+ *   those digits as vector glyphs. It does not. They are ordinary text.
+ *
+ * WHY THE DIGITS LOOKED UNREADABLE, AND WHY THEY ARE NOT. This guide, like the
+ * two forms this family fills, interleaves its glyph runs, so groupIntoLines()
+ * -- which bands items by y and reads each band left to right -- returns
+ * "JDF 2 M0o5tion to Waive Fees". That is a property of the READER, not of the
+ * document. The items in STREAM ORDER concatenate to clean prose: page 1 of the
+ * stream contains "JDF 613 Order (just do §§ A-C)" and "JDF 614 Notice (Just do
+ * §§ A-C)" as literal substrings, and page 2 contains the whole fee paragraph.
+ * So every sentence this packet takes from the guide is asserted, here, as a
+ * literal substring of the digest-bound stream. A quotation that stops matching
+ * stops the build.
+ */
+const GUIDE = Object.freeze({
+  formNumber: "JDF-611",
+  title: "Guide to Sealing Conviction Records (single case)",
+  sha256: "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e"
+});
+
+/*
+ * Every phrase this build takes from JDF 611, exactly as the stream carries it.
+ * `page` is the guide page each must be found on; a phrase that moves pages is
+ * a different document and is treated as drift.
+ */
+const GUIDE_QUOTATIONS = Object.freeze({
+  fileTheRequest: {
+    page: 1,
+    text: "File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you "
+      + "found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order "
+      + "(just do §§ A-C)"
+  },
+  feeIsTheClerks: { page: 2, text: "The Clerk will let you know the fee (if any) when filing." },
+  waiverForms: {
+    page: 2,
+    text: "If you cannot afford the fees, also file:  JDF 205 Motion to Waive Fees  JDF 206 Order (Just do §§ A-C)"
+  }
+});
+
+/*
+ * The identity each undelivered component has in the guide's own list, and the
+ * words the guide uses for it. Keyed by the manifest's componentId, because the
+ * manifest is what names the component and this build does not invent one.
+ */
+const GUIDE_NAMES_THE_MISSING_COMPONENTS = Object.freeze({
+  "co_motion_seal_conviction-notice-3": { formNumber: "JDF 614", asTheGuideWritesIt: "JDF 614 Notice (Just do §§ A-C)" },
+  "co_motion_seal_conviction-second-order-4": { formNumber: "JDF 613", asTheGuideWritesIt: "JDF 613 Order (just do §§ A-C)" }
+});
+
+/*
+ * Where the two absent binaries are recorded, quoted from the committed corpus
+ * index. NOT re-hashed by this build: that custody is not mounted in any
+ * packet-factory container, and a digest copied from a record is a record, not
+ * a measurement. Said that way on every surface that carries it.
+ */
+const RECOVERY_POOL = Object.freeze({
+  custody: "nationwide_recovery_pool_2026_09_02",
+  mountedHere: false,
+  entries: Object.freeze([
+    Object.freeze({
+      formNumber: "JDF 614", componentId: "co_motion_seal_conviction-notice-3",
+      path: "LegalEase Colorado/JDF614.pdf",
+      sha256: "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+      byteLength: 555787, pageCount: 1, acroFieldCount: 16
+    }),
+    Object.freeze({
+      formNumber: "JDF 613", componentId: "co_motion_seal_conviction-second-order-4",
+      path: "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+      sha256: "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+      byteLength: 545525, pageCount: 1, acroFieldCount: 13,
+      cautionForWhoeverRendersIt:
+        "The index filename calls JDF 613 the ORDER DENYING the request to seal. If that is right, the \"second "
+        + "order\" this route requires is the denial order tendered with the grant order rather than a second grant, "
+        + "and it must not be described to a participant as a second grant order until the JDF-613 bytes confirm it. "
+        + "This build could not confirm it: the custody is not mounted, and the guide's own list says only "
+        + "\"Order (just do §§ A-C)\"."
+    })
+  ])
+});
+
 const ROUTE = Object.freeze({
   jurisdiction: "CO",
   routeKey: "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
@@ -445,6 +542,60 @@ function resolveSources() {
     });
   }
   return { resolved, failures };
+}
+
+/*
+ * Binds JDF 611 by exact SHA-256 and reads every phrase this build quotes out of
+ * those bytes.
+ *
+ * The stream order is the reading order here; see GUIDE_QUOTATIONS above for
+ * why. Each declared phrase must appear literally, on the page it is declared
+ * for. A miss throws: the build does not go on to print a sentence it attributes
+ * to a document that does not carry it.
+ */
+async function resolveGuide() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const entry = (index.entries ?? []).find((e) => e.state === "CO"
+    && e.formNumber === GUIDE.formNumber && e.assetClass === "INSTRUCTIONS"
+    && e.custody === "master_library");
+  assert.ok(entry, `the committed corpus index carries no master_library INSTRUCTIONS entry for ${GUIDE.formNumber}`);
+  const rel = entry.path;
+  const abs = path.resolve(ROOT, corpusRoot(), rel);
+  assert.ok(fs.existsSync(abs), `${GUIDE.formNumber} is indexed at ${rel} and is not on disk there`);
+  const bytes = fs.readFileSync(abs);
+  const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+  assert.equal(sha256, GUIDE.sha256,
+    `${GUIDE.formNumber} SHA-256 drift: this build quotes ${GUIDE.sha256} and the mounted bytes are ${sha256}`);
+  assert.equal(sha256, String(entry.sha256 ?? ""),
+    `${GUIDE.formNumber}: the committed index and the mounted bytes disagree`);
+
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+  /* Stream order, not line order. groupIntoLines() cannot read this document
+   * and the manifest's old basis was written from what it returned. */
+  const streamByPage = doc.getPages().map((pg) => extractTextItems(pg).map((it) => it.text).join(""));
+
+  const quoted = {};
+  for (const [key, q] of Object.entries(GUIDE_QUOTATIONS)) {
+    const stream = streamByPage[q.page - 1] ?? "";
+    assert.ok(stream.includes(q.text),
+      `${GUIDE.formNumber} page ${q.page} does not carry the quoted phrase ${JSON.stringify(key)}; `
+      + "the guide this build quotes is not the guide it bound");
+    quoted[key] = { ...q, foundInStream: true };
+  }
+  for (const [componentId, named] of Object.entries(GUIDE_NAMES_THE_MISSING_COMPONENTS)) {
+    assert.ok((streamByPage[0] ?? "").includes(named.asTheGuideWritesIt),
+      `${GUIDE.formNumber} page 1 does not name ${componentId} as ${JSON.stringify(named.asTheGuideWritesIt)}`);
+  }
+
+  return {
+    ...GUIDE, pathInArchive: rel, byteLength: bytes.length, pageCount: doc.getPageCount(),
+    revision: entry.revision ?? null, sha256, quoted,
+    howItWasRead:
+      "every quoted phrase asserted as a literal substring of the concatenated text items of the named page, in "
+      + "STREAM order. This document interleaves its glyph runs, so the repository's own groupIntoLines() reader "
+      + "returns them scrambled (\"JDF 2 M0o5tion to Waive Fees\"); the stream itself is clean, and pdftotext agrees "
+      + "with the stream."
+  };
 }
 
 /* ---- census --------------------------------------------------------------- */
@@ -833,7 +984,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf, packetSet) {
+function participantInstructions(maps, rbf, packetSet, guide) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -861,20 +1012,41 @@ function participantInstructions(maps, rbf, packetSet) {
       + `**${packetSet.completeness.state}**.`, ""
     );
     out.push(
-      `The ${packetSet.undelivered.length} documents this packet does not contain are:`, ""
+      `The ${packetSet.undelivered.length} documents this packet does not contain are named below, **and this packet `
+      + "knows their form numbers.** JDF 611, the Colorado Judicial Department's own guide for this route, lists all "
+      + `four documents by number under its heading “File the Request”: ${GUIDE_QUOTATIONS.fileTheRequest.text}`, ""
     );
     for (const row of packetSet.undelivered) {
-      out.push(`- **${missingComponentLabel(row, packetSet.delivered)}** — ${row.sourceStatusBasis}`);
+      const named = GUIDE_NAMES_THE_MISSING_COMPONENTS[row.componentId] ?? null;
+      const pool = RECOVERY_POOL.entries.find((e) => e.componentId === row.componentId) ?? null;
+      out.push(
+        `- **${named ? named.formNumber : "(form number not established)"} — `
+        + `${missingComponentLabel(row, packetSet.delivered)}.** `
+        + (named ? `JDF 611 writes it “${named.asTheGuideWritesIt}”. ` : "")
+        + (pool
+          ? "It is not in this packet because the platform does not hold a copy it can verify: the file is listed in "
+            + `the platform's own source index under the storage area “${RECOVERY_POOL.custody}”, which the machine `
+            + "that built this packet cannot reach, so it could not be checked and could not be filled in."
+          : "It is not in this packet because the platform holds no copy of it.")
+      );
     }
     out.push("");
     out.push(
-      "**No form number is printed for either of them here, and none should be inferred from this packet.** The record "
-      + "is explicit that guessing a JDF number would be fabricating an official identity, and this packet will not do "
-      + "that. What that means for you is practical: ask the clerk of the court, or the Colorado Judicial Department's "
-      + "self-help centre, for the current JDF-611 guide and for the notice and the second order it requires, and get "
-      + "them from Colorado rather than from here. Do not assume the two forms in this packet are a complete filing, "
-      + "and do not assume the court will supply the missing two for you.", ""
+      "**Get both of them from Colorado, and do not file without them.** Ask the clerk of the court, or the Colorado "
+      + "Judicial Department's self-help centre, for the JDF 611 guide and for the two forms it lists that are not "
+      + "here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet "
+      + "are a complete filing, and do not assume the court will supply the missing two for you.", ""
     );
+    const caution = RECOVERY_POOL.entries.find((e) => e.cautionForWhoeverRendersIt) ?? null;
+    if (caution) {
+      out.push(
+        `**One thing to check when you get ${caution.formNumber}.** The platform's own index describes that form as `
+        + "the order **denying** a request to seal, not a second order granting one. JDF 611 lists it simply as an "
+        + "order. The platform could not open the file to settle which it is, so it will not tell you. When the clerk "
+        + "hands it to you, read its title before you fill it in, and ask the clerk which of the two orders the court "
+        + "expects you to tender.", ""
+      );
+    }
     out.push(
       "Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared "
       + "and is accurate for the two documents it does contain. The gap above is about what is missing from the set, "
@@ -889,9 +1061,22 @@ function participantInstructions(maps, rbf, packetSet) {
     + "Department publishes each courthouse's address; this packet does not state one, because the platform holds no "
     + "court directory and an unsourced address in a filing instruction is worse than none.", ""
   );
+  out.push("### The filing fee, and what to do if you cannot pay it", "");
   out.push(
-    "**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a "
-    + "conviction record is not established in any source this packet holds, so it is not stated here.", ""
+    `**The clerk sets the fee.** JDF 611 says so in as many words: “${guide.quoted.feeIsTheClerks.text}” No source `
+    + "this packet holds states an amount for this motion, and none is invented here — ask the clerk, and the "
+    + "guide expects you to.", ""
+  );
+  out.push(
+    `**If you cannot afford it, Colorado has a waiver and JDF 611 names the two forms for it:** `
+    + `“${guide.quoted.waiverForms.text}” So: **JDF 205**, Motion to Waive Fees, and **JDF 206**, the order that goes `
+    + "with it, of which the guide says to complete only §§ A–C.", ""
+  );
+  out.push(
+    "**Neither JDF 205 nor JDF 206 is in this packet.** The platform holds no copy of either form, so it cannot "
+    + "prepare them and will not reproduce them from memory. Ask the clerk or the Colorado Judicial Department's "
+    + "self-help centre for both, the same way you ask for the two missing forms above. Do not let the fee stop you "
+    + "from filing without asking for the waiver first.", ""
   );
 
   out.push("## The Colorado Bureau of Investigation is not optional", "");
@@ -960,6 +1145,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
   /* What the authoritative manifest says the whole set is, measured against the
    * documents this build can actually render from held sources. */
   const packetSet = loadPacketSetGrounding(resolved.map((r) => r.formNumber));
+
+  /* The official guide, bound by digest, with every phrase this packet quotes
+   * proved present in its bytes. See GUIDE_QUOTATIONS. */
+  const guide = await resolveGuide();
 
   const censuses = [];
   for (const source of resolved) {
@@ -1072,7 +1261,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, packetSet);
+  const instructionsText = participantInstructions(maps, rbf, packetSet, guide);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1110,14 +1299,52 @@ export async function runFamily(argv = process.argv.slice(2)) {
       requiredComponents: packetSet.required.length,
       deliveredComponents: packetSet.delivered.length,
       packetSetCompletenessState: packetSet.completeness.state,
-      undelivered: packetSet.undelivered.map((row) => ({
-        componentId: row.componentId, role: row.role, officialFormId: row.officialFormId ?? null,
-        sourceStatus: row.sourceStatus ?? null, sourceStatusBasis: row.sourceStatusBasis ?? null
-      })),
+      undelivered: packetSet.undelivered.map((row) => {
+        const named = GUIDE_NAMES_THE_MISSING_COMPONENTS[row.componentId] ?? null;
+        const pool = RECOVERY_POOL.entries.find((e) => e.componentId === row.componentId) ?? null;
+        return {
+          componentId: row.componentId, role: row.role,
+          officialFormId: row.officialFormId ?? null,
+          requiredOfficialFormId: row.requiredOfficialFormId ?? null,
+          identityResolved: Boolean(named),
+          identityResolvedFrom: named
+            ? {
+              document: `${guide.formNumber} ${guide.title}`, sha256: guide.sha256,
+              pathInArchive: guide.pathInArchive, quotedAs: named.asTheGuideWritesIt,
+              inTheGuidesOwnList: guide.quoted.fileTheRequest.text, howItWasRead: guide.howItWasRead
+            }
+            : null,
+          binaryHeldHere: false,
+          binaryRecordedInCommittedIndex: pool
+            ? {
+              custody: RECOVERY_POOL.custody, mountedHere: RECOVERY_POOL.mountedHere,
+              path: pool.path, sha256: pool.sha256, byteLength: pool.byteLength,
+              pageCount: pool.pageCount, acroFieldCount: pool.acroFieldCount,
+              digestProvenance:
+                "quoted from data/rcap-all50/local-source-corpus-index.json and NOT re-hashed by this build; that "
+                + "custody is not mounted in any packet-factory container, so this is a record and not a measurement",
+              cautionForWhoeverRendersIt: pool.cautionForWhoeverRendersIt ?? null
+            }
+            : null,
+          sourceStatus: row.sourceStatus ?? null, sourceStatusBasis: row.sourceStatusBasis ?? null
+        };
+      }),
       disclosedToParticipant: packetSet.undelivered.length > 0,
       whyTheyAreNotRendered:
-        "Their official identities are unresolved in the authoritative manifest. Rendering them would require "
-        + "inventing an official form identity, which this build refuses. The gap is disclosed, not filled."
+        "Not because their identities are unknown. JDF 611 names all four documents of this set by form number "
+        + `-- ${GUIDE_QUOTATIONS.fileTheRequest.text} -- and this build read that list out of the guide's own bytes, `
+        + `bound at sha256 ${GUIDE.sha256}. The notice is JDF 614 and the second order is JDF 613. They are not `
+        + "rendered because their BINARIES are not here: the committed corpus index records both in custody "
+        + `${RECOVERY_POOL.custody}, which no packet-factory container mounts, so neither can be bound by SHA-256 `
+        + "and nothing may be rendered from a source that does not bind. The gap is disclosed with the identities "
+        + "named, and it is not filled.",
+      whatWouldCloseIt:
+        `Mount ${RECOVERY_POOL.custody} (or promote those two binaries into the Master Library), re-hash both `
+        + "against the digests the committed index records, and render the two components. This is a source-custody "
+        + "action, not a research task: the identities are established and no counsel question is open on them.",
+      whatThisBuildRefusedToDo:
+        "Substitute another form for either. A route sells only what a record proves it delivers, and a packet that "
+        + "filled the notice slot with something else would be delivering an official identity it never bound."
     },
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
@@ -1188,6 +1415,81 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
     byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
+    /*
+     * EVERY COMPONENT THE ROUTE REQUIRES, RENDERED OR DISPOSITIONED WITH A TRUE
+     * REASON -- here, where a reader of the artifacts looks.
+     *
+     * The nine shared counters cannot see this. verify-packet-completeness.mjs
+     * derives its component denominator from the field map's documents plus the
+     * source receipt's documents and asks only whether each appears in a
+     * rendered artifact; it never opens the packet-set manifest, so a component
+     * the ROUTE requires and this BUILD never declared is invisible to it and
+     * requiredComponentsMissing reads 0 either way. VF07 measured 2 of 4 at base
+     * 453ecee9 and said so. This block is the manifest's count, stated where the
+     * counters are stated, so a green nine is not read as a complete set.
+     */
+    componentSet: {
+      countedFrom: `${packetSet.record.path} packetSets[packetSetId=${FAMILY_ID}].components`,
+      groundingRecordSha256: packetSet.record.sha256,
+      requiredByTheRoute: packetSet.required.length,
+      renderedHere: packetSet.delivered.length,
+      complete: packetSet.undelivered.length === 0,
+      packetSetCompletenessState: packetSet.completeness.state,
+      whyTheSharedCounterCannotSeeThis:
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs derives its component denominator from this "
+        + "family's own field map and source receipt, never from the packet-set manifest, so requiredComponentsMissing "
+        + "reads 0 whether or not the route's set is complete. Nine counters at zero is necessary and not sufficient.",
+      components: packetSet.required.map((row) => {
+        const delivered = packetSet.delivered.includes(row);
+        const named = GUIDE_NAMES_THE_MISSING_COMPONENTS[row.componentId] ?? null;
+        const pool = RECOVERY_POOL.entries.find((e) => e.componentId === row.componentId) ?? null;
+        if (delivered) {
+          const pages = artifacts[0]?.pageManifest?.filter((m) => m.formNumber === row.officialFormId) ?? [];
+          return {
+            componentId: row.componentId, role: row.role, officialFormId: row.officialFormId,
+            disposition: "RENDERED",
+            renderedAs: row.officialFormId,
+            packetPages: pages.map((m) => m.packetPage),
+            reason: "the source binds by exact SHA-256 in a mounted custody and the component is rendered from it"
+          };
+        }
+        return {
+          componentId: row.componentId, role: row.role,
+          officialFormId: row.officialFormId ?? null,
+          requiredOfficialFormId: row.requiredOfficialFormId ?? (named ? named.formNumber.replace(" ", "-") : null),
+          disposition: "NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY",
+          identityResolved: Boolean(named),
+          identityResolvedFrom: named
+            ? `${guide.formNumber} (sha256 ${guide.sha256}) names it "${named.asTheGuideWritesIt}" in its own `
+              + "\"File the Request\" list, read from the guide's bytes at build time"
+            : null,
+          reason: named && pool
+            ? `${named.formNumber} is required by the route and its identity is established, but its binary is not `
+              + `here: the committed corpus index records it at ${pool.path}, sha256 ${pool.sha256}, `
+              + `${pool.byteLength} bytes, in custody ${RECOVERY_POOL.custody}, which this container does not mount. `
+              + "A source that does not bind may not be rendered and may not be substituted, so the component is "
+              + "absent and the participant is told so by form number in participant-instructions.md."
+            : "the platform holds no source for this component and none is substituted",
+          digestProvenance: pool
+            ? "quoted from the committed corpus index; NOT re-hashed here, because that custody is not mounted"
+            : null,
+          cautionForWhoeverRendersIt: pool?.cautionForWhoeverRendersIt ?? null,
+          disclosedToTheParticipant: true,
+          whatWouldChangeThis:
+            `mount ${RECOVERY_POOL.custody} or promote the binary into the Master Library, then re-hash and render`
+        };
+      })
+    },
+    /* The guide this packet quotes, bound by digest at build time. */
+    groundingSourcesQuoted: [
+      {
+        formNumber: guide.formNumber, title: guide.title, sha256: guide.sha256,
+        byteLength: guide.byteLength, pageCount: guide.pageCount, pathInArchive: guide.pathInArchive,
+        quotedOnParticipantSurfaces: Object.entries(guide.quoted)
+          .map(([key, q]) => ({ key, page: q.page, text: q.text })),
+        howItWasRead: guide.howItWasRead
+      }
+    ],
     independentVerificationPending: true
   });
 
