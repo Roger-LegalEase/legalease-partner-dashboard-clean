@@ -11,14 +11,16 @@ The platform filled in what it holds about you and your case: your name, your da
 
 ## This packet is not the whole filing — read this before you file
 
-**Colorado's own guide for this route requires 4 documents, and this packet contains 2 of them.** The authoritative packet-set record for this route says so in its own words: “The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.” It records the state of this packet set as **incomplete**.
+**Colorado's own guide for this route requires 4 documents, and this packet contains 2 of them.** The authoritative packet-set record for this route says so in its own words: “The official JDF-611 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 612 (Motion), JDF 613 (Order), JDF 614 (Notice) and JDF 615 (Order). The verified, mounted corpus holds JDF-612 and JDF-615, and this packet delivers those two. JDF 613 and JDF 614 are NOT delivered: their official identities ARE established, by the guide's own printed list, but their binaries sit in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts, so neither can be bound by SHA-256 and neither may be rendered. The set is incomplete because two required documents are missing, not because anything about them is unknown.” It records the state of this packet set as **incomplete**.
 
-The 2 documents this packet does not contain are:
+The 2 documents this packet does not contain are named below, **and this packet knows their form numbers.** JDF 611, the Colorado Judicial Department's own guide for this route, lists all four documents by number under its heading “File the Request”: File these forms into your criminal case:  JDF 612 Motion • Be sure to list all agency addresses you found in Step 1.  JDF 613 Order (just do §§ A-C)  JDF 614 Notice (Just do §§ A-C)  JDF 615 Order (just do §§ A-C)
 
-- **a notice** — The official JDF-611 guide requires a notice. Its exact form number is NOT established: the guide renders those digits as vector glyphs, and guessing a JDF number would be fabricating an official identity. Resolving it requires inspecting the guide as page images or obtaining a current official source that names it.
-- **a second order for the court to sign** — The official JDF-611 guide requires a second order. Its exact form number is NOT established, for the same reason as the notice above, and is not inferred.
+- **JDF 614 — a notice.** JDF 611 writes it “JDF 614 Notice (Just do §§ A-C)”. It is not in this packet because the platform does not hold a copy it can verify: the file is listed in the platform's own source index under the storage area “nationwide_recovery_pool_2026_09_02”, which the machine that built this packet cannot reach, so it could not be checked and could not be filled in.
+- **JDF 613 — a second order for the court to sign.** JDF 611 writes it “JDF 613 Order (just do §§ A-C)”. It is not in this packet because the platform does not hold a copy it can verify: the file is listed in the platform's own source index under the storage area “nationwide_recovery_pool_2026_09_02”, which the machine that built this packet cannot reach, so it could not be checked and could not be filled in.
 
-**No form number is printed for either of them here, and none should be inferred from this packet.** The record is explicit that guessing a JDF number would be fabricating an official identity, and this packet will not do that. What that means for you is practical: ask the clerk of the court, or the Colorado Judicial Department's self-help centre, for the current JDF-611 guide and for the notice and the second order it requires, and get them from Colorado rather than from here. Do not assume the two forms in this packet are a complete filing, and do not assume the court will supply the missing two for you.
+**Get both of them from Colorado, and do not file without them.** Ask the clerk of the court, or the Colorado Judicial Department's self-help centre, for the JDF 611 guide and for the two forms it lists that are not here. They are free and they are the same forms the guide names. Do not assume the two forms in this packet are a complete filing, and do not assume the court will supply the missing two for you.
+
+**One thing to check when you get JDF 613.** The platform's own index describes that form as the order **denying** a request to seal, not a second order granting one. JDF 611 lists it simply as an order. The platform could not open the file to settle which it is, so it will not tell you. When the clerk hands it to you, read its title before you fill it in, and ask the clerk which of the two orders the court expects you to tender.
 
 Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared and is accurate for the two documents it does contain. The gap above is about what is missing from the set, not about what is in it.
 
@@ -26,7 +28,13 @@ Everything else in this packet — both forms, every blank named below and every
 
 File both forms with the **clerk of the Colorado court that entered the conviction** — the District Court or the County Court named in section A of the motion, in the county already filled in for you. The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
 
-**Ask the clerk what fee applies, and what to do if you cannot pay it.** The fee position for a motion to seal a conviction record is not established in any source this packet holds, so it is not stated here.
+### The filing fee, and what to do if you cannot pay it
+
+**The clerk sets the fee.** JDF 611 says so in as many words: “The Clerk will let you know the fee (if any) when filing.” No source this packet holds states an amount for this motion, and none is invented here — ask the clerk, and the guide expects you to.
+
+**If you cannot afford it, Colorado has a waiver and JDF 611 names the two forms for it:** “If you cannot afford the fees, also file:  JDF 205 Motion to Waive Fees  JDF 206 Order (Just do §§ A-C)” So: **JDF 205**, Motion to Waive Fees, and **JDF 206**, the order that goes with it, of which the guide says to complete only §§ A–C.
+
+**Neither JDF 205 nor JDF 206 is in this packet.** The platform holds no copy of either form, so it cannot prepare them and will not reproduce them from memory. Ask the clerk or the Colorado Judicial Department's self-help centre for both, the same way you ask for the two missing forms above. Do not let the fee stop you from filing without asking for the waiver first.
 
 ## The Colorado Bureau of Investigation is not optional
 
