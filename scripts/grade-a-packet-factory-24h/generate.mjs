@@ -20,6 +20,7 @@ import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints
 import fs from "node:fs";
 import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC } from "./treatment-reconciliation.mjs";
 import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
+import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
 import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
 import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
@@ -2418,8 +2419,19 @@ for (const f of IN.scoreboard.familiesDetail) {
     });
   }
 
-  const reviewedTreatmentGuidance = familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : null;
+  const ctGuidanceAssessment = assessConnecticutReviewedGuidance(ROOT, familyId);
+  let reviewedTreatmentGuidance = familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : ctGuidanceAssessment;
   state = preserveTreatmentAcceptance(state, treatment, reviewedTreatmentGuidance);
+  if (ctGuidanceAssessment) {
+    state = applyConnecticutGuidanceAcceptance(state, ctGuidanceAssessment, {
+      independentReturn, verifierSourceHold, readiness, nineZero, legalBlocked, deliveryTypeRefusal
+    });
+    reviewedTreatmentGuidance = {
+      ...ctGuidanceAssessment,
+      eligible: ctGuidanceAssessment.eligible && state === "GUIDANCE_READY",
+      currentTreatmentHold: ctGuidanceAssessment.eligible && state !== "GUIDANCE_READY" ? state : null
+    };
+  }
   families.push({
     familyId,
     treatmentReconciliation: treatment,
@@ -2525,8 +2537,12 @@ for (const f of IN.scoreboard.familiesDetail) {
     executionReclassification,
     executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
     nextExecutableAction: reviewedTreatmentGuidance?.eligible
-      ? "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open."
-      : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
+      ? (ctGuidanceAssessment
+          ? "Static preparation guidance accepted. The participant still completes the receiving authority's own later process; runtime installation is a separate product obligation."
+          : "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open.")
+      : reviewedTreatmentGuidance?.currentTreatmentHold
+        ? `Resolve the current ${reviewedTreatmentGuidance.currentTreatmentHold} hold; it is not closed by the prior guidance review.`
+        : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
     routeMappingStatus: routeMappingOpen
       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
       : "BOUND",
@@ -2535,8 +2551,17 @@ for (const f of IN.scoreboard.familiesDetail) {
     allNineCountersZero: nineZero,
     counters: comp?.counters ?? null,
     failingCounters: comp ? Object.entries(comp.counters).filter(([, v]) => v > 0).map(([k]) => k) : [],
-    failedObligationNames: independentFail ? independentReturn?.failedObligationNames ?? [] : [],
-    failedObligations: independentFail ? independentReturn?.failedObligations ?? [] : [],
+    ...(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible && independentFail ? {
+      historicalIndependentFailureClosedByGuidanceReview: {
+        verdict: independentReturn.verdict, lane: independentReturn.lane,
+        verifiedAtBase: independentReturn.verifiedAtBase, evidencePath: independentReturn.evidencePath,
+        failedObligations: independentReturn.failedObligations,
+        closedBy: reviewedTreatmentGuidance.reviewPath, reviewSha256: reviewedTreatmentGuidance.reviewSha256,
+        closedPriorFindings: reviewedTreatmentGuidance.closedPriorFindings
+      }
+    } : {}),
+    failedObligationNames: independentFail && !(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible) ? independentReturn?.failedObligationNames ?? [] : [],
+    failedObligations: independentFail && !(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible) ? independentReturn?.failedObligations ?? [] : [],
     continuationResult: cont?.resultAfter ?? null,
     c11Stopped: c11Stopped.has(familyId),
     state,
