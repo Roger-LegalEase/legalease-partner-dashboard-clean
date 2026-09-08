@@ -193,6 +193,22 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-17b-reduction"],
     formNumbers: ["CR-180", "CR-181", "CR-106"],
+    /*
+     * FIX101, REPEATING_ROWS. See withdrawnRouteTextVariants for the whole
+     * reasoning. In short: the route wrote CR-180 row 1's two yes/no reduction
+     * cells and could not write Code1, Section1 or TypeOff1 beside them,
+     * because the platform holds none of the three. That left a half-filled row
+     * on a petition sworn under penalty of perjury, against the form's own
+     * instruction -- printed on this packet's own participant page -- that an
+     * unused row stays entirely empty. The row is now left entirely for the
+     * participant, and the two held yes/no values are disclosed rather than
+     * printed.
+     *
+     * THIS FAMILY ONLY. The other four CR-180 families on this host write no
+     * conviction-table cell at all, so the flag changes nothing for them and is
+     * not set on them.
+     */
+    withdrawRouteTextControlsForRowIntegrity: true,
   },
   "ca-851-91-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",
@@ -1093,11 +1109,93 @@ function participantElectionsForFamily(familyId) {
     .map((selection) => ({ ...selection, variantId: variant.variantId, routeKey: variant.routeKey })));
 }
 
+/*
+ * THE ROUTE TEXT CONTROLS A FAMILY WITHDRAWS TO KEEP A TABLE ROW WHOLE.
+ *
+ * CR-180's conviction table is five rows of five cells: Code, Section, Type of
+ * offense, and the two yes-or-no reduction cells. On ca-17b-reduction-set the
+ * route wrote row 1's two yes/no cells from route.pc17b.* and left Code1,
+ * Section1 and TypeOff1 beside them empty, because the platform holds no code,
+ * section or offence type for the conviction -- the field map says so for all
+ * fifteen of those cells, and the packet-set manifest sends the participant to
+ * the court docket for them.
+ *
+ * What that printed was a sworn answer about an offence the petition never
+ * names. The form's own instruction, which this packet already prints, is that
+ * an unused row stays entirely empty; the packet was violating it on the one
+ * row it touched. There are only two honest ways out: write the code, the
+ * section and the offence type, or write nothing in the row. The first is not
+ * available -- inventing a code section on a petition verified under penalty of
+ * perjury is the defect these counters exist to prevent -- so the writes are
+ * withdrawn and the whole row is left for the participant.
+ *
+ * WITHDRAWN, NOT FORGOTTEN. The declared variants keep their controlFacts and
+ * their withdrawnTextControls, so the record still says what the platform held
+ * and which cell it would have gone in. The field map carries that on the
+ * refusal as heldButNotPrinted, and the participant page names both cells and
+ * the reason. A value the packet holds and does not print is disclosed or it is
+ * simply missing.
+ *
+ * Memoised for the same reason the participant-election substitution is: one
+ * frozen value, so every deepEqual across the build compares the same object.
+ * Returns the declared variants untouched for every family without the flag.
+ */
+const WITHDRAWN_ROW_WRITE_REASON = "The platform holds this route's yes-or-no answer and does not print it. "
+  + "The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the "
+  + "platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the "
+  + "petition does not name would leave the row half-finished, which the form's own instruction forbids and which "
+  + "reads as complete to anyone checking the page. The whole row is therefore left for the participant, who "
+  + "writes the code, the section, the offence type and both answers together from their own record of conviction.";
+
+const WITHDRAWN_ROUTE_TEXT_VARIANTS = new Map();
+function withdrawnRouteTextVariants(familyId) {
+  if (!WITHDRAWN_ROUTE_TEXT_VARIANTS.has(familyId)) {
+    WITHDRAWN_ROUTE_TEXT_VARIANTS.set(familyId, Object.freeze(CA_ROUTE_VARIANTS[familyId]
+      .map((variant) => {
+        const withdrawn = Object.entries(variant.textControls).map(([fieldName, factId]) => Object.freeze({
+          fieldName, factId, value: variant.controlFacts[factId] ?? null, variantId: variant.variantId,
+        }));
+        assert.ok(withdrawn.length,
+          `${familyId}/${variant.variantId}: withdrawRouteTextControlsForRowIntegrity is set but the variant declares no text control to withdraw`);
+        for (const row of withdrawn) {
+          assert.match(String(row.value ?? ""), /^(?:yes|no)$/,
+            `${familyId}/${variant.variantId}/${row.fieldName}: a withdrawn statutory control must still record its exact yes/no value`);
+        }
+        return Object.freeze({
+          ...variant,
+          textControls: Object.freeze({}),
+          withdrawnTextControls: Object.freeze(withdrawn),
+        });
+      })));
+  }
+  return WITHDRAWN_ROUTE_TEXT_VARIANTS.get(familyId);
+}
+
+/*
+ * Every withdrawn route text control for this family, keyed by the field it
+ * would have been written into. Empty for every family without the flag.
+ */
+function withdrawnRouteTextControls(familyId) {
+  if (!FAMILIES[familyId]?.withdrawRouteTextControlsForRowIntegrity) return new Map();
+  const byField = new Map();
+  for (const variant of withdrawnRouteTextVariants(familyId)) {
+    for (const row of variant.withdrawnTextControls) {
+      const held = byField.get(row.fieldName) ?? { fieldName: row.fieldName, factId: row.factId, heldByVariant: [] };
+      assert.equal(held.factId, row.factId, `${row.fieldName}: withdrawn text-control fact conflict`);
+      held.heldByVariant.push({ variantId: row.variantId, value: row.value });
+      byField.set(row.fieldName, held);
+    }
+  }
+  return byField;
+}
+
 function routeControlForFamily(familyId, variantId = null) {
   const declared = CA_ROUTE_VARIANTS[familyId];
   assert.ok(declared?.length, `${familyId}: no source-grounded statutory control variants`);
   const variants = FAMILIES[familyId]?.participantMarksStatutoryElections
-    ? participantElectionVariants(familyId) : declared;
+    ? participantElectionVariants(familyId)
+    : FAMILIES[familyId]?.withdrawRouteTextControlsForRowIntegrity
+      ? withdrawnRouteTextVariants(familyId) : declared;
   if (variantId === null) return variants;
   const variant = variants.find((candidate) => candidate.variantId === variantId);
   assert.ok(variant, `${familyId}: unknown statutory control variant ${variantId}`);
@@ -1533,6 +1631,7 @@ function caMapAndCensus(familyId, config, bridge) {
   const variants = routeControlForFamily(familyId);
   assert.deepEqual([...new Set(variants.map((variant) => variant.routeKey))].sort(),
     [...config.routeKeys].sort(), `${familyId}: route variants do not cover the configured routes`);
+  const withdrawnControls = withdrawnRouteTextControls(familyId);
   const textControls = new Map();
   const selectionControls = new Map();
   for (const variant of variants) {
@@ -1633,9 +1732,28 @@ function caMapAndCensus(familyId, config, bridge) {
       const disposition = caRefusalDisposition(source, field, {
         measuredMc031Labels: config.useMeasuredMc031Labels === true && formNumber === "MC-031",
       });
+      /*
+       * A cell whose route write was withdrawn is refused on exactly the same
+       * ground as its four unwritten siblings -- the participant answers it
+       * from their own record of conviction -- and carries, additionally, the
+       * record of what was withheld. `factId` stays null on purpose: the fact
+       * the platform holds is a route-level yes/no, not an answer about the
+       * offence in this row, and declaring it available here would say the
+       * packet is sitting on the participant's answer when it is not.
+       */
+      const withheld = formNumber === config.primaryForm
+        ? withdrawnControls.get(field.name) ?? null : null;
       const row = { ...base, disposition: "REFUSE", factId: null,
         blankTreatment: disposition.blankTreatment ?? null,
-        ...disposition };
+        ...disposition,
+        ...(withheld
+          ? {
+            heldButNotPrinted: true,
+            withheldRouteFactId: withheld.factId,
+            withheldRouteValueByVariant: withheld.heldByVariant,
+            whyWithheld: WITHDRAWN_ROW_WRITE_REASON,
+          }
+          : {}) };
       refusals.push(row);
       return row;
     });
@@ -2024,6 +2142,55 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     title: "Penal Code section 17(b)/17(d)(2) reduction",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    /*
+     * FIX101, FEE_AND_WAIVER and SERVICE. This family was the last CR-180
+     * family still on the blanket-delegation paragraph, and it was delegating
+     * two questions its own committed manifest answers: the manifest names
+     * FW-001 as the general California fee waiver form and names the
+     * prosecuting attorney plus CR-106 as the service this packet ships for,
+     * while the packet said waiver was not established and that who and how
+     * were for the clerk. Delegating a question the repository has answered
+     * substitutes a question for an answer we have.
+     *
+     * No fee figure is opened by this. The manifest records the fee itself as
+     * "Unresolved and county-specific. Do not publish a figure.", the compiled
+     * California fee table carries no 17(b) or 17(d) line at all, and so no
+     * heldRouteFee is declared and the clerk still answers the amount.
+     */
+    statesHeldParticipantActions: true,
+    /*
+     * FIX101, REQUIRED_BEFORE_FILING side of the same manifest. The manifest's
+     * pre-filing acts include the one act this family turns on: obtaining the
+     * court docket that states the code section as charged and convicted, which
+     * is what decides the wobbler question the reduction depends on -- and the
+     * three cells of row 1 the build has stopped writing.
+     */
+    statesManifestPreFilingActs: true,
+    /*
+     * FIX101, SELF_HELP_STOP. The committed track registry holds four stop
+     * conditions for trackId ca-17b-reduction and the packet carried one: the
+     * wobbler/PC 19.8(a) uncertainty. Prosecutor opposition, a contested
+     * hearing and non-U.S.-citizenship were absent, and the last of those is
+     * the one a reduction can turn on without anyone opposing anything.
+     */
+    statesRegistryStopConditions: "ca-17b-reduction",
+    /*
+     * The registry's own line between a routine hearing and a stop, held in
+     * postGenerationHandoffs. Printed because "The court sets a contested
+     * hearing" is otherwise the easiest of the four to misread as "any
+     * hearing".
+     */
+    statesRegistryHandoffBoundary: true,
+    /*
+     * FIX101, SERVICE. The manifest's serve_party sentence states neither a
+     * method nor a deadline, but the registry's rules.notice does state the
+     * deadline for this route in terms, so the general "neither is established,
+     * ask the clerk" paragraph would have denied a fact the repository holds.
+     * Opting in prints the registry's own sentence and narrows the clerk
+     * question to the method alone.
+     */
+    statesRegistryNoticeRule: "ca-17b-reduction",
+    reliefQuestion: "whether the offence you were convicted of is reducible under Penal Code section 17(b) or 17(d)(2)",
   }),
   "ca-851-91-set": Object.freeze({
     title: "Penal Code section 851.91 petition to seal an arrest record",
@@ -2233,9 +2400,39 @@ function caHeldServiceSection(familyId, config, guidance) {
     + `That is the committed packet-set manifest's instruction for this route: it names the prosecuting attorney as the recipient and ${proofOfService} as the proof that ships in this packet. It does not state a service method or deadline. Ask ${clerk} for those two details before you serve. Serve first, then complete ${proofOfService} — never the other way round.\n\n`;
 }
 
+/*
+ * The committed track registry's own notice rule for this route, or null.
+ *
+ * The manifest and the registry answer different halves of the service
+ * question, and reading only one of them makes the packet deny a fact the
+ * repository holds. On ca-17b-reduction the manifest names WHO is served and
+ * WHICH proof ships -- "Serve the prosecuting attorney and file CR-106 proof of
+ * service." -- and says nothing about timing, while the registry's rules.notice
+ * states the timing in terms. The general paragraph reads the manifest sentence
+ * alone, finds no deadline in it, and tells the participant that none is
+ * established; that is the sentence this reader exists to stop.
+ *
+ * Opt-in per family and asserted rather than filtered: a family that declares
+ * the rule and finds no timing in it has a drifted record, and a build that
+ * quietly printed nothing would hide that. The sentence is returned verbatim.
+ */
+function caRegistryNoticeRule(guidance) {
+  const trackId = guidance.statesRegistryNoticeRule;
+  if (!trackId) return null;
+  const registry = readJson(TRACK_REGISTRY);
+  const track = (registry.tracks ?? []).find((row) => row.trackId === trackId);
+  assert.ok(track, `${trackId}: no committed track registry entry to read a notice rule from`);
+  const notice = String(track.rules?.notice ?? "").trim();
+  assert.ok(notice, `${trackId}: statesRegistryNoticeRule is set but the registry holds no rules.notice`);
+  assert.match(notice, /\bwithin\b|\bbefore\b|\bdays\b|\bdeadline\b|\bnotice\b/i,
+    `${trackId}: the registry notice rule no longer states a timing; update the participant guidance`);
+  return notice;
+}
+
 function caHeldGuidanceSections(familyId, config, guidance) {
   const held = caHeldParticipantActions(familyId);
   const routeFee = caHeldRouteFee(guidance);
+  const noticeRule = caRegistryNoticeRule(guidance);
   const stated = [held.file, held.serveParty, held.applyFeeWaiver].filter(Boolean);
   assert.ok(stated.length,
     `${familyId}: statesHeldParticipantActions is set but its manifest holds no file, serve_party or apply_fee_waiver entry`);
@@ -2273,12 +2470,23 @@ function caHeldGuidanceSections(familyId, config, guidance) {
     // and found to say what it says; adding an authority beside it would tell
     // a participant to go and ask about something the packet has just told
     // them. Only a sentence silent on both leaves a participant unable to act.
-    const missing = statesMethod || statesTiming
-      ? []
-      : ["by what method service must be made", "by when it must be made"];
+    /*
+     * A family that declares the registry notice rule has the timing half
+     * answered from a second held record, so only the method can still be
+     * missing. Every family without that declaration computes exactly the list
+     * it computed before, which is why none of their bytes move.
+     */
+    const missing = noticeRule
+      ? (statesMethod ? [] : ["by what method service must be made"])
+      : statesMethod || statesTiming
+        ? []
+        : ["by what method service must be made", "by when it must be made"];
     const sentences = [];
     if (proofOfService) {
       sentences.push(`This is why ${CA_FORMS[proofOfService]?.officialTitle ?? proofOfService} ships with this packet: it is the proof that you served those parties.`);
+    }
+    if (noticeRule) {
+      sentences.push(`The committed track registry states the notice that service must give, in its own words: "${noticeRule}" Count that period against your own filing date, and do not let the papers go in without it.`);
     }
     sentences.push("Serve first, then complete the proof of service — never the other way round.");
     if (anchoredToHearing) {
@@ -2546,6 +2754,39 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       + reasons.map((reason) => `> ${reason}`).join("\n>\n")
       + `\n\nAnswer them only for the offences you actually list, from your own record of conviction. If you do not know whether an offence is reducible, that is a question for a lawyer or a legal-aid office and not one to guess at, because you sign this petition under penalty of perjury. Leave any row you do not use entirely empty: a row with some cells filled and others blank is worse than an empty one.\n\n`;
   }
+  /*
+   * FIX101. The values this build holds and deliberately did not print.
+   *
+   * A refusal that says "the platform holds no value" is true of every other
+   * blank on this page and false of these two, and a page that lumps them
+   * together tells the participant the packet is emptier than it is. The
+   * disclosure names the exact cells, states the value the platform held for
+   * each route variant, and gives the reason the row was left whole and empty.
+   * Derived from the field map, so it appears on exactly the families that
+   * withdrew a write and on no other.
+   */
+  const withheldRows = (fieldMap.refusals ?? []).filter((row) => row.heldButNotPrinted === true);
+  let heldButNotPrintedNote = "";
+  if (withheldRows.length > 0) {
+    const reasons = [...new Set(withheldRows.map((row) => String(row.whyWithheld ?? "").trim()).filter(Boolean))];
+    assert.equal(reasons.length, 1,
+      `${familyId}: every withheld route value must record the same stated reason`);
+    heldButNotPrintedNote = `## Values this packet holds and did not print\n\n`
+      + `${reasons[0]}\n\n`
+      + `| Page | Form field | What the form prints beside it | What the route held |\n| --- | --- | --- | --- |\n`
+      + withheldRows
+        .map((row) => ({
+          page: (row.widgets?.[0]?.pageIndex ?? 0) + 1,
+          name: shortFieldName(row.fieldName),
+          label: String(row.effectiveLabel ?? "").replace(/\s+/g, " ").trim(),
+          held: (row.withheldRouteValueByVariant ?? [])
+            .map((entry) => `${entry.variantId}: **${entry.value}**`).join("; "),
+        }))
+        .sort((left, right) => left.page - right.page || left.name.localeCompare(right.name))
+        .map((row) => `| ${row.page} | \`${row.name}\` | ${row.label || "the measurement could reach no printed caption; read the printed page"} | ${row.held || "no value recorded"} |`)
+        .join("\n")
+      + `\n\nThose two answers are the route's, not a finding about your conviction. Do not copy them across without checking them against your own record: whether the offence you were convicted of is reducible turns on the code section, and the code section is the thing this packet does not hold.\n\n`;
+  }
   const unresolvedGuidance = guidance.statesHeldServiceAction
     ? `## What this packet does not tell you\n\n`
       + `The filing fee and whether it can be waived, the method and timing of service, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the ${guidance.countyOf}. An unsourced answer in a filing instruction would be worse than none. The service recipient is stated above from the committed packet-set manifest; the remaining questions come from the clerk of that court, not from this packet.\n\n`
@@ -2571,6 +2812,7 @@ function caParticipantInstructions(familyId, config, fieldMap) {
       ? caHeldGuidanceSections(familyId, config, guidance) + `\n`
       : unresolvedGuidance)
     + markedControlSection
+    + heldButNotPrintedNote
     + `## The blanks you must fill in\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one.\n\n`
     + tables
@@ -4000,6 +4242,13 @@ async function buildCa(familyId, config) {
   clearCaCompletionClaims(familyId);
   try {
     const { resolved } = resolveSources(familyId);
+    /*
+     * Read before the reset, because the reset removes the whole family tree.
+     * See the product-wiring write below for what this block is and why losing
+     * it was a defect rather than housekeeping.
+     */
+    const bindingBeforeReset = fs.existsSync(abs(`${out}/product-wiring.json`))
+      ? readJson(`${out}/product-wiring.json`).binding ?? null : null;
     resetOwnedCaOutput(familyId);
     const bridge = runPikepdfBridge(caBridgeRequest(familyId, config, resolved, "create"));
     const derivatives = normalizeDerivativeRecords(bridge.derivatives);
@@ -4153,7 +4402,44 @@ async function buildCa(familyId, config) {
       everyPageRastered: raster.rasters.length === artifacts.reduce((sum, artifact) => sum + artifact.pageCount, 0),
       rasters: raster.rasters,
     });
-    writeJson(`${out}/product-wiring.json`, {
+    /*
+     * FIX101. The `binding` block is written by
+     * scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, not by
+     * this builder, and this write was DELETING it: the family's record of its
+     * bound sources, its acceptance receipt and its last independent read
+     * vanished on the first rebuild after the control plane wrote it. Every
+     * other host that shares this shape carries it forward; this one did not,
+     * and the loss is invisible because nothing here reads the block back.
+     *
+     * Carried forward, with one measurement refreshed. An acceptance receipt is
+     * a statement that a named human-inspected raster covers exact bytes, so a
+     * receipt that names bytes this build has just replaced is not stale
+     * bookkeeping -- it is a false statement about which document was rendered,
+     * and it is the shape the Vermont ARTIFACTS failure was about. When the
+     * receipt no longer names a current primary artifact it is cleared to null,
+     * which is exactly what the generator computes for a family with no
+     * covering receipt, and the family goes back into the raster queue.
+     */
+    const wiringPath = `${out}/product-wiring.json`;
+    const carriedBinding = bindingBeforeReset;
+    if (carriedBinding?.acceptanceReceipt?.boundToCanonicalSha256) {
+      const current = new Set(artifacts.map((artifact) => artifact.sha256));
+      if (!current.has(carriedBinding.acceptanceReceipt.boundToCanonicalSha256)) {
+        carriedBinding.acceptanceReceipt = null;
+      }
+    }
+    /*
+     * Stated from the STATE this build leaves behind, not from the event that
+     * produced it. An earlier draft of this disclosure named the exact receipt
+     * the build had just cleared, so the sentence appeared on the first rebuild
+     * and vanished on the second: two consecutive builds of unchanged inputs
+     * wrote different findings, and the packet that survived was the one that
+     * disclosed less. A family whose wiring carries no acceptance receipt is
+     * uncovered whether this build cleared it or an earlier one did, so that is
+     * the condition the sentence is keyed to.
+     */
+    const noAcceptanceReceipt = carriedBinding !== null && !carriedBinding.acceptanceReceipt;
+    writeJson(wiringPath, {
       schemaVersion: "rcap-family-product-wiring/v1", familyId,
       routeKeys: [...config.routeKeys], implementationStrategy: "official_pdf_fill",
       renderStrategy: "source_derived_primary_plus_exact_unchanged_packet_components",
@@ -4161,6 +4447,7 @@ async function buildCa(familyId, config) {
       fieldMap: `${out}/production-field-map.json`, ...GATES,
       createsFulfillmentRecord: false, opensCommercialRoute: false,
       note: "Artifacts remain review-only alternatives. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+      ...(carriedBinding ? { binding: carriedBinding } : {}),
     });
 
     await caCompletionEvidenceReady(familyId, config);
@@ -4187,7 +4474,11 @@ async function buildCa(familyId, config) {
         "Every primary write/selection was proved at its exact measured field from output bytes. Every companion is an unchanged exact official copy, and every page was freshly rastered by version-identified Poppler pdftoppm at 72 dpi.",
       ],
       stillRequired: ["Output-level legal approval.", "Independent human visual review.",
-        "A runtime may select an evidence alternative only from verified case facts after separate approval."],
+        "A runtime may select an evidence alternative only from verified case facts after separate approval.",
+        ...(noAcceptanceReceipt
+          ? ["No central raster acceptance receipt covers these packet bytes: the family's product wiring carries none. A fresh whole-family raster acceptance is required before any independent read relies on the pixels, and any central raster row still pinning earlier bytes for this family is superseded by the digests in reports/rendered-artifacts.json."]
+          : []),
+      ],
     };
     assertGate(approval, "approval candidate");
     assertGate(findings, "findings candidate");
@@ -4427,13 +4718,37 @@ function assertDistinctRouteArtifactsWhenAvailable() {
     if (!fs.existsSync(abs(file))) return;
     const report = readJson(file);
     if (!Array.isArray(report.packets) || !report.packets.every((packet) => packet.variantId)) return;
-    reports.push(report);
+    reports.push({ familyId, report });
   }
+  /*
+   * What this proof is FOR is that two different statutory routes never ship
+   * the same paper by accident. It read that as "every variant artifact is
+   * distinct", which is the same thing only while every family's variants are
+   * told apart by ink.
+   *
+   * ca-17b-reduction-set withdrew the only ink that told its two apart -- see
+   * withdrawnRouteTextVariants -- so its two variants are now deliberately one
+   * document, and a proof that refuses that would be enforcing the defect it
+   * was written to catch. So the family-level expectation is stated per family
+   * and the cross-family expectation is stated separately: within a family,
+   * one document per variant unless the family withdrew its route ink, in which
+   * case exactly one; across families, never a collision.
+   */
   for (const fixture of ["canonical", "boundary"]) {
-    const primary = reports.flatMap((report) => report.artifacts.filter((artifact) =>
-      artifact.fixture === fixture && artifact.evidenceMode === "finalized_source_derived_primary"));
-    assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, primary.length,
-      `CR-180 ${fixture}: distinct statutory-control variants emitted byte-identical primary artifacts`);
+    const perFamily = reports.map(({ familyId, report }) => {
+      const primary = report.artifacts.filter((artifact) =>
+        artifact.fixture === fixture && artifact.evidenceMode === "finalized_source_derived_primary");
+      const distinct = new Set(primary.map((artifact) => artifact.sha256));
+      const withdrawn = FAMILIES[familyId]?.withdrawRouteTextControlsForRowIntegrity === true;
+      assert.equal(distinct.size, withdrawn ? 1 : primary.length,
+        withdrawn
+          ? `${familyId}/${fixture}: the route ink is withdrawn, so its variants must be one document`
+          : `${familyId}/${fixture}: distinct statutory-control variants emitted byte-identical primary artifacts`);
+      return [...distinct];
+    });
+    const across = perFamily.flat();
+    assert.equal(new Set(across).size, across.length,
+      `CR-180 ${fixture}: two statutory families emitted byte-identical primary artifacts`);
   }
 }
 
@@ -4612,13 +4927,14 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   for (const fixture of ["canonical", "boundary"]) {
     const primary = rendered.artifacts.filter((artifact) => artifact.fixture === fixture
       && artifact.evidenceMode === "finalized_source_derived_primary");
-    if (config.participantMarksStatutoryElections) {
-      // The inverse proof, and the stronger one for this family. The only thing
-      // that ever differed between its two variants' primary filings was the
-      // election ink; with the election withdrawn they must be byte-identical,
-      // and a difference would mean a mark survived somewhere.
+    if (config.participantMarksStatutoryElections || config.withdrawRouteTextControlsForRowIntegrity) {
+      // The inverse proof, and the stronger one for these two families. The
+      // only thing that ever differed between their variants' primary filings
+      // was the route's own ink -- an election mark on one, two yes/no cells on
+      // the other; with that ink withdrawn they must be byte-identical, and a
+      // difference would mean some of it survived somewhere.
       assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, 1,
-        `${familyId}/${fixture}: variants differ although every statutory election is the participant's`);
+        `${familyId}/${fixture}: variants differ although the route writes nothing that tells them apart`);
     } else {
       assert.equal(new Set(primary.map((artifact) => artifact.sha256)).size, primary.length,
         `${familyId}/${fixture}: distinct statutory variants emitted byte-identical primary PDFs`);
