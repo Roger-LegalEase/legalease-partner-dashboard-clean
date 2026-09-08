@@ -15,20 +15,28 @@
   "routeDeterminedSelections": [
     {
       "document": "JDF-417",
-      "field": "JDF-417/4B.0",
-      "printedQuestion": "Were charges ever filed in court? (yes or no)",
-      "statedByThePacket": "No.",
-      "basis": "JDF 417 is the no-charges-filed form — its own subtitle is \"No Charges Filed – C.R.S. § 24-72-704\" — and the route this packet was built for is § 24-72-704 sealing of an arrest where no charges were filed. A packet built for one statutory route states which route it is rather than asking the participant to restate it. The participant instructions say so plainly, and say that a case where charges WERE filed belongs on a different Colorado form."
-    },
-    {
-      "document": "JDF-417",
       "field": "JDF-417/Title",
       "printedQuestion": "Document title — Petition or Motion",
-      "statedByThePacket": "Petition",
-      "basis": "The route is petition-based, the form ships with Petition already selected, and the packet writes it explicitly so the artifact states the route rather than inheriting it from a default."
+      "statedOnTheDeliveredPage": "Petition",
+      "writtenByThisPacket": false,
+      "howItReachesThePage": "source_authored_appearance_preserved",
+      "basis": "The route is petition-based and the Colorado Judicial Department ships this /Ch dropdown selected on \"Petition\", drawn by the form's own appearance stream into the gap its page content leaves between \"JDF 417\" and \"to Seal Arrest and Criminal Records\". The packet writes nothing here: it preserves the issuer's own selection, under the registry classification co_petition_seal_arrest-set:JDF-417.Title = preserve_source_appearance, and reports/actual-writes.json records it as a documentAuthoredAppearance rather than as a write.",
+      "readBackFromTheBytes": "page 1 of both fixtures reads \"Petition to Seal Arrest and Criminal Records\"."
     }
   ],
-  "routeSelectionNote": "The packet states the route it was built for: sealing an arrest record where no criminal charges were filed, under C.R.S. § 24-72-704, on JDF 417 with JDF 418 as the proposed order. Section 4(b) is answered because the route answers it. Sections 4(c), 4(d) and 4(e) are NOT: a diversion agreement, a limitation period and an open investigation are facts about this case and this participant rather than properties of the statute, so each is carried to the participant under the case-determined exception with the reason the route cannot settle it recorded on its own row. The court type, the filer's capacity, the agency list and the interpreter and attendance choices are likewise left to the participant and disclosed by name.",
+  "routeDeterminedAnswersThePacketDoesNotMark": [
+    {
+      "document": "JDF-417",
+      "field": "JDF-417/4B.0",
+      "printedQuestion": "Were charges ever filed in court? (yes or no)",
+      "answerTheRouteImplies": "No.",
+      "statedOnTheDeliveredPage": null,
+      "writtenByThisPacket": false,
+      "whyNotMarked": "4B.0 is a /Ch dropdown with options [\" \", \"Yes.\", \"No.\"]. The shared finalizer reaches a choice control by two channels only: a dropdown value resolved from an allowlisted fact, and selectionsFromHeldFacts, which is checkbox-only. No allowlisted fact answers a sworn yes-or-no question and this build does not invent one, so nothing marks it and the delivered rectangle carries zero added glyphs in both fixtures.",
+      "carriedToTheParticipant": "Declared required before filing, named in participant-instructions.md with the answer the route implies and with the warning that a case where charges WERE filed belongs on a different Colorado form."
+    }
+  ],
+  "routeSelectionNote": "The packet states the route it was built for: sealing an arrest record where no criminal charges were filed, under C.R.S. § 24-72-704, on JDF 417 with JDF 418 as the proposed order. The document title states it, because the issuer's own selection is preserved rather than dropped. Section 4(b) is NOT answered on the paper: the route implies No, the shared instrument cannot mark a /Ch dropdown from anything but an allowlisted fact, and the refusal is recorded above and disclosed to the participant rather than described as a write. Sections 4(c), 4(d) and 4(e) are not the route's to answer at all: a diversion agreement, a limitation period and an open investigation are facts about this case and this participant rather than properties of the statute, so each is carried to the participant under the case-determined exception with the reason the route cannot settle it recorded on its own row. The court type, the filer's capacity, the agency list and the interpreter and attendance choices are likewise left to the participant and disclosed by name.",
   "caseDeterminedExceptions": [
     {
       "document": "JDF-417",
@@ -94,7 +102,7 @@
       "document": "JDF-417",
       "field": "JDF-417/4B.0",
       "label": "Were charges ever filed in court? (yes or no)",
-      "why": "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper"
+      "why": "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them"
     },
     {
       "document": "JDF-417",
@@ -514,10 +522,10 @@
       "section": "4b. Were charges ever filed in court?",
       "disclosureLabel": "Were charges ever filed in court? (yes or no)",
       "identity": "JDF-417 field 4B.0",
-      "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — yes or no",
-      "participantMustSupply": "whether charges were ever filed in court on this arrest — yes or no",
+      "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
+      "participantMustSupply": "whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
       "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper"
+      "whyTheRouteCannotDetermineIt": "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them"
     },
     {
       "document": "JDF-417",
@@ -2860,7 +2868,7 @@
             }
           ],
           "document": "JDF-417",
-          "reason": "the participant supplies this before filing: whether charges were ever filed in court on this arrest — yes or no",
+          "reason": "the participant supplies this before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -2871,9 +2879,9 @@
           "factId": null,
           "routeDetermined": false,
           "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper",
-          "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — yes or no",
-          "participantMustSupply": "whether charges were ever filed in court on this arrest — yes or no"
+          "whyTheRouteCannotDetermineIt": "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them",
+          "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
+          "participantMustSupply": "whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it"
         },
         {
           "field": "JDF-417/4C.0",
@@ -4703,7 +4711,7 @@
             }
           ],
           "document": "JDF-417",
-          "reason": "the participant supplies this before filing: whether charges were ever filed in court on this arrest — yes or no",
+          "reason": "the participant supplies this before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
           "category": null,
           "completenessClass": null,
           "class": null,
@@ -4714,9 +4722,9 @@
           "factId": null,
           "routeDetermined": false,
           "determinedByTheCaseNotTheRoute": true,
-          "whyTheRouteCannotDetermineIt": "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper",
-          "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — yes or no",
-          "participantMustSupply": "whether charges were ever filed in court on this arrest — yes or no"
+          "whyTheRouteCannotDetermineIt": "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them",
+          "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
+          "participantMustSupply": "whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it"
         },
         {
           "field": "JDF-417/4C.0",

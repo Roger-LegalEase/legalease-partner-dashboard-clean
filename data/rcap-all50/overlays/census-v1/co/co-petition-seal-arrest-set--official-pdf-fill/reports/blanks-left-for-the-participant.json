@@ -405,10 +405,10 @@
       "section": "4b. Were charges ever filed in court?",
       "disclosureLabel": "Were charges ever filed in court? (yes or no)",
       "identity": "JDF-417 field 4B.0",
-      "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — yes or no",
-      "participantMustSupply": "whether charges were ever filed in court on this arrest — yes or no",
+      "why": "the platform holds no value for this and the participant supplies it before filing: whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
+      "participantMustSupply": "whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
       "determinedByTheCaseNotTheRoute": true,
-      "whyTheRouteCannotDetermineIt": "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper"
+      "whyTheRouteCannotDetermineIt": "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them"
     },
     {
       "document": "JDF-417",

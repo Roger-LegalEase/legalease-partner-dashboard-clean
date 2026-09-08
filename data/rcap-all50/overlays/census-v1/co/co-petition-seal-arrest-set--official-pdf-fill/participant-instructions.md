@@ -9,9 +9,13 @@ Both are prepared for one route — **Petition to seal arrest and criminal recor
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
-## This is the no-charges-filed form, and the packet says so
+## This is the no-charges-filed form, and section 4(b) is yours to answer
 
-JDF 417 is titled _No Charges Filed – C.R.S. § 24-72-704_, and this packet was built for that route. So section 4(b), **"Were charges ever filed in court?"**, is answered **No** for you. That is the route stating itself rather than a fact the packet guessed. **If charges WERE filed in your case, this is the wrong form** — a dismissed or acquitted charge is sealed under a different Colorado form, and you should not file this one.
+JDF 417 is titled _No Charges Filed – C.R.S. § 24-72-704_, and this packet was built for that route. The title line on page 1 reads **Petition** because the Colorado Judicial Department's own form says so; the packet preserved that word rather than writing it.
+
+Section 4(b) asks **"Were charges ever filed in court?"**. On the route this packet was built for the answer is **No** — but **the packet has left that box blank and you must write the answer yourself.** It is not filled in for you, and nothing on your copy says No until you write it. The platform does not put a sworn yes-or-no answer on a petition you are the one signing.
+
+**If charges WERE filed in your case, this is the wrong form.** A dismissed or acquitted charge is sealed under a different Colorado form, and you should not file this one. Check that before you write anything in 4(b).
 
 ## Where you file this
 
@@ -33,11 +37,12 @@ Section 2 asks whether you are the person the records are about, or someone fili
 2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.
 3. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.
 4. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony.
-5. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.
-6. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.
-7. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.
-8. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.
-9. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.
+5. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.
+6. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.
+7. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.
+8. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.
+9. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.
+10. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.
 
 ## JDF-417 — Petition to Seal Arrest and Criminal Records — No Charges Filed: the items you must supply
 
@@ -76,7 +81,7 @@ Section 2 asks whether you are the person the records are about, or someone fili
 | 4a. List of Offenses | Misdemeanor or Felony (row 8) | whether that 8th offence was a misdemeanor or a felony, as the record states it |
 | 4a. List of Offenses | Misdemeanor or Felony (row 9) | whether that 9th offence was a misdemeanor or a felony, as the record states it |
 | 4a. List of Offenses | Listed Offense (row 9) | the 9th offence or charge as it is written in the records you want sealed — take it from the record, do not paraphrase it |
-| 4b. Were charges ever filed in court? | Were charges ever filed in court? (yes or no) | whether charges were ever filed in court on this arrest — yes or no |
+| 4b. Were charges ever filed in court? | Were charges ever filed in court? (yes or no) | whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it |
 | 4c. Diversion agreement | Did you successfully complete a diversion agreement? (yes or no) | whether you completed a diversion agreement for this arrest — yes or no |
 | 4e. Open investigation | Are you still being investigated for these charges? (yes or no) | whether you are still under investigation for these charges — yes or no |
 
@@ -105,7 +110,7 @@ Each of these looks like a question the route could settle, and none of them is.
 | JDF-417 | Misdemeanor or Felony (row 7) | the route is § 24-72-704 sealing of an arrest where no charges were filed, and it reaches both misdemeanor and felony arrest records; whether a particular listed offence was charged as one or the other is a property of that offence in the record, not of the statute this packet was built for, and answering it for you would be a legal characterisation of a record this build has not seen |
 | JDF-417 | Misdemeanor or Felony (row 8) | the route is § 24-72-704 sealing of an arrest where no charges were filed, and it reaches both misdemeanor and felony arrest records; whether a particular listed offence was charged as one or the other is a property of that offence in the record, not of the statute this packet was built for, and answering it for you would be a legal characterisation of a record this build has not seen |
 | JDF-417 | Misdemeanor or Felony (row 9) | the route is § 24-72-704 sealing of an arrest where no charges were filed, and it reaches both misdemeanor and felony arrest records; whether a particular listed offence was charged as one or the other is a property of that offence in the record, not of the statute this packet was built for, and answering it for you would be a legal characterisation of a record this build has not seen |
-| JDF-417 | Were charges ever filed in court? (yes or no) | the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper |
+| JDF-417 | Were charges ever filed in court? (yes or no) | this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them |
 | JDF-417 | Did you successfully complete a diversion agreement? (yes or no) | § 24-72-704 seals an arrest record whether or not a diversion agreement was completed, so the route does not answer this; whether one was entered and completed is a fact about this participant's own case, held by the prosecuting attorney and by them, and a packet that answered it would be swearing to a case history it has not seen |
 | JDF-417 | Are you still being investigated for these charges? (yes or no) | whether an investigation is still open is a present fact about this participant and the investigating agency on the day the petition is signed; no route can determine it, and no record this build holds could be current enough to |
 

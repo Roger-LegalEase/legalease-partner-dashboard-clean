@@ -487,6 +487,25 @@
           "because": "This family's own production-field-map.json refuses NHJB-2328/monthly.total as REQUIRED_BEFORE_FILING with requiredBeforeFiling true, telling the participant to supply \"the total of the monthly amounts above\", because the platform holds no financial fact about anyone. The source ships /V \"0\" with an appearance drawing \"0.00\" at white fill on source page 2, and the structural rule preserved it while every line of the monthly household expense table stayed blank. A sworn zero for monthly household expenses, beside a sworn zero for income, describes a financial position nobody stated."
         }
       }
+    },
+    "co_petition_seal_arrest-set:JDF-417": {
+      "measuredAt": "fix96-colorado-three at 196b0ce37",
+      "whyThisFamilyNeededClassifying": "JDF 417's document title is a CHOICE control, not printed page content. Field `Title` is a /Ch dropdown whose options are [\"Petition\",\" Motion\"] and whose /V the Colorado Judicial Department ships selected on \"Petition\"; its widget carries an /AP /N that draws that word into the gap the page content leaves between \"JDF 417\" and \"to Seal Arrest and Criminal Records\". The structural rule classes every unwritten choice control as a participant input, so the finalizer deleted /V and dropped the widget, and the delivered page-1 title read \"to Seal Arrest and Criminal Records\" - the court's own word for what the document IS, removed from a filing. VF01 read that blank out of both delivered fixtures at base 553966ea. Nothing this build writes can put it back: the shared semantics carries no allowlisted fact for a document title and inventing one would be adding a fact rather than preserving the issuer's. The disposition is what settles it.",
+      "howMeasured": "Read first-hand by lane FIX96 from the pinned source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR: STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf, sha256 e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4, 3 pages. pdf-lib reports the field as a PDFDropdown, getOptions() [\"Petition\",\" Motion\"], getSelected() [\"Petition\"]. Its single widget sits on source page 1 at /Rect lower-left 181.100, 696.255, 61.984 x 18, carries /F 4 (Print, neither Hidden nor NoView), an /AP /N stream, /DA \"/Arial,Bold 14 Tf 0 g\", and an EMPTY /MK - so preserving the appearance can synthesize neither a border nor a background. A plain pdf-lib flatten of the unmodified source draws \"Petition to Seal Arrest and Criminal Records\" on page 1; the delivered fixtures at base 196b0ce37 draw \"to Seal Arrest and Criminal Records\".",
+      "thisIsNotAWriteAndGrantsNoRouteAuthority": "Preserving the issuer's own selection is not a packet write: reports/actual-writes.json records it as a documentAuthoredAppearance, canonicalWrites does not grow, and no route is opened by it.",
+      "fields": {
+        "Title": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "Petition",
+          "rect": [
+            181.1,
+            696.255,
+            61.984,
+            18.0
+          ],
+          "because": "The word in this box is the Colorado Judicial Department's own, shipped in the form's /V and drawn by the form's own /AP: it names what the document is, in the middle of a title the page content stream draws around it. It is not a prompt, not a placeholder and not an option list - the only other option, \" Motion\", is not selected and nothing here selects it. Dropping it delivers a Colorado petition whose title is missing the word Petition. Being wrong towards preservation leaves the issuer's own title on the filing; being wrong the other way removes it, which is what happened."
+        }
+      }
     }
   }
 }
