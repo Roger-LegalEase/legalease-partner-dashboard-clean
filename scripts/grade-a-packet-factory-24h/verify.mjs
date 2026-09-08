@@ -162,6 +162,16 @@ function repairCompletionAfterVerdict(root, completions, substantive) {
   return ordered.findLast(({ row }) => failed.some((name) => repairRowDischargesFailure(row, [name]))) ?? null;
 }
 
+// F31 and F36 share this projection. Keep it outside the isolated F31/F35
+// evaluator so the later live source-refusal check uses the same predicate.
+const projectedSourceBlockState = (family, row) => !family?.sourceReadiness?.ready
+  ? "SOURCE_BLOCKED"
+  : family.legalInputStatus === "OPEN_LEGAL_INPUT"
+    ? "LEGAL_BLOCKED"
+    : (row.failedObligationNames ?? []).length > 0
+      ? "FAIL_REPAIR_REQUIRED"
+      : "VERIFY_PENDING";
+
 // Both the live verifier and isolated mutation fixtures execute this exact
 // F31/F35 implementation. Only the repository and queue inputs are injected.
 function checkClaimHistoryAndPostRepairRereads(root, master, vr, rq, vf, check) {
@@ -181,13 +191,6 @@ function checkClaimHistoryAndPostRepairRereads(root, master, vr, rq, vf, check) 
   const currentSubstantiveByFamily = new Map();
   const onlyPreclaimFamilies = new Set();
   let preservedRefusalsBesideSubstantive = 0;
-  const projectedSourceBlockState = (family, row) => !family?.sourceReadiness?.ready
-    ? "SOURCE_BLOCKED"
-    : family.legalInputStatus === "OPEN_LEGAL_INPUT"
-      ? "LEGAL_BLOCKED"
-      : (row.failedObligationNames ?? []).length > 0
-        ? "FAIL_REPAIR_REQUIRED"
-        : "VERIFY_PENDING";
   if (!vr) claimRefusalProblems.push("no verifier-return extraction to check");
   else {
     const verifierRows = (vr.rows ?? []).filter((r) => r.isIndependentVerification);
