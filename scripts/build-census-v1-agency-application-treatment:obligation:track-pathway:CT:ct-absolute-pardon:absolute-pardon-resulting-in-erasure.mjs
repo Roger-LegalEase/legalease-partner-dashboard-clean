@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { runIfMain } from "./rcap-custom-pleading/composed-family-host.mjs";
+import { runIfMain, KEEP_ON_ONE_PAGE } from "./rcap-custom-pleading/composed-family-host.mjs";
 import { makeAgencyGuidanceFamily } from "./build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs";
 
 const FAMILY_ID = "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure";
@@ -16,9 +16,11 @@ const FAMILY = makeAgencyGuidanceFamily({
   compositionSources: [
     "data/record-clearing/legal-design-intake/CT.memo.json",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-    "data/rcap-ledger/completed-output-counsel-manifest.json"
+    "data/rcap-ledger/completed-output-counsel-manifest.json",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-application-instructions.html.gz",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-pardon-faq.html.gz"
   ],
-  composedFrom: "the committed Connecticut memo, exact census route, and counsel manifest, each hashed into source-receipt.json at build time",
+  composedFrom: "the committed Connecticut memo, exact census route, counsel manifest, and captured current official Board application instructions, each hashed into source-receipt.json at build time",
   formIdentityNote: "No stable participant application document is bound. The output is a preparation guide for the Board's own ePardon application, not an application or court petition.",
   fixtures: {
     canonical: {
@@ -40,7 +42,7 @@ const FAMILY = makeAgencyGuidanceFamily({
     {
       heading: "Exact pathway",
       paragraphs: [
-        "This route is the Board of Pardons and Paroles' absolute-pardon application for convictions Clean Slate erasure cannot reach. It is discretionary and hearing-based, and the participant applies through the Board's own ePardon process. It is not a court filing.",
+        "This route is the Board of Pardons and Paroles' absolute-pardon application for convictions Clean Slate erasure cannot reach. It is discretionary, and the participant applies through the Board's own ePardon process. The Board may require a hearing or consider an expedited review without one; the Board decides the review path. It is not a court filing.",
         "Keep it distinct from a provisional pardon or certificate of employability, which addresses employment or licensing barriers and erases nothing. This exact pathway is the absolute pardon resulting in erasure."
       ]
     },
@@ -49,6 +51,7 @@ const FAMILY = makeAgencyGuidanceFamily({
       paragraphs: [
         "The committed record states that an absolute pardon received on or after October 1, 1974 results in erasure without a petition under Section 54-142a(d). The pre-October 1, 1974 branch requires a separate Superior Court petition and is not this route.",
         "No stable participant application document has been identified that LegalEase could lawfully generate and submit. Use the Board's own current ePardon application and instructions and sign there personally; this guide is not a substitute.",
+        "Apply through https://epardonportal.ct.gov/portal . The Board's current Absolute Pardon instructions are at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.",
         "The waiting-period figures and no-fee claim in the committed review are unverified, so this guide quotes none. Confirm eligibility, timing, fee, and hearing mechanics from the Board's current rules. Stop for counsel if a hearing is set or any immigration issue exists."
       ]
     }
@@ -62,6 +65,8 @@ const FAMILY = makeAgencyGuidanceFamily({
   ],
   instructions: [
     "Use the Board's own ePardon application. This guide is not that application and does not open or prepare the separate pre-October 1, 1974 Superior Court petition branch.",
+    "Apply through https://epardonportal.ct.gov/portal . Read the current Absolute Pardon instructions at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.",
+    "The Board decides whether a hearing is required or an expedited review without a hearing is available. There is no separate expedited application; do not assume that path applies to you.",
     "Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, fee, and process rules; this packet quotes no unverified number.",
     "Stop and obtain counsel if the Board sets a hearing or an immigration issue is pending or possible."
   ],
@@ -78,6 +83,11 @@ const FAMILY = makeAgencyGuidanceFamily({
     "that the Board's current rules match any unverified figures in the committed memo"
   ]
 });
+
+// Keep the facts and their blank lines together using the existing renderer control.
+const composedBody = FAMILY.composedBody;
+FAMILY.composedBody = (...args) => composedBody(...args)
+  .replace("\nFACTS YOU MUST CONFIRM BEFORE ACTING\n", `\n${KEEP_ON_ONE_PAGE}\nFACTS YOU MUST CONFIRM BEFORE ACTING\n`);
 
 export { FAMILY };
 runIfMain(FAMILY, import.meta.url);

@@ -21,7 +21,7 @@
   ],
   "routeSelectionsMade": [],
   "routeSelectionNote": "The exact route is fixed as obligation:track-only:CT:ct-provisional-pardon. The guide selects that agency route and presents no alternate instrument for the participant to elect.",
-  "requiredBeforeFilingCount": 4,
+  "requiredBeforeFilingCount": 5,
   "requiredBeforeFiling": [
     {
       "document": "agency_preparation_guide",
@@ -62,6 +62,16 @@
       "identity": "agency_preparation_guide field relief_goal",
       "why": "the platform cannot know the participant's relief goal",
       "participantMustSupply": "the specific job, license, credential, or occupational barrier and how the conviction creates it; confirm it with the employer or licensing authority and the Board's application"
+    },
+    {
+      "document": "agency_preparation_guide",
+      "field": "agency_preparation_guide.supervision_destination",
+      "page": 1,
+      "printedContext": "Current supervision status, remaining days, and supervising officer contact",
+      "disclosureLabel": "Current supervision status, remaining days, and supervising officer contact",
+      "identity": "agency_preparation_guide field supervision_destination",
+      "why": "no current supervision record or officer contact is held",
+      "participantMustSupply": "whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page"
     }
   ],
   "maps": [
@@ -76,7 +86,7 @@
         "routeKey": "obligation:track-only:CT:ct-provisional-pardon"
       },
       "structuralClass": "composed_document",
-      "composedFrom": "the committed Connecticut memo, guidance record, exact census route, and counsel manifest, each hashed into source-receipt.json at build time",
+      "composedFrom": "the committed Connecticut memo, guidance record, exact census route, counsel manifest, and captured current official Board eligibility, document and FAQ pages, each hashed into source-receipt.json at build time",
       "explicitMappings": {},
       "roleRefusals": [],
       "selectionControls": [],
@@ -200,6 +210,30 @@
           "document": "agency_preparation_guide",
           "why": "no participant criminal history or court record is held",
           "participantMustSupply": "each court, docket number, offense, disposition date, and sentence-completion date; confirm it with the court records and the participant's complete criminal-history record"
+        },
+        {
+          "field": "agency_preparation_guide.supervision_destination",
+          "fieldName": "agency_preparation_guide.supervision_destination",
+          "page": 1,
+          "printedLabel": "Current supervision status, remaining days, and supervising officer contact",
+          "printedLine": "Current supervision status, remaining days, and supervising officer contact",
+          "effectiveLabel": "Current supervision status, remaining days, and supervising officer contact",
+          "regionHeading": "Current supervision status, remaining days, and supervising officer contact",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "agency_preparation_guide field supervision_destination",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "agency_preparation_guide",
+          "why": "no current supervision record or officer contact is held",
+          "participantMustSupply": "whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page"
         },
         {
           "field": "agency_preparation_guide.board_eligibility",
@@ -370,6 +404,30 @@
           "document": "agency_preparation_guide",
           "why": "no participant criminal history or court record is held",
           "participantMustSupply": "each court, docket number, offense, disposition date, and sentence-completion date; confirm it with the court records and the participant's complete criminal-history record"
+        },
+        {
+          "field": "agency_preparation_guide.supervision_destination",
+          "fieldName": "agency_preparation_guide.supervision_destination",
+          "page": 1,
+          "printedLabel": "Current supervision status, remaining days, and supervising officer contact",
+          "printedLine": "Current supervision status, remaining days, and supervising officer contact",
+          "effectiveLabel": "Current supervision status, remaining days, and supervising officer contact",
+          "regionHeading": "Current supervision status, remaining days, and supervising officer contact",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "agency_preparation_guide field supervision_destination",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "agency_preparation_guide",
+          "why": "no current supervision record or officer contact is held",
+          "participantMustSupply": "whether currently on probation and whether more than 90 days remain; if so, apply through the probation officer; verify unknown status or remaining time before selecting the destination; confirm it with the supervising officer and the Board's current Certificate of Employability eligibility page"
         },
         {
           "field": "agency_preparation_guide.board_eligibility",

@@ -19,6 +19,8 @@ The platform wrote only the identity and contact facts it holds: full legal name
 ## Route boundary
 
 Use the Board's own ePardon application. This guide is not that application and does not open or prepare the separate pre-October 1, 1974 Superior Court petition branch.
+Apply through https://epardonportal.ct.gov/portal . Read the current Absolute Pardon instructions at https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions . Follow the portal's current application and attachment steps; this guide opens no application and supplies no Board decision.
+The Board decides whether a hearing is required or an expedited review without a hearing is available. There is no separate expedited application; do not assume that path applies to you.
 Confirm first whether Clean Slate already reaches the convictions and verify the Board's current eligibility, timing, fee, and process rules; this packet quotes no unverified number.
 Stop and obtain counsel if the Board sets a hearing or an immigration issue is pending or possible.
 
