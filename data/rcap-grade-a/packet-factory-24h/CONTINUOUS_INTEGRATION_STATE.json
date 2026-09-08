@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-08T23:45:39.799Z",
-  "captainHead": "f27e0d0a06bfd265330dc8b43cbdb2f1336983b4",
+  "generatedAt": "2026-09-08T23:48:01.690Z",
+  "captainHead": "4f145ef77c14b232f8689ea81588a67309895def",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-09T00:05:39.799Z",
-    "nextSourceReleaseDeadline": "2026-09-09T00:15:39.799Z",
+    "nextIntegrationDeadline": "2026-09-09T00:08:01.690Z",
+    "nextSourceReleaseDeadline": "2026-09-09T00:18:01.690Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 0,
+        "measured": 1,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 37,
+        "measured": 35,
         "threshold": 20,
         "triggered": true
       },
@@ -81,20 +81,21 @@
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 0,
-    "repairRequired": 37,
+    "verifyPending": 1,
+    "repairRequired": 35,
     "byState": {
       "COMPLETE_PACKET_PROVEN": 173,
       "GUIDANCE_READY": 14,
       "OUT_OF_SCOPE": 5,
-      "FAIL_REPAIR_REQUIRED": 37,
+      "FAIL_REPAIR_REQUIRED": 35,
       "SOURCE_READY": 73,
       "PRODUCT_PATH_PENDING": 18,
       "SOURCE_BLOCKED": 6,
       "LEGAL_BLOCKED": 13,
       "HANDOFF_READY": 2,
-      "BUILT_RASTER_PENDING": 4,
-      "WRONG_DELIVERY_TYPE": 1
+      "BUILT_RASTER_PENDING": 5,
+      "WRONG_DELIVERY_TYPE": 1,
+      "VERIFY_PENDING": 1
     }
   },
   "commercialRoutesOpened": 0,

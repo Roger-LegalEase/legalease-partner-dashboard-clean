@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f27e0d0a06bfd265330dc8b43cbdb2f1336983b4",
+  "minimumCaptainSha": "4f145ef77c14b232f8689ea81588a67309895def",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,28 +66,29 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 15,
+    "activeFamiliesExcluded": 12,
     "guidanceOnly": 0,
-    "remaining": 331,
+    "remaining": 334,
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 0,
-    "repairRequired": 22,
+    "verifyPending": 1,
+    "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 173,
     "GUIDANCE_READY": 14,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 37,
+    "FAIL_REPAIR_REQUIRED": 35,
     "SOURCE_READY": 73,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 4,
-    "WRONG_DELIVERY_TYPE": 1
+    "BUILT_RASTER_PENDING": 5,
+    "WRONG_DELIVERY_TYPE": 1,
+    "VERIFY_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -114,7 +115,6 @@
       "ar-felony-seal-set",
       "ar-pardon-seal-set",
       "az_marijuana_expungement_arrest_no_charges-set",
-      "ca-17b-reduction-set",
       "co_motion_seal_conviction-set",
       "co_motion_seal_nonconviction-set",
       "co_petition_seal_arrest-set",
@@ -122,9 +122,7 @@
       "in_infraction_nondisclosure-set",
       "ms-nonconv-set",
       "oh_marijuana_expungement-set",
-      "pa_pardon_expungement-set",
-      "ri_nonconviction_sealing-set",
-      "vt_exp_decriminalized-set"
+      "ri_nonconviction_sealing-set"
     ],
     "staleRosterFamilies": [
       {
@@ -7559,8 +7557,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX101",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -7571,8 +7569,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ca-851-91-set",
@@ -33369,9 +33366,7 @@
         "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33629,9 +33624,7 @@
         "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33764,9 +33757,7 @@
         "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33898,9 +33889,7 @@
         "verifiedAtBase": "5321af5c3",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36872,9 +36861,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX101",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -36885,8 +36874,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "pa_summary_conviction-set",
@@ -45174,9 +45162,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX101",
-      "activeOwnerLane": "rapid-repair",
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -45187,8 +45175,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "vt_exp_deferred_sentence-set",
