@@ -13,6 +13,7 @@ const altered=(base,fn)=>{const f=structuredClone(base);fn(f);return f;};
 async function test(name,fn){try{await fn();results.push({name,passed:true});}catch(e){results.push({name,passed:false,error:e.stack});}}
 for(const [name,f] of Object.entries(rows))await test('complete source-bound render '+name,async()=>{
  const r=await renderMdConviction(f);assert(r.pageCount>=5);assert.equal(hash(r.bytes),r.sha256);assert.equal((await PDFDocument.load(r.bytes)).getForm().getFields().length,0);
+ assert.deepEqual(r.bytes,fs.readFileSync(path.join(ROOT,OUT,'fixtures',name+'.pdf')),'Retained whole packet changed: '+name);
  const ids=r.components.map(c=>c.documentId);assert.deepEqual(ids,f.options.feeTreatment==='paid'?['CC-DC-CR-072B']:['CC-DC-CR-072B','CC-DC-089','MDJ-008']);
  assert.equal(r.pageManifest.filter(x=>x.documentId==='CC-DC-089').length,f.options.feeTreatment==='paid'?0:3);
  assert.equal(r.pageManifest.filter(x=>x.documentId==='MDJ-008').length,f.options.feeTreatment==='paid'?0:1);
