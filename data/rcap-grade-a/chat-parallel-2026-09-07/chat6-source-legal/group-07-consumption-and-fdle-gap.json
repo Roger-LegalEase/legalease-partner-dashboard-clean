@@ -1,0 +1,59 @@
+{
+  "recordId": "CHAT6-GROUP07-CONSUMPTION-FDLE-GAP",
+  "recordedOn": "2026-09-07",
+  "preservesGroups01Through06": true,
+  "purpose": "Make already-delivered source originals consumable, and record the precise still-missing FDLE edition without substituting an older PDF.",
+  "consumer": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/consume_source_transports.py",
+    "commit": "0ef58de41fad56ac18de9d96ec960d5b5f004a6a",
+    "readbackGitBlob": "748ea640ccf28927bfea8987ae073d880af4b291",
+    "sha256": "bc7f2ebdfa0240c7cd61aab7aae1a57ca7d2799233edc21160fac27b8cce5503",
+    "byteLength": 5308,
+    "runtime": "Python 3.10+ standard library only; no Claude, Codex, package install or network action",
+    "default": "Read-only ZIP and every member length/digest/CRC verification; exact filenames and no duplicate or unexpected members.",
+    "optionalInstall": "Only the four pinned original PDFs, only under reference/chat-parallel-2026-09-07/chat6/. Preflight all destinations, refuse symlinks or different existing bytes, exclusive create and read-back; exact existing bytes are idempotent. Evidence JSON members are verified, not installed over existing research records. No multi-file atomicity claim; an OS failure may leave a verified subset that a retry checks.",
+    "readOnlyCommand": "python data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/consume_source_transports.py --downloads /absolute/path/to/downloads",
+    "installCommand": "python data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/consume_source_transports.py --downloads /absolute/path/to/downloads --install-root /absolute/path/to/your/dedicated/worktree",
+    "selection": "Use --only ut, --only me or --only il to consume a single transport. Download the original named ZIP, not a recompressed copy.",
+    "destinationCaution": "Run only in the caller's own destination worktree. Chat6 has not accessed or installed in A/Chat3 worktrees. Script output identifies the actual destination and per-file readback; retain that output before stamping installation."
+  },
+  "transports": [
+    {"key":"ut","familyIds":["ut_pet_special_certificate-set"],"fileName":"chat6-ut-special-source-handoff-20260907.zip","driveFileId":"1TsRn2j2e6Nq-0rzooFNNll_nV6NVelQY","driveUrl":"https://drive.google.com/file/d/1TsRn2j2e6Nq-0rzooFNNll_nV6NVelQY/view?usp=drivesdk","byteLength":205453,"sha256":"b2b753287df6857cf3a7904c0de8ca4e28836770b2a74104a6835fc69ea99427","sourcePdfs":2,"receipt":"group-03-ut-special-transport.json"},
+    {"key":"me","familyIds":["census-pending-family:ME:juvenile-sealing"],"fileName":"chat6-maine-jv043-source-handoff-20260907.zip","driveFileId":"1PFu6z3NorYayz0BqS2_rCvj1WPtOJXIv","driveUrl":"https://drive.google.com/file/d/1PFu6z3NorYayz0BqS2_rCvj1WPtOJXIv/view?usp=drivesdk","byteLength":159341,"sha256":"6c232414288a3c19b39bfb605c57060882884d4efd91ea99d636fcfd208431f1","sourcePdfs":1,"receipt":"group-04-me-jv043-recovered.json"},
+    {"key":"il","familyIds":["il-seal-edu-set"],"fileName":"chat6-il-denying-original-20260907.zip","driveFileId":"1wnk_XNPC2BBd9guo_jUEUIWJJmuE_7Mv","driveUrl":"https://drive.google.com/file/d/1wnk_XNPC2BBd9guo_jUEUIWJJmuE_7Mv/view?usp=drivesdk","byteLength":755443,"sha256":"6c2e85c70f928145ba73252dcdc84be7402598199489cf7b58e7a77fe0108e06","sourcePdfs":1,"receipt":"group-06-il-denying-original-handoff.json"}
+  ],
+  "executedTests": {
+    "readOnlyTransportsVerified":3,"membersHashVerified":6,"sourcePdfs":4,
+    "positiveExecutions":["verification only exit0","isolated installation of four PDFs exit0","idempotent same-byte rerun exit0"],
+    "negativeControls":["corrupt archive digest rejected","wrong transport identity rejected","truncated archive rejected","missing archive rejected","different existing original refused and not overwritten","symlink destination refused and not touched"],
+    "negativeControlsPassed":6,
+    "actualInstallTestDestination":"/mnt/data/chat6-current/isolated-install-test",
+    "destinationScope":"Isolated Chat6 scratch only; not an A/Chat3 installation result",
+    "packetTestsRun":0
+  },
+  "currentRegistryReconciliation": {
+    "currentTrackRegistryGitBlob":"caaee52406b05a3bc948265187e1b1aa1dd14726",
+    "baseTrackRegistryGitBlob":"5924798ceb808e8013ebb74838469ea9b39238d8",
+    "baseCommit":"ee4021b473018a469fea7a9a5325b41d1abff041",
+    "method":"Connected current blob plus exact complete PR224 changed-file patch from the confirmed base. The old retained whole registry is not labeled current.",
+    "alreadyAppliedByA":"The required Denying and conditional three-page fee Order are now in il-seal-edu's six-component contract, with actual-request fee condition and judicial field protections. PA790's optional-order filing language is also corrected. Preserve these changes rather than reapply old Group01/06 proposals as new edits.",
+    "stillOwedByA":"Source association and actual destination-installation readback remain separate. No packet, reviewer or commercial status follows merely from a component registry or source receipt."
+  },
+  "fdleSourceResidual": {
+    "familyId":"fl-early-juvenile-set",
+    "classification":"Source identity/custody",
+    "instrument":"FDLE40-028 Application for Early Juvenile Expunction under section943.0515, adopted June2021 edition requested by Chat3/Chat2; no newer controlling replacement established here.",
+    "actor":"Applicant supplies and executes applicant fields; notary, State Attorney and fingerprinting official execute only their own actual acts. No packet ownership transferred.",
+    "destination":"FDLE early juvenile expunction process, not a court expungement petition; preserve the existing source-backed submission channel until the exact adopted form can be compared.",
+    "triggerTiming":"Preserve the existing eligible early-juvenile route and actual age/history predicates. This source-only examination neither redecides eligibility nor imports court-petition waiting periods.",
+    "componentsFeeService":"Do not treat an older blank, screenshot, link, notarial recital, or unexecuted State Attorney page as an issued approval. Existing application, certification, record/disposition, fingerprint and processing-fee obligations remain for source-bound packet review; no new price, waiver, service method or deadline is inferred from this reference entry.",
+    "selfHelpBoundary":"Do not deliver an unverified edition as the adopted source or execute another actor's certification. No new universal counsel gate is added. Existing substantive scope boundaries remain unchanged.",
+    "newPrimaryEvidence":{"url":"https://flrules.org/Gateway/reference.asp?No=Ref-14426","issuer":"Florida Department of State, Florida Administrative Rules reference repository","checkedOn":"2026-09-07","observed":"Names FDLE40-028 and shows no Modified Document(s). Adopted document record dated June16,2022, proposed June9,2022; used by final Rule11C-7.010 effective August30,2023 and July6,2022. Those record dates are not the form's printed revision.","exactAdoptedFileLocator":"https://flrules.org/gateway/readRefFile.asp?filename=FDLE+40-028+Early+Juvenile+Expunction+Final.pdf&refId=14426","rawFileRetrieved":false},
+    "retainedCorpusExamination":{"archiveSha256":"db8a02db11f3951dfffe34fa443d444d53ab4e09bce25767960905396a54f6f1","pdfsTextExamined":540,"readErrors":0,"method":"Embedded PDF text, no OCR; scanned/image-only pages are not proof of absence. Searched identifiers FDLE40-028, ATJ602.8,1174XX,PCRA title,R-26-0001.","fdleHit":{"sha256":"82a9600b102e7fd77cbfcd340fd74ff77e7cd49fd81b43d46299ecb353ae212a","byteLength":22449,"pages":5,"printedEdition":"Revised October2019 on pages1 and2","acceptedAsJune2021":false},"otherExactIdentifierHits":0},
+    "retrievalBoundary":"Official reference metadata was obtained, but its adopted-file retrieval returned a cache miss and no raw PDF. Earlier direct issuer retrieval failed. Retained custody alternate found only the explicitly October2019 copy. No duplicate retry or source-ready claim is made.",
+    "exactProposedRegistryEdit":{"path":"data/rcap-grade-a/official-source-registry.json","selector":"FDLE40-028 binding for fl-early-juvenile-set","change":"Preserve existing held October2019 source as historical. Record Ref-14426 adopted-file locator and unresolved June2021 raw-byte comparison. Do not overwrite its printed revision with the2022 reference adoption date or mark that older hash as the requested edition. A new official replacement requires its own primary adoption/edition evidence and raw digest."},
+    "packetOwnerConsequence":"Do not undo the finished phone repair or relabel old bytes current. Consume a subsequently acquired adopted original and assess exact source-dependent content/placement changes; this group supplies no replacement PDF and no packet repair."
+  },
+  "approvals":{"freshIssuerDownload":false,"aOrChat3Installation":false,"packetApproval":false,"counselAdoption":false,"globalRegistryWrite":false,"productionChange":false},
+  "externalInquirySent":false
+}
