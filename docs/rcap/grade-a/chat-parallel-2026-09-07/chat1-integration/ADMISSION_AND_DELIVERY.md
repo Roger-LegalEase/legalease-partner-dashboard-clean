@@ -43,6 +43,13 @@ Final exact published-state convergence evidence is in
 `session10/resume-final-committed-checks/`. Full logs and separate measured phase
 costs are retained, not printed. No local candidate download or dependency install.
 
+Latest additional closure: CT absolute-pardon static preparation guide is now
+GUIDANCE_READY, derived187/346 (+1, preserving every prior186 terminal).
+Exact delta/evidence: session10/resume-ct-terminal-delta.json. Existing central
+34232991361 supplied2PDF/4pages; the separate reviewer newly inspected those
+four current pages and explicitly closed the three old findings. No rerender.
+The original review remains preserved. CT application and runtime are not granted.
+
 Active backlog admission: `ia-901c2-set`. Its coherent five-document/26-page
 candidate is published and remote-verified at
 `1c6d648f6721de0de0f1a57d25dc37e1ff51a62f`; this is also current local/remote
@@ -77,7 +84,8 @@ Next action: push the coherent validated wrapper snapshot and inspect its run:
 gh run list --workflow rcap-chatgpt-recovery.yml --branch chatgpt/launch-recovery-20260906 --limit 5 --json databaseId,headSha,status,conclusion
 ```
 
-No Iowa central job exists yet. The wrapper selects Iowa only from actual prior
+Iowa wrapper34240163544 completed success and dispatched central34240482971
+against cbfc18b1b79c98eac87412fad0aefa882ae660d1; central is running. The wrapper selects Iowa only from actual prior
 wrapper history; do not force-trigger YAML or duplicate its request. Bind the
 consumer to its actual new packet commit and separately committed Iowa inventory.
 The independent reviewer has also inspected all four actual CT guide raster pages
