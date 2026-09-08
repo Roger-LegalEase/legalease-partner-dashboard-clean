@@ -1,0 +1,51 @@
+{
+  "familyId": "co_motion_seal_nonconviction-set",
+  "author": "Chat C, separate packet-production session",
+  "recoveryRef": "e26f669eed3000b923185484369a3752011e8d2e",
+  "expansionReadAt": "e26f669eed3000b923185484369a3752011e8d2e",
+  "transferredBuildsStarted": 0,
+  "originalBuilderGitBlob": "1072a65f3c0d2eaf20b5c4423ca1fcd6b54114f1",
+  "candidateBuilderComputedGitBlob": "82c1948ba4e8d4e0d425208b3d754d817ec696ae",
+  "candidateBuilderSha256": "957f846eeac7398efe218700f2867a7d0f089f5ff3826c81b8a9e0e5d482554b",
+  "artifact": {
+    "provider": "Google Drive",
+    "fileId": "1qn8wDxysaeHfOWeHc3iNeXWEnnkrZCBb",
+    "sha256": "73ca34c9d6aab962953f1491ee32c7393c1fec0c457876a07a9f4a464b2797ad",
+    "byteLength": 1062971,
+    "downloadReadbackVerified": true,
+    "contains": "Actual repaired host, family-only helper, executable tests, complete candidate PDFs, all 15 renderer-written family files, exact source/helper/authority input anchors, full build logs, negative tests, page comparison, separate host and output Git patches. Historical before PDFs are under author-test-before, never mixed with current fixtures."
+  },
+  "fullRendererExecutions": 2,
+  "rendererWrittenFamilyFiles": 15,
+  "allComparedFamilyFiles": 26,
+  "historicalRasterFilesPreservedNotReadmitted": 10,
+  "aOwnedWiringPreserved": true,
+  "positiveRendererComponents": 4,
+  "sourceAndMapNegativeControls": 11,
+  "completePdfNegativeControls": 8,
+  "completeChangedPagesAuthorViewed": ["canonical:4", "boundary:4"],
+  "unchangedPagesPixelIdentical": 8,
+  "canonicalSha256": "c199d390801904d192866ab1ef88a6b3035b92be34071fc85576995580ec5abd",
+  "boundarySha256": "12a0a52c2fa0b028fc1d2ba07b81e5861de3fb92e53dd76241356e06d34f8e27",
+  "pagesPerPacket": 5,
+  "selectableConditionalBranches": "None exposed by this host; canonical and boundary both contain complete JDF477+JDF478. Boundary overflow is a disclosed refusal, not an omitted document.",
+  "commands": [
+    {"command":"node scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs --no-raster","executions":2,"exitCode":0,"rendererResult":"STOPPED: one real boundary held-address refusal; no false all-nine-zero claim"},
+    {"command":"node scripts/rcap-packet-recovery/chat3/test-co-repair.mjs","exitCode":0},
+    {"command":"python scripts/rcap-packet-recovery/chat3/test-co-output.py --before <retained-original-fixtures> --out <author-QA-dir>","exitCode":0},
+    {"command":"git apply --check host.patch; git apply host.patch; git apply --check packet-output.patch; git apply packet-output.patch","exitCode":0,"verifiedAgainstEveryCandidateFamilyByte":true}
+  ],
+  "hostPatchSha256": "1d3c89173a054e1b90d19e5151e0e0f5e0ec8df67d84f990737a626d72f5c4fa",
+  "outputPatchSha256": "5bd2eb7120dfe83421144242bc33034ca16fa87c7eb7ae0c6b8a1ab72c49c7b9",
+  "patchDirectoryInArtifact": "data/rcap-grade-a/chat-parallel-2026-09-07/build/co_motion_seal_nonconviction-set/",
+  "publication": "Family helper and tests are in this PR. Candidate host and generated output patches were applied and executed locally and are supplied in the hash-bound archive. Atomic publication into their authoritative GitHub paths remains pending; tests require that host patch or the complete extracted candidate, not the old host.",
+  "remaining": [
+    "JDF477 boundary Address is still held but unprinted at the existing 6pt floor. It is now accurately disclosed and scored as KNOWN_FACT_NOT_WRITTEN; participant must complete it before filing.",
+    "A atomically publishes exact candidate source/output bytes, then refreshes shared anchors.",
+    "Fresh central raster and independent review of resulting current bytes.",
+    "Exact retained 2024 form identity verified; this is not a source-freshness or legal approval."
+  ],
+  "independentApproval": false,
+  "terminalPromotion": false,
+  "productionTouched": false
+}

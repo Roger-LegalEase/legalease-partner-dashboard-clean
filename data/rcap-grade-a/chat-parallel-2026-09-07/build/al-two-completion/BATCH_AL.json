@@ -1,0 +1,56 @@
+{
+  "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set"],
+  "currentInputCheckpoint": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+  "tenChatTransferRead": true,
+  "transferredNewBuildsStarted": 0,
+  "implementation": "Actual two-host prior-application/pro-se disclosures and conditional detail classifications. Unknown participant attestations are never selected.",
+  "fullRendererExecutions": 4,
+  "fullRendererCommands": ["node scripts/build-census-v1-al-felony-dwop-set.mjs", "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs"],
+  "executionsPerCommand": 2,
+  "rendererExitCodes": [0, 0, 0, 0],
+  "rendererWrittenFamilyFiles": 20,
+  "preservedAOwnedFiles": 2,
+  "allFamilyFilesCompared": 22,
+  "completePdfs": [
+    {"family":"al-felony-dwop-set","fixture":"canonical","sha256":"d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543","bytes":905868,"pages":11},
+    {"family":"al-felony-dwop-set","fixture":"boundary","sha256":"e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e","bytes":906110,"pages":11},
+    {"family":"al-felony-nonconviction-90-set","fixture":"canonical","sha256":"e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924","bytes":905674,"pages":11},
+    {"family":"al-felony-nonconviction-90-set","fixture":"boundary","sha256":"ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05","bytes":905916,"pages":11}
+  ],
+  "allPdfsByteIdenticalToBefore": true,
+  "manualConditionalCombinationsTested": 9,
+  "conditionalOutputScope": "No selectable conditional PDF branch exists in either host. Manual prior/no-prior and representation completion combinations are tested, not asserted to be nine generated PDFs.",
+  "rendererAndPolicyNegativeControls": 23,
+  "actualPdfNegativeControls": 24,
+  "testCommands": [
+    {"command":"node scripts/rcap-packet-recovery/chat3/test-al-completion.mjs","exitCode":0},
+    {"command":"python scripts/rcap-packet-recovery/chat3/test-al-output.py --source <exact-CR65> --before <retained-original-families> --out <author-QA-dir>","exitCode":0}
+  ],
+  "visualScope": "Two distinct complete page-6 images viewed; two exact page aliases. Eleven blank regions per output compared to the official source. Whole-PDF byte identity preserves all44 pages; no new full44-page semantic audit claimed.",
+  "artifact": {
+    "provider":"Google Drive","fileId":"14ajByIZwPI6QStVk-tcJgajbX4yoLxs4",
+    "sha256":"ea67584e7dda2f6ad8eebbb0f522ca8dbb07fd9f8fb5b75dfb9ca4890e97daf0","bytes":2550028,"downloadReadbackVerified":true,
+    "patchDirectory":"data/rcap-grade-a/chat-parallel-2026-09-07/build/al-two-completion/",
+    "hostPatchSha256":"078021221bd76184c1adf910ccdc8d717c18170eb685c561c68ae684f4e2a5c7",
+    "outputPatchSha256":"362eca655e620cba80e41e55df305604b59ba17bc90080e32c610226ec46115e",
+    "contains":"Actual changed hosts, helper/tests, complete outputs, current source/input hashes, literal findings, exact source/output patches, logs, full-build comparisons and measured tests. No raw fonts, dependencies, private corpus or secrets."
+  },
+  "exactAuthoritativeChangesPendingPublication": [
+    "scripts/build-census-v1-al-felony-dwop-set.mjs",
+    "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
+    "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/production-field-map.json"
+  ],
+  "candidateHosts": [
+    {"family":"al-felony-dwop-set","beforeGitBlob":"5169dbf513a26719d1f6598979cabbc6d4062836","candidateGitBlob":"9b2e7d563aa22601e66d07ebab0dbc1bb28f09bc","sha256":"0636e2f8b3a79a9ac850d45523dc49d682fac962747087a8c38a4d858bd75918"},
+    {"family":"al-felony-nonconviction-90-set","beforeGitBlob":"7fb4787baf20c14ab00382d43a7f581a24ea443d","candidateGitBlob":"f3914533691b134fa1237727c5772a12d75de5fa","sha256":"ad3cdee49e6a88f4d0ddbefe7b72513dc24f83a25c9d11b9e033708707d80502"}
+  ],
+  "patchApplicationReadback": "PASS: independent application to the current-byte baseline reproduced both candidate hosts and every family file.",
+  "publication": "Helper/tests and this receipt are committed. The six authoritative host/map/instruction changes are in the checksum-bound artifact for atomic application. Run the renderer tests after applying host.patch or from the extracted candidate, not the still-old hosts.",
+  "remaining": ["A atomically consumes the exact six-path correction with helper/tests","B independently reviews the new maps/instructions against the unchanged complete PDFs","Do not request new raster merely for identical PDFs; A checks any existing exact-byte receipts","Source freshness, route eligibility and product fulfillment are not approved by this narrow repair"],
+  "independentApproval": false,
+  "terminalPromotion": false,
+  "productionTouched": false
+}
