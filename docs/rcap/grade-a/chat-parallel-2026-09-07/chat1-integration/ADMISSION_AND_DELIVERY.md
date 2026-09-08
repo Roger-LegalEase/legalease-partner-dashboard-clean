@@ -43,27 +43,56 @@ Final exact published-state convergence evidence is in
 `session10/resume-final-committed-checks/`. Full logs and separate measured phase
 costs are retained, not printed. No local candidate download or dependency install.
 
-Next bounded backlog item: `ia-901c2-set`. The65-file installed candidate is
-unchanged; retained adapter controls passed53/53. Integrate the already reviewed
-expected-outcome adapter into completeness/raster/declared-delivery hooks,
-publish exact supplemental source/review evidence, and bind its independent
-successor to that verified immutable publication before requesting all5PDF/26page
-central acceptance. Preserve original LIMITED_FINDING and raw diagnostics;
-`verifiedAtBase:null` in the independent draft is deliberately inadmissible.
-After the integration edit, the exact affected command is:
+Active backlog admission: `ia-901c2-set`. Its coherent five-document/26-page
+candidate is published and remote-verified at
+`1c6d648f6721de0de0f1a57d25dc37e1ff51a62f`; this is also current local/remote
+recovery head. The terminal count remains186. Existing expected-outcome adapter
+hooks are installed in the completeness host, raster inventory and declared
+wiring. Adapter53/53 controls passed; the real shared host measures171 supported
+areas,74 writes,97 blanks and all nine zero counters, retaining the original285
+area aggregate and two day-180 refusals. All65 payload files and250 unrelated
+completeness audits are unchanged. All39 independently enumerated supplemental
+provenance inputs are now published. The original LIMITED_FINDING remains intact.
+
+Existing consumer `admit-central-batch.py` now accepts a separately committed
+`inventoryPath`; default six-family inventory remains unchanged. Independent14
+controls passed, including old actual MI OWI default/explicit-default equality
+and refusal of unsafe, uncommitted, changed and symlink inventories. Iowa's exact
+inventory is `session10/resume-ia-required-document-inventory.json`.
+
+Direct local dispatch returned GitHub403 (Resource not accessible by integration)
+on2026-09-08; no request was accepted. Do not retry that token. The existing
+authorized recovery wrapper now selects newly published immutable queue inputs,
+triggers on actual queue changes, and rejects ambiguous prior dispatch attempts.
+Independent13/13 action-level cases and18 selector controls passed. Reviewed
+YAML SHA256:6c75ec064d2aadc6ae2c870013024f4a8d9eab08f2fac9339f0b1688007343e4.
+
+Current source head fd6d941ed3b3941ba48943ea23e540715e9263f3;
+remote before this publication1c6d648f6721de0de0f1a57d25dc37e1ff51a62f.
+All15 candidate derivation/check commands passed in resume-ia-wrapper-validation.
+Terminal membership remains186; Iowa requests5PDF/26pages, two diagnostics.
+Next action: push the coherent validated wrapper snapshot and inspect its run:
 
 ```sh
-node scripts/rcap-packet-recovery/chat1/test-ia-form1-expected-candidates.mjs
+gh run list --workflow rcap-chatgpt-recovery.yml --branch chatgpt/launch-recovery-20260906 --limit 5 --json databaseId,headSha,status,conclusion
 ```
+
+No Iowa central job exists yet. The wrapper selects Iowa only from actual prior
+wrapper history; do not force-trigger YAML or duplicate its request. Bind the
+consumer to its actual new packet commit and separately committed Iowa inventory.
+The independent reviewer has also inspected all four actual CT guide raster pages
+and returned a source/identity-bound static GUIDANCE_READY review. Root integrates
+that disjoint closure while central work runs. Unique evidence remains in the
+existing Session10 evidence directories.
 
 Only Captain writes shared files. Reusable committed-input scratch:
 `/tmp/rcap-session10-committed-candidate`; dependencies reused by symlink.
 Unfinished unrelated worker files remain untouched. `resume-recovery-state.json`
 records original local/remote full SHAs and dirty/untracked inventory. Original
 interrupted commits remain ancestors, including Washington and the Iowa install.
-Last disk:1.9GB free/workspaces,34GB/tmp. Unique code and receipts stay persistent;
+Last disk:1.8GB free/workspaces,34GB/tmp. Unique code and receipts stay persistent;
 scratch only in/tmp. No active central jobs remain for this batch. Existing worker
-`/root/session10_admission_review` is reviewing the Iowa supplemental evidence;
+`/root/session10_admission_review` has completed the wrapper and Iowa/CT reviews;
 it owns only its existing independent-review evidence directories.
 
 Minnesota PR235 remains c1f8003220f93fb00c26d869dfe035c332ec8dd5; native helper

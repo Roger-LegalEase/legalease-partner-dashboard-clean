@@ -1,0 +1,68 @@
+{
+  "reviewer": "/root/session10_admission_review",
+  "reviewedFiles": [
+    {
+      "path": ".github/workflows/rcap-chatgpt-recovery.yml",
+      "sha256": "99bc9407d0ddd126a3626868cfa9a8ab043aa0d241cedefb8fa5854c1e8bed93"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs",
+      "sha256": "5cacd13e7a47646ba162f81763b491b61ba4006f2b20303a6e75504457c953e2"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-recovery-raster-selection.mjs",
+      "sha256": "9c387613421a468ab1dce0c6cede6cebd551a58f697bb322820a892dba5cf1f6"
+    }
+  ],
+  "cases": [
+    {
+      "scenario": "actual immutable 774 to 1c candidate",
+      "selected": [
+        "ia-901c2-set"
+      ],
+      "expected": [
+        "ia-901c2-set"
+      ],
+      "meetsNoDuplicateRequirement": true
+    },
+    {
+      "scenario": "same current and prior successful queue",
+      "selected": [],
+      "expected": [],
+      "meetsNoDuplicateRequirement": true
+    },
+    {
+      "scenario": "same previously passed candidate loses local receipt state",
+      "selected": [
+        "ia-fixture"
+      ],
+      "expected": [],
+      "meetsNoDuplicateRequirement": false
+    },
+    {
+      "scenario": "central dispatch accepted then wrapper confirmation fails; status:success history still returns 774",
+      "selected": [
+        "ia-901c2-set"
+      ],
+      "expected": [],
+      "rationale": "The current implementation sees exactly these inputs again because the actual attempted wrapper is omitted from successful history; its unchanged central request may already be active or completed.",
+      "meetsNoDuplicateRequirement": false
+    },
+    {
+      "scenario": "rerun wrapper that already dispatched 1c; current run absent/excluded from successful baseline history",
+      "selected": [
+        "ia-901c2-set"
+      ],
+      "expected": [],
+      "rationale": "A current-run retry is not evidence that the previous attempt failed to create a central run.",
+      "meetsNoDuplicateRequirement": false
+    }
+  ],
+  "actualDispatchesPerformed": 0,
+  "sharedFilesEdited": false,
+  "additionalInspection": [
+    "Whole-wrapper concurrency prevents concurrent wrapper execution but does not wait for its dispatched central workflow.",
+    "The baseline selection does not verify that prior.head_sha is an ancestor of context.sha; a rerun of an older publication can compare against a newer successful queue.",
+    "The existing timestamp-only run-ID confirmation is not an immutable candidate identity check. Actual receipt acceptance remains separate and must inspect precise commit/manifest bindings."
+  ]
+}
