@@ -2,8 +2,10 @@
 """Validate Session10's exact full-document central receipts; optionally admit.
 
 Usage: admit-central-batch.py CONFIG [--admit]
-CONFIG names retained API metadata, six artifact ZIPs and the committed reviewed
-document inventory. A successful dispatch alone supplies none of this proof.
+CONFIG names retained API metadata, selected artifact ZIPs and the committed
+reviewed document inventory. inventoryPath may name a separate Session10
+inventory; the original six-family inventory remains the default, unchanged.
+A successful dispatch alone supplies none of this proof.
 """
 import copy
 import hashlib
@@ -119,8 +121,13 @@ def main():
     require(re.fullmatch(r'[0-9a-f]{40}', commit) is not None, 'immutable commit required')
     original = lambda p: subprocess.check_output(['git', 'show', f'{commit}:{p}'])
     subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'], check=True)
-    inventory_bytes = Path(INVENTORY).read_bytes()
-    require(inventory_bytes == original(INVENTORY), 'reviewed inventory differs from dispatched commit')
+    inventory_path = config.get('inventoryPath', INVENTORY)
+    require(isinstance(inventory_path, str) and re.fullmatch(
+        r'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-[a-z0-9-]+-document-inventory\.json',
+        inventory_path) is not None, 'unsafe or unreviewed inventory path')
+    require(not Path(inventory_path).is_symlink(), 'reviewed inventory must not be a symlink')
+    inventory_bytes = Path(inventory_path).read_bytes()
+    require(inventory_bytes == original(inventory_path), 'reviewed inventory differs from dispatched commit')
     inventory = json.loads(inventory_bytes)
     queue = read(QUEUE); old_queue = json.loads(original(str(QUEUE)))
     run, jobs = read(config['runPath']), read(config['jobsPath'])

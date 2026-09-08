@@ -19,6 +19,7 @@ import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
 import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
 import { bindDeclaredGaDelivery, GA_FAMILY } from "./ga-declared-delivery.mjs";
+import { IA_FORM1_FAMILY, bindDeclaredIaForm1Delivery, createDeclaredIaForm1Delivery } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
 import { isMiMoDeclaredFamily, bindDeclaredMiMoDelivery, createDeclaredMiMoDelivery } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 
@@ -167,7 +168,9 @@ const miMoOptions = (family) => ({
   hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
   raster: exactRasterFor(family.familyId)
 });
-const alignDeclaredDelivery = (record, family) => family.familyId === GA_FAMILY
+const alignDeclaredDelivery = (record, family) => family.familyId === IA_FORM1_FAMILY
+  ? bindDeclaredIaForm1Delivery(record, family, miMoOptions(family))
+  : family.familyId === GA_FAMILY
   ? bindDeclaredGaDelivery(record, family, miMoOptions(family))
   : isMiMoDeclaredFamily(family.familyId)
   ? bindDeclaredMiMoDelivery(record, family, miMoOptions(family))
@@ -251,12 +254,19 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, GA_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;
   }
   if (!fs.existsSync(artifactsPath)) continue;
+  if (f.familyId === IA_FORM1_FAMILY) {
+    const wiring = createDeclaredIaForm1Delivery(f, bindingFor(f), miMoOptions(f));
+    if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+    console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${wiring.binding.conditionalDelivery.fixtureBindings.length} exact outputs, diagnostics retained)`);
+    written++;
+    continue;
+  }
   if (isMiMoDeclaredFamily(f.familyId)) {
     const wiring = createDeclaredMiMoDelivery(f, bindingFor(f), miMoOptions(f));
     if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);

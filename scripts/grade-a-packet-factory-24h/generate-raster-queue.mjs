@@ -32,6 +32,7 @@
 import crypto from "node:crypto";
 import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
 import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
+import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -498,8 +499,9 @@ const carryVerdict = (row) => {
 for (const f of master.families) {
   const dir = f.directory ? path.join(ROOT, f.directory) : null;
   const rel = f.directory ?? null;
-  const miMo = dir && fs.existsSync(dir) ? await resolveMiMoRasterEnrollment(f) : null;
-  const found = miMo ?? (dir && fs.existsSync(dir) ? fixturesOf(dir) : { root: null, pdfs: [], basis: null });
+  const prepared = dir && fs.existsSync(dir)
+    ? await resolveMiMoRasterEnrollment(f) ?? await resolveIaForm1RasterEnrollment(f) : null;
+  const found = prepared ?? (dir && fs.existsSync(dir) ? fixturesOf(dir) : { root: null, pdfs: [], basis: null });
   const fixtures = found.root;
   const eligibility = [];
 
@@ -509,8 +511,8 @@ for (const f of master.families) {
   let canonical = null; let boundary = null; let documents = null;
   if (fixtures) {
     const pdfs = found.pdfs;
-    const c = miMo?.canonical ?? pickFixture(dir, fixtures, "canonical", pdfs);
-    const b = miMo?.boundary ?? pickFixture(dir, fixtures, "boundary", pdfs);
+    const c = prepared?.canonical ?? pickFixture(dir, fixtures, "canonical", pdfs);
+    const b = prepared?.boundary ?? pickFixture(dir, fixtures, "boundary", pdfs);
     canonical = c.name; boundary = b.name;
     if (!canonical) eligibility.push(c.why);
     if (!boundary) eligibility.push(b.why);
@@ -519,7 +521,7 @@ for (const f of master.families) {
       /* Read the set the row would render before deciding the family may be
        * queued, so a document the parser cannot open refuses the family here
        * rather than aborting the render job that was dispatched to prove it. */
-      documents = miMo?.documents ?? await documentSet(dir, fixtures, pdfs);
+      documents = prepared?.documents ?? await documentSet(dir, fixtures, pdfs);
       const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
       if (unreadable.length) {
         eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) have neither a parser-readable page count nor a hash-bound builder count, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
@@ -545,7 +547,7 @@ for (const f of master.families) {
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
   const pdfsHere = found.pdfs;
-  const coverage = miMo?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
+  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   if (!primaryCanonical) {
     notEligible.push({
