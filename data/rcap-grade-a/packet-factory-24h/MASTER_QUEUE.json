@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "70413199d405d3a5e629f852a6298f416f90707c",
+  "minimumCaptainSha": "19eb374383a450153c659d327b829a33cac9f830",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "be95d239b714710788e904eb4e07f931c449251cdd94c44e52c8795c3ade69b0",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "cb2ee878b839e751c1ded19e792bad909e2a98c3e4ca7efcdcbf90b2c32a9e1e",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "7caa56533f328df4c2a9182f2da3b865ebc761f18d2d4acf4c890780a713f6c1",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "a033f9bf39df9ff4008f868847080f50b520b408728ef1e4bf0bb80faa4b771d"
@@ -69,20 +69,20 @@
     "activeFamiliesExcluded": 21,
     "guidanceOnly": 0,
     "remaining": 325,
-    "sourceReady": 78,
-    "sourceBlocked": 9,
+    "sourceReady": 80,
+    "sourceBlocked": 7,
     "legalBlocked": 13,
     "verifyPending": 1,
-    "repairRequired": 23,
+    "repairRequired": 22,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 161,
-    "FAIL_REPAIR_REQUIRED": 44,
+    "COMPLETE_PACKET_PROVEN": 162,
+    "FAIL_REPAIR_REQUIRED": 43,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 78,
-    "SOURCE_BLOCKED": 9,
+    "SOURCE_READY": 80,
+    "SOURCE_BLOCKED": 7,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 10,
@@ -92,9 +92,9 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
-    "SOURCE_BOUND_BY_HELD_BYTES": 240,
-    "SOURCE_GENUINELY_MISSING": 2,
-    "SOURCE_IDENTITY_UNRESOLVED": 9,
+    "SOURCE_BOUND_BY_HELD_BYTES": 242,
+    "SOURCE_GENUINELY_MISSING": 1,
+    "SOURCE_IDENTITY_UNRESOLVED": 8,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3,
     "SOURCE_ALREADY_HELD": 3
   },
@@ -179,11 +179,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 78,
+    "sourceReadyFamilies": 80,
     "familiesPerBuilder": 3.3,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 78 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 13 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 80 do, so a full roster of 24 builders averages 3.3 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -6906,15 +6906,29 @@
       "sourceIds": [
         "official-form:JV-043"
       ],
-      "sourceHashes": [],
-      "sourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
-      "sourceBound": false,
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:JV-043",
+          "path": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
+          "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+          "tier": "exact_content_hash"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:JV-043: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:JV-043",
+            "path": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
+            "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json"
+          }
         ],
-        "boundSources": [],
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
@@ -6922,7 +6936,7 @@
         "effectiveOfficialSourceIds": [
           "official-form:JV-043"
         ],
-        "boundCount": 0,
+        "boundCount": 1,
         "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
         "directAttachment": true
       },
@@ -6966,7 +6980,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
@@ -7277,7 +7291,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/wa/census-pending-family:wa:juvenile-record-sealing-under-rcw-13-50-260--official-pdf-fill",
       "ownedPaths": [
@@ -12138,15 +12152,33 @@
             "matched": false,
             "scopeUnchanged": true,
             "historicalCommit": "c6af0d84134216c5d0757e5543ccf3fcaa42f19c",
-            "comparison": "all prior structured content identical; only other-family entries appended",
+            "comparison": "all prior structured content and ordering identical; only other-family entries or exact measured custody paths added",
             "pinnedSha256": "920b0c02a142c297affa69b44bc366fb7453b285a0ca834c381355a33d616c78",
-            "currentSha256": "be95d239b714710788e904eb4e07f931c449251cdd94c44e52c8795c3ade69b0",
+            "currentSha256": "cb2ee878b839e751c1ded19e792bad909e2a98c3e4ca7efcdcbf90b2c32a9e1e",
             "unchangedPriorFamilyEntries": 73,
             "appendedFamilyIds": [
               "nc_146_dismissal_petition-set"
             ],
             "addedEvidencePaths": [
+              "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json",
               "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
+            ],
+            "custodyChecks": [
+              {
+                "familyId": "ut_pet_special_certificate-set",
+                "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+                "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed"
+              },
+              {
+                "familyId": "ut_pet_special_certificate-set",
+                "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+                "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174"
+              },
+              {
+                "familyId": "census-pending-family:ME:juvenile-sealing",
+                "path": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
+                "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7"
+              }
             ]
           },
           {
@@ -21119,15 +21151,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "ky-independent-review",
-        "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
-        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "ky-session08-acceptance",
+        "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-session08-acceptance.json"
       },
-      "rasterEnrolmentRefusal": [
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -23431,15 +23460,12 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS",
-        "lane": "md-guard-delta-03",
-        "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
-        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "md-session08-acceptance",
+        "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json"
       },
-      "rasterEnrolmentRefusal": [
-        "packet build has not completed",
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -23564,7 +23590,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "packet build has not completed",
         "no completeness audit"
       ],
@@ -23581,8 +23606,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -23594,7 +23619,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_10110_conviction-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
       "ownedPaths": [
@@ -23699,8 +23724,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -23712,7 +23737,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_cannabis_petition-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill",
       "ownedPaths": [
@@ -24649,8 +24674,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -24662,7 +24687,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_application-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-application-set--official-pdf-fill",
       "ownedPaths": [
@@ -24781,8 +24806,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -24794,7 +24819,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_first_owi-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-first-owi-set--official-pdf-fill",
       "ownedPaths": [
@@ -26401,8 +26426,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -26414,7 +26439,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-610-145-mistaken-identity-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-145-mistaken-identity-set--official-pdf-fill",
       "ownedPaths": [
@@ -28655,14 +28680,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "nc-delta-review-03",
-        "verifiedAtBase": "21a269f31a7dff8084d6c74ecdb553be5979ba03",
-        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-delta-review-03.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "nc-session08-acceptance",
+        "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-session08-acceptance.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -28721,19 +28744,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SERVICE",
-          "finding": "Current recovery still has old chronology. Exact candidate correction accepted; publication alone remains for CHAT4-NC-02. No new packet design/counsel/raster requirement.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
@@ -34139,7 +34154,8 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "an open legal input"
+        "an open legal input",
+        "nonvisual completeness counters not zero: requiredFactsNotCollected, unclassifiedBlanks"
       ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
@@ -41490,6 +41506,18 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:1001EX",
+          "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+          "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+          "tier": "exact_content_hash"
+        },
+        {
+          "sourceId": "official-form:1021EX",
+          "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+          "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+          "tier": "exact_content_hash"
+        },
+        {
           "sourceId": "official-form:1044XX",
           "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
           "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
@@ -41532,15 +41560,28 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:1001EX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding",
-          "official-form:1021EX: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
+          {
+            "sourceId": "official-form:1001EX",
+            "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+            "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json"
+          },
+          {
+            "sourceId": "official-form:1021EX",
+            "path": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+            "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json"
+          },
           {
             "sourceId": "official-form:1044XX",
             "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
@@ -41606,7 +41647,7 @@
           "official-form:UT-BCI-EXP-APPLICATION",
           "official-form:UT-BCI-THIRD-PARTY-RELEASE"
         ],
-        "boundCount": 7,
+        "boundCount": 9,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
         "directAttachment": true
       },
@@ -41640,7 +41681,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
@@ -46774,13 +46815,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 78,
-    "sourceObligationsAssigned": 13,
-    "actualPromotedAndReleased": 78,
+    "familiesAssignedToBuilders": 80,
+    "sourceObligationsAssigned": 10,
+    "actualPromotedAndReleased": 80,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 10,
+    "prospectiveReleasesAcrossSourceLanes": 8,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

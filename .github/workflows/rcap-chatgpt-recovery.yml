@@ -32,6 +32,11 @@ jobs:
           node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$RUNNER_TEMP/recovery-validation/regressions.log"
           node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$RUNNER_TEMP/recovery-validation/mutations.log"
           node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$RUNNER_TEMP/recovery-validation/readiness-summary.log"
+          node scripts/grade-a-packet-factory-24h/test-chat-review-inputs.mjs | tee "$RUNNER_TEMP/recovery-validation/review-reader.log"
+          node scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs | tee "$RUNNER_TEMP/recovery-validation/de-custody.log"
+          node scripts/grade-a-packet-factory-24h/test-ky-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ky-declared.log"
+          node scripts/grade-a-packet-factory-24h/test-md-favorable-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/md-declared.log"
+          node scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs | tee "$RUNNER_TEMP/recovery-validation/source-receipt-hooks.log"
           for script in generate generate-source-conveyor generate-washington-repair; do
             node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$RUNNER_TEMP/recovery-validation/$script.log" 2>&1 || { cat "$RUNNER_TEMP/recovery-validation/$script.log"; exit 1; }
           done
@@ -62,7 +67,7 @@ jobs:
             const fs = require('fs');
             const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
             const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
-            const requested = ['de_mandatory_expungement-set','ma-bmc-multi-set','va_exp_nonconviction-set','pa_790_nonconviction-set'];
+            const requested = ['ky_nonconviction_expungement-set','md_10105_favorable-set'];
             const eligible = requested.filter(family => queue.rows.some(row => row.familyId === family && row.currentRasterState === 'RASTER_PENDING'));
             const deferred = requested.filter(family => !eligible.includes(family)).map(family => ({
               family,

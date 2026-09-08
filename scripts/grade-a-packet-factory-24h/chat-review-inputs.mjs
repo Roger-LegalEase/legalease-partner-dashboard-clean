@@ -10,6 +10,15 @@ export const CHAT_REVIEW_ROOTS = [
   'data/rcap-grade-a/chat-parallel-2026-09-07/chat10-review',
 ];
 export const CHAT_SCHEMA = 'rcap-independent-verification-rows/v1';
+// A reviewer may put supersession on the affected row of a multi-family
+// return. Read that declaration before the document-wide default, just as
+// the extractor does for the review base; never infer it from a filename.
+export function supersededChatEvidencePath(base, doc, row) {
+  const name = row.supersedesSubmittedDisposition ?? doc.supersedesSubmittedDisposition;
+  return typeof name === 'string' && name.endsWith('.json')
+    && path.basename(name) === name && !name.includes('\\')
+    ? `${base}/${name}` : null;
+}
 export function chatReviewInputs(root) {
   const entries = [];
   for (const base of CHAT_REVIEW_ROOTS) {

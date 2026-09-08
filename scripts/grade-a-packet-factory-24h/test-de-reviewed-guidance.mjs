@@ -44,8 +44,16 @@ for(const [name,mutate] of [
  ['unmatched PDF',d=>d.documents[0].actual='0'.repeat(64)]
 ]){const d=structuredClone(ev);mutate(d);deny(name,{rasterEvaluation:d});}
 const old=execFileSync('git',['show',`c6af0d84134216c5d0757e5543ccf3fcaa42f19c:${registry}`]);
-const now=read(registry);const result=additiveOtherFamilyRegistry(old,now,family);
+const now=read(registry);const result=additiveOtherFamilyRegistry(old,now,family,read);
 assert.deepEqual(result.appendedFamilyIds,['nc_146_dismissal_petition-set']);assert.equal(result.unchangedPriorFamilyEntries,73);positives++;
+assert.equal(result.custodyChecks.length,3);positives++;
+for(const input of ['data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json',...result.custodyChecks.map(c=>c.path)]){
+ deny('changed unrelated custody cannot reuse scope proof '+input,altered(input,b=>Buffer.concat([b,Buffer.from('changed')])));
+}
+const reordered=JSON.parse(now);reordered.reconciliation42.acquisitionEvidencePaths.reverse();
+assert.throws(()=>additiveOtherFamilyRegistry(old,Buffer.from(JSON.stringify(reordered)),family,read),/removed or reordered/);negatives++;
+const duplicate=JSON.parse(now);duplicate.reconciliation42.acquisitionEvidencePaths.push(duplicate.reconciliation42.acquisitionEvidencePaths[0]);
+assert.throws(()=>additiveOtherFamilyRegistry(old,Buffer.from(JSON.stringify(duplicate)),family,read),/duplicate source evidence/);negatives++;
 for(const mutate of [
  d=>d.reconciliation42.families[0].decision='changed',
  d=>d.reconciliation42.families.splice(0,1),
@@ -53,7 +61,7 @@ for(const mutate of [
  d=>d.reconciliation42.families.at(-1).familyId=family,
  d=>d.reconciliation42.acquisitionEvidencePaths.push('unrelated-evidence'),
  d=>d.unreviewedNewTopLevel='changed'
-]){const d=JSON.parse(now);mutate(d);assert.throws(()=>additiveOtherFamilyRegistry(old,Buffer.from(JSON.stringify(d)),family));negatives++;}
+]){const d=JSON.parse(now);mutate(d);assert.throws(()=>additiveOtherFamilyRegistry(old,Buffer.from(JSON.stringify(d)),family,read));negatives++;}
 assert.equal(assessDeReviewedGuidance(root,{familyId:'other',verdict:'PASS_COMPLETE_INDEPENDENT'}),null);positives++;
 assert.equal(assessDeReviewedGuidance(root,{...returned,verdict:'FAIL_REPAIR_REQUIRED'}),null);positives++;
 for(const [p,h]of Object.entries(identityFiles))assert.equal(crypto.createHash('sha256').update(read(p)).digest('hex'),h);

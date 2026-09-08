@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure} from './chat-review-inputs.mjs';
+import {chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, supersededChatEvidencePath} from './chat-review-inputs.mjs';
 const base='data/rcap-grade-a/chat-parallel-2026-09-07/review/';
 const read=n=>JSON.parse(fs.readFileSync(base+n+'.json','utf8'));
 const de=read('de-current-review-reconciliation');
@@ -38,4 +38,14 @@ const mutations=[
 for(const mutate of mutations){const d=structuredClone(de);mutate(d);assert.notEqual(check(d),null);negatives++;}
 assert.notEqual(chatRowProblem(de,structuredClone(de.rows[0]),obligations),null);negatives++;
 assert.equal(JSON.stringify(de),before);
+const mdBase='data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review';
+const md=JSON.parse(fs.readFileSync(`${mdBase}/md-session08-acceptance.json`,'utf8'));
+assert.equal(md.supersedesSubmittedDisposition,undefined);
+assert.equal(supersededChatEvidencePath(mdBase,md,md.rows[0]),`${mdBase}/md-guard-delta-03.json`);positives++;
+assert.equal(supersededChatEvidencePath(base,{supersedesSubmittedDisposition:'old.json'},{}),`${base}/old.json`);positives++;
+assert.equal(supersededChatEvidencePath(base,{supersedesSubmittedDisposition:'other.json'},{supersedesSubmittedDisposition:'row.json'}),`${base}/row.json`);positives++;
+for(const name of ['', '../old.json','/old.json','sub/old.json','sub\\old.json','..',7]){
+ assert.equal(supersededChatEvidencePath(base,{supersedesSubmittedDisposition:'fallback.json'},{supersedesSubmittedDisposition:name}),null);negatives++;
+}
+assert.equal(supersededChatEvidencePath(base,{},{}),null);negatives++;
 console.log(JSON.stringify({suite:'chat-review-inputs',positiveCases:positives,rejectionControls:negatives,rawReviewsUnchanged:true},null,2));

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CHAT4-20260907",
+  "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+  "sessionIdentity": "chat4-20260907-nc-nv-independent-01",
+  "reviewDate": "2026-09-07",
+  "counselApproval": false,
+  "packetFilesEdited": false,
+  "builderExecuted": false,
+  "newRasterRequested": false,
+  "productionTouched": false,
+  "rows": [{
+    "familyId": "nc_146_dismissal_petition-set",
+    "itemId": "nc_146_dismissal_petition-set",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "e26f669eed3000b923185484369a3752011e8d2e",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+    "routeKeys": ["obligation:track-only:NC:nc_146_dismissal_petition"],
+    "priorWorkPreserved": {
+      "reviewCommit": "6e80eb863f06333c4e48dd925a2fb8e79cb7acc6",
+      "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/nc-complete-branch-independent-review.json",
+      "relationship": "Chat B completed a late review before learning of the transfer. Its two findings are independently confirmed here, not claimed as newly discovered defects. B inspected twelve unique PNGs plus forty-eight measured aliases. This separate Chat 4 session individually displayed and examined all sixty page instances, including every branch; none is credited solely by another worker's visual review."
+    },
+    "coverage": {
+      "completePdfsRehashed": 10,
+      "completePages": 60,
+      "pageInstancesIndividuallyVisuallyExamined": 60,
+      "uniquePngDigestsMeasured": 12,
+      "coverageByUnviewedAlias": 0,
+      "diagnosticPdfs": 2,
+      "diagnosticPages": 16,
+      "selectableBranchPdfs": 8,
+      "selectableBranchPages": 44,
+      "currentOfficialSourcePagesVisuallyExamined": 7,
+      "expectedTextValueChecksPassed": 174,
+      "requiredBlankDisclosuresChecked": 60,
+      "method": "Downloaded existing central artifact through connected GitHub. SHA256 was measured locally. Displayed each full numbered PNG individually, without OCR or another raster job. Recovered complete existing packet bytes from the published completion binary patch against a retained source snapshot, then recomputed every nested Git blob/tree: the entire family tree exactly matches current connected GitHub tree 3a17a8f73d99634d3631de1819a02686d1b9b9ee. Computed whole-PDF SHA256 and page counts with hashlib/PyMuPDF, and independently checked each applicable expected textual write on that component's actual pages in all ten PDFs. Compared all sixty required disclosure labels and supply instructions with the long guide."
+    },
+    "findings": [
+      {
+        "id": "CHAT4-NC-01",
+        "corroborates": "CHATB-NC-01",
+        "owner": "A",
+        "obligation": "ARTIFACTS",
+        "severity": "repair_required",
+        "file": "product-wiring.json",
+        "observed": "binding.acceptanceReceipt is null although the full ten-PDF receipt is admitted. proposedRepresentation contains one unconditionally required primary_filing pointing to fixtures/canonical.pdf, the eight-page diagnostic containing G-106 and CV-226. It does not express selection among the actual four existing branches. The record is DECLARED_NOT_INSTALLED with payment/sponsorship false, so this is not evidence that customers currently receive the diagnostic.",
+        "correction": "Bind the admitted complete receipt and exact no_fee, fee_paid, indigency_requested and requested_financial_supplement outputs. Preserve explicit fee applicability and participant request for G-106, plus a recorded specific court request for CV-226. Preserve legal stops and unknown-fact refusal. Do not treat sponsorship as indigency or a diagnostic inventory as unconditional participant delivery. Refresh stale VF06 references without converting them into approval.",
+        "requiresNewPacketBuild": false,
+        "requiresNewRasterForUnchangedBytes": false
+      },
+      {
+        "id": "CHAT4-NC-02",
+        "corroborates": "CHATB-NC-02",
+        "owner": "C",
+        "obligation": "SERVICE",
+        "severity": "instruction_repair_required",
+        "file": "participant-instructions.md",
+        "heading": "Who decides this, and what you do not file",
+        "observed": "The long guide says the clerk certifies first and narrates the Side Two clerk certificate before the judge's order. Current official AOC-CR-287 instructions paragraph 5 instead place copying, clerk certification and distribution after entry of an expunction order. Side Two itself certifies a copy of the entered order. The correct official instructions remain page 3 of every reviewed PDF; the contradiction is in the long Markdown guide, not those PDF pages.",
+        "correction": "State: participant completes/signs/files petition; court decides and enters the order; if granted, clerk certifies copies and distributes them. Preserve all court/clerk execution blanks and do not invent ordinary participant service on the prosecutor. This is an instruction correction answered by the official source, not a new counsel question.",
+        "authority": "https://www.nccourts.gov/assets/documents/forms/cr287-instr_3.pdf?VersionId=KdBrjd7dOC8zgSkKoCyOfwRvHvg93ilX",
+        "requiresNewRasterForUnchangedBytes": false
+      }
+    ],
+    "proofObligations": {
+      "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Reviewed ordinary participant dismissal relief under 15A-146(a)/(a1), AOC-CR-287, in the county where charged. Acquittal, DA-filed alternatives and DNA subsection (b1) are not substituted. The composed DNA family is distinct."},
+      "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Read current official 15A-146, court help and all seven current CR287/instruction/G106/CV226 source pages, including web PDF screenshots. Editions remain CR287/instructions Rev12/25, G106 Rev11/24 and CV226 Rev4/23. Three retained blank files were independently rehashed. G106's raw blank hash is receipt-attributed, not a fresh Chat 4 raw-file measurement; its current official pages and complete delivered copies were examined."},
+      "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both fixtures have no_fee=4 pages, fee_paid=4, indigency_requested=6 with G106 only, and requested_financial_supplement=8 with G106 plus CV226. The two eight-page diagnostics are complete review inventories. CR285 is expressly disclosed for additional rows/agencies but no overflow scenario is proven here."},
+      "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Independently checked 174 applicable expected text values on their actual component pages across all ten PDFs. Identity, address, ZIP, DOB, case, county and applicable phone are present and visibly readable. G106's expunction-purpose election was visually examined separately, not counted as a text value or an indigency finding."},
+      "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All sixty required blank disclosure labels and corresponding participant-supply instructions are present in the long guide: 21 petition, one G106 and 38 CV226. Missing charge-row and financial facts are disclosed, not invented. This is a static disclosure review, not proof that installed runtime collects the facts."},
+      "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "Actual delivered component selections match the four-way source contract. District/Superior, all/some dismissals, civil revocation, no-deferred certification, financial basis and execution selections remain for truthful participant completion. Fee examples do not override deferred/conditional-disposition legal stops. Generated product selection remains failed separately."},
+      "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "All five offense-row columns remain blank together where a complete dismissal-date binding is absent. No partial charge row or invented agency was observed. Additional charges/agencies require the disclosed CR285. This does not pass an unexecuted overflowing-case delivery."},
+      "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Every petition Side Two, G106 court/provider/oath execution block and CV226 execution block was visually examined. No fabricated signature/date, financial amount, notary act, provider certification, judicial finding or grant. G106 purpose alone is checked. The CV226 arbitration oath remains unsigned with explicit instructions not to sign an inapplicable statement."},
+      "ARTIFACTS": {"measured": true, "result": "FAIL", "finding": "All ten current whole-PDF hashes and all sixty PNG hashes were measured. Full family tree and central verdict Git blob match connected GitHub. Nevertheless the generated binding omits the admitted receipt and selects the diagnostic unconditionally: CHAT4-NC-01."},
+      "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Every PDF: CR287 pages1-2; official instructions page3; optional G106 pages4-5; optional CV226 pages6-7 only with supplement; completion guide last. All sixty page positions individually inspected, including complete reverse sides."},
+      "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "All sixty full page instances individually displayed and inspected, including long boundary name/address/case/phone. No observed clipping, overlap, invisible fill, missing glyph or truncated value. Existing central geometric results remain separately attributed to that run; the builder's glyph-rectangle detector was not rerun."},
+      "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "Clerk of superior court in county where charged, with criminal-case division confirmed. Current source requires agency addresses and retention of permanent record/order copies; instructions disclose them. No county-specific clerk response was invented."},
+      "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "15A-146(d) and current court instructions support ordinary no-fee dismissal, the $175 deferred/conditional fee and indigent exception. G106 is actually present when selected; CV226 only accompanies a specifically requested financial supplement. Current owner-relayed batch04 directions are preserved. No missing-operative-G106 hold is repeated for these completed outputs."},
+      "SERVICE": {"measured": true, "result": "FAIL", "finding": "Ordinary participant DA service is not invented; separate DNA notice remains separate. Long guide wrongly places clerk certification before the court's order, contrary to official instructions paragraph5: CHAT4-NC-02."},
+      "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Retained individualized deferred/conditional, incapacity, felony-plea, uncertain disposition, sequencing, DNA and immigration stops remain. Fee/sponsorship selection does not eliminate them. No generic AI/counsel limitation is added and no unprovided counsel approval is claimed."}
+    },
+    "failedObligations": ["ARTIFACTS", "SERVICE"],
+    "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": false, "scope": "Observed static reviewed fixtures only. Null counters are not borrowed from the builder or Chat B: no installed fact-collection audit or exhaustive programmatic field-classification replay was executed. These limits do not create a generic hold; the family already fails two exact obligations."},
+    "remainingRequirements": ["A: exact conditional product binding and admitted full receipt", "C: correct the long guide's order/certification chronology", "Independent check of those changed records; new PDF/raster evidence only if actual PDF bytes change", "Separate installed runtime, unknown-fact refusal and CR285 overflow evidence before claiming those paths"],
+    "centralEvidence": {
+      "runId": 34121189163,
+      "artifactId": 10018791229,
+      "packetInputCommit": "49ff69cdf9a110696cdf8dc5c29cb1b54ee6e54a",
+      "admissionCommit": "c842dd28945f1bbf0d36819cbc794c6be8474ce3",
+      "zipSha256Measured": "83e44710275ed350349fd130e24a67f6d0cc974721d5c2dae47b90c37752f608",
+      "verdictSha256Measured": "254ebcab02791ba0066f919b0a5462c13f4c2b5a24cbad91f3c730eb1d135077",
+      "verdictGitBlobMeasuredAndCurrentMatched": "bf1d8be0f3a7288033494cb826b5b0a14f701707",
+      "documentsDigestReportedByCentral": "8744fb3776bda61ae2bd5e43fde5ff1ae2a921d446e8af36c203e658625838e7",
+      "distinction": "Numbered page PNGs were hashed separately. page.pdf and page-calibration.pdf in the central ZIP are per-page intermediates, not complete participant PDFs. Whole PDFs were recovered separately and matched to current GitHub. The verdict digest above is this session's actual archive-file hash, not a hash copied from a conversational report."
+    },
+    "wholePdfHashesMeasured": [
+      {"file":"fixtures/canonical.pdf","pages":8,"bytes":1010047,"sha256":"3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039","gitBlobSha":"dd455925cc72c99a97e68b3e2c0c912d87266767"},
+      {"file":"fixtures/boundary.pdf","pages":8,"bytes":1010403,"sha256":"5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717","gitBlobSha":"ebb9a9abc497c71006ba983a3a50ea3acd1ba784"},
+      {"file":"fixtures/branches/canonical-no_fee.pdf","pages":4,"bytes":497377,"sha256":"b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7","gitBlobSha":"a2b9fcb1b017d8735e3b7e39828745571126c56d"},
+      {"file":"fixtures/branches/boundary-no_fee.pdf","pages":4,"bytes":497505,"sha256":"1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762","gitBlobSha":"3d75a986c904adbb5d1b83714e5003b698424d59"},
+      {"file":"fixtures/branches/canonical-fee_paid.pdf","pages":4,"bytes":497385,"sha256":"3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a","gitBlobSha":"9cd9ee669cc142b8526e6d8e908f4ad62548c7ed"},
+      {"file":"fixtures/branches/boundary-fee_paid.pdf","pages":4,"bytes":497513,"sha256":"72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028","gitBlobSha":"ed2d9976a5cd3e73403e0d8b5ff92445da84eafa"},
+      {"file":"fixtures/branches/canonical-indigency_requested.pdf","pages":6,"bytes":738532,"sha256":"739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3","gitBlobSha":"c118e63183c64b3df722b510138c24f96d71e22c"},
+      {"file":"fixtures/branches/boundary-indigency_requested.pdf","pages":6,"bytes":738788,"sha256":"cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2","gitBlobSha":"dd6c08df1a0d10f94b9dc8729ae84642aa95bdbd"},
+      {"file":"fixtures/branches/canonical-requested_financial_supplement.pdf","pages":8,"bytes":1009847,"sha256":"3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5","gitBlobSha":"65785c451c37ba11e601be9377cea7ad841420f1"},
+      {"file":"fixtures/branches/boundary-requested_financial_supplement.pdf","pages":8,"bytes":1010207,"sha256":"34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292","gitBlobSha":"c96f81894dd74a88e05abd581813d50b5482ffd4"}
+    ],
+    "contextHashesMeasured": {
+      "familyGitTree": "3a17a8f73d99634d3631de1819a02686d1b9b9ee",
+      "production-field-map.json": "b1b1f5df33e3b7e56ecdb179cc7d59b4e46fe72ca7615b274ea4a97f3b9d5c60",
+      "participant-instructions.md": "4f720efeb2338464ccaeb72181ded01e0f2b24af6c7153c3c261245886ed4cd0",
+      "product-wiring.json": "99ca477ee5205117e3ba5c8e2ba5fbfeac39cb7196dcf0f5d658e8e672c7ee04",
+      "reports/actual-writes.json": "e452be7f8d608007eb6609b19e89873a5249b6495bcaec6d1935cbe13fb2599f",
+      "reports/blanks-left-for-the-participant.json": "b844d7fa1ff0d450e34be3b72f198126f2539e71697f96751caa01229ab696be",
+      "reports/rendered-artifacts.json": "d267272a1461f7df90edde409716c0a1db8e080eb327ba27dbe55f58498715b5",
+      "source-receipt.json": "33741b9513c11ef455c56f2fe43d1ce2b4c0fd92dfa036a79a7133bd787969a9"
+    },
+    "blankSourceHashes": [
+      {"document":"AOC-CR-287","revision":"12/25","bytes":257828,"sha256":"a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed","measuredByThisSession":true},
+      {"document":"AOC-CR-287-INSTRUCTIONS","revision":"12/25","bytes":217744,"sha256":"fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7","measuredByThisSession":true},
+      {"document":"AOC-CV-226","revision":"4/23","bytes":269426,"sha256":"74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f","measuredByThisSession":true},
+      {"document":"AOC-G-106","revision":"11/24","bytes":247473,"sha256":"0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd","measuredByThisSession":false,"reportedBy":"source-receipt.json / data/rcap-grade-a/launch-recovery-2026-09-07/official-source-acquisition.json","limitation":"Direct raw-file download failed; current official two pages and all delivered copies were nevertheless visually examined. No raw-byte freshness equality is invented."}
+    ],
+    "primaryAuthoritiesExamined": [
+      "https://www.ncleg.gov/enactedlegislation/statutes/html/bysection/chapter_15a/gs_15a-146.html",
+      "https://www.nccourts.gov/help-topics/court-records/expunctions",
+      "https://www.nccourts.gov/assets/documents/forms/cr287_5.pdf?VersionId=i8vcDwdQdPLKFLV9zLnYz8xmj2zMLajv",
+      "https://www.nccourts.gov/assets/documents/forms/cr287-instr_3.pdf?VersionId=KdBrjd7dOC8zgSkKoCyOfwRvHvg93ilX",
+      "https://www.nccourts.gov/assets/documents/forms/g106ff%2010-25-2024.pdf?VersionId=pWEgUyskv7C0ph8Hpo.ql0cZ16GxWaPs",
+      "https://www.nccourts.gov/assets/documents/forms/cv226_1.pdf?VersionId=fyKKNw_0bAqHtDZYoFe.WzU5Ya1oDibo"
+    ],
+    "repositoryDirectionExamined": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-04.json, NC entry: operative G106 and conditional supplemental CV226; research is not counsel/output approval",
+    "execution": [
+      {"operation":"Safe extraction of existing GitHub artifact ZIPs and selected retained source files","exitCode":0},
+      {"operation":"git apply published-candidate binary patch into isolated scratch read-copy to recover already-published NC bytes, not a builder execution or repository mutation","exitCode":0},
+      {"operation":"Recursive Git-tree reconstruction against connected current family tree","exitCode":0,"result":"Exact match 3a17a8f73d99634d3631de1819a02686d1b9b9ee"},
+      {"operation":"python nc_measure.py: whole-PDF/page/PNG hashes and component-page expected-value readback","exitCode":0,"result":"10 PDFs, 60 pages, 174 applicable textual checks passed"},
+      {"operation":"Disclosure label and participantMustSupply comparison with actual long guide","exitCode":0,"result":"60/60 present"}
+    ],
+    "terminalPromotionClaimed": false
+  }]
+}

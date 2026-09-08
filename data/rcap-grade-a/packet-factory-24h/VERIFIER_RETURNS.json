@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 98,
-    "rows": 966,
+    "returnDirectories": 103,
+    "rows": 971,
     "independentVerdicts": 245,
-    "failRepairRequired": 47,
-    "passIndependent": 182
+    "failRepairRequired": 46,
+    "passIndependent": 183
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -70,7 +70,6 @@
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "ms-nonconv-set",
-    "nc_146_dismissal_petition-set",
     "nj_arrest_no_conviction-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -9719,6 +9718,27 @@
       "supersedesEvidencePath": null,
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_nonconviction_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ky_nonconviction_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "ky-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-session08-acceptance.json",
+      "evidenceSha256": "4aaad7c9fed4932ac97bfc1e3b70c8669274d1a81df3ea2dc01bc2c2620a396f",
+      "reviewer": "GPT-6 Astra release_scope independent engineering reviewer; original exact-byte visual measurements remain attributed to PR238 Chat4",
+      "sessionIdentity": "release-scope-session08-ky-current-byte-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_nonconviction_expungement-set",
       "superseded": false
     },
     {
@@ -10318,7 +10338,7 @@
       "supersedesEvidencePath": null,
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "md_10105_favorable-set",
@@ -10348,6 +10368,27 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
       "superseded": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "md-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+      "evidenceSha256": "7d1b7fa48b4262570a9bf397b8e126ee21b78eeee70f9d0d2da14d97409859b3",
+      "reviewer": "Codex /root/receipt_hooks, independent of the Maryland native-importer author",
+      "sessionIdentity": "session08-md-independent-static-acceptance-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": false
     },
     {
       "familyId": "md_second_chance_shielding-set",
@@ -12042,6 +12083,83 @@
       "candidateCodeCommit": null,
       "packetPublicationCommit": null,
       "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "nc-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e26f669eed3000b923185484369a3752011e8d2e",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "All ten current whole-PDF hashes and all sixty PNG hashes were measured. Full family tree and central verdict Git blob match connected GitHub. Nevertheless the generated binding omits the admitted receipt and selects the diagnostic unconditionally: CHAT4-NC-01.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Ordinary participant DA service is not invented; separate DNA notice remains separate. Long guide wrongly places clerk certification before the court's order, contrary to official instructions paragraph5: CHAT4-NC-02.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-independent-review.json",
+      "evidenceSha256": "dcf181b7925033a44ec488975118ad57d2c35dbbcc144571a4dfc72668ebd809",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-nc-nv-independent-01",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "PASS",
+      "lane": "nc-publication-closure-04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "70413199d405d3a5e629f852a6298f416f90707c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-publication-closure-04.json",
+      "evidenceSha256": "4633db2cab2e66393dc1fa66d5a79f914804d6fe640915fa0cb67917bee8490c",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat4 review session",
+      "sessionIdentity": "chat4-20260907-scale20-independent-04",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "nc-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-session08-acceptance.json",
+      "evidenceSha256": "b9b85d67135756a7952542fa2a324f2b5d2b0868c204bd31cb82b9a5b91cd887",
+      "reviewer": "GPT-6 Astra release_scope independent engineering reviewer; unchanged page measurements remain attributed to original Chat4",
+      "sessionIdentity": "release-scope-session08-nc-current-byte-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-publication-closure-04.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
       "superseded": false

@@ -22,7 +22,7 @@
  * anything else refuses, because a verdict nobody can read is not a verdict and
  * guessing at it is how a passing obligation becomes a repair lane.
  */
-import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda } from "./chat-review-inputs.mjs";
+import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda, supersededChatEvidencePath } from "./chat-review-inputs.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -279,9 +279,7 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
         candidateCodeCommit: r.candidateCodeCommit ?? doc.candidateCodeCommit ?? null,
         packetPublicationCommit: r.packetPublicationCommit ?? null,
         // A documented withdrawal is not inferred from file naming or dates.
-        supersedesEvidencePath: typeof doc.supersedesSubmittedDisposition === "string"
-          && path.basename(doc.supersedesSubmittedDisposition) === doc.supersedesSubmittedDisposition
-          ? `${base}/${doc.supersedesSubmittedDisposition}` : null,
+        supersedesEvidencePath: supersededChatEvidencePath(base, doc, r),
       } : {}),
       repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
         ? `${base}/${d}/repair-assignments.json` : null,

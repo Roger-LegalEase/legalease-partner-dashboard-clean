@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "70413199d405d3a5e629f852a6298f416f90707c",
+  "generatedAtCommit": "19eb374383a450153c659d327b829a33cac9f830",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1429,6 +1429,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T16:17:28.031Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "census-pending-family:ME:juvenile-sealing",
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "itemId": null,
+      "familyIds": [
+        "census-pending-family:ME:juvenile-sealing"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2911,11 +2926,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-07T18:09:38.926Z",
-      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json at SHA-256 d6cbc5d6da48ea513c420d7b6b21c302a5fa62f32ad9ef4a1afa13c8872396c1; current disposition GUIDANCE_READY. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+      "releasedAt": "2026-09-07T18:09:38.926Z"
     },
     {
       "subjectType": "packet-family",
@@ -5740,8 +5754,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-07T18:09:39.040Z",
-      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/nc-complete-branch-independent-review.json at SHA-256 75db3f480c1daf685f64ba48379e881f141c88fdddd9d3f6bc6cf0aff2d78cf1; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+      "releasedAt": "2026-09-07T18:09:39.040Z"
     },
     {
       "subjectType": "packet-family",
@@ -7811,7 +7824,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF04",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-06T18:33:50.752Z"
@@ -8299,6 +8312,21 @@
       "released": true,
       "releasedAt": "2026-09-06T05:11:44.396Z",
       "releaseReason": "Completed repair 667527723/86af8c364 integrated; current-byte independent reread now starts, fresh central raster remains owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
+      "familyId": "ut_pet_special_certificate-set",
+      "itemId": null,
+      "familyIds": [
+        "ut_pet_special_certificate-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -10068,20 +10096,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:13.126Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
-      "itemId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
-      "familyIds": [
-        "census-pending-family:ME:juvenile-sealing"
-      ],
-      "sourceId": "official-form:JV-043",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -13647,8 +13661,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-08T12:33:49.226Z",
+      "releaseReason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
     },
     {
       "subjectType": "source-obligation",
@@ -13661,8 +13676,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-08T12:33:49.379Z",
+      "releaseReason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
     },
     {
       "subjectType": "source-obligation",
@@ -13791,7 +13807,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1ec65f23b6085de638523d0120924d20cbb00a92cf30dd6fcd959853cc8a13e4",
+  "claimsDigest": "a80f1953a15c05630c4ce55344ddbfc657f9502078bc6a56670a4df460c2aaa3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32841,6 +32857,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-07T18:09:39.497Z",
       "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "ut_pet_special_certificate-set::official-form:1001EX",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-08T12:33:49.226Z",
+      "reason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "ut_pet_special_certificate-set::official-form:1021EX",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-08T12:33:49.379Z",
+      "reason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
     }
   ],
   "reissues": [
@@ -52698,6 +52732,14 @@
       "operation": "packet-build",
       "lane": "PF09",
       "withdrawnAt": "2026-09-08T11:11:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T12:20:27Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

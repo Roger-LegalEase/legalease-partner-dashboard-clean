@@ -14,6 +14,8 @@ const OBLIGATIONS = ['ROUTE_IDENTITY','SOURCE_IDENTITY','COMPONENT_SET','KNOWN_P
 const SOURCE_REGISTRY = 'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json';
 const ORIGINAL_REGISTRY_COMMIT = 'c6af0d84134216c5d0757e5543ccf3fcaa42f19c';
 const REVIEW = 'data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json';
+const CUSTODY_NOTE = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json';
+const CUSTODY_NOTE_SHA = 'd4a23c2e0872a83a0b51fe3985a7cf23b555681c91a2b855e4b52a75950ee8c9';
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const blob = b => crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
 
@@ -21,7 +23,7 @@ const blob = b => crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}
 // Appending an unrelated family does not change an existing family's source.
 // Any edit/removal/reordering of old data, or an added same-family entry,
 // refuses. No hash is silently rewritten in the author's source receipt.
-export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
+export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId, readBytes = null) {
   const old = JSON.parse(oldBytes), now = JSON.parse(currentBytes);
   const a = old.reconciliation42, b = now.reconciliation42;
   assert.ok(a && b, 'missing structured source determination');
@@ -29,8 +31,8 @@ export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
   for (const key of ['families', 'acquisitionEvidencePaths']) {
     assert.ok(Array.isArray(a[key]) && Array.isArray(b[key]));
     assert.ok(b[key].length >= a[key].length, 'source entries removed');
-    assert.deepEqual(b[key].slice(0, a[key].length), a[key], 'existing source determination changed');
     if (key === 'families') {
+      assert.deepEqual(b[key].slice(0, a[key].length), a[key], 'existing source determination changed');
       for (const r of b[key].slice(a[key].length)) {
         assert.equal(typeof r.familyId, 'string');
         assert.notEqual(r.familyId, familyId, 'same-family source determination added');
@@ -40,17 +42,41 @@ export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
       }
     }
   }
-  assert.ok(additions.length > 0, 'no unrelated family addition explains this hash change');
-  const addedPaths = b.acquisitionEvidencePaths.slice(a.acquisitionEvidencePaths.length);
-  assert.ok(addedPaths.every(p => additions.some(r => r.evidencePath === p)), 'unexplained source evidence addition');
+  const oldPaths = new Set(a.acquisitionEvidencePaths);
+  assert.equal(new Set(b.acquisitionEvidencePaths).size, b.acquisitionEvidencePaths.length, 'duplicate source evidence path');
+  assert.deepEqual(b.acquisitionEvidencePaths.filter(p => oldPaths.has(p)), a.acquisitionEvidencePaths, 'existing source evidence removed or reordered');
+  const addedPaths = b.acquisitionEvidencePaths.filter(p => !oldPaths.has(p));
+  const custodyChecks = [];
+  for (const p of addedPaths) {
+    if (p !== CUSTODY_NOTE && additions.some(r => r.evidencePath === p)) continue;
+    // This exact custody-only note adds three held UT/ME originals to the
+    // source conveyor. It changes no Delaware source, treatment or guide.
+    assert.equal(p, CUSTODY_NOTE, 'unexplained source evidence addition');
+    assert.equal(typeof readBytes, 'function', 'unmeasured custody evidence addition');
+    const noteBytes = readBytes(p);
+    assert.equal(sha(noteBytes), CUSTODY_NOTE_SHA, 'custody evidence changed');
+    const note = JSON.parse(noteBytes);
+    assert.equal(note.custodyOnly, true);
+    assert.equal(note.grantsApproval, false);
+    const families = new Set(['ut_pet_special_certificate-set', 'census-pending-family:ME:juvenile-sealing']);
+    for (const d of note.documents) {
+      const id = d.itemId.slice(0, d.itemId.indexOf('::official-form:'));
+      assert.ok(families.has(id) && id !== familyId, 'custody addition affects reviewed family');
+      const source = readBytes(d.heldCorpusPath);
+      assert.equal(source.length, d.byteLength, 'held custody length changed');
+      assert.equal(sha(source), d.sha256, 'held custody bytes changed');
+      custodyChecks.push({familyId: id, path: d.heldCorpusPath, sha256: d.sha256});
+    }
+  }
+  assert.ok(additions.length > 0 || custodyChecks.length > 0, 'no unrelated addition explains this hash change');
   const normal = structuredClone(now);
   normal.reconciliation42.families = a.families;
   normal.reconciliation42.acquisitionEvidencePaths = a.acquisitionEvidencePaths;
   assert.deepEqual(normal, old, 'other source registry content changed');
-  return {comparison: 'all prior structured content identical; only other-family entries appended',
+  return {comparison: 'all prior structured content and ordering identical; only other-family entries or exact measured custody paths added',
     pinnedSha256: sha(oldBytes), currentSha256: sha(currentBytes),
     unchangedPriorFamilyEntries: a.families.length,
-    appendedFamilyIds: additions.map(r => r.familyId), addedEvidencePaths: addedPaths};
+    appendedFamilyIds: additions.map(r => r.familyId), addedEvidencePaths: addedPaths, custodyChecks};
 }
 
 export function assessDeReviewedGuidance(root, returned, overrides = {}) {
@@ -115,7 +141,7 @@ export function assessDeReviewedGuidance(root, returned, overrides = {}) {
       assert.equal(sha(old), s.sha256, 'historical registry does not match the author’s pin');
       sourceChecks.push({path:s.path, matched:false, scopeUnchanged:true,
         historicalCommit:ORIGINAL_REGISTRY_COMMIT,
-        ...additiveOtherFamilyRegistry(old,b,DE_FAMILY)});
+        ...additiveOtherFamilyRegistry(old,b,DE_FAMILY,bytes)});
     }
     assert.equal(sourceChecks.length, 9);
     const rq = json('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json');

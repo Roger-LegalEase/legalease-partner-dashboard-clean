@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "rcap-independent-delta-review/v1",
+  "reviewer": "/root/independent_md_review",
+  "reviewedAt": "2026-09-08T12:32:09.569Z",
+  "verdict": "PASS",
+  "scope": "Existing row-level chat-review supersession extraction; no new packet or legal approval",
+  "authorReviewerSeparation": "Root authored helper and extractor change; this separate reviewer inspected the actual caller and authored/executed these controls.",
+  "independentCases": 17,
+  "cases": [
+    {
+      "name": "actual acceptance has row-level declaration that the previous document-only reader missed",
+      "result": "PASS",
+      "previousSelectedVerdict": {
+        "verdict": "PASS",
+        "lane": "md-guard-delta-03",
+        "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json"
+      },
+      "rawDeclaration": "md-guard-delta-03.json"
+    },
+    {
+      "name": "actual discovery, review-contract and whole-output gates still apply before the declaration is consumed",
+      "result": "PASS",
+      "discovered": true,
+      "originalReviewContractPassed": true,
+      "currentCanonicalAndBoundaryAnchorsMatched": true,
+      "reviewAuthorshipUnchanged": true
+    },
+    {
+      "name": "source extractor actually invokes helper on the row it is returning",
+      "result": "PASS",
+      "actualCaller": "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs"
+    },
+    {
+      "name": "document default remains valid when the row provides no declaration",
+      "result": "PASS",
+      "defaultApplied": true
+    },
+    {
+      "name": "row declaration overrides document default without leaking into another row",
+      "result": "PASS",
+      "perRowPrecedence": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"../old.json\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"sub/old.json\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"sub\\\\old.json\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"/old.json\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"old.md\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: false",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: 7",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "invalid explicit row declaration refuses instead of falling back: \"\"",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "absent declaration grants no supersession",
+      "result": "PASS",
+      "refused": true
+    },
+    {
+      "name": "actual selection comparator honors explicit supersession in both input orders",
+      "result": "PASS",
+      "ancestryOrLaneProxyInvocations": 0
+    },
+    {
+      "name": "actual family partition does not let a cross-family declaration replace another family",
+      "result": "PASS",
+      "selectedFamilies": 2
+    },
+    {
+      "name": "actual current extractor output selects acceptance and retains both older reviews as history",
+      "result": "PASS",
+      "currentAcceptance": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+      "retainedOriginals": 2,
+      "rawReviewHashesMatched": true
+    }
+  ],
+  "inputs": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/chat-review-inputs.mjs",
+      "sha256": "f4dcd5d18f80db93c9f6f00e2a08ad65bb224f62e8c779082e0ed2fbd431c606",
+      "bytes": 9831
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs",
+      "sha256": "bd4a41a1c20028bfb037c90102bac62ae23fa238ea3d0f9cda80ed24b96a1f46",
+      "bytes": 28844
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+      "sha256": "7d1b7fa48b4262570a9bf397b8e126ee21b78eeee70f9d0d2da14d97409859b3",
+      "bytes": 26177
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "sha256": "723f602652a2e9c3b23513f98888fa3ec84b3176e4b913c5241cf46542d6ec78",
+      "bytes": 11029
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json",
+      "sha256": "32a5c9cca6abdac4fa0e3289ed88362f064228920a228044eb636324b08910f5",
+      "bytes": 12616
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "sha256": "76d0e92ad0ecfc1ad3330723f4299db6ab496a4b47f43cc0b136654e819399bb",
+      "bytes": 2189114
+    }
+  ],
+  "reviewerScript": {
+    "path": "scripts/rcap-packet-recovery/session10/review-chat-supersession-delta.mjs",
+    "sha256": "0f705c5b29a9a0060000636cf9259d556a2cc08853e0fc5d6489cdf0594710a6",
+    "bytes": 9265
+  },
+  "originalAcceptanceAttribution": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+    "reviewer": "Codex /root/receipt_hooks, independent of the Maryland native-importer author",
+    "sessionIdentity": "session08-md-independent-static-acceptance-20260908",
+    "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78"
+  },
+  "fullExtractorCheckObservedSeparately": {
+    "command": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs --check",
+    "executedBy": "/root/independent_md_review",
+    "toolExecSession": 88368,
+    "exitCode": 0,
+    "result": "verifier returns converge: 245 independent verdict(s), 46 FAIL_REPAIR_REQUIRED.",
+    "existingRefusedRows": 17,
+    "existingRefusalsRemainVisible": true,
+    "sharedFilesWritten": false
+  },
+  "authorSuite": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/review-supersession-tests.json",
+    "sha256": "8884df9f15ed21f78a9d0ae71d2d36387af7a541f80407077046df8c8f4d2fda",
+    "bytes": 117,
+    "rerunHere": false,
+    "claimedAsIndependent": false
+  },
+  "reviewLimits": [
+    "The existing acceptance, its original reviewer and its bounded ordinary Maryland 072A scope are preserved.",
+    "Supersession does not upgrade a guard-only PASS or create unmeasured obligations/counters. It selects a separate already-complete acceptance row.",
+    "No changed PDF, new counsel acceptance, route/runtime/payment grant or production deployment is claimed."
+  ],
+  "rawReviewsChanged": false,
+  "sharedFilesModified": false,
+  "productionChanged": false
+}

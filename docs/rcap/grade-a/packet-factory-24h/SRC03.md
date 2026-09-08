@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `70413199d405d3a5e629f852a6298f416f90707c` (or the newer dispatch base)
+**Minimum required ancestor:** `19eb374383a450153c659d327b829a33cac9f830` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC03 \
-  --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' \
+  --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300' \
   --codex-cloud \
-  --minimum-captain-sha 70413199d405d3a5e629f852a6298f416f90707c
+  --minimum-captain-sha 19eb374383a450153c659d327b829a33cac9f830
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC03 <itemId>`
-- The committed assignment contains exactly 3 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 2 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC03 <itemId>`.
 
@@ -55,7 +55,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `STALE_OR_VARIANT_ID` — 0 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 0 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
 - `FAMILY_IDENTITY_AMBIGUOUS` — 1 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 11 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `CURRENTNESS_UNVERIFIED` — 10 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 0 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
 - `LICENSE_PERMISSION_REVIEW` — 0 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
@@ -64,7 +64,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 - `STANDALONE_ARTIFACT` — 0 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 0 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 19 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 10 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**3 obligations · 2 families this lane WOULD release if every one of them resolves · hosts: ME, WA**
+**2 obligations · 1 families this lane WOULD release if every one of them resolves · hosts: WA**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,17 +103,16 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `census-pending-family:ME:juvenile-sealing::official-form:JV-043` | `official-form:JV-043` | ME | `held-inventory-reconciliation` | `census-pending-family:ME:juvenile-sealing` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300` | `official-form:JU 10.0300` | WA | `held-inventory-reconciliation` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315` | `official-form:JU 10.0315` | WA | `held-inventory-reconciliation` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
-Deterministically assert exactly the 3 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 2 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC03');
-if (!a || a.items.length !== 3) throw new Error('SRC03 committed item count changed');
+if (!a || a.items.length !== 2) throw new Error('SRC03 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC03',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -125,7 +124,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha 70413199d405d3a5e629f852a6298f416f90707c
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300' --codex-cloud --minimum-captain-sha 19eb374383a450153c659d327b829a33cac9f830
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -134,7 +133,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 ### Families this lane would release
 
-`census-pending-family:ME:juvenile-sealing`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`
+`census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`
 
 
 ### Settle these first
@@ -143,7 +142,6 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| JV-043 | ME | 1 |
 | JU 10.0300 | WA | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
