@@ -76,6 +76,17 @@ const REQUIRED_CASES = [
 const verdicts = new Map();
 let observedHashes = [];
 let baselineDetail = { missing: ["case did not run"], assertedBeforePhase49: false };
+/* Declared here, with the other state finish() reads, and not beside the
+ * synthetic-item block that assigns it. finish() runs on every exit path,
+ * including the early refusals above that block — an incomplete baseline, or
+ * migration hash drift. While this was a `let` further down the file, those
+ * early exits reached finish() before the declaration was evaluated and died
+ * in the temporal dead zone with "Cannot access 'itemA' before initialization",
+ * so a run that had correctly refused to apply phase 49 onto an incomplete
+ * baseline reported a ReferenceError instead of its refusal. Run 34290269484
+ * is that failure. State that finish() reads must be declared before the first
+ * call that can reach it. */
+let itemA = null;
 function record(caseId, passed, observed) {
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
@@ -277,7 +288,6 @@ const tokens = new Map();
 
 // --- Synthetic partner, entitlement, items, matters, payments ----------------
 const A = () => USERS[0]; const B = () => USERS[1];
-let itemA = null;
 {
   // Item A is jurisdiction MS — a LEGACY_VERIFIED_JURISDICTIONS member, so the
   // packet-route resolver marks it sellable and the unpaid item reaches the
