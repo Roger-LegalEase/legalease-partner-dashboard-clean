@@ -269,6 +269,8 @@ const documentSet = async (dir, fixtures, pdfs) => {
       rows.push({
         role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs),
         ...(branch ? { conditionalPacketBranch: branch.branch } : {}),
+        ...(branch?.selectionKind ? { selectionKind: branch.selectionKind,
+          requiredBeforeFiling: branch.requiredBeforeFiling, filingReady: false } : {}),
         pageCount: pageCountEvidence?.pageCount ?? null,
         pageCountEvidence,
         pageCountBasis: parsed !== null

@@ -16,6 +16,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { sourceDispositionAdvancement } from './source-disposition-advancement.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const MUTATIONS = process.argv.includes("--mutations");
@@ -212,8 +213,10 @@ for (const row of recRows) {
   const projected = recOutput?.families?.find(x=>x.familyId===row.familyId);
   if (!projected || projected.group!==row.group || projected.decidedDisposition!==row.disposition) recProblems.push(`${row.familyId}: governed output row is missing/stale`);
   const generated = masterFamilies.get(row.familyId);
+  const advancement = sourceDispositionAdvancement(ROOT, row, generated);
+  if (JSON.stringify(projected?.advancement ?? null) !== JSON.stringify(advancement)) recProblems.push(`${row.familyId}: source advancement evidence is stale`);
   if (!generated) recProblems.push(`${row.familyId} absent from MASTER_QUEUE`);
-  else if (row.disposition === "SOURCE_READY") {
+  else if (row.disposition === "SOURCE_READY" || advancement?.effectiveDisposition === 'SOURCE_READY') {
     // A released family may legitimately advance as soon as a builder claims
     // it. Verify the source gate remains satisfied instead of pinning the
     // family forever to the transient SOURCE_READY workflow state.
@@ -222,11 +225,11 @@ for (const row of recRows) {
       || generated.state === "PRODUCT_PATH_PENDING") {
       recProblems.push(`${row.familyId}: source release regressed at ${generated.state}`);
     }
-  } else if (generated.state !== row.disposition) {
+  } else if (generated.state !== (advancement?.effectiveDisposition ?? row.disposition)) {
     recProblems.push(`${row.familyId}: ${generated.state} != ${row.disposition}`);
   }
 }
-const expectedStillBlocked = recRows.filter((r) => r.disposition === "SOURCE_BLOCKED").map((r) => r.familyId).sort();
+const expectedStillBlocked = recRows.filter((r) => r.disposition === "SOURCE_BLOCKED" && !sourceDispositionAdvancement(ROOT, r, masterFamilies.get(r.familyId))).map((r) => r.familyId).sort();
 const declaredStillBlocked = [...(recOutput?.remainingSourceBlockedFamilyIds ?? [])].sort();
 if (JSON.stringify(expectedStillBlocked) !== JSON.stringify(declaredStillBlocked)) {
   recProblems.push(`remaining blocked ${declaredStillBlocked.join(", ") || "none"}; expected ${expectedStillBlocked.join(", ") || "none"}`);
@@ -284,6 +287,12 @@ if (MUTATIONS) {
     return r;
   };
   const cases = [
+    { id: 'S12', name: 'a released Maine source hash cannot be replaced by a ready flag', file: MASTER,
+      edit: j => { j.families.find(f => f.familyId === 'census-pending-family:ME:juvenile-sealing').sourceReadiness.boundSources[0].sha256 = '0'.repeat(64); return j; } },
+    { id: 'S12', name: 'a Washington motion claim cannot inherit court-initiated guidance acceptance', file: MASTER,
+      edit: j => { j.families.find(f => f.familyId === 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260').sourceReconciliation.disposition = 'SOURCE_READY'; return j; } },
+    { id: 'S12', name: 'dropping the source advancement receipt is caught', file: REGISTRY,
+      edit: j => { delete j.reconciliation42.families.find(f => f.familyId === 'census-pending-family:ME:juvenile-sealing').advancement; return j; } },
     { id: "S1", name: "dropping an externally verified disposition is caught", file: REGISTRY,
       edit: (j) => { const r = j.records.find((x) => x.externallyVerified); if (r) r.externallyVerified = false; else { const discharged=j.externalVerification?.dischargedBecauseNoCurrentSourceBlock; if (!discharged?.length) throw new Error("No verified active or discharged disposition to remove"); discharged.pop(); } return j; } },
     { id: "S2", name: "a plus-joined form-ID list in the issuer field is caught", file: REGISTRY,

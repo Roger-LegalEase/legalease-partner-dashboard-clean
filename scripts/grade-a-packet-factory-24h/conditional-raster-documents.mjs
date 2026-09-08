@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { FAMILY as GA_FAMILY, fixtures as gaFixtures, validateGa } from '../rcap-packet-recovery/chat5/ga-pre2013.mjs';
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
   const declared = (report?.pdfs ?? []).filter(d => d?.role === 'conditional_assembled_packet');
@@ -11,6 +12,35 @@ export function conditionalPacketDocuments({ report, fixtures, root }) {
   const seen = new Set();
   const pairs = new Set();
   const home = fs.realpathSync(fixtures);
+  // The retained GA builder uses artifacts/packets, not pdfs/selectable.
+  // Enumerate its actual fixture contract without rewriting the reviewed report.
+  if (report?.familyId === GA_FAMILY) {
+    const expected = gaFixtures();
+    assert.deepEqual(report.artifacts, report.packets, 'GA whole-packet declarations disagree');
+    assert.deepEqual(report.artifacts.map(d => d.fixture).sort(), Object.keys(expected).sort(), 'GA whole-packet fixture inventory changed');
+    assert.deepEqual(fs.readdirSync(home).filter(n => n.endsWith('.pdf')).sort(),
+      Object.keys(expected).map(n => `${n}.pdf`).sort(), 'GA PDF inventory differs from its builder contract');
+    for (const d of report.artifacts) {
+      assert.equal(d.path, `fixtures/${d.fixture}.pdf`, 'GA fixture path disagrees with its identity');
+      const target = path.join(home, `${d.fixture}.pdf`);
+      assert.ok(!fs.lstatSync(target).isSymbolicLink(), 'GA packet must not be a symlink');
+      const bytes = fs.readFileSync(target);
+      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+      assert.equal(bytes.length, d.byteLength, 'GA packet byte length drift');
+      assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), d.sha256, 'GA packet digest drift');
+      assert.ok(Number.isSafeInteger(d.pageCount) && d.pageCount > 0, 'GA packet needs its page count');
+      const facts = JSON.parse(fs.readFileSync(path.join(home, `${d.fixture}.facts.json`)));
+      assert.deepEqual(facts, expected[d.fixture], 'GA retained fixture facts differ from the actual builder');
+      const validation = validateGa(facts);
+      const diagnostic = ['canonical', 'boundary', 'missing-participant-facts'].includes(d.fixture);
+      selected.push({ role: diagnostic && d.fixture !== 'canonical' ? 'boundary' : 'canonical',
+        name: `${d.fixture}.pdf`, declaredPageCount: d.pageCount, branch: d.fixture,
+        selectionKind: diagnostic ? 'diagnostic' : 'conditional_packet_example',
+        requiredBeforeFiling: validation.missing.map(item => item.fieldId),
+        filingReady: false });
+    }
+    return selected.sort((a,b) => a.name.localeCompare(b.name, 'en'));
+  }
   for (const d of declared) {
     assert.ok(['canonical', 'boundary'].includes(d.baseFixture), 'Conditional packet has no exact base fixture');
     assert.ok(typeof d.branch === 'string' && /^[a-z0-9_]+$/.test(d.branch), 'Conditional packet has no exact branch');

@@ -36,8 +36,12 @@ jobs:
           node scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs | tee "$RUNNER_TEMP/recovery-validation/de-custody.log"
           node scripts/grade-a-packet-factory-24h/test-ky-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ky-declared.log"
           node scripts/grade-a-packet-factory-24h/test-md-favorable-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/md-declared.log"
+          node scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs | tee "$RUNNER_TEMP/recovery-validation/declared-review-anchors.log"
+          node scripts/rcap-packet-recovery/chat1/test-mi-mo-declared-candidates.mjs | tee "$RUNNER_TEMP/recovery-validation/mi-mo-declared.log"
+          node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs | tee "$RUNNER_TEMP/recovery-validation/ga-documents.log"
           node scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs | tee "$RUNNER_TEMP/recovery-validation/source-receipt-hooks.log"
-          for script in generate generate-source-conveyor generate-washington-repair; do
+          node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations | tee "$RUNNER_TEMP/recovery-validation/source-model.log"
+          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue extract-verifier-returns; do
             node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$RUNNER_TEMP/recovery-validation/$script.log" 2>&1 || { cat "$RUNNER_TEMP/recovery-validation/$script.log"; exit 1; }
           done
           test -z "$(git status --porcelain)"
@@ -67,7 +71,15 @@ jobs:
             const fs = require('fs');
             const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
             const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
-            const requested = ['ky_nonconviction_expungement-set','md_10105_favorable-set'];
+            const requested = [
+              'ky_nonconviction_expungement-set',
+              'md_10105_favorable-set',
+              'ga-nonconv-pre2013-set',
+              'mi_setaside_application-set',
+              'mi_setaside_first_owi-set',
+              'mo-610-145-mistaken-identity-set',
+              'agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure'
+            ];
             const eligible = requested.filter(family => queue.rows.some(row => row.familyId === family && row.currentRasterState === 'RASTER_PENDING'));
             const deferred = requested.filter(family => !eligible.includes(family)).map(family => ({
               family,
