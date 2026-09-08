@@ -12,8 +12,36 @@
     "court_prosecutor_clerk_or_agency_owned",
     "participant_sworn_narrative_or_legal_election"
   ],
-  "routeDeterminedSelections": [],
-  "routeSelectionNote": "C.R.S. § 24-72-705 is one simplified process covering all five grounds JDF 477 lists, so the route does not choose between them: which ground applies is a fact about how this case ended. The packet states the route it was built for and leaves the ground, the court type and the agency list to the participant rather than asserting a disposition it does not hold.",
+  "routeDeterminedSelections": [
+    {
+      "document": "JDF-478",
+      "field": "JDF-478/478.3D.0",
+      "printedQuestion": "Colorado Bureau of Investigation records to be sealed (selection)",
+      "answerTheRouteDetermines": "the Colorado Bureau of Investigation is on the list of record holders",
+      "markedByThePacket": false,
+      "statedOnTheDeliveredPage": false,
+      "basis": "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant.",
+      "refusedBy": [
+        {
+          "reason": "protected_category",
+          "category": "agency"
+        }
+      ],
+      "whyNotMarked": "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the shared module and is not this family's to change.",
+      "carriedToTheParticipant": "tick this box yourself before you file; the form marks it required and the packet could not mark it"
+    }
+  ],
+  "sourceAuthoredSelections": [
+    {
+      "document": "JDF-477",
+      "field": "JDF-477/8C.0",
+      "printedQuestion": "Colorado Bureau of Investigation holds records (selection)",
+      "statedOnTheDeliveredPage": true,
+      "writtenByThisPacket": false,
+      "basis": "The Colorado Judicial Department ships JDF 477 with this box already checked, because the form marks the CBI required. Flattening materialises the form's own value; reports/actual-writes.json records it as a documentAuthoredAppearance. The packet does not mark it again, and marking it again would claim a write over the issuer's own value."
+    }
+  ],
+  "routeSelectionNote": "C.R.S. § 24-72-705 is one simplified process covering all five grounds JDF 477 lists, so the route does not choose between them: which ground applies is a fact about how this case ended. The packet states the route it was built for and leaves the ground, the court type and the agency list to the participant rather than asserting a disposition it does not hold. One selection IS route-determined and is recorded above: the CBI line, which both forms mark required. On JDF 477 the issuer has already ticked it. On JDF 478 the packet asks the shared finalizer to tick it, the shared `agency` protect rule refuses, the refusal is recorded per fixture, and the participant is told to tick it before filing. The box is not relabelled to get past that rule.",
   "requiredBeforeFilingCount": 23,
   "requiredBeforeFiling": [
     {
@@ -3591,13 +3619,23 @@
               "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
             }
           ],
-          "disposition": "explicit_refusal",
-          "reason": "the form marks the Colorado Bureau of Investigation as required and prints its address; tick it",
-          "category": "participant_sworn_narrative_or_legal_election",
-          "completenessClass": "participant_sworn_narrative_or_legal_election",
-          "class": "participant_sworn_narrative_or_legal_election",
-          "requiredBeforeFiling": false,
-          "routeDetermined": false
+          "disposition": "route_settled_and_refused",
+          "reason": "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant.",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": true,
+          "routeDetermined": true,
+          "markedByThePacket": false,
+          "markBasis": null,
+          "refusedBy": [
+            {
+              "reason": "protected_category",
+              "category": "agency"
+            }
+          ],
+          "whatTheParticipantMustDoInstead": "tick this box yourself before you file; the form marks it required and the packet could not mark it",
+          "whyThePacketCouldNotMarkIt": "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the shared module and is not this family's to change."
         },
         {
           "field": "JDF-478/478.3E.0",

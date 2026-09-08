@@ -8,7 +8,9 @@
   "whatToLookAt": [
     "JDF 477 sections 1, 2, 3 and 5, and JDF 478 sections A, B, C and 2: confirm the county, case number, defendant name, birth date, address, phone and e-mail each sit under the heading they belong to. The text stream is scrambled, so this is the check.",
     "JDF 477 section 6: all five grounds unticked and their date boxes blank.",
-    "JDF 477 section 8 and JDF 478 section 3: the agency boxes unticked and the agency names, numbers and addresses blank.",
+    "JDF 477 section 8: the agency boxes unticked and the agency names, numbers and addresses blank — EXCEPT the Colorado Bureau of Investigation box, which the Colorado Judicial Department ships already checked. That tick is the issuer's own and reports/actual-writes.json records it as a documentAuthoredAppearance; a reader should confirm it is there, not that it is absent.",
+    "JDF 478 section 3: every agency box unticked, INCLUDING the Colorado Bureau of Investigation box the form marks (required). That empty box is a KNOWN, MEASURED DEFECT, not a clean page: the route requires the tick, this packet asks the shared finalizer for it, and the shared `agency` protect rule refuses because the label names a law-enforcement agency. See production-field-map.json routeDeterminedSelections. The participant is told in participant-instructions.md to tick it before filing. Confirm that instruction is present and unmissable; do not read the empty box as correct.",
+    "JDF 478 section 3, the agency names, numbers and addresses: blank.",
     "JDF 477 section 9: the certificate of service blank — no date, no method, no recipient.",
     "JDF 477 section 10: the verification blank — no date, no place, no printed name, no signature — and the counsel block blank.",
     "JDF 478 sections 4 and 5: the court's orders, signature and date blank, and neither Judge nor Magistrate ticked."
