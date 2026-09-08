@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "chat5-ga-warning-candidate/v2",
+  "finding": "CHAT4-GA-01",
+  "reviewPr": 239,
+  "baselineCommit": "97f04c670d4a9c8a3915f5a71dc1893edb32489b",
+  "originalCandidateCommit": "d6dcc69f4f4e42d006b6b8aa368454157da7a1ad",
+  "artifact": {
+    "driveFileId": "1oyE5I2dyLpMhv47OMslZpdFIaDQzdn1o",
+    "filename": "CHAT5_GA_WARNING_V2_COMPLETE_2026-09-07.zip",
+    "sha256": "ff09762452ace4c2cc3374416e16cd85c379a0cd2c9783feec1a0c34cdc1edf4",
+    "byteLength": 18875317,
+    "entries": 111,
+    "manifestEntries": 110,
+    "completeCandidate": true
+  },
+  "sourceCode": {
+    "path": "scripts/rcap-packet-recovery/chat5/ga-pre2013.mjs",
+    "expectedOldGitBlob": "5bf85bbd965baf96947923b578b4f0140816dba1",
+    "correctedGitBlob": "02feb85b85f8dafe7758f4bbda360bc054bd053b",
+    "correctedSha256": "4c0aaea7ab047c79b5de1005ede0db2f18a5c52d6f09bc3f8a2a3be5a292c23f",
+    "onlyChange": "Add the qualified employment/office warning in guideFor, shared by actual PDF and Markdown instruction generation.",
+    "publicationPending": true,
+    "installation": "Chat12 installs exact archived module or applies guide-only.patch against expected old blob; do not execute both. This evidence commit does not claim the active module or PDF paths are replaced."
+  },
+  "measuredRecheck": {
+    "completePdfs": 15,
+    "pages": 108,
+    "fullRendererRuns": 3,
+    "generatedFilesCompared": 52,
+    "allFilesMatchEachOtherAndArchivedV2": true,
+    "rendererTestsPassed": 88,
+    "sharedImporterBehaviorControlsPassed": 8,
+    "completePdfDefectControlsCaught": 12,
+    "additionalWarningPdfMutantsCaught": 2,
+    "completePdfWarningsChecked": 15,
+    "markdownWarningChecked": true,
+    "changedPageInstances": 15,
+    "unchangedPageInstances": 93,
+    "distinctChangedFullPagesVisuallyInspected": 2,
+    "officialSourceAndAgencyProsecutorPagesUnchanged": true,
+    "fieldMappingsPredicatesAndAllFixtureInputsUnchanged": true,
+    "fullOutputDeltaSha256": "ae1f14f2173cffecfb073e34695f00ec4bc3f4c8dce27e5e123b39dd4c72e926",
+    "reviewType": "AUTHOR_DELTA_QA_ONLY"
+  },
+  "canonical": {"pages": 7, "bytes": 455159, "sha256": "c1ba21c6400010377cace19b85ecf100866e07a57c2facc6b5c554b48fcf18e1"},
+  "boundary": {"pages": 8, "bytes": 458064, "sha256": "62aa209bccaad83f188ac941760ce89fdc9fceeb9f3c0a96d7ea0ee50335a2a2"},
+  "patches": {
+    "newFiles": {"name": "packet-output-v2-new-files.patch", "paths": 53, "sha256": "63c291647e49aa02bdb93cd4e7103ae343719a47fd134354062a4889f852faa4", "bytes": 9922348},
+    "originalCandidateDelta": {"name": "packet-output-v2-delta.patch", "paths": 33, "sha256": "cea436ec744bb3416b8b51802c925847239bef8f59b20c83316667979e449ea7", "bytes": 176104},
+    "replay": "Use exactly one output patch appropriate to actual destination. New-file patch reapplied in isolated repository and all53 exact output/source bytes matched. Refuse unexpected current bytes."
+  },
+  "sharedImporter": {
+    "owner": "Chat11",
+    "resultOnRetainedReader": "FAIL_MISSING_REQUIRED_FACTS",
+    "knownRequiredFieldsMissing": 4,
+    "fields": ["agency.3", "agency.4", "prosecutor.2", "prosecutor.9"],
+    "sourceSha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+    "readerModified": false,
+    "roleEvidence": "CHAT4-GA-02 independently confirms protected SectionTwo/page3 and SectionThree/page4 roles. Preserve the applicant SectionOne agency negative control."
+  },
+  "remaining": ["Chat4 independent warning delta review", "Chat12 exact code/source/output publication", "Chat11 source-bound importer reconciliation", "A central admission and separate runtime fulfillment"],
+  "acceptedMarylandGuardAndExistingCandidatesPreserved": true,
+  "terminalPromotion": false,
+  "productionChanges": false
+}
