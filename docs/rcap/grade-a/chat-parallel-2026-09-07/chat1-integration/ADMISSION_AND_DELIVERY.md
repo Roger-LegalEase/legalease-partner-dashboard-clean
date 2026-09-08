@@ -1,60 +1,91 @@
 <!-- SESSION10 LIVE PUBLICATION STAMP -->
-# Existing Codespace machine-change checkpoint
+# Session10 resumed — 191/346 terminal, 155 remaining
 
-Prepared 2026-09-08 16:16 UTC from local and verified remote recovery head
-`91e5e032611cffe4f2a8757d96ed92338ce3d572`, branch
-`chatgpt/launch-recovery-20260906`, PR224. This publication changes only this
-reviewed handoff. Candidate inputs, all other local work and worker output are
-preserved. The checkpoint commit itself is the latest commit touching this file:
-`git log -1 --format=%H -- docs/rcap/grade-a/chat-parallel-2026-09-07/chat1-integration/ADMISSION_AND_DELIVERY.md`.
+The reviewed derived candidate is `bb3de481624e2cae5296fb97c97b9d2f0f7ba781`.
+This publication adds its ten passing committed-state checks and this handoff;
+its candidate inputs and generated census remain byte-identical. Recovery branch:
+`chatgpt/launch-recovery-20260906`, existing PR224. Last remote verified before
+this publication: `5df8c9259ccdbc6448a1ae03ea4f225f277ea21c` (190 terminal).
+Resolve and verify this publication with `git rev-parse HEAD` and
+`git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906`.
 
-Captain session: `01a0812d-8cd6-7662-9365-b44f68b1923b`. Its private history remains in
-`/home/codespace/.codex/sessions/`; no history contents, credentials or participant
-payload are included in this commit. From the existing repository, resume with:
+Exactly one new terminal member: `rcap-nv-custom-pleading`, now
+COMPLETE_PACKET_PROVEN. All 345 other family states and all 190 previously
+terminal members/treatments are unchanged. Totals: 170 COMPLETE_PACKET_PROVEN,
+14 GUIDANCE_READY, 2 HANDOFF_READY and 5 OUT_OF_SCOPE. This is +1 in this
+continuation and +12 over recovered remote9f35db's179, never a recount of the
+already admitted KY/MD/GA/MI/MO/IA/WA/CT work. Precise member comparison:
+`session10/resume-nv-admission-validation/terminal-membership-191.json`.
+
+Nevada reuses completed central34101879269/job101678748778, exact packet
+3794a1a1ace8ad3e85423122afd380cabcd58140, artifact10011501772 with ZIP SHA256
+6fde1c5ee037702ebca44bd7a05071825ed32119086f457226e5afe69f58e3e4.
+Two current PDFs/88pages are unchanged. The missing25,274,805-byte ZIP alone
+was recovered from verified GitHub custody to persistent session10/
+resume-nv-artifact-recovery/artifact.zip; no packet was rebuilt or redispatched.
+The independent successor reviewed20 changed actual central pages;68 unchanged
+pages retain FIX18 attribution through the passing immutable CI pixel comparison.
+All15 obligations and nine measured zero counters passed. The separate Captain
+source-refresh approval remains separate from its author's output review.
+Original VF12/VF29 failures and the old superseded raster remain intact.
+
+Input/review commit: bde57859af96454e229c75e19506a7d0a791ba4d.
+The factory correctly refused a live VF06 grant on the now-complete family.
+Existing claim.mjs retired only that inactive historical grant with a reason,
+preserving its history; input successor5404fb472c54bdc3bae3a9d42ac46d1b9139e564.
+All14 post-retirement generation/convergence checks passed, then all10 checks
+at the exact derived commit passed in the existing clean /tmp checkout.
+No unchanged generator was rerun without an input change. All195 exact document
+inventories and actual central receipts remain unchanged; candidate SHA pointers
+and Nevada's retired assignment metadata were updated by the existing generators.
+
+The16 old lint errors are repaired and independently reviewed. Full lint passed
+(0errors; warnings retained), typecheck passed after a measured-memory retry,
+and local onboarding/launch-readiness checks passed. Final changed scripts also
+pass lint at the exact committed candidate. No local production build was run.
+The two preexisting stale claim-boundary assertions now execute actual unchanged
+browser helpers:92 assertions pass and11 unsafe mutations are rejected. Root
+independently reviewed that worker-authored verifier repair. Historical delivery
+review bytes and original independent attribution were preserved.
+
+Production remains undeployed and unverified. The old worker image bf4589d...
+from b680a4e4... still fails startup; its stale nested imageAccepted record is not
+current acceptance. Existing publication-only authorization remains recorded.
+The exact next preparation command, after inspecting this publication's PR jobs:
 
 ```sh
-cd /workspaces/legalease-partner-dashboard-clean
-codex resume 01a0812d-8cd6-7662-9365-b44f68b1923b
+gh pr checks 224
+node deploy/rcap-render-worker/build-runtime-data-manifest.mjs
 ```
 
-The resumed Captain's exact first command is `df -h /workspaces /tmp`.
-Confirm the enlarged workspace has at least 5 GiB free before heavy work, then
-run `git status --short` and `gh pr checks 224`. Continue this session; retain the
-190/346 census and already accepted packet bytes. Do not rebuild admitted packets
-or repeat their completed central runs.
+Review its two stale runtime-data pins, run --check and commit before freezing
+the worker source. Existing allowed-branch integration, exact image publication,
+artifact import, current staging fingerprint and image acceptance must be finished
+in their established dependency order. Do not weaken the branch guard, substitute
+an old Captain source, discard the old publication evidence or claim deployment
+from a successful packet admission. Worker preflight evidence:
+`session10/resume-independent-admission-review/current-worker-freeze-preflight/`.
+Ohio's unchanged binding is not another ready admission: its existing COMPONENT_SET
+hold requires owner-directed route/delivery reconciliation. The existing admission
+worker is checking the retained MD10110 candidate on disjoint read-only paths.
+Root remains the only recovery integrator and shared-state writer.
 
-Temporary custody was checked before the machine change. Of 462 worker/task
-files examined, 433 already match persistent files or verified archive members.
-The remaining 29 small JSON/log records (119,524 bytes), plus the unique decoded
-Michigan review archive (16,754,451 bytes), are now preserved under
-`inputs/session10-machine-change-preservation/`. Every new copy was rehashed;
-541 members across six retained archives were read and verified. This local
-folder is ignored and was not staged. Its custody record is `PRESERVATION.json`,
-SHA256 `f2debc773b0663480a0a7607d917827f066f9fd04ba6d43bbe7b4ffa325ac6c0`.
-The protected archive is `receipt-hooks-mi-review.zip`, SHA256
-`859ea1e86fd5281213f8063adedd305fa79f17abb1b215d9fc579eb57a9a97cd`.
-No identified indispensable worker file remains solely in `/tmp`.
+The running filesystem still reports32GiB total/1.7GiB free on /workspaces,
+33GiB free on /tmp, despite the reported128GB storage upgrade. Latest memory:
+7.8GiB total/4.3GiB available. No machine/repository/dependency changes or cleanup
+were performed. Local work stayed small; existing remote central runners remain
+the rendering path. All untracked worker work is preserved.
 
-The `/tmp/rcap-session10-committed-candidate` checkout is clean at
-`b48e5292272acd13bafad7cc9c6296b475f7b420`; its only ignored entry is a symlink to
-persistent `node_modules`. Its committed content and the verified MI/MO/NV/CT
-scratch copies are reproducible. The whole temporary directory was not copied.
-Original temporary files, private history, configuration and all worktrees remain
-untouched. No repository, dependency tree or machine was created or replaced.
-
-Published census: 190/346, +11 over recovered remote 9f35db. Runtime activation
-and production deployment were not performed. Central runs 34232991361,
-34240482971 and 34243539560 completed successfully. Wrapper34247800614 passed and
-explicitly required no new dispatch. At preparation, all PR checks on91e5e032
-had finished: Nevada, source conveyor, factory audit and recovery checks passed;
-onboarding34247805343 and worker-image34247805266 failed. Their existing release
-blockers remain; this checkpoint grants no production approval.
-
-No local heavy task or worker is active. No new heavy tasks are scheduled.
-Free space is 1.7 GiB in `/workspaces` and 33 GiB in `/tmp` after selective
-preservation. Nothing was deleted. The user will change the EXISTING Codespace's
-machine type through GitHub; the agent performed no creation, rebuild, deletion,
-resize or machine change. Resume only after that user-managed operation.
+Captain session remains01a0812d-8cd6-7662-9365-b44f68b1923b. Private history remains
+under /home/codespace/.codex/sessions/ and is not committed. Resume in this existing
+repository with `codex resume 01a0812d-8cd6-7662-9365-b44f68b1923b`.
+The machine-change custody checkpoint remains protected under ignored
+inputs/session10-machine-change-preservation/:29 unique small records plus the
+Michigan review ZIP SHA256859ea1e86fd5281213f8063adedd305fa79f17abb1b215d9fc579eb57a9a97cd.
+Its PRESERVATION.json SHA256 remainsf2debc773b0663480a0a7607d917827f066f9fd04ba6d43bbe7b4ffa325ac6c0.
+No identified indispensable work is solely in /tmp; no credentials or participant
+payload are included. The existing /tmp/rcap-session10-committed-candidate is clean
+at bb3de481624e2cae5296fb97c97b9d2f0f7ba781 with its existing dependency symlink.
 <!-- END SESSION10 LIVE PUBLICATION STAMP -->
 
 <!-- SESSION10 RESUME CHECKPOINT -->
