@@ -184,7 +184,7 @@
             318.218,
             91.2,
             538.68,
-            120.0
+            120
           ],
           "because": "This family's production-field-map.json refuses tx_nd_dwi_probation-fee-waiver-statement-4.Amount Cantidad 15 as REQUIRED_BEFORE_FILING, with the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The refusal was honoured on the write path and defeated on the flatten path: the official source ships the field carrying /V \"0\", the structural rule read that as the court's own ink, and the finalizer drew it onto source page 8. Every other blank on that page flattens to an empty appearance, so this one is not a blank the participant may still fill -- it is a sworn zero on a financial line the participant never answered. A zero on a statement of inability to pay is an answer, not an empty space."
         },
@@ -266,7 +266,7 @@
             318.218,
             91.2,
             538.68,
-            120.0
+            120
           ],
           "because": "This family's production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The official source ships the field carrying /V \"0\", so the structural rule read it as the court's own ink and flattened a sworn zero onto a financial line the participant never answered. A zero on a sworn statement of inability is an answer, not an empty space."
         },
@@ -307,7 +307,7 @@
             318.218,
             91.2,
             538.68,
-            120.0
+            120
           ],
           "because": "This family's production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The official source ships the field carrying /V \"0\", so the structural rule read it as the court's own ink and flattened a sworn zero onto a financial line the participant never answered. vf05 failed this family on KNOWN_PREFILLS for exactly this. A zero on a sworn statement of inability is an answer, not an empty space."
         },
@@ -567,6 +567,25 @@
             324.312
           ],
           "because": "This family's production-field-map.json refuses tx_nd_veterans_reemployment-fee-waiver-statement-4.Today with refusalClass signature_or_date_participant_completion and the stated reason that a date written before the Statement is actually sworn would be false. Preserved, it would print a 2022 date beside the participant's own signature line, on the page headed by the declaration under penalty of perjury. A packet that states a date the participant did not enter, on a document they will swear years later, is stating something false on their behalf."
+        }
+      }
+    },
+    "co_petition_seal_arrest-set:JDF-417": {
+      "measuredAt": "fix96-colorado-three at 196b0ce37",
+      "whyThisFamilyNeededClassifying": "JDF 417's document title is a CHOICE control, not printed page content. Field `Title` is a /Ch dropdown whose options are [\"Petition\",\" Motion\"] and whose /V the Colorado Judicial Department ships selected on \"Petition\"; its widget carries an /AP /N that draws that word into the gap the page content leaves between \"JDF 417\" and \"to Seal Arrest and Criminal Records\". The structural rule classes every unwritten choice control as a participant input, so the finalizer deleted /V and dropped the widget, and the delivered page-1 title read \"to Seal Arrest and Criminal Records\" - the court's own word for what the document IS, removed from a filing. VF01 read that blank out of both delivered fixtures at base 553966ea. Nothing this build writes can put it back: the shared semantics carries no allowlisted fact for a document title and inventing one would be adding a fact rather than preserving the issuer's. The disposition is what settles it.",
+      "howMeasured": "Read first-hand by lane FIX96 from the pinned source resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR: STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf, sha256 e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4, 3 pages. pdf-lib reports the field as a PDFDropdown, getOptions() [\"Petition\",\" Motion\"], getSelected() [\"Petition\"]. Its single widget sits on source page 1 at /Rect lower-left 181.100, 696.255, 61.984 x 18, carries /F 4 (Print, neither Hidden nor NoView), an /AP /N stream, /DA \"/Arial,Bold 14 Tf 0 g\", and an EMPTY /MK - so preserving the appearance can synthesize neither a border nor a background. A plain pdf-lib flatten of the unmodified source draws \"Petition to Seal Arrest and Criminal Records\" on page 1; the delivered fixtures at base 196b0ce37 draw \"to Seal Arrest and Criminal Records\".",
+      "thisIsNotAWriteAndGrantsNoRouteAuthority": "Preserving the issuer's own selection is not a packet write: reports/actual-writes.json records it as a documentAuthoredAppearance, canonicalWrites does not grow, and no route is opened by it.",
+      "fields": {
+        "Title": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "Petition",
+          "rect": [
+            181.1,
+            696.255,
+            61.984,
+            18
+          ],
+          "because": "The word in this box is the Colorado Judicial Department's own, shipped in the form's /V and drawn by the form's own /AP: it names what the document is, in the middle of a title the page content stream draws around it. It is not a prompt, not a placeholder and not an option list - the only other option, \" Motion\", is not selected and nothing here selects it. Dropping it delivers a Colorado petition whose title is missing the word Petition. Being wrong towards preservation leaves the issuer's own title on the filing; being wrong the other way removes it, which is what happened."
         }
       }
     }

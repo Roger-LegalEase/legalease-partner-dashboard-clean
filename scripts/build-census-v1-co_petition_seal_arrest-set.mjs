@@ -38,16 +38,34 @@
  * election in section 2 is left unmade because the build does not know which of
  * the four the filer is.
  *
- * Third, QUESTION 4(b) IS THE ROUTE AND 4(c) TO 4(e) ARE THE CASE. JDF 417 is
- * the no-charges-filed form: its own subtitle is "No Charges Filed – C.R.S.
- * § 24-72-704" and the route this packet is built for says the same. So "Were
- * charges ever filed in court?" is answered — No — because a packet built for
- * one statutory route states which route it is rather than asking the
- * participant to restate it. The other three are not the route's to answer: a
- * diversion agreement, a limitations period and an open investigation are facts
- * about this case and this participant, so each is declared required before
- * filing under the case-determined exception, with the reason the route cannot
- * settle it recorded on the row itself.
+ * Third, QUESTION 4(b) IS THE ROUTE, AND THE PACKET STILL DOES NOT ANSWER IT.
+ * JDF 417 is the no-charges-filed form: its own subtitle is "No Charges Filed –
+ * C.R.S. § 24-72-704" and the route this packet is built for says the same, so
+ * the answer the ROUTE implies at "Were charges ever filed in court?" is No.
+ * The delivered artifact leaves it blank, and every record here says so.
+ *
+ * Two earlier records said otherwise and were wrong against the bytes. The
+ * field map declared JDF-417/4B.0 a route-determined selection with
+ * statedByThePacket "No.", the routeSelectionNote said "Section 4(b) is
+ * answered because the route answers it", and participant-instructions.md told
+ * the participant it was "answered No for you". VF01 measured zero added glyphs
+ * in that rectangle in both fixtures at base 553966ea, and there were none to
+ * find: 4B.0 is a /Ch dropdown with options [" ", "Yes.", "No."], and the
+ * shared finalizer reaches a choice control by exactly two channels — a
+ * dropdown value resolved from an ALLOWLISTED FACT, and selectionsFromHeldFacts,
+ * which is checkbox-only. No allowlisted fact answers a sworn yes-or-no
+ * question, and this build does not invent one to put a sworn answer on paper.
+ *
+ * So the refusal is MEASURED AND RECORDED rather than described as a write.
+ * 4(b) is carried to the participant as a required-before-filing item that
+ * names the answer the route implies and says a case where charges WERE filed
+ * belongs on a different Colorado form. 4(c), 4(d) and 4(e) are not the route's
+ * to answer at all — a diversion agreement, a limitations period and an open
+ * investigation are facts about this case and this participant — so each is
+ * declared required before filing under the case-determined exception, with the
+ * reason the route cannot settle it recorded on the row itself.
+ *
+ * Fifth below records the other half of the same defect: the form's OWN title.
  *
  * Fourth, NEITHER FORM HIDES A WIDGET. JDF 612 in the sibling conviction family
  * ships twenty-three text widgets with the annotation Hidden flag set, and a
@@ -70,6 +88,8 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -85,6 +105,25 @@ const FAMILY_ID = "co_petition_seal_arrest-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-co_petition_seal_arrest-set.mjs";
+
+/*
+ * WHAT A FIELD'S APPEARANCE MEANS, read from the shared registry.
+ *
+ * The finalizer's structural rule classes every unwritten CHOICE control as a
+ * participant input and drops both its value and its widget, which is right for
+ * an unanswered chooser and wrong for JDF 417's document title: `Title` is a
+ * /Ch dropdown the Colorado Judicial Department ships selected on "Petition",
+ * drawn by the form's own /AP into the gap its page content leaves between
+ * "JDF 417" and "to Seal Arrest and Criminal Records". Dropping it delivered a
+ * Colorado petition whose title was missing the word Petition, which VF01 read
+ * out of both fixtures at base 553966ea.
+ *
+ * The registry is keyed family:component, so this form is handed its one
+ * classified field and nothing else and the finalizer never learns which family
+ * it came from. JDF 418 has no entry, is handed an empty map, keeps the
+ * structural default, and is byte-unaffected by this.
+ */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 
 const ROUTE = Object.freeze({
   jurisdiction: "CO",
@@ -144,6 +183,15 @@ const FORM_FIELDS = {
      * source already states would be adding a fact rather than binding one. The
      * byte proof records the tick as a documentAuthoredAppearance, from the
      * source's own value, so the artifact is not read as carrying a write here.
+     *
+     * That was true of the intent and false of the bytes until FIX96. `Title`
+     * is a /Ch dropdown, and the finalizer's structural rule drops the value
+     * AND the widget of every unwritten choice control — right for an
+     * unanswered chooser, wrong for a title the issuer selected. The delivered
+     * page-1 title read "to Seal Arrest and Criminal Records" in both fixtures.
+     * The registry entry co_petition_seal_arrest-set:JDF-417 now classifies this
+     * one field preserve_source_appearance, so the Colorado Judicial
+     * Department's own word stays on its own form. It is still not a write.
      */
     Title: {
       section: "Caption", selection: true, label: "Document title — Petition or Motion (selection)",
@@ -268,8 +316,8 @@ const FORM_FIELDS = {
       section: "4b. Were charges ever filed in court?",
       label: "Were charges ever filed in court? (yes or no)",
       ...CASE_DETERMINED(
-        "whether charges were ever filed in court on this arrest — yes or no",
-        "the form prints both Yes and No as available answers under the same statute, so § 24-72-704 does not fix one: the section reaches an arrest where no charges followed AND a case that ended in a completed diversion agreement, which is what question 4(c) beside it is for. Which of those is this participant's history is a fact about their own case, and the route selects the statute and the form rather than the case history. The packet holds no fact for it and this build does not invent one to put a sworn answer on the paper")
+        "whether charges were ever filed in court on this arrest — write No if none were ever filed, which is the route this packet was built for; if charges WERE filed, this is the wrong form and you should not file it",
+        "this is the route's own question and the route implies the answer No, and the packet still does not mark it. Two reasons, and the first is decisive on its own: the shared finalizer reaches a /Ch dropdown only through an allowlisted fact and reaches a checkbox only through selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no question — so nothing here could mark 4B.0 without inventing a fact. The second is that section 4 is sworn and section 6 is signed by the filer, and a platform that swore this answer would be swearing to a case history it has not seen. The refusal is recorded in production-field-map.json under routeDeterminedAnswersThePacketDoesNotMark and the answer the route implies is named for the participant rather than printed for them")
     },
     "4C.0": {
       section: "4c. Diversion agreement",
@@ -554,6 +602,7 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -852,12 +901,21 @@ function participantInstructions(maps, rbf) {
     + "those blanks is listed below by the section of the form it is in.", ""
   );
 
-  out.push("## This is the no-charges-filed form, and the packet says so", "");
+  out.push("## This is the no-charges-filed form, and section 4(b) is yours to answer", "");
   out.push(
-    "JDF 417 is titled _No Charges Filed – C.R.S. § 24-72-704_, and this packet was built for that route. So section "
-    + "4(b), **\"Were charges ever filed in court?\"**, is answered **No** for you. That is the route stating itself "
-    + "rather than a fact the packet guessed. **If charges WERE filed in your case, this is the wrong form** — a "
-    + "dismissed or acquitted charge is sealed under a different Colorado form, and you should not file this one.", ""
+    "JDF 417 is titled _No Charges Filed – C.R.S. § 24-72-704_, and this packet was built for that route. The title "
+    + "line on page 1 reads **Petition** because the Colorado Judicial Department's own form says so; the packet "
+    + "preserved that word rather than writing it.", ""
+  );
+  out.push(
+    "Section 4(b) asks **\"Were charges ever filed in court?\"**. On the route this packet was built for the answer "
+    + "is **No** — but **the packet has left that box blank and you must write the answer yourself.** It is not "
+    + "filled in for you, and nothing on your copy says No until you write it. The platform does not put a sworn "
+    + "yes-or-no answer on a petition you are the one signing.", ""
+  );
+  out.push(
+    "**If charges WERE filed in your case, this is the wrong form.** A dismissed or acquitted charge is sealed under "
+    + "a different Colorado form, and you should not file this one. Check that before you write anything in 4(b).", ""
   );
 
   out.push("## Where you file this", "");
@@ -893,11 +951,12 @@ function participantInstructions(maps, rbf) {
   out.push("2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
   out.push("3. **Get the arrest facts from the record.** Section 3 of JDF 417 asks for the arrest or summons number from your fingerprint card, the date of the arrest, and the name, address and case number of every agency holding the records. Do not estimate any of them.");
   out.push("4. **List every offence in section 4a exactly as the record writes it**, and say for each whether it was a misdemeanor or a felony.");
-  out.push("5. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.");
-  out.push("6. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.");
-  out.push("7. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.");
-  out.push("8. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.");
-  out.push("9. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.");
+  out.push("5. **Answer 4(b) yourself — write No if no charges were ever filed.** The packet did not answer it for you. If charges were filed, stop: this is the wrong form.");
+  out.push("6. **Answer 4(c), 4(d) and 4(e) yourself.** They are about your case, not about the statute — see the table below.");
+  out.push("7. **Copy the agency case number, the arrest number and the arrest date across onto JDF 418** so the order matches the petition.");
+  out.push("8. **Serve a copy on every agency you ticked in section 3**, then complete the certificate of service in section 5 — the date, the method, and who you sent it to. Do it after you have served, not before.");
+  out.push("9. **Sign JDF 417 yourself, and date it when you sign.** Neither is filled in for you.");
+  out.push("10. **Leave the court's own parts of JDF 418 alone.** The other-orders box, the signature, the date, and the Judge-or-Magistrate choice are the court's.");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -1147,35 +1206,62 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill",
     captionBasis: "per document; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
+    /*
+     * Only what the DELIVERED PAGE carries. An entry here is a claim about ink,
+     * and the previous two entries were claims about intent: both were measured
+     * at zero added glyphs by VF01 at base 553966ea.
+     */
     routeDeterminedSelections: [
-      {
-        document: "JDF-417", field: "JDF-417/4B.0",
-        printedQuestion: "Were charges ever filed in court? (yes or no)",
-        statedByThePacket: "No.",
-        basis:
-          "JDF 417 is the no-charges-filed form — its own subtitle is \"No Charges Filed – C.R.S. § 24-72-704\" — and "
-          + "the route this packet was built for is § 24-72-704 sealing of an arrest where no charges were filed. A "
-          + "packet built for one statutory route states which route it is rather than asking the participant to "
-          + "restate it. The participant instructions say so plainly, and say that a case where charges WERE filed "
-          + "belongs on a different Colorado form."
-      },
       {
         document: "JDF-417", field: "JDF-417/Title",
         printedQuestion: "Document title — Petition or Motion",
-        statedByThePacket: "Petition",
+        statedOnTheDeliveredPage: "Petition",
+        writtenByThisPacket: false,
+        howItReachesThePage: "source_authored_appearance_preserved",
         basis:
-          "The route is petition-based, the form ships with Petition already selected, and the packet writes it "
-          + "explicitly so the artifact states the route rather than inheriting it from a default."
+          "The route is petition-based and the Colorado Judicial Department ships this /Ch dropdown selected on "
+          + "\"Petition\", drawn by the form's own appearance stream into the gap its page content leaves between "
+          + "\"JDF 417\" and \"to Seal Arrest and Criminal Records\". The packet writes nothing here: it preserves "
+          + "the issuer's own selection, under the registry classification "
+          + "co_petition_seal_arrest-set:JDF-417.Title = preserve_source_appearance, and reports/actual-writes.json "
+          + "records it as a documentAuthoredAppearance rather than as a write.",
+        readBackFromTheBytes: "page 1 of both fixtures reads \"Petition to Seal Arrest and Criminal Records\"."
+      }
+    ],
+    /*
+     * A route-determined answer the shared instrument cannot mark. Recorded as
+     * a measured refusal, not as a write, and disclosed to the participant.
+     */
+    routeDeterminedAnswersThePacketDoesNotMark: [
+      {
+        document: "JDF-417", field: "JDF-417/4B.0",
+        printedQuestion: "Were charges ever filed in court? (yes or no)",
+        answerTheRouteImplies: "No.",
+        statedOnTheDeliveredPage: null,
+        writtenByThisPacket: false,
+        whyNotMarked:
+          "4B.0 is a /Ch dropdown with options [\" \", \"Yes.\", \"No.\"]. The shared finalizer reaches a choice "
+          + "control by two channels only: a dropdown value resolved from an allowlisted fact, and "
+          + "selectionsFromHeldFacts, which is checkbox-only. No allowlisted fact answers a sworn yes-or-no question "
+          + "and this build does not invent one, so nothing marks it and the delivered rectangle carries zero added "
+          + "glyphs in both fixtures.",
+        carriedToTheParticipant:
+          "Declared required before filing, named in participant-instructions.md with the answer the route implies "
+          + "and with the warning that a case where charges WERE filed belongs on a different Colorado form."
       }
     ],
     routeSelectionNote:
       "The packet states the route it was built for: sealing an arrest record where no criminal charges were filed, "
-      + "under C.R.S. § 24-72-704, on JDF 417 with JDF 418 as the proposed order. Section 4(b) is answered because the "
-      + "route answers it. Sections 4(c), 4(d) and 4(e) are NOT: a diversion agreement, a limitation period and an "
-      + "open investigation are facts about this case and this participant rather than properties of the statute, so "
-      + "each is carried to the participant under the case-determined exception with the reason the route cannot "
-      + "settle it recorded on its own row. The court type, the filer's capacity, the agency list and the interpreter "
-      + "and attendance choices are likewise left to the participant and disclosed by name.",
+      + "under C.R.S. § 24-72-704, on JDF 417 with JDF 418 as the proposed order. The document title states it, "
+      + "because the issuer's own selection is preserved rather than dropped. Section 4(b) is NOT answered on the "
+      + "paper: the route implies No, the shared instrument cannot mark a /Ch dropdown from anything but an "
+      + "allowlisted fact, and the refusal is recorded above and disclosed to the participant rather than described "
+      + "as a write. Sections 4(c), 4(d) and 4(e) are not the route's to answer at all: a diversion agreement, a "
+      + "limitation period and an open investigation are facts about this case and this participant rather than "
+      + "properties of the statute, so each is carried to the participant under the case-determined exception with "
+      + "the reason the route cannot settle it recorded on its own row. The court type, the filer's capacity, the "
+      + "agency list and the interpreter and attendance choices are likewise left to the participant and disclosed "
+      + "by name.",
     caseDeterminedExceptions: rbf.filter((i) => i.determinedByTheCaseNotTheRoute).map((i) => ({
       document: i.document, field: i.field, label: i.disclosureLabel, why: i.whyTheRouteCannotDetermineIt
     })),
@@ -1243,15 +1329,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatToLookAt: [
       "JDF 417 page 1, the caption and section 1: the county, the case number, the petitioner name, the birth date, "
         + "the street address, the city/state/zip line, the phone and the e-mail each under the heading they belong "
-        + "to. The document title reads Petition.",
+        + "to. The document title reads \"Petition to Seal Arrest and Criminal Records\" — the word Petition is the "
+        + "issuer's own, preserved from the form's /V, not written by this packet. A title reading \"to Seal Arrest "
+        + "and Criminal Records\" is the defect FIX96 repaired and would be a regression.",
       "JDF 417 page 1, section 2: NOTHING ticked, and all four person-in-interest blanks empty. This is the one to "
         + "look at hardest — those four blanks are somebody else's, and a name in 2.1 would be a defect even though it "
         + "would look like a correctly filled field.",
       "JDF 417 page 2, section 3: every agency box unticked and every agency line blank, including the CBI box the "
         + "form marks required. The packet holds no agency register and does not invent one.",
       "JDF 417 page 2, section 4a: all nine offence lines blank and all nine misdemeanor/felony dropdowns unset.",
-      "JDF 417 page 3: question 4(b) reads No. Questions 4(c), 4(d) and 4(e) are blank. That asymmetry is deliberate "
-        + "and is the packet stating its route without answering the case's own questions.",
+      "JDF 417 page 3: questions 4(b), 4(c), 4(d) and 4(e) are ALL blank. 4(b) is the route's own question and the "
+        + "answer the route implies is No, but the packet does not mark it and must not appear to: confirm the "
+        + "rectangle at page 3 (355.88, 706.51) 84.11 x 15.12 carries no ink, and that participant-instructions.md "
+        + "tells the participant to write the answer themselves.",
       "JDF 417 page 3, section 5 and 6: no service date, no service method, no explanation, no signature, no date, "
         + "and the counsel block blank.",
       "JDF 418 page 1: the county, the case number, the name in both places it appears, the birth date, the street, "
@@ -1335,13 +1425,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
           "JDF 417 asks four sworn yes-or-no questions in section 4, and the completeness contract classifies every "
           + "one of them as a route election from its printed caption.",
         consequence:
-          "They are not one kind of question. 4(b) — \"Were charges ever filed in court?\" — IS the route: this form "
-          + "is titled \"No Charges Filed – C.R.S. § 24-72-704\" and the packet was built for that route, so the "
-          + "packet states No and says so in the participant instructions, including that a case where charges were "
-          + "filed belongs on a different form. 4(c), 4(d) and 4(e) are facts about this case — a diversion "
-          + "agreement, a limitation period, an open investigation — and each is carried to the participant under the "
-          + "case-determined exception with its own recorded reason why the route cannot settle it. Answering those "
-          + "three from a route would be swearing to a case history and a legal conclusion this build has not seen."
+          "They are not one kind of question, and none of the four is answered on the paper. 4(b) — \"Were charges "
+          + "ever filed in court?\" — IS the route: this form is titled \"No Charges Filed – C.R.S. § 24-72-704\" and "
+          + "the packet was built for that route, so the answer the route implies is No. The packet does not mark it: "
+          + "4B.0 is a /Ch dropdown and the shared finalizer marks a choice control only from an allowlisted fact or, "
+          + "for a checkbox, from selectionsFromHeldFacts, and no allowlisted fact answers a sworn yes-or-no "
+          + "question. The refusal is recorded in production-field-map.json under "
+          + "routeDeterminedAnswersThePacketDoesNotMark and the participant is told to write the answer and told "
+          + "that a case where charges WERE filed belongs on a different form. 4(c), 4(d) and 4(e) are facts about "
+          + "this case — a diversion agreement, a limitation period, an open investigation — and each is carried to "
+          + "the participant under the case-determined exception with its own recorded reason why the route cannot "
+          + "settle it. Answering those three from a route would be swearing to a case history and a legal "
+          + "conclusion this build has not seen."
       },
       {
         finding:
@@ -1407,8 +1502,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     mattersForTheReviewersAttention: [
       "reports/blanks-left-for-the-participant.json — the four person-in-interest blanks in section 2 of JDF 417 are "
         + "refused on purpose. Confirm none of them carries the participant's own details.",
-      "production-field-map.json routeDeterminedSelections — the packet answers question 4(b) No and leaves 4(c) to "
-        + "4(e) to the participant. Counsel should confirm that asymmetry.",
+      "production-field-map.json routeDeterminedAnswersThePacketDoesNotMark — question 4(b) is the route's own "
+        + "question, the answer the route implies is No, and the packet leaves the box blank and tells the "
+        + "participant to write it. Counsel should confirm that a packet built for the no-charges-filed route is "
+        + "right not to swear the answer for the filer, and that the instruction says so plainly enough.",
+      "JDF 417 page 1, the document title — the word \"Petition\" on the delivered page is the issuer's own value "
+        + "preserved under the shared appearance-semantics registry, not a packet write. Confirm it reads as the "
+        + "pinned source reads.",
       "reports/caption-evidence.json — JDF 418 cannot be caption-checked from its own text stream, so visual review "
         + "carries more weight on that form than on the petition."
     ]
