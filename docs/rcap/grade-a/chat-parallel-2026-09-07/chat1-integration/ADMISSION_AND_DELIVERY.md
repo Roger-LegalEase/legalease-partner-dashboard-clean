@@ -1,7 +1,7 @@
 <!-- SESSION10 LIVE PUBLICATION STAMP -->
-# Session10 — 191/346 published terminal; Maryland conviction awaiting central acceptance
+# Session10 — 191/346 published terminal; two Maryland candidates in central closing batch
 
-Published recovery head last verified: `2b432317500fbd35e7390c00b1dc916c4355dff1`.
+Published recovery head last verified: `872e9abd754f87d1d67f669335d30d75db7bdb27`.
 This continuation has added exactly Nevada: 191 terminal, 155 remaining, with
 170 COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE.
 All 190 previous members and treatments remain preserved. Nevada reuses central
@@ -9,7 +9,10 @@ All 190 previous members and treatments remain preserved. Nevada reuses central
 were not rebuilt or redispatched. Its precise membership proof and publication
 verification remain under `session10/resume-nv-admission-validation/`.
 
-Current committed Maryland candidate: `75ccb04714c4514cdf2ad3e76f82f4eda77ce4cb`.
+Maryland conviction validated candidate: `75ccb04714c4514cdf2ad3e76f82f4eda77ce4cb`.
+It was published as872e9abd754f87d1d67f669335d30d75db7bdb27. Wrapper34256892616
+passed and dispatched central34257213865 for that exact packet; consume its
+actual canary/matrix/family job rather than requesting it again.
 The exact packet, all 199 reviewed inputs, native adapters and independently
 attributed successor are installed. Required central coverage is 25 PDFs/170
 pages: 23 prepared outputs/155 pages plus two unselectable diagnostics/15 pages.
@@ -43,7 +46,7 @@ Preflight passed. Publish explicit reviewed checkpoint/evidence paths to
 wrapper before any dispatch. Exact next monitoring command:
 
 ```sh
-gh run list --branch chatgpt/launch-recovery-20260906 --limit 8
+gh run view 34257213865
 ```
 
 Consume its actual central canary, matrix, MD family job and immutable artifact
@@ -51,12 +54,18 @@ using existing `scripts/rcap-packet-recovery/session10/admit-central-batch.py`.
 Refresh only MD declaration, derive/publish the precise 191-to192 delta if all
 existing gates pass. Do not redispatch already admitted or unchanged candidates.
 
-Cannabis is separate pending work: independently reviewed 18 PDFs/133 pages,
-13 prepared outputs/98 pages and five refused diagnostics/35 pages. Its raw-PASS
-missing-contact diagnostic remains unprepared and unselectable. Three small host
-changes are reviewed but remain dirty/unpublished, owned by release_path_review
-and frozen for root integration after conviction. No cannabis receipt/admission.
-Root remains the only recovery integrator and generated-state writer.
+Cannabis candidate b94a8b05061c5125e4718e06c527106c08b00d42 is now independently
+reviewed and passes all ten committed-state checks (including37 factory checks).
+Its 18 PDFs/133 pages comprise13 prepared outputs/98 pages and five refused
+diagnostics/35 pages. Raw-PASS missing-contact remains unprepared/unselectable.
+All252 prior audit rows and all196 prior queue inventories/receipts are preserved.
+The three worker-authored hosts passed separate Captain review; packet/source
+bytes did not change. Prior91 mutation controls are reused, not newly rerun.
+This publication requests only cannabis relative to successful wrapper34256892616.
+Its committed inventory is session10/resume-md-cannabis-document-inventory.json,
+SHA2562f29488f89a9c6b2c5bf449846f3aa92ebdc87cf23d74b9b346372de683b62b5.
+No cannabis receipt or terminal admission exists yet. Root remains the only
+recovery integrator and generated-state writer.
 
 Production remains undeployed/unverified. The16 lint errors are repaired; actual
 onboarding34253142287 passed lint, typecheck and credential-free build. Wrapper
@@ -68,6 +77,13 @@ then import its real artifact before staging fingerprint/image acceptance.
 Current Actions-write dispatch capability is unproven after the prior403; existing
 publication authorization is recorded. No guard or release criterion is waived.
 Release evidence: `session10/resume-worker-publication-readiness/`.
+The current publication872 also passes onboarding34256899996 and Nevada34256899932;
+old-image acceptance34256900029 still fails. Existing production activation pins
+must be updated coherently after new image/staged-smoke evidence, and a persistent
+worker host/service remains unnamed. That missing target was asked asynchronously;
+no new generic deployment permission is requested. ND's existing owner/counsel
+hold was independently rechecked and preserved; its old central receipt covers
+canonical only (7pages), not both PDFs.
 
 This running filesystem still reports32GiB total/1.7GiB free on /workspaces and
 33GiB free on /tmp despite the reported128GB upgrade. Memory is7.8GiB total,
