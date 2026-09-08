@@ -1,0 +1,69 @@
+name: Nevada completed raster receipt
+on:
+  push:
+    branches: [chatgpt/independent-nv-20260907]
+    paths:
+      - .github/workflows/rcap-nv-receipt-integration.yml
+      - scripts/rcap-packet-recovery/retain-nv-central-receipt.py
+permissions:
+  contents: read
+concurrency:
+  group: nv-completed-raster-receipt
+  cancel-in-progress: false
+jobs:
+  retain_verified_receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Obtain the completed central run and its exact artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/chatgpt/independent-nv-20260907
+          dir="$RUNNER_TEMP/nv-central-receipt"
+          mkdir -p "$dir"
+          api=https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean
+          curl --fail --silent --show-error --location --max-time 60 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "$api/actions/runs/34101879269" -o "$dir/run.json"
+          curl --fail --silent --show-error --location --max-time 60 -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "$api/actions/runs/34101879269/jobs?per_page=100" -o "$dir/jobs.json"
+          curl --fail --silent --show-error --location --max-time 180 -H "Authorization: Bearer $GH_TOKEN" "$api/actions/artifacts/10011501772/zip" -o "$dir/raster.zip"
+      - name: Verify provenance and both current complete PDFs
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/nv-central-receipt"
+          python3 scripts/rcap-packet-recovery/retain-nv-central-receipt.py "$dir/raster.zip" "$dir/run.json" "$dir/jobs.json" | tee "$dir/verification.log"
+      - name: Commit receipt only to the isolated Nevada branch
+        run: |
+          set -euo pipefail
+          branch=chatgpt/independent-nv-20260907
+          test "$GITHUB_REF" = "refs/heads/$branch"
+          test "$(git ls-remote origin "refs/heads/$branch" | cut -f1)" = "$GITHUB_SHA"
+          git add -- data/rcap-grade-a/nv-completion-2026-09-07/central-raster/rcap-nv-custom-pleading.verdict.json data/rcap-grade-a/nv-completion-2026-09-07/central-raster/verified-receipt.json
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo 'The identical verified receipt is already retained.'
+          else
+            git config user.name 'LegalEase completion (ChatGPT)'
+            git config user.email 'noreply@legalease.com'
+            git commit -m 'verify(rcap-nv): retain completed 88-page central raster bound to current packet hashes'
+            git push origin "HEAD:refs/heads/$branch"
+          fi
+          printf 'Receipt candidate: %s\n\nNo terminal, semantic, runtime, or production approval is granted.\n' "$(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nv-completed-raster-receipt-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/nv-central-receipt/run.json
+            ${{ runner.temp }}/nv-central-receipt/jobs.json
+            ${{ runner.temp }}/nv-central-receipt/verification.log
+            data/rcap-grade-a/nv-completion-2026-09-07/central-raster/
+          retention-days: 14
+          if-no-files-found: error

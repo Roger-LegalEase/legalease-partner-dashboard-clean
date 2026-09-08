@@ -30,12 +30,12 @@
     "routeKeys": [
       "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
     ],
-    "deliveryType": "participant_agency_application",
+    "deliveryType": "process_guidance",
     "instrumentKinds": [
-      "primary_filing"
+      "no filing — process guidance"
     ],
     "packetComponents": [
-      "component:de_mandatory_expungement-primary-filing-1"
+      "agency_preparation_guide"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/participant-instructions.md",
@@ -44,16 +44,16 @@
     "sourceVersion": [],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "34060252924",
-      "jobId": "101559782549",
-      "artifactId": null,
-      "boundToCanonicalSha256": "1234befd09bd234d02f341b6170148e6ef4167e81520f9417957cdacec0b81e1",
+      "workflowRunId": "34078415178",
+      "jobId": "101609393830",
+      "artifactId": "10002964440",
+      "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
       "coversTheWholeFamily": true
     },
     "lastIndependentVerification": {
       "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf01",
-      "verifiedAtBase": "b8424a7ec"
+      "lane": "de-current-review-reconciliation",
+      "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -63,22 +63,46 @@
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "filingPermitted": false,
+    "deliveryBoundary": "Preparation guidance only; do not file it with SBI or a court. SBI supplies its own subsequent paperwork."
   },
   "proposedRepresentation": {
-    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "note": "Declaration of the existing non-filed preparation guide. This metadata correction is not installed runtime fulfillment, independent content approval, eligibility or commercial authority.",
     "packetSetId": "de_mandatory_expungement-set",
-    "outputStrategy": "participant_agency_application",
+    "outputStrategy": "process_guidance",
     "components": [
       {
         "componentId": "de_mandatory_expungement-set-component-1",
-        "role": "primary_filing",
+        "role": "participant_guide",
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "1234befd09bd234d02f341b6170148e6ef4167e81520f9417957cdacec0b81e1",
+        "sha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
         "requirement": "required"
       }
+    ],
+    "fixtureBindings": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+        "pageCount": 3
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a",
+        "pageCount": 3
+      }
     ]
+  },
+  "deliveryCorrectionBasis": {
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "rule": "Honor the existing exact-route guidance declaration rather than the legacy agency-application label.",
+    "createsApproval": false,
+    "opensCheckout": false
   }
 }

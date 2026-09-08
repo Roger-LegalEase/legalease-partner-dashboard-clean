@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CHATB20260907",
+  "laneKind": "independent-verification",
+  "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 2 / B session",
+  "sessionIdentity": "chatb-20260907-independent-04-ten-chat-continuation",
+  "reviewDate": "2026-09-07",
+  "candidateCodeCommit": "b6b3dc379f1de0dc22f5bcc8a6d08827ddccbbd6",
+  "recoverySnapshotReadEarlier": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+  "scope": "Bounded completed negative review of two identified candidate families. No complete independent pass is issued. Measurements and page-1 observations were completed earlier in this same session; final continuation readbacks were unreadable. This file does not assert a new successful source, head, binary or page retrieval.",
+  "supersedesSubmittedDisposition": "al-two-candidate-current-defect-disposition.json",
+  "correctionToSubmittedDisposition": "Any route-key strings or ROUTE_IDENTITY PASS entries in the earlier submitted disposition are withdrawn: exact route keys were not re-established from readable current records in the final continuation. Family identification alone is not route-identity proof. Use only the family IDs, candidate commit, measured output anchors and concrete negative findings below. All historical measurement and prior review files remain unchanged.",
+  "coordinationRead": {
+    "path": "docs/rcap/grade-a/CHAT_PARALLEL_TEN_CHAT_2026-09-07.md",
+    "commit": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+    "effect": "Alabama review remains B's retained work. Colorado's next candidate review remains Chat 10's. NC/NV and the transferred source/legal queue were not resumed."
+  },
+  "packetFilesEdited": false,
+  "buildersExecutedOrEdited": false,
+  "sharedRecordsEdited": false,
+  "newCentralRasterRequested": false,
+  "counselApproval": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "retainedEvidence": {
+    "measurementPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-review-measurements.json",
+    "creationCommit": "aea3922f070ae8b6cab354bff63e79af1be168be",
+    "creationReadbackBlob": "3ee596a5ad4b2f65a17db80a8b456d8296785e9d",
+    "laterEvidenceUpdateCommit": "faeb62d3ac2075f231f21da8ef63371ec73c6791",
+    "archiveDriveFileId": "14ajByIZwPI6QStVk-tcJgajbX4yoLxs4",
+    "archiveBytesMeasured": 2550028,
+    "archiveSha256Measured": "ea67584e7dda2f6ad8eebbb0f522ca8dbb07fd9f8fb5b75dfb9ca4890e97daf0",
+    "measurementAttribution": "Earlier completed part of this review session; not a new successful measurement during the unreadable final continuation.",
+    "sourceOriginalsMeasured": [
+      {"document": "CR-65", "revisionPrinted": "10/2024", "bytes": 468056, "pages": 8, "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"},
+      {"document": "C-10 Criminal", "revisionPrinted": "5/2024", "bytes": 711433, "pages": 3, "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8"}
+    ]
+  },
+  "preserveCompletedRepair": "The submitted page-6 completion instructions now require one truthful prior-application choice and condition county/case/result details on an actual prior application. They explain truthful pro-se completion without inferring it from missing attorney information. The reviewed unknown choices remain blank. Preserve that narrow repair and C's existing full-build evidence; do not count it as approval of unrelated fields.",
+  "findings": [
+    {
+      "id": "CHATB-AL-01",
+      "owner": "C",
+      "obligation": "KNOWN_PREFILLS",
+      "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set"],
+      "files": ["fixtures/canonical.pdf", "fixtures/boundary.pdf", "production-field-map.json", "reports/actual-writes.json"],
+      "page": 1,
+      "printedField": "Social Security number: last four digits",
+      "observed": "The case number is printed in this last-four field in both families. This is a wrong-fact binding even when extraction matches the map's expected text.",
+      "correction": "Use only a separately held four-digit SSN-last-four fact here. If unavailable, leave a truthful blank and disclose the completion requirement. Do not substitute, trim or derive digits from the case number, invent an identifier, or print a full SSN. Preserve case-number placement in its own actual field.",
+      "regression": "Test distinct synthetic case-number and SSN-last-four values and a missing-last-four case in both families. Check the official printed field context rather than only the same map's drawnText."
+    },
+    {
+      "id": "CHATB-AL-02",
+      "owner": "C",
+      "obligation": "CLIPPING_AND_OVERLAP",
+      "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set"],
+      "file": "fixtures/boundary.pdf",
+      "page": 1,
+      "observed": "The longer wrong case-number value is visibly clipped in the last-four field in both boundary outputs.",
+      "correction": "Fix the semantic binding first and inspect the actual four-digit ink or accurate blank. Preserve the font floor and official question. A revised rectangle is not proof of repaired ink."
+    },
+    {
+      "id": "CHATB-AL-03",
+      "owner": "C",
+      "severity": "evidence_correction",
+      "observed": "The author handoff describes seven CR-65 pages plus four C-10 pages. The measured source originals are eight plus three. The total remains eleven.",
+      "correction": "Correct the component-page explanation and check source-relative page inventory. Do not add or delete official pages merely to fit the incorrect description. No missing-page allegation is made from this prose mismatch alone."
+    }
+  ],
+  "rows": [
+    {
+      "familyId": "al-felony-dwop-set",
+      "itemId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "outputs": [
+        {"fixture": "canonical", "pages": 11, "bytes": 905868, "sha256": "d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543", "gitBlob": "9f06167464b136110c73071a2f3bc435c8fca7e7"},
+        {"fixture": "boundary", "pages": 11, "bytes": 906110, "sha256": "e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e", "gitBlob": "a5fe722be722c814bcae76947c319c57cb6215f1"}
+      ],
+      "failedObligations": ["KNOWN_PREFILLS", "CLIPPING_AND_OVERLAP"],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": false, "result": "UNMEASURED"},
+        "SOURCE_IDENTITY": {"measured": false, "result": "UNMEASURED"},
+        "COMPONENT_SET": {"measured": false, "result": "UNMEASURED"},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "CHATB-AL-01"},
+        "REQUIRED_BEFORE_FILING": {"measured": false, "result": "UNMEASURED"},
+        "ROUTE_OPTIONS": {"measured": false, "result": "UNMEASURED"},
+        "REPEATING_ROWS": {"measured": false, "result": "UNMEASURED"},
+        "PROTECTED_FIELDS": {"measured": false, "result": "UNMEASURED"},
+        "ARTIFACTS": {"measured": false, "result": "UNMEASURED"},
+        "PAGE_ORDER": {"measured": false, "result": "UNMEASURED"},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "CHATB-AL-02"},
+        "FILING_DESTINATION": {"measured": false, "result": "UNMEASURED"},
+        "FEE_AND_WAIVER": {"measured": false, "result": "UNMEASURED"},
+        "SERVICE": {"measured": false, "result": "UNMEASURED"},
+        "SELF_HELP_STOP": {"measured": false, "result": "UNMEASURED"}
+      }
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "itemId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+      "outputs": [
+        {"fixture": "canonical", "pages": 11, "bytes": 905674, "sha256": "e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924", "gitBlob": "4bd70f36c6e55c413cd8f882a8b55dc8530c553c"},
+        {"fixture": "boundary", "pages": 11, "bytes": 905916, "sha256": "ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05", "gitBlob": "da55e0a499855f88503bcc0cbfc7a17849ad5c4d"}
+      ],
+      "failedObligations": ["KNOWN_PREFILLS", "CLIPPING_AND_OVERLAP"],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": false, "result": "UNMEASURED"},
+        "SOURCE_IDENTITY": {"measured": false, "result": "UNMEASURED"},
+        "COMPONENT_SET": {"measured": false, "result": "UNMEASURED"},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "CHATB-AL-01"},
+        "REQUIRED_BEFORE_FILING": {"measured": false, "result": "UNMEASURED"},
+        "ROUTE_OPTIONS": {"measured": false, "result": "UNMEASURED"},
+        "REPEATING_ROWS": {"measured": false, "result": "UNMEASURED"},
+        "PROTECTED_FIELDS": {"measured": false, "result": "UNMEASURED"},
+        "ARTIFACTS": {"measured": false, "result": "UNMEASURED"},
+        "PAGE_ORDER": {"measured": false, "result": "UNMEASURED"},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "CHATB-AL-02"},
+        "FILING_DESTINATION": {"measured": false, "result": "UNMEASURED"},
+        "FEE_AND_WAIVER": {"measured": false, "result": "UNMEASURED"},
+        "SERVICE": {"measured": false, "result": "UNMEASURED"},
+        "SELF_HELP_STOP": {"measured": false, "result": "UNMEASURED"}
+      }
+    }
+  ],
+  "coverageLimit": "Four complete eleven-page PDF byte identities are retained. This disposition does not newly certify all forty-four visual page instances or reopen completed examinations as failures. The measured defects concern page 1. Consult the unchanged detailed measurement record for its actual page-inspection and helper-test coverage.",
+  "unmeasuredMeaning": "UNMEASURED means no complete obligation approval is issued by this bounded disposition. It does not negate a specifically described prior measurement, create a legal hold, prove a missing source, or require repeating an unchanged renderer/raster run.",
+  "handoff": "C repairs the two exact page-1 defects and corrects its component-page explanation, preserving its successful page-6 disclosure repair. A verifies final publication, current route/product binding and any exact-byte acceptance receipt before consuming evidence; neither candidate is promoted by this record. Current official authority and a complete positive review remain separate. No new commit or comment confirmation may be claimed until an actual readable readback is obtained."
+}

@@ -6719,8 +6719,14 @@ export async function runEastFamily(familyId, argv = process.argv.slice(2)) {
   if (argv.includes("--self-test")) { await selfTest(familyId); return; }
   const check = argv.includes("--check");
   if (Object.hasOwn(FAMILY, familyId)) {
-    if (check) await checkOfficial(familyId, FAMILY[familyId]);
-    else await buildOfficial(familyId, FAMILY[familyId]);
+    // Family-local batch-04 repair. No New Jersey (or other PA) configuration
+    // is mutated, and importing this host does not render or change any family.
+    const pa790 = familyId === "pa_790_nonconviction-set"
+      ? await import("./rcap-packet-recovery/pa-790-recovery.mjs") : null;
+    const config = pa790 ? pa790.configurePa790Family(FAMILY[familyId]) : FAMILY[familyId];
+    if (check) await checkOfficial(familyId, config);
+    else await buildOfficial(familyId, config);
+    if (pa790) await pa790.writePa790ConditionalFixtures(abs(officialOut(familyId, "PA")), { check });
     return;
   }
   if (COMPOSED_FAMILY_IDS.has(familyId)) {

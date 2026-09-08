@@ -12,7 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { runComposedFamily } from "./rcap-custom-pleading/composed-family-host.mjs";
+import { runComposedFamily, KEEP_ON_ONE_PAGE } from "./rcap-custom-pleading/composed-family-host.mjs";
 import { makeAgencyGuidanceFamily } from "./build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs";
 
 const FAMILY_ID = "de_mandatory_expungement-set";
@@ -30,6 +30,9 @@ const FAMILY = makeAgencyGuidanceFamily({
   title: "Delaware SBI Mandatory/Automatic Expungement Process Guide",
   statutes: ["11 Del. C. Sec. 4373", "11 Del. C. Sec. 4373A"],
   compositionSources: [
+    "data/record-clearing/legal-decisions/2026-09-07-de-sbi-fee-scope-correction.json",
+    "reference/delaware/DE-Service-Code-Form_27S23V.pdf",
+    "reference/delaware/sbi-process-20260907.html",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
     "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/sources/DE-SBI-MANDATORY/receipt.json",
     "data/record-clearing/legal-design-intake/DE.memo.json",
@@ -67,13 +70,13 @@ const FAMILY = makeAgencyGuidanceFamily({
     {
       heading: "Exact SBI destination and next steps",
       paragraphs: [
-        "Required before you use this process: obtain the certified Delaware criminal history. The committed Delaware record states it this way: \"Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.\" and \"Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.\" For the SBI expungement application process, enroll through the State Police's linked fingerprint service using code 27S23V. The initial application fee is $72. Follow the registration instructions for the appointment or permitted mail-in option and identification. After SBI reviews the application, read its eligibility notice. If SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it, together with a $75 money order payable to Delaware State Police. If SBI instead sends discretionary-expungement information, follow that separate court process. Do not use the personal-background-check code 27RVGT as a substitute.",
-        "That process is stated on the recorded Delaware State Police page \"Obtaining a Certified Delaware Criminal History\" (https://dsp.delaware.gov/obtaining-a-certified-criminal-history/) and its linked service-code sheet 27S23V. That sheet is not held here by hash and its printed revision is not established, so confirm the current instructions, codes and amounts with SBI before you enroll, pay, or send anything. The sheet describes online enrollment and a telephone alternative, 1-866-761-8069, and requires valid, unexpired photo identification. No mailing destination is asserted here; use the registration instructions.",
+        "First ask SBI whether the automatic process has already reached your case. If you are applying through SBI, use its expungement enrollment service code 27S23V, not the personal-background-check code 27RVGT. The initial application fee is $72. Follow the registration instructions for your appointment or permitted mail-in option and identification. After review, SBI sends an eligibility notice. Only if SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it with a $75 money order payable to Delaware State Police. A notice directing discretionary relief leads to a different court process, not a court filing made with this guide.",
+        "Source checked September 7, 2026: Delaware State Police, Obtaining a Certified Delaware Criminal History, https://dsp.delaware.gov/obtaining-a-certified-criminal-history/, and the linked official 27S23V service-code sheet. Enrollment is through the linked fingerprint service or by telephone at 1-866-761-8069. Bring valid, unexpired photo identification and any required name-linking document. Follow SBI's current directions before enrolling, paying or mailing anything; this guide does not supply a mailing address. The source page and sheet are retained by hash; no printed revision date is asserted for the sheet.",
         "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree.",
         "Start with the Delaware State Police, State Bureau of Identification, Expungement Section. Call 302-739-5884. The official process page is https://dsp.delaware.gov/expungements/.",
         "Tell SBI you are checking mandatory or automatic expungement under 11 Del. C. Secs. 4373 and 4373A. Ask whether the automatic process has reached the case and what identifying or case information SBI needs to review it.",
         "If SBI determines that the person is eligible, SBI provides an eligibility letter and instructions. Wait for that letter and follow only the current directions it contains. Do not send this guide, invent an application, or send a payment based on this guide. No mailing address, portal, or submission method is asserted here.",
-        "Cost, as the committed Delaware record states it: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI application process carries its own initial $72 fee, and a further $75 money order payable to Delaware State Police only if SBI's notice says you qualify for mandatory expungement. Neither replaces the court filing fee. Confirm both amounts with SBI, because the issuer service-code sheet is not held here by hash.",
+        "SBI PROCESS COSTS. The initial expungement application charge is $72. The additional $75 money order is due only if SBI's notice finds you mandatory-eligible and directs return of the signed paperwork. Do not add a separate court filing fee to these agency charges. A discretionary court petition is a different route with its own costs. Do not purchase the personal-use history service as a substitute for the expungement service; ask SBI before ordering an additional report.",
         "Fee waiver and conversion, as the same record states it: under 11 Del. C. Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment. Unpaid fines, fees, or restitution where that waiver or conversion is needed is a stop condition on this route, not a step to take from this guide."
       ]
     },
@@ -139,9 +142,9 @@ const FAMILY = makeAgencyGuidanceFamily({
   ],
   instructions: [
     "There is no checkout and nothing to file from this guide. Do not submit it to a court or agency. Contact the Delaware SBI Expungement Section at 302-739-5884 and use https://dsp.delaware.gov/expungements/ to confirm the current process.",
-    "Required before you use the agency process: obtain the certified Delaware criminal history. The committed Delaware record states it as \"Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.\" and \"Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.\" Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree. For the SBI expungement application process, enroll through the State Police's linked fingerprint service using code 27S23V. The initial application fee is $72. Follow the registration instructions for the appointment or permitted mail-in option and identification. After SBI reviews the application, read its eligibility notice. If SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it, together with a $75 money order payable to Delaware State Police. If SBI instead sends discretionary-expungement information, follow that separate court process. Do not use the personal-background-check code 27RVGT as a substitute. That process is stated on the recorded Delaware State Police page \"Obtaining a Certified Delaware Criminal History\" (https://dsp.delaware.gov/obtaining-a-certified-criminal-history/) and its linked service-code sheet 27S23V. That sheet is not held here by hash and its printed revision is not established, so confirm the current instructions, codes and amounts with SBI before you enroll, pay, or send anything. The sheet describes online enrollment and a telephone alternative, 1-866-761-8069, and requires valid, unexpired photo identification. No mailing destination is asserted here; use the registration instructions.",
+    "Start by checking automatic-expungement status with SBI. If you use the SBI application process, enroll through its official fingerprint service using code 27S23V. Pay the initial $72 application charge and follow the registration and identification directions. Review your criminal-history and case information against the court records. If the resulting SBI notice finds you mandatory-eligible, return the signed paperwork within 30 days of receipt with a $75 money order payable to Delaware State Police. Otherwise, use the separate discretionary process identified by SBI. Code 27RVGT is for a personal-use report, not a substitute expungement application. Ask SBI before ordering any additional report. The current official process and enrollment sheet are retained with source hashes in this packet's source evidence; confirm current instructions before payment or submission.",
     "Have the listed record and case facts available. Ask whether the automatic process has reached the case. If SBI determines eligibility, wait for its letter and follow only the current instructions and any fee information SBI provides.",
-    "Cost: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI application process carries its own initial $72 fee, and a further $75 money order payable to Delaware State Police only if SBI's notice says you qualify for mandatory expungement; confirm both with SBI. Under 11 Del. C. Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+    "SBI process costs: $72 initially, then a conditional $75 money order payable to Delaware State Police only when SBI finds mandatory eligibility and directs return of the paperwork. No separate court filing fee is added to this agency process. A discretionary court petition is a different route. Under 11 Del. C. Sec. 4372(l), certain unpaid fines or fees may require court waiver or conversion; stop and obtain legal help for that separate question rather than treating this guide as a court application.",
     "Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a listed case fact is uncertain, or immigration, firearms, licensing, registry, or law-enforcement-employment consequences may be involved."
   ],
   buildFindings: [
@@ -151,7 +154,7 @@ const FAMILY = makeAgencyGuidanceFamily({
     },
     {
       finding: "The committed route metadata is guidance-only, userFiled false, checkout-ineligible, and payment-product-ineligible.",
-      consequence: "The guide makes no checkout, filing, service, portal, or mailing-address claim. It states the $75 mandatory-path filing fee and the Sec. 4372(l) waiver-or-conversion limb exactly as the committed Delaware memo states them, and states the SBI application process - code 27S23V, the $72 initial fee, and the conditional $75 money order - only as the owner-relayed 2026-09-06 research records it, with the issuer sheet unheld by hash and the participant's confirmation step with SBI kept."
+      consequence: "The guide remains checkout-closed process guidance. The narrow September 7, 2026 correction, grounded on the retained DSP page and enrollment sheet, supersedes the historical memo's extra court-fee statement for this agency-only family. It preserves the initial $72 and conditional $75 SBI charges, the thirty-day return period, and the separate Sec. 4372(l) legal handoff."
     },
     {
       finding: "The committed Delaware profile directs the participant to SBI at 302-739-5884 and records that SBI supplies an eligibility letter and instructions if eligible.",
@@ -168,11 +171,19 @@ const FAMILY = makeAgencyGuidanceFamily({
   ],
   receiptLimits: [
     "that a publicly downloadable application has since been issued",
-    "that the SBI service code, the $72 initial fee, or the conditional $75 money order remain current: the issuer service-code sheet is not held here by hash and its printed revision is not established",
+    "that SBI will not change the service code, initial $72 fee, conditional $75 fee, or instructions after the September 7, 2026 source check; no printed revision is established for the service-code sheet",
     "that the SBI telephone number or process page will remain unchanged",
     "that SBI will find this participant or case eligible"
   ]
 });
+
+
+// The seven record checkpoints and their instructions fit on one page. Keep
+// their labels, writing lines and "Check with" text together for both fixtures.
+// This is family-local; other agency guides keep their original layout.
+const composeDelawareBody = FAMILY.composedBody;
+FAMILY.composedBody = (componentId, facts) => composeDelawareBody(componentId, facts)
+  .replace("\nFACTS YOU MUST CONFIRM BEFORE ACTING\n", `\n${KEEP_ON_ONE_PAGE}\nFACTS YOU MUST CONFIRM BEFORE ACTING\n`);
 
 async function run(argv = process.argv.slice(2)) {
   const result = await runComposedFamily(FAMILY, argv);

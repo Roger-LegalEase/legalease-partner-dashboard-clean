@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1abf22128565800e74be7d036790f4b9794c1d31",
+  "generatedAtCommit": "10af26757da754dac4c8800abc024759deec2971",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -961,18 +961,17 @@
     {
       "subjectType": "packet-family",
       "subjectId": "ar-nonconviction-seal-set",
-      "itemId": null,
       "familyId": "ar-nonconviction-seal-set",
+      "itemId": null,
       "familyIds": [
         "ar-nonconviction-seal-set"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T21:16:31.943Z",
-      "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+      "releasedAt": "2026-09-05T21:16:31.943Z"
     },
     {
       "subjectType": "packet-family",
@@ -1430,6 +1429,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-02T16:17:28.031Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "census-pending-family:ME:juvenile-sealing",
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "itemId": null,
+      "familyIds": [
+        "census-pending-family:ME:juvenile-sealing"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2912,11 +2926,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF07",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF01 PASS_COMPLETE_INDEPENDENT at b8424a7ec: fifteen of fifteen on the FIX54 bytes (canonical 79ac2a68, boundary 8049dcee; RASTER_PASS run 33982597868 job 101350740738); all six declared required-before-filing items named; IdentoGo code and fee absent; nine counters zero. Open owner/counsel wording note: the packet says the ordering and cost of the certified history are not source-approved, which tracks[1].unresolvedQuestions[0] supports while limitations[2] and tracks[0].rules.fees state it as settled; selfHelpStopConditions[2] still unprinted. Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 28f772fe0)."
+      "released": true,
+      "releasedAt": "2026-09-07T18:09:38.926Z"
     },
     {
       "subjectType": "packet-family",
@@ -3385,21 +3398,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-nonconv-pre2013-set",
-      "familyId": "ga-nonconv-pre2013-set",
-      "itemId": null,
-      "familyIds": [
-        "ga-nonconv-pre2013-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF19",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ga-pardon-j7-set",
       "familyId": "ga-pardon-j7-set",
       "itemId": null,
@@ -3592,21 +3590,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:37:07.458Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ia-901c2-set",
-      "familyId": "ia-901c2-set",
-      "itemId": null,
-      "familyIds": [
-        "ia-901c2-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF22",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4472,21 +4455,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ky_nonconviction_expungement-set",
-      "familyId": "ky_nonconviction_expungement-set",
-      "itemId": null,
-      "familyIds": [
-        "ky_nonconviction_expungement-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ky_protective_order_record_expungement-set",
       "familyId": "ky_protective_order_record_expungement-set",
       "itemId": null,
@@ -4713,6 +4681,22 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "itemId": null,
+      "familyId": "ma-bmc-multi-set",
+      "familyIds": [
+        "ma-bmc-multi-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX116",
+      "laneKind": "repair",
+      "released": true,
+      "releasedAt": "2026-09-07T07:42:02.749Z",
+      "releaseReason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c. Accepted instrument identity remains a hold. No further build assignment is needed for the completed repair."
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ma-expunge-k-set",
       "familyId": "ma-expunge-k-set",
       "itemId": null,
@@ -4860,21 +4844,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "md_10105_favorable-set",
-      "familyId": "md_10105_favorable-set",
-      "itemId": null,
-      "familyIds": [
-        "md_10105_favorable-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF09",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "md_10110_conviction-set",
       "familyId": "md_10110_conviction-set",
       "itemId": null,
@@ -4890,21 +4859,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "md_cannabis_petition-set",
-      "familyId": "md_cannabis_petition-set",
-      "itemId": null,
-      "familyIds": [
-        "md_cannabis_petition-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "md_pardon_expungement-set",
       "familyId": "md_pardon_expungement-set",
       "itemId": null,
@@ -4913,7 +4867,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF01",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T23:50:06.938Z"
@@ -5096,36 +5050,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mi_setaside_application-set",
-      "familyId": "mi_setaside_application-set",
-      "itemId": null,
-      "familyIds": [
-        "mi_setaside_application-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF23",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mi_setaside_first_owi-set",
-      "familyId": "mi_setaside_first_owi-set",
-      "itemId": null,
-      "familyIds": [
-        "mi_setaside_first_owi-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF22",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -5340,21 +5264,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF13",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-610-145-mistaken-identity-set",
-      "familyId": "mo-610-145-mistaken-identity-set",
-      "itemId": null,
-      "familyIds": [
-        "mo-610-145-mistaken-identity-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF11",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -5630,7 +5539,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T22:43:23.964Z"
@@ -5691,7 +5600,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T23:50:16.437Z"
@@ -5706,7 +5615,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T18:26:02.263Z"
@@ -5752,11 +5661,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-06T11:36:21.150Z",
-      "releaseReason": "Integrated exact-source independent legal hold 1bdb28ff1; no packet repair is authorized to resolve legal waiver mismatch"
+      "releasedAt": "2026-09-07T18:09:39.040Z"
     },
     {
       "subjectType": "packet-family",
@@ -5783,11 +5691,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX90",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T05:10:43.323Z",
-      "releaseReason": "Completed current source-independent stop repair at 75ca76ab9; independent review still required, original source hold retained."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6770,9 +6676,9 @@
       "operation": "rapid-repair",
       "lane": "FIX117",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Completed repair integrated. Author has moved to a distinct assigned scope; Captain independent current-artifact review follows."
+      "released": true,
+      "releasedAt": "2026-09-07T07:42:02.829Z",
+      "releaseReason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c and eight selected output fixtures tested. Local-fee and independent approval inputs remain; no terminal status is granted."
     },
     {
       "subjectType": "packet-family",
@@ -7086,8 +6992,9 @@
       "operation": "independent-verification",
       "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-08T16:39:50.077Z",
+      "releaseReason": "Captain closes the inactive historical grant after independently reviewed successor4ae80e0b040dd0cea5fd5c46b3e9db775bdcadb333ea7a79197a37cf41c2a291; current immutable88-page central receipt34101879269 retained. This is grant retirement, not a new VF06 review."
     },
     {
       "subjectType": "packet-family",
@@ -7371,11 +7278,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VFCHATGPT02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF02 returned on 2026-09-05 and is not executing; the grant stayed live after the return"
+      "released": true,
+      "releasedAt": "2026-09-07T07:18:54.409Z",
+      "releaseReason": "Independent current-byte read complete: fifteen obligations PASS, twelve pages personally viewed, source and artifact hashes checked; returned under codex-cloud/chatgpt-independent-verification-pass-2. No packet edits or commercial authority."
     },
     {
       "subjectType": "packet-family",
@@ -7513,9 +7420,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF01 is not executing; the grant predates FIX109's repair"
+      "released": true,
+      "releasedAt": "2026-09-07T18:09:39.384Z",
+      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
     },
     {
       "subjectType": "packet-family",
@@ -7542,11 +7449,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX109",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:56:23.143Z",
-      "releaseReason": "FIX109 returned COMPLETED at a9c6602b1: FEE_AND_WAIVER carried from the research record, bytes moved (guide page 10), nine counters zero; central raster and independent re-read owed"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7560,9 +7465,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF02 is not executing; the grant predates FIX109's repair"
+      "released": true,
+      "releasedAt": "2026-09-07T18:09:39.154Z",
+      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
     },
     {
       "subjectType": "packet-family",
@@ -7589,11 +7494,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX109",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:56:23.266Z",
-      "releaseReason": "FIX109 returned COMPLETED at a9c6602b1: FEE_AND_WAIVER carried from the research record, bytes moved (guide page 10), nine counters zero; central raster and independent re-read owed"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7607,9 +7510,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF03's earlier read returned and its grant stayed live; it predates FIX109's repair"
+      "released": true,
+      "releasedAt": "2026-09-07T18:09:39.268Z",
+      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
     },
     {
       "subjectType": "packet-family",
@@ -7636,11 +7539,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX109",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:56:23.394Z",
-      "releaseReason": "FIX109 returned COMPLETED at a9c6602b1: FEE_AND_WAIVER carried from the research record, bytes moved (guide page 10), nine counters zero; central raster and independent re-read owed"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7669,9 +7570,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF04's grant on this family predates FIX109's repair and VF04 is reading Mississippi"
+      "released": true,
+      "releasedAt": "2026-09-07T18:09:39.497Z",
+      "releaseReason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
     },
     {
       "subjectType": "packet-family",
@@ -7698,11 +7599,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX109",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T20:56:23.505Z",
-      "releaseReason": "FIX109 returned COMPLETED at a9c6602b1: FEE_AND_WAIVER carried from the research record, bytes moved (guide page 10), nine counters zero; central raster and independent re-read owed"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7836,7 +7735,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-06T18:33:50.752Z"
@@ -8327,6 +8226,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ut_pet_special_certificate-set",
+      "familyId": "ut_pet_special_certificate-set",
+      "itemId": null,
+      "familyIds": [
+        "ut_pet_special_certificate-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ut_pet_traffic-set",
       "familyId": "ut_pet_traffic-set",
       "itemId": null,
@@ -8444,9 +8358,9 @@
       "operation": "rapid-repair",
       "lane": "FIX115",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Completed repair integrated. Author has moved to a distinct assigned scope; Captain independent current-artifact review follows."
+      "released": true,
+      "releasedAt": "2026-09-07T07:42:02.676Z",
+      "releaseReason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c with executed 40-check regression suite. Legal adoption, raster and independent review remain; releasing completed implementation is not approval."
     },
     {
       "subjectType": "packet-family",
@@ -10096,20 +10010,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
-      "itemId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
-      "familyIds": [
-        "census-pending-family:ME:juvenile-sealing"
-      ],
-      "sourceId": "official-form:JV-043",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED",
       "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED",
       "familyIds": [
@@ -10177,34 +10077,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-02T09:28:04.703Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
-      "itemId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
-      "familyIds": [
-        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
-      ],
-      "sourceId": "official-form:JU 10.0300",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
-      "itemId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
-      "familyIds": [
-        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
-      ],
-      "sourceId": "official-form:JU 10.0315",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -12779,8 +12651,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:08.204Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -12863,8 +12734,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:08.782Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -12905,8 +12775,7 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": true,
-      "releasedAt": "2026-09-01T08:10:09.065Z"
+      "released": false
     },
     {
       "subjectType": "source-obligation",
@@ -13675,8 +13544,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-08T12:33:49.226Z",
+      "releaseReason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
     },
     {
       "subjectType": "source-obligation",
@@ -13689,8 +13559,9 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC01",
       "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-08T12:33:49.379Z",
+      "releaseReason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
     },
     {
       "subjectType": "source-obligation",
@@ -13817,24 +13688,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ma-bmc-multi-set",
-      "itemId": null,
-      "familyId": "ma-bmc-multi-set",
-      "familyIds": [
-        "ma-bmc-multi-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX116",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "0f0054bbcc11760be91b141f81912349a9ca144f4ef07877d7a3278e9df1068b",
+  "claimsDigest": "5de5f58b5eae10d64391ac1975d33f922591f229b0524f136c39fd37be2b2896",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32776,6 +32632,141 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-06T21:37:26.019Z",
       "reason": "FIX113 returned COMPLETED at 8f2d84896 (destination, notice, limited remedy, proposed order aligned to the batch-03 record); FEE_AND_WAIVER stays a legal stop; family stays LEGAL_BLOCKED pending counsel confirmation; central raster and independent re-read owed after that"
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T07:05:18.467Z",
+      "reason": "Owner requested ChatGPT completion takeover while Claude/Codex usage is paused. Recovery branch isolates this review; no edits to the prior worker worktree. No packet bytes or approval changed."
+    },
+    {
+      "lane": "VFCHATGPT02",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T07:18:54.409Z",
+      "reason": "Independent current-byte read complete: fifteen obligations PASS, twelve pages personally viewed, source and artifact hashes checked; returned under codex-cloud/chatgpt-independent-verification-pass-2. No packet edits or commercial authority."
+    },
+    {
+      "lane": "FIX115",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-07T07:42:02.676Z",
+      "reason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c with executed 40-check regression suite. Legal adoption, raster and independent review remain; releasing completed implementation is not approval."
+    },
+    {
+      "lane": "FIX116",
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-07T07:42:02.749Z",
+      "reason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c. Accepted instrument identity remains a hold. No further build assignment is needed for the completed repair."
+    },
+    {
+      "lane": "FIX117",
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-07T07:42:02.829Z",
+      "reason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c and eight selected output fixtures tested. Local-fee and independent approval inputs remain; no terminal status is granted."
+    },
+    {
+      "lane": "FIXCHATGPT02",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-07T07:44:34.776Z",
+      "reason": "Current completion candidate builds exact G106, protects its court/provider fields, assembles all four fee branches, and passes 19 focused regressions. Release records completion of this scoped implementation only. Legal, central raster, independent review, overflow and product delivery holds remain."
+    },
+    {
+      "lane": "VF07",
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:38.926Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json at SHA-256 d6cbc5d6da48ea513c420d7b6b21c302a5fa62f32ad9ef4a1afa13c8872396c1; current disposition GUIDANCE_READY. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:39.040Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/nc-complete-branch-independent-review.json at SHA-256 75db3f480c1daf685f64ba48379e881f141c88fdddd9d3f6bc6cf0aff2d78cf1; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:39.154Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:39.268Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:39.384Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-07T18:09:39.497Z",
+      "reason": "Chat 1 integration consumes data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json at SHA-256 3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc; current disposition FAIL_REPAIR_REQUIRED. Retire the spent verifier assignment, not its evidence. The original reviewer and failure findings are preserved; no new packet, counsel or commercial approval."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "ut_pet_special_certificate-set::official-form:1001EX",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-08T12:33:49.226Z",
+      "reason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
+    },
+    {
+      "lane": "SRC01",
+      "subjectType": "source-obligation",
+      "subjectId": "ut_pet_special_certificate-set::official-form:1021EX",
+      "operation": "held-inventory-reconciliation",
+      "laneKind": "source-reconciliation",
+      "releasedAt": "2026-09-08T12:33:49.379Z",
+      "reason": "Exact held original installed and rehashed in session08/ut-me-source-adoption.json; source conveyor no longer dispatches this discharged custody obligation. No source-edition, packet, counsel, or runtime approval."
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nv-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-08T16:39:50.077Z",
+      "reason": "Captain closes the inactive historical grant after independently reviewed successor4ae80e0b040dd0cea5fd5c46b3e9db775bdcadb333ea7a79197a37cf41c2a291; current immutable88-page central receipt34101879269 retained. This is grant retirement, not a new VF06 review."
     }
   ],
   "reissues": [
@@ -40386,6 +40377,108 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-06T21:13:03Z",
       "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_identity_theft-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "nm_release_without_conviction-set::official-form:4-222",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC01",
+      "dispatchNames": "SRC01",
+      "familyState": "SOURCE_BLOCKED",
+      "reissuedAt": "2026-09-07T12:13:24Z",
+      "reason": "the current dispatch names SRC01 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-07T12:44:05Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-07T18:09:38Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "dispatchNames": "FIX02",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-07T18:09:38Z",
+      "reason": "the current dispatch names FIX02 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "dispatchNames": "FIX03",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-07T18:09:38Z",
+      "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-07T18:09:38Z",
+      "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "dispatchNames": "FIX05",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-07T18:09:38Z",
+      "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
       "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
       "reclassificationDisposition": "POST_REPAIR_REREAD_REQUIRED"
     }
@@ -48387,6 +48480,28 @@
       "previouslyReleasedAt": "2026-09-06T05:37:33.387Z",
       "transferredAt": "2026-09-06T21:40:45.968Z",
       "reason": "Batch-04 research: Rule 576 service methods and certificate content, the proposed order labeled optional, CPCMS 2046 rendered when the IFP branch is selected; shared NJ host, sequenced after FIX105 returns; the county-fee hold stays"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VFCHATGPT02",
+      "previouslyReleasedAt": "2026-09-07T07:05:18.467Z",
+      "transferredAt": "2026-09-07T07:05:18.541Z",
+      "reason": "Owner-authorized current-byte independent review by ChatGPT, which neither built nor repaired this Wisconsin family. Prior VF06 assignment preserved in history."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX90",
+      "toLane": "FIXCHATGPT02",
+      "previouslyReleasedAt": "2026-09-06T05:10:43.323Z",
+      "transferredAt": "2026-09-07T07:44:34.657Z",
+      "reason": "Owner-directed credit-pause completion pass: integrate the already acquired G106 and the four recorded conditional packet branches. Prior FIX90 repair was released; no other live repair writer exists."
     }
   ],
   "grants": [
@@ -52485,6 +52600,102 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-06T18:57:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-early-juvenile-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-07T18:09:38Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_nonconviction_expungement-set",
+      "operation": "packet-build",
+      "lane": "PF04",
+      "withdrawnAt": "2026-09-08T11:11:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_favorable-set",
+      "operation": "packet-build",
+      "lane": "PF09",
+      "withdrawnAt": "2026-09-08T11:11:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:ME:juvenile-sealing::official-form:JV-043",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T12:20:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-nonconv-pre2013-set",
+      "operation": "packet-build",
+      "lane": "PF19",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_application-set",
+      "operation": "packet-build",
+      "lane": "PF23",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_first_owi-set",
+      "operation": "packet-build",
+      "lane": "PF22",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-145-mistaken-identity-set",
+      "operation": "packet-build",
+      "lane": "PF11",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ia-901c2-set",
+      "operation": "packet-build",
+      "lane": "PF22",
+      "withdrawnAt": "2026-09-08T14:22:50Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_cannabis_petition-set",
+      "operation": "packet-build",
+      "lane": "PF08",
+      "withdrawnAt": "2026-09-08T17:26:58Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

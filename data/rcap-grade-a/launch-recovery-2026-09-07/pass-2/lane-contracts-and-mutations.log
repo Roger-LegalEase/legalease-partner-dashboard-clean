@@ -1,0 +1,41 @@
+  ok   L1 Codex setup installs dependencies and restores the corpus, and requires no browser
+  ok   L2 a source-lane preflight treats the rasterizer as not applicable, and skipped is not a pass
+  ok   L3 no source-lane prompt carries a packet or raster instruction, and the builders still do
+  ok   L4 no family is proven without a RASTER_PASS whose accepted bytes still hash to what it was bound to
+  ok   L7 every queued row states which documents its verdict covers, and a partial verdict is not a family verdict
+  ok   L8 no family holds a raster receipt while its builder stamps the wall clock into the packet
+  ok   L9 a PASS_COMPLETE_INDEPENDENT verdict scored every proof obligation, not a subset of them
+  ok   L6 the raster gate's reachability is recorded and corroborated, and every proven family names the run of it that proved it
+  ok   L5 the canary and the negative controls live with the rendering, and the render depends on them
+
+9/9 lane-contract checks passed.
+
+mutations:
+  detected [L1] Codex setup invoking playwright install is caught
+  detected [L1] Codex setup invoking apt-get is caught
+  detected [L1] Codex setup reaching for pdftoppm is caught
+  detected [L1] Codex setup requiring RCAP_CHROMIUM_PATH is caught
+  detected [L2] a preflight that requires a rasterizer of every lane is caught
+  detected [L3] a source-lane prompt carrying a raster instruction is caught
+  detected [L4] a packet marked COMPLETE_PACKET_PROVEN with no RASTER_PASS is caught
+  detected [L4] dropping BUILT_RASTER_PENDING from the vocabulary is caught
+  detected [L4] a queued PDF with no exact hash is caught
+  detected [L5] moving the canary out of the raster workflow is caught
+  detected [L6] a family proven while the queue records the raster gate as undispatchable is caught
+  detected [L6] a proven family whose row carries no receipt from the raster gate is caught
+  detected [L6] receipts attributed to a workflow other than the raster gate are caught
+  detected [L6] dropping the reachability record is caught
+  detected [L8] a receipt on a family whose builder is not reproducible is caught
+  detected [L7] dropping a row's coverage declaration is caught
+  detected [L9] the strongest verdict awarded over a subset of the obligations is caught
+  detected [L7] a partial row claiming to cover the whole family is caught
+  detected [L4] a proven family whose canonical moved under its accepted receipt is caught
+  detected [L4] a proven family whose boundary moved under its accepted receipt is caught
+  detected [L4] a proven family whose required document is not on disk is not counted verified
+  detected [L4] a receipt covering a document the row does not declare is caught
+  detected [L4] a receipt that says it did not cover the whole family is caught
+  detected [L4] promoting a family whose raster verdict covers one of several documents is caught
+
+OK lane-contract mutations — 24 case(s), every mutation caught.
+
+LANE_CONTRACTS_HELD

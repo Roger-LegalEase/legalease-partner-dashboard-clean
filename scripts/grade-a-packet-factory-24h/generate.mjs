@@ -16,7 +16,13 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
 import fs from "node:fs";
+import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC } from "./treatment-reconciliation.mjs";
+import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
+import { assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance } from "./ct-reviewed-guidance.mjs";
+import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
+import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
 import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -887,6 +893,8 @@ for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? 
 function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy, reconciliation) {
   const reasons = [];
   const bound = [];
+  const guidanceAuthority = guidanceSourceReadiness(ROOT, familyId, reconciliation);
+  reasons.push(...guidanceAuthority.reasons);
   const boundIds = new Set();
   const customPleading = implementationStrategy === "custom_pleading"
     || implementationStrategy === "participant_agency_application";
@@ -1074,7 +1082,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
    * application from the agency's own published process. Neither is blocked
    * on an official form it will never fill; named missing components still
    * block both honestly. */
-  if (!customPleading && named.length === 0 && bound.length === 0) {
+  if (!customPleading && !guidanceAuthority.ready && named.length === 0 && bound.length === 0) {
     reasons.push("the family names no document-shaped source, so nothing binds");
   }
   /* A custom pleading drafts from codified text, so it needs no PDF to fill —
@@ -1083,8 +1091,8 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
   const customAuthorityReady = customPleading
     && (reconciliation?.requireBoundAuthority !== true || boundAuthorities.length > 0);
   const ready = reasons.length === 0
-    && (customAuthorityReady || bound.length > 0 || satisfiedByAuthority.length > 0);
-  return {
+    && (customAuthorityReady || guidanceAuthority.ready || bound.length > 0 || satisfiedByAuthority.length > 0);
+  return applyUnresolvedSourceConstraints({
     ready,
     reasons,
     ...(satisfiedByAuthority.length
@@ -1101,6 +1109,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
         }
       : {}),
     boundSources: bound,
+    boundGuidanceAuthorityRecords: guidanceAuthority.records,
     boundAuthorities,
     boundAuthorityCount: boundAuthorities.length,
     supersededSourceIds: [...replacements.keys()],
@@ -1109,7 +1118,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     boundCount: bound.length,
     custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED",
     directAttachment: true
-  };
+  }, reconciliation);
 }
 
 const slugOf = (id) => id.replace(/_/g, "-").toLowerCase();
@@ -1914,6 +1923,7 @@ if (focusedArtifactEvidenceIndex >= 0) {
   process.exit(0);
 }
 
+const treatmentReconciliations = loadTreatmentReconciliations(ROOT);
 const families = [];
 const artifactsOnlyRereadTransitions = new Map();
 const seen = new Set();
@@ -1930,7 +1940,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   if (seen.has(familyId)) continue;
   seen.add(familyId);
 
-  const routes = (routesByFamily.get(familyId) ?? []).length > 0
+  const originalRoutes = (routesByFamily.get(familyId) ?? []).length > 0
     ? routesByFamily.get(familyId)
     : (worklistRowById.get(f.worklistGroupId)?.routes ?? []);
   const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
@@ -1940,15 +1950,19 @@ for (const f of IN.scoreboard.familiesDetail) {
   const independentReturn = independentReturnByFamily.get(familyId) ?? null;
   const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
 
-  const sourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
-  const strategy = sourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy;
+  const originalSourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
+  const { routes, implementationStrategy: strategy, sourceReconciliation, treatment } = reconcileFamilyBuildInputs({
+    familyId, routes: originalRoutes,
+    implementationStrategy: originalSourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy,
+    sourceReconciliation: originalSourceReconciliation
+  }, treatmentReconciliations);
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
-  const directory = comp?.directory
+  const directory = treatment?.directory ?? comp?.directory
     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
     ?? dirGuess;
   const buildScript = `${SCRIPTS}/build-census-v1-${familyId}.mjs`;
   const buildScriptExists = fs.existsSync(path.join(ROOT, buildScript));
-  const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/reports/rendered-artifacts.json`));
+  const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/${familyId === WA_AUTOMATIC ? "guidance-manifest.json" : "reports/rendered-artifacts.json"}`));
 
   const originalSourceIds = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:"))))];
   const removedSourceIds = new Set(sourceReconciliation?.satisfiedWithoutStandaloneBinary ?? []);
@@ -1987,7 +2001,9 @@ for (const f of IN.scoreboard.familiesDetail) {
    * calling that "bound by held bytes" would promote a source that has no
    * bytes, which F18 rightly refuses. */
   const sourceStatus = readiness.ready
-    ? (readiness.boundCount === 0 ? "CUSTOM_PLEADING_FROM_CODIFIED_TEXT" : "SOURCE_BOUND_BY_HELD_BYTES")
+    ? (strategy === "process_guidance" && readiness.boundGuidanceAuthorityRecords?.length > 0
+      ? "GUIDANCE_AUTHORITY_BOUND"
+      : readiness.boundCount === 0 ? "CUSTOM_PLEADING_FROM_CODIFIED_TEXT" : "SOURCE_BOUND_BY_HELD_BYTES")
     : !((f.holds ?? []).some((h) => h.kind === "missing_source"))
       ? (inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT" : `SOURCE_NAMED_BUT_NOT_HELD: ${readiness.reasons[0]}`)
       : (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED");
@@ -2058,13 +2074,20 @@ for (const f of IN.scoreboard.familiesDetail) {
   const reclassificationRereadAnchor = holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED"
     ? holdReclassification.repairCommit
     : IN.legalHoldReclassification?.recordedAtCaptainSha;
-  const reclassificationRereadReturned = Boolean(independentReturn)
+  const reclassificationReviewIsOrdered = Boolean(independentReturn)
     && !["PASS", "BLOCKED_BEFORE_CLAIM"].includes(independentReturn.verdict)
     && isCommitish(independentReturn.verifiedAtBase)
     && isCommitish(reclassificationRereadAnchor)
     && (independentReturn.verifiedAtBase === reclassificationRereadAnchor
-      || readIsLaterThan(independentReturn.verifiedAtBase, reclassificationRereadAnchor))
-    && !familyMovedSinceVerdict(independentReturn, directory, buildScript);
+      || readIsLaterThan(independentReturn.verifiedAtBase, reclassificationRereadAnchor));
+  // A completed negative reread is a historical event, not current repair proof.
+  // Keep later edits subject to the ordinary causal repair-evidence checks below.
+  const reclassificationRereadReturned = orderedReclassificationReadReturned({
+    verdict: independentReturn?.verdict,
+    reviewIsOrdered: reclassificationReviewIsOrdered,
+    artifactsMoved: independentReturn
+      ? familyMovedSinceVerdict(independentReturn, directory, buildScript) : true
+  });
   const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
     .includes(holdReclassification?.disposition)
     && !reclassificationRereadReturned ? "VERIFY_PENDING" : null;
@@ -2126,6 +2149,9 @@ for (const f of IN.scoreboard.familiesDetail) {
    * precedes every question about how good the instrument is. */
   const deliveryTypeRefusal = ownerDeliveryTypeRefusals.get(familyId) ?? null;
   const terminalTreatment = terminalTreatments.get(familyId) ?? null;
+  const reviewedGuidance = assessDeReviewedGuidance(ROOT, independentReturn, {
+    currentFamily: {familyId, directory, routeKeys: routes.map(r => r.routeKey)}
+  });
   /* Refused AND answered: the family rests in what it delivers, not in what it
    * may not. Refused and not yet answered stays WRONG_DELIVERY_TYPE, which is
    * where rcap-sc-custom-pleading correctly still sits. */
@@ -2144,6 +2170,9 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "PRODUCT_PATH_PENDING") state = "PRODUCT_PATH_PENDING";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
+  /* A rejected source binding is not repaired by a prior completeness or
+   * semantic result. Preserve those findings, but do not call it buildable. */
+  else if (readiness.unresolvedObligations?.length && !legalBlocked) state = "SOURCE_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
    * readiness is true, that environment-scoped hold is no longer source work.
@@ -2154,6 +2183,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentReturn?.verdict === "BLOCKED_SOURCE"
     && (independentReturn.failedObligationNames ?? []).length > 0) state = "FAIL_REPAIR_REQUIRED";
   else if (independentReturn?.verdict === "BLOCKED_SOURCE") state = "VERIFY_PENDING";
+  else if (reviewedGuidance && legalBlocked) state = "LEGAL_BLOCKED";
+  else if (reviewedGuidance) state = reviewedGuidance.eligible ? "GUIDANCE_READY" : "VERIFY_PENDING";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.
@@ -2388,8 +2419,23 @@ for (const f of IN.scoreboard.familiesDetail) {
     });
   }
 
+  const ctGuidanceAssessment = assessConnecticutReviewedGuidance(ROOT, familyId);
+  let reviewedTreatmentGuidance = familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : ctGuidanceAssessment;
+  state = preserveTreatmentAcceptance(state, treatment, reviewedTreatmentGuidance);
+  if (ctGuidanceAssessment) {
+    state = applyConnecticutGuidanceAcceptance(state, ctGuidanceAssessment, {
+      independentReturn, verifierSourceHold, readiness, nineZero, legalBlocked, deliveryTypeRefusal
+    });
+    reviewedTreatmentGuidance = {
+      ...ctGuidanceAssessment,
+      eligible: ctGuidanceAssessment.eligible && state === "GUIDANCE_READY",
+      currentTreatmentHold: ctGuidanceAssessment.eligible && state !== "GUIDANCE_READY" ? state : null
+    };
+  }
   families.push({
     familyId,
+    treatmentReconciliation: treatment,
+    reviewedTreatmentGuidance,
     worklistGroupId: f.worklistGroupId,
     jurisdiction: (f.jurisdictions ?? []).join("/"),
     routeKeys: routes.map((r) => r.routeKey),
@@ -2408,6 +2454,7 @@ for (const f of IN.scoreboard.familiesDetail) {
       ? {
           group: sourceReconciliation.group,
           disposition: sourceReconciliation.disposition,
+          unresolvedObligations: [...(sourceReconciliation.unresolvedObligations ?? [])],
           exactNextAction: sourceReconciliation.exactNextAction,
           exactResidual: sourceReconciliation.exactResidual ?? null,
           permissionHold: sourceReconciliation.permissionHold ?? null,
@@ -2425,6 +2472,7 @@ for (const f of IN.scoreboard.familiesDetail) {
           evidencePath: independentReturn.evidencePath ?? null
         }
       : null,
+    ...(reviewedGuidance ? {reviewedGuidanceAdmission: reviewedGuidance} : {}),
     rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     /* Carried on the row so a reader sees the refusal and its grounds where the
@@ -2452,7 +2500,7 @@ for (const f of IN.scoreboard.familiesDetail) {
      * packet/source lapse returns a PASS to VERIFY_PENDING. Missing raster proof
      * leaves the verdict current and uses BUILT_RASTER_PENDING instead. */
     verificationLapsedBecause: (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
-      && state === "VERIFY_PENDING")
+      && state === "VERIFY_PENDING" && !reviewedGuidance)
       ? (boundSourceDriftedSinceVerdict(directory)
           ? { lapse: "BOUND_SOURCE_DRIFTED", ...boundSourceDriftedSinceVerdict(directory),
               meaning: "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source." }
@@ -2488,7 +2536,13 @@ for (const f of IN.scoreboard.familiesDetail) {
     laneReturnLegalHold: laneHoldNarrowed,
     executionReclassification,
     executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
-    nextExecutableAction: executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
+    nextExecutableAction: reviewedTreatmentGuidance?.eligible
+      ? (ctGuidanceAssessment
+          ? "Static preparation guidance accepted. The participant still completes the receiving authority's own later process; runtime installation is a separate product obligation."
+          : "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open.")
+      : reviewedTreatmentGuidance?.currentTreatmentHold
+        ? `Resolve the current ${reviewedTreatmentGuidance.currentTreatmentHold} hold; it is not closed by the prior guidance review.`
+        : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
     routeMappingStatus: routeMappingOpen
       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
       : "BOUND",
@@ -2497,8 +2551,17 @@ for (const f of IN.scoreboard.familiesDetail) {
     allNineCountersZero: nineZero,
     counters: comp?.counters ?? null,
     failingCounters: comp ? Object.entries(comp.counters).filter(([, v]) => v > 0).map(([k]) => k) : [],
-    failedObligationNames: independentFail ? independentReturn?.failedObligationNames ?? [] : [],
-    failedObligations: independentFail ? independentReturn?.failedObligations ?? [] : [],
+    ...(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible && independentFail ? {
+      historicalIndependentFailureClosedByGuidanceReview: {
+        verdict: independentReturn.verdict, lane: independentReturn.lane,
+        verifiedAtBase: independentReturn.verifiedAtBase, evidencePath: independentReturn.evidencePath,
+        failedObligations: independentReturn.failedObligations,
+        closedBy: reviewedTreatmentGuidance.reviewPath, reviewSha256: reviewedTreatmentGuidance.reviewSha256,
+        closedPriorFindings: reviewedTreatmentGuidance.closedPriorFindings
+      }
+    } : {}),
+    failedObligationNames: independentFail && !(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible) ? independentReturn?.failedObligationNames ?? [] : [],
+    failedObligations: independentFail && !(ctGuidanceAssessment && reviewedTreatmentGuidance?.eligible) ? independentReturn?.failedObligations ?? [] : [],
     continuationResult: cont?.resultAfter ?? null,
     c11Stopped: c11Stopped.has(familyId),
     state,

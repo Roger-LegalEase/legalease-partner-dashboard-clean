@@ -2,11 +2,11 @@
 
 This packet is prepared for **Petition and Order of Expunction Under G.S. 15A-146(a) or G.S. 15A-146(a1) (Charges Dismissed)**.
 
-This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only if a fee applies to your case — **AOC-CV-226, the Civil Affidavit of Indigency**. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why nothing here is a composed document.
+This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only when a fee applies and you request indigency treatment — **AOC-G-106, Petition To Proceed As An Indigent**. CV-226 is a separately selected court-requested financial supplement, not the petition. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why the official forms are retained; the added LegalEase completion guide does not replace an official form.
 
 **Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.
 
-The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.
+The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. When G-106 is selected, it fills your known caption, name and address, and marks only the Expunction Petition purpose. When specifically requested, CV-226 carries your known personal details; all financial figures, signature dates and oath/provider/court entries remain unfilled.
 
 **The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a "date of dismissal". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.
 
@@ -14,7 +14,7 @@ The platform filled what it holds: on Side One your name, your street address, y
 
 ## Who decides this, and what you do not file
 
-**The court decides, on your petition, and the clerk certifies first.** You file Side One with the clerk of superior court; the clerk completes the CERTIFICATION BY CLERK on Side Two; a judge makes the findings and signs the order.
+**The court decides before the clerk certifies copies.** Complete, sign and file Side One with the clerk of superior court. The court then decides the petition and enters its order. If an order of expunction is entered, the clerk makes copies, completes CERTIFICATION BY CLERK on each copy, and distributes the certified copies as the official instructions direct. Leave all findings, order and clerk-certification fields on Side Two blank.
 
 **You may not be the only person who can petition.** The committed packet-set manifest records that G.S. 15A-146 permits either the petitioner or the district attorney to petition, and that where the district attorney petitions instead, the form is AOC-CR-295 rather than this one. That form is not in this packet. If the district attorney has told you they will petition, ask the clerk whether you should file this one as well.
 
@@ -26,9 +26,11 @@ The platform filled what it holds: on Side One your name, your street address, y
 
 | Component | What it is |
 | --- | --- |
-| `petition` | the AOC-approved petition. Side One is yours; Side Two is the court's findings, order and the clerk's certification |
-| `instructions` | the AOC's own instruction sheet for this form, delivered exactly as published and unmarked |
-| `fee_waiver` | the indigency affidavit, needed ONLY if a fee applies to your case and you cannot pay it |
+| `petition` | AOC-CR-287: participant petition on Side One; court findings, order and clerk certification on Side Two remain blank |
+| `instructions` | AOC-CR-287 official instructions, unchanged |
+| `fee_waiver` | AOC-G-106 (Rev. 11/24), only for an explicitly requested indigency branch where a fee applies |
+| `supplemental_financial_affidavit` | AOC-CV-226 (Rev. 4/23), supplemental financial information only upon a recorded specific court request |
+| `participant_guide` | LegalEase completion guidance; not a substitute for any official form |
 
 ## Where this goes
 
@@ -40,15 +42,15 @@ The platform filled what it holds: on Side One your name, your street address, y
 
 ## What it costs
 
-**For a true dismissal there is no fee.** The committed packet-set manifest states it: "none for a true dismissal."
+An ordinary qualifying dismissal under G.S. 15A-146 has no filing fee. The $175 fee concerns a dismissal after deferred prosecution or conditional discharge. Those cases retain this product's legal-review stop; a fee selection does not decide eligibility or remove that stop.
 
-**There is one exception and it is $175.00.** The same record: "$175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement." The form itself carries the switch — Side One has a box reading *No charge listed above was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge and dismissal*, with a NOTE TO CLERK beside it: **if this box is checked, do not assess the $175.00 fee.** That box is a statement about your own case and this packet does not tick it for you.
+When a fee applies and you ask to proceed as an indigent, the selected packet includes AOC-G-106, Petition To Proceed As An Indigent (Rev. 11/24). The court decides your request. The Expunction Petition purpose is marked because this is an expunction request, not because indigency has been granted.
 
-**If the $175.00 does apply and you cannot pay it, AOC-CV-226 is in this packet for exactly that.** The manifest records the waiver as "available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization." The affidavit is a full financial statement and every money figure on it is yours; the platform writes none of them.
+Check only the benefit, representation or financial-inability statement that is true for you. Sponsorship, free access, or a clinic access code establishes none of those facts. Complete the required personal information. Follow G-106's sworn/affirmed execution before the authorized oath officer; do not pre-sign it. Provider certifications and court findings, signatures and orders remain blank.
 
-**A separate cost is expressly not yours.** The manifest records that the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner. That is the cost of carrying the order out, and it is not charged to you.
+AOC-CV-226, Petition To Proceed As An Indigent / Civil Affidavit Of Indigency (Rev. 4/23), is not a substitute for G-106. It is included only when the court has specifically requested supplemental financial information and that request is recorded. The source has civil/arbitration wording: do not sign an inapplicable oath. Ask the court for an appropriate affidavit or directions before signing any statement that does not describe your request.
 
-**If the clerk asks you for anything else**, that is a question about that office's own practice: **ask the clerk of superior court of the county where the charge was brought**, who is the office that assesses it, before you pay.
+The no-fee and fee-paid branches contain neither G-106 nor CV-226. An indigency-requested branch contains G-106 alone unless supplemental financial information is specifically requested. Do not submit unused alternatives or a sample fixture as your own sworn statement.
 
 ## Who else has to be told
 
@@ -97,7 +99,13 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Race | your race, as the form asks |
 | Sex | your sex, as the form asks |
 
-### fee_waiver — AOC-CV-226 - Civil Affidavit of Indigency
+### fee_waiver — AOC-G-106 - Petition To Proceed As An Indigent
+
+| The blank on the document | What to write |
+| --- | --- |
+| Name Of Plaintiff | the plaintiff name from the existing case caption |
+
+### supplemental_financial_affidavit — AOC-CV-226 - Court-requested supplemental financial information
 
 | The blank on the document | What to write |
 | --- | --- |
@@ -151,7 +159,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 7. **Tick the civil-revocation box only if a civil revocation of your driver's licence resulted from the offence.**
 8. **Read the deferred-prosecution box carefully.** Tick it only if no charge listed was dismissed as the result of compliance with a deferred prosecution agreement or a conditional discharge. Ticking it truthfully is what tells the clerk not to assess the $175.00 fee.
 9. **Sign and date the petition where it says Signature Petitioner, and print your name beside it.**
-10. **Only if a fee applies and you cannot pay it, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.
+10. **Only where a fee applies and you request indigency treatment, use AOC-G-106.** Complete truthful personal and basis information; do not pre-execute provider or court certifications. CV-226 is supplemental only upon a specific court request. Do not sign inapplicable civil/arbitration wording; ask the court for appropriate directions. The deferred/conditional-discharge legal-review stop remains.
 11. **File with the clerk of superior court in the county where the charge was brought.** Write nothing on Side Two.
 
 ## Things the platform deliberately left blank
@@ -162,7 +170,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 - **Your driver's licence number, your Social Security number, your race, your sex and your age at the time of the offence.** Government identifiers and personal descriptors the platform does not write onto any form.
 - **The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.
 - **Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.
-- **Every signature and every date beside one, on both forms.**
+- **Every execution signature and its date, on all selected forms. Provider and court certification blocks are not yours.**
 
 ## What this packet does not tell you, and who does
 

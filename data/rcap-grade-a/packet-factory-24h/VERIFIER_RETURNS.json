@@ -20,7 +20,7 @@
     "false"
   ],
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
-  "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Exact per-document supersession of a submitted chat disposition is honored without removing the original. Chat source-audit/preparation schemas do not become packet verdicts; a complete chat pass requires per-row measured obligations and counters. Superseded rows remain as history with superseded: true",
   "chronologySelections": [
     {
       "familyId": "ca-prop64-set",
@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 85,
-    "rows": 948,
-    "independentVerdicts": 243,
-    "failRepairRequired": 43,
-    "passIndependent": 179
+    "returnDirectories": 112,
+    "rows": 982,
+    "independentVerdicts": 252,
+    "failRepairRequired": 45,
+    "passIndependent": 192
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -79,8 +79,10 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "rcap-nv-custom-pleading",
-    "rcap-wi-custom-pleading",
+    "ri_deferred_sentence-set",
+    "ri_first_offender_felony-set",
+    "ri_first_offender_misdemeanor-set",
+    "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "vt_exp_decriminalized-set"
@@ -846,6 +848,103 @@
     {
       "familyId": "al-felony-dwop-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "al-two-candidate-current-defect-disposition",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Page 1 puts the case number into the SSN-last-four field; CHATB-AL-01.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Boundary page-1 wrong-field value is visibly clipped; CHATB-AL-02.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
+      "evidenceSha256": "4669689c66bbf1323bece59930d2ff9112e068486d22fd3ebe8387e3c9ed88a0",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat 2 / B review session",
+      "sessionIdentity": "chatb-20260907-independent-04-ten-chat-continuation",
+      "reviewScope": "Completed negative disposition for the exact candidate identified below. This finishes the concrete wrong-field and clipping handoff begun during this review session. It is not a blanket fifteen-obligation pass. Historical measured bytes remain attributed to the retained measurement record rather than represented as a new successful retrieval or measurement in the final continuation.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "al-two-candidate-final-disposition",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "CHATB-AL-01",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "CHATB-AL-02",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-final-disposition.json",
+      "evidenceSha256": "379ae66e4d1ea8b7d44315612a5f9dd5f69d3fc1dfbd171995b2de4a47b00ce8",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 2 / B session",
+      "sessionIdentity": "chatb-20260907-independent-04-ten-chat-continuation",
+      "reviewScope": "Bounded completed negative review of two identified candidate families. No complete independent pass is issued. Measurements and page-1 observations were completed earlier in this same session; final continuation readbacks were unreadable. This file does not assert a new successful source, head, binary or page retrieval.",
+      "candidateCodeCommit": "b6b3dc379f1de0dc22f5bcc8a6d08827ddccbbd6",
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
@@ -932,6 +1031,103 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "al-two-candidate-current-defect-disposition",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Page 1 puts the case number into the SSN-last-four field; CHATB-AL-01.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Boundary page-1 wrong-field value is visibly clipped; CHATB-AL-02.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
+      "evidenceSha256": "4669689c66bbf1323bece59930d2ff9112e068486d22fd3ebe8387e3c9ed88a0",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat 2 / B review session",
+      "sessionIdentity": "chatb-20260907-independent-04-ten-chat-continuation",
+      "reviewScope": "Completed negative disposition for the exact candidate identified below. This finishes the concrete wrong-field and clipping handoff begun during this review session. It is not a blanket fifteen-obligation pass. Historical measured bytes remain attributed to the retained measurement record rather than represented as a new successful retrieval or measurement in the final continuation.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "al-two-candidate-final-disposition",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "778d1254a1f76f949a6e7de4f940f48c5261d129",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "CHATB-AL-01",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "CHATB-AL-02",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "PAGE_ORDER",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-final-disposition.json",
+      "evidenceSha256": "379ae66e4d1ea8b7d44315612a5f9dd5f69d3fc1dfbd171995b2de4a47b00ce8",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 2 / B session",
+      "sessionIdentity": "chatb-20260907-independent-04-ten-chat-continuation",
+      "reviewScope": "Bounded completed negative review of two identified candidate families. No complete independent pass is issued. Measurements and page-1 observations were completed earlier in this same session; final continuation readbacks were unreadable. This file does not assert a new successful source, head, binary or page retrieval.",
+      "candidateCodeCommit": "b6b3dc379f1de0dc22f5bcc8a6d08827ddccbbd6",
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": false
     },
     {
@@ -1005,7 +1201,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-misd-conviction-set",
@@ -7270,6 +7466,63 @@
     },
     {
       "familyId": "de_mandatory_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "de-current-review-reconciliation",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json",
+      "evidenceSha256": "d6cbc5d6da48ea513c420d7b6b21c302a5fa62f32ad9ef4a1afa13c8872396c1",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B packet-review session",
+      "sessionIdentity": "chatb-20260907-independent-02-continuation",
+      "reviewScope": "Complete non-filed process guidance, canonical and boundary, three pages each, and exact declared delivery binding. This PASS does not describe an SBI application, court filing, installed fulfillment, participant eligibility, counsel adoption or production approval.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "de-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "241c072fc1fe7da9fa81f5fc77fca4de45961185",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The guide correctly serves the single mandatory/automatic SBI process route and expressly must not be filed. Current product-wiring binding.deliveryType and proposedRepresentation.outputStrategy nevertheless say participant_agency_application, with primary_filing roles. Align the downstream delivery contract with the settled guidance treatment; do not invent an SBI application PDF.",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "The reviewed output inventory and central receipt agree on both current hashes and all six pages. However product-wiring.json still proposes canonical SHA-256 1234befd09bd234d02f341b6170148e6ef4167e81520f9417957cdacec0b81e1 and the older run 34060252924 receipt, rather than the current f08e5968... output and run 34078415178. A must refresh the proposed binding before consumption. The central receipt itself is not defective.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "exactRouteDeliveryDefect": null,
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-independent-review.json",
+      "evidenceSha256": "68c4709c4af47b8ee5194d5737561945405316ef5b2c512ed218e672a3a1d632",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B review session",
+      "sessionIdentity": "chatb-20260907-independent-01",
+      "reviewScope": "Both complete three-page guidance outputs, their map, instructions, source receipt, actual-writes report, rendered-artifact inventory, and product wiring. This is process guidance, not a prepared SBI application or court filing.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -7344,7 +7597,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-10yr-bridge-set",
@@ -7391,6 +7644,65 @@
     {
       "familyId": "fl-early-juvenile-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "fl-complete-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Exact2019 custody pin confirmed in receipt and A's retained full-build proof; new primary adopted2021 identity and procedural differences require reconciliation. See CHATB-FL-06; raw2021 digest is not measured.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Read all56 declared writes and full PDF text; inspected all10 pages. Boundary page2 omits held Isabel despite pages1/3. Remaining declared identity/contact/arrest values are present; supplied-value correspondence alone is not sufficient to approve the conflicting full-name fact.",
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Both actual complete PDFs and central ZIP/verdict/PNGs were rehashed and match current output pins. Current generated product-wiring nevertheless selects the old hash/receipt: CHATB-FL-05.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Phone collision resolved; eight other observed collision occurrences remain across two fixtures: three page1 values and one page3 name per fixture. Full-page views and calibrated close inspection support CHATB-FL-01/02.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The $75 amount/payment methods and non-diversion scope are supported, but statutory executive-director waiver is missing from LegalEase guidance: CHATB-FL-04.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Prosecutor completion step correctly retained; each-affected-circuit requirement needs explicit instruction coverage: CHATB-FL-07. No fabricated participant civil-service certificate.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/fl-complete-independent-review.json",
+      "evidenceSha256": "26b16b2a2eb108bddcd1bde0fc59ac29c154b90485381fd7d150a1871337ce25",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B review session",
+      "sessionIdentity": "chatb-20260907-independent-02-continuation",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "f6cbff2688d23c59d4f0f47328ac27176ce2fbb0",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+      "superseded": false
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
       "isIndependentVerification": true,
       "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
@@ -7410,7 +7722,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-trafficking-set",
@@ -7736,6 +8048,81 @@
       "superseded": false
     },
     {
+      "familyId": "ga-nonconv-pre2013-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ga-independent-review-03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d6dcc69f4f4e42d006b6b8aa368454157da7a1ad",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Immigration/disputed outcome/same-incidentplea/exclusion/denial/civilaction stops and no-destruction/federaldisclosure cautions are present. But all15page7s andMarkdown omit the controlling post-restriction employment/office warning: CHAT4-GA-01. Correct that narrow content without reopening settled route/actor rules.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+      "evidenceSha256": "48f0e0b7bdb305b4d9f6c92ce685eb7ba8afeb36f92c4024f711b680a95ef71c",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat4 review session",
+      "sessionIdentity": "chat4-20260907-delta-ga-independent-03",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-nonconv-pre2013-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-nonconv-pre2013-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "ga-session10-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b2ac8ace8b397333613d352afd78d27f68f151c1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+      "evidenceSha256": "ef618f21a667949fb30de5c80d64b83685d0d1bb45ba7b5d419e6157c7443450",
+      "reviewer": "Codex /root/independent_md_review, independent of Chat5 renderer/warning and Captain Session07 actor adapter authors",
+      "sessionIdentity": "session10-ga-independent-static-acceptance-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": "b2ac8ace8b397333613d352afd78d27f68f151c1",
+      "packetPublicationCommit": "b2ac8ace8b397333613d352afd78d27f68f151c1",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+      "supersedesEvidencePaths": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json"
+      ],
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-nonconv-pre2013-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-nonconv-pre2013-set",
+      "verdict": "PASS",
+      "lane": "ga-warning-delta-04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "537c4864f44f49a30ac358ebed11a3bc51524f60",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+      "evidenceSha256": "f8ab275e580e82a7ad8f52abd12ccc4dddbfb920d9d50e06cfb9cf8e4bcaea53",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat4 review session",
+      "sessionIdentity": "chat4-20260907-scale20-independent-04",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-nonconv-pre2013-set",
+      "superseded": true
+    },
+    {
       "familyId": "ga-pardon-j7-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
@@ -7845,6 +8232,28 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/verify-ca-ia-ky-018/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-7251-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ia-901c2-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "SESSION10_IA_FORM1_EXPECTED_OUTCOMES_ROWS",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1c6d648f6721de0de0f1a57d25dc37e1ff51a62f",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat10-review/SESSION10_IA_FORM1_EXPECTED_OUTCOMES_ROWS.json",
+      "evidenceSha256": "9a199c1b9f7be63f3e8b9a3241369da10c01c791fa3cea325b2591a839444fe8",
+      "reviewer": "Independent worker /root/session10_admission_review",
+      "sessionIdentity": "session10-independent-ia-published-successor-2026-09-08",
+      "reviewScope": null,
+      "reviewBaseSource": "Actual remote recovery head independently verified; all 39 supplemental inputs and 65 original guarded candidate files hash-match this immutable publication and current installed bytes.",
+      "candidateCodeCommit": "17930aecb90bec3197878ed04c54df6c22b1bfc7",
+      "packetPublicationCommit": "1c6d648f6721de0de0f1a57d25dc37e1ff51a62f",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-901c2-set",
       "superseded": false
     },
     {
@@ -8660,6 +9069,121 @@
     {
       "familyId": "il-seal-edu-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "il-complete-candidate-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e26f669eed3000b923185484369a3752011e8d2e",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "All four declared components are present in both PDFs, but the current official required Denying Order is absent. See CHATB-IL-03.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Optional email is rejected, optional hardship is mandatory in the refusal map, financial completion lacks the benefit-skip dependency, and the prechecked education statement lacks bound supporting inputs/attachment state. See CHATB-IL-01,02,04.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Request-expunge No and request-seal Yes are correctly separated, but the compound factual education statement is hardcoded Yes. Family selection alone is not evidence for each assertion. See CHATB-IL-01.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The supplied Rule298 application and county-fee/ISP-processing distinction are useful, but optional hardship and benefit-based financial-completion conditions are not reflected accurately in required-field treatment. See CHATB-IL-04. No local clerk fee or fee-waiver grant was invented.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "ARTIFACTS",
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/il-complete-candidate-independent-review.json",
+      "evidenceSha256": "27a0d638cf8645d6268b1cc732f52c0b1c848ec8022937e478f594b5f9d6a427",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat 2 / B review session",
+      "sessionIdentity": "chatb-20260907-independent-03-expansion-continuation",
+      "reviewScope": "The complete, actually downloaded Chat3 author-candidate ZIP, not the old PDF paths still on the code-only PR. Both thirteen-page PDFs were locally hashed, text-read and rendered for this independent visual review. Atomic publication of these exact bytes, current product binding and central acceptance were not present in the inspected handoff and are not inferred. This is a completed negative review of the candidate, not an approval or an integration claim.",
+      "candidateCodeCommit": "392f04321c157b5d957aabbcced2f49d9f80e012",
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+      "supplementalEvidence": [
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/review/il-source-byte-and-component-addendum.json",
+          "sha256": "7b7a4d686bcaa456561d1199f135375a89a96fbe98c27cf58316a25e0b93a3d5",
+          "candidateCodeCommit": "392f04321c157b5d957aabbcced2f49d9f80e012",
+          "findings": [
+            {
+              "id": "CHATB-IL-06",
+              "type": "SOURCE_RESOLVED_PACKET_REPAIR",
+              "owner": "C; A owns any required global source/component projection",
+              "obligations": [
+                "COMPONENT_SET",
+                "FEE_AND_WAIVER"
+              ],
+              "files": [
+                "source-receipt.json",
+                "reports/rendered-artifacts.json",
+                "filing-instructions.md",
+                "fixtures/canonical.pdf",
+                "fixtures/boundary.pdf"
+              ],
+              "observed": "Each complete candidate includes the four-page FW-CIV-APPLICATION as pages10-13 but no Order on Application for Waiver of Court Fees. The current official ATJ600.10 instructions pages1-2 require the Application and Order together and expressly apply the civil waiver forms to expungement/sealing requests. The candidate filing directions mention only the application for that option. This is a separate missing component from the already-reported one-page expungement Denying Order.",
+              "sourceResolved": {
+                "title": "Order on Application for Waiver of Court Fees (Civil)",
+                "formNumber": "ATJ602.8",
+                "printedRevision": "08/25",
+                "pagesObserved": 3,
+                "issuerUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/aeb7187c-60d8-4245-b05c-7610a6745e56/FW-CIV%20Order.pdf",
+                "discovery": "Followed the current Illinois Courts fee-waiver forms index link; read the complete official PDF text and inspected all three full-page web screenshots.",
+                "rawByteLengthMeasured": null,
+                "rawSha256Measured": null
+              },
+              "correction": "For the actually requested fee-waiver option, include the complete official three-page Order with the application, using only permitted caption/applicant identity fills. Leave full/partial/denial/continuance choices, benefit/income findings, waiver percentages, payment terms, hearing settings, document demands, judge signature and entry date unfilled. Explain that the judge decides and completes the order. Do not infer waiver selection or entitlement from sponsorship, no email or a blank field. A fee-paid/no-waiver path must not be made to assert a waiver request. This is ordinary source-backed component assembly, not a new counsel-adoption question.",
+              "regressionExpectation": "The complete requested-waiver output contains all three Order pages, and judicial decision/execution fields remain blank. Omitting the Order is caught by the actual component inventory test. Preserve optional-hardship/benefit-skip repairs and missing-email support; do not mix this fee Order with the expungement Granting/Denying Orders.",
+              "authorityIds": [
+                "IL-SUP-01",
+                "IL-SUP-02",
+                "IL-SUP-03"
+              ]
+            }
+          ],
+          "obligationEvidenceUpdates": [
+            {
+              "obligation": "SOURCE_IDENTITY",
+              "previousMissingMeasurementClosed": "All four held-original byte lengths/page counts/SHA256 pins previously attributed only to C are now independently measured and match the candidate receipt.",
+              "wholeObligationPass": false,
+              "remainingLimit": "The two missing component originals still require actual raw-source custody and the revised full component set requires review. Current official editions were text/image checked, but current issuer raw binary equality for every source is not claimed."
+            },
+            {
+              "obligation": "COMPONENT_SET",
+              "result": "FAIL",
+              "newFinding": "CHATB-IL-06",
+              "previousFindingPreserved": "CHATB-IL-03"
+            },
+            {
+              "obligation": "FEE_AND_WAIVER",
+              "result": "FAIL",
+              "newFinding": "CHATB-IL-06",
+              "previousFindingPreserved": "CHATB-IL-04"
+            }
+          ],
+          "replacesOriginalReview": false,
+          "grantsWholeObligationPass": false
+        }
+      ],
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
@@ -8731,7 +9255,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-seal-nonconv-set",
@@ -9269,6 +9793,48 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_vacatur_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ky_nonconviction_expungement-set",
+      "verdict": "PASS",
+      "lane": "ky-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+      "evidenceSha256": "cb63db4b3e12a5c87b3608314606adff4593706becf5408a67099cd2c279da0c",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_nonconviction_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ky_nonconviction_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "ky-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-session08-acceptance.json",
+      "evidenceSha256": "4aaad7c9fed4932ac97bfc1e3b70c8669274d1a81df3ea2dc01bc2c2620a396f",
+      "reviewer": "GPT-6 Astra release_scope independent engineering reviewer; original exact-byte visual measurements remain attributed to PR238 Chat4",
+      "sessionIdentity": "release-scope-session08-ky-current-byte-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_nonconviction_expungement-set",
       "superseded": false
     },
     {
@@ -9850,6 +10416,119 @@
       "superseded": true
     },
     {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS",
+      "lane": "md-guard-delta-03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "evidenceSha256": "723f602652a2e9c3b23513f98888fa3ec84b3176e4b913c5241cf46542d6ec78",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat4 review session",
+      "sessionIdentity": "chat4-20260907-delta-ga-independent-03",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "md-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "All supplied selections and clocks are correct, and all 46 declared marks have ink. Mixed basis/date, pending case, future discharge, protected signature, early-release and wrong-instrument probes behave correctly. CHAT4-MD-01 independently demonstrates contradictory PBJ entry/discharge dates can still authorize a mark.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json",
+      "evidenceSha256": "32a5c9cca6abdac4fa0e3289ed88362f064228920a228044eb636324b08910f5",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "md-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+      "evidenceSha256": "7d1b7fa48b4262570a9bf397b8e126ee21b78eeee70f9d0d2da14d97409859b3",
+      "reviewer": "Codex /root/receipt_hooks, independent of the Maryland native-importer author",
+      "sessionIdentity": "session08-md-independent-static-acceptance-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": false
+    },
+    {
+      "familyId": "md_10110_conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "md-conviction-independent-complete-successor-session10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/md-conviction-independent-complete-successor-session10.json",
+      "evidenceSha256": "fc2955e944e57ac6ff732c5b1e1e49daa021e16b4fb9523593b0b61f7f28fc48",
+      "reviewer": "/root/session10_admission_review",
+      "sessionIdentity": "session10-md-conviction-current-aggregate-independent-2026-09-08",
+      "reviewScope": "An independently attributed successor combines the original exact-output/source/visual review, the separate current financial-helper review and this actual one-family source-census audit. Original null aggregate counters and bounded PASS remain unchanged historical evidence.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10110_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "md_cannabis_petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "md-cannabis-independent-complete-successor-session10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6c539fec7df22a40cb1e45556758380b0ab16477",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/md-cannabis-independent-complete-successor-session10.json",
+      "evidenceSha256": "ce29e49f049c8c11505d52c884c3e519cee0e2cd704b86ef342dd934dfea90b6",
+      "reviewer": "/root/session10_admission_review",
+      "sessionIdentity": "session10-md-cannabis-current-aggregate-independent-2026-09-08",
+      "reviewScope": "Independently attributed successor from the exact prior packet/source/visual review, separately reviewed financial helper and this actual one-family native aggregate/refusal review. Original bounded PASS and null aggregate counters remain unchanged historical evidence.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "6c539fec7df22a40cb1e45556758380b0ab16477",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_cannabis_petition-set",
+      "superseded": false
+    },
+    {
       "familyId": "md_second_chance_shielding-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf12",
@@ -10004,6 +10683,50 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
       "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_application-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "mi-mo-session10-static-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "19eb374383a450153c659d327b829a33cac9f830",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat10-review/mi-mo-session10-static-acceptance.json",
+      "evidenceSha256": "ac95c311003dcbcc3dd1b205954420e0fdff9555d3b8d26a4ce6b96d1424c224",
+      "reviewer": "GPT-6 Astra mi_mo_closure independent reviewer; unchanged complete-page review remains attributed to original Chat10",
+      "sessionIdentity": "astra-mi-mo-session10-static-admission-20260908",
+      "reviewScope": null,
+      "reviewBaseSource": "Actual immutable publication, every one of the 277 guarded installed files read back and matched before this verdict.",
+      "candidateCodeCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "packetPublicationCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_application-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_first_owi-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "mi-mo-session10-static-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "19eb374383a450153c659d327b829a33cac9f830",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat10-review/mi-mo-session10-static-acceptance.json",
+      "evidenceSha256": "ac95c311003dcbcc3dd1b205954420e0fdff9555d3b8d26a4ce6b96d1424c224",
+      "reviewer": "GPT-6 Astra mi_mo_closure independent reviewer; unchanged complete-page review remains attributed to original Chat10",
+      "sessionIdentity": "astra-mi-mo-session10-static-admission-20260908",
+      "reviewScope": null,
+      "reviewBaseSource": "Actual immutable publication, every one of the 277 guarded installed files read back and matched before this verdict.",
+      "candidateCodeCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "packetPublicationCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_first_owi-set",
+      "superseded": false
     },
     {
       "familyId": "mi_setaside_marihuana-set",
@@ -10312,6 +11035,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_prosecutor_agreed-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-610-145-mistaken-identity-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "mi-mo-session10-static-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "19eb374383a450153c659d327b829a33cac9f830",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat10-review/mi-mo-session10-static-acceptance.json",
+      "evidenceSha256": "ac95c311003dcbcc3dd1b205954420e0fdff9555d3b8d26a4ce6b96d1424c224",
+      "reviewer": "GPT-6 Astra mi_mo_closure independent reviewer; unchanged complete-page review remains attributed to original Chat10",
+      "sessionIdentity": "astra-mi-mo-session10-static-admission-20260908",
+      "reviewScope": null,
+      "reviewBaseSource": "Actual immutable publication, every one of the 277 guarded installed files read back and matched before this verdict.",
+      "candidateCodeCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "packetPublicationCommit": "19eb374383a450153c659d327b829a33cac9f830",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-145-mistaken-identity-set",
       "superseded": false
     },
     {
@@ -11485,6 +12230,147 @@
     {
       "familyId": "nc_146_dismissal_petition-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "nc-complete-branch-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Current complete PDF and image identities match the full raster/inventory. Current product-wiring nevertheless declares an unconditional diagnostic and omits the admitted acceptance receipt: CHATB-NC-01. This is not missing raster evidence.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "No invented ordinary petition service; DNA(b1)'s distinct20-day DA notice is correctly separated. However, the long guide reverses clerk certification/order timing: CHATB-NC-02. Court decides first, clerk certifies and distributes after entry.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/nc-complete-branch-independent-review.json",
+      "evidenceSha256": "75db3f480c1daf685f64ba48379e881f141c88fdddd9d3f6bc6cf0aff2d78cf1",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat B session",
+      "sessionIdentity": "chatb-20260907-independent-02-continuation",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "nc-delta-review-03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "21a269f31a7dff8084d6c74ecdb553be5979ba03",
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "Current recovery still has old chronology. Exact candidate correction accepted; publication alone remains for CHAT4-NC-02. No new packet design/counsel/raster requirement.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-delta-review-03.json",
+      "evidenceSha256": "2958a6d96ea7fd44ff8b0b3a2e3c5892b8eaf5a02de679fda50dbd46badec65d",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat4 review session",
+      "sessionIdentity": "chat4-20260907-delta-ga-independent-03",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "nc-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e26f669eed3000b923185484369a3752011e8d2e",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "All ten current whole-PDF hashes and all sixty PNG hashes were measured. Full family tree and central verdict Git blob match connected GitHub. Nevertheless the generated binding omits the admitted receipt and selects the diagnostic unconditionally: CHAT4-NC-01.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Ordinary participant DA service is not invented; separate DNA notice remains separate. Long guide wrongly places clerk certification before the court's order, contrary to official instructions paragraph5: CHAT4-NC-02.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-independent-review.json",
+      "evidenceSha256": "dcf181b7925033a44ec488975118ad57d2c35dbbcc144571a4dfc72668ebd809",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-nc-nv-independent-01",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "PASS",
+      "lane": "nc-publication-closure-04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "70413199d405d3a5e629f852a6298f416f90707c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-publication-closure-04.json",
+      "evidenceSha256": "4633db2cab2e66393dc1fa66d5a79f914804d6fe640915fa0cb67917bee8490c",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat4 review session",
+      "sessionIdentity": "chat4-20260907-scale20-independent-04",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "nc-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-session08-acceptance.json",
+      "evidenceSha256": "b9b85d67135756a7952542fa2a324f2b5d2b0868c204bd31cb82b9a5b91cd887",
+      "reviewer": "GPT-6 Astra release_scope independent engineering reviewer; unchanged page measurements remain attributed to original Chat4",
+      "sessionIdentity": "release-scope-session08-nc-current-byte-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-publication-closure-04.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
       "isIndependentVerification": true,
       "verifiedAtBase": "5326f747d",
@@ -11626,7 +12512,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -18123,6 +19009,27 @@
     {
       "familyId": "rcap-nv-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "nv-independent-semantic-successor-session10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5df8c9259ccdbc6448a1ae03ea4f225f277ea21c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/nv-independent-semantic-successor-session10.json",
+      "evidenceSha256": "4ae80e0b040dd0cea5fd5c46b3e9db775bdcadb333ea7a79197a37cf41c2a291",
+      "reviewer": "/root/session10_admission_review",
+      "sessionIdentity": "session10-resumed-nv-output-contract-review-2026-09-08",
+      "reviewScope": "Output and settled retained-source-contract review of the exact published Nevada candidate. No new source acquisition, legal-research approval, counsel approval, full packet build, central dispatch or runtime promotion. Current visual coverage is independently composed from 20 new actual central page inspections and 68 unchanged prior independently inspected pages with verified pixel identity.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "5df8c9259ccdbc6448a1ae03ea4f225f277ea21c",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-nv-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "247b790b6",
@@ -18252,7 +19159,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
@@ -19462,6 +20369,20 @@
     {
       "familyId": "rcap-wi-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "chatgpt-independent-verification-pass-2",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cd32cb7b846e99bd19d3172467d81f566a420d12",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/chatgpt-independent-verification-pass-2/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wi-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "247b790b6",
@@ -19547,7 +20468,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wv-custom-pleading",
@@ -19903,6 +20824,48 @@
     {
       "familyId": "ri_deferred_sentence-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ri-independent-findings",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
+      "sessionIdentity": "chatb-20260907-independent-01",
+      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
+      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "d7e293f81",
@@ -19956,7 +20919,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -20042,6 +21005,42 @@
     },
     {
       "familyId": "ri_first_offender_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ri-independent-findings",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
+      "sessionIdentity": "chatb-20260907-independent-01",
+      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
+      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -20074,7 +21073,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_felony-set",
@@ -20198,6 +21197,42 @@
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ri-independent-findings",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
+      "sessionIdentity": "chatb-20260907-independent-01",
+      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
+      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -20230,7 +21265,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -20363,6 +21398,48 @@
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ri-independent-findings",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
+      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
+      "sessionIdentity": "chatb-20260907-independent-01",
+      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
+      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -20395,7 +21472,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
@@ -23926,6 +25003,28 @@
     },
     {
       "familyId": "va_exp_absolute_pardon-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "session10-va-absolute-pardon-static-independent-successor",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "23d057d432ea201e0c994cd5c495d35d2b463a91",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/session10-va-absolute-pardon-static-independent-successor.json",
+      "evidenceSha256": "8172bb0eb98c62f9aae2fcc1f598e4986e15cb82e311f73e4529aee2b4900822",
+      "reviewer": "Independent worker /root/session10_admission_review",
+      "sessionIdentity": "session10-independent-va-static-product-path-successor-2026-09-08",
+      "reviewScope": "Current static family declaration/product-path closure only, composed from unchanged original independent 15-obligation evidence plus independently measured current input/declaration/receipt custody and current nine-counter audit. Existing runtime graph findings remain separately open. No new whole-page visual review or legal/runtime approval.",
+      "reviewBaseSource": "Actual committed candidate inspected in place; both whole PDFs and source/design identities compared with the retained VF01 review and central rendered commit.",
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "23d057d432ea201e0c994cd5c495d35d2b463a91",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_absolute_pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
       "verdict": "PRODUCT_PATH_PENDING",
       "lane": "vf01",
       "isIndependentVerification": true,
@@ -23937,7 +25036,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_absolute_pardon-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "va_exp_absolute_pardon-set",

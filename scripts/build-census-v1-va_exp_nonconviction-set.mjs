@@ -59,6 +59,7 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { assertVaBasisPreparation, VA_BASIS_POLICY, VA_BASIS_GUIDANCE } from "./rcap-packet-recovery/va-nonconviction-basis.mjs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -534,8 +535,15 @@ async function censusOf(source) {
 }
 
 /* ---- render the official form --------------------------------------------------- */
-async function renderPrimary(source, census, fixtureName) {
-  const facts = FIXTURES[fixtureName];
+export async function renderPrimary(source, census, fixtureName, suppliedFacts = null, { asOf } = {}) {
+  const facts = suppliedFacts ?? FIXTURES[fixtureName];
+  assert.ok(facts, `Unknown Virginia fixture ${fixtureName}`);
+  // The reference builder does not invent a case or select the basis box.
+  // Any supplied case record is screened before a single form field is filled.
+  const basisDecision = assertVaBasisPreparation(facts, {
+    asOf: suppliedFacts === null ? VA_BASIS_POLICY.reviewedAsOf : asOf,
+    referenceTemplate: suppliedFacts === null,
+  });
   // The finalizer works by field NAME. A name hosting two boxes hosts only
   // elections on this form, and the build refuses if that stops being true.
   const byName = new Map();
@@ -587,7 +595,7 @@ async function renderPrimary(source, census, fixtureName) {
     assert.ok(writtenNames.has(r.name),
       `${source.formNumber} ${fixtureName}: ${r.key} is mapped as a write and the finalizer did not write it: ${JSON.stringify(report.refused.filter((x) => x.field === r.name))}`);
   }
-  return { bytes, report, writable };
+  return { bytes, report: { ...report, basisDecision }, writable };
 }
 
 /* ---- route selections, marked on the court's own boxes --------------------------- */
@@ -754,7 +762,7 @@ function recordPreparation() {
   return { rows: records.map((r) => `${r.name} — ${r.requirement === "required" ? "required" : "conditional"} before filing. Obtain from ${r.obtainedFrom}. ${r.howToObtain}`), checks, notice: track.rules.notice };
 }
 
-function composedBody(componentId, facts) {
+export function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
   const L = [];
@@ -769,6 +777,7 @@ function composedBody(componentId, facts) {
     L.push(`Enclosed is a copy of the petition for expungement filed by ${name}. The petition's own checklist (CC-1473, page 2) requires that a copy of the petition be served on the Commonwealth's Attorney in the county or city in which the petition is filed. This is that copy.`, "");
     L.push("The petitioner asks the Attorney for the Commonwealth to state, in writing and to the court, whether the Commonwealth objects to the expungement sought by the enclosed petition. A statement that the Commonwealth does not object is not required for the petition to proceed, and nothing in this request asks the Attorney for the Commonwealth to agree to anything.", "");
     L.push(recordPreparation().notice, "");
+    L.push("This later response to an expungement petition is not the earlier all-party agreement under 19.2-298.02(D). Do not use silence or a statement of no objection as a substitute for that separate agreement. This request supplies no attorney consent or signature.", "");
     L.push("The petition itself does not say how service must be made, and neither does this page. Ask the clerk of the circuit court where you file how the copy must be served, and use that method. The petitioner is not represented by counsel; correspondence about this petition should go to the address printed on the petition's signature block.", "");
     L.push("NAME AND MAILING ADDRESS OF THE ATTORNEY FOR THE COMMONWEALTH");
     L.push("(the petitioner writes it here before service; the circuit court clerk can provide it)");
@@ -793,6 +802,7 @@ function composedBody(componentId, facts) {
     L.push("", "FACTS TO COMPLETE FROM THOSE RECORDS", "");
     L.push("[ ] The specific charge or charges to be expunged, worded exactly as your court record words them.");
     L.push("[ ] The disposition of each charge: acquitted, nolle prosequi, or otherwise dismissed - the petition makes you check exactly one basis.");
+    L.push("[ ] For a deferred dismissal: the exact dismissal statute, the separate subsection D agreement if applicable, and the actual document or reference establishing that agreement. Do not infer it from the dismissal label, agreement to defer, or later prosecutorial silence.");
     L.push("[ ] The date or dates of final disposition, and the court that disposed of the charge or charges.");
     L.push("[ ] The date of arrest, and the name of the agency that arrested you.");
     L.push("[ ] Your full name at the time of arrest, as the arrest record states it.");
@@ -819,7 +829,7 @@ function composedBody(componentId, facts) {
     const stops = selfHelpStops();
     L.push("THE DOTSON SCREEN, A HARD GATE ON THE BASIS ELECTION IN PART ONE", "");
     L.push(`Part 1 makes you check one basis: acquitted, or nolle prosequi / otherwise dismissed. "Otherwise dismissed" is read narrowly, and the committed track registry states the gate in these words: "${stops.dotson}" It states the same population again among this route's exclusions: "${stops.narrowReading}"`, "");
-    L.push("So: if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt, or under a deferred or first-offender disposition, do not tick that box and do not file this petition. This is the wrong packet for that record, and the relief that population routes to is sealing rather than expungement. If you are not sure which of those your own disposition was, the court record wording decides it, and the paragraph below says who can read it with you.", "");
+    for (const paragraph of VA_BASIS_GUIDANCE) L.push(paragraph, "");
     L.push("WHERE SELF-HELP ENDS", "");
     L.push("The committed track registry records these as the points where self-help ends on this route, in its own words and in its own order. If any of them describes your case, stop before you file:", "");
     for (const condition of stops.conditions) L.push(`- ${condition}`);
@@ -1264,7 +1274,7 @@ function requiredBeforeFilingItems(maps) {
       || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function participantInstructions(maps, rbf, routeSelections) {
+export function participantInstructions(maps, rbf, routeSelections) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const elections = maps.flatMap((m) => (m.selectionControls ?? [])
@@ -1309,7 +1319,7 @@ function participantInstructions(maps, rbf, routeSelections) {
   const stops = selfHelpStops();
   out.push("### The Dotson screen — a hard gate on the Part 1 basis election", "");
   out.push(`Part 1 of CC-1473 makes you check **one** basis: *acquitted*, or *nolle prosequi / otherwise dismissed*. **"Otherwise dismissed" is read narrowly.** The committed track registry states the gate in these words: “${stops.dotson}” It states the same population again among this route's exclusions: “${stops.narrowReading}”`, "");
-  out.push("So if your charge was dismissed after a stipulation or after a judicial finding of facts sufficient for guilt, or under a deferred or first-offender disposition, **do not tick that box and do not file this petition** — this is the wrong packet for that record, and that population routes to sealing rather than expungement. If you are not sure which your own disposition was, the wording of the court record decides it, and *Where self-help ends* below says who can read it with you.", "");
+  for (const paragraph of VA_BASIS_GUIDANCE) out.push(paragraph, "");
 
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
@@ -1397,6 +1407,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "raster"), { recursive: true });
 
+  writeJson(`${OUT}/basis-election-contract.json`, {
+    schemaVersion: "rcap-va-nonconviction-basis/v1", familyId: FAMILY_ID,
+    policy: VA_BASIS_POLICY, module: "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs",
+    moduleSha256: crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, "scripts/rcap-packet-recovery/va-nonconviction-basis.mjs"))).digest("hex"),
+    sourceContract: "docs/rcap/grade-a/research/2026-09-06-batch-04/Virginia_Deferred_Disposition_Exception_Contract.md",
+    participantText: VA_BASIS_GUIDANCE,
+    referenceTemplatesLeaveBasisUnselected: true,
+    requiresRemainingRouteChecks: true, grantsFilingOrCommercialAuthority: false,
+    generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0,
+  });
   const maps = [];
   const artifacts = [];
   const writeProofs = [];

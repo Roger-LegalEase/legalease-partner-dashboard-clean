@@ -1,0 +1,17 @@
+--- a/scripts/rcap-packet-recovery/chat5/md-favorable.mjs
++++ b/scripts/rcap-packet-recovery/chat5/md-favorable.mjs
+@@ -99,6 +99,14 @@
+     const v = read(f, key); if (v !== undefined && v !== null && v !== '') { iso(v, label); if (v > f.asOf) throw new Error(`FUTURE_CASE_FACT: ${label}`); }
+   }
+   if (f.case.arrestOrServiceDate && f.case.dispositionDate && f.case.arrestOrServiceDate > f.case.dispositionDate) throw new Error('INCONSISTENT_CASE_DATES');
++  // CHAT4-MD-01: 10-105(c)(2) names PBJ grant and discharge as distinct
++  // events. A supplied discharge cannot precede that same PBJ entry. Equal
++  // dates remain valid; missing dates retain the existing disclosure path.
++  if (['pbj', 'pbj_no_longer_crime', 'pbj_dui'].includes(f.case.basis) &&
++      f.case.dispositionDate && f.case.probationDischargeDate &&
++      f.case.probationDischargeDate < f.case.dispositionDate) {
++    throw new Error('INCONSISTENT_PBJ_DATES: probation discharge precedes PBJ entry');
++  }
+   if (f.participant.dob && f.case.arrestOrServiceDate && f.participant.dob > f.case.arrestOrServiceDate) throw new Error('INCONSISTENT_DOB');
+   if (f.court?.level && !['district', 'circuit'].includes(f.court.level)) throw new Error('COURT_LEVEL_NOT_SUPPORTED');
+   if (f.case.event && !EVENT_FIELDS[f.case.event]) throw new Error('EVENT_NOT_SUPPORTED');

@@ -1,0 +1,297 @@
+{
+  "schemaVersion": "rcap-independent-md-native-importer-review/v1",
+  "familyId": "md_10105_favorable-set",
+  "verdict": "FAIL",
+  "reviewerRole": "Independent of md_importer author; no importer or candidate modifications",
+  "measuredAt": "2026-09-08T11:12:09.855Z",
+  "adapter": {
+    "path": "scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs",
+    "gitBlob": "79fdbfeea0f46c690c9e5cc8d1d65f5d4aa136cd",
+    "sha256": "2c0cb8fb3e2d754184b32289ceba64509ede75e704fe65386188e8a78267a4f3"
+  },
+  "inputBinding": {
+    "path": "scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json",
+    "sha256": "b5006d7fd203571627af2dbc4cd4bf68a0086b5ba89b045738655f36a9ba0ca9",
+    "files": 56
+  },
+  "acceptedHelperGitBlob": "4f7f87558c98691b1ff77825ede2f13dbf7ebd7c",
+  "originalReviewCommit": "79006d301e4714bb5db5866128567dd1f7a36571",
+  "guardDeltaCommit": "2b278d8c0b960a1095c63d1ce47956d2c636d7b5",
+  "casesPassed": 61,
+  "casesFailed": 1,
+  "tests": [
+    {
+      "name": "actual held PDF has the same 47 field identities, types, pages and widgets as the imported census",
+      "result": "FAIL",
+      "why": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    {\n      name: 'Circuit Court',\n      type: 'PDFCheckBox',\n      widgets: [\n...\n            height: 12.959999999999923,\n+           width: 174.336,\n+           x: 397.991,\n-           width: 172.336,\n-           x: 399.991,\n            y: 564.431\n          }\n        }\n      ]\n    },\n"
+    },
+    {
+      "name": "attorney and defendant execution roles correspond to the distinct source columns",
+      "result": "PASS"
+    },
+    {
+      "name": "accepted helper and whole source retain exact review identities",
+      "result": "PASS"
+    },
+    {
+      "name": "existing classifier independently measures all 705 source-field instances",
+      "result": "PASS"
+    },
+    {
+      "name": "canonical: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "boundary: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/acquittal: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/nolle: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/nolle-treatment: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/stet: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/stet-treatment: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/pbj: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/pbj-no-longer-crime: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/pbj-dui: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/ncr: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/compromise: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/juvenile-transfer: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/adult-transfer-circuit: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "selectable/citation: all actual source fields occur exactly once with fixture-bound facts",
+      "result": "PASS"
+    },
+    {
+      "name": "the boundary agency remains an explicit unresolved obligation, separate from optional tracking/fax",
+      "result": "PASS"
+    },
+    {
+      "name": "a supplied optional fax is written and accounted for, not generically exempted",
+      "result": "PASS"
+    },
+    {
+      "name": "a held fax cannot be suppressed by its optional category",
+      "result": "PASS"
+    },
+    {
+      "name": "a required known phone cannot borrow fax optionality",
+      "result": "PASS"
+    },
+    {
+      "name": "boundary required agency cannot borrow fax optionality",
+      "result": "PASS"
+    },
+    {
+      "name": "Signature of Attorney: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Signature of Attorney: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Number: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Number: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Date Attorney Signed: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Date Attorney Signed: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Printed Name: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Printed Name: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Address: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Address: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney City, State, Zip: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney City, State, Zip: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Telephone Number: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Telephone Number: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney E-mail: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney E-mail: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Fax: source attorney role cannot become a generic optional blank",
+      "result": "PASS"
+    },
+    {
+      "name": "Attorney Fax: participant contact cannot fill the attorney block",
+      "result": "PASS"
+    },
+    {
+      "name": "Signature of Defendant: participant execution cannot be supplied by an importer",
+      "result": "PASS"
+    },
+    {
+      "name": "Date Defendant Signed: participant execution cannot be supplied by an importer",
+      "result": "PASS"
+    },
+    {
+      "name": "known attorney facts cannot reuse a pro-se fixture",
+      "result": "PASS"
+    },
+    {
+      "name": "a caller flag cannot establish a source actor",
+      "result": "PASS"
+    },
+    {
+      "name": "another source identity cannot replace an attorney field",
+      "result": "PASS"
+    },
+    {
+      "name": "a field cannot move to another page",
+      "result": "PASS"
+    },
+    {
+      "name": "one omitted field cannot be hidden by a duplicate",
+      "result": "PASS"
+    },
+    {
+      "name": "missing selected checkbox cannot become an unselected alternative",
+      "result": "PASS"
+    },
+    {
+      "name": "an unsupported checkbox cannot be justified by truthy text",
+      "result": "PASS"
+    },
+    {
+      "name": "missing required recital remains a refusal after the actual validator runs",
+      "result": "PASS"
+    },
+    {
+      "name": "partial narrative cannot be declared a complete source field",
+      "result": "PASS"
+    },
+    {
+      "name": "accepted chronology guard refuses discharge before PBJ entry",
+      "result": "PASS"
+    },
+    {
+      "name": "missing actual instructions keep required boundary facts incomplete",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.facts.json",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/reports/canonical.json",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: scripts/rcap-packet-recovery/chat5/md-favorable.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "exact-byte gate refuses changed retained input: data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "result": "PASS"
+    },
+    {
+      "name": "all retained inputs and 15 PDFs remain unchanged after independent tests",
+      "result": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "name": "actual held PDF has the same 47 field identities, types, pages and widgets as the imported census",
+      "why": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    {\n      name: 'Circuit Court',\n      type: 'PDFCheckBox',\n      widgets: [\n...\n            height: 12.959999999999923,\n+           width: 174.336,\n+           x: 397.991,\n-           width: 172.336,\n-           x: 399.991,\n            y: 564.431\n          }\n        }\n      ]\n    },\n"
+    }
+  ],
+  "measured": {
+    "actualSourceFields": 47,
+    "fixtures": 15,
+    "terminalFields": 705,
+    "written": 314,
+    "blank": 391,
+    "retainedPdfs": 15,
+    "retainedPages": 60,
+    "packetRenders": 0,
+    "runtimeIntakeCounters": null
+  },
+  "limits": [
+    "Review covers importer source accounting and exact retained candidate evidence, not fresh all-page visual examination.",
+    "Optional fax/email/tracking treatment comes from the accepted 072A adapter mapping. The printed form does not label every contact field optional.",
+    "Boundary agency remains required before filing and is disclosed; it is not represented as a completed participant fact.",
+    "Attorney block is inapplicable only to these exact self-represented fixtures. No generic actor exemption exists.",
+    "No runtime intake, eligibility authority, central admission, entitlement, render job, participant artifact or authorized delivery is proved."
+  ]
+}

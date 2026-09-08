@@ -30,6 +30,9 @@
  * absence, and an absence renders as a defect.
  */
 import crypto from "node:crypto";
+import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
+import { resolveMiMoRasterEnrollment } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
+import { resolveIaForm1RasterEnrollment } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -205,6 +208,14 @@ const coverageOf = (pdfs, fixture, rendered, allDeclared = []) => {
     notRenderedByThisGate: outsideThisGate,
     whatCompleteMeansHere: "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
   };
+  if (allDeclared.some(d => d.conditionalPacketBranch)) {
+    const docs = allDeclared.filter(d => d.role === fixture).map(d => d.name);
+    const missed = docs.filter(name => !rendered.includes(name));
+    return { documents: docs, rastered: rendered, notRastered: missed,
+      complete: missed.length === 0,
+      basis: "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+      ...edge };
+  }
   if (pdfs.includes(`${fixture}.pdf`)) {
     return { documents: [`${fixture}.pdf`], rastered: rendered, notRastered: [],
       complete: rendered.includes(`${fixture}.pdf`),
@@ -238,17 +249,29 @@ const coverageOf = (pdfs, fixture, rendered, allDeclared = []) => {
  */
 const documentSet = async (dir, fixtures, pdfs) => {
   const rows = [];
+  const conditional = conditionalPacketDocuments({
+    report: read(path.relative(ROOT, path.join(dir, "reports", "rendered-artifacts.json"))),
+    fixtures, root: ROOT,
+  });
   for (const role of ["canonical", "boundary"]) {
-    const named = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
+    const primary = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
+    const named = [...new Set([...primary, ...conditional.filter(d => d.role === role).map(d => d.name)])];
     for (const name of named) {
       const abs = path.join(fixtures, name);
       const parsed = await pageCountOrNull(abs);
+      const branch = conditional.find(d => d.role === role && d.name === name);
+      if (branch && parsed !== null && parsed !== branch.declaredPageCount) {
+        throw new Error(`Conditional packet page count drift: ${name}`);
+      }
       const independentlyParsed = parsed === null ? pdfInfoPageEvidenceOrNull(abs) : null;
       const pageCountEvidence = parsed !== null
         ? { method: "pdf-lib", version: "1.17.1", pageCount: parsed, sourceSha256: sha256(abs) }
         : independentlyParsed;
       rows.push({
         role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs),
+        ...(branch ? { conditionalPacketBranch: branch.branch } : {}),
+        ...(branch?.selectionKind ? { selectionKind: branch.selectionKind,
+          requiredBeforeFiling: branch.requiredBeforeFiling, filingReady: false } : {}),
         pageCount: pageCountEvidence?.pageCount ?? null,
         pageCountEvidence,
         pageCountBasis: parsed !== null
@@ -476,7 +499,9 @@ const carryVerdict = (row) => {
 for (const f of master.families) {
   const dir = f.directory ? path.join(ROOT, f.directory) : null;
   const rel = f.directory ?? null;
-  const found = dir && fs.existsSync(dir) ? fixturesOf(dir) : { root: null, pdfs: [], basis: null };
+  const prepared = dir && fs.existsSync(dir)
+    ? await resolveMiMoRasterEnrollment(f) ?? await resolveIaForm1RasterEnrollment(f) : null;
+  const found = prepared ?? (dir && fs.existsSync(dir) ? fixturesOf(dir) : { root: null, pdfs: [], basis: null });
   const fixtures = found.root;
   const eligibility = [];
 
@@ -486,8 +511,8 @@ for (const f of master.families) {
   let canonical = null; let boundary = null; let documents = null;
   if (fixtures) {
     const pdfs = found.pdfs;
-    const c = pickFixture(dir, fixtures, "canonical", pdfs);
-    const b = pickFixture(dir, fixtures, "boundary", pdfs);
+    const c = prepared?.canonical ?? pickFixture(dir, fixtures, "canonical", pdfs);
+    const b = prepared?.boundary ?? pickFixture(dir, fixtures, "boundary", pdfs);
     canonical = c.name; boundary = b.name;
     if (!canonical) eligibility.push(c.why);
     if (!boundary) eligibility.push(b.why);
@@ -496,7 +521,7 @@ for (const f of master.families) {
       /* Read the set the row would render before deciding the family may be
        * queued, so a document the parser cannot open refuses the family here
        * rather than aborting the render job that was dispatched to prove it. */
-      documents = await documentSet(dir, fixtures, pdfs);
+      documents = prepared?.documents ?? await documentSet(dir, fixtures, pdfs);
       const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
       if (unreadable.length) {
         eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) have neither a parser-readable page count nor a hash-bound builder count, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
@@ -522,7 +547,7 @@ for (const f of master.families) {
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
   const pdfsHere = found.pdfs;
-  const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
+  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   if (!primaryCanonical) {
     notEligible.push({
@@ -768,7 +793,7 @@ const promptFor = (lane) => {
 };
 
 const EMIT = makeEmitter({ root: ROOT, check: CHECK, label: "raster queue" });
-EMIT.emit(OUT, `${JSON.stringify(doc, null, 2)}\n`);
+EMIT.emit(OUT, `${JSON.stringify(rasterStableObject(doc), null, 2)}\n`);
 for (const l of LANES) EMIT.emit(`${PROMPTS}/${l}_PACKET_RASTER_EVIDENCE.md`, promptFor(l));
 EMIT.sweep(PROMPTS, (n) => n.endsWith(".md"));
 EMIT.finish();
@@ -777,3 +802,13 @@ if (CHECK) process.exit(0);
 console.log(`Wrote ${OUT} and ${LANES.length} raster prompts into ${PROMPTS}/`);
 console.log(`  ${rows.length} queued (${rows.filter((r) => r.currentRasterState === "RASTER_PENDING").length} RASTER_PENDING) · ${notEligible.length} not eligible`);
 for (const l of LANES) console.log(`    ${l}: ${byLane[l].length} famil(ies)`);
+
+
+// Deterministic output representation only. Document hashes and acceptance predicates are unchanged.
+function rasterStableObject(value) {
+  if (Array.isArray(value)) return value.map(rasterStableObject);
+  if (value && typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
+    return Object.fromEntries(Object.keys(value).sort().map(key => [key, rasterStableObject(value[key])]));
+  }
+  return value;
+}

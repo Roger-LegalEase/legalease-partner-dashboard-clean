@@ -188,7 +188,7 @@ const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)
 /* ---- composed documents -------------------------------------------------------- */
 const DOTS = (n = 84) => ".".repeat(n);
 
-function composedBody(componentId, facts) {
+export function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
   const address = facts["participant.street_address"];
@@ -204,7 +204,7 @@ function composedBody(componentId, facts) {
     L.push("(THE DIVISION THE STANDING ORDER'S VENUE RULE IDENTIFIES - the division in whose territorial jurisdiction you live or, if you no longer live in BMC territory, the division your most recent eligible record is from; the instructions page walks the rule)", "");
     L.push(`IN THE MATTER OF THE PETITION OF ${name.toUpperCase()} TO SEAL MULTIPLE CRIMINAL RECORDS`, "");
     L.push("CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS UNDER G.L. c. 276, Sec. 100C AND BMC AMENDED STANDING ORDER No. 1-09", "");
-    L.push(`1. The petitioner, ${name}, petitions under G.L. c. 276, Sec. 100C and Boston Municipal Court Department Amended Standing Order No. 1-09 to seal the criminal records listed below, each of which is a Boston Municipal Court Department record that ended in a dismissal, a nolle prosequi, a finding of no probable cause, or a not-guilty finding.`, "");
+    L.push(`1. The petitioner, ${name}, petitions under G.L. c. 276, Sec. 100C and Boston Municipal Court Department Amended Standing Order No. 1-09 to seal the criminal records listed below, each of which is a Boston Municipal Court Department record that ended in a dismissal or a nolle prosequi.`, "");
     L.push("2. The records to be sealed - every one listed with its BMC division, its docket number, and how it ended, copied from the petitioner's own CORI and court paperwork (three or more records from two or more divisions are required; continue on an attached sheet if needed):", "");
     L.push("Record 1 - division, docket number, disposition:");
     L.push(DOTS(), "");
@@ -220,7 +220,7 @@ function composedBody(componentId, facts) {
     L.push(DOTS());
     L.push(DOTS());
     L.push(DOTS(), "");
-    L.push("4. The petitioner understands that the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department, and that a preliminary hearing, public notice and a final hearing follow under the Standing Order.", "");
+    L.push("4. The petitioner understands that the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department, and that the court may hold a preliminary hearing or proceed to one final hearing. The petitioner will send a copy of this petition to the Suffolk County District Attorney at least 30 days before the final hearing unless that office waives the full notice period; court notice does not replace this obligation.", "");
     L.push("5. The petitioner asks that each record listed above be sealed under G.L. c. 276, Sec. 100C.", "");
     L.push("DATE " + DOTS(30) + "   SIGNATURE OF PETITIONER " + DOTS(38), "");
     L.push("(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)", "");
@@ -233,15 +233,15 @@ function composedBody(componentId, facts) {
     L.push(`For: ${name}`, "");
     L.push("WORDS FIRST. In Massachusetts, SEALING and EXPUNGEMENT are different remedies and are never interchangeable: sealing does not destroy the record; expungement does. This packet is about sealing only.", "");
     L.push("THE THRESHOLD. This consolidated route exists only for THREE OR MORE criminal records from TWO OR MORE divisions of the Boston Municipal Court Department, and only for BMC records - it does not reach District Court, Juvenile Court or Superior Court records. Below the threshold, or for non-BMC records, the ordinary judicial sealing route applies, with the statewide form filed once per case. Count your qualifying records against your own CORI before anything is filed.", "");
-    L.push("WHAT QUALIFIES. Records that ended in a dismissal, a nolle prosequi, a finding of no probable cause, or a not-guilty finding, with no waiting period - the same as the ordinary judicial sealing route.", "");
+    L.push("WHAT QUALIFIES. Only dismissal or nolle prosequi records fall within this consolidated procedure under the second paragraph of Sec. 100C. No waiting period applies. A not-guilty finding or a finding of no probable cause requires the appropriate separate Sec. 100C process; this consolidation limit does not decide whether that record can be sealed.", "");
     L.push("THE VENUE RULE. The Standing Order keys venue to residence: file in the BMC division in whose territorial jurisdiction you live. If you no longer live in BMC territory, file in the division your most recent eligible record is from. The instructions on the petition's caption line follow this rule.", "");
     L.push("SUPPLEMENTS, NOT REPLACES. In the BMC, the consolidated petition supplements rather than replaces the statewide per-case sealing form. Ask the clerk of the venue division how the division wants the statewide form presented alongside this petition, and whether the division uses any form of its own for the consolidated procedure - whether the BMC publishes one is an open question this packet does not decide.", "");
     L.push("YOUR CORI FIRST. Request your own CORI from the Massachusetts Department of Criminal Justice Information Services before completing the petition. Every record you list - division, docket number, disposition - is copied from it and from your court paperwork, never from memory. This packet never collects, inspects or authenticates your CORI.", "");
     L.push("THE GOOD-CAUSE NARRATIVE. Commonwealth v. Pon sets the standard, and the narrative is yours to write. Answer, in your own words, on the petition's dotted lines:");
     L.push("- What specific problems have these records caused you - in work, housing, licensing or elsewhere?");
     L.push("- What have you done since the cases ended?", "");
-    L.push("WHAT FOLLOWS FILING. Under the Standing Order: a preliminary hearing, public notice, and a final hearing. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department. A hearing is where self-help stops - if one is set, or the judge asks for more, take the papers to a lawyer or a court service center rather than answering alone.", "");
-    L.push("FEES. The controlling review identified no filing fee and no waiver for this route. This packet asserts neither; the clerk of the venue division can say whether anything is charged.", "");
+    L.push("NOTICE AND HEARINGS. Send a copy of this petition to the Suffolk County District Attorney at least 30 days before the final hearing unless that office waives the full period. Keep proof of what you sent and when; court notice to the Commonwealth does not replace your separate obligation. A preliminary hearing is discretionary: the court may proceed to a single final hearing. Follow the hearing notice. If a hearing is set or the judge asks for more information, take the papers to a lawyer or court service center; do not miss the notice deadline while seeking help.", "");
+    L.push("FEES. There is no filing fee to request sealing. No filing-fee waiver application is needed for this no-fee request. This does not promise that obtaining your records or other third-party services is free.", "");
     L.push("WHEN TO STOP AND GET HELP INSTEAD OF FILING");
     L.push("- the three-record, two-division threshold is not met - the ordinary route with one form per case is yours instead;");
     L.push("- any record is outside the Boston Municipal Court Department;");
@@ -517,17 +517,17 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => (order[a.document] - order[b.document]) || a.field.localeCompare(b.field));
 }
 
-function participantInstructions(maps, rbf) {
+export function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
   out.push("In Massachusetts, **sealing** and **expungement** are different remedies and are never interchangeable — sealing does not destroy the record; expungement does. This packet is about sealing only. The Boston Municipal Court Department permits a single consolidated petition to seal **three or more** criminal records from **two or more** BMC divisions, under Amended Standing Order No. 1-09 and the Commonwealth v. Pon standard. No BMC form for the consolidated petition exists in the sources this packet is built from, so the petition in this packet is a composed pleading drafted against the Standing Order's required contents — and in the BMC it **supplements rather than replaces** the statewide per-case sealing form, which is Trial Court form **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal***.", "");
-  out.push("The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen — your own CORI from DCJIS and your court paperwork — so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
+  out.push("The filing-vehicle question is still unresolved: this composed petition has not been confirmed as the complete accepted BMC filing. Obtain that confirmation before filing. The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every case fact belongs to records the platform has not seen — your own CORI from DCJIS and your court paperwork — so every one of them is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
 
   out.push("## Use this packet only if", "");
-  out.push("You are sealing **three or more** BMC records from **two or more** BMC divisions, each of which ended in a dismissal, a nolle prosequi, a finding of no probable cause, or a not-guilty finding (no waiting period applies). Below that threshold, or for any record outside the Boston Municipal Court Department, the ordinary judicial sealing route applies with one statewide form per case.", "");
+  out.push("You are sealing **three or more** BMC records from **two or more** BMC divisions, each of which ended in a dismissal or a nolle prosequi (no waiting period applies). Below that threshold, or for any record outside the Boston Municipal Court Department, the ordinary judicial sealing route applies with one statewide form per case.", "");
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
@@ -556,8 +556,8 @@ function participantInstructions(maps, rbf) {
   out.push("4. **Fill in every dotted blank**, listing each record's division, docket number and disposition from your CORI and court paperwork.");
   out.push("5. **Write the good-cause narrative in your own words**, against the Pon-standard questions on the instructions page: what specific problems the records have caused you, and what you have done since the cases ended.");
   out.push("6. **Sign and date the petition yourself.**");
-  out.push("7. **Ask the clerk of the venue division** whether that division wants **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal*** — the statewide per-case form for a nolle prosequi or a dismissal, which prints \"Use a separate form for each case\" on its own face — filed alongside this consolidated petition, and how many. The Standing Order exists so that one petition can do the work of several separate filings, but the controlling review records the consolidated petition as **supplementing rather than replacing** TC0057, and it does not settle which of the two the division wants in the file. **Ask before you file; do not assume this petition alone is the whole filing.** Ask at the same time whether the division uses any form of its own for the consolidated procedure, and whether anything is charged — the controlling review identified no fee, and this packet asserts none.");
-  out.push("8. **File in the venue division.** A preliminary hearing, public notice and a final hearing follow under the Standing Order, and the judge may request additional information from the Clerk-Magistrate or the Probation Department.");
+  out.push("7. **Ask the clerk of the venue division** whether that division wants **TC0057 (2/24), *Petition to Seal Criminal Records for Nolle Prosequi or Dismissal*** — the statewide per-case form for a nolle prosequi or a dismissal, which prints \"Use a separate form for each case\" on its own face — filed alongside this consolidated petition, and how many. The Standing Order exists so that one petition can do the work of several separate filings, but the controlling review records the consolidated petition as **supplementing rather than replacing** TC0057, and it does not settle which of the two the division wants in the file. **Ask before you file; do not assume this petition alone is the whole filing.** Ask at the same time whether the division uses any form of its own for the consolidated procedure, but do not treat form-identity confirmation as a fee question: there is no filing fee to request sealing and no filing-fee waiver is needed.");
+  out.push("8. **File in the venue division and arrange timely notice.** Send a copy of this petition to the Suffolk County District Attorney at least **30 days before the final hearing**, unless that office waives the full notice period. Keep proof of what you sent and when. Court notice does not replace your separate obligation. Follow the hearing notice; a separate preliminary hearing is discretionary and the court may proceed to a single final hearing. Seek legal help for a hearing or a request for additional information without missing the notice deadline.");
   out.push("");
 
   out.push("## Things the platform deliberately left blank", "");
@@ -879,11 +879,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "The review identified no filing fee and no waiver, and hearings (preliminary, public notice, final) "
+          "The current court instructions establish no filing fee or filing-fee waiver; a preliminary hearing is discretionary, and notice and the final hearing "
           + "with possible judicial requests for more information are the recorded post-filing process.",
         consequence:
-          "The fee position is stated as what the review identified rather than as 'free', with the venue "
-          + "division's clerk named for the actual answer; a set hearing or a judicial information request is a "
+          "The no-filing-fee rule is stated directly, without promising free third-party records; the venue "
+          + "division handles procedural questions. A set hearing or judicial information request remains a "
           + "printed stop condition, because the record classifies hearings as post-generation handoffs."
       }
     ]
@@ -898,7 +898,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       "FORM STATUS, RESOLVED FACTUALLY AND NOT LEGALLY. No BMC consolidated form exists in any source this repository holds (Master Library, partial Nationwide custody, official-source registry — each searched and each named in build-findings.json). The statewide per-case form is located and named: TC0057 (2/24), sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0. What remains for counsel is narrower than the original release blocker: the controlling review says the consolidated petition SUPPLEMENTS rather than replaces TC0057, and does not say whether a BMC division expects TC0057 forms in the file alongside the consolidated petition. The packet names TC0057 and sends the participant to the venue division's clerk. Confirm that is the right handling, or direct that TC0057 be built into this family.",
       "The Batch 2 resolution permits 'a counsel-approved custom consolidated petition'. This composed petition is the candidate for that approval; nothing here asserts it. Approve, amend or reject the instrument.",
       "The petition's paragraph 2 lists records in a three-plus-continuation layout. Confirm the layout satisfies the Standing Order's required contents.",
-      "The review identified no filing fee; the packet asserts none and delegates to the venue division's clerk. Confirm the treatment."
+      "Current official court instructions establish no filing fee. This build carries that correction, while accepted-instrument and output-specific legal approval remain unresolved."
     ],
     mattersForTheReviewersAttention: [
       "source-receipt.json — no binary source is bound because no published BMC form was established; confirm the codified-grounds posture is legible to reviewers.",

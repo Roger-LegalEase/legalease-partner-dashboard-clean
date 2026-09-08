@@ -14,6 +14,15 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { acceptedRasterFor, candidateRowsByFamily } from "./acceptance-identity.mjs";
+import { bindDeclaredDeGuidance, DE_FAMILY } from "./de-guidance-binding.mjs";
+import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
+import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
+import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
+import { bindDeclaredMdConditionalDelivery } from "./md-conditional-declared-delivery.mjs";
+import { bindDeclaredGaDelivery, GA_FAMILY } from "./ga-declared-delivery.mjs";
+import { IA_FORM1_FAMILY, bindDeclaredIaForm1Delivery, createDeclaredIaForm1Delivery } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
+import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
+import { isMiMoDeclaredFamily, bindDeclaredMiMoDelivery, createDeclaredMiMoDelivery } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -90,8 +99,10 @@ const bindingFor = (f) => {
   const raster = exactRasterFor(f.familyId);
   const verdict = currentVerdict.get(f.familyId) ?? null;
   const has = (rel) => fs.existsSync(path.join(ROOT, f.directory, rel));
+  const filingCourtSelection = arizonaFilingCourtBinding(f);
   return {
     family: f.familyId,
+    ...(filingCourtSelection ? { filingCourtSelection } : {}),
     jurisdiction: f.jurisdiction,
     routeKeys: f.routeKeys,
     deliveryType: f.implementationStrategy,
@@ -153,6 +164,45 @@ const NON_GRANTS = [
   "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
 ];
 
+const miMoOptions = (family) => ({
+  report: read(`${family.directory}/reports/rendered-artifacts.json`),
+  hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+  raster: exactRasterFor(family.familyId)
+});
+const alignDeclaredDelivery = (record, family) => ["md_10110_conviction-set", "md_cannabis_petition-set"].includes(family.familyId)
+  ? bindDeclaredMdConditionalDelivery(record, family, miMoOptions(family))
+  : family.familyId === IA_FORM1_FAMILY
+  ? bindDeclaredIaForm1Delivery(record, family, miMoOptions(family))
+  : family.familyId === GA_FAMILY
+  ? bindDeclaredGaDelivery(record, family, miMoOptions(family))
+  : isMiMoDeclaredFamily(family.familyId)
+  ? bindDeclaredMiMoDelivery(record, family, miMoOptions(family))
+  : family.familyId === MD_FAVORABLE_FAMILY
+  ? bindDeclaredMdFavorableDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+      raster: exactRasterFor(family.familyId)
+    })
+  : family.familyId === KY_FAMILY
+  ? bindDeclaredKyDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+      raster: exactRasterFor(family.familyId)
+    })
+  : family.familyId === NC_FAMILY
+  ? bindDeclaredNcDelivery(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+      raster: exactRasterFor(family.familyId)
+    })
+  : family.familyId !== DE_FAMILY ? record
+  : bindDeclaredDeGuidance(record, family, {
+      report: read(`${family.directory}/reports/rendered-artifacts.json`),
+      receipt: read(`${family.directory}/source-receipt.json`),
+      instructions: fs.readFileSync(path.join(ROOT, family.directory, "participant-instructions.md"), "utf8"),
+      hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex")
+    });
+
 let written = 0, skipped = 0, refreshed = 0, bespokeBindingsPreserved = 0;
 const digestsRepinned = [];
 const digestFileMissing = [];
@@ -188,7 +238,7 @@ for (const f of selectedFamilies) {
    */
   if (fs.existsSync(wiringPath)) {
     try {
-      const existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
+      let existing = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
       const before = JSON.stringify(existing);
       if (hasBespokeInstalledBinding(existing)) bespokeBindingsPreserved++;
       else existing.binding = bindingFor(f);
@@ -201,14 +251,32 @@ for (const f of selectedFamilies) {
         digestsRepinned.push({ family: f.familyId, componentId: c.componentId ?? null, file: c.file, was: c.sha256, now: actual });
         c.sha256 = actual;
       }
+      existing = alignDeclaredDelivery(existing, f);
       if (JSON.stringify(existing) !== before) {
         if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
         refreshed++;
       } else skipped++;
-    } catch { skipped++; }
+    } catch (error) {
+      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY, "md_10110_conviction-set", "md_cannabis_petition-set", GA_FAMILY, IA_FORM1_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      skipped++;
+    }
     continue;
   }
   if (!fs.existsSync(artifactsPath)) continue;
+  if (f.familyId === IA_FORM1_FAMILY) {
+    const wiring = createDeclaredIaForm1Delivery(f, bindingFor(f), miMoOptions(f));
+    if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+    console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${wiring.binding.conditionalDelivery.fixtureBindings.length} exact outputs, diagnostics retained)`);
+    written++;
+    continue;
+  }
+  if (isMiMoDeclaredFamily(f.familyId)) {
+    const wiring = createDeclaredMiMoDelivery(f, bindingFor(f), miMoOptions(f));
+    if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+    console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${wiring.binding.conditionalDelivery.fixtureBindings.length} exact selected complete outputs)`);
+    written++;
+    continue;
+  }
   let art;
   try { art = JSON.parse(fs.readFileSync(artifactsPath, "utf8")); } catch { continue; }
   /* Fixture labels vary by host era: "canonical", "tf810-canonical",
@@ -265,7 +333,7 @@ for (const f of selectedFamilies) {
       componentGroups[groupIndex.get(key)].renderings.push(d);
     }
   }
-  const wiring = {
+  let wiring = {
     schemaVersion: "rcap-census-v1-product-wiring/v1",
     family: f.familyId,
     routeKey: f.routeKeys[0] ?? null,
@@ -312,6 +380,7 @@ for (const f of selectedFamilies) {
       })
     }
   };
+  wiring = alignDeclaredDelivery(wiring, f);
   if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
   console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${componentGroups.length} component(s) across ${docs.length} canonical rendering(s))`);
   written++;

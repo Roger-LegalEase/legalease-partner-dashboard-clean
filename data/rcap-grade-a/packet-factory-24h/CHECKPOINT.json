@@ -6,41 +6,41 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 160,
+  "completePacketProven": 173,
   "states": {
     "SOURCE_BLOCKED": 6,
-    "SOURCE_READY": 80,
-    "LEGAL_BLOCKED": 14,
+    "SOURCE_READY": 73,
+    "LEGAL_BLOCKED": 13,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 0,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 42,
+    "FAIL_REPAIR_REQUIRED": 41,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
-    "PRODUCT_PATH_PENDING": 20,
-    "COMPLETE_PACKET_PROVEN": 160,
+    "PRODUCT_PATH_PENDING": 18,
+    "COMPLETE_PACKET_PROVEN": 173,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 1,
-    "GUIDANCE_READY": 9,
+    "GUIDANCE_READY": 14,
     "HANDOFF_READY": 2,
     "AGENCY_APPLICATION_READY": 0,
     "OUT_OF_SCOPE": 5
   },
-  "sourceReady": 80,
+  "sourceReady": 73,
   "sourceBlocked": 6,
-  "assigned": 80,
+  "assigned": 73,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 38,
-    "lanesProvisionedEmpty": 18,
+    "lanesWithWorkAtDispatch": 34,
+    "lanesProvisionedEmpty": 22,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -48,12 +48,6 @@
       "family": "az_set_aside-set",
       "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:R-26-0001 adopted Form 31(a), official-form:R-26-0001 adopted Form 31(b), official-form:AOCCR41FORM31A-082224-CONT",
       "owner": "SRC04",
-      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "census-pending-family:ME:juvenile-sealing",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:JV-043",
-      "owner": "SRC03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
@@ -69,14 +63,20 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
-      "family": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
-      "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:JU 10.0300, official-form:JU 10.0315, official-form:JU 10.0320",
-      "owner": "SRC03",
+      "family": "nm_conviction-set",
+      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-953, official-form:4-956, official-form:4-960, official-form:4-960.1, official-form:4-960.3, official-form:NM-LOCAL-CONVICTION-ORDER",
+      "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
-      "family": "ut_pet_special_certificate-set",
-      "exactBlocker": "SOURCE_GENUINELY_MISSING: official-form:1001EX, official-form:1021EX, official-form:1044XX, official-form:1146XX, official-form:1148XX, official-form:1149XX, official-form:1169XX, official-form:UT-BCI-EXP-APPLICATION, official-form:UT-BCI-THIRD-PARTY-RELEASE",
+      "family": "nm_identity_theft-set",
+      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-951, official-form:4-960.1, official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
+      "owner": "SRC01",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
+    },
+    {
+      "family": "nm_release_without_conviction-set",
+      "exactBlocker": "SOURCE_ALREADY_HELD: official-form:4-222, official-form:4-952, official-form:4-955, official-form:4-959, official-form:4-960.1, official-form:4-960.2, official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
       "owner": "SRC01",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
@@ -121,12 +121,6 @@
       "exactBlocker": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT: no document-shaped source named",
       "owner": "PROMO03",
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
-    },
-    {
-      "family": "nc_146_dismissal_petition-set",
-      "exactBlocker": "an open legal input on one of its routes",
-      "owner": "counsel",
-      "nextAction": "await the counsel determination; do not research it here"
     },
     {
       "family": "ne-trafficking-setaside-and-seal-set",

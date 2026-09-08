@@ -1,0 +1,116 @@
+
+1. The token itself
+  ok   each minted token is unique
+  ok   a minted token satisfies the shape the claim function enforces
+  ok   a minted token carries at least 256 bits of entropy
+  ok   a minted token is URL-safe and needs no escaping
+  ok   the stored hash is SHA-256 hex
+  ok   the token is never its own hash
+  ok   hashing is stable
+  ok   the redaction helper never echoes the token
+  ok   the redaction helper handles an absent token
+  ok   a malformed token is rejected: ""
+  ok   a malformed token is rejected: "short"
+  ok   a malformed token is rejected: "has spaces in it and is "
+  ok   a malformed token is rejected: "e9aDz8czvjJ1K8TM7XHZPd1I"
+
+2. The token never reaches storage, logs or analytics
+  ok   the claim handoff writes no browser storage
+  ok   the claim handoff writes no cookie
+  ok   claim handoff never routes the token to a store, a log, or analytics
+  ok   sign-in form never routes the token to a store, a log, or analytics
+  ok   set-password page never routes the token to a store, a log, or analytics
+  ok   save intent never routes the token to a store, a log, or analytics
+  ok   screening flow never routes the token to a store, a log, or analytics
+  ok   pending create route never routes the token to a store, a log, or analytics
+  ok   claim route never routes the token to a store, a log, or analytics
+  ok   claim service never routes the token to a store, a log, or analytics
+  ok   claim obligations never routes the token to a store, a log, or analytics
+  ok   pending create route writes no console log
+  ok   claim route writes no console log
+  ok   claim service writes no console log
+  ok   claim obligations writes no console log
+  ok   the token is persisted only as a SHA-256 hash
+  ok   the plaintext token is never a column value
+  ok   the only loggable form of a token is a hash prefix
+  ok   no analytics event carries the claim token
+
+3. Completed claims remove the token; retryable failures preserve it
+  ok   the token is stripped with replaceState, adding no history entry
+  ok   stripping removes the claim parameter
+  FAIL claim network: token retained for retry -- AssertionError
+  ok   claim 200: token removed after definitive response
+  ok   claim 201: token removed after definitive response
+  ok   claim 204: token removed after definitive response
+  ok   claim 400: token removed after definitive response
+  FAIL claim 401: token retained for retry -- AssertionError
+  ok   claim 403: token removed after definitive response
+  ok   claim 404: token removed after definitive response
+  ok   claim 409: token removed after definitive response
+  ok   claim 410: token removed after definitive response
+  ok   claim 422: token removed after definitive response
+  ok   claim 429: token removed after definitive response
+  ok   claim 499: token removed after definitive response
+  FAIL claim 500: token retained for retry -- AssertionError
+  FAIL claim 502: token retained for retry -- AssertionError
+  FAIL claim 503: token retained for retry -- AssertionError
+  FAIL claim 599: token retained for retry -- AssertionError
+  ok   the auth callback scrubs its URL
+  ok   auth callback: valid token continues
+  ok   auth callback: invalid or absent token excluded
+  ok   auth callback: invalid or absent token excluded
+  ok   auth callback: invalid or absent token excluded
+
+4. Only the token is believed
+  ok   the pending create route ignores browser-supplied body.product
+  ok   the pending create route ignores browser-supplied body.partnerSlug
+  ok   the pending create route ignores browser-supplied body.userId
+  ok   the pending create route ignores browser-supplied body.matterId
+  ok   the pending create route ignores browser-supplied body.ownerUserId
+  ok   attribution is resolved from the server's own session record
+  ok   the pending id is never returned to the browser
+  ok   the claim route reads exactly one field from the browser
+  ok   the claim route reads nothing else from the browser
+  ok   the pending result is resolved by token hash, never by a client-supplied id
+
+5. An unverified account receives nothing
+  ok   the server auth state reports verification
+  ok   the claim route passes verification through
+  ok   an unverified account is refused before anything is created
+  ok   the verification guard runs before the claim transaction
+
+6. Every continuation lands on the exact matter
+  ok   the canonical destination is /briefcase/matters/{matter_id}
+  ok   the canonical route exists
+  ok   the claim returns the exact matter path
+  ok   the browser refuses any redirect that is not an exact matter
+  ok   continuation preserved: new account creation
+  ok   continuation preserved: existing-account sign-in
+  ok   continuation preserved: email verification
+  ok   continuation preserved: magic link
+  ok   continuation preserved: password reset
+  ok   continuation preserved: same-device callback
+  ok   continuation preserved: different-device callback
+  ok   continuation preserved: already signed in
+  ok   the Briefcase home completes a claim that arrives there instead of an empty landing
+
+7. Pre-authentication language names no matter and no Briefcase
+  ok   the pre-authentication handoff is structurally identifiable
+  ok   the pre-authentication handoff carries no matter identifier
+  ok   the anonymous DTC result actions name no Briefcase
+  ok   the anonymous DTC result uses the approved preliminary-result action
+
+8. Post-claim work cannot undo the claim
+  ok   follow-up and analytics run after the ownership transaction
+  ok   the successful response is returned last
+  ok   no post-claim failure path can convert a successful claim into a failure
+  ok   an unmet obligation is recorded durably rather than dropped
+  ok   the obligation lands in the append-only claim audit
+
+Shared claim boundary application proof failed: 6 check(s).
+  - claim network: token retained for retry -- AssertionError
+  - claim 401: token retained for retry -- AssertionError
+  - claim 500: token retained for retry -- AssertionError
+  - claim 502: token retained for retry -- AssertionError
+  - claim 503: token retained for retry -- AssertionError
+  - claim 599: token retained for retry -- AssertionError

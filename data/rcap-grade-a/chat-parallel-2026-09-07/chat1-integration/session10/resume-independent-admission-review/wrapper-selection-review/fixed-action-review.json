@@ -1,0 +1,562 @@
+{
+  "reviewer": "/root/session10_admission_review",
+  "reviewedFiles": [
+    {
+      "path": ".github/workflows/rcap-chatgpt-recovery.yml",
+      "sha256": "6c75ec064d2aadc6ae2c870013024f4a8d9eab08f2fac9339f0b1688007343e4"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs",
+      "sha256": "055b929b8ef1c7ff68f7970f9791d6d9306e011bdccb9840760c5a571c1d966d"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-recovery-raster-selection.mjs",
+      "sha256": "d87750efd3747639d318f100a7f8391a8c6f6d7723f1934612b9bc94222d6ac3"
+    }
+  ],
+  "observations": [
+    {
+      "name": "new candidate dispatches once",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "3333333333333333333333333333333333333333",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "fixture",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "3333333333333333333333333333333333333333",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "fixture",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [\n    \"fixture\"\n  ],\n  \"deferred\": []\n}",
+        "Central raster requested for exact packet commit 3333333333333333333333333333333333333333. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    },
+    {
+      "name": "unchanged prior pass suppresses redispatch",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [],\n  \"deferred\": [\n    {\n      \"family\": \"fixture\",\n      \"status\": \"NOT_NEWLY_PUBLISHED\",\n      \"reasons\": [\n        \"unchanged since the prior validated queue; no new request from this publication\"\n      ]\n    }\n  ]\n}",
+        "No newly eligible candidate. Existing family outcomes remain unchanged; no central dispatch is needed."
+      ]
+    },
+    {
+      "name": "unchanged prior pending suppresses redispatch",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [],\n  \"deferred\": [\n    {\n      \"family\": \"fixture\",\n      \"status\": \"NOT_NEWLY_PUBLISHED\",\n      \"reasons\": [\n        \"unchanged since the prior validated queue; no new request from this publication\"\n      ]\n    }\n  ]\n}",
+        "No newly eligible candidate. Existing family outcomes remain unchanged; no central dispatch is needed."
+      ]
+    },
+    {
+      "name": "accepted dispatch with failed confirmation blocks new request",
+      "passed": true,
+      "error": "Recovery run 2 may already request these unchanged inputs; reconcile its jobs and central receipts first.",
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRun",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 2,
+            "filter": "all",
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": []
+    },
+    {
+      "name": "prior active overlapping request blocks",
+      "passed": true,
+      "error": "Recovery run 2 may already request these unchanged inputs; reconcile its jobs and central receipts first.",
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRun",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 2,
+            "filter": "all",
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": []
+    },
+    {
+      "name": "failed preflight with no dispatch permits fresh request",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "3333333333333333333333333333333333333333",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "fixture",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRun",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 2,
+            "filter": "all",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "3333333333333333333333333333333333333333",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "fixture",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [\n    \"fixture\"\n  ],\n  \"deferred\": []\n}",
+        "Central raster requested for exact packet commit 3333333333333333333333333333333333333333. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    },
+    {
+      "name": "same wrapper prior successful dispatch attempt blocks",
+      "passed": true,
+      "error": "A prior attempt may already have dispatched this candidate; inspect and consume its central run before another request.",
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRunAttempt",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 100,
+            "attempt_number": 1,
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": []
+    },
+    {
+      "name": "same wrapper prior failed confirmation attempt blocks",
+      "passed": true,
+      "error": "A prior attempt may already have dispatched this candidate; inspect and consume its central run before another request.",
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRunAttempt",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 100,
+            "attempt_number": 1,
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": []
+    },
+    {
+      "name": "same wrapper failed preflight attempt permits fresh request",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "3333333333333333333333333333333333333333",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "fixture",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "listJobsForWorkflowRunAttempt",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "run_id": 100,
+            "attempt_number": 1,
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "3333333333333333333333333333333333333333",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "fixture",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [\n    \"fixture\"\n  ],\n  \"deferred\": []\n}",
+        "Central raster requested for exact packet commit 3333333333333333333333333333333333333333. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    },
+    {
+      "name": "newer or unrelated successful queue is excluded from baseline",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "3333333333333333333333333333333333333333",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "fixture",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "3333333333333333333333333333333333333333",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "fixture",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [\n    \"fixture\"\n  ],\n  \"deferred\": []\n}",
+        "Central raster requested for exact packet commit 3333333333333333333333333333333333333333. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    },
+    {
+      "name": "no ancestor baseline refuses bounded dispatch",
+      "passed": true,
+      "error": "No immutable successful recovery baseline; refuse an unbounded dispatch.",
+      "mockedDispatches": 0,
+      "dispatchedInputs": null,
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        }
+      ],
+      "logs": []
+    },
+    {
+      "name": "failed request with changed inputs does not block new bytes",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "3333333333333333333333333333333333333333",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "fixture",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "3333333333333333333333333333333333333333",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "fixture",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"3333333333333333333333333333333333333333\",\n  \"priorRecoveryRun\": 1,\n  \"priorPacketCommit\": \"1111111111111111111111111111111111111111\",\n  \"eligible\": [\n    \"fixture\"\n  ],\n  \"deferred\": []\n}",
+        "Central raster requested for exact packet commit 3333333333333333333333333333333333333333. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    },
+    {
+      "name": "actual 13-run API history with real immutable Git queues selects Iowa only",
+      "passed": true,
+      "error": null,
+      "mockedDispatches": 1,
+      "dispatchedInputs": {
+        "commit_sha": "1c6d648f6721de0de0f1a57d25dc37e1ff51a62f",
+        "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "family_batch": "ia-901c2-set",
+        "requested_scale": "2.5"
+      },
+      "calls": [
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-chatgpt-recovery.yml",
+            "branch": "chatgpt/launch-recovery-20260906",
+            "per_page": 100
+          }
+        },
+        {
+          "method": "createWorkflowDispatch",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "ref": "main",
+            "inputs": {
+              "commit_sha": "1c6d648f6721de0de0f1a57d25dc37e1ff51a62f",
+              "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              "family_batch": "ia-901c2-set",
+              "requested_scale": "2.5"
+            }
+          }
+        },
+        {
+          "method": "listWorkflowRuns",
+          "args": {
+            "owner": "review-only",
+            "repo": "fixture",
+            "workflow_id": "rcap-packet-raster-acceptance-batch.yml",
+            "event": "workflow_dispatch",
+            "per_page": 5
+          }
+        }
+      ],
+      "logs": [
+        "{\n  \"packetCommit\": \"1c6d648f6721de0de0f1a57d25dc37e1ff51a62f\",\n  \"priorRecoveryRun\": 34232672469,\n  \"priorPacketCommit\": \"774e1c3e3fa7ffd8e4f2aefea384440e4b1dab90\",\n  \"eligible\": [\n    \"ia-901c2-set\"\n  ],\n  \"deferred\": [\n    {\n      \"family\": \"agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure\",\n      \"status\": \"NOT_NEWLY_PUBLISHED\",\n      \"reasons\": [\n        \"unchanged since the prior validated queue; no new request from this publication\"\n      ]\n    }\n  ]\n}",
+        "Central raster requested for exact packet commit 1c6d648f6721de0de0f1a57d25dc37e1ff51a62f. This dispatch grants no packet or production approval.",
+        "CENTRAL_RASTER_RUN_ID=999",
+        "https://invalid.example/review-only"
+      ]
+    }
+  ],
+  "passed": 13,
+  "total": 13,
+  "actualGitHubDispatchesPerformed": 0,
+  "actualHistoryRuns": 13,
+  "actualHistoryTotal": 13,
+  "sharedFilesEdited": false,
+  "scope": "Execute the exact github-script body with simulated GitHub calls; final case reads actual retained API history and real immutable Git queues. Every createWorkflowDispatch call is intercepted, recorded and never transmitted."
+}

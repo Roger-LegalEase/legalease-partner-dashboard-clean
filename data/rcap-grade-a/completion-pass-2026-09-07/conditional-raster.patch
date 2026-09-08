@@ -1,0 +1,54 @@
+--- a/scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
++++ b/scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
+@@ -30,6 +30,7 @@
+  * absence, and an absence renders as a defect.
+  */
+ import crypto from "node:crypto";
++import { conditionalPacketDocuments } from "./conditional-raster-documents.mjs";
+ import fs from "node:fs";
+ import path from "node:path";
+ import { execFileSync, spawnSync } from "node:child_process";
+@@ -205,6 +206,14 @@
+     notRenderedByThisGate: outsideThisGate,
+     whatCompleteMeansHere: "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+   };
++  if (allDeclared.some(d => d.conditionalPacketBranch)) {
++    const docs = allDeclared.filter(d => d.role === fixture).map(d => d.name);
++    const missed = docs.filter(name => !rendered.includes(name));
++    return { documents: docs, rastered: rendered, notRastered: missed,
++      complete: missed.length === 0,
++      basis: "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
++      ...edge };
++  }
+   if (pdfs.includes(`${fixture}.pdf`)) {
+     return { documents: [`${fixture}.pdf`], rastered: rendered, notRastered: [],
+       complete: rendered.includes(`${fixture}.pdf`),
+@@ -238,17 +247,27 @@
+  */
+ const documentSet = async (dir, fixtures, pdfs) => {
+   const rows = [];
++  const conditional = conditionalPacketDocuments({
++    report: read(path.relative(ROOT, path.join(dir, "reports", "rendered-artifacts.json"))),
++    fixtures, root: ROOT,
++  });
+   for (const role of ["canonical", "boundary"]) {
+-    const named = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
++    const primary = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
++    const named = [...new Set([...primary, ...conditional.filter(d => d.role === role).map(d => d.name)])];
+     for (const name of named) {
+       const abs = path.join(fixtures, name);
+       const parsed = await pageCountOrNull(abs);
++      const branch = conditional.find(d => d.role === role && d.name === name);
++      if (branch && parsed !== null && parsed !== branch.declaredPageCount) {
++        throw new Error(`Conditional packet page count drift: ${name}`);
++      }
+       const independentlyParsed = parsed === null ? pdfInfoPageEvidenceOrNull(abs) : null;
+       const pageCountEvidence = parsed !== null
+         ? { method: "pdf-lib", version: "1.17.1", pageCount: parsed, sourceSha256: sha256(abs) }
+         : independentlyParsed;
+       rows.push({
+         role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs),
++        ...(branch ? { conditionalPacketBranch: branch.branch } : {}),
+         pageCount: pageCountEvidence?.pageCount ?? null,
+         pageCountEvidence,
+         pageCountBasis: parsed !== null

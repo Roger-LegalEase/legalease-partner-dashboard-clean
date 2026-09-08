@@ -1,0 +1,474 @@
+{
+  "currentRouteCensusGitBlob": "d87bf67294e123237e917824e39a512f593274ab",
+  "route": {
+    "routeKey": "obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement",
+    "jurisdiction": "MD",
+    "publicLabel": "Expungement of a cannabis charge or conviction",
+    "statuteOrAuthority": "Md. Code, Crim. Proc. \u00a7 10-105(a)(12); Md. Code, Crim. Proc. \u00a7 10-105(c)(8); Md. Code, Crim. Proc. \u00a7 10-110(a)(2)(ii); Md. Code, Crim. Proc. \u00a7 10-110(c)(5); Md. Code, Crim. Proc. \u00a7 10-105(a)(11); Md. Code, Crim. Proc. \u00a7 10-107(a)",
+    "trackId": "md_cannabis_petition",
+    "runtimePathwayId": "cannabis-specific-expungement",
+    "routeContractId": null,
+    "processActor": "clerk",
+    "participantCanInitiate": true,
+    "participantFacingInstrument": "primary_filing: CC-DC-CR-072D; fee_waiver: CC-DC-089",
+    "destination": {
+      "kind": "clerk",
+      "name": "Clerk of the District Court or circuit court that heard the case",
+      "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+    },
+    "currentOutputStrategy": "official_pdf_fill",
+    "packetFamilyId": null,
+    "packetSetId": "md_cannabis_petition-set",
+    "requiredSourceIds": [
+      "compiled-profile:src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "compiled-source-ref:section:136-147; section:53-95; corpus-unit:37; corpus-unit:3; corpus-unit:21",
+      "component:md_cannabis_petition-fee-waiver-2",
+      "component:md_cannabis_petition-primary-filing-1",
+      "official-form:CC-DC-089",
+      "official-form:CC-DC-CR-072D",
+      "source-url:https://mdcourts.gov/legalhelp/expungement",
+      "source-url:https://mdcourts.gov/rules",
+      "source-url:https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+      "source-url:private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+      "source-url:private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf"
+    ],
+    "existingArtifactIds": [],
+    "currentServiceDisposition": "paid_packet_intended",
+    "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+    "legalDecisionRecordIds": [],
+    "currentImplementationEvidence": [
+      "authority-ledger:authority_clearance:authority_clearance",
+      "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MD-maryland.json#cannabis-specific-expungement",
+      "crosswalk:direct_runtime_representation",
+      "launch-graph:operationallySellable=false",
+      "legal-design:legal_design_approved_with_limitations",
+      "runtime-service-disposition:paid_packet_intended",
+      "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+      "source-relationship:md_cannabis_petition-fee-waiver-2:unchecked",
+      "source-relationship:md_cannabis_petition-primary-filing-1:unchecked"
+    ],
+    "missingImplementationWork": [
+      "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
+      "Draft or complete the exact official-form field map for every required official form or companion.",
+      "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
+      "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
+      "Obtain completed-output legal approval for the exact packet family; this census creates no approval."
+    ],
+    "possibleCategory": "A_MUST_FULFILL",
+    "possibleCategoryBReason": null,
+    "classificationConfidence": "high",
+    "requiresLegalReview": false,
+    "legalReviewQuestion": null
+  },
+  "track": {
+    "jurisdiction": "MD",
+    "trackId": "md_cannabis_petition",
+    "legalName": "Petition for Expungement of Cannabis Charges and Convictions",
+    "publicName": "Expungement of a cannabis charge or conviction",
+    "mechanism": "Cannabis possession under Criminal Law \u00a7 5-601 where the conduct is no longer a crime expunges with no waiting period; possession is filed after satisfactory completion of the sentence; possession with intent to distribute under \u00a7 5-602 is filed three years after completion of the sentence. Section 10-107(a) carves cannabis possession out of the ordinary unit rule.",
+    "authority": [
+      "Md. Code, Crim. Proc. \u00a7 10-105(a)(12)",
+      "Md. Code, Crim. Proc. \u00a7 10-105(c)(8)",
+      "Md. Code, Crim. Proc. \u00a7 10-110(a)(2)(ii)",
+      "Md. Code, Crim. Proc. \u00a7 10-110(c)(5)",
+      "Md. Code, Crim. Proc. \u00a7 10-105(a)(11)",
+      "Md. Code, Crim. Proc. \u00a7 10-107(a)"
+    ],
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2025-10-01",
+    "effectiveTo": null,
+    "recordTypes": [
+      "police_record",
+      "court_record",
+      "conviction_record"
+    ],
+    "dispositions": [
+      "cannabis_possession_no_longer_a_crime",
+      "cannabis_possession_5_601",
+      "cannabis_pwid_5_602"
+    ],
+    "exclusions": [
+      "Charges outside Criminal Law \u00a7 5-601 and \u00a7 5-602.",
+      "Where other offences from the same incident are ineligible, the unit interaction under \u00a7 10-107(a) must be worked through carefully."
+    ],
+    "waitingPeriods": [
+      {
+        "condition": "Possession of a controlled dangerous substance (marijuana) under \u00a7 5-601 where the conduct is no longer a crime",
+        "duration": "None"
+      },
+      {
+        "condition": "Possession of cannabis under \u00a7 5-601",
+        "duration": "Filed after satisfactory completion of the sentence including probation, \u00a7 10-105(c)(8). No further wait."
+      },
+      {
+        "condition": "Possession with intent to distribute cannabis under \u00a7 5-602",
+        "duration": "3 years after completion of the sentence"
+      }
+    ],
+    "outputStrategy": "official_pdf_fill",
+    "outputStrategyDeclared": "official_pdf_fill",
+    "compositionMode": null,
+    "units": [],
+    "geographicScope": "statewide",
+    "geographyKeys": [],
+    "venue": "Md. Code, Crim. Proc. \u00a7 10-110(b), the same structure as \u00a7 10-105(b): the court where the proceeding began, or to which it was transferred. District Court of Maryland or circuit court, in any of the 23 counties or Baltimore City.",
+    "destination": {
+      "kind": "clerk",
+      "name": "Clerk of the District Court or circuit court that heard the case",
+      "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+    },
+    "packetSet": {
+      "packetSetId": "md_cannabis_petition-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "md_cannabis_petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-DC-CR-072D",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "md_cannabis_petition-fee-waiver-2",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the $30 filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-DC-089",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature and affirmation \u2014 Petition, signature and affirmation block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Unit determination where other offences share the incident \u2014 Petition, fourth checkbox.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalties of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The court serves.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the clerk of the court that heard the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+        "Petitioner signature and affirmation \u2014 Petition, signature and affirmation block.",
+        "Unit determination where other offences share the incident \u2014 Petition, fourth checkbox.",
+        "Required, under penalties of perjury.",
+        "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+        "Request for Waiver of Prepaid Costs, CC-DC-089."
+      ]
+    },
+    "officialSources": [
+      {
+        "title": "Md. Code, Criminal Procedure \u00a7\u00a7 10-101 through 10-112 and 10-301 through 10-306",
+        "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+        "retrievedOn": "2026-07-30",
+        "sha256": null
+      },
+      {
+        "title": "Maryland Rules Title 4, Chapter 500 and Rule 16-934",
+        "url": "https://mdcourts.gov/rules",
+        "retrievedOn": "2026-07-30",
+        "sha256": null
+      },
+      {
+        "title": "Maryland Judiciary expungement and shielding self-help forms",
+        "url": "https://mdcourts.gov/legalhelp/expungement",
+        "retrievedOn": "2026-07-30",
+        "sha256": null
+      }
+    ],
+    "rules": {
+      "filing": "File with the clerk of the court that heard the case.",
+      "fees": "$30 per the Judiciary self-help page. Note the tension: CC-DC-CR-072D covers dispositions the internal reference calls free. Confirm at build time.",
+      "feeWaiver": "Request for Waiver of Prepaid Costs, CC-DC-089.",
+      "notice": "The court serves the State's Attorney; 30-day objection period.",
+      "service": "The court serves.",
+      "participantSignature": "Required, under penalties of perjury.",
+      "notarization": "none"
+    },
+    "generationRequirements": [
+      {
+        "key": "courtAndCounty",
+        "question": "Which court heard the case, and in which county or Baltimore City?",
+        "requirement": "required"
+      },
+      {
+        "key": "caseNumber",
+        "question": "What is the case number?",
+        "requirement": "required"
+      },
+      {
+        "key": "chargesInIncident",
+        "question": "List every charge in the incident, not only the one you want cleared.",
+        "requirement": "required"
+      },
+      {
+        "key": "disposition",
+        "question": "How did each charge end?",
+        "requirement": "required"
+      },
+      {
+        "key": "pendingCharges",
+        "question": "Are you a defendant in any pending criminal proceeding?",
+        "requirement": "required"
+      },
+      {
+        "key": "cannabisChargeType",
+        "question": "Was the charge simple possession under \u00a7 5-601, or possession with intent to distribute under \u00a7 5-602?",
+        "requirement": "required"
+      },
+      {
+        "key": "sentenceCompletionDate",
+        "question": "On what date did you complete the sentence, including probation?",
+        "requirement": "required"
+      },
+      {
+        "key": "otherOffencesSameIncident",
+        "question": "Were you also charged with other offences from the same incident?",
+        "requirement": "required"
+      },
+      {
+        "key": "checkedCaseSearch",
+        "question": "Have you checked Maryland Judiciary Case Search to see whether the case has already been cleared?",
+        "requirement": "required"
+      },
+      {
+        "key": "requestsFeeWaiver",
+        "question": "Do you want to ask the court to waive the filing fee?",
+        "requirement": "required"
+      }
+    ],
+    "participantFilingRequirements": [
+      {
+        "name": "Case record from Maryland Judiciary Case Search",
+        "obtainedFrom": "Maryland Judiciary Case Search",
+        "requirement": "required",
+        "requiredBeforeFiling": false,
+        "howToObtain": "Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+        "confirms": "caseNumber"
+      }
+    ],
+    "manualCompletionItems": [
+      {
+        "item": "Petitioner signature and affirmation",
+        "whereInPacket": "Petition, signature and affirmation block",
+        "why": "Each checked box is a sworn assertion under penalties of perjury. The participant signs their own petition."
+      },
+      {
+        "item": "Unit determination where other offences share the incident",
+        "whereInPacket": "Petition, fourth checkbox",
+        "why": "The unit-rule trigger interacts with the \u00a7 10-107(a) cannabis carve-out and is a legal judgment."
+      }
+    ],
+    "selfHelpBoundaries": [
+      "The State's Attorney objects.",
+      "Other offences from the same incident complicate the unit analysis.",
+      "The case still appears on Case Search after the DPSCS sweep should have cleared it."
+    ],
+    "postGenerationHandoffs": [],
+    "packetInstructions": [
+      "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+      "Do not generate a proposed order. The Maryland court generates it.",
+      "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+      "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+      "Check Maryland Judiciary Case Search before generating. Cases where cannabis possession was the only charge and the charge was issued before July 1, 2023 should already have been expunged by DPSCS under \u00a7 10-112, and the participant should not pay to expunge a case that no longer exists.",
+      "Handle the fourth checkbox carefully. It is the unit-rule trigger and it interacts with the \u00a7 10-107(a) cannabis carve-out."
+    ],
+    "participantQuestions": [
+      "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the \u00a7 10-107(a) minor-traffic and cannabis carve-outs."
+    ],
+    "scopeRestrictions": [],
+    "buildBlockers": [],
+    "releaseBlockers": [
+      {
+        "question": "The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free.",
+        "impact": "release_blocker",
+        "affectedElement": "filing_process",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 4",
+          "sourceStatement": "Fee: $30 per the Judiciary self-help page. Note the tension: 072D covers dispositions the reference calls free. Confirm at build time. Listed as a release blocker."
+        }
+      }
+    ],
+    "awaitingCounselClassification": [],
+    "openLegalQuestions": [],
+    "counselConfirmationRequired": false,
+    "counselQuestions": [],
+    "selfHelpStopConditions": [
+      "The State's Attorney objects.",
+      "Other offences from the same incident complicate the unit analysis.",
+      "The case still appears on Case Search after the DPSCS sweep should have cleared it."
+    ],
+    "unresolvedQuestions": [
+      {
+        "question": "The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free.",
+        "impact": "release_blocker",
+        "affectedElement": "filing_process",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 4",
+          "sourceStatement": "Fee: $30 per the Judiciary self-help page. Note the tension: 072D covers dispositions the reference calls free. Confirm at build time. Listed as a release blocker."
+        }
+      }
+    ],
+    "guidanceRationales": [],
+    "guidanceRereviewCandidate": false,
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "legalDesignLimitations": [
+      {
+        "classification": "packet_instruction",
+        "statement": "The court serves the State's Attorney and, on the conviction routes, gives written notice to each listed victim at the address in the court file. The participant serves no one.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 3",
+          "sourceStatement": "Notice recipients: State's Attorney, served by the court, plus written notice by the court to each listed victim at the address in the court file (\u00a7 10-110(e)(1)-(2))."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Do not generate a proposed order. The Maryland court generates it.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 1 / PACKET COMPONENTS",
+          "sourceStatement": "Proposed order | Not applicable. Court-generated."
+        }
+      },
+      {
+        "classification": "participant_question",
+        "statement": "Ask about every charge in the incident. Ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the \u00a7 10-107(a) minor-traffic and cannabis carve-outs.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 3 / Disqualifiers",
+          "sourceStatement": "Unit rule: ineligibility of one conviction in a unit defeats every conviction in the unit, subject to the \u00a7 10-107(a) minor-traffic and cannabis carve-outs."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 1 / FILING AND POST-FILING",
+          "sourceStatement": "The Judiciary's own brochure warns that a person may still be required to disclose expunged cases in situations not governed by Maryland law. Surface this."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Custodians have 60 days to comply, and each custodian and the Central Repository file a Certificate of Compliance under Md. Rule 4-510.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 3",
+          "sourceStatement": "Custodian compliance: 60 days, \u00a7 10-110(h), plus Certificate of Compliance under Md. Rule 4-510."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Check Maryland Judiciary Case Search before generating. Cases where cannabis possession was the only charge and the charge was issued before July 1, 2023 should already have been expunged by DPSCS under \u00a7 10-112, and the participant should not pay to expunge a case that no longer exists.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 4 / Interaction with Track 8",
+          "sourceStatement": "Check Case Search before generating a Track 4 packet, or the participant pays $30 to expunge a case that no longer exists."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Handle the fourth checkbox carefully. It is the unit-rule trigger and it interacts with the \u00a7 10-107(a) cannabis carve-out.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Maryland-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 4",
+          "sourceStatement": "This is the unit-rule trigger on the form and it interacts with the \u00a7 10-107(a) carve-out. Handle carefully."
+        }
+      }
+    ],
+    "legalStatus": "legal_review_pending",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "implementationQueue": "F_source_problem",
+    "legalDesignBlockers": [],
+    "blockers": [
+      {
+        "kind": "output_review_gate",
+        "statement": "Output review pending: counsel approved the design, not the produced document."
+      },
+      {
+        "kind": "visual_review_gate",
+        "statement": "Visual review not started."
+      },
+      {
+        "kind": "technical_proof_gate",
+        "statement": "Technical proof not started."
+      },
+      {
+        "kind": "release_blocker",
+        "statement": "Open question blocks release (filing_process): The filing fee for CC-DC-CR-072D. The Judiciary self-help page states $30, but the form covers dispositions the internal reference treats as free."
+      },
+      {
+        "kind": "source_gate",
+        "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+      }
+    ]
+  },
+  "currentRegistryGitBlob": "caaee52406b05a3bc948265187e1b1aa1dd14726",
+  "retainedRegistryGitBlob": "5924798ceb808e8013ebb74838469ea9b39238d8",
+  "scopedComparison": "Connected current PR224 registry diff affects IL, MI, MO and PA; this full MD track is unchanged. Whole current registry raw bytes were not redownloaded."
+}

@@ -35,8 +35,9 @@ export async function GET(
   const ports: DeliveryPorts = {
     getJob: async (id) => {
       const job = await getRenderJob(id);
-      if (job?.routeId === "IL:felony-prostitution-relief") {
-        if (!resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
+      if (job?.routeId === "IL:felony-prostitution-relief"
+        && !resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
+      if (job) {
         ports.getCurrentVerification = async (itemId) => {
           if (!auth.userId) return null;
           const item = await getBriefcaseItem(auth.userId, itemId);

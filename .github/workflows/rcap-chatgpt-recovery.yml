@@ -1,0 +1,146 @@
+name: RCAP repaired packet validation
+on:
+  push:
+    branches: [chatgpt/launch-recovery-20260906]
+    paths:
+      - .github/workflows/rcap-chatgpt-recovery.yml
+      - data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json
+concurrency:
+  group: rcap-recovery-publication-${{ github.ref }}
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  verify_repairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies and the existing PDF text reader
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Check exact candidate and repaired behavior
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$RUNNER_TEMP/recovery-validation"
+          node scripts/rcap-packet-recovery/test-recovery.mjs | tee "$RUNNER_TEMP/recovery-validation/regressions.log"
+          node scripts/rcap-packet-recovery/test-mutations.mjs | tee "$RUNNER_TEMP/recovery-validation/mutations.log"
+          node scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$RUNNER_TEMP/recovery-validation/readiness-summary.log"
+          node scripts/grade-a-packet-factory-24h/test-chat-review-inputs.mjs | tee "$RUNNER_TEMP/recovery-validation/review-reader.log"
+          node scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs | tee "$RUNNER_TEMP/recovery-validation/de-custody.log"
+          node scripts/grade-a-packet-factory-24h/test-ky-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ky-declared.log"
+          node scripts/grade-a-packet-factory-24h/test-md-favorable-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/md-declared.log"
+          node scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs | tee "$RUNNER_TEMP/recovery-validation/declared-review-anchors.log"
+          node scripts/rcap-packet-recovery/chat1/test-mi-mo-declared-candidates.mjs | tee "$RUNNER_TEMP/recovery-validation/mi-mo-declared.log"
+          node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs | tee "$RUNNER_TEMP/recovery-validation/ga-documents.log"
+          node scripts/grade-a-packet-factory-24h/test-ga-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ga-declared.log"
+          node scripts/rcap-packet-recovery/chat1/test-ia-form1-expected-candidates.mjs | tee "$RUNNER_TEMP/recovery-validation/ia-expected-outcomes.log"
+          node scripts/rcap-packet-recovery/chat1/test-ia-form1-host-integration.mjs | tee "$RUNNER_TEMP/recovery-validation/ia-host.log"
+          node scripts/grade-a-packet-factory-24h/test-recovery-raster-selection.mjs | tee "$RUNNER_TEMP/recovery-validation/new-raster-selection.log"
+          node scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs | tee "$RUNNER_TEMP/recovery-validation/source-receipt-hooks.log"
+          node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations | tee "$RUNNER_TEMP/recovery-validation/source-model.log"
+          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue extract-verifier-returns; do
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$RUNNER_TEMP/recovery-validation/$script.log" 2>&1 || { cat "$RUNNER_TEMP/recovery-validation/$script.log"; exit 1; }
+          done
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rcap-repaired-packet-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/recovery-validation/
+          retention-days: 14
+          if-no-files-found: error
+  central_raster:
+    needs: verify_repairs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Dispatch eligible families through the existing central raster workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { execFileSync } = require('child_process');
+            const { selectNewPendingRasterFamilies, sameRasterInputs, dispatchStepStarted } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs`);
+            const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
+            const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+            const { data: history } = await github.rest.actions.listWorkflowRuns({
+              ...context.repo, workflow_id: 'rcap-chatgpt-recovery.yml',
+              branch: 'chatgpt/launch-recovery-20260906', per_page: 100
+            });
+            const ancestor = sha => {
+              if (!/^[0-9a-f]{40}$/.test(sha)) return false;
+              try { execFileSync('git', ['merge-base', '--is-ancestor', sha, context.sha], { stdio: 'ignore' }); return true; }
+              catch { return false; }
+            };
+            const prior = history.workflow_runs.find(run => run.id !== context.runId && run.conclusion === 'success' && ancestor(run.head_sha));
+            if (!prior || !/^[0-9a-f]{40}$/.test(prior.head_sha)) throw new Error('No immutable successful recovery baseline; refuse an unbounded dispatch.');
+            const previous = JSON.parse(execFileSync('git', ['show', `${prior.head_sha}:${manifest}`], { encoding: 'utf8', maxBuffer: 20_000_000 }));
+            const eligible = selectNewPendingRasterFamilies(queue, previous);
+            // A failed confirmation is not proof that dispatch failed. Reconcile
+            // an earlier possible request before issuing another one, including
+            // previous attempts of this same workflow run.
+            for (let attempt = 1; attempt < Number(process.env.GITHUB_RUN_ATTEMPT); attempt++) {
+              const { data } = await github.rest.actions.listJobsForWorkflowRunAttempt({ ...context.repo, run_id: context.runId, attempt_number: attempt, per_page: 100 });
+              if (dispatchStepStarted(data.jobs)) throw new Error('A prior attempt may already have dispatched this candidate; inspect and consume its central run before another request.');
+            }
+            for (const run of history.workflow_runs) {
+              if (run.id === context.runId || run.conclusion === 'success' || !ancestor(run.head_sha)) continue;
+              const priorQueue = JSON.parse(execFileSync('git', ['show', `${run.head_sha}:${manifest}`], { encoding: 'utf8', maxBuffer: 20_000_000 }));
+              const overlap = queue.rows.some(row => eligible.includes(row.familyId) && priorQueue.rows.some(old => old.currentRasterState === 'RASTER_PENDING' && sameRasterInputs(row, old)));
+              if (!overlap) continue;
+              const { data } = await github.rest.actions.listJobsForWorkflowRun({ ...context.repo, run_id: run.id, filter: 'all', per_page: 100 });
+              if (run.status !== 'completed' || dispatchStepStarted(data.jobs)) throw new Error(`Recovery run ${run.id} may already request these unchanged inputs; reconcile its jobs and central receipts first.`);
+            }
+            const deferred = queue.rows.filter(row => row.currentRasterState === 'RASTER_PENDING' && !eligible.includes(row.familyId))
+              .map(row => ({ family: row.familyId, status: 'NOT_NEWLY_PUBLISHED', reasons: ['unchanged since the prior validated queue; no new request from this publication'] }));
+            core.info(JSON.stringify({packetCommit: context.sha, priorRecoveryRun: prior.id, priorPacketCommit: prior.head_sha, eligible, deferred}, null, 2));
+            if (!eligible.length) {
+              core.info('No newly eligible candidate. Existing family outcomes remain unchanged; no central dispatch is needed.');
+              return;
+            }
+            const workflow_id = 'rcap-packet-raster-acceptance-batch.yml';
+            const start = new Date().toISOString();
+            await github.rest.actions.createWorkflowDispatch({
+              ...context.repo,
+              workflow_id,
+              ref: 'main',
+              inputs: {
+                commit_sha: context.sha,
+                raster_manifest_path: manifest,
+                family_batch: eligible.join(','),
+                requested_scale: '2.5'
+              }
+            });
+            core.info(`Central raster requested for exact packet commit ${context.sha}. This dispatch grants no packet or production approval.`);
+            for (let i=0; i<12; i++) {
+              await new Promise(resolve => setTimeout(resolve, 5000));
+              const { data } = await github.rest.actions.listWorkflowRuns({ ...context.repo, workflow_id, event: 'workflow_dispatch', per_page: 5 });
+              const run = data.workflow_runs.find(r => r.created_at >= start);
+              if (run) {
+                core.info(`CENTRAL_RASTER_RUN_ID=${run.id}`);
+                core.info(run.html_url);
+                await core.summary.addHeading('Eligible central raster dispatched').addRaw(`Packet commit: ${context.sha}\n\nEligible: ${eligible.join(', ')}\n\nRun: ${run.html_url}\n\nDeferred, not passed:\n${JSON.stringify(deferred, null, 2)}\n\nNo terminal or production approval is granted by a dispatch.`).write();
+                return;
+              }
+            }
+            core.setFailed('Dispatch was accepted but its run identifier could not be confirmed. Do not infer a raster result.');

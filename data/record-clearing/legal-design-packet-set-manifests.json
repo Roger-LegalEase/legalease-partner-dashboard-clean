@@ -30707,10 +30707,10 @@
           "componentId": "nc_146_dismissal_petition-fee-waiver-3",
           "role": "fee_waiver",
           "requirement": "conditional",
-          "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee, and the petitioner seeks an indigency waiver.",
+          "conditionDescription": "Only where the fee applies and the participant explicitly requests indigency treatment. The existing deferred-prosecution/conditional-discharge review stop remains.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "AOC-CV-226",
-          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+          "officialFormId": "AOC-G-106",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent",
           "order": 3
         },
         {
@@ -30732,6 +30732,16 @@
           "officialFormId": "AOC-CR-295",
           "officialSourceUrl": "https://www.nccourts.gov/documents/forms/district-attorney-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
           "order": 5
+        },
+        {
+          "componentId": "nc_146_dismissal_petition-supplemental-financial-affidavit-6",
+          "role": "supplemental_financial_affidavit",
+          "requirement": "conditional",
+          "conditionDescription": "Only alongside the selected G-106 branch when the court specifically requests supplemental financial information and its request is recorded. Do not sign inapplicable civil/arbitration wording.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent-civil-affidavit-of-indigency",
+          "order": 6
         }
       ],
       "participantActionRequired": [
@@ -30810,9 +30820,9 @@
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+          "description": "Where a filing fee applies and the participant requests indigency treatment, deliver AOC-G-106 (Rev. 11/24), Petition To Proceed As An Indigent. AOC-CV-226 (Rev. 4/23) is supplemental financial information only when the court specifically requests it, never the operative expunction indigency petition.",
           "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "conditionDescription": "Only on an explicitly selected indigency branch where the fee applies; financial supplement only upon a recorded specific court request.",
           "requiredBeforeFiling": true
         },
         {

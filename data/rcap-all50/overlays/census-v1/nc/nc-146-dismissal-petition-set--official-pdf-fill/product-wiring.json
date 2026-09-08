@@ -39,9 +39,11 @@
       "primary_filing"
     ],
     "packetComponents": [
-      "component:nc_146_dismissal_petition-fee-waiver-3",
-      "component:nc_146_dismissal_petition-instructions-2",
-      "component:nc_146_dismissal_petition-primary-filing-1"
+      "petition",
+      "instructions",
+      "fee_waiver",
+      "supplemental_financial_affidavit",
+      "participant_guide"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/participant-instructions.md",
@@ -51,17 +53,22 @@
       {
         "sourceId": "official-form:AOC-CR-287",
         "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-        "tier": "exact_form_number"
+        "tier": "exact_content_hash"
       },
       {
         "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
         "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-        "tier": "exact_identity_confirmed_from_document_text"
+        "tier": "exact_content_hash"
       },
       {
         "sourceId": "official-form:AOC-CV-226",
         "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-        "tier": "exact_form_number"
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:AOC-G-106",
+        "sha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+        "tier": "exact_content_hash"
       },
       {
         "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -81,16 +88,33 @@
     ],
     "acceptanceReceipt": {
       "verdict": "RASTER_PASS",
-      "workflowRunId": "33999550366",
-      "jobId": "101396143356",
-      "artifactId": null,
-      "boundToCanonicalSha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
-      "coversTheWholeFamily": true
+      "workflowRunId": "34121189163",
+      "jobId": "101740185655",
+      "artifactId": "10018791229",
+      "verdictPath": "data/rcap-grade-a/completion-pass-2026-09-07/nc-full-raster/nc_146_dismissal_petition-set.verdict.json",
+      "boundToCanonicalSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+      "boundToBoundarySha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+      "coversTheWholeFamily": true,
+      "documentsMeasured": 10,
+      "pagesMeasured": 60,
+      "documentsCovered": [
+        "canonical.pdf",
+        "branches/canonical-fee_paid.pdf",
+        "branches/canonical-indigency_requested.pdf",
+        "branches/canonical-no_fee.pdf",
+        "branches/canonical-requested_financial_supplement.pdf",
+        "boundary.pdf",
+        "branches/boundary-fee_paid.pdf",
+        "branches/boundary-indigency_requested.pdf",
+        "branches/boundary-no_fee.pdf",
+        "branches/boundary-requested_financial_supplement.pdf"
+      ],
+      "documentsDigest": "8744fb3776bda61ae2bd5e43fde5ff1ae2a921d446e8af36c203e658625838e7"
     },
     "lastIndependentVerification": {
-      "verdict": "BLOCKED_LEGAL_INPUT",
-      "lane": "vf06",
-      "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94"
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "nc-session08-acceptance",
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -100,22 +124,373 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "componentConditions": {
+      "fee_waiver": "Only when the fee applies and the participant explicitly requests indigency treatment. AOC-G-106 is the operative petition. The deferred/conditional-discharge legal-review stop remains.",
+      "supplemental_financial_affidavit": "Only with the selected G-106 branch and a recorded, specific court request for supplemental financial information; AOC-CV-226 is not the operative indigency petition and its inapplicable civil/arbitration oath must not be signed."
+    },
+    "filingPermitted": false,
+    "conditionalDelivery": {
+      "selectionContract": "scripts/rcap-packet-recovery/nc-146-indigency.mjs#selectNc146Components",
+      "explicitSelectionRequired": true,
+      "defaultBranch": null,
+      "branches": [
+        "no_fee",
+        "fee_paid",
+        "indigency_requested",
+        "requested_financial_supplement"
+      ],
+      "fixtureBindings": [
+        {
+          "fixture": "canonical",
+          "branch": "no_fee",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+          "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+          "pageCount": 4,
+          "components": [
+            "petition",
+            "instructions",
+            "participant_guide"
+          ],
+          "legalReviewRequired": false,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "canonical",
+          "branch": "fee_paid",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+          "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+          "pageCount": 4,
+          "components": [
+            "petition",
+            "instructions",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "canonical",
+          "branch": "indigency_requested",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+          "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+          "pageCount": 6,
+          "components": [
+            "petition",
+            "instructions",
+            "fee_waiver",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "canonical",
+          "branch": "requested_financial_supplement",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+          "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+          "pageCount": 8,
+          "components": [
+            "petition",
+            "instructions",
+            "fee_waiver",
+            "supplemental_financial_affidavit",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "branch": "no_fee",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+          "sha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+          "pageCount": 4,
+          "components": [
+            "petition",
+            "instructions",
+            "participant_guide"
+          ],
+          "legalReviewRequired": false,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "branch": "fee_paid",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+          "sha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+          "pageCount": 4,
+          "components": [
+            "petition",
+            "instructions",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "branch": "indigency_requested",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+          "sha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+          "pageCount": 6,
+          "components": [
+            "petition",
+            "instructions",
+            "fee_waiver",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "branch": "requested_financial_supplement",
+          "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+          "sha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+          "pageCount": 8,
+          "components": [
+            "petition",
+            "instructions",
+            "fee_waiver",
+            "supplemental_financial_affidavit",
+            "participant_guide"
+          ],
+          "legalReviewRequired": true,
+          "syntheticFixture": true,
+          "grantsDeliveryAuthority": false
+        }
+      ],
+      "diagnosticArtifactsExcluded": true,
+      "note": "These are synthetic validation fixtures, not documents to file for a participant. Existing legal-review stops, final verification and delivery authority remain required."
     }
   },
   "proposedRepresentation": {
-    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "note": "Four explicit packet selections, each bound to canonical and boundary validation evidence. The all-components diagnostics are never the default filing. This declaration installs no runtime and grants no approval.",
     "packetSetId": "nc_146_dismissal_petition-set",
     "outputStrategy": "official_pdf_fill",
     "components": [
       {
-        "componentId": "nc_146_dismissal_petition-set-component-1",
-        "role": "primary_filing",
+        "componentId": "nc_146_dismissal_petition-set-no_fee",
+        "role": "conditional_assembled_packet",
         "order": 1,
-        "documentId": "canonical",
-        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
-        "requirement": "required"
+        "documentId": "no_fee",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+        "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+        "requirement": "conditional",
+        "selectedBy": "no_fee",
+        "componentsIncluded": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false
+      },
+      {
+        "componentId": "nc_146_dismissal_petition-set-fee_paid",
+        "role": "conditional_assembled_packet",
+        "order": 2,
+        "documentId": "fee_paid",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+        "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+        "requirement": "conditional",
+        "selectedBy": "fee_paid",
+        "componentsIncluded": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true
+      },
+      {
+        "componentId": "nc_146_dismissal_petition-set-indigency_requested",
+        "role": "conditional_assembled_packet",
+        "order": 3,
+        "documentId": "indigency_requested",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+        "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+        "requirement": "conditional",
+        "selectedBy": "indigency_requested",
+        "componentsIncluded": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true
+      },
+      {
+        "componentId": "nc_146_dismissal_petition-set-requested_financial_supplement",
+        "role": "conditional_assembled_packet",
+        "order": 4,
+        "documentId": "requested_financial_supplement",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+        "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+        "requirement": "conditional",
+        "selectedBy": "requested_financial_supplement",
+        "componentsIncluded": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true
       }
-    ]
+    ],
+    "fixtureBindings": [
+      {
+        "fixture": "canonical",
+        "branch": "no_fee",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+        "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+        "pageCount": 4,
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "canonical",
+        "branch": "fee_paid",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+        "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+        "pageCount": 4,
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "canonical",
+        "branch": "indigency_requested",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+        "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+        "pageCount": 6,
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "canonical",
+        "branch": "requested_financial_supplement",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+        "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+        "pageCount": 8,
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "branch": "no_fee",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+        "sha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+        "pageCount": 4,
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": false,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "branch": "fee_paid",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+        "sha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+        "pageCount": 4,
+        "components": [
+          "petition",
+          "instructions",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "branch": "indigency_requested",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+        "sha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+        "pageCount": 6,
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "branch": "requested_financial_supplement",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+        "sha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+        "pageCount": 8,
+        "components": [
+          "petition",
+          "instructions",
+          "fee_waiver",
+          "supplemental_financial_affidavit",
+          "participant_guide"
+        ],
+        "legalReviewRequired": true,
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      }
+    ],
+    "diagnosticArtifacts": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+        "pageCount": 8,
+        "deliverable": false,
+        "role": "diagnostic_only"
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+        "pageCount": 8,
+        "deliverable": false,
+        "role": "diagnostic_only"
+      }
+    ],
+    "defaultComponentId": null
   }
 }

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-session10-release-path-review/v1",
+  "reviewer": "/root/release_path_review",
+  "reviewedAtUtc": "2026-09-08T16:25:07.741860+00:00",
+  "candidateSha": "5df8c9259ccdbc6448a1ae03ea4f225f277ea21c",
+  "terminalFamilies": 190,
+  "readOnlyReview": true,
+  "latestPublishedWorker": {
+    "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "digest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "publicationRunId": 33764350427,
+    "publicationConclusion": "success",
+    "newerPublicationFound": false
+  },
+  "currentAcceptance": {
+    "runId": 34250221617,
+    "jobId": 102142449805,
+    "headSha": "5df8c9259ccdbc6448a1ae03ea4f225f277ea21c",
+    "conclusion": "failure",
+    "failingStep": "Fail-closed startup, and module graph resolves",
+    "succeeded": [
+      "private-package anonymous refusal",
+      "authenticated digest pull",
+      "tag-digest agreement",
+      "OCI source binding",
+      "non-root ownership",
+      "declared health command"
+    ],
+    "skipped": [
+      "graceful shutdown",
+      "scratch hygiene",
+      "secret-scanner control",
+      "filesystem secret scan",
+      "configuration/history secret scan"
+    ],
+    "causeEvidence": "Existing retained prior log for the same committed image reports missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts and exit1 instead of required exit2. Latest run metadata independently confirms failure at the same startup step; no new image was pulled locally and latest full log was not fetched in this review."
+  },
+  "currentSourceCorrection": {
+    "currentDockerfileCopiesRequiredRegistry": true,
+    "publishedSourceDockerfileCopiesRequiredRegistry": false,
+    "captainBranchAlsoHasCopyCorrection": true,
+    "captainSourceIsEquivalentToRecoveryCandidate": false,
+    "candidateDiffFromCaptainCount": 17,
+    "candidateDiffScope": "14 shipped data paths and3 src paths; paths retained in captain-candidate-image-input-diff.json. Later root lint changes are outside this frozen read-only snapshot."
+  },
+  "publicationProcedure": {
+    "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+    "dispatchInput": "integration_sha",
+    "requiredValue": "exact40-character accepted integration commit",
+    "tagReplacementAuthorization": "empty",
+    "acceptedHistories": [
+      "main",
+      "claude/legalease-sprint-captain-utucnw"
+    ],
+    "currentRecoveryContainedInEither": false,
+    "remoteCaptainSha": "ee4021b473018a469fea7a9a5325b41d1abff041",
+    "remoteMainSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+    "privatePackage": "ghcr.io/roger-legalease/rcap-render-worker",
+    "effect": "publish-only; publication does not deploy or start worker claiming",
+    "afterPublication": "Import actual immutable publication artifact, preserve superseded digest record, commit evidence, consume exact-head rcap-worker-image-acceptance.yml results; only then continue existing environment release procedure."
+  },
+  "authorizationFindings": [
+    {
+      "source": "docs/record-clearing/worker-ghcr-publication-prep.md:170",
+      "finding": "Recorded2026-08-11 owner authorization covers private build/publication from exact WORKER_SOURCE_FREEZE_SHA declared by Captain after local verification and required GitHub checks. This later section explicitly changes authorization from missing to granted. Do not read the older PREP_ONLY header as absence of all standing publication authority."
+    },
+    {
+      "source": "docs/rcap/grade-a/lane-j/BLOCKER-1-WORKER-REPUBLICATION-RUNBOOK.md:11",
+      "finding": "Historical LaneJ runbook describes per-candidate publication approval and separate Preview binding. Its old source441ee318 and branchsprint/20260825 literals are stale. Current workflow and explicit session authorization govern; do not invent a new gate or ask to repeat authorization already supplied."
+    },
+    {
+      "source": "user current session",
+      "finding": "User expressly requests completing established production procedure while preserving release approvals and safeguards. Engineering may finish source, reviews, preflight and reviewable release preparation now. This does not justify substituting a stale source SHA, bypassing branch containment or missing exact environment prerequisites."
+    },
+    {
+      "source": "data/rcap-staging-action.json",
+      "finding": "Current generated record is prepared_queued_not_authorized, authorizes empty, readyToRequestAuthorizationfalse, old fingerprint base3285b660. It is evidence that final candidate/environment state is not prepared, not proof that no authorization can exist elsewhere."
+    }
+  ],
+  "nextAuthorizedExecutableAction": {
+    "command": "node scripts/verify-rcap-image-input-fingerprint.mjs",
+    "context": "After root finishes and commits the small lint correction, execute existing preflight on the resulting coherent committed source; capture its bounded actual failures. This command is read-only and performs generator--check, not generation. It was read but not executed by this reviewer. Finish exact source/fingerprint preparation and existing required checks before declaring worker freeze."
+  },
+  "nextPublicationActionConditions": [
+    "Choose and review exact final source after current changes, never old Captain SHA merely to pass containment.",
+    "Integrate reviewed recovery candidate into the already allowed Captain integration history through the established process; no main push or workflow branch-guard weakening.",
+    "Verify source fingerprint, runtime-data custody, unchanged security/canary/release requirements and required exact-source checks; do not reinterpret the currently failed image as accepted.",
+    "Use an existing authorized Actions-capable dispatch surface; local direct dispatch previouslyreturned403. No retry or credential probing was performed here.",
+    "Confirm no existing successful or active publication for exact source; leave tag_replacement_authorization empty; dispatch once."
+  ],
+  "concreteBlockersNow": [
+    "No final accepted source freeze exists for the changing recovery candidate.",
+    "Current recovery SHA is absent from both histories permitted by the publication workflow.",
+    "Local direct Actions dispatch previouslyreturned403; this review found no subsequent successful publication and did not retry.",
+    "Old image remains unaccepted for this candidate; production environment bindings and post-deployment checks remain separate unmet work."
+  ],
+  "runtimeAndProduction": "Unchanged by this task. No publication, image pull, local build, workflow dispatch, merge, branch mutation, deployment, secret access or environment change.",
+  "staleEvidenceWarning": "worker-publication-evidence.json releaseTruth.imageAccepted=true and workerImageAcceptance record refer to an older441ee318 digest/run32857155298, not successful acceptance of currentbf4589d digest; do not propagate as current acceptance.",
+  "filesChangedByReview": "Only this release-path-review directory; no shared implementation or handoff writes."
+}

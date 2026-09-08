@@ -1,0 +1,21 @@
+--- a/scripts/grade-a-packet-factory-24h/verify.mjs
++++ b/scripts/grade-a-packet-factory-24h/verify.mjs
+@@ -1898,8 +1898,16 @@
+         const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+         const sourceBlock = (returns.rows ?? []).find((r) => r.isIndependentVerification && r.verdict === "BLOCKED_SOURCE" && !r.superseded);
+         if (!sourceBlock) throw new Error("F32 reread mutation requires a current BLOCKED_SOURCE verdict");
+-        const claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
+-        if (!claim) throw new Error(`F32 reread mutation requires a released verification claim for ${sourceBlock.familyId}`);
++        let claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(sourceBlock.familyId));
++        if (!claim) {
++          // A blocked family correctly may never have received a verification
++          // claim. Seed the invalid live-claim shape inside this mutation only.
++          const template = j.claims.find((c) => c.laneKind === "independent-verification" && c.released === true);
++          if (!template) throw new Error("F32 needs an independent claim schema for its isolated control");
++          claim = { ...structuredClone(template), subjectType: "packet-family",
++            subjectId: sourceBlock.familyId, familyId: sourceBlock.familyId, familyIds: [sourceBlock.familyId] };
++          j.claims.push(claim);
++        }
+         claim.released = false;
+         claim.releasedAt = null;
+         return withClaimsDigest(j);

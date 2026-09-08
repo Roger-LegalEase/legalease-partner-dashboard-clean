@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-session10-independent-runtime-manifest-review/v1",
+  "reviewer": "/root/release_path_review",
+  "author": "/root Captain via existing generator",
+  "reviewedAtUtc": "2026-09-08T16:48:49.000659+00:00",
+  "verdict": "PASS_EXACT_TWO_PIN_MANIFEST_REFRESH",
+  "sourceSha": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+  "manifestPath": "deploy/rcap-render-worker/runtime-data-manifest.json",
+  "oldManifestSha256": "008e5c3b7c009372a0c69b879bd9a8e49b68a812acac2c5c742ef46a48eab264",
+  "newManifestSha256": "4eb29ab0951a9b378a6a9c4ed08a4e2314a0714f9c3d6bc8dbdc89e99c09293d",
+  "fileCount": 122,
+  "oldTotalBytes": 13777640,
+  "newTotalBytes": 13779954,
+  "byteDelta": 2314,
+  "changedEntries": [
+    {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "beforeSha256": "d32d1c6323c7f376ea8199b48a61c7d16e24e787a505fb3143bb01822c3f4fec",
+      "afterSha256": "9a87a538b501b0f5c7888d312be6611269b55fe413569f6fac56b4352a57c91c",
+      "beforeBytes": 162724,
+      "afterBytes": 164316
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "beforeSha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "afterSha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
+      "beforeBytes": 3683419,
+      "afterBytes": 3684141
+    }
+  ],
+  "unchanged": [
+    "all122 path identities and ordering",
+    "all122 readBy and why values",
+    "all other per-file metadata",
+    "all other120 hashes and sizes",
+    "schemaVersion, generatedBy, purpose, derivation, containerPath, excluded scope",
+    "all122 source files equal exact committed source and current worktree bytes",
+    "Dockerfile and its actual Dockerfile.dockerignore build-context rules"
+  ],
+  "custodyFindings": {
+    "missing": [],
+    "mismatched": [],
+    "uncommittedInputs": [],
+    "symlinkInputs": [],
+    "changedPathsOutsideManifestScope": [],
+    "changedPathsExplicitlyCopiedAndAllowed": true
+  },
+  "generatorCheck": "Captain reported existing generator --check PASS; not rerun or counted as independent execution. Reviewer independently rehashed all122 exact committed and working inputs and checked structural metadata invariants.",
+  "scopeLimit": "This independently approves the manifest delta only. It is not container startup, image publication/acceptance, a whole import-graph retrace, staging or production verification. Existing broader runtime package coverage remains subject to its established image checks.",
+  "writes": "Only this independent-review evidence directory. No source, manifest, Dockerfile, build-context rule or branch edits."
+}

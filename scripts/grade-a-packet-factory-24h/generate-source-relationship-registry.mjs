@@ -33,6 +33,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
+import { sourceDispositionAdvancement } from './source-disposition-advancement.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const CHECK = process.argv.includes("--check");
@@ -398,16 +399,17 @@ const registryDoc = {
     familiesExamined: (reconciliation42.families ?? []).length,
     byDisposition: Object.fromEntries(["SOURCE_READY", "PRODUCT_PATH_PENDING", "SOURCE_BLOCKED"]
       .map((state) => [state, (reconciliation42.families ?? []).filter((r) => r.disposition === state).length])),
-    byGroup: Object.fromEntries(["A", "B", "C"]
+    byGroup: Object.fromEntries(["A", "B", "C", "D", "LATER"]
       .map((group) => [group, (reconciliation42.families ?? []).filter((r) => r.group === group).length])),
     remainingSourceBlockedFamilyIds: (reconciliation42.families ?? [])
-      .filter((r) => r.disposition === "SOURCE_BLOCKED").map((r) => r.familyId).sort(),
+      .filter((r) => r.disposition === "SOURCE_BLOCKED" && !sourceDispositionAdvancement(ROOT, r, master.families.find(f => f.familyId === r.familyId))).map((r) => r.familyId).sort(),
     laterSourceBlockersKeptSeparate: reconciliation42.laterSourceBlockersKeptSeparate,
     manualAcquisitionCohortUntouchedCount: reconciliation42.manualAcquisitionCohortUntouchedCount,
     families: (reconciliation42.families ?? []).map((r) => ({
       familyId: r.familyId,
       group: r.group,
       decidedDisposition: r.disposition,
+      advancement: sourceDispositionAdvancement(ROOT, r, master.families.find(f => f.familyId === r.familyId)),
       projectedState: master.families.find((f) => f.familyId === r.familyId)?.state ?? null,
       exactNextAction: r.exactNextAction,
       exactResidual: r.exactResidual ?? null

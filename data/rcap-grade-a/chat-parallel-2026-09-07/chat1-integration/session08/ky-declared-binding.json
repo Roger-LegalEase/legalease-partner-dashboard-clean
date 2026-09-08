@@ -1,0 +1,5501 @@
+{
+  "family": "ky_nonconviction_expungement-set",
+  "routeKeys": [
+    "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"
+  ],
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "currentState": {
+    "generationAllowed": false,
+    "runtimeSelectable": false
+  },
+  "binding": {
+    "routeKeys": [
+      "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"
+    ],
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "packetComponents": [
+      "AOC-497.2",
+      "charge-agency-schedule",
+      "AOC-497",
+      "participant-instructions"
+    ],
+    "componentConditions": {
+      "AOC-497": "includeProposedOrder === true and localOrderPracticeConfirmed === true"
+    },
+    "filingPermitted": false,
+    "conditionalDelivery": {
+      "selectionContract": "scripts/rcap-packet-recovery/chat5/ky-nonconviction.mjs#validateKy",
+      "fixtureSelectionContract": "scripts/grade-a-packet-factory-24h/ky-declared-delivery.mjs#selectDeclaredKyFixture",
+      "explicitSelectionRequired": true,
+      "defaultBranch": null,
+      "runtimeInstalled": false,
+      "reviewInputBinding": {
+        "file": "scripts/rcap-packet-completeness/ky-reviewed-candidate-inputs.json",
+        "sha256": "d88f6878045063310552790a70c2fa514b11572ea585b962e4638fec5e1d572f",
+        "filesMeasured": 51
+      },
+      "independentCandidateReview": {
+        "pr": 238,
+        "commit": "c0df1418c07a636564412b113e80f6a7b213fff9",
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+        "gitBlob": "8b10a3b22ee00f0ac60a6f7048a2fc622919bfe5",
+        "scope": "Static candidate only; 13 PDFs / 90 pages / fifteen obligations. No central raster or runtime admission."
+      },
+      "outputInventory": {
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "ccbf86a8aed137d98eff517018d5effba7565e2181982d20ce726f547597e56a",
+        "documents": 13,
+        "pages": 90
+      },
+      "sourceBindings": {
+        "AOC-497.2": {
+          "path": "reference/chat-parallel-2026-09-07/chat5/AOC-497.2.pdf",
+          "sha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+          "byteLength": 159169,
+          "pages": 2,
+          "fields": 29,
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.2.pdf"
+        },
+        "AOC-497": {
+          "path": "reference/chat-parallel-2026-09-07/chat5/AOC-497.pdf",
+          "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+          "byteLength": 176877,
+          "pages": 2,
+          "fields": 32,
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.pdf"
+        }
+      },
+      "fixtureBindings": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+          "byteLength": 170150,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.facts.json",
+            "sha256": "2b875f4fbfac4d11c7439dc7bc3b69cbf366ab9db4e4e272d93589f56fe7c40e"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/canonical.json",
+            "sha256": "767ec8f95df7af4f665278b3e30a35a2786f3b13a35c1c8415a7c9b6340b2556"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "dismissed_with_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check chgs dismissed",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "93f902bfe7108680379c49d5a4cf27273369b67a7794e989ee17c52a8ee20474",
+          "byteLength": 371029,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.facts.json",
+            "sha256": "ecb4139ac1a881b483e8ea3859e88bb0ded194e5d12d438269bd7e03a16891d5"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/boundary.json",
+            "sha256": "75feace170d3d2daaa7a34d8ecf0d29b61d8580683dd82d673ee82a23b2ca63d"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "acquittal",
+            "dismissed_with_prejudice",
+            "misdemeanor_without_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "field": "phone number",
+              "reason": "The accurate value is not held. Complete it from the case record or your contact information before filing.",
+              "heldValue": null,
+              "kind": "required_before_filing",
+              "requiredBeforeFiling": true,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "field": "phone number",
+              "reason": "The accurate value is not held. Complete it from the case record or your contact information before filing.",
+              "heldValue": null,
+              "kind": "required_before_filing",
+              "requiredBeforeFiling": true,
+              "documentId": "AOC-497"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE_2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE_3",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE_4",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE_5",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE_6",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check acquitted charges",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check chgs dismissed",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check felony chg",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE_2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE_3",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE_4",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE_5",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE_6",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/acquittal",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.pdf",
+          "sha256": "47dc4c77498407c8d75fbed895191065a1e35b8b19f6d5283a83acfade1d2d8c",
+          "byteLength": 170091,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.facts.json",
+            "sha256": "2b3df7267ff20b7891d813e405e7710c2ac13c6f23e4748bf7fc8769f62a8f49"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/acquittal.json",
+            "sha256": "80d728ac738a07b440ebe96c1a55bf8ab0b903d0c31c19a7c3fef9e7d43b4a56"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "acquittal"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check acquitted charges",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/acquittal-with-order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf",
+          "sha256": "8b806d7edb05b79773c4cffb09e496ff16fe62805df4105c761d15d45c06c903",
+          "byteLength": 369046,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.facts.json",
+            "sha256": "982c5fb88577d37e3a3ca2f7fdac9a9d2d70f8671969bd9014e1e25d9f176ba5"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/acquittal-with-order.json",
+            "sha256": "56b41778809244fc340eae993453420c283cc52009bcceba4ea294be03b62e2e"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "acquittal"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check acquitted charges",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/dismissed_with_prejudice",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.pdf",
+          "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+          "byteLength": 170150,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.facts.json",
+            "sha256": "2b875f4fbfac4d11c7439dc7bc3b69cbf366ab9db4e4e272d93589f56fe7c40e"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/dismissed_with_prejudice.json",
+            "sha256": "2370622bacd62062dd46c38fa22983d358f610ba002951be8ec5b8bf96628d10"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "dismissed_with_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check chgs dismissed",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/dismissed_with_prejudice-with-order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.pdf",
+          "sha256": "7608f5a1f6f2a82e13c2c8ab7e47fbf4fbd302a1d13fa0bf28388e521cd939b7",
+          "byteLength": 369105,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.facts.json",
+            "sha256": "ce32a264faae451bedb7e52b478f8f83432a798102003abf7e67f627d23ed16f"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/dismissed_with_prejudice-with-order.json",
+            "sha256": "66f41ddb020d4606f7f028478d664da24d931a0399f2f6a02f76c22898e62ae9"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "dismissed_with_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check chgs dismissed",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/felony_without_prejudice",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.pdf",
+          "sha256": "52e2a1b5a160a8ded12da380ef7101b6bda8515431799f28c9d126a18ee3902a",
+          "byteLength": 170167,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.facts.json",
+            "sha256": "bbf33329227351ec6e981d690e4266744d660e83a2284ed74c5fac6149ef77ca"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/felony_without_prejudice.json",
+            "sha256": "4ec89eb3af035272cdd5f6c52bfbd86c8169f1550fe47849c9e710e9558d87c4"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "felony_without_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check dismissed without",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/felony_without_prejudice-with-order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.pdf",
+          "sha256": "61d4a78aa97cae751de0a07a232c1b77b6b3105fde28f52e94247b9d7471274e",
+          "byteLength": 369116,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.facts.json",
+            "sha256": "e5e67cb9f663b556c89c807c8bf80051dc825eadac1c78f010f4d0f1b59ce8fc"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/felony_without_prejudice-with-order.json",
+            "sha256": "1ca2782fba852c94607bb0116ca5a820ae05025abb8f511748bf105698aefe5c"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "felony_without_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check dismissed without",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/misdemeanor_without_prejudice",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.pdf",
+          "sha256": "ba982c0b44e445ffe0897d0cd354aa2132d1b49a8ce17de624f11742388b74e1",
+          "byteLength": 170171,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.facts.json",
+            "sha256": "908720d7514ba068b009fd6fffa92a8a9af6549de722e9ee1d4dfeeab4bf70d9"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/misdemeanor_without_prejudice.json",
+            "sha256": "37afa02fadf18676bf4d56426ce73ff2c35248859b6cb1e1c949291abc0f1def"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "misdemeanor_without_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check felony chg",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/misdemeanor_without_prejudice-with-order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.pdf",
+          "sha256": "700f772dd5d2feee0d76e001aab1cb7cabbcb574fb4bec96a29f936ffd388fcd",
+          "byteLength": 369126,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.facts.json",
+            "sha256": "2363c4bc3748d16b5a2b7c0b6df88565d7097e92f7d4cb34e2478f3b126810b5"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/misdemeanor_without_prejudice-with-order.json",
+            "sha256": "d8f89f5347afc1bebb46a7270bd3e3172af0d43262dbd5ed08946084e27b3d2e"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "misdemeanor_without_prejudice"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check felony chg",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/no_indictment",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.pdf",
+          "sha256": "996013880aa5fdf217212f8f0bf6cbd98c41b08a3561982c5f87ec5cc6849485",
+          "byteLength": 170477,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.facts.json",
+            "sha256": "fd6f1d11201ddf1a1e9b430e4f9268909f50549fd81900780445df327d0ed0e4"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/no_indictment.json",
+            "sha256": "2a151d3a5850a5989e5ac46fc57d85c37376f8893b933005c10370e0288933d5"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "no_indictment"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check no current chg",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/no_indictment-with-order",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.pdf",
+          "sha256": "ec9a5b1d2d706b209c5e5d4e96a7821c77ed960de8294b635a1056ca0eaba3af",
+          "byteLength": 369428,
+          "pageCount": 8,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "AOC-497",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "AOC-497",
+              "role": "proposed_order",
+              "firstPage": 4,
+              "pageCount": 2,
+              "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 6,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.facts.json",
+            "sha256": "3bac7e3f7a91805142e597c81cb1d785edadbaa318afeb77a6d211f6956ce9db"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/no_indictment-with-order.json",
+            "sha256": "da1646b7895093e1671f8e2125188166524f4f487aca323ef6b29aa4517becdf"
+          },
+          "selection": {
+            "includeProposedOrder": true,
+            "localOrderPracticeConfirmed": true
+          },
+          "selectedBases": [
+            "no_indictment"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ssn",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            }
+          ],
+          "officialActorObligations": [
+            {
+              "documentId": "AOC-497",
+              "field": "Judicial findings, order selections, judge/date and agency certification",
+              "kind": "court_clerk_agency_owned",
+              "requiredBeforeFiling": false,
+              "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+            }
+          ],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            },
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check no current chg",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "County dropdown",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "area code",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "Case No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497",
+              "field": "requiring expungement",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/automatic-missed-exact-60-days",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.pdf",
+          "sha256": "b3250b724ed748f48fe6126686d3dd0adbf594310ec09f12f06e1196a428b902",
+          "byteLength": 170090,
+          "pageCount": 6,
+          "components": [
+            "AOC-497.2",
+            "charge-agency-schedule",
+            "participant-instructions"
+          ],
+          "componentPages": [
+            {
+              "documentId": "AOC-497.2",
+              "role": "primary_filing",
+              "firstPage": 1,
+              "pageCount": 2,
+              "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+            },
+            {
+              "documentId": "charge-agency-schedule",
+              "role": "filing_attachment",
+              "firstPage": 3,
+              "pageCount": 1
+            },
+            {
+              "documentId": "participant-instructions",
+              "role": "participant_instructions",
+              "firstPage": 4,
+              "pageCount": 3
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.facts.json",
+            "sha256": "081fb53d45ac458358dec037000941473cebe553ad6ec65cf925cb5cce52a8ab"
+          },
+          "report": {
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/automatic-missed-exact-60-days.json",
+            "sha256": "4938bcd16e66a315ba9a25d09291eac7e49a37cb20c3c685d988f43192f9d6f3"
+          },
+          "selection": {
+            "includeProposedOrder": false,
+            "localOrderPracticeConfirmed": false
+          },
+          "selectedBases": [
+            "acquittal"
+          ],
+          "manualCompletions": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants SSN",
+              "kind": "private_identifier_manual_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Participant signature/date and notary or clerk jurat",
+              "kind": "signature_or_date_participant_completion",
+              "requiredBeforeFiling": true,
+              "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+            }
+          ],
+          "officialActorObligations": [],
+          "optionalBlanks": [
+            {
+              "field": "Jail ID Number",
+              "reason": "Not applicable or not supplied; this optional blank is intentional.",
+              "heldValue": null,
+              "kind": "optional_blank",
+              "requiredBeforeFiling": false,
+              "documentId": "AOC-497.2"
+            }
+          ],
+          "writtenFields": [
+            {
+              "documentId": "AOC-497.2",
+              "field": "Court",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "County",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Division",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "NAME",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ADDRESS",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "address2",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "area",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "phone number",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Defendants Birthdate",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "ViolationArrest Date",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "Case  No",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "CHARGE",
+              "kind": "held_text"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "check acquitted charges",
+              "kind": "explicit_selection"
+            },
+            {
+              "documentId": "AOC-497.2",
+              "field": "multiple agencies",
+              "kind": "held_text"
+            }
+          ],
+          "syntheticFixture": true,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        }
+      ],
+      "note": "Exact synthetic validation outputs only. Participant facts require a new render, current verification, matter-bound authority and private delivery. Manual identifiers and execution are not represented as completed."
+    },
+    "acceptanceReceipt": null
+  },
+  "proposedRepresentation": {
+    "note": "Exact synthetic validation outputs only. Participant facts require a new render, current verification, matter-bound authority and private delivery. Manual identifiers and execution are not represented as completed.",
+    "runtimeSelectable": false,
+    "generationAllowed": false,
+    "defaultComponentId": null,
+    "fixtureBindings": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+        "byteLength": 170150,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.facts.json",
+          "sha256": "2b875f4fbfac4d11c7439dc7bc3b69cbf366ab9db4e4e272d93589f56fe7c40e"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/canonical.json",
+          "sha256": "767ec8f95df7af4f665278b3e30a35a2786f3b13a35c1c8415a7c9b6340b2556"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "dismissed_with_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check chgs dismissed",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "93f902bfe7108680379c49d5a4cf27273369b67a7794e989ee17c52a8ee20474",
+        "byteLength": 371029,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.facts.json",
+          "sha256": "ecb4139ac1a881b483e8ea3859e88bb0ded194e5d12d438269bd7e03a16891d5"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/boundary.json",
+          "sha256": "75feace170d3d2daaa7a34d8ecf0d29b61d8580683dd82d673ee82a23b2ca63d"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "acquittal",
+          "dismissed_with_prejudice",
+          "misdemeanor_without_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "field": "phone number",
+            "reason": "The accurate value is not held. Complete it from the case record or your contact information before filing.",
+            "heldValue": null,
+            "kind": "required_before_filing",
+            "requiredBeforeFiling": true,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "field": "phone number",
+            "reason": "The accurate value is not held. Complete it from the case record or your contact information before filing.",
+            "heldValue": null,
+            "kind": "required_before_filing",
+            "requiredBeforeFiling": true,
+            "documentId": "AOC-497"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE_2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE_3",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE_4",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE_5",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE_6",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check acquitted charges",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check chgs dismissed",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check felony chg",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE_2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE_3",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE_4",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE_5",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE_6",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/acquittal",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.pdf",
+        "sha256": "47dc4c77498407c8d75fbed895191065a1e35b8b19f6d5283a83acfade1d2d8c",
+        "byteLength": 170091,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.facts.json",
+          "sha256": "2b3df7267ff20b7891d813e405e7710c2ac13c6f23e4748bf7fc8769f62a8f49"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/acquittal.json",
+          "sha256": "80d728ac738a07b440ebe96c1a55bf8ab0b903d0c31c19a7c3fef9e7d43b4a56"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "acquittal"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check acquitted charges",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/acquittal-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf",
+        "sha256": "8b806d7edb05b79773c4cffb09e496ff16fe62805df4105c761d15d45c06c903",
+        "byteLength": 369046,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.facts.json",
+          "sha256": "982c5fb88577d37e3a3ca2f7fdac9a9d2d70f8671969bd9014e1e25d9f176ba5"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/acquittal-with-order.json",
+          "sha256": "56b41778809244fc340eae993453420c283cc52009bcceba4ea294be03b62e2e"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "acquittal"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check acquitted charges",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/dismissed_with_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.pdf",
+        "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+        "byteLength": 170150,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.facts.json",
+          "sha256": "2b875f4fbfac4d11c7439dc7bc3b69cbf366ab9db4e4e272d93589f56fe7c40e"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/dismissed_with_prejudice.json",
+          "sha256": "2370622bacd62062dd46c38fa22983d358f610ba002951be8ec5b8bf96628d10"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "dismissed_with_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check chgs dismissed",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/dismissed_with_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.pdf",
+        "sha256": "7608f5a1f6f2a82e13c2c8ab7e47fbf4fbd302a1d13fa0bf28388e521cd939b7",
+        "byteLength": 369105,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.facts.json",
+          "sha256": "ce32a264faae451bedb7e52b478f8f83432a798102003abf7e67f627d23ed16f"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/dismissed_with_prejudice-with-order.json",
+          "sha256": "66f41ddb020d4606f7f028478d664da24d931a0399f2f6a02f76c22898e62ae9"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "dismissed_with_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check chgs dismissed",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/felony_without_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.pdf",
+        "sha256": "52e2a1b5a160a8ded12da380ef7101b6bda8515431799f28c9d126a18ee3902a",
+        "byteLength": 170167,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.facts.json",
+          "sha256": "bbf33329227351ec6e981d690e4266744d660e83a2284ed74c5fac6149ef77ca"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/felony_without_prejudice.json",
+          "sha256": "4ec89eb3af035272cdd5f6c52bfbd86c8169f1550fe47849c9e710e9558d87c4"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "felony_without_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check dismissed without",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/felony_without_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.pdf",
+        "sha256": "61d4a78aa97cae751de0a07a232c1b77b6b3105fde28f52e94247b9d7471274e",
+        "byteLength": 369116,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.facts.json",
+          "sha256": "e5e67cb9f663b556c89c807c8bf80051dc825eadac1c78f010f4d0f1b59ce8fc"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/felony_without_prejudice-with-order.json",
+          "sha256": "1ca2782fba852c94607bb0116ca5a820ae05025abb8f511748bf105698aefe5c"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "felony_without_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check dismissed without",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/misdemeanor_without_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.pdf",
+        "sha256": "ba982c0b44e445ffe0897d0cd354aa2132d1b49a8ce17de624f11742388b74e1",
+        "byteLength": 170171,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.facts.json",
+          "sha256": "908720d7514ba068b009fd6fffa92a8a9af6549de722e9ee1d4dfeeab4bf70d9"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/misdemeanor_without_prejudice.json",
+          "sha256": "37afa02fadf18676bf4d56426ce73ff2c35248859b6cb1e1c949291abc0f1def"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "misdemeanor_without_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check felony chg",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/misdemeanor_without_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.pdf",
+        "sha256": "700f772dd5d2feee0d76e001aab1cb7cabbcb574fb4bec96a29f936ffd388fcd",
+        "byteLength": 369126,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.facts.json",
+          "sha256": "2363c4bc3748d16b5a2b7c0b6df88565d7097e92f7d4cb34e2478f3b126810b5"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/misdemeanor_without_prejudice-with-order.json",
+          "sha256": "d8f89f5347afc1bebb46a7270bd3e3172af0d43262dbd5ed08946084e27b3d2e"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "misdemeanor_without_prejudice"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check felony chg",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/no_indictment",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.pdf",
+        "sha256": "996013880aa5fdf217212f8f0bf6cbd98c41b08a3561982c5f87ec5cc6849485",
+        "byteLength": 170477,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.facts.json",
+          "sha256": "fd6f1d11201ddf1a1e9b430e4f9268909f50549fd81900780445df327d0ed0e4"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/no_indictment.json",
+          "sha256": "2a151d3a5850a5989e5ac46fc57d85c37376f8893b933005c10370e0288933d5"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "no_indictment"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check no current chg",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/no_indictment-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.pdf",
+        "sha256": "ec9a5b1d2d706b209c5e5d4e96a7821c77ed960de8294b635a1056ca0eaba3af",
+        "byteLength": 369428,
+        "pageCount": 8,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "AOC-497",
+            "role": "proposed_order",
+            "firstPage": 4,
+            "pageCount": 2,
+            "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 6,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.facts.json",
+          "sha256": "3bac7e3f7a91805142e597c81cb1d785edadbaa318afeb77a6d211f6956ce9db"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/no_indictment-with-order.json",
+          "sha256": "da1646b7895093e1671f8e2125188166524f4f487aca323ef6b29aa4517becdf"
+        },
+        "selection": {
+          "includeProposedOrder": true,
+          "localOrderPracticeConfirmed": true
+        },
+        "selectedBases": [
+          "no_indictment"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ssn",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          }
+        ],
+        "officialActorObligations": [
+          {
+            "documentId": "AOC-497",
+            "field": "Judicial findings, order selections, judge/date and agency certification",
+            "kind": "court_clerk_agency_owned",
+            "requiredBeforeFiling": false,
+            "reason": "Reserved for the court and record custodians. Do not mark, sign or date these sections."
+          }
+        ],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          },
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check no current chg",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "County dropdown",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "area code",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "Case No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497",
+            "field": "requiring expungement",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/automatic-missed-exact-60-days",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.pdf",
+        "sha256": "b3250b724ed748f48fe6126686d3dd0adbf594310ec09f12f06e1196a428b902",
+        "byteLength": 170090,
+        "pageCount": 6,
+        "components": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "componentPages": [
+          {
+            "documentId": "AOC-497.2",
+            "role": "primary_filing",
+            "firstPage": 1,
+            "pageCount": 2,
+            "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4"
+          },
+          {
+            "documentId": "charge-agency-schedule",
+            "role": "filing_attachment",
+            "firstPage": 3,
+            "pageCount": 1
+          },
+          {
+            "documentId": "participant-instructions",
+            "role": "participant_instructions",
+            "firstPage": 4,
+            "pageCount": 3
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.facts.json",
+          "sha256": "081fb53d45ac458358dec037000941473cebe553ad6ec65cf925cb5cce52a8ab"
+        },
+        "report": {
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/selectable/automatic-missed-exact-60-days.json",
+          "sha256": "4938bcd16e66a315ba9a25d09291eac7e49a37cb20c3c685d988f43192f9d6f3"
+        },
+        "selection": {
+          "includeProposedOrder": false,
+          "localOrderPracticeConfirmed": false
+        },
+        "selectedBases": [
+          "acquittal"
+        ],
+        "manualCompletions": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants SSN",
+            "kind": "private_identifier_manual_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Social Security number is not held. Ask the clerk how to provide it securely and whether the filing copy must be redacted. Complete the required identifier privately; do not use a made-up number."
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Participant signature/date and notary or clerk jurat",
+            "kind": "signature_or_date_participant_completion",
+            "requiredBeforeFiling": true,
+            "reason": "Sign and date personally before the notary or Circuit Court Clerk; the witness completes the jurat. No execution has occurred."
+          }
+        ],
+        "officialActorObligations": [],
+        "optionalBlanks": [
+          {
+            "field": "Jail ID Number",
+            "reason": "Not applicable or not supplied; this optional blank is intentional.",
+            "heldValue": null,
+            "kind": "optional_blank",
+            "requiredBeforeFiling": false,
+            "documentId": "AOC-497.2"
+          }
+        ],
+        "writtenFields": [
+          {
+            "documentId": "AOC-497.2",
+            "field": "Court",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "County",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Division",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "NAME",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ADDRESS",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "address2",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "area",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "phone number",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Defendants Birthdate",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "ViolationArrest Date",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "Case  No",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "CHARGE",
+            "kind": "held_text"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "check acquitted charges",
+            "kind": "explicit_selection"
+          },
+          {
+            "documentId": "AOC-497.2",
+            "field": "multiple agencies",
+            "kind": "held_text"
+          }
+        ],
+        "syntheticFixture": true,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      }
+    ],
+    "components": [
+      {
+        "componentId": "ky_nonconviction_expungement-set-canonical",
+        "role": "conditional_assembled_packet",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+        "requirement": "conditional",
+        "selectedBy": "canonical",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-boundary",
+        "role": "conditional_assembled_packet",
+        "order": 2,
+        "documentId": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "93f902bfe7108680379c49d5a4cf27273369b67a7794e989ee17c52a8ee20474",
+        "requirement": "conditional",
+        "selectedBy": "boundary",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-acquittal",
+        "role": "conditional_assembled_packet",
+        "order": 3,
+        "documentId": "selectable/acquittal",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal.pdf",
+        "sha256": "47dc4c77498407c8d75fbed895191065a1e35b8b19f6d5283a83acfade1d2d8c",
+        "requirement": "conditional",
+        "selectedBy": "selectable/acquittal",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-acquittal-with-order",
+        "role": "conditional_assembled_packet",
+        "order": 4,
+        "documentId": "selectable/acquittal-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf",
+        "sha256": "8b806d7edb05b79773c4cffb09e496ff16fe62805df4105c761d15d45c06c903",
+        "requirement": "conditional",
+        "selectedBy": "selectable/acquittal-with-order",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-dismissed_with_prejudice",
+        "role": "conditional_assembled_packet",
+        "order": 5,
+        "documentId": "selectable/dismissed_with_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice.pdf",
+        "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+        "requirement": "conditional",
+        "selectedBy": "selectable/dismissed_with_prejudice",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-dismissed_with_prejudice-with-order",
+        "role": "conditional_assembled_packet",
+        "order": 6,
+        "documentId": "selectable/dismissed_with_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/dismissed_with_prejudice-with-order.pdf",
+        "sha256": "7608f5a1f6f2a82e13c2c8ab7e47fbf4fbd302a1d13fa0bf28388e521cd939b7",
+        "requirement": "conditional",
+        "selectedBy": "selectable/dismissed_with_prejudice-with-order",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-felony_without_prejudice",
+        "role": "conditional_assembled_packet",
+        "order": 7,
+        "documentId": "selectable/felony_without_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice.pdf",
+        "sha256": "52e2a1b5a160a8ded12da380ef7101b6bda8515431799f28c9d126a18ee3902a",
+        "requirement": "conditional",
+        "selectedBy": "selectable/felony_without_prejudice",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-felony_without_prejudice-with-order",
+        "role": "conditional_assembled_packet",
+        "order": 8,
+        "documentId": "selectable/felony_without_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/felony_without_prejudice-with-order.pdf",
+        "sha256": "61d4a78aa97cae751de0a07a232c1b77b6b3105fde28f52e94247b9d7471274e",
+        "requirement": "conditional",
+        "selectedBy": "selectable/felony_without_prejudice-with-order",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-misdemeanor_without_prejudice",
+        "role": "conditional_assembled_packet",
+        "order": 9,
+        "documentId": "selectable/misdemeanor_without_prejudice",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice.pdf",
+        "sha256": "ba982c0b44e445ffe0897d0cd354aa2132d1b49a8ce17de624f11742388b74e1",
+        "requirement": "conditional",
+        "selectedBy": "selectable/misdemeanor_without_prejudice",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-misdemeanor_without_prejudice-with-order",
+        "role": "conditional_assembled_packet",
+        "order": 10,
+        "documentId": "selectable/misdemeanor_without_prejudice-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/misdemeanor_without_prejudice-with-order.pdf",
+        "sha256": "700f772dd5d2feee0d76e001aab1cb7cabbcb574fb4bec96a29f936ffd388fcd",
+        "requirement": "conditional",
+        "selectedBy": "selectable/misdemeanor_without_prejudice-with-order",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-no_indictment",
+        "role": "conditional_assembled_packet",
+        "order": 11,
+        "documentId": "selectable/no_indictment",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment.pdf",
+        "sha256": "996013880aa5fdf217212f8f0bf6cbd98c41b08a3561982c5f87ec5cc6849485",
+        "requirement": "conditional",
+        "selectedBy": "selectable/no_indictment",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-no_indictment-with-order",
+        "role": "conditional_assembled_packet",
+        "order": 12,
+        "documentId": "selectable/no_indictment-with-order",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/no_indictment-with-order.pdf",
+        "sha256": "ec9a5b1d2d706b209c5e5d4e96a7821c77ed960de8294b635a1056ca0eaba3af",
+        "requirement": "conditional",
+        "selectedBy": "selectable/no_indictment-with-order",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "AOC-497",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "ky_nonconviction_expungement-set-selectable-automatic-missed-exact-60-days",
+        "role": "conditional_assembled_packet",
+        "order": 13,
+        "documentId": "selectable/automatic-missed-exact-60-days",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/automatic-missed-exact-60-days.pdf",
+        "sha256": "b3250b724ed748f48fe6126686d3dd0adbf594310ec09f12f06e1196a428b902",
+        "requirement": "conditional",
+        "selectedBy": "selectable/automatic-missed-exact-60-days",
+        "componentsIncluded": [
+          "AOC-497.2",
+          "charge-agency-schedule",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      }
+    ]
+  }
+}

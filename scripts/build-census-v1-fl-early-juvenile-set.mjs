@@ -324,7 +324,9 @@ async function overlayOfficialPdf(bytes, facts) {
   fitText(p1, font, facts["participant.dob"], { x: 45, y: 573, width: 106 });
   fitText(p1, font, facts["participant.race"], { x: 157, y: 573, width: 116 });
   fitText(p1, font, facts["participant.sex"], { x: 283, y: 573, width: 64 });
-  fitText(p1, font, facts["participant.phone"], { x: 359, y: 573, width: 94 });
+  // FDLE prints its closing area-code parenthesis through x=384.22.
+  // Move the actual whole-number write beyond that ink; do not merely widen its box.
+  fitText(p1, font, facts["participant.phone"], { x: 386, y: 573, width: 67 });
   fitText(p1, font, facts["participant.street"], { x: 45, y: 547, width: 334 });
   fitText(p1, font, facts["participant.city"], { x: 388, y: 547, width: 113 });
   fitText(p1, font, facts["participant.state"], { x: 508, y: 547, width: 22 }, 7.5);

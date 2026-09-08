@@ -1,0 +1,2481 @@
+{
+  "schemaVersion": "chat5-ga-complete-pdf-author-audit/v1",
+  "familyId": "ga-nonconv-pre2013-set",
+  "authorQaOnly": true,
+  "sourceSha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+  "completePdfs": 15,
+  "completePages": 108,
+  "distinctPageImages": 30,
+  "exactPageAliases": 78,
+  "actualTextWrites": 188,
+  "protectedPixelChecks": 90,
+  "completeOutputAuditPass": true,
+  "defectControlsCaught": 12,
+  "defectControls": [
+    {
+      "name": "fabricated applicant signature",
+      "caught": true,
+      "errors": [
+        "new glyphs outside measured write boxes: 16",
+        "page 2 changed outside participant boxes: 1408",
+        "protected/private blank changed: signature and execution date"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "fabricated signing date",
+      "caught": true,
+      "errors": [
+        "new glyphs outside measured write boxes: 10",
+        "page 2 changed outside participant boxes: 681",
+        "protected/private blank changed: signature and execution date"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "private SSN field injection",
+      "caught": true,
+      "errors": [
+        "new glyphs outside measured write boxes: 11",
+        "page 2 changed outside participant boxes: 924",
+        "protected/private blank changed: Social Security Number"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "payment-use-only mark",
+      "caught": true,
+      "errors": [
+        "new glyphs outside measured write boxes: 1",
+        "page 2 changed outside participant boxes: 88",
+        "protected/private blank changed: GBI Use Only"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "agency repeated arrest fact",
+      "caught": true,
+      "errors": [
+        "source/official-owned page changed: 3"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "prosecutor approval mark",
+      "caught": true,
+      "errors": [
+        "source/official-owned page changed: 4"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "missing complete page",
+      "caught": true,
+      "errors": [
+        "complete page count mismatch",
+        "guide page absent After the prosecutor responds"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "swapped agency and prosecutor pages",
+      "caught": true,
+      "errors": [
+        "source/official-owned page changed: 3",
+        "source/official-owned page changed: 4"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "stray off-page glyph",
+      "caught": true,
+      "errors": [
+        "new glyphs outside measured write boxes: 7",
+        "page 2 changed outside participant boxes: 177"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "visible name concealed with white rectangle",
+      "caught": true,
+      "errors": [
+        "invisible/covered write: participant.fullName",
+        "page 2 changed outside participant boxes: 6"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "wrong GCIC fee in complete guide",
+      "caught": true,
+      "errors": [
+        "guide content absent/changed: After the prosecutor responds: If the prosecutor approves and enters the res"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    },
+    {
+      "name": "guide falsely labeled approved",
+      "caught": true,
+      "errors": [
+        "guide content absent/changed: Before you submit: Before you submit"
+      ],
+      "wholePdfChecksumNotUsedAsDefectTest": true
+    }
+  ],
+  "outputs": [
+    {
+      "fixture": "canonical",
+      "sha256": "c1ba21c6400010377cace19b85ecf100866e07a57c2facc6b5c554b48fcf18e1",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "62aa209bccaad83f188ac941760ce89fdc9fceeb9f3c0a96d7ea0ee50335a2a2",
+      "pages": 8,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Alexandria Catherine Montgomery-Williams",
+          "drawnText": "Alexandria Catherine Montgomery-Williams",
+          "matchesExpected": true,
+          "addedDarkPixels": 1726
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "alexandria.montgomery@example.com",
+          "drawnText": "alexandria.montgomery@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1585
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "1275 Example Boulevard Apartment 1204",
+          "drawnText": "1275 Example Boulevard Apartment 1204",
+          "matchesExpected": true,
+          "addedDarkPixels": 1631
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Peachtree Corners",
+          "drawnText": "Peachtree Corners",
+          "matchesExpected": true,
+          "addedDarkPixels": 698
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30092-1234",
+          "drawnText": "30092-1234",
+          "matchesExpected": true,
+          "addedDarkPixels": 359
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Gwinnett County Police Department",
+          "drawnText": "Gwinnett County Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1368
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/30/2013",
+          "drawnText": "06/30/2013",
+          "matchesExpected": true,
+          "addedDarkPixels": 469
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Count 1: Criminal trespass (O.C.G.A. 16-7-21); Count 2: Disorderly conduct",
+          "drawnText": "Count 1: Criminal trespass (O.C.G.A. 16-7-21); Count 2: Disorderly conduct",
+          "matchesExpected": true,
+          "addedDarkPixels": 2538
+        },
+        {
+          "fieldId": "case.offenses.line2",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "(O.C.G.A. 16-11-39); Count 3: Obstruction of a law enforcement officer, misdemeanor (O.C.G.A.",
+          "drawnText": "(O.C.G.A. 16-11-39); Count 3: Obstruction of a law enforcement officer, misdemeanor (O.C.G.A.",
+          "matchesExpected": true,
+          "addedDarkPixels": 3252
+        },
+        {
+          "fieldId": "case.offenses.line3",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "16-10-24)",
+          "drawnText": "16-10-24)",
+          "matchesExpected": true,
+          "addedDarkPixels": 336
+        }
+      ],
+      "actualNewNonspaceGlyphs": 359,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-01",
+      "sha256": "67b8e50bc14acfc82059b5a6bdab1f7dd7b423aa266a5988b5b95a62d8aab367",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-02",
+      "sha256": "7c61def202587c133fb3cf98e13205e4f1e722da22bd754f19cb908077f8607c",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-03",
+      "sha256": "dbcf5dac28c454e99df2108157c6aeb52f25f8d9978eef9b3b11028db531d800",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Burglary (O.C.G.A. 16-7-1)",
+          "drawnText": "Burglary (O.C.G.A. 16-7-1)",
+          "matchesExpected": true,
+          "addedDarkPixels": 878
+        }
+      ],
+      "actualNewNonspaceGlyphs": 151,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-04",
+      "sha256": "c1ba21c6400010377cace19b85ecf100866e07a57c2facc6b5c554b48fcf18e1",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-05",
+      "sha256": "43024310d0eb3f8f697aa9b9f71c29a4cec4b11cac37ad6f945ab81f79ff1856",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-06",
+      "sha256": "e08d7e6e17022d409703b20369c3358784cb2867f12ea14b0271b47bc8e19990",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-07",
+      "sha256": "ed070e1a32055d5c115fe06a91fdf589aac8fff6fa36736c0e341b84da0a6c7d",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Possession of a controlled substance (O.C.G.A. 16-13-30)",
+          "drawnText": "Possession of a controlled substance (O.C.G.A. 16-13-30)",
+          "matchesExpected": true,
+          "addedDarkPixels": 2055
+        }
+      ],
+      "actualNewNonspaceGlyphs": 177,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-08",
+      "sha256": "646d51a152aafb18f279899fddee1aecececbcc41b83aedbe7ed2c71b2d19e29",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Underage possession of alcohol (O.C.G.A. 3-3-23)",
+          "drawnText": "Underage possession of alcohol (O.C.G.A. 3-3-23)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1778
+        }
+      ],
+      "actualNewNonspaceGlyphs": 170,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-09",
+      "sha256": "ad157e636e23a08e62e7ac41d75da766ad96ea35fc3dd9e5b355311acaf6a3a0",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Possession of a controlled substance (O.C.G.A. 16-13-30)",
+          "drawnText": "Possession of a controlled substance (O.C.G.A. 16-13-30)",
+          "matchesExpected": true,
+          "addedDarkPixels": 2055
+        }
+      ],
+      "actualNewNonspaceGlyphs": 177,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "basis-10",
+      "sha256": "8dc14acf89cd956ea7ea51da0bc9b1044ec944174ac292fc962b9945fb1f65c8",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "disposition-document-available",
+      "sha256": "bae68f944039b4dd95ce5b9a872f2fce99914b6d8f6292c50c71c74f6fd1e0c3",
+      "pages": 8,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "missing-participant-facts",
+      "sha256": "8969ba951de1adb9fde9ed7b703032c59e8a205f7687fe52a1362f24b6206a47",
+      "pages": 7,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 64,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    },
+    {
+      "fixture": "fbi-record-only",
+      "sha256": "bae68f944039b4dd95ce5b9a872f2fce99914b6d8f6292c50c71c74f6fd1e0c3",
+      "pages": 8,
+      "passed": true,
+      "errors": [],
+      "actualWrites": [
+        {
+          "fieldId": "participant.fullName",
+          "factId": "participant.fullName",
+          "page": 2,
+          "expected": "Jordan Ellis",
+          "drawnText": "Jordan Ellis",
+          "matchesExpected": true,
+          "addedDarkPixels": 463
+        },
+        {
+          "fieldId": "participant.birthDate",
+          "factId": "participant.birthDate",
+          "page": 2,
+          "expected": "05/12/1991",
+          "drawnText": "05/12/1991",
+          "matchesExpected": true,
+          "addedDarkPixels": 424
+        },
+        {
+          "fieldId": "participant.race",
+          "factId": "participant.race",
+          "page": 2,
+          "expected": "Black",
+          "drawnText": "Black",
+          "matchesExpected": true,
+          "addedDarkPixels": 236
+        },
+        {
+          "fieldId": "participant.sex",
+          "factId": "participant.sex",
+          "page": 2,
+          "expected": "Male",
+          "drawnText": "Male",
+          "matchesExpected": true,
+          "addedDarkPixels": 241
+        },
+        {
+          "fieldId": "participant.phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "expected": "404-555-0142",
+          "drawnText": "404-555-0142",
+          "matchesExpected": true,
+          "addedDarkPixels": 550
+        },
+        {
+          "fieldId": "participant.email",
+          "factId": "participant.email",
+          "page": 2,
+          "expected": "jordan.ellis@example.com",
+          "drawnText": "jordan.ellis@example.com",
+          "matchesExpected": true,
+          "addedDarkPixels": 1051
+        },
+        {
+          "fieldId": "participant.street",
+          "factId": "participant.street",
+          "page": 2,
+          "expected": "125 Example Lane",
+          "drawnText": "125 Example Lane",
+          "matchesExpected": true,
+          "addedDarkPixels": 699
+        },
+        {
+          "fieldId": "participant.city",
+          "factId": "participant.city",
+          "page": 2,
+          "expected": "Atlanta",
+          "drawnText": "Atlanta",
+          "matchesExpected": true,
+          "addedDarkPixels": 315
+        },
+        {
+          "fieldId": "participant.state",
+          "factId": "participant.state",
+          "page": 2,
+          "expected": "GA",
+          "drawnText": "GA",
+          "matchesExpected": true,
+          "addedDarkPixels": 150
+        },
+        {
+          "fieldId": "participant.zip",
+          "factId": "participant.zip",
+          "page": 2,
+          "expected": "30303",
+          "drawnText": "30303",
+          "matchesExpected": true,
+          "addedDarkPixels": 274
+        },
+        {
+          "fieldId": "case.arrestingAgency",
+          "factId": "case.arrestingAgency",
+          "page": 2,
+          "expected": "Atlanta Police Department",
+          "drawnText": "Atlanta Police Department",
+          "matchesExpected": true,
+          "addedDarkPixels": 1048
+        },
+        {
+          "fieldId": "case.arrestDate",
+          "factId": "case.arrestDate",
+          "page": 2,
+          "expected": "06/15/2010",
+          "drawnText": "06/15/2010",
+          "matchesExpected": true,
+          "addedDarkPixels": 456
+        },
+        {
+          "fieldId": "case.offenses.line1",
+          "factId": "case.offenses",
+          "page": 2,
+          "expected": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "drawnText": "Criminal trespass (O.C.G.A. 16-7-21)",
+          "matchesExpected": true,
+          "addedDarkPixels": 1269
+        }
+      ],
+      "actualNewNonspaceGlyphs": 160,
+      "glyphsOutsideWriteBoxes": 0,
+      "changedPixelsOutsideWriteBoxes": 0,
+      "protectedSourcePixelChecks": [
+        {
+          "page": 1,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 3,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 4,
+          "region": "entire unchanged official page",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "GBI Use Only",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "Social Security Number",
+          "pixelIdentical": true
+        },
+        {
+          "page": 2,
+          "region": "signature and execution date",
+          "pixelIdentical": true
+        }
+      ]
+    }
+  ],
+  "visualInspectionPending": true,
+  "independentReview": "PENDING",
+  "centralRaster": "PENDING"
+}

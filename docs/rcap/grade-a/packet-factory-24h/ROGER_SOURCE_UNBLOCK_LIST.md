@@ -2,7 +2,7 @@
 
 **RESIDUAL HUMAN-ACTION ITEMS: 0**
 
-**UNIQUE CANONICAL ARTIFACTS: 26**  ·  **UNIQUE FAMILIES: 13**
+**UNIQUE CANONICAL ARTIFACTS: 18**  ·  **UNIQUE FAMILIES: 6**
 
 ## What changed, and why the old list was withdrawn
 
@@ -23,11 +23,11 @@ _Nothing currently requires a person._
 
 | State | Records | Owner |
 |---|---:|---|
-| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 20 | DISC settles source identity and the route or family relationship |
-| `CURRENTNESS_UNVERIFIED` | 4 | DISC compares the held edition against the publisher's own forms index |
-| `FAMILY_IDENTITY_AMBIGUOUS` | 2 | DISC settles which document the route actually requires |
+| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 10 | DISC settles source identity and the route or family relationship |
+| `CURRENTNESS_UNVERIFIED` | 7 | DISC compares the held edition against the publisher's own forms index |
+| `FAMILY_IDENTITY_AMBIGUOUS` | 1 | DISC settles which document the route actually requires |
 
-3 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
+0 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
 
 ## Scope limit, stated rather than implied
 

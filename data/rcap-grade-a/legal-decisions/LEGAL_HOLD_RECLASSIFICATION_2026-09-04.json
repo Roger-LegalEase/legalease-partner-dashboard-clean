@@ -305,6 +305,36 @@
       "confirmedOn": "2026-09-06",
       "nextState": "VERIFY_PENDING",
       "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "recordedBy": "ChatGPT completion integration; implementation of the existing owner-relayed contract, not a new owner/counsel decision",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-04.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-BATCH-04",
+        "relayedBy": "Roger Roman, 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+      "repairEvidence": {
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+        "officialSource": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+        "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+        "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "regressionLog": "data/rcap-grade-a/completion-pass-2026-09-07/nc-regressions.log",
+        "passedChecks": 19,
+        "executedRun": "34112045004"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf06",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "failedRequirement": "AOC-CV-226 was incorrectly presented as the operative expunction indigency petition"
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The exact AOC-G-106 is now held and delivered by the selected branch, satisfying the existing missing-instrument repair direction. The former VF06 finding remains in history and is NOT replaced with PASS. Current outputs must pass full central raster and a fresh independent fifteen-obligation reread. Fee-bearing deferred/conditional cases still stop for participant-specific legal review; no eligibility, indigency, execution, or delivery authority is inferred."
     }
   ],
   "commercialRoutesOpened": 0,
