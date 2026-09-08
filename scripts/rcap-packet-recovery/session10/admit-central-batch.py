@@ -30,7 +30,9 @@ def require(ok, message):
 
 def provenance(config, family, run, jobs, artifact):
     run_id = config['runId']
-    require(run.get('id') == run_id and run.get('status') == 'completed' and run.get('conclusion') == 'success', 'central run not successful')
+    # Shared gates and this family's immutable successful job decide admission.
+    # Another family still running or failing cannot erase this family's proof.
+    require(run.get('id') == run_id and run.get('status') in ['in_progress', 'completed'], 'central run has not executed')
     require(run.get('path') == WORKFLOW, 'wrong central workflow')
     for name in ['Synthetic canary and live negative controls', 'Plan the family matrix', family]:
         found = [j for j in jobs['jobs'] if j.get('name') == name]
@@ -102,7 +104,7 @@ def controls(config, expected, verdict, images, run, jobs, artifact):
     missing = dict(images); missing.pop(next(iter(missing)))
     corrupt = dict(images); corrupt[next(iter(corrupt))] = b'bad'
     tests += [lambda: validate(config, expected, verdict, missing), lambda: validate(config, expected, verdict, corrupt),
-        lambda: provenance(config, expected['familyId'], dict(run, conclusion='failure'), jobs, artifact),
+        lambda: provenance(config, expected['familyId'], dict(run, id=0), jobs, artifact),
         lambda: provenance(config, expected['familyId'], run, {'jobs': []}, artifact)]
     for test in tests:
         try: test()
@@ -124,8 +126,8 @@ def main():
     run, jobs = read(config['runPath']), read(config['jobsPath'])
     out = Path(config['out']); out.mkdir(parents=True, exist_ok=True)
     outcomes = []
-    require(set(config['artifacts']) == {f['familyId'] for f in inventory['families']}, 'batch family inventory changed')
-    for expected in inventory['families']:
+    require(bool(config['artifacts']) and set(config['artifacts']) <= {f['familyId'] for f in inventory['families']}, 'unknown or empty family inventory')
+    for expected in [f for f in inventory['families'] if f['familyId'] in config['artifacts']]:
         family = expected['familyId']; item = config['artifacts'][family]
         artifact = read(item['metadataPath']); job_id = provenance(config, family, run, jobs, artifact)
         archive = Path(item['zipPath']); require('sha256:'+sha(archive.read_bytes()) == artifact['digest'], 'archive digest mismatch')
@@ -135,6 +137,7 @@ def main():
         row = rows[0]
         for candidate in [row, old[0]]:
             require(candidate['documentsDigest'] == expected['documentsDigest'], 'queued inventory digest changed')
+            require(all(candidate[k] == expected[k] for k in ['canonicalPdfPath', 'canonicalPdfSha256', 'boundaryPdfPath', 'boundaryPdfSha256']), 'queued primary input pins changed')
             require(candidate['documents'] == [{k: v for k, v in d.items() if k not in ['byteLength', 'pageSizesPt']} for d in expected['documents']], 'queued inventory changed')
         for d in expected['documents']:
             body = Path(d['path']).read_bytes()
@@ -148,7 +151,7 @@ def main():
         verdict_path = out/(family+'.verdict.json'); proof_path = out/(family+'.verified.json')
         verdict_path.write_bytes(verdict_bytes)
         proof = dict(familyId=family, packetCommit=commit, workflowRunId=config['runId'], jobId=job_id,
-            artifactId=artifact['id'], artifactDigest=artifact['digest'], documentsMeasured=len(expected['documents']),
+            artifactId=artifact['id'], artifactDigest=artifact['digest'], runStatus=run['status'], runConclusion=run.get('conclusion'), documentsMeasured=len(expected['documents']),
             pagesMeasured=len(pages), pageImages=pages, admissionNegativeControlsCaught=caught,
             independentSemanticReviewCreated=False, runtimeInstalled=False, productionChanged=False)
         proof_path.write_text(json.dumps(proof, indent=2)+'\n')
