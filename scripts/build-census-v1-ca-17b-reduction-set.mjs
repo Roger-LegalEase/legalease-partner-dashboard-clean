@@ -13,14 +13,21 @@ function disambiguateCaseDependentReductionRows() {
   const repaired = [];
   for (const refusal of fieldMap.refusals ?? []) {
     const field = refusal.fieldName ?? refusal.field ?? refusal.fieldId ?? "";
-    const match = /ConvTable\[0\]\.Row([2-5])\[0\]\.(?:Reduce|Offense)\1\[0\]$/.exec(field);
+    const match = /ConvTable\[0\]\.Row([1-5])\[0\]\.(?:Reduce|Offense)\1\[0\]$/.exec(field);
     if (!match || refusal.determinedByTheCaseNotTheRoute !== true) continue;
     const suffix = ` — row ${match[1]} of the conviction table`;
     if (!String(refusal.effectiveLabel ?? "").endsWith(suffix)) refusal.effectiveLabel += suffix;
     repaired.push(field);
   }
-  if (repaired.length !== 8) {
-    throw new Error(`CA 17(b) row-label repair matched ${repaired.length}/8 fields`);
+  /*
+   * Ten, not eight. FIX101 withdrew row 1's two route writes for row integrity,
+   * so row 1's yes/no cells are now refusals declared case-determined exactly
+   * like rows two through five, and they need the same row identity in their
+   * printed caption. Without it the participant page would name two cells whose
+   * caption is indistinguishable from the eight below them.
+   */
+  if (repaired.length !== 10) {
+    throw new Error(`CA 17(b) row-label repair matched ${repaired.length}/10 fields`);
   }
   fs.writeFileSync(FIELD_MAP, `${JSON.stringify(fieldMap, null, 2)}\n`);
 }

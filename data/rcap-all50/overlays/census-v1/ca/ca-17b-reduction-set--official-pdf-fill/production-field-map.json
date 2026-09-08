@@ -17,9 +17,7 @@
       "CR-180[0].Page3[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
       "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
       "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]": "route.pc17b.reduce_to_misdemeanor",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]": "route.pc17b.reduce_to_infraction"
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date"
     },
     "pc-17d2-misdemeanor-to-infraction": {
       "CR-180[0].Page1[0].P1Caption[0].TitlePartyName[0].Defendant[0]": "participant.full_legal_name",
@@ -29,9 +27,7 @@
       "CR-180[0].Page3[0].pXCaption[0].Defendant[0]": "participant.full_legal_name",
       "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]": "matter.case_number",
       "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]": "matter.county",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]": "route.pc17b.reduce_to_misdemeanor",
-      "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]": "route.pc17b.reduce_to_infraction"
+      "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]": "matter.conviction_date"
     }
   },
   "statutorySelectionsByVariant": {
@@ -193,98 +189,6 @@
       "variantValues": null,
       "routeSpecific": false,
       "reason": "Exact primary-form terminal field explicitly mapped to a source-supported participant or matter fact the platform holds."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
-      "flags": [],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            331.63,
-            363.02,
-            447.3,
-            376.3
-          ],
-          "width": 115.67,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "WRITE",
-      "factId": "route.pc17b.reduce_to_misdemeanor",
-      "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
-      ],
-      "variantValues": [
-        {
-          "variantId": "pc-17b-felony-to-misdemeanor",
-          "value": "yes"
-        },
-        {
-          "variantId": "pc-17d2-misdemeanor-to-infraction",
-          "value": "no"
-        }
-      ],
-      "routeSpecific": true,
-      "reason": "Exact CR-180 statutory text control is populated only in the named evidence variants with the recorded yes/no value."
-    },
-    {
-      "formNumber": "CR-180",
-      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
-      "documentRole": "primary_filing",
-      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
-      "fieldType": "/Tx",
-      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
-      "flags": [
-        "doNotScroll"
-      ],
-      "maxLen": null,
-      "widgets": [
-        {
-          "pageIndex": 0,
-          "rect": [
-            453.6,
-            363.02,
-            569.27,
-            376.3
-          ],
-          "width": 115.67,
-          "height": 13.28,
-          "onStates": [],
-          "appearanceStates": [],
-          "markRegion": null,
-          "hidden": false
-        }
-      ],
-      "disposition": "WRITE",
-      "factId": "route.pc17b.reduce_to_infraction",
-      "appliesToVariants": [
-        "pc-17b-felony-to-misdemeanor",
-        "pc-17d2-misdemeanor-to-infraction"
-      ],
-      "variantValues": [
-        {
-          "variantId": "pc-17b-felony-to-misdemeanor",
-          "value": "no"
-        },
-        {
-          "variantId": "pc-17d2-misdemeanor-to-infraction",
-          "value": "yes"
-        }
-      ],
-      "routeSpecific": true,
-      "reason": "Exact CR-180 statutory text control is populated only in the named evidence variants with the recorded yes/no value."
     },
     {
       "formNumber": "CR-180",
@@ -1103,6 +1007,104 @@
       "requiredBeforeFiling": true,
       "routeDetermined": false,
       "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]"
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no) — row 1 of the conviction table",
+      "flags": [],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            331.63,
+            363.02,
+            447.3,
+            376.3
+          ],
+          "width": 115.67,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "REFUSE",
+      "factId": null,
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
+      "heldButNotPrinted": true,
+      "withheldRouteFactId": "route.pc17b.reduce_to_misdemeanor",
+      "withheldRouteValueByVariant": [
+        {
+          "variantId": "pc-17b-felony-to-misdemeanor",
+          "value": "yes"
+        },
+        {
+          "variantId": "pc-17d2-misdemeanor-to-infraction",
+          "value": "no"
+        }
+      ],
+      "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
+    },
+    {
+      "formNumber": "CR-180",
+      "documentId": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "documentRole": "primary_filing",
+      "fieldName": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
+      "fieldType": "/Tx",
+      "effectiveLabel": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no) — row 1 of the conviction table",
+      "flags": [
+        "doNotScroll"
+      ],
+      "maxLen": null,
+      "widgets": [
+        {
+          "pageIndex": 0,
+          "rect": [
+            453.6,
+            363.02,
+            569.27,
+            376.3
+          ],
+          "width": 115.67,
+          "height": 13.28,
+          "onStates": [],
+          "appearanceStates": [],
+          "markRegion": null,
+          "hidden": false
+        }
+      ],
+      "disposition": "REFUSE",
+      "factId": null,
+      "blankTreatment": "REQUIRED_BEFORE_FILING",
+      "reason": "REQUIRED_BEFORE_FILING: whether this listed offence is reducible under Penal Code section 17(b) or 17(d)(2) is a characterisation of that offence, not of the relief this petition asks for. The platform holds no such fact and never infers one. The participant completes it, and the platform does not guess.",
+      "requiredBeforeFiling": true,
+      "identity": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "The cell asks whether the offence listed on this row is reducible under Penal Code section 17(b) or 17(d)(2), which turns on how the Penal Code punishes the section of conviction and not on the relief sought. This petition reads identically whichever way that resolves, so the route has no answer to state; the participant answers it from their own record of conviction.",
+      "heldButNotPrinted": true,
+      "withheldRouteFactId": "route.pc17b.reduce_to_infraction",
+      "withheldRouteValueByVariant": [
+        {
+          "variantId": "pc-17b-felony-to-misdemeanor",
+          "value": "no"
+        },
+        {
+          "variantId": "pc-17d2-misdemeanor-to-infraction",
+          "value": "yes"
+        }
+      ],
+      "whyWithheld": "The platform holds this route's yes-or-no answer and does not print it. The cell sits in row 1 of the CR-180 conviction table, beside Code, Section and Type of offense, and the platform holds none of those three for the conviction. Printing a sworn yes or no about an offence the petition does not name would leave the row half-finished, which the form's own instruction forbids and which reads as complete to anyone checking the page. The whole row is therefore left for the participant, who writes the code, the section, the offence type and both answers together from their own record of conviction."
     },
     {
       "formNumber": "CR-180",
@@ -7224,11 +7226,11 @@
   ],
   "coverage": {
     "terminalFields": 187,
-    "writes": 10,
+    "writes": 8,
     "selections": 0,
-    "refusals": 177,
+    "refusals": 179,
     "unmapped": 0
   },
   "dispositionVocabulary": "rcap-packet-completeness/closed-blank-dispositions",
-  "requiredBeforeFilingCount": 59
+  "requiredBeforeFilingCount": 61
 }
