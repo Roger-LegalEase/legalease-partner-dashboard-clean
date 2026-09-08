@@ -1,97 +1,78 @@
 <!-- SESSION10 LIVE PUBLICATION STAMP -->
-# Session10 — 191/346 published terminal; two Maryland candidates in central closing batch
+# Session10 — 192/346 terminal; Maryland conviction receipt next
 
-Published recovery head last verified: `872e9abd754f87d1d67f669335d30d75db7bdb27`.
-This continuation has added exactly Nevada: 191 terminal, 155 remaining, with
-170 COMPLETE_PACKET_PROVEN, 14 GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE.
-All 190 previous members and treatments remain preserved. Nevada reuses central
-34101879269/job101678748778; its independently reviewed exact two PDFs/88 pages
-were not rebuilt or redispatched. Its precise membership proof and publication
-verification remain under `session10/resume-nv-admission-validation/`.
+Validated derived candidate: `83d8e3bc71606b03e4e001c0c1b86b242a40ef9b`.
+Receipt input commit: `846a61ce8190febc9b319fdac4ba594c18ebad8b`.
+Recovery remote immediately before this publication: `23d057d432ea201e0c994cd5c495d35d2b463a91`.
+This checkpoint publishes 192 terminal /154 remaining: 171 COMPLETE_PACKET_PROVEN,
+14 GUIDANCE_READY,2 HANDOFF_READY,5 OUT_OF_SCOPE. Exact gain from prior published191
+is Maryland cannabis only; gain from the resumed190 checkpoint is Nevada plus cannabis.
+All191 prior members/treatments,345 other states,197 document inventories and196
+other raster receipts remain preserved. Membership proof and separate receipt review:
+`session10/resume-md-cannabis-admission-validation/`.
 
-Maryland conviction validated candidate: `75ccb04714c4514cdf2ad3e76f82f4eda77ce4cb`.
-It was published as872e9abd754f87d1d67f669335d30d75db7bdb27. Wrapper34256892616
-passed and dispatched central34257213865 for that exact packet; consume its
-actual canary/matrix/family job rather than requesting it again.
-The exact packet, all 199 reviewed inputs, native adapters and independently
-attributed successor are installed. Required central coverage is 25 PDFs/170
-pages: 23 prepared outputs/155 pages plus two unselectable diagnostics/15 pages.
-The inventory names only committed inputs and is stored at
-`session10/resume-md-conviction-document-inventory.json`, SHA256
-ba419116b411f2aea9fdbdc23843925079f18e1cccc7674ca167b9833006d466.
-The candidate adds only md_10110_conviction-set to the existing wrapper's newly
-eligible selection. All 195 prior document inventories and receipts remain
-unchanged. Terminal count stays191 until actual central receipt admission.
+Cannabis central34257872586/job102169318466 passed against exact packet
+23d057d432ea201e0c994cd5c495d35d2b463a91. Artifact10069785590 is42,652,275bytes,
+SHA2561e8aab7e32410ca019ca865afec04da3501244f5f56729cf8bfbe3114d9a1535.
+All18 PDFs/133pages and18 negative receipt controls passed. Thirteen prepared
+outputs/98pages and five refused diagnostics/35pages remain distinct; raw-PASS
+missing-contact remains unprepared/unselectable. Original independent semantic
+and visual attribution is preserved; no new page review is claimed by receipt import.
+Runtime installation, sale, sponsorship and filing authority remain false.
 
-The independently executed conviction audit measures 2,631 prepared source-field
-instances (936 writes, 1,695 classified blanks), all nine counters zero; all251
-prior matrix rows remain intact. Native discovery requires the exact directory,
-map and matching build-status identity. Declaration review and refresh refuse
-mismatches, keep diagnostics unselectable, and grant no runtime authority.
-The original bounded/null-counter review remains unchanged beside the successor.
+All ten committed-state checks passed on83d8e3bc, including37 factory checks,
+all six convergence checks, source-relationship verification, scoped declaration,
+and current122-file worker runtime manifest. The91 mutation cases are reused from
+75ccb047 and subsequent successful hosted factory runs; not newly rerun here.
+Exact commands, elapsed times and full logs are in that admission directory.
+No packet PDF/source byte, other family receipt or shared implementation changed.
 
-All ten committed-state checks passed in the existing clean scratch checkout.
-The full factory ran37 checks and91 mutation cases in252.285seconds; all mutated
-files were restored. Total sequential validation was299seconds. This publication
-adds evidence and this handoff; the validated candidate inputs stay unchanged.
-Logs and exact commands: `session10/resume-md-conviction-preflight/committed-75ccb047/`.
-Earlier failures remain recorded: missing completeness enrollment, stale generated
-raster refusal, the F31/F36 helper scope, and two mutation fixtures that assumed
-unfinished verification still existed after Nevada completed. Their corrections
-preserve production criteria and independently prove positive/refusal controls.
-Only the changed queue/declaration inputs were regenerated for convergence.
-
-Preflight passed. Publish explicit reviewed checkpoint/evidence paths to
-`chatgpt/launch-recovery-20260906`, verify its remote SHA, and inspect the existing
-wrapper before any dispatch. Exact next monitoring command:
+Conviction central34257213865/job102167248554 has also passed against exact
+packet872e9abd754f87d1d67f669335d30d75db7bdb27. Its72,397,925-byte artifact10069822940,
+SHA25646b43e2206629ffeab2dcd93274ad82e101fc4ddbcc1851107dbb9b68da93061,
+is downloaded once, verified and retained persistently. Its25PDF/170page inventory
+is committed and unchanged. It has NOT yet been admitted into this192 census.
+After verifying this checkpoint's remote publication, the exact next command is:
 
 ```sh
-gh run view 34257213865
+python3 scripts/rcap-packet-recovery/session10/admit-central-batch.py data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-md-conviction-central/config.json --admit
 ```
 
-Consume its actual central canary, matrix, MD family job and immutable artifact
-using existing `scripts/rcap-packet-recovery/session10/admit-central-batch.py`.
-Refresh only MD declaration, derive/publish the precise 191-to192 delta if all
-existing gates pass. Do not redispatch already admitted or unchanged candidates.
+Then refresh only conviction wiring, commit receipt inputs, derive193, run required
+committed/convergence checks and publish its precise one-family delta. Do not
+redispatch either Maryland run or any already-admitted family. Root is the sole
+recovery integrator/shared-state writer. Existing clean scratch checkout is
+/tmp/rcap-session10-committed-candidate, currently83d8e3bc; reuse it.
 
-Cannabis candidate b94a8b05061c5125e4718e06c527106c08b00d42 is now independently
-reviewed and passes all ten committed-state checks (including37 factory checks).
-Its 18 PDFs/133 pages comprise13 prepared outputs/98 pages and five refused
-diagnostics/35 pages. Raw-PASS missing-contact remains unprepared/unselectable.
-All252 prior audit rows and all196 prior queue inventories/receipts are preserved.
-The three worker-authored hosts passed separate Captain review; packet/source
-bytes did not change. Prior91 mutation controls are reused, not newly rerun.
-This publication requests only cannabis relative to successful wrapper34256892616.
-Its committed inventory is session10/resume-md-cannabis-document-inventory.json,
-SHA2562f29488f89a9c6b2c5bf449846f3aa92ebdc87cf23d74b9b346372de683b62b5.
-No cannabis receipt or terminal admission exists yet. Root remains the only
-recovery integrator and generated-state writer.
+The next independent VA absolute-pardon static declaration successor is prepared
+under session10/resume-independent-admission-review/va-absolute-pardon-product-path-review/.
+It is not integrated or counted. Preserve VF01 original attribution; existing
+coverage contract accepts canonical-only central1PDF/5pages and separately retains
+original independent2PDF/10page inspection. Runtime/projection findings remain open.
+MN original helper remains unavailable as a separately retrievable exact member;
+ND and Ohio holds remain preserved. No new broad build lanes were started.
 
-Production remains undeployed/unverified. The16 lint errors are repaired; actual
-onboarding34253142287 passed lint, typecheck and credential-free build. Wrapper
-34253135779 passed and correctly dispatched nothing at published191. The old
-worker bf4589d.../b680a4e4... still fails with a missing runtime data file; current
-runtime manifest is repaired (3afd560...) and verifies122 committed files.
-Private publication must use the existing Captain-ref workflow after integration,
-then import its real artifact before staging fingerprint/image acceptance.
-Current Actions-write dispatch capability is unproven after the prior403; existing
-publication authorization is recorded. No guard or release criterion is waived.
-Release evidence: `session10/resume-worker-publication-readiness/`.
-The current publication872 also passes onboarding34256899996 and Nevada34256899932;
-old-image acceptance34256900029 still fails. Existing production activation pins
-must be updated coherently after new image/staged-smoke evidence, and a persistent
-worker host/service remains unnamed. That missing target was asked asynchronously;
-no new generic deployment permission is requested. ND's existing owner/counsel
-hold was independently rechecked and preserved; its old central receipt covers
-canonical only (7pages), not both PDFs.
+Production remains undeployed/unverified. The16 lint errors are fixed; current
+published-source onboarding, factory, conveyor and Nevada checks passed. The old
+worker b680a4e4/digestbf4589d still fails current image acceptance34257569401 with
+missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts
+(exit1 instead of required2). Current runtime-data source pins are corrected.
+Release evidence and current failure log: session10/resume-worker-publication-readiness/.
+Integrate the reviewed recovery PR224 into the existing Captain branch preserving
+ancestry, use its registered private-image publication workflow with the exact
+full current source SHA, import actual artifact, then refresh staging/image checks.
+No old accepted-image flag is authority for this new image. Persistent production
+worker host/service is still unnamed; user was asked asynchronously. Current user
+instruction authorizes the deployment task; separate migration/secret scopes remain.
 
-This running filesystem still reports32GiB total/1.7GiB free on /workspaces and
-33GiB free on /tmp despite the reported128GB upgrade. Memory is7.8GiB total,
-about3.5GiB available under the one local audit. No downloads/builds/dependency or
-machine changes occurred in this admission preparation. Unique temporary work
-remains protected under ignored inputs/session10-machine-change-preservation/.
-Captain session:01a0812d-8cd6-7662-9365-b44f68b1923b; private history stays outside
-Git under /home/codespace/.codex/sessions/. Resume the same session/worktree.
+Both current remote central jobs are complete. No heavy local task remains after
+these checks. Actual workspace still reports32GiB/approximately1.6GiB free despite
+the reported128GB upgrade; /tmp has33GiB free and memory is7.8GiB. No machine,
+repository, dependency or destructive cleanup action was performed. The two new
+ZIPs and unique prior temporary work are retained persistently; do not duplicate
+or delete them. Private session remains01a0812d-8cd6-7662-9365-b44f68b1923b under
+/home/codespace/.codex/sessions/; it is not committed. Preserve all unrelated dirty
+and untracked worker files; stage only explicit reviewed paths.
 <!-- END SESSION10 LIVE PUBLICATION STAMP -->
 
 <!-- SESSION10 RESUME CHECKPOINT -->
