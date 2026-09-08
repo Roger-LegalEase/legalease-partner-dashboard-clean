@@ -1,15 +1,17 @@
 <!-- SESSION10 LIVE PUBLICATION STAMP -->
-# Session10 — 192/346 terminal; Maryland conviction receipt next
+# Session10 — 193/346 terminal; Maryland admission batch complete
 
-Validated derived candidate: `83d8e3bc71606b03e4e001c0c1b86b242a40ef9b`.
-Receipt input commit: `846a61ce8190febc9b319fdac4ba594c18ebad8b`.
-Recovery remote immediately before this publication: `23d057d432ea201e0c994cd5c495d35d2b463a91`.
-This checkpoint publishes 192 terminal /154 remaining: 171 COMPLETE_PACKET_PROVEN,
-14 GUIDANCE_READY,2 HANDOFF_READY,5 OUT_OF_SCOPE. Exact gain from prior published191
-is Maryland cannabis only; gain from the resumed190 checkpoint is Nevada plus cannabis.
-All191 prior members/treatments,345 other states,197 document inventories and196
+Validated derived candidate: `62655259dcb57118973b453d186b04f91eca7348`.
+Conviction receipt input commit: `ca74bb79bf6979055d37d19c91d9fcc0da59cffc`.
+Recovery remote immediately before this publication: `5f7e0c149bd791df23d45ba71b628588b978d729`.
+This checkpoint publishes193 terminal/153 remaining:172 COMPLETE_PACKET_PROVEN,
+14 GUIDANCE_READY,2 HANDOFF_READY,5 OUT_OF_SCOPE. Exact gain from published192
+is Maryland conviction only; gain from resumed190 is Nevada, cannabis and conviction.
+All192 prior members/treatments,345 other states,197 document inventories and196
 other raster receipts remain preserved. Membership proof and separate receipt review:
-`session10/resume-md-cannabis-admission-validation/`.
+`session10/resume-md-conviction-admission-validation/`. Cannabis192 was published and
+remotely verified at5f7e0c149bd791df23d45ba71b628588b978d729; its proof is retained
+separately in resume-md-cannabis-admission-validation/.
 
 Cannabis central34257872586/job102169318466 passed against exact packet
 23d057d432ea201e0c994cd5c495d35d2b463a91. Artifact10069785590 is42,652,275bytes,
@@ -20,7 +22,7 @@ missing-contact remains unprepared/unselectable. Original independent semantic
 and visual attribution is preserved; no new page review is claimed by receipt import.
 Runtime installation, sale, sponsorship and filing authority remain false.
 
-All ten committed-state checks passed on83d8e3bc, including37 factory checks,
+All ten committed-state checks passed on62655259, including37 factory checks,
 all six convergence checks, source-relationship verification, scoped declaration,
 and current122-file worker runtime manifest. The91 mutation cases are reused from
 75ccb047 and subsequent successful hosted factory runs; not newly rerun here.
@@ -30,19 +32,25 @@ No packet PDF/source byte, other family receipt or shared implementation changed
 Conviction central34257213865/job102167248554 has also passed against exact
 packet872e9abd754f87d1d67f669335d30d75db7bdb27. Its72,397,925-byte artifact10069822940,
 SHA25646b43e2206629ffeab2dcd93274ad82e101fc4ddbcc1851107dbb9b68da93061,
-is downloaded once, verified and retained persistently. Its25PDF/170page inventory
-is committed and unchanged. It has NOT yet been admitted into this192 census.
-After verifying this checkpoint's remote publication, the exact next command is:
+is downloaded once, verified and retained persistently. All25PDF/170pages and18
+negative receipt controls passed. Its23 prepared outputs/155pages and two excluded
+diagnostics/15pages remain separate. The scoped declaration and current independent
+review now support this193 census. Source and packet bytes are unchanged.
+
+After verifying this checkpoint remote, validate the VA successor/dependency hashes
+listed in successor-publication-dependencies.json. The exact next installation is:
 
 ```sh
-python3 scripts/rcap-packet-recovery/session10/admit-central-batch.py data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-md-conviction-central/config.json --admit
+cp -- data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/va-absolute-pardon-product-path-review/va-absolute-pardon-static-independent-successor.json data/rcap-grade-a/chat-parallel-2026-09-07/review/session10-va-absolute-pardon-static-independent-successor.json
 ```
 
-Then refresh only conviction wiring, commit receipt inputs, derive193, run required
-committed/convergence checks and publish its precise one-family delta. Do not
-redispatch either Maryland run or any already-admitted family. Root is the sole
-recovery integrator/shared-state writer. Existing clean scratch checkout is
-/tmp/rcap-session10-committed-candidate, currently83d8e3bc; reuse it.
+Commit only that reviewed copy and its exact evidence dependencies; preserve VF01.
+Use the existing extractor and scoped declaration refresh, derive/check the exact
+one-family delta before any new claim. No packet rebuild or new central run is owed
+for that unchanged VA canonical-delivery contract. Do not redispatch either Maryland
+run or any already-admitted family. Root remains sole integrator/shared-state writer.
+Existing clean scratch checkout /tmp/rcap-session10-committed-candidate is at
+62655259dcb57118973b453d186b04f91eca7348; reuse it.
 
 The next independent VA absolute-pardon static declaration successor is prepared
 under session10/resume-independent-admission-review/va-absolute-pardon-product-path-review/.
