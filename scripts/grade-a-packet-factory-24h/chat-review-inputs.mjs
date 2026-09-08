@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {readDeclaredWholeReviewAnchor} from '../rcap-packet-recovery/chat1/declared-whole-review-anchor.mjs';
 
 export const CHAT_REVIEW_ROOTS = [
   'data/rcap-grade-a/chat-parallel-2026-09-07/review',
@@ -87,7 +88,7 @@ export function normalizeBoundedChatFailure(root, doc, raw) {
     if (typeof raw.familyDirectory !== 'string' || !raw.familyDirectory.startsWith('data/rcap-all50/overlays/')
         || raw.familyDirectory.split('/').includes('..')) throw new Error('invalid reviewed output directory');
     for (const fixture of ['canonical','boundary']) {
-      const b = fs.readFileSync(path.join(root,raw.familyDirectory,'fixtures',fixture+'.pdf'));
+      const b = readDeclaredWholeReviewAnchor(root,raw,fixture);
       const h = crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
       const digest = crypto.createHash('sha256').update(b).digest('hex');
       if (h !== raw.anchors?.[fixture]?.gitBlobSha || digest !== raw.anchors?.[fixture]?.centralAndInventorySha256)

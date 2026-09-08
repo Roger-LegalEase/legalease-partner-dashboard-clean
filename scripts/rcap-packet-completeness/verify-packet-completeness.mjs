@@ -561,6 +561,8 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
           && status?.familyId === KY_NATIVE_FAMILY) families.push({dir, familyId: KY_NATIVE_FAMILY});
       else if (dir === MD_NATIVE_DIRECTORY && map
           && status?.familyId === MD_NATIVE_FAMILY) families.push({dir, familyId: MD_NATIVE_FAMILY});
+      else if (dir === `${OVERLAYS}/ga/ga-nonconv-pre2013-set--official-pdf-fill` && map
+          && status?.familyId === 'ga-nonconv-pre2013-set') families.push({dir, familyId: 'ga-nonconv-pre2013-set'});
       continue;
     }
     const familyId = readIf(`${dir}/approval-request.json`)?.familyId ?? entry.replace(/--[a-z-]+$/, "");

@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "independent-md-financial-delta-review/v1",
+  "reviewer": {
+    "agent": "/root/independent_md_review",
+    "implementationAuthoredByReviewer": false,
+    "kind": "separate-executing-agent",
+    "humanOrCounselReview": false
+  },
+  "reviewedCommit": "81ab23f8f4c56490b411255964179f37669ea2dd",
+  "scope": "ONLY_SHARED_FINANCIAL_INVENTORY_REPAIR",
+  "verdict": "PASS",
+  "currentHelper": {
+    "path": "scripts/rcap-packet-recovery/chat5/md-conviction.mjs",
+    "sha256": "d3766ab8497e7e58194d2b3bb5275e9626f6a4329c2297ccaf2471f189ca366d",
+    "bytes": 58677
+  },
+  "script": {
+    "path": "scripts/rcap-packet-recovery/session10/review-md-financial-inventory-delta.mjs",
+    "sha256": "3721441331b45167da3a3f62ae043e4a6fa9a61027eba9b4cf10eda55e27dc5f",
+    "bytes": 8285
+  },
+  "inputsRehashed": 132,
+  "evidence": [
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/md-cannabis-independent-financial-controls.json",
+      "sha256": "0f58d6faa3ce745f90b586514523fafdcb47ac46037b52c67e2f3805c236573b",
+      "bytes": 2208
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-causal-controls.json",
+      "sha256": "6657bf5473581efe92a5ba5a723c50c6ca50cf9db5fd8d55c02b50c95d5151d7",
+      "bytes": 4209
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-packet-equivalence.json",
+      "sha256": "9be7d45f79b771342958aebc5c5409f9baaeb28a2c7d26c7b5e201ab8512727e",
+      "bytes": 16959
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-current-inputs.json",
+      "sha256": "2541e4469ea42eb71f910b1e81ede0a627c6ce6e392d0f95d5bd22eff348e93f",
+      "bytes": 32921
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-regression.json",
+      "sha256": "07aaa2750c502ec867885fe61d9c9aaaa21e3ce9c3d0b8a1ad4b651afe840829",
+      "bytes": 12067
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-conviction-regression.json",
+      "sha256": "c7f3abfcc514f84210dabfb82868e695e3c58c9c763c0f103307b02ad45a949a",
+      "bytes": 14282
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-cannabis-regression.json",
+      "sha256": "8ce00caaa7907a424fb069df7493642bf542fbd847db4281ad25a9c396674626",
+      "bytes": 7093
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-conviction-importer.json",
+      "sha256": "709353285721dba5ddc81525a341d368a29e3a9ef4dd02d8d42f9c6f4c86b70b",
+      "bytes": 32938
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-cannabis-importer.json",
+      "sha256": "e49e90605e5e6a5c49647c4455a7512bb9cbde8f6e0d63f4750cf5c18d479d7a",
+      "bytes": 26046
+    }
+  ],
+  "retainedPdfIdentitiesVerified": 43,
+  "existingFullRendererEquivalenceReused": true,
+  "existingChecksReused": 402,
+  "cases": [
+    {
+      "name": "conviction: original missing income rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "e7ef600ba49cbc4e22b78cd453e21715584458cffce6c95b5aaaf32e458a5491",
+        "originalIndependentOutputSha256": "25b1900a22903cb3849003690e2ec8260d3e136428bdbbeee8f01b1e412b77ed",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.income",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "conviction: original missing property rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "2fa054e41d9564da6daa847bc89c3927848063d3e9c39dc1aea8ca482b8ead49",
+        "originalIndependentOutputSha256": "ef29500c0b6644680b00b2ad22d9a64636b9263d989702534d95055607ef6c6a",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.property",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "conviction: original missing debts rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "85bf19d6fd343bc6e25a2c83a517b43db4c3cab535e94ed3d09612102a5012d0",
+        "originalIndependentOutputSha256": "23feb4ecebcc26f4978bf4eeb8d99ff47193cafff86b8a50ccd42ca66e840511",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.debts",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "conviction: all inventoried fields unknown remain disclosed and unselected",
+      "passed": true,
+      "measured": {
+        "factsSha256": "f21ec3d6b6f55dfeeb492d2bacc611c9f6e2796ac628f51db517aa85ed88aef1",
+        "allKnownFactsPrepared": false,
+        "componentSha256": "111a7b6009958191fdec21db77f4e4d400dcfe171797c8e7517e0a80ac878247",
+        "unfilledFinancialCategories": 17,
+        "everyCategoryDisclosed": true
+      }
+    },
+    {
+      "name": "conviction: explicit empty inventories preserve zero/none meaning",
+      "passed": true,
+      "measured": {
+        "factsSha256": "122505085345c5b3cea5e3ac3ddc8f11fef44212830076d86310d4c22dbf2654",
+        "allKnownFactsPrepared": true,
+        "componentSha256": "91afadedc6547ed44637e923e6db536b3d4af01f83b84e391076f5467ac5c59f",
+        "explicitZero": true,
+        "explicitNone": true
+      }
+    },
+    {
+      "name": "conviction: explicit false completeness rejected",
+      "passed": true,
+      "measured": {
+        "expectedRejection": "CONDITION_NOT_MET: financial.incomeComplete"
+      }
+    },
+    {
+      "name": "conviction: current wrapper rejects missing inventory without output writes",
+      "passed": true,
+      "measured": {
+        "input": {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/md-independent-review/conviction-missing-income.facts.json",
+          "sha256": "e7ef600ba49cbc4e22b78cd453e21715584458cffce6c95b5aaaf32e458a5491",
+          "bytes": 2503
+        },
+        "exitStatus": 1,
+        "outputCreated": false
+      }
+    },
+    {
+      "name": "cannabis: original missing income rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "63dadee7511c23e01c1c1d326ea336917bdbefad298190293a9f719342df29a6",
+        "originalIndependentOutputSha256": "8a1a404cda50e1fc7fe59d5a5756b92d11e41099d82f2977688ecc9ba522ec1d",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.income",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "cannabis: original missing property rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "794ebe9023e4eb86f44a53f45d8eb7fd4f5141e65b8f1adf9486799670cca742",
+        "originalIndependentOutputSha256": "eee42fc65acfc60dbe2e931a3f561c13502919c0e5bc5fbef4deeb46b9025293",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.property",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "cannabis: original missing debts rejected before source access",
+      "passed": true,
+      "measured": {
+        "factsSha256": "39a73a8e820c82cccfbe9f969c9a753f2be392c1836eeb7d7549d10e51285c4c",
+        "originalIndependentOutputSha256": "eac42aa7f3e81bbe63504e8734a52302b3a05e91100bbd4eb11632faeb0578c1",
+        "originalFalseCompletionReused": true,
+        "currentRefusal": "FINANCIAL_INVENTORY_REQUIRED: financial.debts",
+        "sourceAccessAttempted": false
+      }
+    },
+    {
+      "name": "cannabis: all inventoried fields unknown remain disclosed and unselected",
+      "passed": true,
+      "measured": {
+        "factsSha256": "67e395e532e505a8ea15f158827393faa722789aeabc718284dc852664e7d745",
+        "allKnownFactsPrepared": false,
+        "componentSha256": "821ded6e0da144e2765b1bf49d5cacd1b0165c8d18e0293da045857ed8b7cc1d",
+        "unfilledFinancialCategories": 17,
+        "everyCategoryDisclosed": true
+      }
+    },
+    {
+      "name": "cannabis: explicit empty inventories preserve zero/none meaning",
+      "passed": true,
+      "measured": {
+        "factsSha256": "b982a2b4fbecadef6f91228bc5f3bdc10541412fedad4524525444abadcd1501",
+        "allKnownFactsPrepared": true,
+        "componentSha256": "703309ec3600f5ccce198d1c96ab334f313047a30d56a3a9278021279192725f",
+        "explicitZero": true,
+        "explicitNone": true
+      }
+    },
+    {
+      "name": "cannabis: explicit false completeness rejected",
+      "passed": true,
+      "measured": {
+        "expectedRejection": "CONDITION_NOT_MET: financial.incomeComplete"
+      }
+    },
+    {
+      "name": "cannabis: current wrapper rejects missing inventory without output writes",
+      "passed": true,
+      "measured": {
+        "input": {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/md-independent-review/cannabis-missing-income.facts.json",
+          "sha256": "63dadee7511c23e01c1c1d326ea336917bdbefad298190293a9f719342df29a6",
+          "bytes": 2647
+        },
+        "exitStatus": 1,
+        "outputCreated": false
+      }
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "reasonForFocusedExecution": "Independent current-caller confirmation of the six original failures and combined unknown/explicit-empty/false states; the unchanged exhaustive author suite and retained PDF equivalence remain attributed to their original engineering evidence.",
+  "notApproved": [
+    "whole-family source/legal/current applicability",
+    "full visual family acceptance",
+    "central acceptance",
+    "owner/matter/verification/entitlement/delivery",
+    "runtime or commercial authority"
+  ],
+  "terminalPromotion": false,
+  "productionChanged": false
+}

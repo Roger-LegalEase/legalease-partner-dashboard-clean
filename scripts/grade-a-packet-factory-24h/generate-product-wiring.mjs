@@ -19,6 +19,7 @@ import { bindDeclaredNcDelivery, NC_FAMILY } from "./nc-declared-delivery.mjs";
 import { bindDeclaredKyDelivery, KY_FAMILY } from "./ky-declared-delivery.mjs";
 import { bindDeclaredMdFavorableDelivery, MD_FAVORABLE_FAMILY } from "./md-favorable-declared-delivery.mjs";
 import { arizonaFilingCourtBinding, AZ_SEALING_ROUTES } from "../rcap-packet-recovery/chat1/az-filing-court.mjs";
+import { isMiMoDeclaredFamily, bindDeclaredMiMoDelivery, createDeclaredMiMoDelivery } from "../rcap-packet-recovery/chat1/mi-mo-declared-candidates.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -160,7 +161,14 @@ const NON_GRANTS = [
   "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
 ];
 
-const alignDeclaredDelivery = (record, family) => family.familyId === MD_FAVORABLE_FAMILY
+const miMoOptions = (family) => ({
+  report: read(`${family.directory}/reports/rendered-artifacts.json`),
+  hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
+  raster: exactRasterFor(family.familyId)
+});
+const alignDeclaredDelivery = (record, family) => isMiMoDeclaredFamily(family.familyId)
+  ? bindDeclaredMiMoDelivery(record, family, miMoOptions(family))
+  : family.familyId === MD_FAVORABLE_FAMILY
   ? bindDeclaredMdFavorableDelivery(record, family, {
       report: read(`${family.directory}/reports/rendered-artifacts.json`),
       hashFile: (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex"),
@@ -240,12 +248,19 @@ for (const f of selectedFamilies) {
         refreshed++;
       } else skipped++;
     } catch (error) {
-      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY].includes(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
+      if ([DE_FAMILY, NC_FAMILY, KY_FAMILY, MD_FAVORABLE_FAMILY].includes(f.familyId) || isMiMoDeclaredFamily(f.familyId) || Object.hasOwn(AZ_SEALING_ROUTES, f.familyId)) throw error;
       skipped++;
     }
     continue;
   }
   if (!fs.existsSync(artifactsPath)) continue;
+  if (isMiMoDeclaredFamily(f.familyId)) {
+    const wiring = createDeclaredMiMoDelivery(f, bindingFor(f), miMoOptions(f));
+    if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+    console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${wiring.binding.conditionalDelivery.fixtureBindings.length} exact selected complete outputs)`);
+    written++;
+    continue;
+  }
   let art;
   try { art = JSON.parse(fs.readFileSync(artifactsPath, "utf8")); } catch { continue; }
   /* Fixture labels vary by host era: "canonical", "tf810-canonical",
