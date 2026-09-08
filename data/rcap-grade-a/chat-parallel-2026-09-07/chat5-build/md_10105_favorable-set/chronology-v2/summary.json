@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "chat5-md-chronology-delta/v2",
+  "finding": "CHAT4-MD-01",
+  "candidateBaseCommit": "d6dcc69f4f4e42d006b6b8aa368454157da7a1ad",
+  "codeCommit": "60673ec04111180fbc62bfdfaf98d8982cae7915",
+  "testCommit": "ee8bbc93250cc1f6f2fa459310feeeeef21bb147",
+  "oldCodeGitBlob": "61f9b8f666882e67b57f26582d43be587947106e",
+  "newCodeGitBlob": "4f7f87558c98691b1ff77825ede2f13dbf7ebd7c",
+  "newCodeSha256": "ec0848affb034632b3e8c4ae8e57f0bf56f082ae5b9e5ceeb0ad122ca318450e",
+  "diff": {
+    "addedLines": 8,
+    "deletedLines": 0,
+    "onlyBehaviorChange": "Known discharge preceding entry of the same PBJ is rejected. Equality, missing-date disclosure and all existing waiting-period calculations are unchanged."
+  },
+  "authority": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+  "authorityScope": "10-105(c)(2) identifies distinct grant and discharge events; guard enforces supplied-fact chronology, not an additional waiting period.",
+  "newTestsPassed": 36,
+  "existingTestsPassed": 58,
+  "entryPathsExercised": [
+    "validateMdFavorable",
+    "renderMdFavorable",
+    "wrapper export runFamily",
+    "CLI --input FACTS --out DIR"
+  ],
+  "invalidArtifactEmission": {
+    "absentOutputDirectory": "remains absent",
+    "existingDestination": "all sentinel bytes unchanged",
+    "CLIExitCode": 1,
+    "refusal": "INCONSISTENT_PBJ_DATES"
+  },
+  "fullBuildsCompared": 2,
+  "everyGeneratedFamilyFileIdentical": true,
+  "generatedFileCount": 51,
+  "completePdfCount": 15,
+  "completePageCount": 60,
+  "changedPdfCount": 0,
+  "freshVisualReviewClaim": false,
+  "reviewReuse": "Chat4 PR237 reviewed all fifteen successful PDFs. Every complete byte is identical. No new visual or independent approval claimed.",
+  "completeOutputEquivalenceSha256": "64f98585e0db0675b0c704dd0a973c5d180377d830d2e36426abb1bef2f7d6a5",
+  "executionInputsSha256": "a4bfddcd358cf0bcb453a853057a2c8740deb5b786f57bedf3d992a7137e46b1",
+  "retainedCandidateDriveId": "1cwxyVrBP-xUSKyRe5iT04jt7tL-X35kH",
+  "retainedCandidateZipSha256": "c161b8a78a62342677d716bacbfa72f3bdc7de0c93fe8b254889f012fff1433f",
+  "commands": [
+    "node scripts/rcap-packet-recovery/chat5/test-md-favorable-chronology.mjs /mnt/data/md-chronology-tests.json",
+    "node scripts/rcap-packet-recovery/chat5/test-md-favorable.mjs /mnt/data/md-original-tests.json",
+    "node scripts/build-census-v1-md_10105_favorable-set.mjs --out /mnt/data/md-guard-pass1",
+    "node scripts/build-census-v1-md_10105_favorable-set.mjs --out /mnt/data/md-guard-pass2"
+  ],
+  "terminalPromotion": false,
+  "remaining": [
+    "Chat4 targeted independent delta reread",
+    "A publication/raster/runtime integration outside this guard"
+  ]
+}

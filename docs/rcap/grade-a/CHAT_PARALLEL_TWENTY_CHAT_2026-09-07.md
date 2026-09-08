@@ -1,5 +1,21 @@
 # Twenty-chat execution expansion — September 7, 2026
 
+## September 8 execution correction
+
+Roger confirmed that only Chats 1-10 launched. Chats 11-20 did not launch;
+their branches and assignments are not active workers. Captain reclaims every
+unstarted responsibility recorded below, including completeness, publication,
+fulfillment, registry corrections, the 54 build transfers, and independent review.
+Only actually running agents receive bounded, disjoint work. Captain remains the
+single recovery writer and preserves genuine active work and independent review.
+This corrects staffing only; it changes no family treatment or acceptance rule.
+
+At execution start, recovery `70413199d405d3a5e629f852a6298f416f90707c`
+contains 346 unique families: 161 COMPLETE_PACKET_PROVEN, 10 GUIDANCE_READY,
+2 HANDOFF_READY and 5 OUT_OF_SCOPE, totaling 178 terminal and 168 remaining.
+The original Kentucky branch and all 47 untracked candidate/source files were
+preserved; their identities match the verified Session07 installation manifest.
+
 Roger explicitly requested twenty ChatGPT workers while Claude and Codex are unavailable. This document extends CHAT_PARALLEL_TEN_CHAT_2026-09-07.md, CHAT_PARALLEL_EXPANSION_2026-09-07.md and CHAT_PARALLEL_2026-09-07.md only through the exact transfers below. It changes work ownership, not legal conclusions, acceptance requirements, terminal states or production permission.
 
 ## Grounding and preserved progress

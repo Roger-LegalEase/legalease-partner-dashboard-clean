@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-independent-delivery-engineering-delta/v1",
+  "reviewer": "release_scope independent engineering sub-agent",
+  "recordedAt": "2026-09-08T11:06:53.551Z",
+  "verdict": "PASS_BOUNDED_ENGINEERING_DELTA",
+  "passed": 16,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Missing output hash refuses before storage",
+      "passed": true,
+      "code": "artifact_missing",
+      "storageReads": 0,
+      "verificationReads": 0
+    },
+    {
+      "name": "Storage path must contain the exact job identity",
+      "passed": true,
+      "code": "artifact_identity_mismatch",
+      "storageReads": 0,
+      "verificationReads": 0
+    },
+    {
+      "name": "Storage path must contain the actual artifact hash",
+      "passed": true,
+      "code": "artifact_identity_mismatch",
+      "storageReads": 0,
+      "verificationReads": 0
+    },
+    {
+      "name": "Matching digest cannot turn a non-PDF object into a packet",
+      "passed": true,
+      "code": "artifact_corrupt",
+      "storageReads": 1,
+      "verificationReads": 0
+    },
+    {
+      "name": "Sponsored job cannot borrow its consumer verification binding",
+      "passed": true,
+      "code": "verification_binding_mismatch",
+      "storageReads": 1,
+      "verificationReads": 1
+    },
+    {
+      "name": "Accounting-blocked artifact cannot reach commercial admission",
+      "passed": true,
+      "code": "not_deliverable",
+      "storageReads": 0,
+      "verificationReads": 0
+    },
+    {
+      "name": "Existing Illinois fallback stays denied without server access",
+      "passed": true,
+      "code": "verification_not_current",
+      "storageReads": 1,
+      "verificationReads": 0
+    },
+    {
+      "name": "Canceled response records abort and never completion",
+      "passed": true,
+      "eventTypes": [
+        "delivery_authorized",
+        "transmission_started",
+        "transmission_aborted"
+      ]
+    },
+    {
+      "name": "Consumer handler denies a grant for another stored object",
+      "passed": true,
+      "httpStatus": 404,
+      "storageReads": 1,
+      "verificationReads": 1,
+      "admissions": 1,
+      "transmittedPacket": false
+    },
+    {
+      "name": "Consumer handler denies a grant for another artifact hash",
+      "passed": true,
+      "httpStatus": 404,
+      "storageReads": 1,
+      "verificationReads": 1,
+      "admissions": 1,
+      "transmittedPacket": false
+    },
+    {
+      "name": "Consumer handler denies a different owned matter behind the same grant",
+      "passed": true,
+      "httpStatus": 404,
+      "storageReads": 1,
+      "verificationReads": 1,
+      "admissions": 1,
+      "transmittedPacket": false
+    },
+    {
+      "name": "Consumer handler sanitizes the download filename on positive delivery",
+      "passed": true,
+      "httpStatus": 200,
+      "storageReads": 1,
+      "verificationReads": 1,
+      "admissions": 1,
+      "transmittedPacket": true
+    },
+    {
+      "name": "Consumer verification exceptions fail closed",
+      "passed": true,
+      "httpStatus": 404,
+      "storageReads": 1,
+      "verificationReads": 0,
+      "admissions": 0,
+      "transmittedPacket": false
+    },
+    {
+      "name": "RCAP verification exceptions fail closed",
+      "passed": true,
+      "httpStatus": 409,
+      "storageReads": 1,
+      "verificationReads": 0,
+      "admissions": 0,
+      "transmittedPacket": false
+    },
+    {
+      "name": "Sponsored stale binding is refused by the actual RCAP handler",
+      "passed": true,
+      "httpStatus": 409,
+      "storageReads": 1,
+      "verificationReads": 1,
+      "admissions": 0,
+      "transmittedPacket": false
+    },
+    {
+      "name": "Actual installed authority denies Kentucky without an installed record",
+      "passed": true,
+      "actualRegistry": true,
+      "syntheticAuthorityResponse": false,
+      "state": "NO_RECORD",
+      "admissionPoints": [
+        {
+          "point": "consumer_checkout",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "sponsored_entitlement",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "packet_credit_admission",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "generation_admission",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "provider_dispatch",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "artifact_commercial_attachment",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "briefcase_ready",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "private_download",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "repeat_download",
+          "denialCode": "fulfillment_no_record"
+        },
+        {
+          "point": "launch_graph_commercial_status",
+          "denialCode": "fulfillment_no_record"
+        }
+      ]
+    }
+  ],
+  "sourceSha256": {
+    "src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts": "ad7649e52d20569f274897748387e19c10ba7cea6118f392912b9106215e693d",
+    "src/app/api/rcap/packets/[jobId]/download/route.ts": "3153fc62662e940e721266a24c4ccb14a3de515211369ec7eea59046da2c9dcb",
+    "src/lib/rcap/fulfillment/grade-a-admission.ts": "89f171bc9b42d2f199daf8e571c5fa8d1050134301a829ac137a43ec0faaabfd",
+    "src/lib/rcap/fulfillment/grade-a-authority.ts": "7d53677b1f3918e4ffab92261441c0817846f7957e9db9ebb9035647d5b4a3e7",
+    "src/lib/rcap/fulfillment/grade-a-packet-proof.ts": "b7d386c6ce656b17d975cc31201860897d8b0868a4f5ec7da934572c0758b0fd",
+    "src/lib/rcap/fulfillment/grade-a-request-context.ts": "1ada0e34fa1e2e8a89edf9badbbd5f16a10222e532be532279ab4ccb0f0ba2f0",
+    "src/lib/rcap/fulfillment/grade-a-registry.ts": "cfdd475378239ba5dbc30cd17e31e4df7c1386ab5d4e71686619f1bca8d671e9",
+    "src/lib/rcap/render/packet-delivery.ts": "ef222d5e5e71b6e7eb0dde87ba71cc89b3604778a210b82ff6206db62a734837",
+    "src/lib/rcap/render/job-contract.ts": "e5c62b7812e00efe51df76c24973d5e99fea0e58adacd90dcbc7eb36595ee18d"
+  },
+  "completeKyPdfSha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2",
+  "boundary": {
+    "realCoreAndHandlersExecuted": true,
+    "sessionDatabaseStoragePorts": "synthetic",
+    "positiveAuthorityPort": "explicit synthetic response",
+    "installedRegistryDenialExecuted": true,
+    "actualEntitlementCreated": false,
+    "rendererExecuted": false,
+    "installedKentuckyFulfillment": false,
+    "hostedProductionAcceptance": false
+  },
+  "retainedFilesMutated": false,
+  "productionTouched": false
+}

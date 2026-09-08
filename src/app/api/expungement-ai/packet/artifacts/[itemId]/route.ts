@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
 import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { authorizeConsumerArtifactDownload } from "@/lib/expungement-ai/private-delivery";
 import { getPacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
@@ -28,7 +30,28 @@ export async function GET(
   const storage = getPacketArtifactStorage();
   if (!storage) return unavailable();
   const ports: DeliveryPorts = {
-    getJob: (id) => getRenderJob(id),
+    getJob: async (id) => {
+      const job = await getRenderJob(id);
+      if (job) {
+        ports.getCurrentVerification = async (currentItemId) => {
+          const item = await getBriefcaseItem(session.userId, currentItemId);
+          if (!item) return null;
+          try {
+            const verification = await requireCurrentPacketVerification(session.userId, item);
+            return {
+              snapshot: verification.snapshot,
+              hash: verification.hash,
+              ownerUserId: session.userId,
+              matterId: consumerMatterIdForItem(item.id),
+              alreadyDownloaded: job.status === "delivered"
+            };
+          } catch {
+            return null;
+          }
+        };
+      }
+      return job;
+    },
     userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
     storage,
     recordEvent: (input) => recordDeliveryEvent(input)

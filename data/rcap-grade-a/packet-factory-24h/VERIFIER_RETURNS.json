@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 95,
-    "rows": 963,
-    "independentVerdicts": 243,
+    "returnDirectories": 98,
+    "rows": 966,
+    "independentVerdicts": 245,
     "failRepairRequired": 47,
-    "passIndependent": 180
+    "passIndependent": 182
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -9701,6 +9701,27 @@
       "superseded": false
     },
     {
+      "familyId": "ky_nonconviction_expungement-set",
+      "verdict": "PASS",
+      "lane": "ky-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+      "evidenceSha256": "cb63db4b3e12a5c87b3608314606adff4593706becf5408a67099cd2c279da0c",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_nonconviction_expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "ky_void_seal_controlled_substance-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -10276,6 +10297,56 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-time-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS",
+      "lane": "md-guard-delta-03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "evidenceSha256": "723f602652a2e9c3b23513f98888fa3ec84b3176e4b913c5241cf46542d6ec78",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat4 review session",
+      "sessionIdentity": "chat4-20260907-delta-ga-independent-03",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": false
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "md-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "All supplied selections and clocks are correct, and all 46 declared marks have ink. Mixed basis/date, pending case, future discharge, protected signature, early-release and wrong-instrument probes behave correctly. CHAT4-MD-01 independently demonstrates contradictory PBJ entry/discharge dates can still authorize a mark.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json",
+      "evidenceSha256": "32a5c9cca6abdac4fa0e3289ed88362f064228920a228044eb636324b08910f5",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
       "superseded": true
     },
     {

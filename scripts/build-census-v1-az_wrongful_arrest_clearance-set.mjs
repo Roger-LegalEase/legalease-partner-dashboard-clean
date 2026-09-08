@@ -398,6 +398,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
@@ -716,8 +717,9 @@ function countCompleteness(maps, writeProofs, instructionsText) {
 
 /* ---- outputs ------------------------------------------------------------------- */
 function writeJson(rel, value) {
-  fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
 }
 
 /*

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "d865576328d39040b79f585c50c88db4ea9bee46",
+  "generatedAtCommit": "70413199d405d3a5e629f852a6298f416f90707c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4471,21 +4471,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ky_nonconviction_expungement-set",
-      "familyId": "ky_nonconviction_expungement-set",
-      "itemId": null,
-      "familyIds": [
-        "ky_nonconviction_expungement-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ky_protective_order_record_expungement-set",
       "familyId": "ky_protective_order_record_expungement-set",
       "itemId": null,
@@ -4869,21 +4854,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "md_10105_favorable-set",
-      "familyId": "md_10105_favorable-set",
-      "itemId": null,
-      "familyIds": [
-        "md_10105_favorable-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF09",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -7841,7 +7811,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF04",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-06T18:33:50.752Z"
@@ -13821,7 +13791,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "7b45ec9d8dfc53d096d0b35abd8c0efc78aeba59539d472ec5da475abccd8ad7",
+  "claimsDigest": "1ec65f23b6085de638523d0120924d20cbb00a92cf30dd6fcd959853cc8a13e4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52712,6 +52682,22 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-07T18:09:38Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_nonconviction_expungement-set",
+      "operation": "packet-build",
+      "lane": "PF04",
+      "withdrawnAt": "2026-09-08T11:11:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "md_10105_favorable-set",
+      "operation": "packet-build",
+      "lane": "PF09",
+      "withdrawnAt": "2026-09-08T11:11:27Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

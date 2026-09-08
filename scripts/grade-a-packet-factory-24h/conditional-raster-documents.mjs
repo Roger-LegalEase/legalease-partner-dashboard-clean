@@ -44,5 +44,48 @@ export function conditionalPacketDocuments({ report, fixtures, root }) {
     const other = d.role === 'canonical' ? 'boundary' : 'canonical';
     assert.ok(pairs.has(`${other}:${d.branch}`), 'Conditional branch lacks its other fixture');
   }
+
+  // Native builders declare a complete packet for each selectable fixture.
+  // These are independent elections, not paired NC diagnostic branches.
+  // Preserve their existing bytes and include every declared whole output.
+  const native = (report?.pdfs ?? []).filter(d => typeof d?.fixture === 'string'
+    && d.fixture.startsWith('selectable/'));
+  for (const d of native) {
+    assert.match(d.fixture, /^selectable\/[a-z0-9][a-z0-9_-]*$/, 'Unsafe native fixture identity');
+    assert.ok(d.baseFixture == null || ['canonical', 'boundary'].includes(d.baseFixture), 'Invalid native base fixture');
+    assert.ok(typeof d.file === 'string' && !path.isAbsolute(d.file), 'Native packet path must be repository-relative');
+    assert.ok(!d.file.split(/[\\/]/).includes('..'), 'Native packet path contains traversal');
+    assert.match(d.sha256 ?? '', /^[a-f0-9]{64}$/, 'Native packet needs its SHA-256');
+    assert.ok(Number.isSafeInteger(d.byteLength) && d.byteLength > 0, 'Native packet needs its byte length');
+    assert.ok(Number.isSafeInteger(d.pageCount) && d.pageCount > 0, 'Native packet needs its page count');
+    const target = path.resolve(root, d.file);
+    const expected = path.join(home, `${d.fixture}.pdf`);
+    assert.equal(target, expected, 'Native fixture identity and output path disagree');
+    assert.ok(!fs.lstatSync(target).isSymbolicLink(), 'Native packet must not be a symlink');
+    assert.equal(fs.realpathSync(target), expected, 'Native packet escapes its fixture directory');
+    const name = `${d.fixture}.pdf`;
+    assert.ok(!seen.has(name), 'Duplicate native selectable packet');
+    const bytes = fs.readFileSync(target);
+    assert.equal(bytes.subarray(0, 5).toString(), '%PDF-', 'Native output is not PDF');
+    assert.equal(bytes.length, d.byteLength, 'Native packet byte length drift');
+    assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), d.sha256, 'Native packet digest drift');
+    seen.add(name);
+    selected.push({ role: d.baseFixture ?? 'canonical', name,
+      declaredPageCount: d.pageCount, branch: d.fixture });
+  }
+  const nativeDir = path.join(home, 'selectable');
+  const inspectNativeDirectory = dir => {
+    assert.ok(!fs.lstatSync(dir).isSymbolicLink(), 'Native fixture directory must not be a symlink');
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      assert.ok(!entry.isSymbolicLink(), 'Native fixture must not be a symlink');
+      if (entry.isDirectory()) inspectNativeDirectory(file);
+      else if (entry.name.endsWith('.pdf')) {
+        const name = path.relative(home, file).split(path.sep).join('/');
+        assert.ok(seen.has(name), 'A native selectable PDF is absent from the declaration');
+      }
+    }
+  };
+  if (fs.existsSync(nativeDir)) inspectNativeDirectory(nativeDir);
   return selected.sort((a,b) => a.name.localeCompare(b.name, 'en'));
 }

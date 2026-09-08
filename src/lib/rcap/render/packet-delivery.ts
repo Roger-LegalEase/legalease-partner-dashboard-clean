@@ -107,6 +107,14 @@ export async function authorizePacketDownload(
     };
   }
 
+  // Every general delivery caller must provide the live verification reader.
+  // The exact Illinois route retains its existing server-side fallback below;
+  // absence of a reader elsewhere must never skip commercial admission.
+  const exactIllinoisRoute = job.routeId === "IL:felony-prostitution-relief";
+  if (!ports.getCurrentVerification && !exactIllinoisRoute) {
+    return { ok: false, status: 409, code: "verification_not_current", message: "This packet must be reviewed again before it can be downloaded." };
+  }
+
   // 5. Artifact integrity, from the bytes, now. The stored path and hash are
   // claims; the object is the evidence. A missing object, a corrupted or
   // replaced object, or an object that is not this job's artifact all fail
@@ -144,11 +152,10 @@ export async function authorizePacketDownload(
   // and specific, and reaching this point means the object is genuinely this
   // job's artifact; refusing here is then a statement about commercial
   // authority rather than about the file.
-  const exactIllinoisRoute = job.routeId === "IL:felony-prostitution-relief";
   if (ports.getCurrentVerification || exactIllinoisRoute) {
     // Sponsored enqueue deliberately has no consumer-payment binding. Its
     // participant-owned Briefcase item still supplies the current verification.
-    const consumerItemId = job.consumerBriefcaseItemId ?? (exactIllinoisRoute ? job.briefcaseItemId : null);
+    const consumerItemId = job.consumerBriefcaseItemId ?? job.briefcaseItemId;
     if (!consumerItemId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
     }
@@ -175,6 +182,19 @@ export async function authorizePacketDownload(
     if (current.ownerUserId !== input.userId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
     }
+    // The current verification must still describe the job's exact matter,
+    // route and fact snapshot. A newly verified different snapshot cannot
+    // authorize delivery of an older stored artifact.
+    const jobVerificationHash = job.partnerId
+      ? job.sponsoredBinding?.verificationHash
+      : job.consumerVerificationHash;
+    if (!jobVerificationHash || jobVerificationHash !== current.hash) {
+      return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
+    }
+    if (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}`
+      || job.matterId !== current.matterId) {
+      return { ok: false, status: 403, code: "route_binding_mismatch", message: "This packet is not available for download." };
+    }
     if (exactIllinoisRoute) {
       const binding = job.personalizedBinding;
       const specification = packetSpecificationForTrack(job.routeId, current.snapshot.selectedTrackId ?? "");
@@ -186,10 +206,6 @@ export async function authorizePacketDownload(
         || binding.specificationFileSha256 !== getCurrentFulfillmentRecord(job.routeId)?.packetSpecification.sha256) {
         return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
       }
-    }
-    if ((exactIllinoisRoute || `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` === "IL:felony-prostitution-relief")
-      && (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` || job.matterId !== current.matterId)) {
-      return { ok: false, status: 403, code: "route_binding_mismatch", message: "This packet is not available for download." };
     }
     if (exactIllinoisRoute && job.partnerId && !await sponsoredRenderDeliveryReady(job, input.userId)) {
       return { ok: false, status: 409, code: "sponsorship_not_finalized", message: "This packet is not ready to download." };

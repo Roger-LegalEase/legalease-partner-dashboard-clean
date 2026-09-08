@@ -12,6 +12,9 @@
 // partial credit and no "mostly complete": a filing with a blank offence code is
 // not 97 percent filable, it is unfilable.
 import fs from "node:fs";
+import { isKyNativeCandidate, auditKyNativeCandidate, KY_NATIVE_FAMILY, KY_NATIVE_DIRECTORY } from "./ky-native-candidate.mjs";
+import { auditMdNativeCandidate, MD_NATIVE_FAMILY, MD_NATIVE_DIRECTORY } from "./md-favorable-native-candidate.mjs";
+import { createGaPre2013ActorVerifier, gaPre2013ActorInventoryProblems } from "./ga-pre2013-source-actors.mjs";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -54,6 +57,8 @@ const normalizeRow = (row, document = null) => ({
   reason: row.reason ?? row.refusalReason ?? "",
   refusalClass: row.refusalClass ?? null,
   role: row.role ?? null,
+  owner: row.owner ?? null,
+  sourceActorEvidence: row.sourceActorEvidence ?? null,
   page: row.page ?? row.widgets?.[0]?.page ?? row.widgets?.[0]?.pageIndex ?? null,
   document: row.documentId ?? row.formNumber ?? document,
   factId: row.factId ?? row.fact ?? null,
@@ -269,11 +274,20 @@ export function verifySourcePresentation(blank, { census, receipt, fieldMap, act
 
 export function auditFamily(dir, familyId) {
   const fieldMap = readIf(`${dir}/production-field-map.json`);
-  const actualWrites = readIf(`${dir}/reports/actual-writes.json`);
-  const rendered = readIf(`${dir}/reports/rendered-artifacts.json`);
-  const receipt = readIf(`${dir}/source-receipt.json`);
-  const census = readIf(`${dir}/field-census.census-v1.json`);
-  const approval = readIf(`${dir}/approval-request.json`);
+  if (familyId === KY_NATIVE_FAMILY && dir === KY_NATIVE_DIRECTORY) return auditKyNativeCandidate(
+    {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
+  if (familyId === MD_NATIVE_FAMILY && dir === MD_NATIVE_DIRECTORY) return auditMdNativeCandidate(
+    {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
+  return auditPreparedInputs(dir, familyId);
+}
+
+export function auditPreparedInputs(dir, familyId, inputs = null) {
+  const fieldMap = inputs ? inputs.fieldMap : readIf(`${dir}/production-field-map.json`);
+  const actualWrites = inputs ? inputs.actualWrites : readIf(`${dir}/reports/actual-writes.json`);
+  const rendered = inputs ? inputs.rendered : readIf(`${dir}/reports/rendered-artifacts.json`);
+  const receipt = inputs ? inputs.receipt : readIf(`${dir}/source-receipt.json`);
+  const census = inputs ? inputs.census : readIf(`${dir}/field-census.census-v1.json`);
+  const approval = inputs ? inputs.approval : readIf(`${dir}/approval-request.json`);
 
   const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
   const findings = [];
@@ -297,6 +311,8 @@ export function auditFamily(dir, familyId) {
       auditable: false
     };
   }
+
+  for (const {counter, ...detail} of gaPre2013ActorInventoryProblems(familyId, fieldMap)) note(counter, detail);
 
   // ---- what the platform actually holds for this family --------------------------
   //
@@ -348,6 +364,8 @@ export function auditFamily(dir, familyId) {
 
   // ---- every blank earns its blankness ------------------------------------------
   const blankLedger = [];
+  const verifyActor = createGaPre2013ActorVerifier({root: ROOT, directory: dir, familyId, fieldMap, census, receipt, rendered});
+  const sourceActorMeasurements = [];
   for (const blank of blanks) {
     const declared = {
       ...blank.declared,
@@ -355,7 +373,13 @@ export function auditFamily(dir, familyId) {
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
         || writtenBeside(blank)
     };
-    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    const actor = verifyActor(blank);
+    if (actor?.verified && !sourceActorMeasurements.some(m => m.sourceSha256 === actor.sourceSha256)) sourceActorMeasurements.push(actor);
+    const verdict = actor?.verified === true
+      ? {disposition: "PROTECTED_FIELD", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.basis}
+      : actor?.verified === false
+        ? {disposition: "UNCLASSIFIED_BLANK", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.failure}
+        : classifyBlank(blank, blank.reason, blank.refusalClass, declared);
     blankLedger.push({ ...blank, ...verdict });
     const spec = BLANK_DISPOSITIONS[verdict.disposition];
     if (spec.allowed) continue;
@@ -376,7 +400,7 @@ export function auditFamily(dir, familyId) {
   // in the contract, which sees one row at a time.
   const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
   const hasInstructions = fs.existsSync(instructionsPath);
-  const instructions = hasInstructions ? fs.readFileSync(instructionsPath, "utf8") : "";
+  const instructions = inputs ? inputs.instructions : hasInstructions ? fs.readFileSync(instructionsPath, "utf8") : "";
   const declaredRequired = blankLedger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING");
   const namedInInstructions = (b) => {
     if (!instructions.trim()) return false;
@@ -446,6 +470,10 @@ export function auditFamily(dir, familyId) {
   const renderedFileNames = fs.existsSync(path.join(ROOT, `${dir}/fixtures`))
     ? fs.readdirSync(path.join(ROOT, `${dir}/fixtures`), { recursive: true }).join(" ").toLowerCase() : "";
   const componentAppears = (id) => {
+    // AOC-497.2 is not AOC-497. Native adapters provide actual component IDs;
+    // do not turn a prefix match into evidence of an optional companion order.
+    if (rendered?.componentIdentityMode === "exact") return (rendered.packets ?? [])
+      .some(p => (p.documents ?? []).some(d => typeof d === "string" ? d === id : (d.documentId ?? d.formNumber) === id));
     const needle = String(id).toLowerCase();
     const loose = needle.replace(/[^a-z0-9]/g, "");
     return renderedText.includes(needle) || renderedFileNames.includes(needle)
@@ -505,6 +533,7 @@ export function auditFamily(dir, familyId) {
       rowsInspected: rows.size,
       fieldMapSchema: schema
     },
+    ...(sourceActorMeasurements.length ? {sourceActorMeasurements} : {}),
     outputApprovalStatus: approval?.status ?? null,
     sourceCurrentness: currentness,
     // Not truncated. A completeness record that elides findings is the same
@@ -523,7 +552,17 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   if (!fs.statSync(stateDir).isDirectory()) continue;
   for (const entry of fs.readdirSync(stateDir)) {
     const dir = `${OVERLAYS}/${state}/${entry}`;
-    if (!fs.existsSync(path.join(ROOT, dir, "approval-request.json"))) continue;
+    if (!fs.existsSync(path.join(ROOT, dir, "approval-request.json"))) {
+      // A native build-status is discovery, never approval. Only this exact
+      // family is discovered here; schema/byte mismatches are refused by its audit.
+      const map = readIf(`${dir}/production-field-map.json`);
+      const status = readIf(`${dir}/build-status.json`);
+      if (dir === KY_NATIVE_DIRECTORY && map
+          && status?.familyId === KY_NATIVE_FAMILY) families.push({dir, familyId: KY_NATIVE_FAMILY});
+      else if (dir === MD_NATIVE_DIRECTORY && map
+          && status?.familyId === MD_NATIVE_FAMILY) families.push({dir, familyId: MD_NATIVE_FAMILY});
+      continue;
+    }
     const familyId = readIf(`${dir}/approval-request.json`)?.familyId ?? entry.replace(/--[a-z-]+$/, "");
     families.push({ dir, familyId });
   }
@@ -576,7 +615,7 @@ const results = targets.map((t) => auditFamily(t.dir, t.familyId))
   .sort((a, b) => a.familyId.localeCompare(b.familyId));
 
 const byResult = results.reduce((acc, r) => { acc[r.result] = (acc[r.result] ?? 0) + 1; return acc; }, {});
-const totals = Object.fromEntries(PASS_COUNTERS.map((c) => [c, results.reduce((n, r) => n + (r.counters[c] ?? 0), 0)]));
+const totals = Object.fromEntries(PASS_COUNTERS.map((c) => [c, results.every(r => Number.isFinite(r.counters[c])) ? results.reduce((n, r) => n + r.counters[c], 0) : null]));
 
 const doc = {
   schemaVersion: "rcap-packet-completeness-matrix/v1",
@@ -600,7 +639,9 @@ for (const r of results) {
 }
 console.log(`\n  ${results.length} famil(ies) audited · ${byResult.PASS_COMPLETE ?? 0} PASS_COMPLETE`);
 for (const [k, v] of Object.entries(byResult).filter(([k]) => k !== "PASS_COMPLETE")) console.log(`  ${String(v).padStart(3)} ${k}`);
-console.log(`\n  counters: ${PASS_COUNTERS.map((c) => `${c} ${totals[c]}`).join(" · ")}`);
+console.log(`\n  counters: ${PASS_COUNTERS.map((c) => `${c} ${totals[c] === null ? "UNMEASURED" : totals[c]}`).join(" · ")}`);
+
+for (const r of results.filter(r => r.runtimeIntakeCounters === null)) console.log(`  ${r.familyId}: static retained-fixture audit only; runtime intake and fulfillment are unmeasured here.`);
 
 if (WRITE) {
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
