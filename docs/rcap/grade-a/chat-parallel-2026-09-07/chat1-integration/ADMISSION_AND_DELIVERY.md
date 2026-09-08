@@ -1,3 +1,136 @@
+<!-- CLAUDE CAPTAIN HANDOFF 2026-09-08 -->
+# Captain handoff to Claude — writes released after this checkpoint publication
+
+The user transferred Captain ownership to Claude in this same Codespace. Stop
+Astra scheduling and shared writes. No new batch, merge, dispatch or production
+operation was started for this handoff. The atomic194 publication finished safely.
+All local mutation tests completed and restored their files; no local build/test
+process is active. Both available workers are idle/frozen with no file claims.
+
+Exact recovery heads captured immediately before this handoff-only commit:
+- Local `chatgpt/launch-recovery-20260906`: `040de46a6d228c951eeff6dd26c0c3bb19693a5a`.
+- Verified remote recovery: `040de46a6d228c951eeff6dd26c0c3bb19693a5a`.
+- Remote Captain/base of PR224: `ee4021b473018a469fea7a9a5325b41d1abff041`.
+- Local-only commits: none. Tracked/index changes before this document: none.
+- This document is the only staged handoff change. Its publication commit is the
+  document-only successor to040de46a; obtain its exact SHA with
+  `git log -1 --format=%H -- docs/rcap/grade-a/chat-parallel-2026-09-07/chat1-integration/ADMISSION_AND_DELIVERY.md`.
+  Post-push local/remote verification is retained in
+  `inputs/session10-machine-change-preservation/claude-handoff-publication.json`.
+
+Verified published census: **194/346 terminal;152 remaining**. The exact members
+are in committed MASTER_QUEUE.json and
+`session10/resume-va-admission-validation/membership-proof.json`. Counts are
+173 COMPLETE_PACKET_PROVEN,14 GUIDANCE_READY,2 HANDOFF_READY,5 OUT_OF_SCOPE.
+This continuation added exactly Nevada, Maryland cannabis, Maryland conviction
+and Virginia absolute pardon to the resumed190. Every prior terminal member and
+treatment is preserved. PR224's actual Captain baseline is176; its net gain is18
+(13 complete packets,5 guidance treatments), with no removed/reclassified prior
+terminal member. Do not recount earlier KY/MD favorable/GA/MI/MO/Iowa/WA/CT work.
+
+Completed publications and receipt custody:
+- Cannabis192: `5f7e0c149bd791df23d45ba71b628588b978d729`;
+  central34257872586/job102169318466,18PDF/133pages;18 receipt refusal controls.
+- Conviction193: `ddec497deac0f2db8023810b7f053ff378489311`;
+  central34257213865/job102167248554,25PDF/170pages;18 receipt refusal controls.
+- Virginia194: `040de46a6d228c951eeff6dd26c0c3bb19693a5a`;
+  existing central33574304514/job100075268196 reused for1PDF/5pages under the
+  unchanged canonical-delivery contract. Original independent2PDF/10page review
+  remains separately attributed; no boundary central pass is invented.
+Both Maryland runs and wrappers completed successfully; never redispatch them.
+All ten committed checks passed on final derived candidate
+`bfa17e10cae0af701613e36b8d2d4d0fd0102aac`. The local91-mutation result at75ccb047
+and subsequent hosted runs are reused evidence, not a newly rerun local suite.
+
+Nonconflicting remote jobs at the handoff observation:
+- Source Conveyor34262980366/job102185285978: IN_PROGRESS.
+- Onboarding34262980308/job102185286634: IN_PROGRESS.
+- Factory audit34262980280/job102185305228: IN_PROGRESS. Let its mutations finish
+  and restore their runner files; do not cancel it for the handoff.
+- Nevada34262980772/job102185287516: SUCCESS.
+- Recovery wrapper34262972040: verify_repairs102185259099 and
+  central_raster102186122871 both SUCCESS. This receipt-only publication should
+  request no new family; inspect its existing log if needed, never force YAML.
+- Old-image acceptance34262980303/job102185286441: FAILURE.
+These runs name exact source040de46a; later document-only checkpoint events do not
+make them evidence of new implementation. Job metadata and capture time are in
+`inputs/session10-machine-change-preservation/claude-handoff-local-state.json`.
+No remote job was killed. These isolated CI runners do not claim shared local files.
+
+Exact next executable command for Claude:
+
+```sh
+gh run view 34262980366 --json status,conclusion,jobs --jq '{status,conclusion,jobs:[.jobs[]|{name,status,conclusion}]}'
+```
+
+Then consume the actual onboarding/factory outcomes above, update the prepared
+PR validation text, and follow the already reviewed existing integration/image
+publication procedure below. PR224 remains OPEN and DRAFT; no metadata mutation,
+merge, new image publication or deployment was performed. Preserve normal merge
+ancestry into the existing Captain branch; do not squash away reviewed sources.
+
+Prepared but unpublished, persistent worker output:
+- `session10/resume-worker-publication-readiness/pr224-release-194-body.md`,
+  SHA256f4ff3c3221b9fb4204c351e87ba7af6f6c99601ad535c5bfeae6c6885c4c22d0;
+  corresponding `pr224-release-194-title.txt`,
+  SHA256c4b44370507b7af010fd167bd1389a47c7e5636f20caaebbef45e64d7919bec3.
+- In that same directory: `pr224-base-to-published-194-membership.json`,
+  `pr224-published-194-release-review.json`,
+  `pr224-published-194-release-review-manifest.json` (SHA256
+  57d0e52db94d195803a8a0724507b792f68986cbb6e31f75641d5051b57d36e5).
+  These five files are untracked and frozen. Historical23d/193 drafts/manifests
+  and actual old-image failure logs are also retained untracked; do not overwrite.
+- `session10/resume-va-admission-validation/publication-result.json` and the
+  untracked commit/push logs under the completed family evidence directories.
+- Unpublished bounded ND hold and exact MN transport-recheck evidence remain in
+  the existing independent-review directories; they create no terminal gains.
+No candidate implementation or required review input is stranded in a local-only
+commit. The194 candidate, review inputs, receipts and census are already remote.
+
+Untracked/ignored work is preserved, not disposable. Snapshot recorded426
+untracked files, including older worker outputs. Exact non-input paths are in
+`inputs/session10-machine-change-preservation/claude-handoff-local-state.json`
+(SHA25629156db5f23ba13c1da0211a44ddb34f406e8028e977ac8e6f034d928b3515d1).
+Only this handoff document is committed for the transfer; none of that other work
+is staged. Persistent ZIPs include the verified Maryland artifacts in their
+resume-md-*-central directories and Nevada's retained artifact. Unique earlier
+/tmp work remains protected under ignored inputs/session10-machine-change-preservation/.
+All new worker output in this continuation was written persistently in the repo;
+no new indispensable sole copy was created in /tmp. The reusable scratch worktree
+is clean atbfa17e10 and contains no unique uncommitted work. Other worktrees are
+untouched and remain listed by git worktree list.
+
+Workers/file claims:
+- `/root/release_path_review` (Avicenna): final194 draft/proofs frozen; idle;
+  no active process or claimed shared file; all writes stopped.
+- `/root/session10_admission_review` (Aristotle): VA successor integrated; idle;
+  ND/MN/Ohio findings retained; no active shared-file writer.
+- Astra root: releases the recovery integrator, handoff and generated-state claims
+  to Claude after this document-only push/verification. No replacement workers.
+Existing editor/Codex processes were preserved. PID577127 is the VS Code extension
+host (about3.2GiB RSS at observation), not a packet build; no process was killed.
+
+Resources at18:28UTC: /workspaces remains32GiB total,29GiB used,1.7GiB free (95%);
+/tmp has33GiB free. RAM7.8GiB total,1.2GiB available, no swap. The reported128GB
+upgrade is still not reflected in this running filesystem. No heavy new task,
+reinstall, second dependency tree, cleanup or machine operation was started.
+
+Production remains undeployed/unverified. Source lint's16 errors are repaired,
+and the current122-file runtime manifest passes. The retained worker image source
+b680a4e4.../digestbf4589d... still fails startup (missing runtime data; exit1 rather
+than required2). Existing private image publication requires the exact source to
+be contained in Captain/main and its Captain-ref registered workflow. Local
+Actions-write capability previously returned403 and has NOT been retried this
+continuation; do not invent a workflow backdoor or clear old image evidence.
+After a real new image publication, import its immutable artifact before updating
+fingerprint/staging/image acceptance. Production activation still needs a coherent
+current app/image/smoke tuple. A persistent production worker host/service remains
+unnamed; the question is pending with the user. No new generic deployment permission
+is needed for the authorized mission; live migration/secret scopes remain separate.
+
+CAPTAIN WRITES RELEASED TO CLAUDE after the handoff publication verification.
+<!-- END CLAUDE CAPTAIN HANDOFF 2026-09-08 -->
+
 <!-- SESSION10 LIVE PUBLICATION STAMP -->
 # Session10 — 194/346 terminal; closing batch complete, release integration next
 
