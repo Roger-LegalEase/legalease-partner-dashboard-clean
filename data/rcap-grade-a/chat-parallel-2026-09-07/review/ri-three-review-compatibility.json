@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "chatb-readonly-review-compatibility/v1",
+  "consumer": {
+    "repositoryPath": "scripts/grade-a-packet-factory-24h/chat-review-inputs.mjs",
+    "readAt": "21a269f31a7dff8084d6c74ecdb553be5979ba03",
+    "gitBlob": "f508910af747743bff1b9cd807ee7ff9d382cefe",
+    "sha256": "11bf624af11897fd8a721ed70ebe508393edbd214f43ce181bbf6fd0c35bba4d"
+  },
+  "reviewSha256": "e03449856a33d82d539d2e0787153d1c0a49abb4766ca4be8487f503c5c0544b",
+  "evidenceSha256": "5636fd662511af4f08cce0b4618b19548648146ad959929f99211742a61fb49d",
+  "discovery": {
+    "verdictDocuments": 1,
+    "measurementSidecarExcluded": true
+  },
+  "rows": [
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "obligations": 15,
+      "consumerProblem": null,
+      "normalizerPreservedExactRow": true
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "obligations": 15,
+      "consumerProblem": null,
+      "normalizerPreservedExactRow": true
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "obligations": 15,
+      "consumerProblem": null,
+      "normalizerPreservedExactRow": true
+    }
+  ],
+  "controls": [
+    {
+      "case": "missing-reviewer",
+      "rejected": true,
+      "error": "reviewer and separate review-session identity are required",
+      "verdictUnchanged": true
+    },
+    {
+      "case": "wrong-lane",
+      "rejected": true,
+      "error": "the declared lane is not independent verification",
+      "verdictUnchanged": true
+    },
+    {
+      "case": "author-packet-mutation",
+      "rejected": true,
+      "error": "review does not preserve author/reviewer separation",
+      "verdictUnchanged": true
+    },
+    {
+      "case": "declared-builder-execution",
+      "rejected": true,
+      "error": "review does not preserve author/reviewer separation",
+      "verdictUnchanged": true
+    },
+    {
+      "case": "mismatched-family",
+      "rejected": true,
+      "error": "exact family identity is required",
+      "verdictUnchanged": true
+    },
+    {
+      "case": "invalid-base",
+      "rejected": true,
+      "error": "the row must name its actual immutable review base",
+      "verdictUnchanged": true
+    }
+  ],
+  "inputsUnchanged": 3,
+  "verdictsChanged": 0,
+  "sharedCodeChanged": false,
+  "scope": "Discovery, fifteen-key row shape and negative-row normalization only. No admission extraction, shared ledger, positive grant or production execution."
+}
