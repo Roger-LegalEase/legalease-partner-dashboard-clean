@@ -196,8 +196,28 @@ const authorizedPhaseLabel = action.migrationsInApplyOrder.map((entry) => entry.
       select 'extension:pgcrypto' where not exists (select 1 from pg_extension where extname='pgcrypto')
       union all
       -- Ordering proof: the case must run BEFORE phase 49 installs its objects.
-      select 'ordering:packet_render_jobs already exists (this case must precede phase 49)'
-        where to_regclass('public.packet_render_jobs') is not null
+      --
+      -- The sentinel is NOT packet_render_jobs. supabase start applies
+      -- supabase/migrations, and 20260818201000_rcap_upgrade_01_tables_and_columns.sql
+      -- — the forward-only Production schema upgrade — creates that table, so on
+      -- this stack it is present in the baseline by design. Asserting its absence
+      -- made the case unsatisfiable: it failed run 34290269484 and every run after
+      -- the upgrade migration landed, and the last green F1 (31593385551,
+      -- application df3d8607) predates both this case and that migration, so the
+      -- two have never held together. Phase 49 is additive and forward-only and
+      -- says so — every create in it is IF NOT EXISTS — so the table already
+      -- existing is not a violation of anything phase 49 requires.
+      --
+      -- rcap_partner_packet_allocation and rcap_packet_credit_consumptions are
+      -- created by phase 49 and by nothing in supabase/migrations (verified by
+      -- grep over that directory), so their absence is the ordering fact that is
+      -- actually true of a pre-49 baseline. The guarantee is unchanged: if the
+      -- census runs after phase 49, this case fails.
+      select 'ordering:rcap_partner_packet_allocation already exists (this case must precede phase 49)'
+        where to_regclass('public.rcap_partner_packet_allocation') is not null
+      union all
+      select 'ordering:rcap_packet_credit_consumptions already exists (this case must precede phase 49)'
+        where to_regclass('public.rcap_packet_credit_consumptions') is not null
     ) s`;
   const censusMissing = psql(censusSql, { expectFail: true }).out;
   const baselineOk = censusMissing === "";
