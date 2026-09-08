@@ -2,23 +2,23 @@
   "schemaVersion": "rcap-worker-publication-evidence/v1",
   "importedFrom": {
     "branch": "claude/legalease-sprint-captain-utucnw",
-    "commit": "3285b6606605549c4ea730610f2c3e55c1e32859",
-    "note": "Imported from rcap-render-worker-publication-b680a4e4dd92e7422bc7030aa2189026929782a1 uploaded by successful publish-only run 33764350427 attempt 1. The workflow ran from the participant-delivery approval Captain commit while checking out and building the exact supplied b680a4e4 corrected worker source SHA."
+    "commit": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+    "note": "Consumed from publish-only run 34265052706 attempt 1, job 102192199058, which built and pushed the exact supplied source SHA c065d2485b97be9a9c53313551226b0b6c3c9cfb — the merge commit of PR #224, the 194-family recovery integration. That SHA is the head of the release integration branch, which is what the workflow's containment gate accepted."
   },
-  "publicationTimestamp": "2026-09-03T14:02:47Z",
-  "workflowRunId": 33764350427,
+  "publicationTimestamp": "2026-09-08T18:48:41Z",
+  "workflowRunId": 34265052706,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationArtifactId": 9896904080,
-  "publicationArtifactName": "rcap-render-worker-publication-b680a4e4dd92e7422bc7030aa2189026929782a1",
-  "publicationArtifactSha256": "7572fbd4a42629058e43a50bf63ae594eec20c62dcccbd484a1493daa0a0edd6",
-  "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
-  "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+  "publicationArtifactId": 10071524633,
+  "publicationArtifactName": "rcap-render-worker-publication-c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+  "publicationArtifactSha256": "85cbd0c359560d3ae6711da36a22d444fc037a7b5ef42a5a4556dd82ec13d87d",
+  "sourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+  "dockerfileSha256": "c5db0a593258420a62e3e3d1a1979e374a33bfc542e766e86bbc9be69b00c7ac",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "b680a4e4dd92e7422bc7030aa2189026929782a1",
-  "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+  "imageTag": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+  "immutableRegistryDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
   "packageVisibility": "private",
   "packageVisibilityNote": "Carried forward as the package's standing visibility, not re-determined for this publication. The acceptance workflow re-proves it per run: its anonymous-pull step fails the run if GHCR ever issues an unauthenticated token for this repository.",
   "mutableLatestTagCreated": false,
@@ -29,23 +29,36 @@
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:b680a4e4dd92e7422bc7030aa2189026929782a1",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33764350427",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34265052706",
   "exactlyOnePublication": {
     "claim": "One image was published for this source SHA and its tag was never moved.",
-    "howItIsKnown": "Run 33764350427 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both checks found the source-SHA tag free. No replacement authorization was used.",
+    "howItIsKnown": "Run 34265052706 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both found the source-SHA tag free. tag_replacement_authorization was left empty, so no replacement was authorized.",
     "attemptThatPublished": 1
   },
   "registryPullByDigestStatus": "pending_hosted_acceptance",
-  "registryPullByDigestNote": "Publication run 33764350427 proved the immutable digest and source-SHA-only tag. The bounded hosted acceptance phase must still authenticate to GHCR, pull this exact digest and verify its OCI revision before it may count as accepted. Nothing has been deployed or started by publication.",
+  "registryPullByDigestNote": "Publication run 34265052706 proved the immutable digest and the source-SHA-only tag. Acceptance must still authenticate to GHCR, pull this exact digest, verify its OCI revision label names c065d2485b97be9a9c53313551226b0b6c3c9cfb, and prove the unconfigured startup refusal exits 2. Nothing was deployed or started by publication.",
   "supersededPublication": {
-    "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
-    "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+    "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
     "disposition": "superseded_by_source_drift",
-    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged.",
-    "publicationRunId": 32307070302
+    "why": "Historically valid for b680a4e4 and retained unchanged in GHCR. Its Dockerfile predated the runtime-data COPY set, so acceptance run 34262980303 measured it exiting 1 on a missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts instead of the required unconfigured exit 2. The 194-family recovery integration merged at c065d248 carries the corrected Dockerfile and the 122-file runtime data manifest, so a publication from that exact source supersedes it. No historical tag or digest was moved and the failing acceptance evidence is retained.",
+    "publicationRunId": 33764350427,
+    "publicationArtifactId": 9896904080,
+    "lastAcceptanceRunId": 34262980303,
+    "lastAcceptanceConclusion": "failure"
   },
   "supersededChain": [
+    {
+      "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+      "disposition": "superseded_by_source_drift",
+      "why": "Historically valid for b680a4e4 and retained unchanged in GHCR. Its Dockerfile predated the runtime-data COPY set, so acceptance run 34262980303 measured it exiting 1 on a missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts instead of the required unconfigured exit 2. The 194-family recovery integration merged at c065d248 carries the corrected Dockerfile and the 122-file runtime data manifest, so a publication from that exact source supersedes it. No historical tag or digest was moved and the failing acceptance evidence is retained.",
+      "publicationRunId": 33764350427,
+      "publicationArtifactId": 9896904080,
+      "lastAcceptanceRunId": 34262980303,
+      "lastAcceptanceConclusion": "failure"
+    },
     {
       "sourceSha": "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
       "immutableRegistryDigest": "sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d",
@@ -137,9 +150,10 @@
   ],
   "reconciliationStatus": {
     "state": "published_pending_bounded_hosted_acceptance",
-    "reconciledMainBase": "b680a4e4dd92e7422bc7030aa2189026929782a1",
-    "releaseIntegrationHead": "3285b6606605549c4ea730610f2c3e55c1e32859",
-    "why": "Built from the exact corrected Mississippi Clinic Mode worker source SHA b680a4e4. Publish-only run 33764350427 succeeded and its artifact records no deployment, worker start, staging change or Production change. The participant-delivery approval Captain commit is image-input-equivalent; authenticated digest pull and hosted acceptance remain pending.",
+    "reconciledMainBase": null,
+    "reconciledMainBaseNote": "This publication is not contained in main. The workflow accepted it under RELEASE_INTEGRATION_BRANCH containment, which is the documented candidate path: the required PR check includes the staging-action gate, which cannot pass until a worker is published for the current image inputs, so requiring the merge to main first would deadlock.",
+    "releaseIntegrationHead": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+    "why": "Built from the exact merge commit of the 194-family recovery integration. The prior image's acceptance failure was a missing runtime data file; the Dockerfile at this SHA copies the runtime-data closure enumerated in deploy/rcap-render-worker/runtime-data-manifest.json, including data/record-clearing/legal-decisions/route-ratification-registry.json. Whether that actually fixes the startup contract is what acceptance measures; it is not asserted here.",
     "priorDigestsRemainInRegistry": true
   },
   "supersededWorkerImageAcceptance": {
@@ -299,6 +313,28 @@
     "productionSessionsRevoked": false
   },
   "workerImageAcceptance": {
+    "status": "not_yet_run_for_this_digest",
+    "subjectDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+    "subjectSourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+    "note": "The acceptance workflow takes its subject from this file. It must be run against this digest before any release step treats the image as accepted. The previous digest's acceptance evidence is retained under supersededWorkerImageAcceptanceB680 and does not carry over."
+  },
+  "releaseTruth": {
+    "imagePublished": true,
+    "imageAccepted": false,
+    "applicationProductionDeployedByThisTask": false,
+    "productionWorkerUpdated": false,
+    "rlsMigrationApplied": false,
+    "productionUsersChanged": false,
+    "productionSessionsRevoked": false
+  },
+  "publicationArtifactEvidenceBasis": {
+    "what": "The artifact's identity, size and zip digest come from the GitHub Actions artifacts API and from the run's own upload log; the digest and build inputs below come from the run's own step output.",
+    "artifactZipSha256Source": "actions artifacts API (digest field) and the upload step's printed SHA256, which agree",
+    "artifactBytesDownloaded": false,
+    "whyNotDownloaded": "This session's egress proxy denies CONNECT to productionresultssa5.blob.core.windows.net, where Actions artifact content is served (curl exit 56, HTTP 403 from the proxy). The zip was therefore not opened here. Its recorded content is not asserted from bytes read in this session; the digest below is the one the publishing run printed.",
+    "digestSource": "run 34265052706 job 102192199058 step \"Fail if the registry returned no digest\", which printed: Published ghcr.io/roger-legalease/rcap-render-worker@sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802"
+  },
+  "supersededWorkerImageAcceptanceB680": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
     "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
     "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
@@ -335,15 +371,8 @@
     "productionWorkerUpdated": false,
     "rlsMigrationApplied": false,
     "productionUsersChanged": false,
-    "productionSessionsRevoked": false
-  },
-  "releaseTruth": {
-    "imagePublished": true,
-    "imageAccepted": true,
-    "applicationProductionDeployedByThisTask": false,
-    "productionWorkerUpdated": false,
-    "rlsMigrationApplied": false,
-    "productionUsersChanged": false,
-    "productionSessionsRevoked": false
+    "productionSessionsRevoked": false,
+    "disposition": "superseded_by_republication",
+    "why": "Accepted a different image (sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864). Retained as history; it says nothing about sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802."
   }
 }
