@@ -7,7 +7,17 @@ This packet is two Colorado Judicial Department forms, filed together:
 
 Both are prepared for **motion to seal non-conviction records, simplified backstop** under C.R.S. § 24-72-705(2) and (3); Colorado Judicial Department forms JDF 477 and JDF 478.
 
-The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
+The platform filled in what it holds about you and your case — your name, your date of birth, your address, your phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in. Where a value the platform holds did NOT fit, it is named in its own section further down rather than shrunk until it cannot be read or run off the end of the line: **check that section, because a blank there is a blank you have to fill even though the platform knows the answer.**
+
+## One line the packet holds your answer for and still leaves blank
+
+The platform refused one value on this packet, not because it does not hold them but because they do not fit the line the Colorado Judicial Department printed. The floor is 6 points: below that a filed document stops being readable, and text that runs past the end of its box is worse still. So the value is left off and handed to you, in writing, here:
+
+| Form | Section | The line | What the platform holds | Why it is not printed |
+| --- | --- | --- | --- | --- |
+| JDF-477 | 5. My Information | Current Mailing Address (with city/state/zip) | 1188 Upper Notch Crossing Road, Apartment 14B, Colorado Springs, Colorado 80921-2214 | The line is 242.67 points wide and this value needs 244.4 points at the 6-point minimum. |
+
+**Write it on the line yourself, by hand or before you print.** If it will not fit legibly on one line, put what fits on the line and continue on an attached page that names the form, the section and the line it belongs to. Do not shrink it until it cannot be read. This applies to whichever of the two forms is named above and to that form only: the same fact may already be printed on the other one, where the form gives it more room or splits it across separate city, state and zip lines.
 
 ## Where you file this
 
@@ -15,9 +25,14 @@ File both forms with the **clerk of the Colorado court that handled the case** �
 
 **Ask the clerk what fee applies, if any.** C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here.
 
-## The Colorado Bureau of Investigation is not optional
+## The Colorado Bureau of Investigation is not optional — and one box is yours to tick
 
-Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 — and JDF 478 marks it **required**. Tick it on both forms. JDF 478 also directs the court's clerk to send the CBI a copy of the signed order within 28 days.
+Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 — and JDF 478 prints **(required)** beside it. JDF 478 also directs the court's clerk to send the CBI a copy of the signed order within 28 days. The two forms reach you in different states, and the difference matters:
+
+- **JDF 477, section 8 — already ticked, and not by us.** The Colorado Judicial Department ships this form with the CBI box checked. Leave it as it is.
+- **JDF 478, section 3 — BLANK, and you must tick it.** The packet did not tick it. Look at the delivered page and check: if that box is empty when you file, the order the judge signs leaves out the one agency the form marks required.
+
+The reason the packet left it is worth one sentence, because it is not an oversight: the platform refuses to tick any box whose line names a law-enforcement agency, so that it can never fill in the agency list on a court's own order. That safeguard is right in general and it costs you one tick here. Make it.
 
 ## What you must do before you file
 
@@ -25,7 +40,8 @@ Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Ki
 2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.
 3. **Serve a copy on the prosecuting attorney**, then complete the certificate of service in section 9 of JDF 477 — the date, the method, and who you sent it to. Do it after you have served, not before.
 4. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.
-5. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.
+5. **Tick the Colorado Bureau of Investigation box in section 3 of JDF 478.** It is the one required agency and the packet left it blank — see the section above.
+6. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.
 
 ## JDF-477 — Motion to Seal Non-Conviction Records (Simplified Process): the items you must supply
 
@@ -77,7 +93,7 @@ Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Ki
 | JDF-478 | 3. Records to be Sealed | County Court case records to be sealed (selection) | tick the courts and agencies that hold records in this case |
 | JDF-478 | 3. Records to be Sealed | District Court case records to be sealed (selection) | tick the courts and agencies that hold records in this case |
 | JDF-478 | 3. Records to be Sealed | Law Enforcement Agency records to be sealed (selection) | tick the courts and agencies that hold records in this case |
-| JDF-478 | 3. Records to be Sealed | Colorado Bureau of Investigation records to be sealed (selection) | the form marks the Colorado Bureau of Investigation as required and prints its address; tick it |
+| JDF-478 | 3. Records to be Sealed | Colorado Bureau of Investigation records to be sealed (selection) | JDF 478 section 3 prints "Colorado Bureau of Investigation (required)" and its address on the form's own face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the form's, it holds on every case this route reaches, and it turns on no fact about this participant. |
 | JDF-478 | 3. Records to be Sealed | Another agency's records to be sealed (selection) | tick this if some other agency holds records in this case |
 | JDF-478 | 3. Records to be Sealed | A second other agency's records to be sealed (selection) | tick this if a second other agency holds records in this case |
 | JDF-478 | 3. Records to be Sealed | A third other agency's records to be sealed (selection) | tick this if a third other agency holds records in this case |

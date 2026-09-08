@@ -107,6 +107,14 @@ const WRITE = (fact) => ({ policy: "write", fact });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
+/*
+ * A selection the ROUTE settles, marked by the packet rather than left to the
+ * participant. It goes through the shared finalizer's selectionsFromHeldFacts
+ * channel, which honours only a true, requires a basis in the same call, and
+ * applies every protect gate unchanged -- so this cannot reach a signature, a
+ * certificate of service, or a court-, clerk- or prosecutor-owned box.
+ */
+const SETTLED_SELECTION = (basis) => ({ policy: "settled_selection", basis });
 
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
@@ -246,7 +254,63 @@ const FORM_FIELDS = {
     "478.3C.2": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Arrest number", ...AGENCY("the arrest number from your fingerprint card, copied from the motion") },
     "478.3C.3": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Arrest date", ...AGENCY("the arrest date, copied from the motion") },
     "478.3C.4": { section: "3. Records to be Sealed", label: "Law Enforcement Agency — Mailing Address", ...AGENCY("that agency's mailing address, copied from the motion") },
-    "478.3D.0": { section: "3. Records to be Sealed", selection: true, label: "Colorado Bureau of Investigation records to be sealed (selection)", ...ELECTION("the form marks the Colorado Bureau of Investigation as required and prints its address; tick it") },
+    /*
+     * THE ONE AGENCY THE FORM ITSELF MARKS REQUIRED.
+     *
+     * JDF 478 prints "Colorado Bureau of Investigation (required)" in section 3
+     * with the CBI's address already set out beneath it, and section 5 directs
+     * the clerk to send the CBI a copy of the signed order. Nothing about which
+     * case this is changes that: on this route the CBI is on the list, and the
+     * form says so on its own face. Leaving it to the participant left the box
+     * EMPTY on both delivered fixtures while this packet's own instructions
+     * told them the CBI was not optional -- VF01 read that contradiction out of
+     * the bytes at base ed0e3b308 -- and an order that omits the one agency the
+     * form requires is an order that does not reach the state repository.
+     *
+     * It is marked from the ROUTE, not from a case fact, and the basis travels
+     * with the mark into the finalizer's report and from there into the field
+     * map. JDF 477's own CBI box (8C.0) is NOT marked here: the Colorado
+     * Judicial Department ships that one already ticked, and marking it again
+     * would claim a write over the issuer's own value.
+     */
+    "478.3D.0": {
+      section: "3. Records to be Sealed", selection: true,
+      label: "Colorado Bureau of Investigation records to be sealed (selection)",
+      ...SETTLED_SELECTION(
+        "JDF 478 section 3 prints \"Colorado Bureau of Investigation (required)\" and its address on the form's own "
+        + "face, and section 5 directs the clerk to send the CBI a copy of the signed order. The requirement is the "
+        + "form's, it holds on every case this route reaches, and it turns on no fact about this participant.")
+    },
+    /*
+     * AND THE SHARED INSTRUMENT REFUSES THE MARK, ON PURPOSE.
+     *
+     * The mark above is asked for and does not happen. The finalizer's
+     * settled-selection pass applies protectCategoryOf() to the field's label
+     * before it will tick anything, and this label -- "Colorado Bureau of
+     * Investigation records to be sealed" -- matches the shared `agency`
+     * protect rule on the word "Bureau". The refusal comes back as
+     * protected_category / agency and is recorded, per fixture, in
+     * production-field-map.json and reports/blanks-left-for-the-participant.json.
+     *
+     * That rule is not a bug and this lane does not route around it. It exists
+     * because a slot listing the agencies a court is ordering to seal is not
+     * the participant's to fill, and KY AOC-334 proved it by printing the
+     * petitioner's own name as the list of agencies ordered. The shared module
+     * already carries a narrow, caption-by-caption exemption list
+     * (PARTICIPANT_STATED_SUBJECT) for the cases where the participant states
+     * the agency rather than owning the blank -- Alabama CR-65 items 3 and 4,
+     * the Oregon set-aside citing/arresting agency -- and this Colorado caption
+     * is the same shape. Adding an entry there is a change to
+     * scripts/rcap-official-forms/**, the shared finalizer, which one repair
+     * lane holding three families is not entitled to make: it would move every
+     * family that shares the module.
+     *
+     * So the state of this box is: the route requires it, the packet asks for
+     * it, the shared safeguard refuses it, the refusal is measured and
+     * recorded, and the participant is told in plain words to tick it. The box
+     * is NOT relabelled to get past the gate. A label chosen to dodge a protect
+     * rule is the defect the gate exists to catch.
+     */
     "478.3E.0": { section: "3. Records to be Sealed", selection: true, label: "Another agency's records to be sealed (selection)", ...ELECTION("tick this if some other agency holds records in this case") },
     "478.3E.1": { section: "3. Records to be Sealed", label: "Other agency — name and mailing address", ...AGENCY("the name and mailing address of any other agency holding records, copied from the motion") },
     "478.3F.0": { section: "3. Records to be Sealed", selection: true, label: "A second other agency's records to be sealed (selection)", ...ELECTION("tick this if a second other agency holds records in this case") },
@@ -373,6 +437,7 @@ async function censusOf(source) {
       maxLength: typeof field.getMaxLength === "function" ? (field.getMaxLength() ?? null) : null,
       section: entry.section, effectiveLabel: entry.label,
       policy: entry.policy, fact: entry.fact ?? null,
+      basis: entry.basis ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
       // The scrambled extraction at this widget's own coordinate, kept as
       // evidence of WHY the printed-caption check is unavailable on this form.
@@ -394,7 +459,17 @@ async function renderDocument(source, census, fixtureName) {
   const writable = census.rows.filter((r) => r.policy === "write");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
   const writableNames = new Set(writable.map((r) => r.name));
-  const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
+  /*
+   * A route-settled selection is not unwritable by role, and listing it here
+   * would make the finalizer refuse the mark with classified_unwritable_by_role
+   * before the settled-selection pass ever saw it.
+   */
+  const settledSelections = Object.fromEntries(census.rows
+    .filter((r) => r.policy === "settled_selection")
+    .map((r) => [r.name, { checked: true, basis: r.basis }]));
+  const unwritableFields = census.rows
+    .filter((r) => !writableNames.has(r.name) && r.policy !== "settled_selection")
+    .map((r) => ({ field: r.name }));
 
   /* CLIPPING_AND_OVERLAP, measured by VF08 at 150 dpi and recorded in
    * data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json: 5 of JDF-477's 16 and 7 of JDF-478's 11 selection widgets
@@ -440,6 +515,9 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    /* The route's own selections. Checkbox-only, true-only, and each carries
+     * its basis into the report; the protect gates apply unchanged. */
+    selectionsFromHeldFacts: settledSelections,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -528,6 +606,36 @@ function mapFor(source, census, report) {
     }
 
     if (r.isSelectionControl) {
+      /*
+       * A selection the ROUTE settles is not an explicit refusal and is not the
+       * participant's to make. It is recorded as marked only when the finalizer
+       * says it marked it, so the map can never claim a tick the bytes do not
+       * carry.
+       */
+      if (r.policy === "settled_selection") {
+        const marked = (report.selectionsMarked ?? []).find((m) => m.field === r.name) ?? null;
+        selectionControls.push({
+          ...base, selectionId: base.field, kind: "selection_control", type: r.type,
+          widgets: r.widgets, disposition: marked ? "route_settled_and_marked" : "route_settled_and_refused",
+          reason: r.basis, category: null, completenessClass: null, class: null,
+          requiredBeforeFiling: marked ? false : true,
+          routeDetermined: true,
+          markedByThePacket: Boolean(marked),
+          markBasis: marked?.basis ?? null,
+          refusedBy: marked ? null : (report.refused ?? [])
+            .filter((x) => x.field === r.name)
+            .map((x) => ({ reason: x.reason, category: x.category ?? null })),
+          whatTheParticipantMustDoInstead: marked ? null
+            : "tick this box yourself before you file; the form marks it required and the packet could not mark it",
+          whyThePacketCouldNotMarkIt: marked ? null
+            : "the shared finalizer applies its protect rules to a selection's label before it will mark it, and this "
+              + "label matches the shared `agency` rule. The rule guards a slot that lists the agencies a court is "
+              + "ordering to seal, which is not the participant's to fill. Closing it needs a caption exemption in "
+              + "scripts/rcap-official-forms/rcap-field-semantics.mjs (PARTICIPANT_STATED_SUBJECT), which is the "
+              + "shared module and is not this family's to change."
+        });
+        continue;
+      }
       const cls = r.policy === "protect" ? r.refusalClass : r.policy === "attorney" ? null : PARTICIPANT_ELECTION;
       selectionControls.push({
         ...base, selectionId: base.field, kind: "selection_control", type: r.type,
@@ -723,7 +831,7 @@ function selfHelpStops() {
   };
 }
 
-function participantInstructions(maps, rbf) {
+function participantInstructions(maps, rbf, fitRefusals = []) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -737,10 +845,38 @@ function participantInstructions(maps, rbf) {
     `Both are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, ""
   );
   out.push(
-    "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
-    + "phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of "
-    + "those blanks is listed below by the section of the form it is in.", ""
+    "The platform filled in what it holds about you and your case — your name, your date of birth, your address, your "
+    + "phone, your e-mail, the county and the case number — **wherever the value fits the line the form prints for "
+    + "it**. Everything else is yours, and every one of those blanks is listed below by the section of the form it is "
+    + "in. Where a value the platform holds did NOT fit, it is named in its own section further down rather than "
+    + "shrunk until it cannot be read or run off the end of the line: **check that section, because a blank there is "
+    + "a blank you have to fill even though the platform knows the answer.**", ""
   );
+
+  if (fitRefusals.length > 0) {
+    out.push("## One line the packet holds your answer for and still leaves blank", "");
+    out.push(
+      `The platform refused ${fitRefusals.length === 1 ? "one value" : `${fitRefusals.length} values`} on this packet, `
+      + "not because it does not hold them but because they do not fit the line the Colorado Judicial Department "
+      + "printed. The floor is 6 points: below that a filed document stops being readable, and text that runs past "
+      + "the end of its box is worse still. So the value is left off and handed to you, in writing, here:", ""
+    );
+    out.push("| Form | Section | The line | What the platform holds | Why it is not printed |", "| --- | --- | --- | --- | --- |");
+    for (const r of fitRefusals) {
+      out.push(
+        `| ${r.document} | ${r.section} | ${r.label} | ${r.value} | The line is ${r.rectWidthPt} points wide and this `
+        + `value needs ${r.requiredWidthAtMinPt} points at the ${r.minFontSizePt}-point minimum. |`
+      );
+    }
+    out.push("");
+    out.push(
+      "**Write it on the line yourself, by hand or before you print.** If it will not fit legibly on one line, put "
+      + "what fits on the line and continue on an attached page that names the form, the section and the line it "
+      + "belongs to. Do not shrink it until it cannot be read. This applies to whichever of the two forms is named "
+      + "above and to that form only: the same fact may already be printed on the other one, where the form gives it "
+      + "more room or splits it across separate city, state and zip lines.", ""
+    );
+  }
 
   out.push("## Where you file this", "");
   out.push(
@@ -754,11 +890,23 @@ function participantInstructions(maps, rbf) {
     + "is not established in any source this packet holds, so it is not stated here.", ""
   );
 
-  out.push("## The Colorado Bureau of Investigation is not optional", "");
+  out.push("## The Colorado Bureau of Investigation is not optional — and one box is yours to tick", "");
   out.push(
     "Both forms print the CBI's address for you — ATTN Identification-Seals, 690 Kipling St. STE 3000, Lakewood, CO 80215 "
-    + "— and JDF 478 marks it **required**. Tick it on both forms. JDF 478 also directs the court's clerk to send the CBI "
-    + "a copy of the signed order within 28 days.", ""
+    + "— and JDF 478 prints **(required)** beside it. JDF 478 also directs the court's clerk to send the CBI a copy of "
+    + "the signed order within 28 days. The two forms reach you in different states, and the difference matters:", ""
+  );
+  out.push(
+    "- **JDF 477, section 8 — already ticked, and not by us.** The Colorado Judicial Department ships this form with "
+    + "the CBI box checked. Leave it as it is.",
+    "- **JDF 478, section 3 — BLANK, and you must tick it.** The packet did not tick it. Look at the delivered page "
+    + "and check: if that box is empty when you file, the order the judge signs leaves out the one agency the form "
+    + "marks required.", ""
+  );
+  out.push(
+    "The reason the packet left it is worth one sentence, because it is not an oversight: the platform refuses to tick "
+    + "any box whose line names a law-enforcement agency, so that it can never fill in the agency list on a court's own "
+    + "order. That safeguard is right in general and it costs you one tick here. Make it.", ""
   );
 
   out.push("## What you must do before you file", "");
@@ -766,7 +914,8 @@ function participantInstructions(maps, rbf) {
   out.push("2. **Make the choices listed under _The choices that are yours_.** They are left blank on purpose.");
   out.push("3. **Serve a copy on the prosecuting attorney**, then complete the certificate of service in section 9 of JDF 477 — the date, the method, and who you sent it to. Do it after you have served, not before.");
   out.push("4. **Sign the verification in section 10 of JDF 477.** It is a declaration under penalty of perjury under the law of Colorado. The whole block — the date, the place, your printed name and your signature — is completed by you at the moment you declare, so none of it is filled in for you.");
-  out.push("5. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.");
+  out.push("5. **Tick the Colorado Bureau of Investigation box in section 3 of JDF 478.** It is the one required agency and the packet left it blank — see the section above.");
+  out.push("6. **Leave sections 4 and 5 of JDF 478 alone.** Those are the court's orders and the judge's or magistrate's signature.");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -951,7 +1100,50 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+
+  /*
+   * A VALUE THE PLATFORM HOLDS, REFUSED FOR FIT, IS A BLANK THE PARTICIPANT
+   * MUST FILL -- AND IT WAS NOT DISCLOSED.
+   *
+   * `maps` is built from the CANONICAL fixture alone, so a fit refusal that
+   * only the boundary participant hits never reached rbf and never reached the
+   * instructions. VF01 measured exactly that at base ed0e3b308: JDF 477's
+   * single `Address` line is 242.67 points wide and the boundary participant's
+   * mailing address needs 244.4 at the 6-point floor, so the finalizer refused
+   * it -- correctly, because the alternative is clipping or unreadable ink --
+   * while the instructions still told the participant their address had been
+   * filled in on both forms. The refusal was right and the disclosure was
+   * missing, which is the shape that hurts: a blank nobody is asked to fill.
+   *
+   * Every fixture's refusals are collected here, deduplicated by document and
+   * field, and handed to the instructions. Nothing is shrunk below the accepted
+   * floor to make the table shorter.
+   */
+  const fitRefusals = [];
+  const seenFitRefusal = new Set();
+  for (const proof of writeProofs) {
+    for (const u of proof.unfittable ?? []) {
+      const key = `${proof.formNumber}/${u.field}`;
+      if (seenFitRefusal.has(key)) continue;
+      seenFitRefusal.add(key);
+      const row = censuses.find((c) => c.source.formNumber === proof.formNumber)
+        ?.census.rows.find((r) => r.name === u.field) ?? null;
+      fitRefusals.push({
+        document: proof.formNumber, field: u.field, fixture: proof.fixture,
+        section: row?.section ?? "(section not resolved)",
+        label: row?.effectiveLabel ?? u.field,
+        page: row?.page ?? null,
+        factId: u.factId ?? null,
+        value: u.value,
+        reason: u.reason,
+        rectWidthPt: u.rect?.width ?? null,
+        requiredWidthAtMinPt: u.requiredWidthAtMin ?? null,
+        minFontSizePt: u.minFontSize ?? null
+      });
+    }
+  }
+
+  const instructionsText = participantInstructions(maps, rbf, fitRefusals);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1015,12 +1207,46 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill",
     captionBasis: "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
-    routeDeterminedSelections: [],
+    /*
+     * Every route-determined selection on this packet, and what the DELIVERED
+     * PAGE carries for each. An entry is a claim about ink.
+     */
+    routeDeterminedSelections: maps.flatMap((m) => m.selectionControls
+      .filter((c) => c.routeDetermined === true)
+      .map((c) => ({
+        document: m.formNumber, field: c.field, printedQuestion: c.effectiveLabel,
+        answerTheRouteDetermines: "the Colorado Bureau of Investigation is on the list of record holders",
+        markedByThePacket: c.markedByThePacket === true,
+        statedOnTheDeliveredPage: c.markedByThePacket === true,
+        basis: c.reason, refusedBy: c.refusedBy ?? null,
+        whyNotMarked: c.whyThePacketCouldNotMarkIt ?? null,
+        carriedToTheParticipant: c.whatTheParticipantMustDoInstead ?? null
+      }))),
+    /*
+     * The other CBI box, on the motion, is the ISSUER's own mark and not this
+     * packet's. Recorded so a reader who sees a tick on JDF 477 and none on
+     * JDF 478 knows which is which.
+     */
+    sourceAuthoredSelections: [
+      {
+        document: "JDF-477", field: "JDF-477/8C.0",
+        printedQuestion: "Colorado Bureau of Investigation holds records (selection)",
+        statedOnTheDeliveredPage: true, writtenByThisPacket: false,
+        basis:
+          "The Colorado Judicial Department ships JDF 477 with this box already checked, because the form marks the "
+          + "CBI required. Flattening materialises the form's own value; reports/actual-writes.json records it as a "
+          + "documentAuthoredAppearance. The packet does not mark it again, and marking it again would claim a write "
+          + "over the issuer's own value."
+      }
+    ],
     routeSelectionNote:
       "C.R.S. § 24-72-705 is one simplified process covering all five grounds JDF 477 lists, so the route does not choose "
       + "between them: which ground applies is a fact about how this case ended. The packet states the route it was built "
       + "for and leaves the ground, the court type and the agency list to the participant rather than asserting a "
-      + "disposition it does not hold.",
+      + "disposition it does not hold. One selection IS route-determined and is recorded above: the CBI line, which both "
+      + "forms mark required. On JDF 477 the issuer has already ticked it. On JDF 478 the packet asks the shared "
+      + "finalizer to tick it, the shared `agency` protect rule refuses, the refusal is recorded per fixture, and the "
+      + "participant is told to tick it before filing. The box is not relabelled to get past that rule.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
@@ -1059,7 +1285,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
     protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).map((r) => ({
       document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why
     }))),
+    /*
+     * A value the platform HOLDS and could not print is a blank too, and it is
+     * the one class of blank that no census row can carry: the census says the
+     * field is written, and only the finalizer's fit measurement says it was
+     * not. Recorded here beside the other blanks so the ledger is complete, and
+     * disclosed to the participant in participant-instructions.md.
+     */
+    valuesRefusedForFit: fitRefusals,
     everyRequiredBeforeFilingItemIsDisclosed: true,
+    everyValueRefusedForFitIsDisclosed: true,
     disclosedIn: `${OUT}/participant-instructions.md`
   });
 
@@ -1075,7 +1310,17 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "name, birth date, address, phone and e-mail each sit under the heading they belong to. The text stream is "
         + "scrambled, so this is the check.",
       "JDF 477 section 6: all five grounds unticked and their date boxes blank.",
-      "JDF 477 section 8 and JDF 478 section 3: the agency boxes unticked and the agency names, numbers and addresses blank.",
+      "JDF 477 section 8: the agency boxes unticked and the agency names, numbers and addresses blank — EXCEPT the "
+        + "Colorado Bureau of Investigation box, which the Colorado Judicial Department ships already checked. That "
+        + "tick is the issuer's own and reports/actual-writes.json records it as a documentAuthoredAppearance; a "
+        + "reader should confirm it is there, not that it is absent.",
+      "JDF 478 section 3: every agency box unticked, INCLUDING the Colorado Bureau of Investigation box the form "
+        + "marks (required). That empty box is a KNOWN, MEASURED DEFECT, not a clean page: the route requires the "
+        + "tick, this packet asks the shared finalizer for it, and the shared `agency` protect rule refuses because "
+        + "the label names a law-enforcement agency. See production-field-map.json routeDeterminedSelections. The "
+        + "participant is told in participant-instructions.md to tick it before filing. Confirm that instruction is "
+        + "present and unmissable; do not read the empty box as correct.",
+      "JDF 478 section 3, the agency names, numbers and addresses: blank.",
       "JDF 477 section 9: the certificate of service blank — no date, no method, no recipient.",
       "JDF 477 section 10: the verification blank — no date, no place, no printed name, no signature — and the counsel block blank.",
       "JDF 478 sections 4 and 5: the court's orders, signature and date blank, and neither Judge nor Magistrate ticked."
