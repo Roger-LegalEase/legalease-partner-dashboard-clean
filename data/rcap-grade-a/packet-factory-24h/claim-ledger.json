@@ -8560,10 +8560,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF10",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T06:25:31.204Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13690,7 +13690,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d019fd6a0e6e5971cb74e85828597eb969d4eb4e0250981222c20dad167de01a",
+  "claimsDigest": "a1160e2a755757dcfd53b0842b355a9317c068530ade7588b915a466a32affd4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -48565,6 +48565,17 @@
       "previouslyReleasedAt": "2026-09-06T05:10:43.323Z",
       "transferredAt": "2026-09-07T07:44:34.657Z",
       "reason": "Owner-directed credit-pause completion pass: integrate the already acquired G106 and the four recorded conditional packet branches. Prior FIX90 repair was released; no other live repair writer exists."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_exp_decriminalized-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF10",
+      "previouslyReleasedAt": "2026-09-03T06:25:31.204Z",
+      "transferredAt": "2026-09-08T23:48:46.717Z",
+      "reason": "VF01's read of this family is spent; FIX101 has since recomputed the two stale source-receipt input digests that ARTIFACTS was failing on, with no fixture byte moved. VF10 reads the current records against the unchanged bytes and built nothing here"
     }
   ],
   "grants": [
