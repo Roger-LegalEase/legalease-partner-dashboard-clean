@@ -34,7 +34,14 @@
     "result": "IDENTICAL. The edited host and the committed host produce byte-identical Arizona output, file for file. The host edit moves no Arizona byte.",
     "separatePreexistingArizonaDrift": "Rebuilding az_marijuana_expungement_arrest_no_charges-set at this base does NOT reproduce its committed bytes: build-findings.json, field-census.census-v1.json, participant-instructions.md, production-field-map.json and reports/rendered-artifacts.json all drift, and the participant page loses its filing/fee/service prose and the citing-or-arresting-agency write. This drift is IDENTICAL under the committed host, so it is pre-existing and is not this lane's doing. No Arizona PDF moves either way. Nothing under data/rcap-all50/overlays/census-v1/az was committed; the directory was restored to HEAD with `git checkout --`. Reported so the Captain can route it; it is not this lane's to repair.",
     "sixSiblingCaFamiliesOnTheHost": {
-      "families": ["ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set", "ca-851-91-set", "ca-prop64-set"],
+      "families": [
+        "ca-1203-41-set",
+        "ca-1203-42-set",
+        "ca-1203-43-set",
+        "ca-1203-4a-set",
+        "ca-851-91-set",
+        "ca-prop64-set"
+      ],
       "method": "All six were rebuilt with the edited host; ca-1203-43-set was then rebuilt with the committed host (with ca-17b's directory temporarily returned to HEAD, because the committed host's cross-family assertion aborts on ca-17b's repaired byte-identical variants).",
       "result": "For ca-1203-43-set every file is byte-identical between the two hosts EXCEPT product-wiring.json. Under the committed host that file loses its whole `binding` block — bound sources, acceptance receipt and last independent verification — and drifts from HEAD (8992762346e6e696dd8b9affb33d7762e4fbca253ed4b1aecd75186a30f9ef74). Under the edited host it reproduces HEAD exactly (459cdfb6bdd19fc81ab7334d5ab057e2cd87a51983557762bc0429f9251266bb). The edit therefore stops an invisible loss rather than causing one; no sibling PDF moves under either host. All six directories were restored to HEAD with `git checkout --` and none was committed.",
       "residualSiblingDrift": "The six CA siblings also show raster/field-census/rendered-artifacts drift from HEAD on rebuild at this base, in the same pre-existing environmental class proven for Arizona under the committed host. Their PDFs do not move. Not repaired here and not committed."
@@ -132,7 +139,8 @@
       ],
       "leftOpen": [
         "reports/actual-writes.json no longer carries any activeContentScan. It previously carried one per fixture inside routeTextReport, and that pass no longer runs because the route now writes nothing. The build still asserts scanBytesForActiveContent over the delivered bytes at the exact-mapping overlay, and that assertion must pass for the build to succeed, but its result is not serialized into any family record on this host. Serializing it would change the artifact-record shape for all six sibling CA families this lane does not own, so it was not done. Recorded for the Captain."
-      ]
+      ],
+      "repairedByThisLane": true
     },
     {
       "itemId": "pa_pardon_expungement-set",
@@ -213,14 +221,17 @@
       ],
       "leftOpen": [
         "The upstream defect vf30 pointed at is unrepaired and is not this lane's to edit: the route-obligation census's requiredSourceIds for BOTH pa_pardon routes list only the two `component:` ids for the official forms and not the process-guidance component. product-wiring.json's binding is generated from the factory queue row, which is derived from that census, so a central regeneration would drop the guidance component again until the census names it. The builder now writes the list from the committed manifest, which keeps the delivered record correct but does not fix the derivation."
-      ]
+      ],
+      "repairedByThisLane": true
     },
     {
       "itemId": "vt_exp_decriminalized-set",
       "lane": "FIX101",
       "status": "COMPLETED",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill",
-      "obligationsRepaired": ["ARTIFACTS"],
+      "obligationsRepaired": [
+        "ARTIFACTS"
+      ],
       "howEachWasRepaired": {
         "ARTIFACTS": "vf35's finding was that at its read base (5c718222c) product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes. Every record that names bytes was checked against the fixtures on disk before assuming a rebuild was needed, and the two central halves are already reconciled at this base: product-wiring.json's proposedRepresentation component and binding.acceptanceReceipt.boundToCanonicalSha256 both name 4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0, which is the canonical.pdf on disk, and RASTER_QUEUE.json's historical row for this family pins canonical 4d9b64e0... and boundary d56f5a0f..., both current. reports/rendered-artifacts.json names 18 files and all 18 hash to their recorded value; approval-request.json and build-findings.json name no file bytes. What was left was the family's own source-receipt.json, whose two non-form input records still named superseded bytes of files that have since changed in the tree. The rebuild recomputed them first-hand.",
         "sourceReceiptRecomputation": {
@@ -302,7 +313,8 @@
         "Output-level legal approval and independent human visual review.",
         "ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER and SELF_HELP_STOP are not re-proved here; vf35 passed them and they are owed a fresh independent measurement."
       ],
-      "leftOpen": []
+      "leftOpen": [],
+      "repairedByThisLane": true
     }
   ],
   "centralFilesNotEdited": [
@@ -315,5 +327,12 @@
   "commercialRoutesOpened": 0,
   "routesChanged": 0,
   "productionTouched": false,
-  "subagentsCreated": 0
+  "subagentsCreated": 0,
+  "captainCorrection": {
+    "on": "2026-09-08",
+    "by": "Captain, at integration",
+    "what": "Set repairedByThisLane true on 3 COMPLETED row(s).",
+    "why": "The lane declared repairedByThisLane true once at the document level and omitted it per row. The generator reads the flag per row, so these completions would not have been consumed. This copies the lane's own document-level declaration onto its own rows.",
+    "assertsNothingNew": "No obligation, counter, digest, verdict, page measurement or narrative was touched, and no row that the lane did not mark COMPLETED was changed."
+  }
 }
