@@ -1,3 +1,62 @@
+<!-- SESSION10 LIVE PUBLICATION STAMP -->
+# Existing Codespace machine-change checkpoint
+
+Prepared 2026-09-08 16:16 UTC from local and verified remote recovery head
+`91e5e032611cffe4f2a8757d96ed92338ce3d572`, branch
+`chatgpt/launch-recovery-20260906`, PR224. This publication changes only this
+reviewed handoff. Candidate inputs, all other local work and worker output are
+preserved. The checkpoint commit itself is the latest commit touching this file:
+`git log -1 --format=%H -- docs/rcap/grade-a/chat-parallel-2026-09-07/chat1-integration/ADMISSION_AND_DELIVERY.md`.
+
+Captain session: `01a0812d-8cd6-7662-9365-b44f68b1923b`. Its private history remains in
+`/home/codespace/.codex/sessions/`; no history contents, credentials or participant
+payload are included in this commit. From the existing repository, resume with:
+
+```sh
+cd /workspaces/legalease-partner-dashboard-clean
+codex resume 01a0812d-8cd6-7662-9365-b44f68b1923b
+```
+
+The resumed Captain's exact first command is `df -h /workspaces /tmp`.
+Confirm the enlarged workspace has at least 5 GiB free before heavy work, then
+run `git status --short` and `gh pr checks 224`. Continue this session; retain the
+190/346 census and already accepted packet bytes. Do not rebuild admitted packets
+or repeat their completed central runs.
+
+Temporary custody was checked before the machine change. Of 462 worker/task
+files examined, 433 already match persistent files or verified archive members.
+The remaining 29 small JSON/log records (119,524 bytes), plus the unique decoded
+Michigan review archive (16,754,451 bytes), are now preserved under
+`inputs/session10-machine-change-preservation/`. Every new copy was rehashed;
+541 members across six retained archives were read and verified. This local
+folder is ignored and was not staged. Its custody record is `PRESERVATION.json`,
+SHA256 `f2debc773b0663480a0a7607d917827f066f9fd04ba6d43bbe7b4ffa325ac6c0`.
+The protected archive is `receipt-hooks-mi-review.zip`, SHA256
+`859ea1e86fd5281213f8063adedd305fa79f17abb1b215d9fc579eb57a9a97cd`.
+No identified indispensable worker file remains solely in `/tmp`.
+
+The `/tmp/rcap-session10-committed-candidate` checkout is clean at
+`b48e5292272acd13bafad7cc9c6296b475f7b420`; its only ignored entry is a symlink to
+persistent `node_modules`. Its committed content and the verified MI/MO/NV/CT
+scratch copies are reproducible. The whole temporary directory was not copied.
+Original temporary files, private history, configuration and all worktrees remain
+untouched. No repository, dependency tree or machine was created or replaced.
+
+Published census: 190/346, +11 over recovered remote 9f35db. Runtime activation
+and production deployment were not performed. Central runs 34232991361,
+34240482971 and 34243539560 completed successfully. Wrapper34247800614 passed and
+explicitly required no new dispatch. At preparation, all PR checks on91e5e032
+had finished: Nevada, source conveyor, factory audit and recovery checks passed;
+onboarding34247805343 and worker-image34247805266 failed. Their existing release
+blockers remain; this checkpoint grants no production approval.
+
+No local heavy task or worker is active. No new heavy tasks are scheduled.
+Free space is 1.7 GiB in `/workspaces` and 33 GiB in `/tmp` after selective
+preservation. Nothing was deleted. The user will change the EXISTING Codespace's
+machine type through GitHub; the agent performed no creation, rebuild, deletion,
+resize or machine change. Resume only after that user-managed operation.
+<!-- END SESSION10 LIVE PUBLICATION STAMP -->
+
 <!-- SESSION10 RESUME CHECKPOINT -->
 # Session10 continuation — published190/346
 
