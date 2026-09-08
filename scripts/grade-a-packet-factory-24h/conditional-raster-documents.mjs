@@ -5,8 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { FAMILY as GA_FAMILY, fixtures as gaFixtures, validateGa } from '../rcap-packet-recovery/chat5/ga-pre2013.mjs';
+import { mdConditionalRasterDocuments } from './md-conditional-raster-documents.mjs';
 
 export function conditionalPacketDocuments({ report, fixtures, root }) {
+  if (report?.familyId === 'md_10110_conviction-set') return mdConditionalRasterDocuments({report, fixtures, root});
   const declared = (report?.pdfs ?? []).filter(d => d?.role === 'conditional_assembled_packet');
   const selected = [];
   const seen = new Set();

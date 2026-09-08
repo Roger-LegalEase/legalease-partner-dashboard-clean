@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import { isKyNativeCandidate, auditKyNativeCandidate, KY_NATIVE_FAMILY, KY_NATIVE_DIRECTORY } from "./ky-native-candidate.mjs";
 import { auditMdNativeCandidate, MD_NATIVE_FAMILY, MD_NATIVE_DIRECTORY } from "./md-favorable-native-candidate.mjs";
+import { auditMdConditionalCandidate, MD_CONDITIONAL_DIRECTORIES } from "./md-conditional-native-candidates.mjs";
 import { createGaPre2013ActorVerifier, gaPre2013ActorInventoryProblems } from "./ga-pre2013-source-actors.mjs";
 import { IA_FORM1_FAMILY, IA_FORM1_DIRECTORY, auditIaForm1ExpectedOutcomes } from "../rcap-packet-recovery/chat1/ia-form1-expected-candidates.mjs";
 import path from "node:path";
@@ -275,6 +276,8 @@ export function verifySourcePresentation(blank, { census, receipt, fieldMap, act
 
 export function auditFamily(dir, familyId) {
   const fieldMap = readIf(`${dir}/production-field-map.json`);
+  if (familyId === "md_10110_conviction-set" && dir === MD_CONDITIONAL_DIRECTORIES[familyId]) return auditMdConditionalCandidate(
+    {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
   if (familyId === IA_FORM1_FAMILY && dir === IA_FORM1_DIRECTORY) return auditIaForm1ExpectedOutcomes(
     {root: ROOT, directory: dir, familyId}, inputs => auditPreparedInputs(dir, familyId, inputs));
   if (familyId === KY_NATIVE_FAMILY && dir === KY_NATIVE_DIRECTORY) return auditKyNativeCandidate(
