@@ -214,7 +214,9 @@ Complete and duly verify the petition before filing. Follow the Judiciary kit an
   }
 
   if (!instructions.includes("### Held `selfHelpBoundaries` (15 entries)")) {
-    const notesMarker = "- The measured conviction control is marked; no clean-slate or marijuana election is made.";
+    // FIX105: the family note this section is anchored to now states that the
+    // item (d) election is withdrawn with its row, so the anchor moved with it.
+    const notesMarker = "- The item (d) conviction election on page 19 is withdrawn with the row it states:";
     assert.ok(instructions.includes(notesMarker), "family note marker is absent");
     instructions = instructions.replace(notesMarker, `${selfHelpSection()}\n${notesMarker}`);
   }
@@ -319,7 +321,7 @@ function assertFix13Repair() {
   }
   const selfHelp = instructions.slice(
     instructions.indexOf("## Where self-help ends"),
-    instructions.indexOf("- The measured conviction control is marked"),
+    instructions.indexOf("- The item (d) conviction election on page 19 is withdrawn"),
   );
   assert.equal(selfHelp.split("\n").filter((line) => line.startsWith("- ")).length, 29,
     "the self-help section must carry exactly 29 held entries");

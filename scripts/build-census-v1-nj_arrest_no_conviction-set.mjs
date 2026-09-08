@@ -716,14 +716,39 @@ const NJ_PETITION_ARREST_ROW = Object.freeze({
   row: "Petition for Expungement (Form A), paragraph 1, delivered page 18",
   fields: ["arrestOff1", "arrestStatute", "arrestMuni", "origCaseNums"],
 });
+/*
+ * FIX105, REPEATING_ROWS: the election belongs to the row it elects.
+ *
+ * Withdrawing a half-written row cleared its text cells and left the checkbox
+ * that states the row marked. On the boundary petition that produced a marked
+ * box beside "a." above three empty cells, and on the three conviction families
+ * a marked box beside "d." above nine empty cells on BOTH fixtures -- a sworn
+ * assertion, under N.J.S.A. 2C:52-7, of a disposition whose date, offence and
+ * court the same paragraph then declines to give. No counter reads a vector
+ * mark, so nothing said so.
+ *
+ * `election` names the measured control that states this row. It is a member of
+ * the row exactly as its cells are: if any member of the row is broken the whole
+ * row is withheld, the mark with it, and the withdrawal is recorded in
+ * heldButNotPrinted and disclosed in the guide under the same reason. Where the
+ * row is whole -- canonical item (a) on the arrest family -- the mark stays and
+ * nothing moves. A row group that names no election behaves exactly as before.
+ */
 const NJ_PETITION_DISMISSAL_ROW = Object.freeze({
   row: "Petition for Expungement (Form A), item (a), delivered page 18",
   fields: ["dismissDt", "dismissOff1", "dismissCrt"],
+  election: "dismiss",
+  electionPrinted: "the election box beside \u201ca.\u201d \u2014 Petition for Expungement (Form A), item (a), delivered page 18",
 });
 const NJ_PETITION_CONVICTION_ROW = Object.freeze({
   row: "Petition for Expungement (Form A), item (d), delivered page 19",
   fields: ["guiltyDt", "guiltyOff1", "guiltyStatute", "guiltyFinal1", "guiltyCrt",
     "guiltyTimeType", "guiltyDocCmpltDt", "guiltyProbDt", "guiltyFineDt"],
+  // FIX105: see NJ_PETITION_DISMISSAL_ROW. Six of these nine cells are unmapped
+  // and therefore permanently broken, so this row is withheld on every fixture
+  // and its election is withdrawn with it on every fixture.
+  election: "guilty",
+  electionPrinted: "the election box beside \u201cd.\u201d \u2014 Petition for Expungement (Form A), item (d), delivered page 19",
 });
 const NJ_CONVICTION_BLANK_DECLARATIONS = Object.freeze(Object.fromEntries([
   ["guiltyOff2", "name of offense(s), continuation line if needed"],
@@ -1113,7 +1138,7 @@ Object.assign(FAMILY, {
     ["dismiss"], { origCaseNums: "matter.case_number",
       dismissDt: "matter.disposition_date", dismissOff1: "matter.charge",
       dismissCrt: "matter.court" },
-    "The route election is the measured existing dismissed control on page 18; no box is invented. The court name is bound only to item (a). Item (c) on page 19 is for diversion dismissals and stays wholly untouched; diversion questions remain a self-help stop. If any required fact of item (a) cannot print, its date, charge and court are all withheld together.",
+    "The route election is the measured existing dismissed control on page 18; no box is invented. The court name is bound only to item (a). Item (c) on page 19 is for diversion dismissals and stays wholly untouched; diversion questions remain a self-help stop. If any required fact of item (a) cannot print, its date, charge and court are all withheld together and the item (a) election is withdrawn with them, so no marked box states a row this packet did not write; the withdrawal is named in the held-but-not-printed table above.",
     {
       /*
        * FIX01/RP-2: FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP.
@@ -1584,7 +1609,7 @@ Object.assign(FAMILY, {
     "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
     ["guilty"], { guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge",
       guiltyCrt: "matter.court" },
-    "The measured conviction control is marked; no clean-slate or marijuana election is made.",
+    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. No clean-slate or marijuana election is made.",
     {
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       registryGuidance: {
@@ -1648,7 +1673,7 @@ Object.assign(FAMILY, {
     "obligation:track-only:NJ:nj_indictable_conviction", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; degree and statutory eligibility remain unselected.",
+    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. Degree and statutory eligibility remain unselected.",
     {
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
       /*
@@ -1717,9 +1742,13 @@ Object.assign(FAMILY, {
     "obligation:track-only:NJ:nj_ordinance", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; the ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
+    "The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.",
     {
       unwidgetedParticipantBlanks: [NJ_PETITION_ARREST_DATE_BLANK],
+      // FIX105, SELF_HELP_STOP: this guide said nowhere where self-help ends
+      // while its three siblings each did. The twelve conditions come from the
+      // committed record, in the record's words; see registrySelfHelpStopSection.
+      selfHelpStopFromRegistry: { trackId: "nj_ordinance" },
       /*
        * FIX76, COMPONENT_SET. Eight declared components, four bound and four
        * process-guidance ones delivered nowhere; see the note on
@@ -4160,6 +4189,14 @@ function heldButNotPrintedSection(rows, detailed = false) {
   const ordered = [...byField.values()]
     .sort((a, b) => (a.documentId ?? "").localeCompare(b.documentId ?? "") || a.field.localeCompare(b.field));
   /*
+   * FIX105. Every row in this table used to be a value with a fact id, so the
+   * cell printed one. A withdrawn route election is not a value -- it is a mark
+   * the packet would have made and did not -- and printing `null` in the fact
+   * column would have said the packet holds nothing, which is the opposite of
+   * why the box is empty. A row that carries a fact id renders exactly as before.
+   */
+  const factCell = (row) => (row.factId ? `\`${row.factId}\`` : (row.factDescription ?? "\u2014"));
+  /*
    * FIX84. The plain table names the field and not the component, so a field
    * name that occurs on two components of the same packet -- `Defendant`, on
    * both the Rule 790 petition and the Rule 790 order -- printed twice as two
@@ -4179,7 +4216,7 @@ function heldButNotPrintedSection(rows, detailed = false) {
           : `at the ${m.minimumReadableFontSize}pt minimum readable size the wrapped value needs `
             + `${m.requiredHeightAtMinimumPt}pt of height and the box is ${m.rectHeightPt}pt tall`)
         : "measured by this build's own fitter";
-      return `| \`${row.documentId}\` | \`${row.field}\` | \`${row.factId}\` | ${row.why} — ${measured} `
+      return `| \`${row.documentId}\` | \`${row.field}\` | ${factCell(row)} | ${row.why} — ${measured} `
         + `| ${row.fixtures.join(", ")} |`;
     });
     return "\n## Values this platform holds but did not print\n\n"
@@ -4195,7 +4232,7 @@ function heldButNotPrintedSection(rows, detailed = false) {
   }
   const lines = [...byField.values()]
     .sort((a, b) => a.field.localeCompare(b.field))
-    .map((row) => `| \`${row.field}\` | \`${row.factId}\` | ${row.why} | ${row.fixtures.join(", ")} |`);
+    .map((row) => `| \`${row.field}\` | ${factCell(row)} | ${row.why} | ${row.fixtures.join(", ")} |`);
   return "\n## Values this platform holds but did not print\n\n"
     + "The blanks below are not blanks the platform has no fact for. It holds each of these values and could "
     + "not put it on the paper, so it left the box **empty** rather than print something a court could not read, "
@@ -4307,6 +4344,65 @@ function njRegistryTrackRecord(trackId) {
   const track = (registry.tracks ?? []).find((row) => row.trackId === trackId);
   assert.ok(track, `${trackId}: committed legal-design track record is absent`);
   return track;
+}
+
+/*
+ * FIX105 (SELF_HELP_STOP), nj_ordinance-set.
+ *
+ * Three sibling families on this host each tell the participant where self-help
+ * ends -- nj_arrest_no_conviction carries thirteen conditions in its own
+ * declared section, nj_disorderly_persons fourteen from its entrypoint, and
+ * nj_indictable_conviction thirteen inside its eligibility disclosure. The
+ * ordinance guide said nothing: not the ordinance-versus-disorderly-persons-
+ * versus-Title-39 classification question its own record puts first, not
+ * prosecutor objection, not the 2C:52-2(b) and (c) list, not the 2C:52-14(e)
+ * prior-expungement bar, not pending charges, not unpaid financial assessments,
+ * not federal or out-of-state records, not immigration exposure, not Title 39.
+ * A packet that never says where it stops being enough is a packet that claims
+ * to be enough everywhere.
+ *
+ * Nothing here is written for this route. The conditions are CARRIED from the
+ * committed record -- the legal-design track registry -- and the New Jersey
+ * intake memo that the registry track was built from is read as well and
+ * required to carry the same twelve conditions, character for character, before
+ * any of them is printed. Two records that disagree about where self-help ends
+ * is a question for counsel, not something a builder resolves by choosing one,
+ * so the build stops instead. Opt-in: a family that declares nothing renders
+ * exactly as before.
+ */
+function intakeMemoTrackRecord(jurisdiction, trackId) {
+  const memo = readJson(`data/record-clearing/legal-design-intake/${jurisdiction}.memo.json`);
+  const track = (memo.tracks ?? []).find((row) => row.trackId === trackId);
+  assert.ok(track, `${trackId}: the ${jurisdiction} intake memo carries no such track`);
+  return track;
+}
+
+function registrySelfHelpStopSection(config) {
+  const spec = config.selfHelpStopFromRegistry ?? null;
+  if (!spec) return "";
+  assert.ok(!config.selfHelpStop?.length,
+    `${spec.trackId}: a family declares its self-help stop section once, not twice`);
+  const jurisdiction = spec.jurisdiction ?? config.jurisdiction;
+  const track = njRegistryTrackRecord(spec.trackId);
+  const rows = track.selfHelpStopConditions ?? [];
+  assert.ok(rows.length > 0, `${spec.trackId}: no committed selfHelpStopConditions to carry`);
+  const memo = intakeMemoTrackRecord(jurisdiction, spec.trackId);
+  assert.deepEqual(memo.selfHelpStopConditions ?? [], rows,
+    `${spec.trackId}: the intake memo and the track registry disagree about where self-help ends`);
+  const registryCite = "`data/record-clearing/legal-design-track-registry.json`, track "
+    + `\`${spec.trackId}\`, \`selfHelpStopConditions\``;
+  const memoCite = `\`data/record-clearing/legal-design-intake/${jurisdiction}.memo.json\`, track `
+    + `\`${spec.trackId}\`, \`selfHelpStopConditions\``;
+  return `\n## Where self-help ends\n\n`
+    + `**This packet is not legal advice, and no lawyer has reviewed your case in preparing it.** `
+    + `Stop and get help from a lawyer or a legal-services office before you sign, file or serve `
+    + `anything if any of the ${rows.length} conditions below reaches your case. Each one is carried `
+    + `word for word from this route's own committed record — ${registryCite} — and the same `
+    + `${rows.length} conditions are carried in the same words by the intake memo the record was `
+    + `built from, ${memoCite}; this build reads both and prints them only while they agree.\n\n`
+    + `${rows.map((row) => `- ${row}`).join("\n")}\n\n`
+    + `**If you are not a United States citizen, the immigration condition above is a hard stop, `
+    + `not a caveat.** Ask a New Jersey immigration attorney before you sign or file.\n`;
 }
 
 function registryGuidanceSections(config) {
@@ -4444,7 +4540,10 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   const fees = feeAndWaiverSection(config);
   const whereToFile = filingDestinationSection(config);
   const whoIsServed = serviceSection(config);
-  const selfHelpEnds = selfHelpStopSection(config);
+  // FIX105: a family carries its self-help stop section either as declared
+  // paragraphs or from the committed record; registrySelfHelpStopSection refuses
+  // to render if a family somehow declares both.
+  const selfHelpEnds = `${selfHelpStopSection(config)}${registrySelfHelpStopSection(config)}`;
   const confirmBeforeFiling = confirmBeforeFilingLine(config);
   const requiredBeforeFiling = [...new Map(fieldMaps.flatMap((document) => document.fields)
     .filter((field) => field.blankTreatment === "REQUIRED_BEFORE_FILING")
@@ -4656,6 +4755,68 @@ function assertPrintedCaptionInvariants(config, fieldMaps, instructions, familyI
   }
 }
 
+/**
+ * Which cells and which election a repeating row withholds, given the refusals
+ * of the first finalize pass.
+ *
+ * FIX76, REPEATING_ROWS: a cell the platform holds NO fact for breaks the row
+ * exactly as a refused cell does.
+ *
+ * The first test asked only which DECLARED cells the fitter refused, so a group
+ * member with no fact mapping at all was filtered out of `declared` and could
+ * never break anything. On the New Jersey proposed order that is the whole
+ * defect: arrest1Statute is not in the fact allowlist -- the platform holds a
+ * charge DESCRIPTION and no N.J.S.A. citation for it, and a statute is not
+ * something a packet may infer from a description -- so the row was delivered
+ * with a date, a docket number, and the blank between them that identifies the
+ * offence the judge is being asked to expunge. A row that looks finished and is
+ * not is worse than a row that is plainly empty.
+ *
+ * An unmapped member is therefore permanently broken, on every fixture, and the
+ * whole row is withheld and disclosed. The alternative -- write the statute --
+ * is closed here because no held fact answers it; if the platform ever holds
+ * one, mapping it removes the break and the row prints whole with no other
+ * change.
+ *
+ * FIX105, REPEATING_ROWS: the row's election is a member of the row.
+ *
+ * A group that declares `election` names the measured control that STATES the
+ * row on the paper. Clearing the row's text and leaving that box marked leaves
+ * exactly the half-written row this rule exists to prevent -- worse, because the
+ * mark is the part that swears to the disposition. So a broken row withholds its
+ * election too, and it does so even when no cell of the row was printable: a
+ * marked box above an entirely empty paragraph is the same assertion. Withdrawal
+ * is recorded and disclosed like any other withheld member; nothing about WHICH
+ * facts are held or written changes.
+ *
+ * This function is the single decision both the build and --check read, so the
+ * two cannot drift.
+ */
+function rowIntegrityWithholdings(doc, mappings, refusedFields) {
+  const cells = [];
+  const elections = [];
+  for (const group of doc.repeatingRowGroups ?? []) {
+    const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
+    if (declared.length === 0) continue;
+    const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
+    const broken = [...declared.filter((field) => refusedFields.has(field)), ...unmapped];
+    const printable = declared.filter((field) => !refusedFields.has(field));
+    if (broken.length === 0) continue;
+    const election = group.election && (doc.selections ?? []).includes(group.election)
+      ? group.election : null;
+    if (printable.length === 0 && !election) continue;
+    for (const field of printable) cells.push({ field, row: group.row, broken });
+    if (election) {
+      elections.push({
+        control: election, row: group.row, broken,
+        printed: group.electionPrinted ?? null,
+        withheldCells: printable,
+      });
+    }
+  }
+  return { cells, elections };
+}
+
 async function buildOfficial(familyId, config) {
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
@@ -4735,44 +4896,13 @@ async function buildOfficial(familyId, config) {
        * simply goes to the participant intact instead of arriving on the
        * court's paper with a date and no docket number.
        */
-      const rowIntegrityWithheld = [];
-      for (const group of doc.repeatingRowGroups ?? []) {
-        const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
-        if (declared.length === 0) continue;
-        const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
-        /*
-         * FIX76, REPEATING_ROWS: a cell the platform holds NO fact for breaks
-         * the row exactly as a refused cell does.
-         *
-         * The test above asked only which DECLARED cells the fitter refused, so
-         * a group member with no fact mapping at all was filtered out of
-         * `declared` and could never break anything. On the New Jersey proposed
-         * order that is the whole defect: arrest1Statute is not in the fact
-         * allowlist -- the platform holds a charge DESCRIPTION and no N.J.S.A.
-         * citation for it, and a statute is not something a packet may infer
-         * from a description -- so the row was delivered with a date, a docket
-         * number, and the blank between them that identifies the offence the
-         * judge is being asked to expunge. A row that looks finished and is not
-         * is worse than a row that is plainly empty.
-         *
-         * An unmapped member is therefore permanently broken, on every fixture,
-         * and the whole row is withheld and disclosed. The alternative -- write
-         * the statute -- is closed here because no held fact answers it; if the
-         * platform ever holds one, mapping it removes the break and the row
-         * prints whole with no other change.
-         */
-        const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
-        const broken = [...declared.filter((field) => refusedInRow.has(field)), ...unmapped];
-        const printable = declared.filter((field) => !refusedInRow.has(field));
-        if (broken.length === 0 || printable.length === 0) continue;
-        for (const field of printable) {
-          rowIntegrityWithheld.push({
-            field, factId: mappings[field], row: group.row,
-            valueHeld: facts[mappings[field]] ?? null,
-            withheldBecauseRefusedInTheSameRow: broken,
-          });
-        }
-      }
+      const withholdings = rowIntegrityWithholdings(doc, mappings,
+        new Set(finalized.report.refused.map((row) => row.field)));
+      const rowIntegrityWithheld = withholdings.cells.map((cell) => ({
+        field: cell.field, factId: mappings[cell.field], row: cell.row,
+        valueHeld: facts[mappings[cell.field]] ?? null,
+        withheldBecauseRefusedInTheSameRow: cell.broken,
+      }));
       if (rowIntegrityWithheld.length) {
         const withheldNames = new Set(rowIntegrityWithheld.map((row) => row.field));
         const reduced = Object.fromEntries(Object.entries(mappings)
@@ -4786,7 +4916,15 @@ async function buildOfficial(familyId, config) {
       const preSelectionBytes = finalized.bytes;
       let bytes = finalized.bytes;
       let selectionReport = null;
-      const selections = measuredSelections(doc, census);
+      /*
+       * FIX105. A withdrawn row withdraws its own election, so the mark is never
+       * drawn rather than drawn and then reasoned about. A family whose rows are
+       * whole, and every family that declares no row election at all, gets the
+       * identical selection list it always did.
+       */
+      const withdrawnElections = new Set(withholdings.elections.map((row) => row.control));
+      const selections = measuredSelections(doc, census)
+        .filter((selection) => !withdrawnElections.has(selection.label));
       if (selections.length) {
         const selected = await finalizeFlatOverlay({
           sourceBytes: bytes, expectedSha256: sha256(bytes), anchors: [], selections,
@@ -4863,6 +5001,23 @@ async function buildOfficial(familyId, config) {
           field: row.field, factId: row.factId, valueHeld: row.valueHeld,
           why: `another cell of the same row (${row.withheldBecauseRefusedInTheSameRow.join(", ")}) could not be printed, `
             + "and a row is completed or left untouched",
+          reason: "withheld_for_row_integrity", row: row.row,
+        })),
+        /*
+         * FIX105. The election is withheld on the same terms as the cells it
+         * stands over, and it is disclosed on the same terms: a box the packet
+         * would have marked and did not, named to the participant with the row
+         * it belongs to, so nobody has to infer from an empty paragraph that the
+         * election was withdrawn rather than forgotten.
+         */
+        ...withholdings.elections.map((row) => ({
+          field: row.control, factId: null,
+          factDescription: "the election this row states on the printed form",
+          valueHeld: null, election: true, printed: row.printed,
+          why: `this box is the election for that row, and another cell of the same row `
+            + `(${row.broken.join(", ")}) could not be printed, so the election is withdrawn `
+            + "with the row: a row is completed or left untouched, and a marked election over an "
+            + "empty row is a half-written row",
           reason: "withheld_for_row_integrity", row: row.row,
         })),
         /*
@@ -5460,19 +5615,12 @@ async function checkOfficial(familyId, config) {
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     let finalized = await finalizeWith(mappings, new Set());
-    const recomputedWithheld = [];
-    for (const group of doc.repeatingRowGroups ?? []) {
-      const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
-      if (declared.length === 0) continue;
-      const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
-      // FIX76: the same rule the build applies -- an unmapped cell of the group
-      // is permanently broken, so --check recomputes the same withheld set.
-      const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
-      const broken = [...declared.filter((field) => refusedInRow.has(field)), ...unmapped];
-      const printable = declared.filter((field) => !refusedInRow.has(field));
-      if (broken.length === 0 || printable.length === 0) continue;
-      for (const field of printable) recomputedWithheld.push(field);
-    }
+    // FIX76/FIX105: --check recomputes the withheld set and the withdrawn
+    // elections from the SAME function the build reads, so the two passes cannot
+    // disagree about which cells and which marks a broken row takes with it.
+    const recomputedWithholdings = rowIntegrityWithholdings(doc, mappings,
+      new Set(finalized.report.refused.map((row) => row.field)));
+    const recomputedWithheld = recomputedWithholdings.cells.map((cell) => cell.field);
     if (recomputedWithheld.length) {
       const withheldNames = new Set(recomputedWithheld);
       const reduced = Object.fromEntries(Object.entries(mappings)
@@ -5486,7 +5634,10 @@ async function checkOfficial(familyId, config) {
     const preSelectionBytes = finalized.bytes;
     let recomputedBytes = finalized.bytes;
     let selectionReport = null;
-    const selections = measuredSelections(doc, liveCensus);
+    const recomputedWithdrawnElections = new Set(
+      recomputedWithholdings.elections.map((row) => row.control));
+    const selections = measuredSelections(doc, liveCensus)
+      .filter((selection) => !recomputedWithdrawnElections.has(selection.label));
     if (selections.length) {
       const selected = await finalizeFlatOverlay({
         sourceBytes: recomputedBytes, expectedSha256: sha256(recomputedBytes), anchors: [], selections,
