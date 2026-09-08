@@ -71269,7 +71269,6 @@
       ],
       "selfHelpBoundaries": [
         "Any pardon instrument that is not plainly full and unconditional on its face.",
-        "Any case where the underlying offence falls outside KRS 431.073(1)(a) and (1)(d), so that the pardon is the only route.",
         "Any Commonwealth objection.",
         "Any participant who is not a United States citizen.",
         "Anything other than a plain full pardon on the face of the document needs a lawyer."
@@ -71318,7 +71317,6 @@
       ],
       "selfHelpStopConditions": [
         "Any pardon instrument that is not plainly full and unconditional on its face.",
-        "Any case where the underlying offence falls outside KRS 431.073(1)(a) and (1)(d), so that the pardon is the only route.",
         "Any Commonwealth objection.",
         "Any participant who is not a United States citizen."
       ],
@@ -71409,6 +71407,20 @@
         {
           "kind": "source_gate",
           "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+        }
+      ],
+      "scopedCorrections": [
+        {
+          "on": "2026-09-08",
+          "what": "Removed three copies of the stop \"Any case where the underlying offence falls outside KRS 431.073(1)(a) and (1)(d), so that the pardon is the only route.\" — two registry entries (selfHelpStopConditions, selfHelpBoundaries) and the originating Kentucky memo stop.",
+          "why": "The stop ended self-help for the population this route serves. KRS 431.073(1)(c) makes a full pardon an independent ground; requiring the offence to also fall inside the (1)(a)/(1)(d) lists made the additional-offence list a prerequisite to a ground that does not depend on it.",
+          "scope": "A data correction to the recorded restriction. It is not an eligibility-engine acceptance, not a packet change, not a terminal promotion, and it grants no approval. The track's other stops, its components, rules and every open question are unchanged.",
+          "stopsRetained": 3,
+          "correctionSuppliedBy": "Roger Roman, describing the Kentucky_Pardon_Scoped_Correction package. The package's own patch file did not reach this container; the change was applied from the current preimages and the described scope, and the copies found here matched that description exactly: two registry entries and one originating memo stop.",
+          "preimages": {
+            "data/record-clearing/legal-design-track-registry.json": "baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc",
+            "data/record-clearing/legal-design-intake/KY.memo.json": "741a85c5b69b0bed15a22e3eded8d720f0531d196eadfc0632129bdc3442f65f"
+          }
         }
       ]
     },
