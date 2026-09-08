@@ -43,55 +43,54 @@ Final exact published-state convergence evidence is in
 `session10/resume-final-committed-checks/`. Full logs and separate measured phase
 costs are retained, not printed. No local candidate download or dependency install.
 
-Latest additional closure: CT absolute-pardon static preparation guide is now
-GUIDANCE_READY, derived187/346 (+1, preserving every prior186 terminal).
-Exact delta/evidence: session10/resume-ct-terminal-delta.json. Existing central
-34232991361 supplied2PDF/4pages; the separate reviewer newly inspected those
-four current pages and explicitly closed the three old findings. No rerender.
-The original review remains preserved. CT application and runtime are not granted.
+Latest published terminal census: **187/346**, remote-verified at
+`3545b78c8f143fed28dce66ea8e73c98399517a3`. CT absolute-pardon static guide adds
+one GUIDANCE_READY family while every prior186 terminal remains. Its independent
+review newly inspected all four current immutable central pages from34232991361;
+original findings/attribution remain. Exact delta:session10/resume-ct-terminal-delta.json.
+All six exact committed-state checks passed on3545b78c.
 
-Active backlog admission: `ia-901c2-set`. Its coherent five-document/26-page
-candidate is published and remote-verified at
-`1c6d648f6721de0de0f1a57d25dc37e1ff51a62f`; this is also current local/remote
-recovery head. The terminal count remains186. Existing expected-outcome adapter
-hooks are installed in the completeness host, raster inventory and declared
-wiring. Adapter53/53 controls passed; the real shared host measures171 supported
-areas,74 writes,97 blanks and all nine zero counters, retaining the original285
-area aggregate and two day-180 refusals. All65 payload files and250 unrelated
-completeness audits are unchanged. All39 independently enumerated supplemental
-provenance inputs are now published. The original LIMITED_FINDING remains intact.
+Iowa candidate `cbfc18b1b79c98eac87412fad0aefa882ae660d1` requests5PDF/26pages.
+Wrapper34240163544 passed and dispatched central34240482971. Shared canary and
+plan passed; canary ZIP/API digest and five exercised negative controls retained
+in session10/resume-ia-central/. Optional headless-shell render was not exercised.
+Family job102110643799 remains active in Provision the browser (started14:52:32UTC).
+No Iowa terminal gain is claimed. Consumer config:resume-ia-central/config.json,
+exact immutable candidate above, separate resume-ia-required-document-inventory.json.
+Direct local dispatch previously returned403 and accepted no request; use existing
+authorized wrapper, not that token. Successor wrapper34240617659 passed and its
+actual log confirms no newly eligible candidate and no duplicate dispatch.
 
-Existing consumer `admit-central-batch.py` now accepts a separately committed
-`inventoryPath`; default six-family inventory remains unchanged. Independent14
-controls passed, including old actual MI OWI default/explicit-default equality
-and refusal of unsafe, uncommitted, changed and symlink inventories. Iowa's exact
-inventory is `session10/resume-ia-required-document-inventory.json`.
+Local source head `426016ecd880b02556adc2aa295ea7d021da086a` includes independently
+reviewed CT destruction source-only closure. Its original repaired visual evidence
+is explicitly reused; historical raster remains canonical-only. All original
+absolute review row content is preserved. Destruction is NOT PUBLISHED terminal.
+Required factory F29 exposed a historical-failure integration defect; the scoped
+fresh-custody closure predicate is committed. The final additional GUIDANCE_READY
+refusal and mutation are dirty in scripts/grade-a-packet-factory-24h/verify.mjs,
+SHA256795d7af581e7224abd9ea5399f06874da2216cbb6004a7d3d1e6e8e525b8ffa2.
+It passed27 independent installed-loop controls; adapter46/46. A full factory
+mutation run on426016e is active in retained scratch (session31880), logs under
+resume-ct-destruction-validation/f29-committed-candidate/. It mutates scratch files
+and restores them in finally; do not kill/reset it or copy its transient mutations.
+After it finishes, preserve its source attribution, commit final verifier code and
+validate exact generated state. Publish only the destruction+1 delta, then consume
+Iowa immediately when its own complete receipt qualifies. Another independent
+worker is reviewing four already-held CT provisional guide pages/source delta;
+do not wait for that third guide to publish the first qualifying families.
 
-Direct local dispatch returned GitHub403 (Resource not accessible by integration)
-on2026-09-08; no request was accepted. Do not retry that token. The existing
-authorized recovery wrapper now selects newly published immutable queue inputs,
-triggers on actual queue changes, and rejects ambiguous prior dispatch attempts.
-Independent13/13 action-level cases and18 selector controls passed. Reviewed
-YAML SHA256:6c75ec064d2aadc6ae2c870013024f4a8d9eab08f2fac9339f0b1688007343e4.
-
-Current source head fd6d941ed3b3941ba48943ea23e540715e9263f3;
-remote before this publication1c6d648f6721de0de0f1a57d25dc37e1ff51a62f.
-All15 candidate derivation/check commands passed in resume-ia-wrapper-validation.
-Terminal membership remains186; Iowa requests5PDF/26pages, two diagnostics.
-Next action: push the coherent validated wrapper snapshot and inspect its run:
+Next exact status command:
 
 ```sh
-gh run list --workflow rcap-chatgpt-recovery.yml --branch chatgpt/launch-recovery-20260906 --limit 5 --json databaseId,headSha,status,conclusion
+gh run view 34240482971 --json status,conclusion,jobs
 ```
 
-Iowa wrapper34240163544 completed success and dispatched central34240482971
-against cbfc18b1b79c98eac87412fad0aefa882ae660d1; central is running. The wrapper selects Iowa only from actual prior
-wrapper history; do not force-trigger YAML or duplicate its request. Bind the
-consumer to its actual new packet commit and separately committed Iowa inventory.
-The independent reviewer has also inspected all four actual CT guide raster pages
-and returned a source/identity-bound static GUIDANCE_READY review. Root integrates
-that disjoint closure while central work runs. Unique evidence remains in the
-existing Session10 evidence directories.
+If Iowa succeeds, download its artifact directly to resume-ia-central/ia-901c2-set.zip,
+retain final API run/jobs/artifact identities, validate config before --admit, refresh
+only Iowa declared wiring, then derive and publish precise membership. Do not rerun
+an identical active/successful commit/inventory. Root owns all shared admission and
+derivation writes. Dirty owned evidence includes current Iowa run/jobs/publication
+observations and this handoff; unrelated untracked worker output stays untouched.
 
 Only Captain writes shared files. Reusable committed-input scratch:
 `/tmp/rcap-session10-committed-candidate`; dependencies reused by symlink.
@@ -99,7 +98,7 @@ Unfinished unrelated worker files remain untouched. `resume-recovery-state.json`
 records original local/remote full SHAs and dirty/untracked inventory. Original
 interrupted commits remain ancestors, including Washington and the Iowa install.
 Last disk:1.8GB free/workspaces,34GB/tmp. Unique code and receipts stay persistent;
-scratch only in/tmp. No active central jobs remain for this batch. Existing worker
+scratch only in/tmp. The original six-family run is complete; Iowa central34240482971 is active. Existing worker
 `/root/session10_admission_review` has completed the wrapper and Iowa/CT reviews;
 it owns only its existing independent-review evidence directories.
 

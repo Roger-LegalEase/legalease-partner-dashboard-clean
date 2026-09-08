@@ -604,7 +604,7 @@ function run() {
     }
     const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
       && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)));
-    const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN"]);
+    const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN", "GUIDANCE_READY"]);
     const repairText = fs.existsSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"))
       ? fs.readFileSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"), "utf8") : "";
     const vermontText = fs.existsSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"))
@@ -1842,6 +1842,7 @@ if (MUTATIONS) {
      * FAIL_REPAIR_REQUIRED verdict already recorded beside them. */
     { on: "master", id: "F29", name: "a failed family the queue still calls VERIFYING is caught", mutate: (j) => { const f = j.families.find((x) => x.familyId === failedFamilyF29Judges()); f.state = "VERIFYING"; return j; } },
     { on: "master", id: "F29", name: "a failed family the queue calls proven is caught", mutate: (j) => { const f = j.families.find((x) => x.familyId === failedFamilyF29Judges()); f.state = "VERIFIED_PASS"; return j; } },
+    { on: "master", id: "F29", name: "a failed family called guidance without an exact independent closure is caught", mutate: (j) => { const f = j.families.find((x) => x.familyId === failedFamilyF29Judges()); f.state = "GUIDANCE_READY"; return j; } },
     /* These two mutate the dispatch F29 actually reads for the family it is
      * judging. They used to edit WASHINGTON_REPAIR.json, which stopped naming
      * any currently-judged family once the Washington repairs released -- so
