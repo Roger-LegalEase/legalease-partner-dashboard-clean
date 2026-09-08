@@ -1,12 +1,13 @@
 // The real delivery decision/stream code, transpiled without invoking external
 // services. Database/storage/authority responses below are explicitly synthetic.
 // This is a boundary regression, not live authorization or KY fulfillment approval.
-const fs=require('node:fs');
-const path=require('node:path');
-const vm=require('node:vm');
-const assert=require('node:assert/strict');
-const crypto=require('node:crypto');
-const ts=require('typescript');
+(async()=>{
+const {default:fs}=await import('node:fs');
+const {default:path}=await import('node:path');
+const {default:vm}=await import('node:vm');
+const {default:assert}=await import('node:assert/strict');
+const {default:crypto}=await import('node:crypto');
+const {default:ts}=await import('typescript');
 const root=path.resolve(__dirname,'../../..');
 const alternateSource=process.argv.find(x=>x.startsWith('--delivery-source='));
 const deliveryPath=alternateSource?path.resolve(alternateSource.slice('--delivery-source='.length)):path.join(root,'src/lib/rcap/render/packet-delivery.ts');
@@ -49,7 +50,6 @@ function fixture(options={}){
  if(options.reader){ports.getCurrentVerification=async()=>options.missingVerification?null:{snapshot:{jurisdiction:'KY',pathwayId:'nonconviction-431076'},hash:'synthetic-verification-hash',ownerUserId:options.verificationOwner||owner,matterId:'synthetic-matter',alreadyDownloaded:false};}
  return {ports,reads:()=>storageReads,events};
 }
-(async()=>{
  const results=[];
  async function run(name,options,expected,authorityAllowed=false){const authority={allowed:authorityAllowed,requests:[]};const service=load(code,authority);const f=fixture(options);const answer=await service.authorizePacketDownload(f.ports,{jobId:options.badJobId?'invalid':id,userId:options.anonymous?null:owner});assert.equal(answer.ok,expected===true,name);if(expected!==true)assert.equal(answer.code,expected,name);results.push({name,status:'PASS',code:answer.ok?'synthetic-authorized':answer.code,storageReads:f.reads(),admissionCalls:service.admissionCalls()});return {service,f,answer,authority};}
  const original=process.argv.includes('--before');
@@ -88,7 +88,7 @@ function fixture(options={}){
   let verificationReads=0;let itemReads=0;
   const rel=kind==='rcap'?'src/app/api/rcap/packets/[jobId]/download/route.ts':'src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts';
   const text=fs.readFileSync(path.join(root,rel),'utf8');handlerHashes[rel]=sha(text);
-  const module={};
+  const handlerExports={};
   const dependencies={
    'next/server':{NextResponse:Response},
    '@/lib/rcap/briefcase/auth':{getRcapBriefcaseAuthState:async()=>({userId:options.anonymous?null:owner,isAuthenticated:!options.anonymous})},
@@ -104,9 +104,9 @@ function fixture(options={}){
   };
   const compiled=ts.transpileModule(text,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS},reportDiagnostics:true});
   assert.equal((compiled.diagnostics||[]).filter(d=>d.category===ts.DiagnosticCategory.Error).length,0,'HTTP source syntax');
-  vm.runInNewContext(compiled.outputText,{exports:module,require:name=>{assert.ok(name in dependencies,name);return dependencies[name];},Response,Request,Buffer,Promise});
+  vm.runInNewContext(compiled.outputText,{exports:handlerExports,require:name=>{assert.ok(name in dependencies,name);return dependencies[name];},Response,Request,Buffer,Promise});
   const request=new Request('https://example.invalid/download?grant=synthetic-grant');request.nextUrl=new URL(request.url);
-  const response=await module.GET(request,{params:Promise.resolve(kind==='rcap'?{jobId:id}:{itemId:'synthetic-item'})});
+  const response=await handlerExports.GET(request,{params:Promise.resolve(kind==='rcap'?{jobId:id}:{itemId:'synthetic-item'})});
   assert.equal(response.status,expectedStatus,`${kind} ${JSON.stringify(options)}`);
   const body=Buffer.from(await response.arrayBuffer());
   if(expectedStatus===200){assert.equal(sha(body),sha(bytes));assert.equal(verificationReads,1);assert.equal(service.admissionCalls(),1);assert.ok(response.headers.get('cache-control').includes('no-store'));assert.deepEqual(f.events.map(e=>e.eventType),['delivery_authorized','transmission_started','transmission_completed']);}

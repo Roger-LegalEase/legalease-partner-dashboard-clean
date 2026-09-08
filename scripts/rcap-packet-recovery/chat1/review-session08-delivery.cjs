@@ -1,12 +1,16 @@
 // Independent delivery delta checks. Source mutations exist only in VM memory.
-const fs = require('node:fs');
-const path = require('node:path');
-const vm = require('node:vm');
-const assert = require('node:assert/strict');
-const crypto = require('node:crypto');
-const ts = require('typescript');
+(async () => {
+const { default: fs } = await import('node:fs');
+const { default: path } = await import('node:path');
+const { default: vm } = await import('node:vm');
+const { default: assert } = await import('node:assert/strict');
+const { default: crypto } = await import('node:crypto');
+const { default: ts } = await import('typescript');
+const { createRequire } = await import('node:module');
+const requireDependency = createRequire(__filename);
 const ROOT = path.resolve(__dirname, '../../..');
-const OUT = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/independent-delivery-engineering.json';
+const outputArgument = process.argv.find(value => value.startsWith('--out='));
+const OUT = outputArgument ? outputArgument.slice('--out='.length) : 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/independent-delivery-engineering.json';
 const hash = b => crypto.createHash('sha256').update(b).digest('hex');
 const read = p => fs.readFileSync(path.join(ROOT, p));
 const corePath = 'src/lib/rcap/render/packet-delivery.ts';
@@ -34,7 +38,7 @@ function loadActual(rel, cache = new Map()) {
   const absolute = path.join(ROOT, rel);
   if (cache.has(absolute)) return cache.get(absolute);
   const text = fs.readFileSync(absolute, 'utf8'); moduleHashes[rel] = hash(text);
-  const module = { exports: {} }; cache.set(absolute, module.exports);
+  const loadedModule = { exports: {} }; cache.set(absolute, loadedModule.exports);
   const transformed = ts.transpileModule(text, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
   const resolver = name => {
     if (name === 'server-only') return {};
@@ -43,10 +47,10 @@ function loadActual(rel, cache = new Map()) {
       const p = path.resolve(path.dirname(absolute), name);
       return loadActual(path.relative(ROOT, fs.existsSync(p) ? p : p + '.ts'), cache);
     }
-    return require(name);
+    return requireDependency(name);
   };
-  vm.runInNewContext(transformed, { exports: module.exports, module, require: resolver, process, Buffer, console, URL, Date, __dirname: path.dirname(absolute), __filename: absolute });
-  return module.exports;
+  vm.runInNewContext(transformed, { exports: loadedModule.exports, module: loadedModule, require: resolver, process, Buffer, console, URL, Date, __dirname: path.dirname(absolute), __filename: absolute });
+  return loadedModule.exports;
 }
 function setup(options = {}) {
   const job = { ...base, ...options.job };
@@ -112,7 +116,6 @@ async function handler(kind, options, expectedStatus) {
   } else { assert.notEqual(hash(output), hash(bytes)); assert(!f.events.some(e => e.eventType === 'delivery_authorized')); }
   return { httpStatus: response.status, ...f.counts(), admissions: f.admissions.length, transmittedPacket: expectedStatus === 200 };
 }
-(async () => {
   await coreRefusal('Missing output hash refuses before storage', { job: { outputSha256: null } }, 'artifact_missing');
   await coreRefusal('Storage path must contain the exact job identity', { job: { outputStoragePath: `synthetic/wrong-job/${hash(bytes)}.pdf` } }, 'artifact_identity_mismatch');
   await coreRefusal('Storage path must contain the actual artifact hash', { job: { outputStoragePath: `synthetic/${id}/wrong-hash.pdf` } }, 'artifact_identity_mismatch');
@@ -148,7 +151,7 @@ async function handler(kind, options, expectedStatus) {
     return { actualRegistry: true, syntheticAuthorityResponse: false, state: decision.state, admissionPoints: decisions.map(d => ({ point: d.admissionPoint, denialCode: d.denialCode })) };
   });
   moduleHashes[corePath] = hash(core); moduleHashes['src/lib/rcap/render/job-contract.ts'] = hash(contract);
-  const report = { schemaVersion: 'rcap-independent-delivery-engineering-delta/v1', reviewer: 'release_scope independent engineering sub-agent', recordedAt: new Date().toISOString(),
+  const report = { schemaVersion: 'rcap-independent-delivery-engineering-delta/v1', reviewer: outputArgument ? 'Captain regression rerun of retained independent controls' : 'release_scope independent engineering sub-agent', recordedAt: new Date().toISOString(),
     verdict: checks.every(c => c.passed) ? 'PASS_BOUNDED_ENGINEERING_DELTA' : 'FAIL', passed: checks.filter(c => c.passed).length, failed: checks.filter(c => !c.passed).length,
     checks, sourceSha256: moduleHashes, completeKyPdfSha256: hash(bytes),
     boundary: { realCoreAndHandlersExecuted: true, sessionDatabaseStoragePorts: 'synthetic', positiveAuthorityPort: 'explicit synthetic response', installedRegistryDenialExecuted: checks.some(c => c.actualRegistry && c.passed), actualEntitlementCreated: false, rendererExecuted: false, installedKentuckyFulfillment: false, hostedProductionAcceptance: false },

@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "name": "scoped-lint",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "scripts/rcap-packet-recovery/chat1/review-session08-delivery.cjs",
+        "scripts/rcap-packet-recovery/chat1/test-required-delivery-verification.cjs",
+        "src/components/expungement-ai/ConsumerSignInForm.tsx"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 6.74,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/scoped-lint.log"
+    },
+    {
+      "name": "delivery-regression",
+      "command": [
+        "node",
+        "scripts/rcap-packet-recovery/chat1/test-required-delivery-verification.cjs",
+        "--out=data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/delivery-regression.json"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.73,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/delivery-regression.log"
+    },
+    {
+      "name": "retained-independent-controls-rerun",
+      "command": [
+        "node",
+        "scripts/rcap-packet-recovery/chat1/review-session08-delivery.cjs",
+        "--out=data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/retained-independent-controls-rerun.json"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.38,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/retained-independent-controls-rerun.log"
+    },
+    {
+      "name": "auth-continuation",
+      "command": [
+        "node",
+        "scripts/verify-consumer-auth-continuation.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.04,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/auth-continuation.log"
+    },
+    {
+      "name": "shared-claim-boundary-app",
+      "command": [
+        "node",
+        "scripts/verify-shared-claim-boundary-app.mjs"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 0.46,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-release-lint-repair/shared-claim-boundary-app.log"
+    }
+  ],
+  "historicalReportUnchangedSha256": "5b55877c7d16b6c6ac16225fcfe35ef529f5de6eb9b32440c1850ff73b58c6b2"
+}

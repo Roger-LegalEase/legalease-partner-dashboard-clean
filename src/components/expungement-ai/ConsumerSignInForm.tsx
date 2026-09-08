@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState, useSyncExternalStore } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
@@ -31,18 +31,17 @@ export function ConsumerSignInForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
+  const [pendingClaimFailure, setPendingClaimFailed] = useState<boolean | null>(null);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [passwordlessState, setPasswordlessState] = useState<PasswordlessState>("idle");
-  const { claimToken } = readAuthRequestContext();
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("claimRetry") === "1" && claimToken) {
-      setPendingClaimFailed(true);
-      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
-    }
-  }, [claimToken, translate]);
+  const locationSearch = useSyncExternalStore(subscribeToAuthLocation, authLocationSearch, serverAuthLocationSearch);
+  const requestParams = new URLSearchParams(locationSearch);
+  const { claimToken } = consumerAuthContinuationFrom(requestParams);
+  const pendingClaimFailed = pendingClaimFailure ?? (requestParams.get("claimRetry") === "1" && Boolean(claimToken));
+  const displayedError = errorMessage || (pendingClaimFailed && !isSubmitting
+    ? translate("signin.pending_claim_error", pendingClaimError)
+    : "");
 
   // The claim token is read from the URL on every attempt and never stashed in
   // localStorage. submitClaim strips it from the address bar once the server has
@@ -54,7 +53,6 @@ export function ConsumerSignInForm() {
     const claimed = await submitClaim(requestContext.claimToken);
     if (!claimed.ok) {
       setPendingClaimFailed(true);
-      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
       setIsSubmitting(false);
       return;
     }
@@ -136,6 +134,7 @@ export function ConsumerSignInForm() {
     const requestContext = readAuthRequestContext();
     setPasswordlessState("magic");
     setErrorMessage("");
+    setPendingClaimFailed(false);
     setNoticeMessage("");
     const { error } = await createBrowserSupabaseClient().auth.signInWithOtp({
       email,
@@ -157,6 +156,7 @@ export function ConsumerSignInForm() {
     const requestContext = readAuthRequestContext();
     setPasswordlessState("oauth");
     setErrorMessage("");
+    setPendingClaimFailed(false);
     const { error } = await createBrowserSupabaseClient().auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -186,9 +186,9 @@ export function ConsumerSignInForm() {
         </p>
       </div>
 
-      {errorMessage ? (
+      {displayedError ? (
         <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
-          {errorMessage}
+          {displayedError}
           {pendingClaimFailed && claimToken ? (
             <button
               className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
@@ -314,6 +314,19 @@ function expungementAuthRedirectTo(nextPath: string, claimToken: string, locale:
 
 function isExpungementHost(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app") || hostname === "expungement.ai" || hostname === "www.expungement.ai";
+}
+
+function subscribeToAuthLocation(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  return () => window.removeEventListener("popstate", onChange);
+}
+
+function authLocationSearch() {
+  return window.location.search;
+}
+
+function serverAuthLocationSearch() {
+  return "";
 }
 
 function readAuthRequestContext() {
