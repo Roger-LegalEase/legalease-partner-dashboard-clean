@@ -24,10 +24,18 @@ import {
 import { pathsOverlap } from "./path-ownership.mjs";
 import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
+import { assessConnecticutReviewedGuidance, connecticutGuidanceClosesReturnedFailure } from "./ct-reviewed-guidance.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
 const MUTATIONS = process.argv.includes("--mutations");
+// Evidence bytes are immutable during a verifier invocation. Reuse their
+// independently checked custody while each mutation supplies its own records.
+const ctGuidanceAssessments = new Map();
+function currentCtGuidanceAssessment(familyId) {
+  if (!ctGuidanceAssessments.has(familyId)) ctGuidanceAssessments.set(familyId, assessConnecticutReviewedGuidance(ROOT, familyId));
+  return ctGuidanceAssessments.get(familyId);
+}
 
 const DIR = "data/rcap-grade-a/packet-factory-24h";
 const PROMPTS = "docs/rcap/grade-a/packet-factory-24h";
@@ -655,6 +663,7 @@ function run() {
     for (const r of failedFamilies) {
       const fam = master.families.find((f) => f.familyId === r.familyId);
       if (!fam) { returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and is not in the queue at all`); continue; }
+      if (connecticutGuidanceClosesReturnedFailure(fam, r, currentCtGuidanceAssessment(r.familyId))) continue;
       if (PROVEN.has(fam.state)) returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and the queue still calls it ${fam.state}`);
       // A governed source-identity refusal is a prerequisite to packet repair,
       // not permission to forget the independent packet defects. Keep every

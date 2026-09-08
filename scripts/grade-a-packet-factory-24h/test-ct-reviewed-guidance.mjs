@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CT_GUIDANCE_REVIEW, CT_GUIDANCE_CANDIDATE, CT_GUIDANCE_FAMILIES, connecticutGuidanceReviewInventory,
   assessConnecticutReviewedGuidance, applyConnecticutGuidanceAcceptance, ctGuidanceObjectSha256,
-  ctGuidanceVerdictIdentity } from './ct-reviewed-guidance.mjs';
+  ctGuidanceVerdictIdentity, connecticutGuidanceClosesReturnedFailure } from './ct-reviewed-guidance.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = relative => fs.readFileSync(path.join(root, relative));
@@ -111,5 +111,37 @@ assertCase('explicit root closure can close exactly its new verdict and source-h
 assertCase('unrelated families are untouched', () => {
   assert.equal(assessConnecticutReviewedGuidance(root, 'unrelated'), null);
   assert.equal(applyConnecticutGuidanceAcceptance('SOURCE_READY', { eligible: true, familyId: 'unrelated' }, basic), 'SOURCE_READY');
+});
+const returned = { ...structuredClone(inventories[0].priorSelectedReturn), isIndependentVerification: true };
+const closedFamily = {
+  familyId: returned.familyId, state: 'GUIDANCE_READY', legalInputStatus: 'SETTLED',
+  sourceReadiness: { ready: true }, allNineCountersZero: true,
+  reviewedTreatmentGuidance: { ...good[0], eligible: true, currentTreatmentHold: null },
+  historicalIndependentFailureClosedByGuidanceReview: {
+    verdict: returned.verdict, lane: returned.lane, verifiedAtBase: returned.verifiedAtBase,
+    evidencePath: returned.evidencePath, failedObligations: returned.failedObligations,
+    closedBy: good[0].reviewPath, reviewSha256: good[0].reviewSha256, closedPriorFindings: good[0].closedPriorFindings
+  }, failedObligations: [], failedObligationNames: []
+};
+assertCase('F29 recognizes only the exactly retained independently closed static failure', () =>
+  assert.equal(connecticutGuidanceClosesReturnedFailure(closedFamily, returned, good[0]), true));
+for (const [name, mutate] of [
+  ['false fresh custody', (_f, _r, a) => { a.eligible = false; }],
+  ['packet promotion', f => { f.state = 'COMPLETE_PACKET_PROVEN'; }],
+  ['later finding', (_f, r) => { r.failedObligations[0].finding = 'New current defect'; }],
+  ['later verifier base', (_f, r) => { r.verifiedAtBase = '0'.repeat(40); }],
+  ['author return', (_f, r) => { r.isIndependentVerification = false; }],
+  ['missing original attribution', f => { delete f.historicalIndependentFailureClosedByGuidanceReview; }],
+  ['different closed finding', f => { f.historicalIndependentFailureClosedByGuidanceReview.closedPriorFindings = []; }],
+  ['stale review binding', f => { f.reviewedTreatmentGuidance.reviewSha256 = '0'.repeat(64); }],
+  ['unavailable source', f => { f.sourceReadiness.ready = false; }],
+  ['measured defect', f => { f.allNineCountersZero = false; }],
+  ['legal hold', f => { f.legalInputStatus = 'BLOCKED'; }],
+  ['owner refusal', f => { f.ownerDeliveryTypeRefusal = { refused: true }; }],
+  ['unclosed source hold', f => { f.verifierSourceHold = { reason: 'new hold' }; }],
+  ['remaining failed obligation', f => { f.failedObligationNames = ['SOURCE_IDENTITY']; }]
+]) assertCase(`F29 refuses ${name}`, () => {
+  const f = structuredClone(closedFamily), r = structuredClone(returned), a = structuredClone(good[0]);
+  mutate(f, r, a); assert.equal(connecticutGuidanceClosesReturnedFailure(f, r, a), false);
 });
 console.log(JSON.stringify({ status: 'PASS', cases, count: cases.length, actualIndependentReviewCreated: false, actualTreatmentGranted: false }, null, 2));

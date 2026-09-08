@@ -217,3 +217,29 @@ export function applyConnecticutGuidanceAcceptance(state, assessment, context = 
   if (state === 'SOURCE_BLOCKED' && !context.verifierSourceHold) return state;
   return 'GUIDANCE_READY';
 }
+
+// F29 still reads the original negative return. A fresh, independently bound
+// static closure can finish that exact finding without erasing its attribution
+// or creating a repair dispatch for work already independently closed.
+export function connecticutGuidanceClosesReturnedFailure(family, returned, assessment) {
+  if (!assessment?.eligible || family?.state !== 'GUIDANCE_READY'
+    || family.familyId !== returned?.familyId || family.familyId !== assessment.familyId
+    || returned.verdict !== 'FAIL_REPAIR_REQUIRED' || !returned.isIndependentVerification
+    || returned.superseded || canonical(ctGuidanceVerdictIdentity(returned)) !== canonical(assessment.priorSelectedReturn)) return false;
+  if (applyConnecticutGuidanceAcceptance(returned.verdict, assessment, {
+    independentReturn: returned, readiness: family.sourceReadiness,
+    nineZero: family.allNineCountersZero === true,
+    legalBlocked: family.legalInputStatus !== 'SETTLED',
+    deliveryTypeRefusal: family.ownerDeliveryTypeRefusal,
+    verifierSourceHold: family.verifierSourceHold
+  }) !== 'GUIDANCE_READY') return false;
+  const expectedHistory = {
+    verdict: returned.verdict, lane: returned.lane, verifiedAtBase: returned.verifiedAtBase,
+    evidencePath: returned.evidencePath, failedObligations: returned.failedObligations,
+    closedBy: assessment.reviewPath, reviewSha256: assessment.reviewSha256,
+    closedPriorFindings: assessment.closedPriorFindings
+  };
+  return canonical(family.historicalIndependentFailureClosedByGuidanceReview) === canonical(expectedHistory)
+    && canonical(family.reviewedTreatmentGuidance) === canonical({ ...assessment, eligible: true, currentTreatmentHold: null })
+    && (family.failedObligations ?? []).length === 0 && (family.failedObligationNames ?? []).length === 0;
+}
