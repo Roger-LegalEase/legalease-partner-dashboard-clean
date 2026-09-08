@@ -20,6 +20,16 @@ export function supersededChatEvidencePath(base, doc, row) {
     && path.basename(name) === name && !name.includes('\\')
     ? `${base}/${name}` : null;
 }
+// A completed review can explicitly close both a prior failure and its bounded
+// correction return. Keep that finite declaration independent of input order.
+export function supersededChatEvidencePaths(base, doc, row) {
+  const names = row.supersedesSubmittedDispositions ?? doc.supersedesSubmittedDispositions;
+  if (names == null) return [];
+  if (!Array.isArray(names) || !names.length || names.some(name =>
+    typeof name !== 'string' || !name.endsWith('.json')
+    || path.basename(name) !== name || name.includes('\\'))) return [];
+  return [...new Set(names)].map(name => `${base}/${name}`);
+}
 export function chatReviewInputs(root) {
   const entries = [];
   for (const base of CHAT_REVIEW_ROOTS) {

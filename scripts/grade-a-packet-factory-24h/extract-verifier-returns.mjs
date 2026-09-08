@@ -22,7 +22,7 @@
  * anything else refuses, because a verdict nobody can read is not a verdict and
  * guessing at it is how a passing obligation becomes a repair lane.
  */
-import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda, supersededChatEvidencePath } from "./chat-review-inputs.mjs";
+import { chatReviewInputs, chatRowProblem, normalizeBoundedChatFailure, attachChatReviewAddenda, supersededChatEvidencePath, supersededChatEvidencePaths } from "./chat-review-inputs.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -280,6 +280,8 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
         packetPublicationCommit: r.packetPublicationCommit ?? null,
         // A documented withdrawal is not inferred from file naming or dates.
         supersedesEvidencePath: supersededChatEvidencePath(base, doc, r),
+        ...(supersededChatEvidencePaths(base, doc, r).length
+          ? {supersedesEvidencePaths: supersededChatEvidencePaths(base, doc, r)} : {}),
       } : {}),
       repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
         ? `${base}/${d}/repair-assignments.json` : null,
@@ -341,8 +343,8 @@ const isAncestorOf = (a, b) => {
  * decides it — the same answer as before, rather than a confident wrong one.
  */
 const supersedes = (r, prior) => {
-  if (r.supersedesEvidencePath === prior.evidencePath) return true;
-  if (prior.supersedesEvidencePath === r.evidencePath) return false;
+  if (r.supersedesEvidencePath === prior.evidencePath || r.supersedesEvidencePaths?.includes(prior.evidencePath)) return true;
+  if (prior.supersedesEvidencePath === r.evidencePath || prior.supersedesEvidencePaths?.includes(r.evidencePath)) return false;
   if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
   if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
   /*
