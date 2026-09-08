@@ -1716,8 +1716,8 @@
       "documentId": "NJ-CN-10557",
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
-      "sha256": "77ccbea40a7831ad4d0d5ae488cf448b7d66d012251d90273d7447bffb9fecfb",
-      "byteLength": 574408,
+      "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "byteLength": 574020,
       "written": [
         {
           "field": "DefPhone",
@@ -2930,6 +2930,17 @@
           "row": "Petition for Expungement (Form A), paragraph 1, delivered page 18"
         },
         {
+          "field": "dismiss",
+          "factId": null,
+          "factDescription": "the election this row states on the printed form",
+          "valueHeld": null,
+          "election": true,
+          "printed": "the election box beside “a.” — Petition for Expungement (Form A), item (a), delivered page 18",
+          "why": "this box is the election for that row, and another cell of the same row (dismissOff1) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row",
+          "reason": "withheld_for_row_integrity",
+          "row": "Petition for Expungement (Form A), item (a), delivered page 18"
+        },
+        {
           "field": "dismissCrt",
           "factId": "matter.court",
           "valueHeld": "Example Court",
@@ -2961,23 +2972,7 @@
           "row": "Petition for Expungement (Form A), paragraph 1, delivered page 18"
         }
       ],
-      "selections": [
-        {
-          "control": "dismiss",
-          "page": 18,
-          "box": {
-            "x0": 33.793,
-            "y0": 214.365,
-            "x1": 51.793,
-            "y1": 232.365
-          },
-          "inset": 2,
-          "lineWidth": 1.2,
-          "mark": "two_diagonal_strokes_inset",
-          "drewANewBox": false,
-          "redrewTheCourtsBox": false
-        }
-      ],
+      "selections": [],
       "choiceNeutralization": {
         "performedBeforeFlatten": true,
         "fields": [
@@ -3179,8 +3174,8 @@
         "rule": "remove /V and /DV; force button widgets to /AS /Off; never infer a participant or court answer"
       },
       "proof": {
-        "artifactSha256": "77ccbea40a7831ad4d0d5ae488cf448b7d66d012251d90273d7447bffb9fecfb",
-        "artifactByteLength": 574408,
+        "artifactSha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "artifactByteLength": 574020,
         "appearanceCount": 263,
         "writtenProof": [
           {
@@ -3327,46 +3322,7 @@
         "protectedInk": [],
         "protectedVectorInk": [],
         "protectedSourceOwnedAppearances": [],
-        "selectionProof": [
-          {
-            "control": "dismiss",
-            "page": 18,
-            "box": {
-              "x0": 33.793,
-              "y0": 214.365,
-              "x1": 51.793,
-              "y1": 232.365
-            },
-            "inset": 2,
-            "lineWidth": 1.2,
-            "mark": "two_diagonal_strokes_inset",
-            "drewANewBox": false,
-            "redrewTheCourtsBox": false,
-            "derivedFromArtifactBytesSha256": "77ccbea40a7831ad4d0d5ae488cf448b7d66d012251d90273d7447bffb9fecfb",
-            "artifactDerivedMarkPaths": [
-              {
-                "page": 18,
-                "operator": "l",
-                "paintedBy": "S",
-                "x": 35.793,
-                "y": 216.365,
-                "width": 14,
-                "height": 14
-              },
-              {
-                "page": 18,
-                "operator": "l",
-                "paintedBy": "S",
-                "x": 35.793,
-                "y": 216.365,
-                "width": 14,
-                "height": 14
-              }
-            ],
-            "markObservedInArtifactBytes": true,
-            "visualEvidence": "corresponding all-page raster is inventoried in reports/rendered-artifacts.json"
-          }
-        ]
+        "selectionProof": []
       }
     }
   ]

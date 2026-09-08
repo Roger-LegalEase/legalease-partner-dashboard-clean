@@ -20,6 +20,7 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | `arrest1CaseNum` | `matter.case_number` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
+| `guilty` | the election this row states on the printed form | this box is the election for that row, and another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row | canonical, boundary |
 | `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
@@ -229,5 +230,5 @@ The committed track record at `data/record-clearing/legal-design-track-registry.
 - Immigration exposure. New Jersey expungement has no federal immigration effect.
 - Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.
 
-- The measured conviction control is marked; no clean-slate or marijuana election is made.
+- The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. No clean-slate or marijuana election is made.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.

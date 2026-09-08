@@ -21,6 +21,7 @@ The blanks below are not blanks the platform has no fact for. It holds each of t
 | `arrest1Dt` | `matter.arrest_date` | another cell of the same row (arrest1Statute) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `arrestOff1` | `matter.charge` | another cell of the same row (arrestStatute, arrestMuni) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `ExpungeCntyName` | `matter.county` | this blank is a chooser the form fills from its own list of options, not a free-text line, and the held value is not one of those options | canonical, boundary |
+| `guilty` | the election this row states on the printed form | this box is the election for that row, and another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, so the election is withdrawn with the row: a row is completed or left untouched, and a marked election over an empty row is a half-written row | canonical, boundary |
 | `guiltyCrt` | `matter.court` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyDt` | `matter.conviction_date` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
 | `guiltyOff1` | `matter.charge` | another cell of the same row (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) could not be printed, and a row is completed or left untouched | canonical, boundary |
@@ -166,5 +167,24 @@ The lines below are printed on delivered pages of this packet and there is no fo
 | Delivered page | What the form prints | What goes there |
 | --- | --- | --- |
 | 18 | “I was arrested/taken into custody on (date) ______” — Petition for Expungement (Form A), paragraph 1 | The arrest or custody date verified from the court record. Complete this printed line by hand with the rest of paragraph 1. The proposed-order row on page 31 is also withheld when its statutory citation is missing, so it is not a printed source for this date. A blank or incomplete paragraph is not ready to sign or file. |
-- The measured conviction control is marked; the ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.
+
+## Where self-help ends
+
+**This packet is not legal advice, and no lawyer has reviewed your case in preparing it.** Stop and get help from a lawyer or a legal-services office before you sign, file or serve anything if any of the 12 conditions below reaches your case. Each one is carried word for word from this route's own committed record — `data/record-clearing/legal-design-track-registry.json`, track `nj_ordinance`, `selfHelpStopConditions` — and the same 12 conditions are carried in the same words by the intake memo the record was built from, `data/record-clearing/legal-design-intake/NJ.memo.json`, track `nj_ordinance`, `selfHelpStopConditions`; this build reads both and prints them only while they agree.
+
+- Whether the matter is an ordinance violation rather than a disorderly persons offence or a Title 39 matter.
+- Prosecutor objection.
+- Any conviction that might sit on the N.J.S.A. 2C:52-2(b) or (c) non-expungeable list.
+- Any classification or out-of-state equivalency question.
+- Any same-day or closely-related bundling argument.
+- Prior expungement, which N.J.S.A. 2C:52-14(e) bars except on the Clean Slate route.
+- Pending charges.
+- Unpaid financial assessments and the willfulness question.
+- The participant cannot assemble complete case identifiers.
+- Federal, out-of-state or tribal records. They are not reachable, but they count toward eligibility and toward the offense counts.
+- Immigration exposure. New Jersey expungement has no federal immigration effect.
+- Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.
+
+**If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file.
+- The item (d) conviction election on page 19 is withdrawn with the row it states: six of that paragraph's nine cells have no held fact, so the whole row is left untouched and its box is left unmarked rather than swearing to a conviction the paragraph does not identify. The withdrawal is named in the held-but-not-printed table above. The ordinance characterization is not inferred into another control. Item (d) uses a printed N.J.S.A. statute line even on this municipal-ordinance route. The platform holds no exact ordinance citation or instruction authorizing substitution into that line, so it does not invent a state statute. Obtain the actual ordinance and sentence/completion record; confirm with the filing court how that ordinance is identified on this kit. An ordinance-versus-disorderly-persons-or-Title-39 classification question is a self-help stop.
 - The shared 43-page kit's signature, date, notary, service, court, prosecutor, clerk, agency, and post-order fields are expressly refused.
