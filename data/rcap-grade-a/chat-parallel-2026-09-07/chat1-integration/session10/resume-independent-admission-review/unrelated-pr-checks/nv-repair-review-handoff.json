@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-nv-receipt-preservation-repair-proposal/v1",
+  "author": "/root/session10_admission_review",
+  "status": "READY_FOR_ROOT_INDEPENDENT_REVIEW",
+  "ownedLiveCodePathsEdited": [],
+  "proposedLivePath": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+  "reasonNoBuilderChange": "The existing NV builder already calls preserveIdentityRefresh. Dropping the old note when the registry source identity changes is required. Reconcile only the stale source-receipt pin using the measured unchanged NV anchors; do not make the builder auto-approve changed sources.",
+  "patch": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-source-receipt-preservation.patch",
+    "sha256": "01d96526339917cc7d4b2518fa8862de5ebf0386fec12fca3a4c16bcbcff85cd",
+    "applyCheckExitCode": 0
+  },
+  "proposedReceipt": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/proposed-nv-source-receipt.json",
+    "sha256": "0e23e5ea4adfd1d2e6396ae8858c32d15d3a87e17597deee882d89ce5857eb7d"
+  },
+  "sourceComparison": {
+    "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-source-identity-successor-comparison.json",
+    "sha256": "d790971fc97451a445613e0cf2554ca955d65e6701d34b6abbee0e862f2c77b2"
+  },
+  "originalIdentityRefreshPreservedVerbatim": true,
+  "originalRefreshTripwireIdentityPreserved": true,
+  "independentSourceScope": "Both original873d3d21 and prior-target9fe5d0cc complete NV track objects plus global metadata independently compared equal to currentbaa26b2e. Original comparison attribution remains under previousIdentityRefresh; new review has its own reviewer and hash-bound evidence.",
+  "executedChecks": {
+    "twoFullNoRasterBuilds": [
+      {
+        "passNumber": 1,
+        "exitCode": 0,
+        "elapsedSeconds": 1.439,
+        "familyFilesMatched": 13,
+        "familyDiffExitCode": 0
+      },
+      {
+        "passNumber": 2,
+        "exitCode": 0,
+        "elapsedSeconds": 1.338,
+        "familyFilesMatched": 13,
+        "familyDiffExitCode": 0
+      }
+    ],
+    "existingNvRegressionExitCode": 0,
+    "existingIdentityControls": 13,
+    "existingIdentityControlsExitCode": 0,
+    "targetedActualNvReceiptControls": 7,
+    "all24LiveInputsUnchanged": true,
+    "existingNvRegressionChecks": 30
+  },
+  "initialAttempt": "Preserved separately: builder exit0,12/13 files matched; the proposal serializer escaped an existing literal UTF-8 em dash. The proposal was corrected to the existing literal-byte encoding and two new full checks passed. No original source bytes were rewritten.",
+  "requiredPublicationPaths": [
+    "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-source-identity-successor-comparison.json"
+  ],
+  "reviewEvidencePaths": [
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-rebuild-results.json",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-receipt-controls.json",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-source-receipt-preservation.patch",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-initial-serializer-attempt.json"
+  ],
+  "nextRootAction": "Independently review the source comparisons and patch, apply only the NV source-receipt change, publish its exact evidence dependency, and consume the existing NV workflow on that new immutable candidate. Continue preserving its remaining independent packet/runtime obligations; this source repair alone does not terminalize Nevada.",
+  "newRasterCreated": false,
+  "centralRerun": false,
+  "containerBuilt": false,
+  "liveFamilyOutputWritten": false,
+  "sharedGeneratorEdited": false,
+  "workflowEdited": false,
+  "ledgerEdited": false,
+  "commitCreated": false,
+  "terminalDelta": 0
+}
