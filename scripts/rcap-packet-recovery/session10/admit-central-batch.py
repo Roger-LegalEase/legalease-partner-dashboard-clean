@@ -145,7 +145,10 @@ def main():
         with zipfile.ZipFile(archive) as z:
             require(len(z.namelist()) == len(set(z.namelist())) and sum(i.file_size for i in z.infolist()) < 500_000_000, 'duplicate or oversized ZIP')
             verdict_bytes = z.read(family+'.verdict.json'); verdict = json.loads(verdict_bytes)
-            images = {n: z.read(n) for n in z.namelist() if n.endswith('.png')}
+            # As in the existing NC full-set consumer, page-calibration.png
+            # is renderer evidence, not an additional packet page. Preserve it
+            # in the immutable ZIP while validating every numbered page image.
+            images = {n: z.read(n) for n in z.namelist() if re.search(r'/page-\d+\.png$', n)}
         pages = validate(config, expected, verdict, images)
         caught = controls(config, expected, verdict, images, run, jobs, artifact)
         verdict_path = out/(family+'.verdict.json'); proof_path = out/(family+'.verified.json')
