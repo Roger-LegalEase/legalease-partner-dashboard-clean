@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "19eb374383a450153c659d327b829a33cac9f830",
+  "generatedAtCommit": "f78cf52b55b7960fb34cd044914be34bf68cf108",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3398,21 +3398,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ga-nonconv-pre2013-set",
-      "familyId": "ga-nonconv-pre2013-set",
-      "itemId": null,
-      "familyIds": [
-        "ga-nonconv-pre2013-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF19",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ga-pardon-j7-set",
       "familyId": "ga-pardon-j7-set",
       "itemId": null,
@@ -5101,36 +5086,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "mi_setaside_application-set",
-      "familyId": "mi_setaside_application-set",
-      "itemId": null,
-      "familyIds": [
-        "mi_setaside_application-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF23",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mi_setaside_first_owi-set",
-      "familyId": "mi_setaside_first_owi-set",
-      "itemId": null,
-      "familyIds": [
-        "mi_setaside_first_owi-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF22",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "mi_setaside_marihuana-set",
       "familyId": "mi_setaside_marihuana-set",
       "itemId": null,
@@ -5339,21 +5294,6 @@
       "sourceId": null,
       "operation": "packet-build",
       "lane": "PF13",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "mo-610-145-mistaken-identity-set",
-      "familyId": "mo-610-145-mistaken-identity-set",
-      "itemId": null,
-      "familyIds": [
-        "mo-610-145-mistaken-identity-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF11",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -10169,34 +10109,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
-      "itemId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
-      "familyIds": [
-        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
-      ],
-      "sourceId": "official-form:JU 10.0300",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
-      "itemId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
-      "familyIds": [
-        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
-      ],
-      "sourceId": "official-form:JU 10.0315",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC03",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "composed-treatment:nd-nonconviction-auto-close-verify::NO_DOCUMENT_SOURCE_NAMED",
       "itemId": "composed-treatment:nd-nonconviction-auto-close-verify::NO_DOCUMENT_SOURCE_NAMED",
       "familyIds": [
@@ -13807,7 +13719,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a80f1953a15c05630c4ce55344ddbfc657f9502078bc6a56670a4df460c2aaa3",
+  "claimsDigest": "29cf4840fe3617994f8ba7e6605d6eb2ba41cff1cd41b7d130cc3b838519e2bb",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52740,6 +52652,54 @@
       "operation": "held-inventory-reconciliation",
       "lane": "SRC03",
       "withdrawnAt": "2026-09-08T12:20:27Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ga-nonconv-pre2013-set",
+      "operation": "packet-build",
+      "lane": "PF19",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_application-set",
+      "operation": "packet-build",
+      "lane": "PF23",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_first_owi-set",
+      "operation": "packet-build",
+      "lane": "PF22",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-145-mistaken-identity-set",
+      "operation": "packet-build",
+      "lane": "PF11",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC03",
+      "withdrawnAt": "2026-09-08T13:26:24Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
