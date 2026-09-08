@@ -2,7 +2,12 @@ name: RCAP repaired packet validation
 on:
   push:
     branches: [chatgpt/launch-recovery-20260906]
-    paths: [.github/workflows/rcap-chatgpt-recovery.yml]
+    paths:
+      - .github/workflows/rcap-chatgpt-recovery.yml
+      - data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json
+concurrency:
+  group: rcap-recovery-publication-${{ github.ref }}
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
@@ -39,6 +44,10 @@ jobs:
           node scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs | tee "$RUNNER_TEMP/recovery-validation/declared-review-anchors.log"
           node scripts/rcap-packet-recovery/chat1/test-mi-mo-declared-candidates.mjs | tee "$RUNNER_TEMP/recovery-validation/mi-mo-declared.log"
           node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs | tee "$RUNNER_TEMP/recovery-validation/ga-documents.log"
+          node scripts/grade-a-packet-factory-24h/test-ga-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ga-declared.log"
+          node scripts/rcap-packet-recovery/chat1/test-ia-form1-expected-candidates.mjs | tee "$RUNNER_TEMP/recovery-validation/ia-expected-outcomes.log"
+          node scripts/rcap-packet-recovery/chat1/test-ia-form1-host-integration.mjs | tee "$RUNNER_TEMP/recovery-validation/ia-host.log"
+          node scripts/grade-a-packet-factory-24h/test-recovery-raster-selection.mjs | tee "$RUNNER_TEMP/recovery-validation/new-raster-selection.log"
           node scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs | tee "$RUNNER_TEMP/recovery-validation/source-receipt-hooks.log"
           node scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs --mutations | tee "$RUNNER_TEMP/recovery-validation/source-model.log"
           for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry generate-raster-queue extract-verifier-returns; do
@@ -63,32 +72,30 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 0
           persist-credentials: false
       - name: Dispatch eligible families through the existing central raster workflow
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
+            const { execFileSync } = require('child_process');
+            const { selectNewPendingRasterFamilies } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs`);
             const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
             const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
-            const requested = [
-              'ky_nonconviction_expungement-set',
-              'md_10105_favorable-set',
-              'ga-nonconv-pre2013-set',
-              'mi_setaside_application-set',
-              'mi_setaside_first_owi-set',
-              'mo-610-145-mistaken-identity-set',
-              'agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure'
-            ];
-            const eligible = requested.filter(family => queue.rows.some(row => row.familyId === family && row.currentRasterState === 'RASTER_PENDING'));
-            const deferred = requested.filter(family => !eligible.includes(family)).map(family => ({
-              family,
-              status: 'NOT_DISPATCHED',
-              reasons: queue.notEligible?.find(row => row.familyId === family)?.why ?? ['not RASTER_PENDING in the current queue']
-            }));
-            core.info(JSON.stringify({packetCommit: context.sha, eligible, deferred}, null, 2));
+            const { data: history } = await github.rest.actions.listWorkflowRuns({
+              ...context.repo, workflow_id: 'rcap-chatgpt-recovery.yml',
+              branch: 'chatgpt/launch-recovery-20260906', status: 'success', per_page: 20
+            });
+            const prior = history.workflow_runs.find(run => run.id !== context.runId);
+            if (!prior || !/^[0-9a-f]{40}$/.test(prior.head_sha)) throw new Error('No immutable successful recovery baseline; refuse an unbounded dispatch.');
+            const previous = JSON.parse(execFileSync('git', ['show', `${prior.head_sha}:${manifest}`], { encoding: 'utf8', maxBuffer: 20_000_000 }));
+            const eligible = selectNewPendingRasterFamilies(queue, previous);
+            const deferred = queue.rows.filter(row => row.currentRasterState === 'RASTER_PENDING' && !eligible.includes(row.familyId))
+              .map(row => ({ family: row.familyId, status: 'NOT_NEWLY_PUBLISHED', reasons: ['unchanged since the prior validated queue; no new request from this publication'] }));
+            core.info(JSON.stringify({packetCommit: context.sha, priorRecoveryRun: prior.id, priorPacketCommit: prior.head_sha, eligible, deferred}, null, 2));
             if (!eligible.length) {
-              core.setFailed('No repaired family is currently eligible for central raster. No hold was changed and no raster pass is claimed.');
+              core.info('No newly eligible candidate. Existing family outcomes remain unchanged; no central dispatch is needed.');
               return;
             }
             const workflow_id = 'rcap-packet-raster-acceptance-batch.yml';
