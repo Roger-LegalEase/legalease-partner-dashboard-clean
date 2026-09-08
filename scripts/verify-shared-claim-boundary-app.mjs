@@ -13,10 +13,16 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 import fs from "node:fs";
 import path from "node:path";
+import assert from "node:assert/strict";
+import vm from "node:vm";
+import ts from "typescript";
 import { fileURLToPath } from "node:url";
 
 const { claimTokenHash, isWellFormedClaimToken, mintClaimToken, redactClaimToken } =
   await import("../src/lib/expungement-ai/claim/claim-token.ts");
+const redirect = await import("../src/lib/auth/redirect.ts");
+const matterPath = await import("../src/lib/expungement-ai/claim/matter-path.ts");
+const continuation = await import("../src/lib/expungement-ai/auth-continuation.ts");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (rel) => fs.readFileSync(path.join(root, rel), "utf8");
@@ -34,6 +40,51 @@ function check(condition, label, detail = "") {
   }
 }
 const section = (title) => console.log(`\n${title}`);
+
+// Execute the checked-in browser helpers with synthetic browser/network ports.
+// No source is rewritten, and no request reaches an authentication service.
+function browserModule(source, globals, dependencies = {}) {
+  const exports = {};
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS }
+  }).outputText;
+  vm.runInNewContext(compiled, {
+    exports, URL, URLSearchParams, ...globals,
+    require: (name) => {
+      assert(Object.hasOwn(dependencies, name), "unexpected browser helper dependency");
+      return dependencies[name];
+    }
+  });
+  return exports;
+}
+
+function browserLocation(href) {
+  let url = new URL(href);
+  let replacements = 0;
+  return {
+    window: {
+      get location() { return url; },
+      history: {
+        state: {},
+        replaceState: (_state, _title, next) => { url = new URL(next, url); replacements++; }
+      }
+    },
+    document: { title: "Synthetic claim boundary check" },
+    url: () => url,
+    replacements: () => replacements
+  };
+}
+
+async function behavior(label, exercise) {
+  try {
+    await exercise();
+    check(true, label);
+  } catch (error) {
+    // Assertion values can contain the synthetic token. Report the case label,
+    // not request bodies or browser URLs, just as the application must do.
+    check(false, label, error instanceof Error ? error.name : "browser helper failed");
+  }
+}
 
 const sources = {
   token: read("src/lib/expungement-ai/claim/claim-token.ts"),
@@ -134,15 +185,66 @@ section("2. The token never reaches storage, logs or analytics");
   check(!trackCalls.some((call) => /claimToken|pending\.claimToken/.test(call)), "no analytics event carries the claim token");
 }
 
-section("3. The token leaves the URL once it is used");
+section("3. Completed claims remove the token; retryable failures preserve it");
 {
   check(sources.handoff.includes("history.replaceState"), "the token is stripped with replaceState, adding no history entry");
   check(sources.handoff.includes("url.searchParams.delete(CLAIM_TOKEN_PARAM)"), "stripping removes the claim parameter");
-  check(sources.handoff.includes("if (status !== 401) stripClaimTokenFromUrl();"),
-    "the token is stripped whenever the server has seen it, and kept only when authentication is still needed");
+  const token = "synthetic_claim_boundary_token_0123456789";
+  for (const status of ["network", 200, 201, 204, 400, 401, 403, 404, 409, 410, 422, 429, 499, 500, 502, 503, 599]) {
+    const keepToken = status === "network" || status === 401 || status >= 500;
+    await behavior(`claim ${status}: token ${keepToken ? "retained for retry" : "removed after definitive response"}`, async () => {
+      const browser = browserLocation(`https://example.invalid/claim?next=%2Fbriefcase&claim=${token}#display`);
+      let requests = 0;
+      const handoff = browserModule(sources.handoff, {
+        window: browser.window,
+        fetch: async (url, request) => {
+          requests++;
+          assert.equal(url, "/api/expungement-ai/screening/pending/claim");
+          assert.equal(request.method, "POST");
+          assert.deepEqual(JSON.parse(request.body), { claimToken: token });
+          if (status === "network") throw new Error("synthetic network failure");
+          return {
+            status, ok: status >= 200 && status < 300,
+            json: async () => status === 204 ? null : { redirectTo: "/briefcase/matters/11111111-1111-4111-8111-111111111111" }
+          };
+        }
+      }, {
+        "@/lib/auth/redirect": redirect,
+        "@/lib/expungement-ai/claim/matter-path": matterPath
+      });
+      const result = await handoff.submitClaim(token);
+      assert.equal(requests, 1);
+      assert.equal(result.ok, status === 200 || status === 201);
+      if (!result.ok) assert.equal(result.status, status === "network" ? 0 : status);
+      assert.equal(browser.url().searchParams.get("claim"), keepToken ? token : null);
+      assert.equal(browser.replacements(), keepToken ? 0 : 1);
+      assert.equal(browser.url().searchParams.get("next"), "/briefcase");
+      assert.equal(browser.url().hash, "#display");
+    });
+  }
   check(sources.setPassword.includes("scrubAuthUrl"), "the auth callback scrubs its URL");
-  check(sources.setPassword.includes("cleanParams.set(CLAIM_TOKEN_PARAM, claimToken)"),
-    "the auth callback preserves the token exactly one step further, to the claim itself");
+  const callback = ts.createSourceFile("callback.tsx", sources.setPassword, ts.ScriptTarget.ES2022, true, ts.ScriptKind.TSX);
+  const scrub = callback.statements.find((statement) => ts.isFunctionDeclaration(statement) && statement.name?.text === "scrubAuthUrl");
+  for (const claim of [token, "short", "", "bad!".repeat(10)]) {
+    await behavior(`auth callback: ${claim === token ? "valid token continues" : "invalid or absent token excluded"}`, () => {
+      assert(scrub, "callback scrub function must exist");
+      const browser = browserLocation(`https://example.invalid/auth/set-password?code=synthetic-code&access_token=synthetic-access&claim=${encodeURIComponent(claim)}&locale=es&next=%2Fbriefcase#access_token=synthetic-fragment`);
+      const helpers = browserModule(`export ${scrub.getText(callback)}`, {
+        window: browser.window, document: browser.document,
+        consumerAuthContinuationFrom: continuation.consumerAuthContinuationFrom,
+        consumerAuthContinuationQuery: continuation.consumerAuthContinuationQuery,
+        safeAppRedirectPath: redirect.safeAppRedirectPath
+      });
+      helpers.scrubAuthUrl("/briefcase");
+      assert.equal(browser.replacements(), 1);
+      assert.equal(browser.url().pathname, "/auth/set-password");
+      assert.equal(browser.url().searchParams.get("claim"), claim === token ? token : null);
+      assert.equal(browser.url().searchParams.get("locale"), "es");
+      assert.equal(browser.url().searchParams.get("next"), "/briefcase");
+      assert.equal(browser.url().hash, "");
+      assert.deepEqual([...browser.url().searchParams.keys()].sort(), claim === token ? ["claim", "locale", "next"] : ["locale", "next"]);
+    });
+  }
 }
 
 section("4. Only the token is believed");
