@@ -7,6 +7,10 @@ input commit is `8572b955a88713adbe2da674bbc95e85b9bd3adb`; its source changes a
 limited to the existing two-fixture importer's filename handling and the actual
 completed receipt. Thirteen generation/convergence checks passed in the existing
 scratch checkout. The derived checkpoint changes no family state: 190/346 remains.
+Exact derived candidate `b48e5292272acd13bafad7cc9c6296b475f7b420` also passed all
+eight committed-state checks, with a clean scratch checkout and no regeneration.
+The following publication checkpoint adds only these retained check results and
+this handoff; candidate inputs remain byte-identical to that tested commit.
 Resolve the final publication SHA with `git rev-parse HEAD` and
 `git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906`.
 
@@ -160,7 +164,7 @@ Unknown spouse income must remain unknown when that native source is available.
 
 Only root writes shared admission/generator files. Reuse existing worker
 /root/session10_admission_review, completed; reuse this worker for a concrete next item.
-Retained scratch:/tmp/rcap-session10-committed-candidate, at65d48617dc60b2a745ba22d62fe05992323e8c26,
+Retained scratch:/tmp/rcap-session10-committed-candidate, atb48e5292272acd13bafad7cc9c6296b475f7b420,
 clean, dependencies reused by symlink. Keep original untracked worker output.
 At the final evidence checkpoint, no candidate inputs or generated state are dirty;
 only this handoff and explicitly listed receipt/log additions are owned by root.
