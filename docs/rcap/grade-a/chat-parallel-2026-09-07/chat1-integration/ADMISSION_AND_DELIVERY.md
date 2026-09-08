@@ -1,6 +1,11 @@
 <!-- SESSION10 RESUME CHECKPOINT -->
 # Session10 continuation — published190/346
 
+Latest source/evidence publication is `b984e32e6b1fa073e4070fb18373f5d2ae434266`,
+verified on local HEAD and the recovery remote. The final evidence checkpoint
+following it changes only this handoff and retained run evidence; its exact SHA
+is available with `git rev-parse HEAD` and `git ls-remote origin refs/heads/chatgpt/launch-recovery-20260906`.
+
 Census190 publication, local and remote verified at that step:
 `6555324611a4a148ec1a46d6367521728378f077`, branch
 `chatgpt/launch-recovery-20260906`, PR224 (draft, base Captain integration branch).
@@ -81,16 +86,26 @@ request. Final190 wrapper34243823722 completed SUCCESS; its actual log confirms 
 central request. Both actual central runs are complete. Source/evidence integration
 head65d48617dc60b2a745ba22d62fe05992323e8c26 now includes the reviewed receipt-only
 NV correction. Its eight committed-state/factory/source checks all passed, without
-regenerating unchanged outputs. The terminal census remains190. After publication,
-inspect the existing NV workflow at that exact recovery head:
+regenerating unchanged outputs. The terminal census remains190. Actual Nevada
+run `34245319137`, job `102125692217`, completed SUCCESS for recovery head
+`b984e32e6b1fa073e4070fb18373f5d2ae434266`. The PR job checked its merge commit
+`e7fa10d3945984481c6d44597ed00a1062e189e6`, recorded separately from the source head.
+Artifact `10063779077` was downloaded directly to disk and its API digest matched
+SHA256 `30ec461008075adf67a69cf68b32da6419ddcada64631fe3bf9433a505f8fac1`.
+Both rebuilds, 30 regressions, completeness, 68 unchanged pixel pages, 20 repaired
+page bounds and exact reviewed PDF pins passed. No semantic approval was granted.
+Full immutable proof and step timings: `session10/resume-nv-receipt-validation/central-34245319137/`.
+Both central admission runs and the Nevada validation are complete. The next
+read-only check for remaining PR gates is:
 
 ```sh
-gh run list --workflow rcap-nv-special-completion.yml --limit 3 --json databaseId,headSha,status,conclusion
+gh pr checks 224
 ```
 
 Remaining publication/runtime checks are separately truthful. PR224's preexisting
 Nevada special-route completion and worker-image acceptance checks failed on older
-9f35db/3733121 heads as well as current publications. NV remains VERIFY_PENDING,
+9f35db/3733121 heads; the Nevada failure is now fixed and its actual CI is passing.
+NV remains VERIFY_PENDING,
 not a newly claimed terminal. The independent author prepared a bounded NV source-receipt refresh; root
 independently rechecked all six complete bound tracks against both historical
 sources, global metadata and exact original attribution. Only the stale whole-file
@@ -103,6 +118,17 @@ sourceb680a4e4dd92e7422bc7030aa2189026929782a1, whose Dockerfile omitted require
 Startup exits1 before expected unconfigured exit2. Current Dockerfile includes data,
 but no new accepted image publication is claimed. Existing image publication and
 release safeguards remain; do not manufacture a digest or bypass acceptance.
+The onboarding workflow also has 16 fatal lint findings that were already present
+at recovered head `9f35db`: 15 in the two Session08 delivery-review CJS scripts,
+and one in `ConsumerSignInForm.tsx:42`. Independent comparison confirms that all
+three files and the lint/workflow inputs are unchanged through `b984e32e`.
+Their failures do not invalidate the exact successful central family jobs.
+Successor onboarding run `34245319113`, job `102125692630`, also failed on exactly
+those 16 findings. Typecheck, onboarding, launch-readiness and the production build
+were skipped after lint; none is represented as a newly passing gate. The next
+executable release repair is the three-file lint correction, preserving the two
+review scripts' VM behavior and the sign-in retry behavior. Audit and original
+logs: `session10/resume-independent-admission-review/unrelated-pr-checks/onboarding/`.
 
 Minnesota's next shared monthly/annual income repair awaits exact missing native
 scripts/rcap-packet-recovery/chat9/mn15218.mjs, SHA256
@@ -118,8 +144,12 @@ Only root writes shared admission/generator files. Reuse existing worker
 /root/session10_admission_review, completed; reuse this worker for a concrete next item.
 Retained scratch:/tmp/rcap-session10-committed-candidate, at65d48617dc60b2a745ba22d62fe05992323e8c26,
 clean, dependencies reused by symlink. Keep original untracked worker output.
+At the final evidence checkpoint, no candidate inputs or generated state are dirty;
+only this handoff and explicitly listed receipt/log additions are owned by root.
+There are no active central admission or Nevada jobs. Remaining routine PR checks
+can be inspected with the command above; no new central dispatch is requested.
 Original recovered full SHAs/process/path inventory remain inresume-recovery-state.json;
-no interrupted commit was reset. Last disk1.8GB/workspaces,34GB/tmp. Unique code and
+no interrupted commit was reset. Last disk1.7GB/workspaces,34GB/tmp. Unique code and
 receipts remain persistent; only reproducible scratch uses/tmp. No main push,
 production route/auth/RLS/payment/configuration change or deployment occurred.
 
