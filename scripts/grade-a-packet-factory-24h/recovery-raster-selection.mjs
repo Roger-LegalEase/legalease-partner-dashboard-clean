@@ -6,7 +6,14 @@ export function selectNewPendingRasterFamilies(current, previous) {
   return current.rows.filter(row => {
     if (row.currentRasterState !== 'RASTER_PENDING') return false;
     const old = prior.get(row.familyId);
-    return !old || old.currentRasterState !== 'RASTER_PENDING'
+    return !old || !['RASTER_PENDING', 'RASTER_PASS'].includes(old.currentRasterState)
       || JSON.stringify(identity(row)) !== JSON.stringify(identity(old));
   }).map(row => row.familyId);
 }
+
+export const sameRasterInputs = (a, b) => a.familyId === b.familyId
+  && ['documentsDigest', 'canonicalPdfSha256', 'boundaryPdfSha256'].every(key => a[key] === b[key]);
+
+export const dispatchStepStarted = jobs => jobs.some(job => (job.steps ?? []).some(step =>
+  step.name === 'Dispatch eligible families through the existing central raster workflow'
+  && step.started_at && step.status !== 'pending'));

@@ -80,17 +80,37 @@ jobs:
           script: |
             const fs = require('fs');
             const { execFileSync } = require('child_process');
-            const { selectNewPendingRasterFamilies } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs`);
+            const { selectNewPendingRasterFamilies, sameRasterInputs, dispatchStepStarted } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/grade-a-packet-factory-24h/recovery-raster-selection.mjs`);
             const manifest = 'data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json';
             const queue = JSON.parse(fs.readFileSync(manifest, 'utf8'));
             const { data: history } = await github.rest.actions.listWorkflowRuns({
               ...context.repo, workflow_id: 'rcap-chatgpt-recovery.yml',
-              branch: 'chatgpt/launch-recovery-20260906', status: 'success', per_page: 20
+              branch: 'chatgpt/launch-recovery-20260906', per_page: 100
             });
-            const prior = history.workflow_runs.find(run => run.id !== context.runId);
+            const ancestor = sha => {
+              if (!/^[0-9a-f]{40}$/.test(sha)) return false;
+              try { execFileSync('git', ['merge-base', '--is-ancestor', sha, context.sha], { stdio: 'ignore' }); return true; }
+              catch { return false; }
+            };
+            const prior = history.workflow_runs.find(run => run.id !== context.runId && run.conclusion === 'success' && ancestor(run.head_sha));
             if (!prior || !/^[0-9a-f]{40}$/.test(prior.head_sha)) throw new Error('No immutable successful recovery baseline; refuse an unbounded dispatch.');
             const previous = JSON.parse(execFileSync('git', ['show', `${prior.head_sha}:${manifest}`], { encoding: 'utf8', maxBuffer: 20_000_000 }));
             const eligible = selectNewPendingRasterFamilies(queue, previous);
+            // A failed confirmation is not proof that dispatch failed. Reconcile
+            // an earlier possible request before issuing another one, including
+            // previous attempts of this same workflow run.
+            for (let attempt = 1; attempt < Number(process.env.GITHUB_RUN_ATTEMPT); attempt++) {
+              const { data } = await github.rest.actions.listJobsForWorkflowRunAttempt({ ...context.repo, run_id: context.runId, attempt_number: attempt, per_page: 100 });
+              if (dispatchStepStarted(data.jobs)) throw new Error('A prior attempt may already have dispatched this candidate; inspect and consume its central run before another request.');
+            }
+            for (const run of history.workflow_runs) {
+              if (run.id === context.runId || run.conclusion === 'success' || !ancestor(run.head_sha)) continue;
+              const priorQueue = JSON.parse(execFileSync('git', ['show', `${run.head_sha}:${manifest}`], { encoding: 'utf8', maxBuffer: 20_000_000 }));
+              const overlap = queue.rows.some(row => eligible.includes(row.familyId) && priorQueue.rows.some(old => old.currentRasterState === 'RASTER_PENDING' && sameRasterInputs(row, old)));
+              if (!overlap) continue;
+              const { data } = await github.rest.actions.listJobsForWorkflowRun({ ...context.repo, run_id: run.id, filter: 'all', per_page: 100 });
+              if (run.status !== 'completed' || dispatchStepStarted(data.jobs)) throw new Error(`Recovery run ${run.id} may already request these unchanged inputs; reconcile its jobs and central receipts first.`);
+            }
             const deferred = queue.rows.filter(row => row.currentRasterState === 'RASTER_PENDING' && !eligible.includes(row.familyId))
               .map(row => ({ family: row.familyId, status: 'NOT_NEWLY_PUBLISHED', reasons: ['unchanged since the prior validated queue; no new request from this publication'] }));
             core.info(JSON.stringify({packetCommit: context.sha, priorRecoveryRun: prior.id, priorPacketCommit: prior.head_sha, eligible, deferred}, null, 2));
