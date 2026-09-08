@@ -7,6 +7,9 @@ import copy,hashlib,json,math,re,struct,subprocess,sys,zipfile
 Q=Path('data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json')
 sha=lambda b:hashlib.sha256(b).hexdigest()
 read=lambda p:json.loads(Path(p).read_text())
+# Match rcap-raster-batch.mjs: logical family IDs keep punctuation, while
+# artifact and page paths use the renderer's safe filename segment.
+family_path=lambda family:re.sub(r'[^A-Za-z0-9._-]','_',family)
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -37,7 +40,7 @@ def validate(c,row,v,images,run,jobs):
     for p in measurements:
         key=(p.get('kind'),p.get('page'));require(type(p.get('page')) is int and key in pages and key not in observed,'duplicate/wrong page')
         observed.add(key);role,number=key;e=expected[role]
-        name=f'{family}/{role}/page-{number:03d}.png';names.add(name)
+        name=f'{family_path(family)}/{role}/page-{number:03d}.png';names.add(name)
         require(p.get('png')==name and p.get('document')==role+'.pdf','wrong page image binding')
         require(p.get('nonblank') is True and p.get('croppedToThePage') is True,'blank/uncropped page')
         residual=p.get('calibrationResidualPx');require(type(residual) in (int,float) and math.isfinite(residual) and 0<=residual<=2,'invalid calibration')
@@ -57,8 +60,8 @@ def main():
     with zipfile.ZipFile(archive) as z:
         require(len(z.namelist())==len(set(z.namelist())),'duplicate ZIP member')
         require(sum(i.file_size for i in z.infolist())<250_000_000,'oversized expansion')
-        v=json.loads(z.read(c['familyId']+'.verdict.json'))
-        pattern=re.escape(c['familyId'])+r'/(canonical|boundary)/page-\d+\.png'
+        v=json.loads(z.read(family_path(c['familyId'])+'.verdict.json'))
+        pattern=re.escape(family_path(c['familyId']))+r'/(canonical|boundary)/page-\d+\.png'
         images={n:z.read(n) for n in z.namelist() if re.fullmatch(pattern,n)}
     measured=validate(c,row,v,images,run,jobs)
     subprocess.run(['git','merge-base','--is-ancestor',c['packetCommit'],'HEAD'],check=True)
@@ -85,7 +88,7 @@ def main():
         except ValueError:caught+=1
         else:raise ValueError('corrupt receipt accepted')
     out=Path(c['evidenceDirectory']);out.mkdir(parents=True,exist_ok=True)
-    verdict_path=out/(c['familyId']+'.verdict.json')
+    verdict_path=out/(family_path(c['familyId'])+'.verdict.json')
     verdict_path.write_text(json.dumps(v,indent=2)+'\n')
     receipt={'schemaVersion':'rcap-completed-fixture-raster-admission/v1','familyId':c['familyId'],'runId':c['runId'],'artifactId':c['artifactId'],'packetCommit':c['packetCommit'],'zipSha256':c['zipSha256'],'wholeCurrentAndImmutablePdfsVerified':True,'measuredPageImages':measured,'pagesMeasured':len(measured),'admissionControlsRejected':caught,'independentSemanticApproval':False,'newTerminalPromotions':0}
     (out/'admission-proof.json').write_text(json.dumps(receipt,indent=2)+'\n')
@@ -94,7 +97,7 @@ def main():
     job=next(j for j in jobs if j['name']==c['familyId'])
     names=[d['document'] for d in v['documentsRendered']]
     row['currentRasterState']='RASTER_PASS';row['nextOwner']='CHATB20260907'
-    row['rasterReceipt']={'verdict':'RASTER_PASS','workflowRunId':str(c['runId']),'workflow':run['path'],'renderedCommitSha':c['packetCommit'],'jobId':str(job['id']),'jobConclusion':'success','boundToCanonicalSha256':c['expectedPdfs']['canonical']['sha256'],'boundToBoundarySha256':c['expectedPdfs']['boundary']['sha256'],'documentsDigest':v['documentsDigest'],'documentsCovered':names,'documentsNotCovered':[],'coversTheWholeFamily':True,'documentsMeasured':2,'pagesMeasured':len(measured),'problemsFound':0,'receiptArtifact':{'id':str(c['artifactId']),'name':f"rcap-raster-{c['familyId']}-{c['runId']}",'zipSha256':'sha256:'+c['zipSha256']},'verdictPath':str(verdict_path),'receiptArtifactInspection':str(out/'admission-proof.json'),'admittedBy':'Chat A: current-byte raster evidence only, no independent semantic approval.'}
+    row['rasterReceipt']={'verdict':'RASTER_PASS','workflowRunId':str(c['runId']),'workflow':run['path'],'renderedCommitSha':c['packetCommit'],'jobId':str(job['id']),'jobConclusion':'success','boundToCanonicalSha256':c['expectedPdfs']['canonical']['sha256'],'boundToBoundarySha256':c['expectedPdfs']['boundary']['sha256'],'documentsDigest':v['documentsDigest'],'documentsCovered':names,'documentsNotCovered':[],'coversTheWholeFamily':True,'documentsMeasured':2,'pagesMeasured':len(measured),'problemsFound':0,'receiptArtifact':{'id':str(c['artifactId']),'name':f"rcap-raster-{family_path(c['familyId'])}-{c['runId']}",'zipSha256':'sha256:'+c['zipSha256']},'verdictPath':str(verdict_path),'receiptArtifactInspection':str(out/'admission-proof.json'),'admittedBy':'Chat A: current-byte raster evidence only, no independent semantic approval.'}
     row['coverage']={'documents':names,'rastered':names,'notRastered':[],'complete':True,'basis':'Both whole declared PDFs and every page matched the completed central receipt.','notRenderedByThisGate':[]}
     Q.write_text(json.dumps(queue,indent=2)+'\n')
     print(json.dumps(receipt,indent=2))
