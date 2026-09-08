@@ -1,0 +1,142 @@
+{
+  "lane": "FIX96",
+  "laneKind": "repair",
+  "repairedByThisLane": true,
+  "status": "COMPLETED",
+  "whatThisStatusMeans": "The lane ran to completion: every grant was asserted, every source bound, all three families were rebuilt twice byte-identically, the completeness verifier was run, and every page whose bytes moved was rastered at 300 dpi and looked at. It does NOT mean every named obligation was discharged. No row reached full discharge, and each row below carries the exact reason. This lane does not verify its own packets.",
+  "base": "196b0ce37",
+  "branch": "fix96-colorado-three",
+  "grantSet": "a66f44589d826cc2",
+  "grantsAsserted": [
+    "CLAIM_OK FIX96 co_motion_seal_conviction-set (repair, grant set a66f44589d826cc2)",
+    "CLAIM_OK FIX96 co_motion_seal_nonconviction-set (repair, grant set a66f44589d826cc2)",
+    "CLAIM_OK FIX96 co_petition_seal_arrest-set (repair, grant set a66f44589d826cc2)"
+  ],
+  "determinism": "Every family built twice from a clean invocation; all 84 files across the three family directories byte-identical between pass 1 and pass 2.",
+  "siblingIdentity": "IDENTICAL. 7755 tracked files under data/rcap-all50/overlays outside these three family directories, compared file-by-file against HEAD by SHA-256: aggregate 4a44c697cef7e1026ee33aee9507d0eb719bb69b1f5c03576e95264b49051c20 before and after. data/rcap-all50/shared/field-appearance-semantics.json was edited, but its new entry is keyed co_petition_seal_arrest-set:JDF-417 and dispositionsForFamily() hands each build only its own key, so no sibling build is reachable from it.",
+  "counselQuestionOpened": false,
+  "counselQuestionBasis": "docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md files Colorado under 'D. Operational, not legal': 'Colorado official bytes: the governed acquirer is refused by the session's egress policy at the issuing court; 0 of 8 held. Needs a network-policy change or an out-of-session acquisition.' The same document states 'It records no answer, lifts no hold, and creates no approval.' The Colorado component gap is a source-custody problem, not a legal-input problem, so this lane opened no counsel question.",
+  "sharedFinalizerUnchanged": "scripts/rcap-official-forms/** is byte-identical to HEAD. Only its existing options were used: selectionsFromHeldFacts, appearanceDispositions, and the env option RCAP_RASTER_SETTLE_MS.",
+  "rows": [
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "lane": "FIX96",
+      "status": "STOPPED",
+      "stoppedReason": "COMPONENT_SET cannot be discharged from any mounted custody. The route requires four documents and this packet delivers two. The two missing components' identities ARE now established first-hand — JDF 611, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, prints 'JDF 613 Order (just do §§ A-C)' and 'JDF 614 Notice (Just do §§ A-C)' in its own 'File the Request' list — but their BINARIES are recorded in data/rcap-all50/local-source-corpus-index.json only in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts. A source that does not bind may not be rendered and may not be substituted, so the components stay absent. Closing this is a source-custody action (mount the pool or promote the two binaries into the Master Library), not a research or legal task.",
+      "obligationsRepaired": ["FEE_AND_WAIVER"],
+      "obligationsThisRowDoesNotDischarge": ["COMPONENT_SET"],
+      "whatChanged": [
+        "FEE_AND_WAIVER: participant-instructions.md now states the fee position in JDF 611's own words — 'The Clerk will let you know the fee (if any) when filing.' — and the waiver route by form number, 'If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)'. No figure is invented. It discloses that neither JDF 205 nor JDF 206 is in the packet or anywhere in the corpus index, and sends the participant to the Colorado Judicial Department for them.",
+        "The builder binds JDF 611 by exact SHA-256 at build time and asserts every quoted phrase as a literal substring of the named page's text stream, so a quotation that stops matching stops the build.",
+        "CO.memo.json track co_motion_seal_conviction rules.fees and rules.feeWaiver replaced; both previously denied a held source.",
+        "legal-design-packet-set-manifests.json: the notice and second order carry requiredOfficialFormId JDF-614 and JDF-613 and sourceStatus absent_from_verified_corpus instead of identity_unresolved; the superseded 2026-08-29 basis is preserved verbatim under supersedes with why it was wrong.",
+        "COMPONENT_SET partial: reports/rendered-artifacts.json now carries a componentSet block dispositioning all four route components — two RENDERED with packet pages, two NOT_RENDERED_SOURCE_BINARY_IN_AN_UNMOUNTED_CUSTODY with the custody, path, indexed digest and its provenance named. It states in terms that the shared counter cannot see the route's component set and that nine counters at zero is necessary and not sufficient.",
+        "participant-instructions.md no longer tells the participant no form number exists for the two missing documents; it names JDF 614 and JDF 613, and flags that the corpus index describes JDF 613 as the order DENYING a request, which this lane could not confirm because the custody is not mounted."
+      ],
+      "digestBefore": {
+        "canonical": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+        "boundary": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556"
+      },
+      "digestAfter": {
+        "canonical": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+        "boundary": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556"
+      },
+      "pdfBytesMoved": false,
+      "whyPdfBytesDidNotMove": "Both repairs are record-level: nothing this lane changed alters what is written on JDF 612 or JDF 615. The delivered PDFs are byte-identical to HEAD, so no page was rastered for this family and its 16 tracked raster PNGs are unchanged.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "countersCaveat": "verify-packet-completeness.mjs reports PASS_COMPLETE with all nine at zero. requiredComponentsMissing reads 0 because that counter's denominator comes from this family's own field map and source receipt, never from the packet-set manifest. The route's set is 2 of 4. Green counters do not mean a complete set here.",
+      "determinism": "byte-identical across two rebuilds",
+      "whatWasInspected": "No raster: the delivered bytes did not move. Verified first-hand instead: the JDF 611 bytes at the recorded digest, its printed four-form list and its fee paragraph via pdftotext; the corpus-index entries for JDF614.pdf and JDF-613 including their custody; and that no mounted path anywhere holds either binary."
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "lane": "FIX96",
+      "status": "STOPPED",
+      "stoppedReason": "ROUTE_OPTIONS cannot be discharged without editing the shared finalizer, which this lane is forbidden to touch. JDF 478 section 3 prints 'Colorado Bureau of Investigation (required)' and the route settles it, so the builder now asks the finalizer to mark 478.3D.0 through its existing selectionsFromHeldFacts channel. The finalizer runs protectCategoryOf() on the field's label before it will mark anything, and the truthful label — 'Colorado Bureau of Investigation records to be sealed (selection)' — matches the shared `agency` protect rule on the word 'Bureau'. The refusal comes back as protected_category/agency. There is no per-call exemption: the only allowlist is the module constant PARTICIPANT_STATED_SUBJECT in scripts/rcap-official-forms/rcap-field-semantics.mjs, and adding an entry there would move every family that shares the module. The box was NOT relabelled to get past the gate; a label chosen to dodge a protect rule is the defect the gate exists to catch. Consequence: requiredOptionsMissing is 1, so the nine counters are NOT all zero for this family.",
+      "obligationsRepaired": ["REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": ["ROUTE_OPTIONS"],
+      "whatChanged": [
+        "REQUIRED_BEFORE_FILING: fit refusals are now collected from every fixture, not just canonical, and disclosed. participant-instructions.md carries a section naming JDF-477's Address line, the value the platform holds, and the measurement — the line is 242.67 points wide and the value needs 244.4 points at the 6-point floor. Nothing was shrunk below the accepted floor. The opening paragraph no longer claims the address was filled on both forms; it says values are filled 'wherever the value fits the line the form prints for it' and points at the refusal section.",
+        "reports/blanks-left-for-the-participant.json gains valuesRefusedForFit, the one class of blank no census row can carry because the census says the field is written and only the finalizer's fit measurement says it was not.",
+        "ROUTE_OPTIONS partial: 478.3D.0 is no longer misclassified as a participant legal election with routeDetermined false. It is a route-settled selection, recorded in production-field-map.json routeDeterminedSelections with markedByThePacket false, the finalizer's exact refusal, and what the participant must do instead. The field map can never claim a tick the bytes do not carry.",
+        "JDF 477's own CBI box (8C.0) is recorded under sourceAuthoredSelections as the issuer's mark, not this packet's, so a reader who sees a tick on 477 and none on 478 knows which is which.",
+        "participant-instructions.md tells the participant in plain words that JDF 478 section 3's CBI box is blank and they must tick it, and adds it as a numbered step before filing. reports/independent-visual-review.json now names the empty box a known measured defect and warns a reviewer not to read it as a clean page."
+      ],
+      "digestBefore": {
+        "canonical": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+        "boundary": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18"
+      },
+      "digestAfter": {
+        "canonical": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+        "boundary": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18"
+      },
+      "pdfBytesMoved": false,
+      "whyPdfBytesDidNotMove": "The one mark this repair asks for is refused by the shared protect gate, so no ink changed. Everything repaired here is record-level and instruction-level. The 10 tracked raster PNGs are unchanged.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": false,
+      "countersCaveat": "verify-packet-completeness.mjs reports FAIL_ROUTE_SELECTION, requiredOptionsMissing 1, on JDF-478/478.3D.0. This counter read 0 at HEAD only because the field was classified a participant election; correcting the classification to what the form and the route actually say is what exposed it. This lane did not restore the green by reverting the classification, because that would re-hide a defect an independent read had already measured.",
+      "determinism": "byte-identical across two rebuilds",
+      "whatWasInspected": "No raster required by the byte test, but the new instruction text makes two claims about ink, so both were checked at 300 dpi against the committed fixture: JDF 477 section 8 — the CBI box IS ticked by the issuer and every other agency box is empty, and section 9's certificate of service is entirely blank; JDF 478 section 3 — the CBI box IS empty beside the form's printed '(required)'. Both claims are true as written."
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "lane": "FIX96",
+      "status": "STOPPED",
+      "stoppedReason": "ROUTE_OPTIONS is repaired for one of its two elections and cannot be completed for the other. JDF-417/Title is now on the delivered page. JDF-417/4B.0 is not, and nothing in the shared instrument can put it there: 4B.0 is a /Ch dropdown with options [' ', 'Yes.', 'No.'], and the finalizer reaches a choice control only through a value resolved from an ALLOWLISTED FACT, while selectionsFromHeldFacts is checkbox-only. No allowlisted fact answers a sworn yes-or-no question, and this build will not invent one to put a sworn answer on a petition the participant signs. The refusal is measured and recorded rather than described as a write, and the answer the route implies is named for the participant. Whether that discharges ROUTE_OPTIONS is an independent verifier's call, not this lane's; the row is left STOPPED rather than self-certified.",
+      "obligationsRepaired": ["KNOWN_PREFILLS"],
+      "obligationsThisRowDoesNotDischarge": ["ROUTE_OPTIONS"],
+      "whatChanged": [
+        "KNOWN_PREFILLS: the field map declared two writes that did not exist. Both are corrected against the bytes. JDF-417/Title claimed statedByThePacket 'Petition' while the delivered page-1 title read 'to Seal Arrest and Criminal Records' — the court's own word for what the document IS, removed from a filing. Title is a /Ch dropdown the Colorado Judicial Department ships selected on 'Petition' and draws with the form's own /AP; the finalizer's structural rule drops the value and widget of every unwritten choice control, which is right for an unanswered chooser and wrong for a title. A registry entry co_petition_seal_arrest-set:JDF-417.Title = preserve_source_appearance, passed through the finalizer's existing appearanceDispositions option, keeps the issuer's word on the issuer's form. It is preservation, not a write: canonicalWrites does not grow and reports/actual-writes.json records it as a documentAuthoredAppearance.",
+        "KNOWN_PREFILLS: JDF-417/4B.0 claimed statedByThePacket 'No.' and the routeSelectionNote said 'Section 4(b) is answered because the route answers it'. Both were false against the bytes. The claim is removed and replaced by routeDeterminedAnswersThePacketDoesNotMark, which records the answer the route implies, that the packet does not mark it, why the shared instrument cannot, and that it is carried to the participant.",
+        "participant-instructions.md no longer tells the participant 4(b) is 'answered No for you'. It says the box is blank, that they must write the answer, and — unchanged and still prominent — that if charges WERE filed this is the wrong form. Answering 4(b) is added as a numbered step before filing.",
+        "reports/independent-visual-review.json now tells a reviewer to confirm the page-1 title reads 'Petition to Seal Arrest and Criminal Records' and that a title missing that word is a regression, and to confirm the 4(b) rectangle carries no ink."
+      ],
+      "digestBefore": {
+        "canonical": "c446527450d252fee8a305cbbe52e9560ee19cb585783205f05c4a98656cc3db",
+        "boundary": "79d7b0ed1c379d8924ce57bfd8ce5669494424bb1ec6a8a1ef348b1b47a0b3b5"
+      },
+      "digestAfter": {
+        "canonical": "a75ed07d8fe5c52be01fa584dff5dcad90fc0c39f44cbacca3cb41c4ac888728",
+        "boundary": "1c267aea07c3f1a1910e5ea6ec60412dd7cd4445b641c0a728a040f7d1c9b351"
+      },
+      "pdfBytesMoved": true,
+      "artifactSizeChange": "canonical 387,040 to 826,296 bytes; boundary 387,365 to 826,621. Cause identified, not a defect: pdffonts shows exactly one new font, 'Arial,Bold' TrueType embedded UNSUBSETTED, the resource the Title widget's /DA and /AP reference. The pinned source JDF-417 (sha256 e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4) carries that same full font itself, so preserving the issuer's appearance retains the issuer's own resource. Both fixtures remain fully flattened: 0 AcroForm fields and 0 page annotations, the same as HEAD.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "determinism": "byte-identical across two rebuilds",
+      "whatWasInspected": "All 10 delivered pages rastered at 300 dpi and looked at, then deleted. JDF 417 page 1: title reads 'Petition to Seal Arrest and Criminal Records'; name, DOB, mailing address, city/state/zip, phone and e-mail each written under their own heading and legible inside their boxes; section 2's four radios unticked and all four person-in-interest blanks empty; court-use-only box clean. Page 2: every agency box unticked, every agency line blank, all nine offence lines and their dropdowns empty. Page 3: 4(b), 4(c), 4(d) and 4(e) ALL blank — no 'No.' anywhere; certificate of service date and all three method radios blank; printed name written, signature and date lines empty; counsel block empty. JDF 418 page 1: known facts written and legible, Division/Courtroom and both agency-number lines blank. Page 2: Other Orders blank, So Ordered By and Dated blank, Judge and Magistrate both unticked. Boundary fixture: the long name, the long e-mail and case number '2024CR0011882-SUPPLEMENTAL' all sit inside their lines, readable, no clipping and no overflow.",
+      "rastersCommitted": "none. This family tracks no raster PNGs at HEAD; the 10 the build wrote were removed rather than newly committed."
+    }
+  ]
+}
