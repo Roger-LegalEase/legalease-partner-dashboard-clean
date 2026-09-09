@@ -1,3 +1,94 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T06:10Z -->
+# Captain checkpoint — 198/346; the count went DOWN by one, on purpose
+
+Only the changed facts. Every earlier block below stays true of the moment it
+describes.
+
+**Census: 198/346 terminal, −1 since 05:20Z.** 178 COMPLETE_PACKET_PROVEN, 13
+GUIDANCE_READY, 2 HANDOFF_READY, 5 OUT_OF_SCOPE. The single family that moved is
+`de_mandatory_expungement-set`, GUIDANCE_READY → VERIFY_PENDING, and it moved
+because factory check F24 surfaced that the dispatch has assigned it to VF01
+since `83a08a8ad` while VF01's claim on it was released on 2026-09-07. Nobody has
+ever read it. It was being counted as terminal on the strength of a verification
+that never happened, and its `implementationStrategy` is
+`participant_agency_application` — it owes an application, and a guide cannot
+replace one. Reissuing the grant reclassified it honestly. VF01 is reading it
+now and will say which state it actually belongs in.
+
+## Landed this execution
+
+| What | Evidence |
+|---|---|
+| PF14 return: 2 families built, all nine counters zero | `c231dd215` — `ia-12347-set`, `rcap-or-official-pdf-fill`; `mo-art-xiv-marijuana-set` stopped BLOCKED_SOURCE |
+| Illinois five: 3 built from the recovery pool, all nine counters zero; 2 reproduced their committed bytes exactly | `28ed47694`, `b35b732e4` |
+| The single-URL source acquisition path, which failed before every fetch | `b9b558573` — it passed neither `RCAP_ACQUISITION_RUN_ID` nor `RCAP_ARTIFACT_NAME`, both of which the acquire script requires inside Actions |
+| Both New Mexico 4-222 candidates excluded by measurement | `df140b121`, `97d5b4ba9` |
+| A source with no declared form number now resolves by its confirmed digest | `ab38d8d48` — 15 families were UNRESOLVABLE; 8 now bind |
+| 73 stale generated records regenerated; Generator convergence green again | `de9126f7e` |
+| The Delaware family handed back to the lane the dispatch names | `ee60956ef` — F24 green, 35/37 factory checks pass |
+
+## The finding worth carrying forward
+
+**Every one of the 380 nationwide recovery pool entries declares `formNumber:
+null`**, because the pool was recovered as human-named files
+(`LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf`) rather than under
+the `STATE__FORM__NUMBER__slug` convention that 603 of the other 604 index
+entries follow. `familySources`' form-number tier resolved a source by asking
+which index entry carries that exact `formNumber` string, so **no pool-held
+document could be resolved there at all** — the custody mounted specifically to
+unblock these families was invisible to the gate that admits them.
+
+PF14 hit it on one Missouri family and stopped the row BLOCKED_SOURCE with
+FI-05's bytes mounted and byte-exact. Fifteen families were affected; two of
+them are already COMPLETE_PACKET_PROVEN and would have failed their own row gate.
+
+The repair does not trust MASTER_QUEUE's pin on its own — PF14 was right that a
+hash in a generated queue is not a committed source identity. It uses the pin to
+ask the committed index a better question: which entry holds these bytes. Two
+Kansas families stay UNRESOLVABLE because no pin of theirs matches a committed
+entry, and those two refusals are the proof the repair did not become a bypass.
+
+## Rolling shortlist
+
+| Item | Kind | Exact unmet requirement | Owner | State |
+|---|---|---|---|---|
+| Illinois five | independent verification | the delivered bytes have never been read; Section 12 unanswered while Section 13 is populated | VF13 | running |
+| `de_mandatory_expungement-set` | independent verification | never verified by anyone; owes an application, not a guide | VF01 | running |
+| Alabama six | build | shared host repaired by FIX09, never rebuilt; all six now bind | unassigned | ready to dispatch |
+| Remaining buildable families | build | 30 measured `EVERY_BOUND_SOURCE_IS_A_HELD_PDF`, several now dispatchable that were not | unassigned | ready to dispatch |
+| 14 `SOURCE_IDENTITY_UNRESOLVED` families | source acquisition | every source `label_does_not_identify_a_document`; all carry `commissionAcquisition: true` | unassigned | acquisition owed |
+| `nm_conviction-set`, `nm_identity_theft-set`, `nm_release_without_conviction-set` | source | both published 4-222 candidates excluded by measurement | **Roger** | decision owed |
+| F32, F34 | factory checks | three verification grants held by a reader whose run I will not cancel to make a check green | Captain | held, not weakened |
+
+## PRODUCTION
+
+Untouched. `commercialRoutesOpened: 0`, `productionTouched: false`. No live
+migration, no secret, no host, no deploy.
+
+## USER-ONLY — decisions and access only Roger holds
+
+1. **New Mexico 4-222.** Both published candidates are now excluded by
+   measurement: the self-representation site serves the held Sixth-District copy
+   byte-for-byte (`809c66a7…`, run 34315889273), and the NMRA publisher returns a
+   soft-404 at the pattern its ten sibling Rule 4 forms use (run 34316000746). No
+   statewide copy with a blank district line has been located and it may not
+   exist. If New Mexico publishes this form only per district, the three families
+   need a decision that is not an acquisition — a per-district source set, or the
+   caption treated as a participant-completed field.
+2. **`/dev/null` in this container** is a regular file, not a character device. I
+   broke it with a stray `ln -sfn` and the permission classifier blocks `mknod`,
+   so I cannot restore it. Shell redirects work; reads from it do not behave like
+   a null device. A fresh container clears it.
+3. Push access to `legalease-source-artifacts`, so the verified 228 MB archive
+   can be published as a release asset.
+4. Phase 50 `CREATE OR REPLACE TRIGGER` authorization.
+5. The seven `missingRequiredEnvironment` staging values.
+6. A persistent production worker host.
+7. The component-authority decision (207 families would gain a component).
+8. A BMC issuer confirmation for `ma-bmc-multi-set`.
+9. The New Jersey intake gap — three facts no question collects.
+10. The 70 pool manifest files still absent, and the 11 SRC05 files still owed.
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T05:20Z -->
 # Captain checkpoint — 199/346; the recovery pool landed and the blocked backlog moved
 
