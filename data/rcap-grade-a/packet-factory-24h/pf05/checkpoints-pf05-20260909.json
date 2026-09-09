@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "PF05",
+  "workerBranch": "pfc-20260909",
+  "returnFilename": "checkpoints-pf05-20260909.json",
+  "writtenAlongsideRatherThanOver": "checkpoints.json (an earlier PF05 shift) survives byte-for-byte.",
+  "note": "One checkpoint per family, written and pushed as that family finished rather than batched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "closedAtIs": "the UTC date of this shift. This lane has no trusted wall clock beyond the date, so the time component is zeroed rather than invented.",
+      "familiesInThisCheckpoint": [
+        "nh_conviction_streamlined-set"
+      ],
+      "familiesCompleted": 0,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        {
+          "itemId": "nh_conviction_streamlined-set",
+          "stopReason": "BLOCKED_SOURCE",
+          "stopClass": "BLOCKED_SOURCE",
+          "overlayDirectoryTouched": false,
+          "shortWhy": "All four declared digests resolve and were re-hashed from bytes, but the four held binaries are editions of different New Hampshire courts. NHJB-2311-Se offers Superior Courts only, NHJB-2328-DFPe offers no Superior Court, and NHJB-2956-FPe offers neither tier this route files in. No one court can be named across the packet and no form carries a free-text court field."
+        }
+      ],
+      "nineCountersZeroOn": [],
+      "countersNullOn": [
+        "nh_conviction_streamlined-set"
+      ],
+      "packetsSelfVerified": 0,
+      "pushedTo": "origin/pfc-20260909"
+    },
+    {
+      "checkpoint": 2,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "closedAtIs": "the UTC date of this shift; the time component is zeroed rather than invented.",
+      "familiesInThisCheckpoint": [
+        "nc_auto_146_a4_agency_followup-set"
+      ],
+      "familiesCompleted": 0,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        {
+          "itemId": "nc_auto_146_a4_agency_followup-set",
+          "stopReason": "BLOCKED_SOURCE",
+          "stopClass": "BLOCKED_SOURCE",
+          "overlayDirectoryTouched": false,
+          "shortWhy": "The one bound source, official-form:AOC-G-260 at sha256 cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817, resolves nowhere. Content-hash searched across every mounted custody root and the whole main repository and returned zero hits; no file of that form number exists under any mounted root. The corpus index places it only in the src05 ephemeral custody, which declares bytesHeldByAnyMountedCustody false."
+        }
+      ],
+      "nineCountersZeroOn": [],
+      "countersNullOn": [
+        "nc_auto_146_a4_agency_followup-set"
+      ],
+      "packetsSelfVerified": 0,
+      "pushedTo": "origin/pfc-20260909",
+      "orderNote": "Returned before ut_pet_cannabis-set because it resolved to a measurement rather than a build. UT remains in progress."
+    },
+    {
+      "checkpoint": 3,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "closedAtIs": "the UTC date of this shift; the time component is zeroed rather than invented.",
+      "familiesInThisCheckpoint": [
+        "ut_pet_cannabis-set"
+      ],
+      "familiesCompleted": 0,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        {
+          "itemId": "ut_pet_cannabis-set",
+          "stopReason": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+          "stopClass": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+          "overlayDirectoryTouched": false,
+          "shortWhy": "All five digests resolve and were re-hashed from bytes. All five are flat: no AcroForm, no XFA, zero annotations, agreeing with the committed index, and no UT entry in that index has an AcroForm. The sanctioned flat-overlay path reaches only the top contact block; the petition draws no rule for Case Number, Judicial District and County, Court Address or the caption Petitioner name, writing each as a typed underscore leader instead."
+        }
+      ],
+      "nineCountersZeroOn": [],
+      "countersNullOn": [
+        "ut_pet_cannabis-set"
+      ],
+      "packetsSelfVerified": 0,
+      "pushedTo": "origin/pfc-20260909"
+    },
+    {
+      "checkpoint": 4,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "closedAtIs": "the UTC date of this shift; the time component is zeroed rather than invented.",
+      "familiesInThisCheckpoint": [
+        "ar-misdemeanor-seal-set"
+      ],
+      "familiesCompleted": 1,
+      "familiesStopped": 0,
+      "stoppedFamilies": [],
+      "addedMidShift": true,
+      "nineCountersZeroOn": [],
+      "countersNullOn": [],
+      "eightOfNineZeroOn": [
+        "ar-misdemeanor-seal-set"
+      ],
+      "countersNote": "unclassifiedBlanks is 6 and is reported rather than argued away; the other eight are zero. The family does not claim PASS_COMPLETE.",
+      "artifactDigests": {
+        "petition-canonical": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+        "petition-boundary": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23",
+        "order-canonical": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17",
+        "order-boundary": "5e663e1986dcdba4fe888b51d3fc48b4a3a15ff6bc354db70221cf94e40e756b"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packetsSelfVerified": 0,
+      "pushedTo": "origin/pfc-20260909"
+    }
+  ]
+}

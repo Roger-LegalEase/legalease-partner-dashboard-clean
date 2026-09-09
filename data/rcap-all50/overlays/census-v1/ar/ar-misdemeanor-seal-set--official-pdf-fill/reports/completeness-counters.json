@@ -1,0 +1,761 @@
+{
+  "schemaVersion": "rcap-packet-completeness-counters/v1",
+  "familyId": "ar-misdemeanor-seal-set",
+  "routeKeys": [
+    "obligation:track-only:AR:ar-misdemeanor-seal"
+  ],
+  "measuredOn": "the canonical and boundary fixtures this build produced, read back from their own bytes",
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 6,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "allNineZero": false,
+  "countersAreNumbersNotNull": "Each of the nine was measured on this build's own output. None is null, because none was unmeasurable: the fixtures rendered, their bytes were read back, and the field map declares a disposition for every blank in both documents.",
+  "method": "Blanks are classified through scripts/rcap-packet-completeness/completeness-contract.mjs — the same module the independent verifier uses — so this count and that one ask the same question rather than two different ones. invisibleWrites, visualDefects and protectedWrites are read from the delivered PDF bytes and not from the finalizer's report.",
+  "whatThisIsNot": "Not a verdict and not a pass. This lane built these bytes and sets none; RASTER_PASS comes from the central workflow and independent verification is a different lane.",
+  "whyUnclassifiedBlanksIsNotZero": "Six blanks classify as UNCLASSIFIED_BLANK under the shared contract, and the count is left standing rather than argued away. Five of the six are CONTINUATION RULES of a multi-line free-text list whose first rule is written or declared required — paragraph 1's second offence rule, paragraph 2's second and third, and the second line of the page 3 address block. The sixth, on both documents, is the identification block's FBI number, which the FORM ITSELF marks \"(if known)\". Each is genuinely optional participant content, and each is declared here with disposition OPTIONAL_PARTICIPANT_CONTENT and a stated reason. The contract does not reach that disposition from a declaration: it reaches it only from an APPROVED_REASONS prose match or from a field label containing the word \"optional\", and these labels are runs of underscores or the form's own \"(if known)\". This build did NOT reword its reasons to match the prose regex. The contract's own comment names that as the abuse the counters exist to prevent, and a sentence written to satisfy a pattern is not a classification. The gap is reported instead: the closed vocabulary has no declaration-reachable disposition for a continuation rule of a list whose first rule is filled, nor for a blank the form marks optional in words other than \"optional\". Closing it is a change to a shared module this lane does not own.",
+  "countersThatAreZero": [
+    "knownRequiredFieldsMissing",
+    "requiredFactsNotCollected",
+    "incompleteRows",
+    "requiredOptionsMissing",
+    "requiredComponentsMissing",
+    "invisibleWrites",
+    "protectedWrites",
+    "visualDefects"
+  ],
+  "countersThatAreNotZero": [
+    "unclassifiedBlanks"
+  ],
+  "findings": [
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "2",
+      "label": "_____________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence."
+    },
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "guilty of the offenses of 2",
+      "label": "______________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case."
+    },
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "guilty of the offenses of 3",
+      "label": "______________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The third rule of the same paragraph 2 list, on the same footing."
+    },
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "FBI No if known",
+      "label": "FBI No. (if kno",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+    },
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Defendant Address 02",
+      "label": "_____________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line."
+    },
+    {
+      "counter": "unclassifiedBlanks",
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "FBI No if known",
+      "label": "FBI No. (if kno",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+    }
+  ],
+  "ledger": [
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "IN THE",
+      "label": null,
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "IN THE"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "DIVISION",
+      "label": "IN THE __________",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "fieldClass": "UNMATCHED",
+      "basis": "The caption's division blank, completed only if that court has divisions. The clerk answers whether it does; the platform does not invent it."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "2",
+      "label": "_____________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "in violation of ACA",
+      "label": "in violation of A.C.A.§",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "in violation of ACA"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "guilty of the offenses of 1",
+      "label": "guilty of the offense(s) of",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "OFFENSE_ROW_CELL",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "guilty of the offenses of 1"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "guilty of the offenses of 2",
+      "label": "______________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "guilty of the offenses of 3",
+      "label": "______________________________________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The third rule of the same paragraph 2 list, on the same footing."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "in violation of ACA_2",
+      "label": "in violation of A.C.A.§",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "in violation of ACA_2"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Defendants Signature",
+      "label": "_____________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class signature_or_date_participant_completion"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Date",
+      "label": "_____________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class signature_or_date_participant_completion"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "COUNTY OF",
+      "label": "COUNTY OF",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "COURT_IDENTITY",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "COUNTY OF"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Petitioner",
+      "label": null,
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "refusal class signature_or_date_participant_completion"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Notary Public",
+      "label": null,
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "My Commissionexpires",
+      "label": "My Commission expires",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Race",
+      "label": "Sex",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Race"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Arrest Tracking Number",
+      "label": "NATIONAL RECORD SYSTEMS",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Sex",
+      "label": "Sex",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Sex"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "FBI No if known",
+      "label": "FBI No. (if kno",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "do hereby certify that a true and correct",
+      "label": "I,",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Defendant of Defendants Attorney",
+      "label": null,
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "ATTORNEY_BLOCK",
+      "basis": "refusal class signature_or_date_participant_completion"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Date_2",
+      "label": "Defendant orDefendant’s",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "refusal class signature_or_date_participant_completion"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Day 01",
+      "label": "1.The Defendant was arrested on the",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Day 01"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Month 01",
+      "label": "1.The Defendant was arrested on the _______ day of",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Month 01"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Year 01",
+      "label": "1",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Year 01"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Day 02",
+      "label": "on the",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Day 02"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Month 02",
+      "label": "on the _______ day of",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Month 02"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Year 02",
+      "label": "on the _______ day of ____________,",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Year 02"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box1",
+      "label": "7",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box2",
+      "label": "A.C.A.§ 16-90-1405(b)(1);or",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box3",
+      "label": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1); or",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box4",
+      "label": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1);or",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box5",
+      "label": "f",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box6",
+      "label": "state",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "federal charges 01",
+      "label": "as follows",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "federal charges 02",
+      "label": "as follows: _________________________________________",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box7",
+      "label": "offender under",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box8",
+      "label": "Defendant [_] IS or",
+      "disposition": "PARTICIPANT_ELECTION_GENUINE",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class participant_sworn_narrative_or_legal_election"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Defendant Address 02",
+      "label": "_____________________________",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line."
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Day 03",
+      "label": "Subscribed and sworn to before me on this",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Month 03",
+      "label": ", day of",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Year 03",
+      "label": "_________________________________,",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "SID number",
+      "label": null,
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "SID number"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "IN THE",
+      "label": null,
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "IN THE"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "DIVISION",
+      "label": "IN THE __________",
+      "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "fieldClass": "UNMATCHED",
+      "basis": "The caption's division blank, completed only if that court has divisions, to match the petition. The clerk answers whether it does; the platform does not invent it."
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "1",
+      "label": "________, and charged with the offense(s) of",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "OFFENSE_ROW_CELL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "2",
+      "label": "___________________________________________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "in violation of ACA",
+      "label": "in violation of A.C.A",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "the offenses of 1",
+      "label": "the offense(s) of",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "OFFENSE_ROW_CELL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "the offenses of 2",
+      "label": "the offense(s) of: _________________________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "OFFENSE_ROW_CELL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "the offenses of 3",
+      "label": "___________________________________________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "in violation of ACA_2",
+      "label": "on the _______ day",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Defendant",
+      "label": "IT IS, T",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Judge",
+      "label": null,
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "COURT_ONLY",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Date",
+      "label": null,
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Race",
+      "label": null,
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Race"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Arrest Tracking Number",
+      "label": "Arrest Tracking Num",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Sex",
+      "label": "Sex",
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "Sex"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "FBI No if known",
+      "label": "FBI No. (if kno",
+      "disposition": "UNCLASSIFIED_BLANK",
+      "fieldClass": "UNMATCHED",
+      "basis": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it."
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Day 01",
+      "label": "1. The Defendant was arrested on t",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Month 01",
+      "label": "1. The Defendant was arrested on the _______ da",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "PARTICIPANT_IDENTITY",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Year 01",
+      "label": "1",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Day 02",
+      "label": "on the",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Month 02",
+      "label": "on the _______ day of",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Year 02",
+      "label": "on the _______ day of ____________,",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box9",
+      "label": "7",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box10",
+      "label": "1405(b)(1);or",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box11",
+      "label": "in A.C.A.§ 16-90-1405(b)(1); or",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box12",
+      "label": "in A.C.A.§ 16-90-1405(b)(1);or",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box13",
+      "label": "9",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box14",
+      "label": "or",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "federal charges as follows 1",
+      "label": "federal court and the status of that/those charges is/are as",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "federal charges as follows 2",
+      "label": "__________________________________________________",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "UNMATCHED",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box15",
+      "label": "Defend",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "Check Box16",
+      "label": "Defendant [_] IS or",
+      "disposition": "PROTECTED_FIELD",
+      "fieldClass": "SELECTION_CONTROL",
+      "basis": "refusal class court_prosecutor_clerk_or_agency_owned"
+    },
+    {
+      "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "field": "SID number",
+      "label": null,
+      "disposition": "REQUIRED_BEFORE_FILING",
+      "fieldClass": "UNMATCHED",
+      "basis": "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      "declaredRequiredBeforeFiling": true,
+      "requiresParticipantDisclosure": true,
+      "factId": null,
+      "identity": "SID number"
+    }
+  ]
+}

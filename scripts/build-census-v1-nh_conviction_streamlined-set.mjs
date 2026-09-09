@@ -160,6 +160,8 @@ async function readForm(bytes) {
           field: name, optionCount: options.length,
           superiorCourts: options.filter((o) => /Superior/i.test(o)),
           circuitDivisions: options.filter((o) => /Circuit/i.test(o)).length,
+          districtDivisions: options.filter((o) => /District Division/i.test(o)),
+          familyOrProbateDivisions: options.filter((o) => /(Family|Probate) Division/i.test(o)).length,
           freeTextAlternativeOnThisForm: false
         });
       }
@@ -203,6 +205,51 @@ async function build() {
 
   const courtListsDisjoint = motionCourts.size > 0 && sharedCourts.length === 0;
 
+  // The petition defines the set of courts this route can be filed in: NHJB-3057-DSe's own
+  // chooser offers Superior Courts and Circuit Court District Divisions and nothing else. A
+  // component can name the filing court only if its chooser reaches at least one of those two
+  // tiers. Computed from the binaries rather than asserted, because "buildable" is a claim about
+  // the source, not about intent.
+  const tiersOf = (chooser) => ({
+    superior: (chooser?.superiorCourts ?? []).length > 0,
+    districtDivision: (chooser?.districtDivisions ?? []).length > 0
+  });
+  const petitionTiers = tiersOf(measured["NHJB-3057-DSe"].courtChoosers[0]);
+  const courtNamingReach = {};
+  for (const [key, row] of Object.entries(measured)) {
+    const chooser = row.courtChoosers[0];
+    const tiers = tiersOf(chooser);
+    courtNamingReach[key] = {
+      component: row.component,
+      chooserField: chooser?.field ?? null,
+      optionCount: chooser?.optionCount ?? 0,
+      offersASuperiorCourt: tiers.superior,
+      offersACircuitDistrictDivision: tiers.districtDivision,
+      familyOrProbateOnlyOptions: chooser?.familyOrProbateDivisions ?? 0,
+      canNameAnyCourtThisRouteFilesIn:
+        (tiers.superior && petitionTiers.superior) || (tiers.districtDivision && petitionTiers.districtDivision),
+      freeTextCourtAlternative: false
+    };
+  }
+  // A packet is filed in ONE court, so the question is not which component can name SOME court but
+  // which components can name THE SAME court. Resolve it per tier: a real case is either a Superior
+  // Court annulment or a Circuit Court District Division annulment.
+  const byTier = {};
+  for (const tier of ["superior", "districtDivision"]) {
+    const key = tier === "superior" ? "offersASuperiorCourt" : "offersACircuitDistrictDivision";
+    const can = Object.values(courtNamingReach).filter((r) => r[key]).map((r) => r.component);
+    const cannot = Object.values(courtNamingReach).filter((r) => !r[key]).map((r) => r.component);
+    byTier[tier] = { componentsThatCanNameTheFilingCourt: can, componentsThatCannot: cannot, allFourCanNameIt: cannot.length === 0 };
+  }
+  const noTierCarriesTheWholePacket = !byTier.superior.allFourCanNameIt && !byTier.districtDivision.allFourCanNameIt;
+  // Blocked = cannot name the filing court under EITHER tier, i.e. blocked in every case this route
+  // can produce. Buildable = the remainder, and each of those is buildable only in the tier its own
+  // chooser reaches, which is why no single packet is buildable at all.
+  const componentsThatCanNameTheFilingCourt = Object.values(courtNamingReach)
+    .filter((r) => r.canNameAnyCourtThisRouteFilesIn).map((r) => r.component);
+  const componentsThatCannotNameTheFilingCourt = Object.values(courtNamingReach)
+    .filter((r) => !r.canNameAnyCourtThisRouteFilesIn).map((r) => r.component);
+
   const purposeOfRecord = {
     form: "NHJB-2956-FPe",
     printedOptions: ["Housing", "Employment", "Annulment/Expungement", "Other ______"],
@@ -234,8 +281,21 @@ async function build() {
           + "-DFPe the District, Family and Probate edition, while the petition this family files is NHJB-3057-DSe, "
           + "the District edition."
       }],
-      componentsBuildable: ["primary_filing", "criminal_history_request"],
-      componentsBlocked: ["fee_waiver_motion", "fee_waiver_financial_statement"],
+      componentsBuildableInAtLeastOneTierButNotNecessarilyTheSameOne: componentsThatCanNameTheFilingCourt,
+      componentsBlockedInEveryTier: componentsThatCannotNameTheFilingCourt,
+      whichComponentsCanNameTheSameCourt: byTier,
+      noTierCarriesTheWholePacket,
+      courtNamingReach,
+      courtNamingReachNote:
+        "These are computed from each binary's own court chooser against the two tiers the petition itself offers "
+        + "(Superior Court and Circuit Court District Division), not asserted. A packet is filed in one court, so "
+        + "the controlling number is whichComponentsCanNameTheSameCourt: in the Superior tier the financial "
+        + "statement and the criminal-history request cannot name the court, and in the District Division tier the "
+        + "fee-waiver motion and the criminal-history request cannot. No tier carries all four. "
+        + "NHJB-2956-FPe is worse than the two fee-waiver components and is blocked in EVERY tier: its only "
+        + "court/recipient chooser, court.family/probate1 CUSTOM, lists Family and Probate divisions exclusively "
+        + "and reaches neither tier this route files in. An earlier revision of this refusal listed "
+        + "criminal_history_request as buildable; that was wrong and this is the correction.",
       whatWouldUnblockIt: [
         "binding the Circuit Court fee-waiver motion that matches NHJB-3057-DSe and NHJB-2328-DFPe, rather than the "
           + "Superior Court NHJB-2311-Se, or",
