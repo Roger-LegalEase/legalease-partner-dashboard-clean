@@ -2,6 +2,25 @@
 
 This packet is seven official New Mexico forms for a petition to expunge the records of a conviction, under NMSA 1978, Section 29-3A-5 and Rule 1-077.1 NMRA. **You do not file them all at once.** They go in two stages, at least sixty-three days apart, and there is a hearing in every case on this track.
 
+## Before you start: when to stop and get a lawyer's advice
+
+Some things put a case beyond what anyone should do on their own paperwork. The list below is quoted word for word, and in order, from the record LegalEase keeps for this kind of New Mexico case. It is read out of that record on the day this packet is built, so it is that list as it then stood; the two records it was read from and compared against are named, with their digests, in this family's build-findings.json.
+
+**If any one of these is true of your case, stop and get a lawyer's advice before you file anything.**
+
+- Any felony conviction.
+- Any possible exclusion-list offense: an offense against a child, one causing great bodily harm or death, a sex offense, embezzlement, or driving under the influence.
+- Any offense under the Crimes Against Household Members Act.
+- Unpaid or unclear restitution, fines or fees.
+- Any conviction during the applicable waiting period, in any jurisdiction.
+- Any charge or proceeding pending against the participant anywhere.
+- Records across more than one judicial district.
+- Writing the justice-will-be-served narrative.
+- Any objection filed by a responding party, and any contested hearing.
+- Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement.
+
+This packet names no particular lawyer, clinic or organisation, because the record it is built from names none for New Mexico. Ask a lawyer.
+
 ## How to gather your records first
 
 Do this before you fill anything in. The petition has to have your records attached to it, and two of them take time to arrive:
@@ -39,7 +58,7 @@ Once the sixty-three days have passed:
 
 **Form 4-960.1 page 2 is for parties entitled to notice of the hearing.** On this track that is you and any party that filed and served an objection to your petition. If nobody objected, leave page 2 empty. If someone did, put their name, agency, address, telephone number and e-mail in one of the four blocks.
 
-At the hearing you may be asked about the petition and about any objection. The court decides whether justice will be served by expungement, weighing the nature and gravity of the offence, your age, your criminal history and your employment history, how long it has been since the offence and since you completed the sentence, and what happens to you if the petition is refused. **That is what paragraph 12 of the petition is for, and it is the part only you can write.**
+At the hearing you may be asked about the petition and about any objection. The court decides whether justice will be served by expungement, weighing the nature and gravity of the offence, your age, your criminal history and your employment history, how long it has been since the offence and since you completed the sentence, and what happens to you if the petition is refused. **That is what paragraph 12 of the petition is for.** Only you hold the facts it is built from — but writing that argument is on the stop list at the top of these instructions, and so are an objection and a contested hearing. **Get a lawyer's advice about paragraph 12, and about the hearing, before you file.**
 
 ## Which district's order form you need
 
@@ -267,7 +286,7 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 7. Related cases | Related cases, first line | the name and number of any case joined with yours, whether with a co-defendant or as the result of a plea |
 | 7. Related cases | Related cases, second line | a second related case, if there is one |
 | 7. Related cases | Related cases, third line | a third related case, if there is one |
-| 12. Why justice will be served | Why justice will be served by granting the petition, first line | why you are asking for expungement — employment, licensing, housing — and what has happened or will happen to you if it is refused. This is the heart of the petition and only you can write it |
+| 12. Why justice will be served | Why justice will be served by granting the petition, first line | why you are asking for expungement — employment, licensing, housing — and what has happened or will happen to you if it is refused. This is the heart of the petition, and writing it is on the stop list at the top of these instructions: only you hold the facts, and a lawyer should advise on the argument |
 | 12. Why justice will be served | Why justice will be served, second line | the second line of that explanation |
 | 12. Why justice will be served | Why justice will be served, third line | the third line of that explanation |
 | 12. Why justice will be served | Why justice will be served, fourth line | the fourth line of that explanation |
@@ -286,7 +305,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 15. Who the petition will be mailed to | Name of the law enforcement agency that arrested Petitioner, in the mailing list | the name of the agency that arrested you |
 | 15. Who the petition will be mailed to | Address of the law enforcement agency that arrested Petitioner | the street address of that agency |
 | 17. Additional documentation attached | Other documentation attached | a list of any other documents you are attaching beyond the sentence, fines, fees and restitution paperwork the form already lists |
-| Signature section | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
 | Signature section | Telephone Number of the Petitioner on page 4 | your telephone number, so the court can reach you |
 | Signature section | Email of the Petitioner on page 4 | your e-mail address, if you have one |
 
@@ -310,7 +328,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
 | What the notice states | Judicial district of the prosecuting office the notice was provided to | the judicial district of the district attorney you posted to |
-| The notice's signature block | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 | The notice's signature block | Telephone Number of the Petitioner on the notice | your telephone number |
 | The certificate, completed after you have mailed | The day of the month you mailed this notice | the day of the month on which you posted this notice |
 | The certificate, completed after you have mailed | The month you mailed this notice | the month in which you posted this notice |
@@ -336,13 +353,12 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | What the affirmation states | Third pending charge or proceeding, second line | the rest of that description -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
 | What the affirmation states | Your most recent conviction, first line | the date of your most recent conviction, the offence and the court -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
 | What the affirmation states | Your most recent conviction, second line | the rest of that description -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
-| The affirmation's signature block | Mailing Address of the Petitioner on the affirmation | your full mailing address on this one line: street, city, state and ZIP |
+| The affirmation's signature block | Telephone of the Petitioner on the affirmation | your telephone number, so the court can reach you about this affirmation |
 
 ## NM-4-960.1 — the items you must supply
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Parties entitled to notice: the petitioner | Petitioner Address | your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails the notice of hearing to |
 | Parties entitled to notice: the petitioner | Petitioner Telephone Number | the telephone number the court should use to reach you about the hearing |
 | Parties entitled to notice: the petitioner | Petitioner Email Address | the e-mail address the court should use to reach you about the hearing, if you have one |
 | Parties entitled to notice: block 1 of 4 | Name, party entitled to notice, block 1 of 4 | the name of a party that filed and served an objection to your petition. On the conviction track the petition is served (by first-class United States mail on the district attorney for the county in which the conviction was entered, the New Mexico Department of Public Safety, and the law enforcement agency that arrested the petitioner), so a party that objects under Rule 1-077.1(G)(1) NMRA is entitled to notice of the hearing and goes in one of these four blocks. Leave a block empty if nobody objected. |
@@ -431,7 +447,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | E. Monthly expenses | Monthly expense: Medical expenses | what you pay each month in medical expenses |
 | E. Monthly expenses | Monthly expense: Other, description | a description of any other monthly expense |
 | E. Monthly expenses | Monthly expense: Other, amount | what that other monthly expense costs |
-| F. Household | I live at, your full mailing address on one line | your full address on one line: street, city, state and ZIP. It is the same address written out in parts on page 4 |
 | F. Household | The head of the household is | who the head of your household is, which may be you |
 | F. Household | Household member 1, Name | the name of household member 1, if you have that many |
 | F. Household | Household member 2, Name | the name of household member 2, if you have that many |
@@ -456,7 +471,15 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
 | The applicant's oath | Telephone of the applicant | your telephone number |
 | Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
-| Caption of Form 4-223, Order on Application for Free Process | Name of the Petitioner in the caption of the order for free process | your name, the same as page 1, on the caption of the order you give the judge |
+
+## One or two lines that may be blank on your copy
+
+The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
+
+| Form | Page | The line | What to write if it is blank |
+| --- | --- | --- | --- |
+| NM-4-953 | 4 | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
+| NM-4-960 | 2 | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 
 ## What the platform deliberately left blank
 

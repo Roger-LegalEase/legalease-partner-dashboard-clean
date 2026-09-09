@@ -9,7 +9,23 @@ This packet is six official New Mexico forms for a petition to expunge the arres
 - **Form 4-960.2 NMRA**, _Affirmation in Support of Expungement_ — attached to the notice of completion of briefing.
 - **Form 4-960.1 NMRA**, _Notice of Hearing_ — give this to the court so it can set a hearing if it decides to hold one.
 
-The platform filled in what it holds about you: your name, your date of birth, your address, the county and the judicial district, and -- where you told us your case was handled in the district court -- your case number, on the one line paragraph 4 gives for a district court number. **Everything else is yours**: the way the case ended, the agencies that hold your records, your telephone number, your e-mail, and your case number if your case was in a metropolitan, magistrate or municipal court. Every one of those blanks is listed below by the form and the section it is in.
+The platform filled in what it holds about you: your name, your date of birth, your address, the county and the judicial district, and -- where you told us your case was handled in the district court -- your case number, on the one line paragraph 4 gives for a district court number, or -- where you told us it was handled in a metropolitan, magistrate or municipal court -- on the line paragraph 4 gives for that. Only one of those two lines carries a number, and it is the one your case belongs on. **Everything else is yours**: the way the case ended, the agencies that hold your records, your telephone number, your e-mail, and the location of the lower court if your case was in one. Every one of those blanks is listed below by the form and the section it is in.
+
+## Before you start: when to stop and get a lawyer's advice
+
+Some things put a case beyond what anyone should do on their own paperwork. The list below is quoted word for word, and in order, from the record LegalEase keeps for this kind of New Mexico case. It is read out of that record on the day this packet is built, so it is that list as it then stood; the two records it was read from and compared against are named, with their digests, in this family's build-findings.json.
+
+**If any one of these is true of your case, stop and get a lawyer's advice before you file anything.**
+
+- Any objection filed by the district attorney or the Department of Public Safety.
+- Any charge or proceeding pending against the participant anywhere.
+- Any question about whether a preprosecution diversion or a conditional discharge actually completed.
+- Records in more than one judicial district, which need separate petitions.
+- A contested hearing.
+- Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement.
+- A participant who also wants a conviction cleared and does not understand that combining the two filings destroys the seal.
+
+This packet names no particular lawyer, clinic or organisation, because the record it is built from names none for New Mexico. Ask a lawyer.
 
 ## Keep this petition separate from any conviction
 
@@ -66,7 +82,7 @@ There is **no statewide Supreme Court order form** in the mandatory 4-951 to 4-9
 
 Paragraph 4 of Form 4-952 has one line for a **District Court** case number and another for a **Metropolitan, Magistrate or Municipal Court** case number, and paragraph 12 asks the same question again as a choice between four courts. Most cases on this track were in one of the lower courts even though the petition is filed in district court, so those are not the same answer.
 
-The packet uses the answer you gave about which court handled your case, and nothing else. **If your case was in the district court**, your case number is already on the District Court line of paragraph 4 and your judicial district on the District Court line of paragraph 12; leave the lower-court lines empty. **If your case was in a metropolitan, magistrate or municipal court**, both of those lines are deliberately empty: your case has no district court number and was not disposed of in a district court, and nothing is written on a line that would say otherwise on a petition you affirm under penalty of perjury. **Copy your case number onto the Metropolitan/Magistrate/Municipal line in paragraph 4, and in paragraph 12 tick the court that handled your case and write the town or city it sits in.**
+The packet uses the answer you gave about which court handled your case, and nothing else, and it writes your case number on one of the two lines in paragraph 4 — never on both. **If your case was in the district court**, the number is on the District Court line and your judicial district is on the District Court line of paragraph 12; the lower-court lines are left empty. **If your case was in a metropolitan, magistrate or municipal court**, the number is on the Metropolitan/Magistrate/Municipal line and the District Court line above it is left empty, because your case has no district court number and nothing is written on a line that would say otherwise on a petition you affirm under penalty of perjury. In that case **paragraph 12 is yours**: tick the court that handled your case and write the town or city it sits in, which is the one part of the answer the packet does not hold.
 
 ## Boxes you tick with a pen
 
@@ -250,7 +266,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | 12. Where the charges were disposed of or originated | Location of the Magistrate Court the charges were disposed of or originated in | the town or city that magistrate court sits in |
 | 12. Where the charges were disposed of or originated | Location of the Municipal Court the charges were disposed of or originated in | the town or city that municipal court sits in |
 | 14. Additional documentation attached | Other documentation attached | a list of any other documents you are attaching beyond the docket or arrest sheet and the final-disposition record the form already lists |
-| Signature section | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
 | Signature section | Telephone Number of the Petitioner on page 4 | your telephone number, so the court can reach you |
 | Signature section | Email of the Petitioner on page 4 | your e-mail address, if you have one |
 
@@ -273,7 +288,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
 | What the notice states | Judicial district of the prosecuting office the notice was provided to | the judicial district of the district attorney you posted to |
-| The notice's signature block | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 | The notice's signature block | Telephone Number of the Petitioner on the notice | your telephone number |
 | The certificate, completed after you have mailed | The day of the month you mailed this notice | the day of the month on which you posted this notice |
 | The certificate, completed after you have mailed | The month you mailed this notice | the month in which you posted this notice |
@@ -294,14 +308,12 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | What the affirmation states | Pending other-state court charge or proceeding, second line | the rest of that description -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
 | What the affirmation states | Pending federal court charge or proceeding, first line | the charge or proceeding pending against you in federal court, and where -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
 | What the affirmation states | Pending federal court charge or proceeding, second line | the rest of that description -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared |
-| The affirmation's signature block | Street Address, City, State and Zip Code of the Petitioner on the affirmation, on one line | your full mailing address on this one line: street, city, state and ZIP |
 | The affirmation's signature block | Telephone of the Petitioner on the affirmation | your telephone number |
 
 ## NM-4-960.1 — the items you must supply
 
 | Section | The blank on the form | What to write |
 | --- | --- | --- |
-| Parties entitled to notice: the petitioner | Petitioner Address | your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails the notice of hearing to |
 | Parties entitled to notice: the petitioner | Petitioner Telephone Number | the telephone number the court should use to reach you about the hearing |
 | Parties entitled to notice: the petitioner | Petitioner Email Address | the e-mail address the court should use to reach you about the hearing, if you have one |
 | Parties entitled to notice: block 1 of 4 | Name, party entitled to notice, block 1 of 4 | the name of a party that filed and served an objection to your petition. On the release-without-conviction track the petition is served (by first-class United States mail on the district attorney for the judicial district where the charge originated and on the New Mexico Department of Public Safety, P.O. Box 1628, Santa Fe, New Mexico 87504-1628), so a party that objects under Rule 1-077.1(G)(1) NMRA is entitled to notice of the hearing and goes in one of these four blocks. Leave a block empty if nobody objected. |
@@ -390,7 +402,6 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | E. Monthly expenses | Monthly expense: Medical expenses | what you pay each month in medical expenses |
 | E. Monthly expenses | Monthly expense: Other, description | a description of any other monthly expense |
 | E. Monthly expenses | Monthly expense: Other, amount | what that other monthly expense costs |
-| F. Household | I live at, your full mailing address on one line | your full address on one line: street, city, state and ZIP. It is the same address written out in parts on page 4 |
 | F. Household | The head of the household is | who the head of your household is, which may be you |
 | F. Household | Household member 1, Name | the name of household member 1, if you have that many |
 | F. Household | Household member 2, Name | the name of household member 2, if you have that many |
@@ -415,12 +426,20 @@ These New Mexico forms draw their tick boxes as **printed characters, not as fil
 | F. Household | Household member 7, Employment | the employment of household member 7, if you have that many |
 | The applicant's oath | Telephone of the applicant | your telephone number |
 | Caption of Form 4-223, Order on Application for Free Process | COUNTY OF, in the caption of the order for free process | the county, on the caption of the order you give the judge -- the same correction you made on page 1, on the copy you actually file |
-| Caption of Form 4-223, Order on Application for Free Process | Name of the Petitioner in the caption of the order for free process | your name, the same as page 1, on the caption of the order you give the judge |
+
+## One or two lines that may be blank on your copy
+
+The court prints these lines at a fixed length, and this packet will not shrink a value below a size that can be read or run it past the end of the printed line. Where your own answer is too long for the line, the packet leaves it for you to write by hand, which is smaller and can be squeezed in as printing cannot. **Look at each line below on your own copy. If it is already filled in, there is nothing to do.**
+
+| Form | Page | The line | What to write if it is blank |
+| --- | --- | --- | --- |
+| NM-4-952 | 4 | Mailing Address of the Petitioner on page 4 | your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1 |
+| NM-4-959 | 2 | Mailing Address of the Petitioner on the notice | your full mailing address on this one line: street, city, state and ZIP |
 
 ## What the platform deliberately left blank
 
 - **Every signature and every signature date.** Forms 4-952 and 4-960.2 are affirmed under penalty of perjury.
-- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other; where your case was in a metropolitan, magistrate or municipal court, copying it onto that line is yours to do, for the reason in the section above.
+- **Your case number, on any line for a court that did not handle your case.** The form asks for it by the court it was in, so it is written on that line and on no other, and the other line is left empty.
 - **The county in the caption of Form 4-222 and of the order bound with it.** That form prints another district's court name directly below the county line, so a county written there would help compose a caption naming a court that is not yours. Complete the whole of that caption by hand on the copy you file, or use your own district's copy of the form.
 - **Everything below the caption of Form 4-955.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.
 - **Everything Form 4-959 and Form 4-960.2 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you. None of it is knowable now.
