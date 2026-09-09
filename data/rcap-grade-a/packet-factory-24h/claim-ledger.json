@@ -3828,8 +3828,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T17:41:12.787Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3858,8 +3858,8 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T17:41:12.321Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3993,8 +3993,8 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T17:41:12.440Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4114,8 +4114,8 @@
       "operation": "rapid-repair",
       "lane": "FIX08",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T17:41:12.554Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4159,8 +4159,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-06T17:41:12.671Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13729,7 +13729,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3d09ea1f394ff9420db333f214a18ffb83484117419695e6e941bce6880b7900",
+  "claimsDigest": "2c840336e7f0a24ac95ba5df00def0aa89ef0a3b6c36aa881b2751acc0a5b080",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40913,6 +40913,56 @@
       "previouslyReleasedAt": "2026-09-04T05:56:02.105Z",
       "reissuedAt": "2026-09-09T04:24:02.940Z",
       "reason": "Repaired bytes, unread verdict. The selected independent verdict predates a commit that moved this family's delivered fixtures, so the failure it records was measured on bytes that no longer exist. Sources bind at this base and the packet is built; what is owed is an independent read of the current bytes by a lane that neither built nor repaired them."
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T17:41:12.321Z",
+      "reissuedAt": "2026-09-09T05:18:30.893Z",
+      "reason": "The blocker FIX94 recorded is gone. nationwide_recovery_pool_2026_09_02 is staged and verified at 513 files and all five Illinois families now bind their sources at the row gate. FIX94's own nextExecutableAction was: mount the pool, then re-dispatch. Its two builder-source repairs are integrated at 7e3ef8df4 and have never been executed; three more were repaired by earlier lanes and never run either. What is owed is the first execution of five repaired builders."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T17:41:12.787Z",
+      "reissuedAt": "2026-09-09T05:18:31.014Z",
+      "reason": "The blocker FIX94 recorded is gone. nationwide_recovery_pool_2026_09_02 is staged and verified at 513 files and all five Illinois families now bind their sources at the row gate. FIX94's own nextExecutableAction was: mount the pool, then re-dispatch. Its two builder-source repairs are integrated at 7e3ef8df4 and have never been executed; three more were repaired by earlier lanes and never run either. What is owed is the first execution of five repaired builders."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T17:41:12.440Z",
+      "reissuedAt": "2026-09-09T05:18:31.118Z",
+      "reason": "The blocker FIX94 recorded is gone. nationwide_recovery_pool_2026_09_02 is staged and verified at 513 files and all five Illinois families now bind their sources at the row gate. FIX94's own nextExecutableAction was: mount the pool, then re-dispatch. Its two builder-source repairs are integrated at 7e3ef8df4 and have never been executed; three more were repaired by earlier lanes and never run either. What is owed is the first execution of five repaired builders."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T17:41:12.554Z",
+      "reissuedAt": "2026-09-09T05:18:31.224Z",
+      "reason": "The blocker FIX94 recorded is gone. nationwide_recovery_pool_2026_09_02 is staged and verified at 513 files and all five Illinois families now bind their sources at the row gate. FIX94's own nextExecutableAction was: mount the pool, then re-dispatch. Its two builder-source repairs are integrated at 7e3ef8df4 and have never been executed; three more were repaired by earlier lanes and never run either. What is owed is the first execution of five repaired builders."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-06T17:41:12.671Z",
+      "reissuedAt": "2026-09-09T05:18:31.333Z",
+      "reason": "The blocker FIX94 recorded is gone. nationwide_recovery_pool_2026_09_02 is staged and verified at 513 files and all five Illinois families now bind their sources at the row gate. FIX94's own nextExecutableAction was: mount the pool, then re-dispatch. Its two builder-source repairs are integrated at 7e3ef8df4 and have never been executed; three more were repaired by earlier lanes and never run either. What is owed is the first execution of five repaired builders."
     }
   ],
   "transfers": [
