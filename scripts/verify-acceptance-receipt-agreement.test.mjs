@@ -7,8 +7,13 @@
 //
 //   node --test scripts/verify-acceptance-receipt-agreement.test.mjs
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import test from "node:test";
-import { compareReceipt, findReceipts } from "./verify-acceptance-receipt-agreement.mjs";
+import { fileURLToPath } from "node:url";
+import { compareReceipt, compareReceiptToRow, findReceipts } from "./verify-acceptance-receipt-agreement.mjs";
+
+const VERIFIER = path.join(path.dirname(fileURLToPath(import.meta.url)), "verify-acceptance-receipt-agreement.mjs");
 
 /* The queue row's receipt for run 34058277654, in its corrected shape. */
 const queue = {
@@ -81,4 +86,66 @@ test("findReceipts finds every receipt, including retained history", () => {
    * the walker must still surface them or that decision cannot be made. */
   const doc = { acceptanceReceipt: copyOf(), supersededReceipts: [copyOf({ workflowRunId: "33973869055" })] };
   assert.equal(findReceipts(doc).length, 2);
+});
+
+
+/* ---- what VF16 proved the first version missed -------------------------- */
+
+/* The row's own measurement for this family: one canonical document rendered,
+ * nothing canonical missed, boundary never rendered by design. */
+const rowCoverage = {
+  documents: ["canonical.pdf"],
+  rastered: ["canonical.pdf"],
+  notRastered: [],
+  notRenderedByThisGate: ["boundary.pdf"],
+  complete: true,
+};
+
+test("VF12's shape is caught against the ROW even though the two copies agreed", () => {
+  /* Both the queue receipt and the family's copy carried coversTheWholeFamily
+   * true with nothing excluded. compareReceipt sees no disagreement — they are
+   * identical — and that is exactly why receipt-to-receipt was not enough. */
+  const bothWrong = copyOf({ documentsNotCovered: [], whatThisGateDidNotRender: [] });
+  assert.deepEqual(compareReceipt(bothWrong, bothWrong), [], "the two copies agree, which is the trap");
+  const vsRow = compareReceiptToRow(bothWrong, rowCoverage);
+  assert.equal(vsRow.length, 1);
+  assert.equal(vsRow[0].field, "whatThisGateDidNotRender");
+  assert.deepEqual(vsRow[0].row, ["boundary.pdf"]);
+});
+
+test("VF15's shape is caught against the row too, in the other direction", () => {
+  const bad = copyOf({ documentsNotCovered: ["boundary.pdf"], whatThisGateDidNotRender: [] });
+  const fields = compareReceiptToRow(bad, rowCoverage).map((p) => p.field).sort();
+  assert.deepEqual(fields, ["documentsNotCovered", "whatThisGateDidNotRender"]);
+});
+
+test("a receipt that matches the row's measurement passes", () => {
+  assert.deepEqual(compareReceiptToRow(copyOf(), rowCoverage), []);
+});
+
+test("a canonical document the gate actually missed is caught", () => {
+  /* The one case where a non-empty documentsNotCovered is TRUE: the row itself
+   * measured a canonical document as unrendered. The receipt must say so. */
+  const missed = { ...rowCoverage, rastered: [], notRastered: ["canonical.pdf"], complete: false };
+  const silent = copyOf({ documentsCovered: ["canonical.pdf"], documentsNotCovered: [], coversTheWholeFamily: true });
+  const fields = compareReceiptToRow(silent, missed).map((p) => p.field).sort();
+  assert.deepEqual(fields, ["coversTheWholeFamily", "documentsCovered", "documentsNotCovered"]);
+});
+
+test("a row that never measured its edge is not asked about it", () => {
+  /* Frozen history has no notRenderedByThisGate key. Demanding one would assert
+   * a measurement that row never made — the same overclaim in a new place. */
+  const frozen = { documents: ["canonical.pdf"], rastered: ["canonical.pdf"], notRastered: [], complete: true };
+  assert.deepEqual(compareReceiptToRow(copyOf(), frozen), []);
+});
+
+test("a partial copy is still only asked about what it states", () => {
+  assert.deepEqual(compareReceiptToRow({ documentsCovered: ["canonical.pdf"] }, rowCoverage), []);
+});
+
+test("the row comparison is reached from the checker, not only exported", () => {
+  const source = fs.readFileSync(VERIFIER, "utf8");
+  assert.match(source, /compareReceiptToRow\(receipt, coverage\)/, "the per-family walk no longer checks receipts against the row");
+  assert.match(source, /RASTER_QUEUE\.rasterReceipt/, "the queue's own receipt is no longer checked against its own row");
+  assert.match(source, /fulfillment-authority-registry/, "the third file class VF16 found is no longer walked");
 });
