@@ -19102,6 +19102,208 @@
    "decisiveDefect": "The packet directs notarization that the held record does not establish. filing-instructions.md ends: \"Sign the petition under oath before an authorized officer or notary only after every required item and attachment is complete.\" AL.memo.json rules.notarization for this track reads \"The source review does not state a notarization requirement for CR-65.\" The repaired shared Alabama host refuses this exact sentence - scripts/build-census-v1-al-diversion-set.mjs assertRepairInvariants contains assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/) - and its four families instead carry a Notarization section quoting the memo and telling the participant to ask the circuit clerk. This family is built by its own builder, which does not run that check; the sentence is a hardcoded template literal in that builder. The packet imposes a step, a cost and a delay the record does not support, and contradicts its four sibling Alabama packets built from the same form. participant-instructions.md repeats it: \"Complete the participant signature only after every fact and attachment is complete, and sign under oath before a notary or other authorized officer.\" Worse, this builder pins the defect in place: scripts/build-census-v1-al-felony-nonconviction-90-set.mjs line 318 asserts assert.match(instructions, /notary/i), so its own repair invariant REQUIRES the unsupported notarization direction to be present. That is an inverted safeguard, not a missing one.",
    "observedNotScored": "Every text field on CR-65 page 7 is refused with role \"protected\" and refusalClass \"signature_or_date_participant_completion\", reason \"signature or date field; never prefilled\". That reason is false of at least three of them: \"Court Case Number_3\" is the page's caption box, and \"PetitionersServers Telephone Number\" plus \"undefined_7\"/\"undefined_8\" (Petitioner's/Server's Address) are participant facts this packet already holds and writes elsewhere (participant.phone on CR-65 page 1, participant.street_address and participant.city_state_zip on CR-65 page 1 and C-10 page 1). Because the class is \"protected\", none of them reaches the participant's \"Blanks you must fill in\" list; the Service section names only \"service date, method, recipient, address and server signature\". No ink is on any of them, so the PROTECTED_FIELDS counter is honestly zero, but the classification is over-broad and the page-7 telephone line is an unnamed blank. Recorded as an observation, not scored as a failure.",
    "alsoOpen": "AL6-03 is open on this family too and is recorded as BLOCKED_LEGAL_INPUT on KNOWN_PREFILLS. The FAIL above stands independently of it and must be repaired regardless of how AL6-03 is answered."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "lane": "VF03",
+   "wave": "packet-factory-24h/2026-09-09 independent verification on current bytes",
+   "worker": "CLAUDE-VF01-VF05-VF03-INDEPENDENT-READ-20260909 (independent: this lane did not build, repair, raster or productize this family; it created no subagent, edited no overlay directory, no build script and no shared record, and released no claim)",
+   "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+   "verifiedAt": "2026-09-09",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+   "claim": {
+    "assertion": "CLAIM_OK VF03 composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement (independent-verification, grant set def7c8ff77ef7a20)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false
+   },
+   "theBlockedBeforeClaimStateIsCleared": "product-wiring.json binding.lastIndependentVerification currently reads verdict BLOCKED_BEFORE_CLAIM, lane vf04, base 9c2b39327 - a record that a lane could not reach the family, standing in the field a promotion would read for an independent verdict. This lane asserted its VF03 claim before opening any family content and the family row gate passes, so nothing blocked this read. This row supersedes that entry with a measured verdict.",
+   "digestsConfirmedFirst": {
+    "canonicalSha256": "7a4c4974e0dea9803b384343fd3979cd2c7843e7d50d2447cd3dd3f7a01b7e26",
+    "boundarySha256": "d9e5a17599e4a26d6478969ea549c9e8651f83b8df80123d026f7782e23055f0",
+    "byteLengths": {
+     "fixtures/canonical.pdf": 12105,
+     "fixtures/boundary.pdf": 12293
+    },
+    "pageCounts": {
+     "canonical.pdf": 4,
+     "boundary.pdf": 4
+    },
+    "agreesWith": "reports/rendered-artifacts.json pdfs[] carries these exact digests, byte lengths and page counts for both fixtures.",
+    "bytesHaveMovedSinceThePriorRow": "The prior VF03 row (rows[41], base 03ff12bf9) read canonical 58487688 / 12104 and boundary d041ae07 / 12292. Both have moved by one byte each. Nothing from that row is carried forward."
+   },
+   "preflight": {
+    "environment": "PACKET_BUILD_ENVIRONMENT_READY 12/12, 0 failed",
+    "familyRow": "READY 13/13; family_sources_bind ok - zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT), which binds committed legal records by hash inside the builder rather than document bytes. Zero bound binaries is the correct count for this strategy and this row is not BLOCKED_SOURCE."
+   },
+   "rasterState": "BUILT_RASTER_PENDING",
+   "rasterStateBinding": {
+    "honestlyDeclared": "build-status.json records rasterEngine 'not rendered in this run', rasterPages 0, rasterState BUILT_RASTER_PENDING, and product-wiring.json binding.acceptanceReceipt is null and proposedRepresentation.fixtureBindings is null. No record claims a raster of these bytes.",
+    "localRead": "This lane rendered all 8 pages locally with pdftoppm at 110 dpi and read every one (7 distinct; canonical page 4 and boundary page 4 are identical rasters). The local render is evidence for this row; it is not offered as the central gate. Rasters were deleted."
+   },
+   "thePriorTwoFailuresWereRetestedFirst": {
+    "ARTIFACTS": "REPAIRED AND CONFIRMED. The prior row failed this because product-wiring.json named the superseded canonical digest 704b3263 in both acceptanceReceipt and proposedRepresentation while the delivered bytes were something else. At this base acceptanceReceipt is null and proposedRepresentation.fixtureBindings is null - the stale receipt was cleared rather than re-pointed - and reports/rendered-artifacts.json carries the current digests exactly. No record now asserts a raster verdict for bytes nobody rendered.",
+    "CLIPPING_AND_OVERLAP": "The prior row failed this not on the pages but on the staleness of the central evidence. On the current bytes there is still no central raster, but there is also no record claiming one, so the state is an absence of evidence that every record states correctly rather than a false claim. Measured locally over all 8 pages, there is no clipping and no overlap, so this row scores the obligation on the bytes and records the absence of central coverage under notMeasurableHere."
+   },
+   "whereIDifferFromTheCompletenessTool": {
+    "tool": "verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement prints PASS_COMPLETE 6/17 written with all nine counters at 0.",
+    "difference": "I agree with all nine counters after measuring them independently, including visualDefects 0 which I measured by rendering rather than by reading the tool's printed zero, and I disagree that PASS_COMPLETE describes this family. The failure below is a false statement in a delivered custody record, which no counter ranges over."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howEachWasMeasuredIndependently": {
+     "invisibleWrites": "Both PDFs read as images at 110 dpi; every one of the six written values was legible on the page it belongs to. No hidden or non-black ink.",
+     "protectedWrites": "Page 2 of both fixtures leaves 'DATE ......' and 'SIGNATURE OF PETITIONER ......' blank and prints beneath them '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. The court caption county and the case number are left as dotted blanks with the instruction to enter them from the court record. No clerk assignment, prosecutor act or judicial finding is asserted anywhere.",
+     "visualDefects": "All 8 pages rendered and read. No clipping, no overlap, nothing past the right margin. The boundary fixture's 38-character petitioner name, its 84-character mailing address and its 52-character e-mail all wrap inside the text column and remain complete.",
+     "incompleteRows": "0 over an empty set: this composed petition has no repeating-row structure. Its seven required facts are printed as labelled C1-C7 blanks, all seven blank in both fixtures.",
+     "requiredOptionsMissing": "0: the route is fixed and the packet offers the participant no election."
+    }
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement prints in the trailer of both delivered pages of both fixtures, and matches source-receipt.json routeKeys. The petition names its authority as W. Va. Code Sec. 61-14-9 and attributes the route's identity to the committed contract in terms: 'This petition is brought on the route the committed route contract records as \"Sex-trafficking-victim vacatur and expungement\", under W. Va. Code Sec. 61-14-9.'",
+     "finding": "One route, printed on both components, and the packet says which record it took the name from."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "FAIL",
+     "evidence": "source-receipt.json declares allSourcesExact true over three committed records. Rehashed against the tree at this base, two bind exactly - src/lib/legal-authority/routes/single-routes.json at 6ca51b6d and src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json at 0d5885d3 - and the third does not. data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json is pinned at 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f / 2625273 bytes; the file on disk is f6fc081419eadf60... / 2629290 bytes. The pinned digest is the blob at commit 2d01b84f7 and the file has changed four times since. allSourcesExact true is therefore false as stated, a rebuild will not reproduce this receipt, and a gate that re-checks pins against HEAD refuses it.",
+     "finding": "The bound legal content has NOT moved and I proved that rather than assuming it. The pinned blob was recovered from 2d01b84f7 and the single census entry this receipt binds - the one whose routeKey is obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement - was serialised and compared object for object against the bytes on disk: identical. So this is a receipt-accuracy defect and not a wrong-source defect, and the repair is to re-pin or to record the drift, not to re-source. It is scored a failure because the receipt makes a false statement about its own custody, and the receipt is the record a downstream gate reads to decide whether this packet's authority still binds.",
+     "theReceiptAlreadyKnowsAboutThisFile": "compositionSources[2] carries an identityRefresh block, dated 2026-09-05, recording that this same file had already drifted twice and that a prior lane re-did the comparison across the whole drift rather than laundering a stale one forward. That mechanism is right; it has simply gone stale again, and the receipt now asserts exactness instead of carrying the third refresh."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Two composed components - wv-61-14-9-vacatur-primary-filing-1 and wv-61-14-9-vacatur-filing-instructions-2 - declared in source-receipt.json composedComponentsAuthoredByThisBuild and in reports/rendered-artifacts.json componentSet, and both delivered in both fixtures (petition pages 1-2, filing instructions pages 3-4). The committed route contract names the packet components as 'Petition under Sec. 61-14-9; Direct-result nexus evidence', and the delivered instructions page explains the difference correctly: 'This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition.'",
+     "finding": "Both composed components are delivered, and the one contract component that is a record rather than a pleading is handed to the participant as something to obtain rather than silently dropped or invented."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Six writes, all read off the rendered pages: the petitioner's name in the IN RE caption and again in section B with the date of birth; the printed name, mailing address, telephone and e-mail in the signature block on page 2; and the petitioner's name on the instructions page ('This page is for ...'). The boundary fixture's long values print complete.",
+     "finding": "Only identity and contact facts the platform holds are written. Nothing about the trafficking, the conviction, the dates or the evidence is written, and the packet says why: 'Fill only the labelled items. Nothing on any page asks for an account of what happened to you.'"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "The DATE and SIGNATURE OF PETITIONER lines on page 2 are dotted blanks with an express disclaimer beneath them, the circuit-court county blank in the caption is left for the participant with the instruction '(enter the county of conviction or juvenile adjudication from the court record)', and the case-number line reads 'Case number, if the court assigns one at filing:' followed by a blank.",
+     "finding": "No signature, no date, no clerk assignment and no judicial finding is written or implied. The case-number line is phrased so that it does not presuppose a number the court has not assigned."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "All 8 pages rendered at 110 dpi and read as images. No clipping, no overlap, no glyph past the right margin, in either fixture, including the boundary fixture's 84-character mailing address which wraps across two lines complete.",
+     "finding": "No clipping and no overlap. No central raster covers these bytes and no record claims one; this is a local read and is recorded as one."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "The delivered instructions page carries a 'WHEN TO STOP AND GET HELP INSTEAD' section whose first item is the compiled profile's own recorded boundary, quoted: 'this is the first thing the committed record says about this route: West Virginia has a special relief route for prostitution records caused by sex trafficking. This can involve vacating the conviction or juvenile adjudication, so it should be routed to legal aid or an attorney.' Four further stops follow, including the participant's own safety once a filing becomes a public court record, other counts on the same or other cases, and any immigration question. A separate 'WHAT YOU DO NOT DO' section adds that the participant should not write an account of what was done to them on any page, should not file before thinking about what becomes public, should not expect a rehabilitation showing to be required on this route, and should not treat the route as covering every trafficking-related West Virginia conviction.",
+     "finding": "This is the strongest stop treatment of the five families read in this lane, and it is right for the subject matter. It leads with the record's own legal-aid referral rather than burying it, it warns about public-record exposure, and it says twice that no page asks for a trauma narrative. Nothing here solicits a participant account, and nothing overstates the route's scope."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "The compiled profile records that the person 'may petition the circuit court in the county of conviction or juvenile adjudication'. The petition caption reads 'IN THE CIRCUIT COURT OF ............... COUNTY, WEST VIRGINIA' with the instruction to enter the county of conviction or juvenile adjudication from the court record, and the instructions page names the office that answers the open questions as 'the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication'.",
+     "finding": "Correct forum, with the county left to the record rather than guessed."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "The delivered instructions page has a section headed 'WHO MUST BE SERVED, AND WHO IS NOTIFIED' whose entire content is the statement of silence: 'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the office of the clerk of the West Virginia circuit court in the county of conviction or juvenile adjudication.'",
+     "finding": "Nothing about service is invented. The silence is given a heading of its own and an office to ask, which is better than omitting the section."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "Measured against the committed route contract in src/lib/legal-authority/routes/single-routes.json, which is the controlling record for this runtime-only route (WV.memo.json carries no track for it). The contract's requiredFacts are seven: exact offense/statute, conviction/adjudication, trafficking period, direct-result evidence, supporting records, other counts, requested vacatur and expungement. All seven print on the delivered petition as labelled blanks C1 through C7, each in the contract's own words, under the heading 'THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD' with the instruction 'Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, never from memory.' The contract's second packet component, 'Direct-result nexus evidence', is disclosed on the instructions page as a document to obtain: 'If you go on, obtain the direct-result nexus evidence the committed contract names as a component of this packet.'",
+     "finding": "Every required fact the controlling record declares is on the page in the record's own wording, and the one document the contract names is named as something to obtain before filing."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "Both declared fixtures exist at 4 pages and hash to the values in reports/rendered-artifacts.json. build-status.json is state_built / qa_review_pending, selfVerified false, generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, productionTouched false, independentVerificationStatus PENDING. The stale acceptance receipt the prior row failed on has been cleared to null rather than re-pointed.",
+     "finding": "Every artifact is present and byte-bound, and no record claims an acceptance or a raster this family does not have. This is the prior failure repaired, confirmed by recomputation."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Petition first (pages 1-2: caption, what the committed record establishes, the petitioner, the seven C-items, the request, the signature block), filing instructions second (pages 3-4: what the route is and who runs it, what you do, what you do not do, costs and waiver, service, when to stop). Identical in both fixtures.",
+     "finding": "Order is correct and identical in both fixtures."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "The route is fixed and the delivered pages offer no election, no checkbox and no branch. production-field-map.json declares no route selections.",
+     "finding": "No option is owed and none is missing."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "No repeating-row structure exists: seven labelled single blanks, no table.",
+     "finding": "Nothing to complete row-wise; the zero is measured over an empty set."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "The instructions page states that no committed record this packet binds states a filing fee or a fee waiver for this route, names the clerk's office as the one that answers both, and then does something unusually careful: it lists the fee figures that exist elsewhere in the West Virginia records and refuses each by name - the no-fee lines keyed to W. Va. Code Sec. 61-11-25, the Sec. 61-11-26 civil-action fee and $100 State Police processing fee, and the census's Sec. 59-1-11(a)(1) figure of $200 - and concludes 'This route is Sec. 61-14-9 and is none of those sections, so this packet takes no figure from any of them.' source-receipt.json whatThisReceiptDoesNotEstablish says the same thing.",
+     "finding": "No fee is invented and, more than that, the packet names the nearby figures it declines to borrow and says why. The practical warning is right too: 'Ask before you go, because a filing you cannot pay for is a filing you cannot make.'"
+    }
+   },
+   "failedObligationNames": [
+    "SOURCE_IDENTITY"
+   ],
+   "passedObligationNames": [
+    "ROUTE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+   ],
+   "recordDiscrepancies": [
+    {
+     "where": "source-receipt.json compositionSources[2].identityRefresh",
+     "what": "The refresh block is dated 2026-09-05 and records the comparison up to identity 4d0eb74b. The file has drifted past that pin since, to f6fc0814 at commit a3ca119bd, and the block was not renewed - while allSourcesExact stayed true.",
+     "whyItMatters": "The receipt has the right mechanism for a record that moves under it and simply did not run it again. The fix is a third refresh entry (or a re-pin) plus an honest allSourcesExact, not a new source.",
+     "whatThisLaneDid": "Recovered the pinned blob from commit 2d01b84f7, serialised the bound entry from both, and compared object for object: identical. The bound content has not moved; only the whole-file identity has, for a fourth time."
+    },
+    {
+     "where": "product-wiring.json binding.lastIndependentVerification",
+     "what": "verdict BLOCKED_BEFORE_CLAIM, lane vf04, base 9c2b39327.",
+     "whyItMatters": "A blocked read is not a verdict on the bytes, and it sits in the field a promotion reads for one. This row supersedes it."
+    }
+   ],
+   "notMeasurableHere": [
+    "Whether any central raster covers the current bytes. None does, build-status.json says so, and nothing in this row is offered as central visual evidence.",
+    "Whether W. Va. Code Sec. 61-14-9 has been amended since the compiled profile's recorded substance. No network source is reachable from this container.",
+    "The filing fee and the service rule for this route, which no committed record establishes and which the packet correctly leaves open.",
+    "Any counsel, owner or professional adoption question."
+   ],
+   "observationsNotScored": [
+    "The canonical fixture's mailing address is '42 Magnolia Street, Springfield 62704', which is an Illinois city and ZIP on a West Virginia circuit-court petition. It is a single combined participant.street_address fact in the builder and it prints whole, so no fact is dropped and there is no output defect; it is noted only because the other four families read in this lane use state-appropriate canonical fixtures and a reviewer comparing them will notice.",
+    "The compiled profile's summary string contains a control character where an apostrophe belongs ('person\\u0019s'). The builder sanitises it and the delivered page prints a proper apostrophe, so the defect does not reach the participant."
+   ],
+   "independence": "This lane did not build, repair, raster or productize this family. It read the delivered bytes, all three bound committed records, a recovered historical blob of one of them, the field map, the instructions and the claim ledger; it rendered every page locally and deleted the rasters; it made no edit to any packet, builder or shared record.",
+   "whatThisRowDoesNotDo": "It approves nothing, opens no commercial route, promotes no build status, and is not counsel review. This lane changed no packet byte.",
+   "selfVerified": false,
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimsReleased": 0,
+   "subagentsCreated": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "rastersDeleted": true,
+   "note": "FAIL_REPAIR_REQUIRED on SOURCE_IDENTITY alone. Both failures the prior row recorded are repaired and I confirmed each by recomputation: the stale acceptance receipt is cleared to null rather than re-pointed, and rendered-artifacts binds the delivered bytes exactly. Fourteen obligations pass, and the packet is careful in the places this subject matter demands - it leads its stop list with the record's own legal-aid referral, warns about public-record exposure, says twice that no page asks for an account of what happened, and refuses by name every fee figure the nearby West Virginia sections carry. It fails because source-receipt.json declares allSourcesExact true while one of its three pinned records no longer resolves to any version in the tree. The bound legal content is proven unmoved by object-for-object comparison against the recovered pinned blob, so the repair is a re-pin and an honest exactness claim, not a re-source."
   }
  ],
  "supersededLaneMembership": {
