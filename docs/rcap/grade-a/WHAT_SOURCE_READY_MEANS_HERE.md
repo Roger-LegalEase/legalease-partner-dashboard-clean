@@ -94,3 +94,45 @@ index. The acquisition is real and the hash is exact; what is absent is a byte
 in a custody. Fetching them into a governed custody is the same class of work as
 the fourteen in `SRC05_PHANTOM_CUSTODY.md`, and the fileIds are in each
 family's acquisition return.
+
+---
+
+## Update, 2026-09-09: the recovery kit landed and the queue nearly doubled
+
+The Nationwide Corpus Recovery Kit arrived as eight desktop-uploaded chunks,
+every one verified against its own `chunk_sha256`, joined to the exact original
+(228,260,257 bytes, `db8a02db…`), and staged through
+`scripts/rcap-corpus/stage-nationwide-recovery-pool.mjs`: 513 files verified, 0
+rejected, 51 jurisdictions. The kit's own reconstructor refuses the complete
+operational corpus — `RECOVERY_REFUSED: recoverable 513/583, missing 70,
+wrong-size 0` — and is right to; what mounted is the PARTIAL pool.
+
+| | before | after |
+|---|---:|---:|
+| row gate binds | 32 | **43** |
+| every bound source is a held PDF | 25 | **42** |
+| not measurable here | 43 | **26** |
+
+No family regressed on either measure.
+
+Newly binding: al-trafficking-set, hi_712_1200_deferred_expungement-set,
+hi_nonconviction_expungement-set, md_10105_early-set, md_pardon_expungement-set,
+mn_petition_15218-set, mn_petition_609a02_subd3-set,
+mn_petition_juvenile_as_adult-set, rcap-hi-custom-pleading, ut_pet_cannabis-set,
+wv_acc_treatment_job_readiness-set.
+
+The build queue now stands at 42, led by LA 4, MA 4, and HI, MN, NH and WV at 3
+each — the Massachusetts four and the Minnesota three had been unreachable in
+this container since the sprint began.
+
+`corpus_matches_committed_index` now compares every declared custody except the
+SRC05 phantom, which has no bytes anywhere by definition. The eleven files that
+custody still owes are unaffected by this recovery; they were never in this
+pool.
+
+### What is still owed
+
+Seventy manifest files are absent from the pool, so the operational corpus stays
+incomplete and `private/Nationwide Record Clearing` stays empty and reserved.
+The exact missing path-and-hash list is what the kit's reconstructor writes to
+its report, and that list — not this pool — is the remaining acquisition task.
