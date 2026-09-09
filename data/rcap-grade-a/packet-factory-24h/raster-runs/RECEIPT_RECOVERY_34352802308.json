@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
-  "whatThisIs": "Everything needed to recover the ORIGINAL receipts of raster runs 34352802308 and 34357236801 and admit thirteen families. Every identifier came from a tool call against the GitHub API or from this repository. Nothing is reconstructed, padded or inferred.",
+  "whatThisIs": "Everything needed to recover the ORIGINAL receipts of raster runs 34352802308, 34357236801 and 34359435506. All three have since been published and consumed; fifteen families were admitted and one, pa_pardon_expungement-set, was refused for cause.",
   "whatThisIsNot": "Not a receipt, not a verdict, and not an admission. No family moves on the strength of this file.",
   "doNotRerender": "These PDFs have not changed since the run. Re-rendering them would produce a second measurement of identical bytes and would not be the original receipt. The recovery is a transport problem, not a rendering one.",
   "run": {
@@ -464,5 +464,57 @@
         }
       }
     ]
+  },
+  "thirdBatch": {
+    "run": {
+      "workflowRunId": "34359435506",
+      "runNumber": 147,
+      "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "workflowFileCommit": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+      "dispatchedFromRef": "main",
+      "conclusion": "success",
+      "packetCommitSha": "e0c78f7fae5007e55bcd22b8ba234ab0a17608a3",
+      "artifactsExpireAt": "2026-09-23T13:50:08Z"
+    },
+    "receiptsPublishedAs": {
+      "transportSha256": "94883f018841aa81a1ebf5785d98dcf85709db457af2f20efaae9ab556fd366a",
+      "transportGitBlobSha": "c7592cc9a4335194225c06ea4808035cf6f4ac01",
+      "transportBytes": 6108,
+      "originalArchives": 3,
+      "originalArchiveBytes": 15765597,
+      "pagesMeasured": 40
+    },
+    "controlJobs": [
+      {
+        "name": "Synthetic canary and live negative controls",
+        "jobId": "102492325686",
+        "conclusion": "success",
+        "artifactId": "10107230709"
+      },
+      {
+        "name": "Plan the family matrix",
+        "jobId": "102493023594",
+        "conclusion": "success"
+      }
+    ],
+    "families": [
+      {
+        "familyId": "nh_conviction_standard-set",
+        "jobId": "102493491221",
+        "artifactId": "10108062005",
+        "zipSha256": "09f01e481ade2fa1ef1ed20fb3f1162f5ae7c83c7e27ec28f86037db7c34d5f7",
+        "pagesMeasured": 26,
+        "admitted": true
+      },
+      {
+        "familyId": "nh_marijuana_annulment-set",
+        "jobId": "102493491152",
+        "artifactId": "10107473123",
+        "zipSha256": "53b34e10014fddd1a580e943a640b531442f9ed09769fd075d2c32dda24d7bba",
+        "pagesMeasured": 14,
+        "admitted": true
+      }
+    ],
+    "outcome": "Both admitted 2026-09-09 against scripts/rcap-packet-recovery/admit-completed-fixture-raster.py on the recovered-bundle path. Both are VERIFY_PENDING: built today and never independently read, so a RASTER_PASS moves them to a verification state and not to terminal."
   }
 }
