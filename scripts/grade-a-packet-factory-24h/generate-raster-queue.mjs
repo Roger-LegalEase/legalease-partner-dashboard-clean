@@ -199,7 +199,7 @@ const fixtureCoverage = new Map();
  * nothing did, so a reader can see the edge of the gate rather than having to
  * find it the way a verification lane just did.
  */
-const coverageOf = (pdfs, fixture, rendered, allDeclared = []) => {
+const coverageOf = (pdfs, fixture, rendered, allDeclared = [], selected = null) => {
   const outsideThisGate = allDeclared
     .filter((d) => d.role !== "canonical")
     .map((d) => d.name)
@@ -222,7 +222,13 @@ const coverageOf = (pdfs, fixture, rendered, allDeclared = []) => {
       basis: "the family ships one assembled packet, so rendering it covers every canonical page of the family",
       ...edge };
   }
-  const docs = pdfs.filter((x) => x.includes(fixture));
+  /* The documents this row is answerable for are the ones it was asked to render:
+   * the declaration-selected set where the family declares one, and otherwise every
+   * listed PDF carrying the role, exactly as before. Reading this from the listing
+   * while the row renders a selected set would report Oregon's four component motion
+   * PDFs as canonical documents the gate had skipped, and fail a family for
+   * delivering exactly what it declares. */
+  const docs = selected ?? pdfs.filter((x) => x.includes(fixture));
   const missed = docs.filter((x) => !rendered.includes(x));
   return {
     documents: docs, rastered: rendered, notRastered: missed,
@@ -253,9 +259,14 @@ const documentSet = async (dir, fixtures, pdfs) => {
     report: read(path.relative(ROOT, path.join(dir, "reports", "rendered-artifacts.json"))),
     fixtures, root: ROOT,
   });
+  const declaration = declaredCompleteOutputs(dir, fixtures);
   for (const role of ["canonical", "boundary"]) {
-    const primary = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
-    const named = [...new Set([...primary, ...conditional.filter(d => d.role === role).map(d => d.name)])];
+    const primary = declaredSelection(discoveredForRole(pdfs, role), declaration, role, pdfs);
+    const named = [...new Set([
+      ...primary,
+      ...conditional.filter(d => d.role === role).map(d => d.name),
+      ...declaredButNotDiscovered(declaration, role, pdfs),
+    ])];
     for (const name of named) {
       const abs = path.join(fixtures, name);
       const parsed = await pageCountOrNull(abs);
@@ -403,11 +414,196 @@ const pickFixture = (dir, root, fixture, pdfs) => {
   const matches = pdfs.filter((x) => x.includes(fixture));
   if (matches.length === 1) return { name: matches[0], basis: "the only PDF in the directory carrying this fixture name", why: null };
   if (matches.length === 0) return { name: null, basis: null, why: `no ${fixture} PDF` };
+  /* Several PDFs carry the role and none is declared under the bare role label.
+   * That is not the same as the builder declaring none: a family that ships one
+   * packet per variant labels every row with a variant label. Ask for the declared
+   * complete outputs of this role before refusing.
+   *
+   * The row's primary is the FIRST one declared -- declaration order, which is the
+   * order declaredFixture already documents for the bare-label case, and
+   * deliberately not whichever name sorts first. The primary is only the row's
+   * pinned canonicalPdfSha256; the row renders every one of them and coverage is
+   * asked of the whole set. This branch is reached only where the generator
+   * previously recorded the family as ineligible, so it can add a family to the
+   * matrix and can never restate one already in it. */
+  const declaredComplete = (declaredCompleteOutputs(dir, root)?.named.get(fixture) ?? []).filter((n) => pdfs.includes(n));
+  if (declaredComplete.length) {
+    return {
+      name: declaredComplete[0],
+      basis: `the builder declares ${declaredComplete.length} complete ${fixture} output(s) in reports/rendered-artifacts.json (${declaredComplete.join(", ")}); this row pins the first declared as its primary and renders all of them`,
+      why: null,
+    };
+  }
   return {
     name: null, basis: null,
     why: `${matches.length} PDFs could be the ${fixture} fixture (${matches.join(", ")}) and the builder declares none — refusing to guess which one the receipt would describe`,
   };
 };
+
+/*
+ * WHAT A FAMILY DECLARES AS A COMPLETE OUTPUT, ASKED OF THE FAMILY'S OWN REPORT.
+ *
+ * Three families were read wrongly, and all three for the same reason: the only
+ * question this generator ever put to a declaration was a.fixture === "canonical",
+ * over the artifacts and pdfs arrays only. A builder that ships one packet per variant labels
+ * its rows "canonical--felony" or "canonical-misdemeanor_5yr", never the bare role,
+ * so the exact match found nothing, pickFixture fell through to its several-matches
+ * refusal, and al-trafficking-set, ne-seal-pre2017-set and rcap-or-official-pdf-fill
+ * were recorded as ineligible for "the builder declares none". Each of them declares
+ * all of them. Fourteen complete PDFs -- 44 Alabama pages, 30 Nebraska, 36 Oregon --
+ * had never been enrolled in the visual gate, and the queue read as complete while
+ * saying only that it had refused to guess.
+ *
+ * So the declaration is asked three things instead of one:
+ *
+ *   1. WHICH ROLE a declared row is. Preferring an explicit fixtureClass/role key
+ *      where the builder writes one (Nebraska does), and otherwise reading the role
+ *      off the FIXTURE LABEL the builder chose -- "canonical", or a variant label
+ *      built on it. That label is declaration content, written by the builder to
+ *      name the row; it is not the filename, and nothing here reads one.
+ *
+ *   2. WHICH FILES are complete outputs of that role: the file of each such row.
+ *      Alabama's four, Nebraska's six, Oregon's four.
+ *
+ *   3. WHICH FILES the declaration mentions AT ALL, under any key, complete output
+ *      or not. Oregon needs this: it carries a motionFile beside each file, and the
+ *      motion-and-declaration PDF is a component of the nine-page packet rather than
+ *      the packet. Without question 3 the gate would enrol eight Oregon PDFs and
+ *      call four of them complete packets, which is the same overclaim in a new place.
+ *
+ * The two rules that govern how the answers are USED are in declaredSelection below,
+ * and they exist because getting this wrong has already cost receipts twice.
+ */
+const ROLE_LABELS = ["canonical", "boundary"];
+
+const reportCache = new Map();
+const familyReport = (dir) => {
+  if (reportCache.has(dir)) return reportCache.get(dir);
+  const p = path.join(dir, "reports", "rendered-artifacts.json");
+  let doc = null;
+  try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { doc = null; }
+  reportCache.set(dir, doc);
+  return doc;
+};
+
+/* The role of a declared row, from what the builder WROTE, in this order: an
+ * explicit role-class key, then the bare fixture label, then a variant label built
+ * on a role ("canonical--felony", "canonical-misdemeanor_5yr"). A label that names
+ * no role returns null and the row is not treated as a fixture at all. */
+const declaredRoleOf = (row) => {
+  for (const key of ["fixtureClass", "fixtureRole"]) {
+    if (ROLE_LABELS.includes(row?.[key])) return row[key];
+  }
+  if (ROLE_LABELS.includes(row?.role)) return row.role;
+  const label = row?.fixture;
+  if (typeof label !== "string") return null;
+  return ROLE_LABELS.find((r) => label === r || label.startsWith(r + "-")) ?? null;
+};
+
+/* Every PDF path the report mentions anywhere, at any depth, under any key. This is
+ * deliberately indiscriminate: its only job is to answer "does the declaration
+ * account for this file", and a file named under motionFile, components[].file or
+ * anywhere else is accounted for. */
+const pdfPathsMentioned = (node, out = new Set()) => {
+  if (typeof node === "string") { if (node.toLowerCase().endsWith(".pdf")) out.add(node); return out; }
+  if (Array.isArray(node)) { for (const v of node) pdfPathsMentioned(v, out); return out; }
+  if (node && typeof node === "object") { for (const v of Object.values(node)) pdfPathsMentioned(v, out); return out; }
+  return out;
+};
+
+const declarationCache = new Map();
+const declaredCompleteOutputs = (dir, root) => {
+  const key = dir + " :: " + root;
+  if (declarationCache.has(key)) return declarationCache.get(key);
+  const doc = familyReport(dir);
+  const named = new Map(ROLE_LABELS.map((r) => [r, []]));
+  const mentioned = new Set();
+  let result = null;
+  if (doc) {
+    const seen = new Set();
+    for (const container of ["artifacts", "pdfs", "packets"]) {
+      for (const row of Array.isArray(doc[container]) ? doc[container] : []) {
+        const role = declaredRoleOf(row);
+        if (!role || typeof row?.file !== "string") continue;
+        const abs = resolveDeclared(dir, row.file);
+        if (!abs) continue;
+        const name = POSIX(path.relative(root, abs));
+        if (seen.has(role + " :: " + name)) continue;
+        seen.add(role + " :: " + name);
+        named.get(role).push(name);
+      }
+    }
+    for (const p of pdfPathsMentioned(doc)) {
+      const abs = resolveDeclared(dir, p);
+      if (abs) mentioned.add(POSIX(path.relative(root, abs)));
+    }
+    if ([...named.values()].some((v) => v.length)) result = { named, mentioned };
+  }
+  declarationCache.set(key, result);
+  return result;
+};
+
+/* What the fixtures listing finds for a role. Unchanged behaviour, named once so the
+ * document set and the coverage statement cannot drift apart. */
+const discoveredForRole = (pdfs, role) =>
+  pdfs.includes(role + ".pdf") ? [role + ".pdf"] : pdfs.filter((x) => x.includes(role));
+
+/*
+ * THE DECLARED SET, SUBJECT TO TWO RULES THAT PROTECT STANDING RECEIPTS.
+ *
+ * A documentsDigest hashes the row's documents IN ORDER, so a reader that lets a
+ * declaration decide the ORDER restates sets that have not changed and invalidates
+ * every receipt over them. And a declaration that omits a delivered PDF is a gap in
+ * the declaration, not permission to stop measuring the PDF: dc_seal_conviction-set
+ * ships four fixtures on disk, and reading a declaration as an exhaustive list once
+ * cut it to two while both variants had been rendering and passing.
+ *
+ * So:
+ *
+ *   ORDER IS NEVER THE DECLARATION'S. The listing's order is kept exactly. The
+ *   declaration selects; it does not sort. A family whose declared set is what the
+ *   listing already found gets a byte-identical document list and keeps its receipt,
+ *   which is the case for every family already in the queue.
+ *
+ *   NARROWING REQUIRES THE DECLARATION TO ACCOUNT FOR WHAT IT DROPS. A discovered
+ *   PDF is dropped only where the declaration names that exact file somewhere and
+ *   classifies it as something other than a complete output of this role -- Oregon's
+ *   motionFile. Where the declaration is SILENT about a discovered PDF, the file
+ *   stays in the set and keeps being measured, because silence is a gap.
+ *
+ * And one exemption, which the measurement found rather than the reasoning:
+ *
+ *   A FAMILY THAT SHIPS AN ASSEMBLED <role>.pdf IS NOT SELECTED FROM AT ALL. Some
+ *   hosts put the bare role label on rows that are not the assembled packet.
+ *   wa_vac_felony-set declares its four per-form filled COMPONENTS as fixture
+ *   "canonical" and "boundary" and keeps the assembled canonical.pdf under a
+ *   different key entirely, so selecting on that declaration replaced a standing
+ *   Washington row with two components and dropped the family out of the live matrix.
+ *   An assembled packet needs no help being identified -- the listing names it
+ *   exactly -- so where one exists the listing decides alone, and this reader stays
+ *   confined to the multi-variant families with no assembled packet that are the
+ *   reason it exists.
+ */
+const declaredSelection = (discovered, declaration, role, pdfs) => {
+  if (pdfs.includes(role + ".pdf")) return discovered;
+  const complete = declaration?.named.get(role) ?? [];
+  if (!complete.length) return discovered;
+  const everyDiscoveredFileIsAccountedFor = discovered.every((n) => declaration.mentioned.has(n));
+  return everyDiscoveredFileIsAccountedFor
+    ? discovered.filter((n) => complete.includes(n))
+    : discovered;
+};
+
+/* A declared complete output of this role that the listing did not name for it. It is
+ * enrolled LAST -- after the listing's order and after the conditional branches -- so
+ * that enrolling it can never restate the order of a set already under receipt.
+ * nc_146_dismissal_petition-set is why: its four conditional branch PDFs are declared
+ * in one order and merged in another, and letting the declaration place them cost the
+ * family its RASTER_PASS for a set that had not changed by one file. */
+const declaredButNotDiscovered = (declaration, role, pdfs) =>
+  pdfs.includes(role + ".pdf")
+    ? []
+    : (declaration?.named.get(role) ?? []).filter((n) => pdfs.includes(n));
 
 const previous = fs.existsSync(path.join(ROOT, OUT)) ? read(OUT) : { rows: [] };
 /* A temporarily ineligible family cannot stay in the live render matrix, but
@@ -636,7 +832,9 @@ for (const f of master.families) {
   const cPath = path.join(fixtures, canonical);
   const bPath = path.join(fixtures, boundary);
   const pdfsHere = found.pdfs;
-  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents);
+  const canonicalSelection = declaredSelection(
+    discoveredForRole(pdfsHere, "canonical"), declaredCompleteOutputs(dir, fixtures), "canonical", pdfsHere);
+  const coverage = prepared?.coverage ?? coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name), documents, canonicalSelection);
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   if (!primaryCanonical) {
     notEligible.push({
