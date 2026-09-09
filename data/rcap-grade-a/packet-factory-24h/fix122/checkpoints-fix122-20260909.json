@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-repair-lane-checkpoints/v1",
   "lane": "FIX122",
   "branch": "fix122-widget-placement-20260909",
-  "base": "25c56504af0a0041f467a3af10328ff276f2e6eb",
+  "base": "e18e837bd5a789f634633124cef6665967aae9d5",
   "checkpoints": [
     {
       "checkpoint": 1,
@@ -32,10 +32,38 @@
       "checkpoint": 5,
       "act": "Measured the second obligation rather than assuming the placement fix closes it.",
       "result": "requiredOptionsMissing measures 0 on the current bytes, and the unticked eligibility recitals are a recorded legal refusal under W. Va. Code Sec. 61-11-26(p)(5), not a placement artifact. The placement fix closes CLIPPING_AND_OVERLAP only."
+    },
+    {
+      "checkpoint": 6,
+      "act": "Resynced onto the committed ledger and re-asserted under the corrected lane identity.",
+      "result": "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set 6d62f0296763f70a) at e18e837bd. FIX122 was not in the roster and the gate was right to refuse it."
+    },
+    {
+      "checkpoint": 7,
+      "act": "Applied the one argument proven at checkpoint 3 and rebuilt the family.",
+      "change": "fitAppearancesToRect: true at the finalizeOfficialForm call in scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs. Nothing else.",
+      "artifactHashes": {
+        "canonicalBefore": "bc0ee71288e77b08d346082a8d56d304f844c3f10e9525c43684ad7b8a7ba8e4",
+        "canonicalAfter": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+        "boundaryBefore": "5371f7c74286adde7da2738fe282884947acde43d26efb74f5bf0556c270ce6c",
+        "boundaryAfter": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573"
+      },
+      "result": "Read back from the delivered bytes of BOTH fixtures: 13/13 absolute-BBox appearances now carry a /Matrix that cancels the placement translate, 13/13 land on their own /Rect, 0 off paper. Of 70 placements the 57 origin-anchored ones are byte-for-byte identically placed, 0 moved."
+    },
+    {
+      "checkpoint": 8,
+      "act": "Held ROUTE_OPTIONS open rather than reporting nine green counters.",
+      "result": "CLIPPING_AND_OVERLAP closed on measurement; ROUTE_OPTIONS still open on legal grounds and not closeable by a build lane. The family stays FAIL and this lane asks for no release."
     }
   ],
-  "overlayDirectoriesModified": 0,
+  "overlayDirectoriesModified": 1,
   "sharedModulesModified": 0,
   "commercialRoutesOpened": 0,
-  "productionTouched": "NO"
+  "productionTouched": "NO",
+  "overlayDirectoriesModifiedList": [
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill"
+  ],
+  "buildScriptsModified": [
+    "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs"
+  ]
 }
