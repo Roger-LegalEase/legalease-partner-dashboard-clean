@@ -80,9 +80,39 @@ test("a family whose visual measurement is absent is NOT_MEASURABLE_HERE, not PA
 
 test("the unmeasured counters print as unmeasured, not as zero", () => {
   const out = run("ca-1203-4-set");
-  for (const c of ["invisibleWrites", "protectedWrites", "visualDefects"]) {
+  for (const c of ["invisibleWrites", "visualDefects"]) {
     assert.match(out, new RegExp(`${c} UNMEASURED`), `${c} must not print a number nobody measured`);
   }
+});
+
+test("protectedWrites is NOT treated as unmeasurable, and the reason is measured", () => {
+  // Among the families whose geometry pass DID run, 15 carry no
+  // refusedFieldsWithInk key at all — a writer that measured everything omits
+  // it when the list is empty. Reading that absence as "nobody looked" is the
+  // same error as reading an unmeasured thing as zero, pointed the other way,
+  // and it made 15 honest families unmeasurable until this was narrowed.
+  const src = fs.readFileSync(GATE, "utf8");
+  const block = src.slice(src.indexOf("const measurability = {"), src.indexOf("const unmeasured ="));
+  assert.doesNotMatch(block, /protectedWrites:/, "absence of refusedFieldsWithInk is a real zero, not an unmeasured counter");
+  assert.match(block, /visualDefects: anyArtifactHas\("nonWhitespaceGlyphsOutsideMeasuredWriteBoxes"\)/);
+
+  let measuredGeometryButNoRefusedKey = 0;
+  const base = path.join(ROOT, "data/rcap-all50/overlays/census-v1");
+  for (const st of fs.readdirSync(base)) {
+    const stDir = path.join(base, st);
+    if (!fs.statSync(stDir).isDirectory()) continue;
+    for (const fam of fs.readdirSync(stDir)) {
+      const p2 = path.join(stDir, fam, "reports/actual-writes.json");
+      if (!fs.existsSync(p2)) continue;
+      let arts;
+      try { arts = JSON.parse(fs.readFileSync(p2, "utf8")).artifacts; } catch { continue; }
+      if (!Array.isArray(arts) || !arts.length) continue;
+      if (!arts.some((a) => typeof a.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes === "number")) continue;
+      if (!arts.some((a) => "refusedFieldsWithInk" in a)) measuredGeometryButNoRefusedKey += 1;
+    }
+  }
+  assert.ok(measuredGeometryButNoRefusedKey > 0,
+    "if every measured family now emits refusedFieldsWithInk, revisit this narrowing deliberately rather than by attrition");
 });
 
 test("a family that WAS measured still passes on a real zero", () => {

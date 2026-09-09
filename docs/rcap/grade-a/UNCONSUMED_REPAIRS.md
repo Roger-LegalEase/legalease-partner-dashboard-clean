@@ -11,6 +11,57 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## Nebraska passed the central raster and cannot be admitted from this session (2026-09-09)
+
+`ne-seal-pardoned-set` has everything the admission criteria ask for except a
+receipt this container can produce.
+
+| Criterion | State |
+|---|---|
+| Independent verification | `PASS_COMPLETE_INDEPENDENT`, all nine counters measured zero |
+| Completeness audit | `PASS_COMPLETE`, and now in the matrix |
+| Central raster | **`RASTER_PASS`** — run `34341080972`, job `102432777025`, commit `a25db5034ab8ff3ed1466fa8028c63d0558e809d`, scale 2.5, *"2 document(s), 8 page(s) measured, 0 problem(s)"* |
+| Canary precondition | job `102431769489`, same run, success |
+| Bytes | canonical `06f5fae3…6979` and boundary `a6b1d085…9b4f`, both recomputed from disk and matching their queue pins |
+| **Receipt ingested** | **NO — and it cannot be, here** |
+
+### Why not, exactly
+
+The queue does not read verdict files from
+`launch-recovery-2026-09-07/central-raster/`; it carries `rasterReceipt` forward
+inside `RASTER_QUEUE.json` itself, and the only thing that writes one is
+`scripts/rcap-packet-recovery/ingest-completed-raster.mjs`.
+
+That ingester requires a verdict record carrying `measurements[]` — one entry
+per page, each with `nonblank`, `croppedToThePage`, `bytes`,
+`calibrationResidualPx`, `pageWidthPt` and `pageHeightPt`, cross-checked against
+the PDF's own page geometry. **Those measurements exist only inside the workflow
+artifact** (`rcap-raster-ne-seal-pardoned-set-34341080972`, id `10099982865`,
+3,040,284 bytes, 15 files), and artifact download redirects to blob storage the
+egress proxy denies. The job log prints the one-line verdict and nothing else.
+
+I wrote a receipt from the log and the API, then deleted it. It carried the run,
+job, commit, artifact identity and disk-recomputed hashes, and it carried **no
+`measurements[]`** — so it could not satisfy the ingester, and a file in the
+receipts directory that looks like a receipt but omits the evidence the gate
+checks is worse than no file.
+
+### Two things this needs
+
+1. **A session that can download workflow artifacts** ingests
+   `10099982865` and runs the ingester. That is the whole remaining step; the
+   raster itself is done and passed.
+2. **`ingest-completed-raster.mjs` is hard-pinned to Delaware.** `FAMILY`,
+   `VERDICT` and a frozen `PIN` of run/commit/job/artifact/zip/digest are module
+   constants, so it can admit exactly one family and no other. Its validation is
+   good — twelve mutations, each proved to reject — and generalising it means
+   taking the family and its pins as arguments while keeping every assertion.
+   Until then every future raster pass needs the same manual path.
+
+Alternatively the raster workflow could print its `measurements[]` into the job
+log, which this session **can** read. That is a change to a shared gate and is
+recorded as an option, not made.
+
 ## The stale-bytes screen measured: 20 of 25 reproduce, and my screen was wrong (2026-09-09)
 
 The measurement lane answered the question and corrected the question.

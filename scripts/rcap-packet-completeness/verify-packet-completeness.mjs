@@ -607,10 +607,25 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   const artifactRecords = actualWrites?.artifacts ?? [];
   const anyArtifactHas = (...keys) =>
     artifactRecords.some((a) => keys.some((k) => a[k] !== undefined && a[k] !== null));
+  /*
+   * protectedWrites is NOT in this test, and the reason is measured.
+   *
+   * The first cut of this rule read the absence of `refusedFieldsWithInk` as
+   * "nobody looked". It is not: among the 210 families whose geometry pass DID
+   * run, 15 carry no `refusedFieldsWithInk` key at all. A writer that measured
+   * everything still omits the key when the list is empty, so absence there
+   * means "no refused field carried ink", which is a real zero. Calling it
+   * unmeasured is the same error as calling an unmeasured thing zero, pointed
+   * the other way, and it would have made 15 honest families unmeasurable.
+   *
+   * The two that remain are absent only when the measurement is: every one of
+   * the 210 carries `addedGlyphsReadFromOutputBytes`, and
+   * `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes` IS the geometry pass's own
+   * output, so its absence is the pass not having run.
+   */
   const measurability = {
     invisibleWrites: anyArtifactHas("valuesReportedByFinalizer", "addedGlyphsReadFromOutputBytes", "flattenedWidgetAppearancesReadFromOutputBytes"),
-    visualDefects: anyArtifactHas("nonWhitespaceGlyphsOutsideMeasuredWriteBoxes"),
-    protectedWrites: anyArtifactHas("refusedFieldsWithInk")
+    visualDefects: anyArtifactHas("nonWhitespaceGlyphsOutsideMeasuredWriteBoxes")
   };
   /* No artifact records at all is a different fact -- a zero-source composition
    * binds no document bytes by design -- and is not this rule's business. */
