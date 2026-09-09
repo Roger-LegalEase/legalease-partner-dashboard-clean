@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "VF02",
+  "workerId": "VF02",
+  "workerBranch": "pfc-vf2-20260909",
+  "shift": "vf02-20260909e",
+  "laneKind": "independent-verification, two VERIFY_PENDING families each holding an admitted RASTER_PASS bound to its current bytes",
+  "checkpointRule": "One row per family, written as it finishes, committed and pushed before the next is started. No packet is repaired, no overlay directory is edited, no central artifact is written.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "what": "Claim gate. Both families asserted on VF02 before any family artifact was opened - node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 <familyId> - each returning CLAIM_OK under grant set a2fe10778211e91e. Neither refused, so no BLOCKED_BEFORE_CLAIM on this shift.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 2,
+      "what": "Minnesota read at appearance level, not from the build report. Extracted all 17 delivered pages, decompressed every page content stream, located every ballot glyph and every drawn mark by coordinate, recomputed all four bound source digests, diffed the delivered pages against the four pinned sources line by line, and rendered the two marked regions to look at them. The Captain-asked question - does mn_petition_15218-set state its own statutory ground on its own face - is answered PASS on ROUTE_IDENTITY with the geometry and a reason for each of the ten unelected item 9 boxes. Three unrelated obligations fail.",
+      "familiesCompletedAtThisPoint": [
+        "mn_petition_15218-set"
+      ],
+      "pushed": false
+    },
+    {
+      "n": 3,
+      "what": "Minnesota row written to rows-vf02-20260909e.json and committed. Verdict FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and ROUTE_OPTIONS. All fifteen obligations measured; none scored NOT_MEASURABLE_HERE.",
+      "familiesCompletedAtThisPoint": [
+        "mn_petition_15218-set"
+      ],
+      "pushed": true
+    }
+  ],
+  "siblingNotRead": "mn_petition_juvenile_as_adult-set is materialized in this sparse checkout and was not opened. No file under data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill was read at any point on this shift. The Minnesota answer is made from mn_petition_15218-set alone.",
+  "grantsNothing": "Independent verification approves no output, promotes no route and opens no commercial path."
+}
