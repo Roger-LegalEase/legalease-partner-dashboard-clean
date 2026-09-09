@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "6fd59ba1349f2ed1fd41e3d19531ca103928afda",
+  "generatedAtCommit": "bf6f32958d484adc12e81900220bf5c477f07027",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1792,8 +1792,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T15:13:26.330Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4111,8 +4111,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T18:37:30.623Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4233,8 +4233,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T18:37:30.843Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4277,10 +4277,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T18:37:31.011Z"
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     },
     {
       "subjectType": "packet-family",
@@ -6248,10 +6249,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     },
     {
       "subjectType": "packet-family",
@@ -7145,10 +7147,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T13:24:32.090Z"
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     },
     {
       "subjectType": "packet-family",
@@ -7236,10 +7239,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     },
     {
       "subjectType": "packet-family",
@@ -14106,7 +14110,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "98f4cba662ce9c7a490565962c2607ed7aaba2366dc2a2abb5cd6cb0c5713a4c",
+  "claimsDigest": "68a665634f7e38b009c30aecb5079a641ca982a63019283e7d6b984e9f2911f5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34767,6 +34771,42 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-09T21:25:37.194Z",
       "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "ne-seal-pre2017-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T21:57:26.831Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T21:57:27.045Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "lane": "VF06",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T21:57:27.263Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T21:57:27.457Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     }
   ],
   "reissues": [
@@ -43363,6 +43403,56 @@
       "previouslyReleasedAt": "2026-09-09T14:02:42.224Z",
       "reissuedAt": "2026-09-09T20:32:40.324Z",
       "reason": "PF05 build lane reopening: the family's build script already exists and the four bound sources are all held PDFs; the lane is being staffed now."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T15:13:26.330Z",
+      "reissuedAt": "2026-09-09T21:57:25.910Z",
+      "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T18:37:30.623Z",
+      "reissuedAt": "2026-09-09T21:57:26.414Z",
+      "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T18:37:30.843Z",
+      "reissuedAt": "2026-09-09T21:57:26.507Z",
+      "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T18:37:31.011Z",
+      "reissuedAt": "2026-09-09T21:57:26.613Z",
+      "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T13:24:32.090Z",
+      "reissuedAt": "2026-09-09T21:57:26.721Z",
+      "reason": "RASTER_PASS admitted; the family is VERIFY_PENDING and an independent read is the only step left. Staffing it now."
     }
   ],
   "transfers": [
@@ -51945,6 +52035,50 @@
       "previouslyReleasedAt": "2026-09-09T21:25:37.194Z",
       "transferredAt": "2026-09-09T21:25:37.306Z",
       "reason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-seal-pre2017-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-09T21:57:26.831Z",
+      "transferredAt": "2026-09-09T21:57:26.949Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-09T21:57:27.045Z",
+      "transferredAt": "2026-09-09T21:57:27.147Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VF07",
+      "previouslyReleasedAt": "2026-09-09T21:57:27.263Z",
+      "transferredAt": "2026-09-09T21:57:27.361Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_pardon_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF08",
+      "previouslyReleasedAt": "2026-09-09T21:57:27.457Z",
+      "transferredAt": "2026-09-09T21:57:27.566Z",
+      "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
     }
   ],
   "grants": [
