@@ -1,0 +1,267 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
+  "whatThisIs": "Everything needed to recover the ORIGINAL receipts of raster run 34352802308 and admit seven families. Every identifier below came from a tool call against the GitHub API or from this repository. Nothing is reconstructed, padded or inferred.",
+  "whatThisIsNot": "Not a receipt, not a verdict, and not an admission. No family moves on the strength of this file.",
+  "doNotRerender": "These PDFs have not changed since the run. Re-rendering them would produce a second measurement of identical bytes and would not be the original receipt. The recovery is a transport problem, not a rendering one.",
+  "run": {
+    "workflowRunId": "34352802308",
+    "runNumber": 145,
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "workflowFileCommit": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+    "dispatchedFromRef": "main",
+    "conclusion": "success",
+    "packetCommitSha": "4bf305425ddd1bb524421a36087c0bb095c6a183",
+    "rasterManifestPath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "requestedScale": "2.5",
+    "htmlUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34352802308",
+    "artifactsExpireAt": "2026-09-23T12:49:21Z"
+  },
+  "controlJobs": [
+    {
+      "name": "Synthetic canary and live negative controls",
+      "jobId": "102469957789",
+      "conclusion": "success",
+      "artifactId": "10104492189",
+      "artifactName": "rcap-raster-canary",
+      "zipSha256": "3d1304fee1e57b118c65cb1be11e5c603c37eb2b84a9b4bb169bc487a7ecebf8"
+    },
+    {
+      "name": "Plan the family matrix",
+      "jobId": "102470608021",
+      "conclusion": "success"
+    }
+  ],
+  "whyEachFamilyIsARasterPass": "scripts/rcap-raster-batch.mjs ends process.exit(verdict === \"RASTER_PASS\" ? 0 : 1) and the workflow runs it under set -e as the job own step. Every family job below concluded success, so every one emitted RASTER_PASS. Read from the code in this repository and the job conclusions the API returned.",
+  "verdictLineReadDirectly": {
+    "familyId": "hi_712_1200_deferred_expungement-set",
+    "line": "RASTER_PASS hi_712_1200_deferred_expungement-set — 2 document(s), 2 page(s) measured, 0 problem(s)",
+    "note": "The only job log read in full in this session. The other six lines were not read and are not transcribed here."
+  },
+  "families": [
+    {
+      "familyId": "hi_712_1200_deferred_expungement-set",
+      "artifactId": "10104609538",
+      "artifactName": "rcap-raster-hi_712_1200_deferred_expungement-set-34352802308",
+      "sizeInBytes": 3715651,
+      "zipSha256": "25960c54e2b5827b1cc8207dc4d63ac19c460e3e2080b2bb2660e72b49efe576",
+      "jobId": "102470875547",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "78e674c8aaabc6adb66a4c4a40bc8232a1cb86c650bb0c5d21c6646226c01313",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "d975f877ae1cf99d2e2a2b686557a0c832c13dab597bf975c3ebf8ad69cfa793",
+        "documentsDigest": "c40dbb101c27ed2e6ada6c89f53b2f7579d27c97307308daeee7570ce8453aee",
+        "expectedPages": 1,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "78e674c8aaabc6adb66a4c4a40bc8232a1cb86c650bb0c5d21c6646226c01313",
+            "pageCount": 1
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "d975f877ae1cf99d2e2a2b686557a0c832c13dab597bf975c3ebf8ad69cfa793",
+            "pageCount": 1
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "ia-12347-set",
+      "artifactId": "10104647318",
+      "artifactName": "rcap-raster-ia-12347-set-34352802308",
+      "sizeInBytes": 3538122,
+      "zipSha256": "8eb55fa71dbd5f206cad3b268c891824c360ab4b34197789751507f85304f0bd",
+      "jobId": "102470875416",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+        "documentsDigest": "de3cc4d17a9176965e1071689cd18411f07a704291768fcdeebec975a50b2c0f",
+        "expectedPages": 2,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+            "pageCount": 2
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+            "pageCount": 2
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "il-exp-nonconv-set",
+      "artifactId": "10104827589",
+      "artifactName": "rcap-raster-il-exp-nonconv-set-34352802308",
+      "sizeInBytes": 13872702,
+      "zipSha256": "0c7b29a71b5cbb5d0315d7c702031ab3af16a981209739073a9407eeafd4f332",
+      "jobId": "102470875374",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa",
+        "documentsDigest": "d10576aad13bcbe1b904644b92db195f1ca3088c77ab831e454fbff2b5075da1",
+        "expectedPages": 14,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "66f6e94e2d12f903bc6049f8c2a2e589c906d62d16941b73013d42269f749a86",
+            "pageCount": 14
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "db3bb03c17bb2a10ad017cc38ddb19bd2920db52fb02636d19410e98c64022fa",
+            "pageCount": 14
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "il-exp-pardon-set",
+      "artifactId": "10104797073",
+      "artifactName": "rcap-raster-il-exp-pardon-set-34352802308",
+      "sizeInBytes": 12922661,
+      "zipSha256": "ef49076319ebe1cc4cdf46050bf03d12d803f9962f2fe6f38d50d25292c384c6",
+      "jobId": "102470875384",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "5a8b9cf44d7634ef2f3c9d8e86592f307822396859fbab3cc4ba88ee7b31b80b",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "19cd7648aaa875abf81a918eeaf0fea52174d5e29a20e6e0d537c3ca87fd3441",
+        "documentsDigest": "798b607eda9ab1856d780a5205fdad90b1e4405838317ce0411615fae33424ed",
+        "expectedPages": 13,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "5a8b9cf44d7634ef2f3c9d8e86592f307822396859fbab3cc4ba88ee7b31b80b",
+            "pageCount": 13
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "19cd7648aaa875abf81a918eeaf0fea52174d5e29a20e6e0d537c3ca87fd3441",
+            "pageCount": 13
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "il-exp-precompletion-set",
+      "artifactId": "10104800302",
+      "artifactName": "rcap-raster-il-exp-precompletion-set-34352802308",
+      "sizeInBytes": 12926485,
+      "zipSha256": "8fae0a92f78bf3df20387b3674b93bfe406dd3b0850ed53364f897efbaf98744",
+      "jobId": "102470875515",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631",
+        "documentsDigest": "e79c59f1eac551238b34b2709b45dee3193dc55b274aa8c0d8a3dcc2299a1d68",
+        "expectedPages": 13,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f",
+            "pageCount": 13
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631",
+            "pageCount": 13
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "artifactId": "10104807202",
+      "artifactName": "rcap-raster-il-seal-edu-set-34352802308",
+      "sizeInBytes": 12923387,
+      "zipSha256": "06f35c6acc6f8d427a8ba630f4296e32e529224e361620575fb926baf70f58cb",
+      "jobId": "102470875388",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518",
+        "documentsDigest": "7d50261ca00e93f495980cc3939e12d9201925f12a508af86d5d96e1c39cd95a",
+        "expectedPages": 13,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+            "pageCount": 13
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518",
+            "pageCount": 13
+          }
+        ]
+      }
+    },
+    {
+      "familyId": "il-seal-nonconv-set",
+      "artifactId": "10104796138",
+      "artifactName": "rcap-raster-il-seal-nonconv-set-34352802308",
+      "sizeInBytes": 12920908,
+      "zipSha256": "783dd2a43bc7241e52f802e729124b9472b2dd949a3f1cc6650b7d8de08dcb36",
+      "jobId": "102470875386",
+      "renderStepConclusion": "success",
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1",
+        "documentsDigest": "b289024ed50a26ea2797461f8d6646ca0fa06c3d20e7b4ef8885d1f3bb22cc3c",
+        "expectedPages": 13,
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "sha256": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+            "pageCount": 13
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "sha256": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1",
+            "pageCount": 13
+          }
+        ]
+      }
+    }
+  ],
+  "whatTheRecoveredZipMustContain": "One <family>.verdict.json carrying schemaVersion rcap-raster-family-verdict/v1, verdict RASTER_PASS, workflowRunId 34352802308, packetCommitSha 4bf305425ddd1bb524421a36087c0bb095c6a183, documentsDigest matching the queueRow above, problems [] and environmentProblems [], packetPdfsModified 0, coversTheWholeFamily true, and one entry in measurements[] per page named <family_path>/<role>/page-NNN.png; plus those PNG files. scripts/rcap-packet-recovery/admit-completed-fixture-raster.py checks all of it against the run, the jobs and the family current inventory.",
+  "whyThisSessionCannotFetchThem": "The environment network policy denies Actions artifact blob storage. A CONNECT to https://api.github.com/repos/.../actions/artifacts/10104609538/zip is answered 403 by the gateway. Job LOGS are reachable; artifact bytes are not. This is a transport restriction, not a permissions or credential problem, and not a defect in the run.",
+  "twoWaysToClearIt": [
+    "Hand over the seven zips named above. Their SHA-256 digests are recorded here, so a delivered zip can be checked against what the run actually uploaded before anything is admitted.",
+    "Land the already-written step on main that prints the verdict document and a SHA-256 per rendered page to the job log, which this session can read. It is on branch claude/legalease-sprint-captain-utucnw and adds no verdict, changes no gate, and leaves the artifact upload authoritative."
+  ],
+  "grantsNothing": "This request opens no commercial route, promotes no family, and creates no Grade-A fulfillment record.",
+  "familiesRemainAt": "BUILT_RASTER_PENDING"
+}
