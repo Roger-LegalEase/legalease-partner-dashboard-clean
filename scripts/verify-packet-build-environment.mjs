@@ -71,6 +71,7 @@ const OPERATIONAL_RELATIVE = "private/Nationwide Record Clearing";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
 const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
+const QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const BOOTSTRAP = "scripts/rcap-corpus/bootstrap-private-corpus.sh";
 
@@ -250,6 +251,21 @@ function filesUnder(dir) {
  * is a refusal rather than a nearest match -- a wrong resolution sends a worker
  * to measure the wrong document.
  */
+/**
+ * The SHA-256 MASTER_QUEUE pins for one family's named source, or null.
+ *
+ * The queue is generated, so this is a lead and never a verdict: the caller
+ * must confirm the digest against the committed corpus index before treating
+ * it as a source identity.
+ */
+function queuePin(family, sourceId, env = ROOT) {
+  const queue = readJson(QUEUE, env);
+  const row = queue?.families?.find((f) => f.familyId === family || f.worklistGroupId === family);
+  const bound = (row?.sourceReadiness?.boundSources ?? []).find((b) => b.sourceId === sourceId);
+  const digest = String(bound?.sha256 ?? "");
+  return /^[0-9a-f]{64}$/.test(digest) ? digest : null;
+}
+
 function familySources(family, env = ROOT) {
   const custody = readJson(CUSTODY, env);
   const row = custody?.rows?.find((r) => r.worklistGroupId === family);
@@ -310,15 +326,50 @@ function familySources(family, env = ROOT) {
     }
     if (matches.length === 1) {
       sources.push({ sourceId: `official-form:${formNumber}`, path: matches[0].path, sha256: matches[0].sha256 });
-    } else {
-      unresolvable.push({
-        sourceId: `official-form:${formNumber}`,
-        indexMatches: matches.length,
-        why: matches.length === 0
-          ? "no entry in the committed corpus index carries this exact form number"
-          : "more than one index entry carries this exact form number, so the identity is ambiguous"
-      });
+      continue;
     }
+    /*
+     * A FORM NUMBER IS A LABEL. A DIGEST IS AN IDENTITY.
+     *
+     * This tier asked the index one question -- which entry carries this exact
+     * formNumber string -- and called a form unresolvable when nothing
+     * answered. That is right when the document is genuinely absent and wrong
+     * when it is held under no declared number, which is the case for an
+     * entire custody: all 380 recovery-pool entries carry formNumber null,
+     * because the pool was recovered as human-named files
+     * ("Conf Case Filing Info Sheet(FI-05).pdf") rather than under the
+     * STATE__FORM__NUMBER__slug convention the other 604 entries follow. So
+     * every pool-held document was unresolvable here by construction, and the
+     * pool was mounted precisely to unblock these families. PF14 hit it on
+     * mo-art-xiv-marijuana-set and stopped the row BLOCKED_SOURCE while
+     * FI-05's bytes sat mounted and byte-exact.
+     *
+     * MASTER_QUEUE carries a byte-pinned binding for exactly these sources.
+     * PF14's refusal to trust it on its own was correct -- "a hash recorded in
+     * a generated queue is not a committed source identity" -- so the pin is
+     * not trusted on its own here either. It is used to ASK THE COMMITTED
+     * INDEX A BETTER QUESTION: which entry has these bytes. A digest that
+     * matches a committed entry is a stronger identity than a matching label,
+     * not a weaker one; a pin matching nothing in the index stays unresolvable
+     * exactly as before.
+     */
+    if (matches.length === 0) {
+      const pinned = queuePin(family, `official-form:${formNumber}`, env);
+      const byDigest = pinned ? index.entries.filter((e) => e.sha256 === pinned) : [];
+      if (byDigest.length) {
+        /* Identical bytes at two paths are one identity; deterministic pick. */
+        const pick = byDigest.slice().sort((a, b) => a.path.localeCompare(b.path))[0];
+        sources.push({ sourceId: `official-form:${formNumber}`, path: pick.path, sha256: pick.sha256 });
+        continue;
+      }
+    }
+    unresolvable.push({
+      sourceId: `official-form:${formNumber}`,
+      indexMatches: matches.length,
+      why: matches.length === 0
+        ? "no entry in the committed corpus index carries this exact form number, and no MASTER_QUEUE pin for it matches a committed entry by digest"
+        : "more than one index entry carries this exact form number, so the identity is ambiguous"
+    });
   }
   return { tier: "census_form_number_against_committed_index", from: WORKLIST, custodyClass: null, commissionAcquisition: null, sources, unresolvable };
 }
