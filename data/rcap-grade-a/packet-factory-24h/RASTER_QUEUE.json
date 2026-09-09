@@ -30601,21 +30601,20 @@
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
       "coverage": {
-        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
-        "complete": true,
         "documents": [
-          "canonical.pdf"
-        ],
-        "notRastered": [],
-        "notRenderedByThisGate": [
+          "canonical.pdf",
           "boundary.pdf"
         ],
         "rastered": [
-          "canonical.pdf"
+          "canonical.pdf",
+          "boundary.pdf"
         ],
-        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+        "notRastered": [],
+        "complete": true,
+        "basis": "Both whole declared PDFs and every page matched the completed central receipt.",
+        "notRenderedByThisGate": []
       },
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "documents": [
         {
           "name": "canonical.pdf",
@@ -30653,7 +30652,7 @@
         "boundary": "the assembled packet, matched by exact name",
         "canonical": "the assembled packet, matched by exact name"
       },
-      "nextOwner": "RAS03",
+      "nextOwner": "CHATB20260907",
       "packetCommitSha": "8f17d147c93f71d7291a4ae15e7ebef7bd22aa74",
       "requestedScale": 2.5,
       "supersededReceipts": [
@@ -30734,7 +30733,35 @@
           "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
           "workflowRunId": "33844904078"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34403364607",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "b311ef0660e4f2dbb406ce8b5d19e0f7354d7169",
+        "jobId": "102641250744",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
+        "boundToBoundarySha256": "aeefc64429488991c8dd5b7bbf04d74fc6b93a032d778857c6ead0dad4741dff",
+        "documentsDigest": "8976f9b7cd3a2f025aba5080f0b18c144b1762728774f1cd0733bba1c1e96805",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 10,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10124554845",
+          "name": "rcap-raster-pa_pardon_expungement-set-34403364607",
+          "zipSha256": "sha256:75adb22051514d39982e321e86a16ac02772c74f7aa43cbf2092739684641f9e"
+        },
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/pa_pardon_expungement-set/pa_pardon_expungement-set.verdict.json",
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/pa_pardon_expungement-set/admission-proof.json",
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval."
+      }
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/fixtures/rule-490-petition-boundary.pdf",
