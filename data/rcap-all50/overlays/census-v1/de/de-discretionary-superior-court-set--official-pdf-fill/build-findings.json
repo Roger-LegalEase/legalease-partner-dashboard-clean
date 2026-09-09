@@ -1,0 +1,604 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "de_discretionary_superior_court-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The two charge tables in this family's own form set run different columns for the same charge list.",
+      "detail": "CIV_EXP_02_A prints Case ID # or Criminal Case #, Charge, Offense Date, Disposition Date, Disposition. CIV_EXP_04_A prints Case ID# or Criminal Case #, Charge, Offense Date, Disposition and Disposition Date, Court. CIV_EXP_02_B -- the continuation sheet for the petition's own charges -- prints Case ID Number or Criminal Case Number, Charge, Disposition, Disposition Date, Court of Record, which is a THIRD order in which the disposition and its date swap places. A builder that read one table's order and applied it to the others would put a disposition in the disposition-date box. Each table's columns here are read from its own printed page by x-position over that column's own cells, and the reading is published in production-field-map.json under chargeTableGeometry.",
+      "owner": "recorded for reviewers and for any later family that binds these forms"
+    },
+    {
+      "finding": "The proposed order's charge table holds four rows and Delaware publishes no continuation sheet for an order.",
+      "detail": "CIV_EXP_02_A prints four charge rows and CIV_EXP_02_B extends it to twenty-six more. CIV_EXP_04_A prints four rows and there is no equivalent extension sheet: CIV_EXP_02_B is captioned \"PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD\" and continues the petition alone. A matter above four charges therefore has a complete list on the petition and an order that cannot hold it. This build does not manufacture that packet; both fixtures are within four charges, the continuation sheet's condition is unmet, and the ceiling is raised to counsel.",
+      "owner": "counsel, and the lane that owns the Delaware form set"
+    },
+    {
+      "finding": "MASTER_QUEUE.packetComponents understates this family by one component.",
+      "detail": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json lists three packetComponents for de_discretionary_superior_court-set -- continuation-2, primary-filing-1 and proposed-order-3 -- while the same row's own instrumentKinds lists four (continuation, cover_sheet, primary_filing, proposed_order) and both controlling records declare de_discretionary_superior_court-cover-sheet-4 with role cover_sheet and outputStrategy custom_pleading. The same understatement appears on the sibling de_pardon_expungement-set row. The records govern and the queue was not edited.",
+      "owner": "the lane that owns MASTER_QUEUE.json"
+    },
+    {
+      "finding": "SOURCE_READY_BUILDABILITY.json reports this family's sources as not present in any mounted custody. In this container they are all present and all hash exactly.",
+      "detail": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json records de_discretionary_superior_court-set as verdict NOT_MEASURABLE_HERE, custodyClass SOURCE_GENUINELY_MISSING, documentSourcesResolved 0, and marks official-form:CIV_EXP_02_B and official-form:CIV_EXP_04_A \"not_present_in_a_custody_mounted_here\". Measured here, under private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/: download.aspx.pdf hashes to f2820f713b9f8e0f..., source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf to 39b2dd77619f8872..., and source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf to 59c3665bbcbf0d22... -- each its declared digest, each carried by the committed corpus index under custody nationwide_recovery_pool_2026_09_02 at that exact path. The same record also contradicts itself for CIV_EXP_02_A, which it lists as kind \"held_pdf\" resolved by content hash while reporting documentSourcesResolved 0.",
+      "owner": "the lane that owns SOURCE_READY_BUILDABILITY.json"
+    },
+    {
+      "finding": "The repository's own extractTextItems does not read these Delaware binaries in printed order.",
+      "detail": "Measured on the unlocked derivative of CIV_EXP_02_A: the form prints \"Pursuant to 11 Del. C. § 4374,\" and scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs returns \"Pursuant to 11 Del. C. § 7443,\". The form draws \"43\" at x=144.36 and \"74\" at x=144.31, two runs whose declared advance widths are 0.07pt and which therefore overlap, so an x-ordered read of them is undetermined; whole lines come back scrambled the same way. poppler's pdftotext reads the same bytes correctly. This build does not depend on the scrambled reading, but any family that harvests a caption or an anchor sentence from these forms through the shared capture is reading noise.",
+      "owner": "the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+    },
+    {
+      "finding": "The shared caption capture binds facts across the Attorney General address column on CIV_EXP_02_A.",
+      "detail": "The petition prints a two-column caption block whose right-hand column is the Attorney General's three county addresses, and captureWidgetContext reaches across it: it captions the Date of Birth blank \"%\\u00a1 Sussex County\", the P.O. Box line \"Wilmington, DE 19801\", the street address line \"%\\u00a1 New Castle County Crim. Case No\", the Telephone blank \"Attorney Name (if any)\" and the Civil Petition No. blank \"Georgetown, DE 19947\". On CIV_EXP_04_A the P.O. Box line's captured caption contains \"Kent County\", which matches the matter.county descriptor. A caption is matched against the protect rules and the descriptor registry before a field name is, so those are bindings and not mislabels. Every caption on every censused form in this family is corrected against the printed page, and a correction whose recorded capture no longer matches stops this build.",
+      "owner": "the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+    },
+    {
+      "finding": "Neither Delaware form prints a date order beside its date blanks, so held dates are written in stored ISO form.",
+      "detail": "CIV_EXP_02_A and CIV_EXP_04_A both print \"Date of Birth\" with no (mm/dd/yyyy) or any other order beneath or beside the blank, and the shared finalizer never guesses an order from a field name, a locale or a jurisdiction. The delivered bytes therefore read \"1992-07-22\" on the canonical fixture and \"1949-01-30\" on the boundary. That is unambiguous and is not contradicted by anything the form prints, and inventing mm/dd/yyyy would be the inference the module exists to refuse; it is raised for visual review rather than decided here.",
+      "owner": "visual review, and counsel if the Prothonotary has a stated convention"
+    }
+  ],
+  "captionCorrectionsApplied": [
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Petitioner",
+      "capturedLabel": null,
+      "measuredLabel": "Petitioner",
+      "measuredAt": "page 1 widget rect x[44.40,263.52] y[703.80,720.48]; the form's own printed text reads 'Petitioner' at x[50.64,84.51] y[717.87,728.84]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "New Castle County",
+      "capturedLabel": null,
+      "measuredLabel": "New Castle County",
+      "measuredAt": "page 1 widget rect x[278.04,288.00] y[704.64,714.60]; the form's own printed text reads 'New Castle County' at x[291.96,382.45] y[702.22,716.48]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Street Address including Apt",
+      "capturedLabel": "%¡ New Castle County Crim. Case No",
+      "measuredLabel": "Street Address (including Apt)",
+      "measuredAt": "page 1 widget rect x[44.40,263.52] y[679.08,695.76]; the form's own printed text reads 'Street Address (including Apt)' at x[50.64,156.99] y[693.15,704.12]; the shared capture returned \"%¡ New Castle County Crim. Case No\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Crim Case No",
+      "capturedLabel": null,
+      "measuredLabel": "Crim. Case No.",
+      "measuredAt": "page 1 widget rect x[466.32,566.52] y[677.76,706.56]; the form's own printed text reads 'Crim. Case No.' at x[485.52,547.18] y[704.24,716.52]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "PO Box Number",
+      "capturedLabel": "Wilmington, DE 19801",
+      "measuredLabel": "P.O. Box Number",
+      "measuredAt": "page 1 widget rect x[44.40,263.52] y[654.36,671.04]; the form's own printed text reads 'P.O. Box Number' at x[50.64,113.43] y[668.43,679.40]; the shared capture returned \"Wilmington, DE 19801\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Kent County",
+      "capturedLabel": "Wilmington, DE 19801",
+      "measuredLabel": "Kent County",
+      "measuredAt": "page 1 widget rect x[278.04,288.00] y[667.44,677.40]; the form's own printed text reads 'Kent County' at x[291.96,351.37] y[665.02,679.28]; the shared capture returned \"Wilmington, DE 19801\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "CityStateZip Code",
+      "capturedLabel": "102 W. Water Street",
+      "measuredLabel": "City/State/Zip Code",
+      "measuredAt": "page 1 widget rect x[44.40,263.52] y[629.52,646.32]; the form's own printed text reads 'City/State/Zip Code' at x[50.64,120.14] y[643.71,654.68]; the shared capture returned \"102 W. Water Street\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Sussex County",
+      "capturedLabel": "Telephone #",
+      "measuredLabel": "Sussex County",
+      "measuredAt": "page 1 widget rect x[278.04,288.00] y[630.36,640.32]; the form's own printed text reads 'Sussex County' at x[291.96,364.09] y[627.94,642.20]; the shared capture returned \"Telephone #\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Civil Petition No",
+      "capturedLabel": "Georgetown, DE 19947",
+      "measuredLabel": "Civil Petition No.",
+      "measuredAt": "page 1 widget rect x[466.56,566.28] y[603.60,664.92]; the form's own printed text reads 'Civil Petition No.' at x[483.36,549.47] y[662.60,674.88]; the shared capture returned \"Georgetown, DE 19947\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Attorney Name if any",
+      "capturedLabel": "Georgetown, DE 19947",
+      "measuredLabel": "Attorney Name (if any)",
+      "measuredAt": "page 1 widget rect x[44.40,263.52] y[579.96,596.76]; the form's own printed text reads 'Attorney Name (if any)' at x[50.64,130.84] y[594.15,605.12]; the shared capture returned \"Georgetown, DE 19947\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "expungement of the following cases and the charge or set of charges related to that cases from his or her criminal record Each",
+      "capturedLabel": ",",
+      "measuredLabel": "Pursuant to 11 Del. C.",
+      "measuredAt": "page 1 widget rect x[174.96,373.08] y[532.20,544.56]; the form's own printed text reads 'Pursuant to 11 Del. C.' at x[45.72,134.38] y[531.32,543.60]; the shared capture returned \",\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Case ID  or Criminal Case Row1",
+      "capturedLabel": "Case ID # or Criminal Case # Charge Offense Date Disposition",
+      "measuredLabel": "Case ID # or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[40.92,174.60] y[476.40,490.20]; the form's own printed text reads 'Case ID # or Criminal Case #' at x[45.96,155.61] y[490.27,502.56]; the shared capture returned \"Case ID # or Criminal Case # Charge Offense Date Disposition\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "ChargeRow1",
+      "capturedLabel": "Case ID # or Criminal Case #",
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[175.92,296.16] y[476.40,490.20]; the form's own printed text reads 'Charge' at x[176.04,203.49] y[161.48,173.76]; the shared capture returned \"Case ID # or Criminal Case #\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Offense DateRow1",
+      "capturedLabel": "Case ID # or Criminal Case # Charge Offense Date Disposition",
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[297.48,381.60] y[476.40,490.20]; the form's own printed text reads 'Offense Date' at x[302.40,355.52] y[490.27,502.56]; the shared capture returned \"Case ID # or Criminal Case # Charge Offense Date Disposition\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Disposition DateRow1",
+      "capturedLabel": "Offense Date",
+      "measuredLabel": "Disposition Date",
+      "measuredAt": "page 1 widget rect x[382.92,467.16] y[476.40,490.20]; the form's own printed text reads 'Disposition Date' at x[387.96,453.56] y[490.27,502.56]; the shared capture returned \"Offense Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "DispositionRow1",
+      "capturedLabel": "Disposition Date",
+      "measuredLabel": "Disposition",
+      "measuredAt": "page 1 widget rect x[468.48,588.60] y[476.40,490.20]; the form's own printed text reads 'Disposition' at x[387.96,432.08] y[490.27,502.56]; the shared capture returned \"Disposition Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Case ID  or Criminal Case Row2",
+      "capturedLabel": null,
+      "measuredLabel": "Case ID # or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[40.92,174.60] y[461.40,475.32]; the form's own printed text reads 'Case ID # or Criminal Case #' at x[45.96,155.61] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "ChargeRow2",
+      "capturedLabel": null,
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[175.92,296.16] y[461.40,475.32]; the form's own printed text reads 'Charge' at x[176.04,203.49] y[161.48,173.76]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Offense DateRow2",
+      "capturedLabel": null,
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[297.48,381.60] y[461.40,475.32]; the form's own printed text reads 'Offense Date' at x[302.40,355.52] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Disposition DateRow2",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition Date",
+      "measuredAt": "page 1 widget rect x[382.92,467.16] y[461.40,475.32]; the form's own printed text reads 'Disposition Date' at x[387.96,453.56] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "DispositionRow2",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition",
+      "measuredAt": "page 1 widget rect x[468.48,588.60] y[461.40,475.32]; the form's own printed text reads 'Disposition' at x[387.96,432.08] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Case ID  or Criminal Case Row3",
+      "capturedLabel": null,
+      "measuredLabel": "Case ID # or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[40.92,174.60] y[446.52,460.32]; the form's own printed text reads 'Case ID # or Criminal Case #' at x[45.96,155.61] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "ChargeRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[175.92,296.16] y[446.52,460.32]; the form's own printed text reads 'Charge' at x[176.04,203.49] y[161.48,173.76]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Offense DateRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[297.48,381.60] y[446.52,460.32]; the form's own printed text reads 'Offense Date' at x[302.40,355.52] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Disposition DateRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition Date",
+      "measuredAt": "page 1 widget rect x[382.92,467.16] y[446.52,460.32]; the form's own printed text reads 'Disposition Date' at x[387.96,453.56] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "DispositionRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition",
+      "measuredAt": "page 1 widget rect x[468.48,588.60] y[446.52,460.32]; the form's own printed text reads 'Disposition' at x[387.96,432.08] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Case ID  or Criminal Case Row4",
+      "capturedLabel": null,
+      "measuredLabel": "Case ID # or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[40.92,174.60] y[431.64,445.44]; the form's own printed text reads 'Case ID # or Criminal Case #' at x[45.96,155.61] y[490.27,502.56]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "ChargeRow4",
+      "capturedLabel": "The following information MU",
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[175.92,296.16] y[431.64,445.44]; the form's own printed text reads 'Charge' at x[176.04,203.49] y[161.48,173.76]; the shared capture returned \"The following information MU\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Offense DateRow4",
+      "capturedLabel": "The following information MUST be completed for the Cou",
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[297.48,381.60] y[431.64,445.44]; the form's own printed text reads 'Offense Date' at x[302.40,355.52] y[490.27,502.56]; the shared capture returned \"The following information MUST be completed for the Cou\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Disposition DateRow4",
+      "capturedLabel": "The following information MUST be completed for the Court to",
+      "measuredLabel": "Disposition Date",
+      "measuredAt": "page 1 widget rect x[382.92,467.16] y[431.64,445.44]; the form's own printed text reads 'Disposition Date' at x[387.96,453.56] y[490.27,502.56]; the shared capture returned \"The following information MUST be completed for the Court to\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "DispositionRow4",
+      "capturedLabel": "The following information MUST be completed for the Court to",
+      "measuredLabel": "Disposition",
+      "measuredAt": "page 1 widget rect x[468.48,588.60] y[431.64,445.44]; the form's own printed text reads 'Disposition' at x[387.96,432.08] y[490.27,502.56]; the shared capture returned \"The following information MUST be completed for the Court to\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "The continued existence and possible dissemination of criminal records relating to Petitioner causes or may cause circumstances",
+      "capturedLabel": "The following information MUST be completed for the Court to",
+      "measuredLabel": "The continued existence and possible dissemination of criminal records relating to Petitioner causes, or may cause, circumstances which constitute a manifest injustice to the Petitioner.",
+      "measuredAt": "page 1 widget rect x[46.68,55.44] y[400.56,409.32]; the form's own printed text reads 'The continued existence and possible dissemination of criminal records relating to Petitioner causes, or may cause, circumstances which constitute a manifest injustice to the Petitioner.' at x[45.96,580.63] y[388.27,411.00]; the shared capture returned \"The following information MUST be completed for the Court to\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "records attach additional pages if necessary 1",
+      "capturedLabel": "records (attach additional pages if necessary)",
+      "measuredLabel": "You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):",
+      "measuredAt": "page 1 widget rect x[40.20,593.88] y[347.04,359.40]; the form's own printed text reads 'You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):' at x[45.96,561.32] y[359.00,381.74]; the shared capture returned \"records (attach additional pages if necessary)\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "records attach additional pages if necessary 2",
+      "capturedLabel": "records (attach additional pages if necessary)",
+      "measuredLabel": "You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):",
+      "measuredAt": "page 1 widget rect x[40.20,593.88] y[334.08,346.44]; the form's own printed text reads 'You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):' at x[45.96,561.32] y[359.00,381.74]; the shared capture returned \"records (attach additional pages if necessary)\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "records attach additional pages if necessary 3",
+      "capturedLabel": null,
+      "measuredLabel": "You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):",
+      "measuredAt": "page 1 widget rect x[40.20,593.88] y[321.12,333.48]; the form's own printed text reads 'You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):' at x[45.96,561.32] y[359.00,381.74]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "records attach additional pages if necessary 4",
+      "capturedLabel": null,
+      "measuredLabel": "You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):",
+      "measuredAt": "page 1 widget rect x[40.20,593.88] y[308.16,320.52]; the form's own printed text reads 'You must explain how the Petitioner is negatively affected by the continued existence and possible dissemination of the criminal records (attach additional pages if necessary):' at x[45.96,561.32] y[359.00,381.74]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "day of",
+      "capturedLabel": "Sworn to and subscribed before me this",
+      "measuredLabel": "Sworn to and subscribed before me this",
+      "measuredAt": "page 1 widget rect x[261.00,312.96] y[85.44,97.80]; the form's own printed text reads 'Sworn to and subscribed before me this' at x[48.60,242.49] y[86.05,101.12]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "undefined",
+      "capturedLabel": "day of",
+      "measuredLabel": "day of",
+      "measuredAt": "page 1 widget rect x[359.88,482.52] y[85.44,97.80]; the form's own printed text reads 'day of' at x[319.41,349.47] y[86.05,101.12]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "undefined_2",
+      "capturedLabel": ",",
+      "measuredLabel": "Clerk of Court/Notary Public",
+      "measuredAt": "page 1 widget rect x[501.36,558.00] y[85.44,97.80]; the form's own printed text reads 'Clerk of Court/Notary Public' at x[339.48,463.37] y[57.24,70.84]; the shared capture returned \",\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Language",
+      "capturedLabel": "Interpreter",
+      "measuredLabel": "Language",
+      "measuredAt": "page 1 widget rect x[93.28,262.10] y[554.00,568.85]; the form's own printed text reads 'Language' at x[46.44,90.85] y[554.64,568.24]; the shared capture returned \"Interpreter\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Date of Birth",
+      "capturedLabel": "%¡ Sussex County",
+      "measuredLabel": "Date of Birth",
+      "measuredAt": "page 1 widget rect x[44.40,143.71] y[605.72,621.48]; the form's own printed text reads 'Date of Birth' at x[50.64,95.18] y[618.87,629.84]; the shared capture returned \"%¡ Sussex County\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Telephone",
+      "capturedLabel": "Attorney Name (if any)",
+      "measuredLabel": "Telephone #",
+      "measuredAt": "page 1 widget rect x[158.22,262.10] y[604.30,621.89]; the form's own printed text reads 'Telephone #' at x[160.80,198.62] y[618.87,629.84]; the shared capture returned \"Attorney Name (if any)\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "Yes",
+      "capturedLabel": "Interpreter needed?",
+      "measuredLabel": "Interpreter needed?",
+      "measuredAt": "page 1 widget rect x[138.10,152.14] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_02_A",
+      "field": "No",
+      "capturedLabel": "Interpreter needed?  %¡  Yes",
+      "measuredLabel": "Interpreter needed?",
+      "measuredAt": "page 1 widget rect x[182.91,196.95] y[568.63,577.99]; the form's own printed text reads 'Interpreter needed?' at x[46.44,134.16] y[566.52,580.12]; the shared capture returned \"Interpreter needed?  %¡  Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Petitioner",
+      "capturedLabel": "Petitioner",
+      "measuredLabel": "Petitioner",
+      "measuredAt": "page 1 widget rect x[61.76,229.68] y[708.96,722.87]; the form's own printed text reads 'Petitioner' at x[61.68,92.81] y[721.50,728.73]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Street Address including Apt",
+      "capturedLabel": "Street Address (including Apt.)",
+      "measuredLabel": "Street Address (including Apt.)",
+      "measuredAt": "page 1 widget rect x[61.56,229.20] y[674.71,700.62]; the form's own printed text reads 'Street Address (including Apt.)' at x[61.68,162.28] y[700.38,707.61]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "New Castle County",
+      "capturedLabel": "Street Address (including Apt.)",
+      "measuredLabel": "New Castle County",
+      "measuredAt": "page 1 widget rect x[235.92,244.80] y[699.36,706.32]; the form's own printed text reads 'New Castle County' at x[247.32,324.59] y[697.20,706.16]; the shared capture returned \"Street Address (including Apt.)\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Kent County",
+      "capturedLabel": "Wilmington, DE 19801",
+      "measuredLabel": "Kent County",
+      "measuredAt": "page 1 widget rect x[235.92,244.80] y[658.56,665.52]; the form's own printed text reads 'Kent County' at x[247.44,298.28] y[656.40,665.36]; the shared capture returned \"Wilmington, DE 19801\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Leave Blank  Court will assign",
+      "capturedLabel": "820 N. French Street Civil Action No",
+      "measuredLabel": "Civil Action No.",
+      "measuredAt": "page 1 widget rect x[412.56,531.60] y[669.84,681.36]; the form's own printed text reads 'Civil Action No.' at x[412.56,492.96] y[684.40,695.20]; the shared capture returned \"820 N. French Street Civil Action No\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "PO Box Number",
+      "capturedLabel": "P.O. Box Number  Kent County (Leave Blank  Court will assi",
+      "measuredLabel": "P.O. Box Number",
+      "measuredAt": "page 1 widget rect x[62.69,229.20] y[630.75,653.92]; the form's own printed text reads 'P.O. Box Number' at x[61.68,119.56] y[659.58,666.81]; the shared capture returned \"P.O. Box Number  Kent County (Leave Blank  Court will assi\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "CityStateZip Code",
+      "capturedLabel": "City/State/Zip Code",
+      "measuredLabel": "City/State/Zip Code",
+      "measuredAt": "page 1 widget rect x[61.44,229.20] y[589.95,617.17]; the form's own printed text reads 'City/State/Zip Code' at x[61.68,126.11] y[618.78,626.01]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Sussex County",
+      "capturedLabel": "Dover, DE 19904",
+      "measuredLabel": "Sussex County",
+      "measuredAt": "page 1 widget rect x[235.92,244.80] y[617.88,624.84]; the form's own printed text reads 'Sussex County' at x[247.28,306.14] y[615.61,624.57]; the shared capture returned \"Dover, DE 19904\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Case ID or Criminal Case Row1",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Case ID# or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[51.24,139.92] y[414.36,425.40]; the form's own printed text reads 'Case ID# or Criminal Case #' at x[56.04,113.38] y[426.60,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "ChargeRow1",
+      "capturedLabel": "Criminal Case #",
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[141.00,237.12] y[414.36,425.40]; the form's own printed text reads 'Charge' at x[145.80,174.58] y[438.00,446.96]; the shared capture returned \"Criminal Case #\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Offense DateRow1",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[238.20,306.48] y[414.36,425.40]; the form's own printed text reads 'Offense Date' at x[243.00,295.91] y[438.00,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Disposition and Disposition DateRow1",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Disposition and Disposition Date",
+      "measuredAt": "page 1 widget rect x[307.56,432.48] y[414.36,425.40]; the form's own printed text reads 'Disposition and Disposition Date' at x[312.24,423.89] y[426.60,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "CourtRow1",
+      "capturedLabel": "Case ID# or Charge Offense Date Disposition and Disposition ",
+      "measuredLabel": "Court",
+      "measuredAt": "page 1 widget rect x[433.56,558.48] y[414.36,425.40]; the form's own printed text reads 'Court' at x[463.43,490.90] y[658.41,666.51]; the shared capture returned \"Case ID# or Charge Offense Date Disposition and Disposition \", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Case ID or Criminal Case Row2",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Case ID# or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[51.24,139.92] y[402.36,413.40]; the form's own printed text reads 'Case ID# or Criminal Case #' at x[56.04,113.38] y[426.60,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "ChargeRow2",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[141.00,237.12] y[402.36,413.40]; the form's own printed text reads 'Charge' at x[145.80,174.58] y[438.00,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Offense DateRow2",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[238.20,306.48] y[402.36,413.40]; the form's own printed text reads 'Offense Date' at x[243.00,295.91] y[438.00,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Disposition and Disposition DateRow2",
+      "capturedLabel": "Criminal Case # Date",
+      "measuredLabel": "Disposition and Disposition Date",
+      "measuredAt": "page 1 widget rect x[307.56,432.48] y[402.36,413.40]; the form's own printed text reads 'Disposition and Disposition Date' at x[312.24,423.89] y[426.60,446.96]; the shared capture returned \"Criminal Case # Date\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "CourtRow2",
+      "capturedLabel": null,
+      "measuredLabel": "Court",
+      "measuredAt": "page 1 widget rect x[433.56,558.48] y[402.36,413.40]; the form's own printed text reads 'Court' at x[463.43,490.90] y[658.41,666.51]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Case ID or Criminal Case Row3",
+      "capturedLabel": null,
+      "measuredLabel": "Case ID# or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[51.24,139.92] y[390.36,401.40]; the form's own printed text reads 'Case ID# or Criminal Case #' at x[56.04,113.38] y[426.60,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "ChargeRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[141.00,237.12] y[390.36,401.40]; the form's own printed text reads 'Charge' at x[145.80,174.58] y[438.00,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Offense DateRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[238.20,306.48] y[390.36,401.40]; the form's own printed text reads 'Offense Date' at x[243.00,295.91] y[438.00,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Disposition and Disposition DateRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition and Disposition Date",
+      "measuredAt": "page 1 widget rect x[307.56,432.48] y[390.36,401.40]; the form's own printed text reads 'Disposition and Disposition Date' at x[312.24,423.89] y[426.60,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "CourtRow3",
+      "capturedLabel": null,
+      "measuredLabel": "Court",
+      "measuredAt": "page 1 widget rect x[433.56,558.48] y[390.36,401.40]; the form's own printed text reads 'Court' at x[463.43,490.90] y[658.41,666.51]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Case ID or Criminal Case Row4",
+      "capturedLabel": null,
+      "measuredLabel": "Case ID# or Criminal Case #",
+      "measuredAt": "page 1 widget rect x[51.24,139.92] y[378.24,389.40]; the form's own printed text reads 'Case ID# or Criminal Case #' at x[56.04,113.38] y[426.60,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "ChargeRow4",
+      "capturedLabel": null,
+      "measuredLabel": "Charge",
+      "measuredAt": "page 1 widget rect x[141.00,237.12] y[378.24,389.40]; the form's own printed text reads 'Charge' at x[145.80,174.58] y[438.00,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Offense DateRow4",
+      "capturedLabel": null,
+      "measuredLabel": "Offense Date",
+      "measuredAt": "page 1 widget rect x[238.20,306.48] y[378.24,389.40]; the form's own printed text reads 'Offense Date' at x[243.00,295.91] y[438.00,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Disposition and Disposition DateRow4",
+      "capturedLabel": null,
+      "measuredLabel": "Disposition and Disposition Date",
+      "measuredAt": "page 1 widget rect x[307.56,432.48] y[378.24,389.40]; the form's own printed text reads 'Disposition and Disposition Date' at x[312.24,423.89] y[426.60,446.96]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "CourtRow4",
+      "capturedLabel": null,
+      "measuredLabel": "Court",
+      "measuredAt": "page 1 widget rect x[433.56,558.48] y[378.24,389.40]; the form's own printed text reads 'Court' at x[463.43,490.90] y[658.41,666.51]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Other",
+      "capturedLabel": "Del. C",
+      "measuredLabel": "Other:",
+      "measuredAt": "page 1 widget rect x[116.88,472.08] y[95.52,107.04]; the form's own printed text reads 'Other:' at x[86.38,111.82] y[94.38,103.35]; the shared capture returned \"Del. C\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "DATE",
+      "capturedLabel": null,
+      "measuredLabel": "DATE",
+      "measuredAt": "page 1 widget rect x[86.40,290.40] y[59.04,70.56]; the form's own printed text reads 'DATE' at x[61.68,76.89] y[578.10,585.33]; the shared capture, which looks above and to the left, reached nothing at this widget"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Date of Birth",
+      "capturedLabel": "Date of Birth",
+      "measuredLabel": "Date of Birth",
+      "measuredAt": "page 1 widget rect x[61.30,224.75] y[566.75,579.47]; the form's own printed text reads 'Date of Birth' at x[61.68,103.99] y[578.10,585.33]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Telephone Number",
+      "capturedLabel": "Telephone Number",
+      "measuredLabel": "Telephone Number",
+      "measuredAt": "page 1 widget rect x[60.87,224.98] y[544.95,557.02]; the form's own printed text reads 'Telephone Number' at x[61.68,123.76] y[556.86,564.09]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Attorney Name (if any)",
+      "capturedLabel": "Attorney Name (if any)",
+      "measuredLabel": "Attorney Name (if any)",
+      "measuredAt": "page 1 widget rect x[60.22,225.63] y[523.35,536.73]; the form's own printed text reads 'Attorney Name (if any)' at x[61.68,136.95] y[535.74,542.97]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Language",
+      "capturedLabel": "Interpreter N",
+      "measuredLabel": "Language:",
+      "measuredAt": "page 1 widget rect x[102.76,222.36] y[497.17,510.54]; the form's own printed text reads 'Language:' at x[61.68,103.24] y[497.52,506.48]; the shared capture returned \"Interpreter N\", which the form prints elsewhere on the page and which is not this blank's caption"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "Yes",
+      "capturedLabel": "Interpreter Needed?",
+      "measuredLabel": "Interpreter Needed?",
+      "measuredAt": "page 1 widget rect x[134.84,144.80] y[513.02,522.98]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned this same caption, pinned here so that a change in the capture stops this build rather than silently rebinding the blank"
+    },
+    {
+      "document": "CIV_EXP_04_A",
+      "field": "No",
+      "capturedLabel": "Interpreter Needed?       Yes",
+      "measuredLabel": "Interpreter Needed?",
+      "measuredAt": "page 1 widget rect x[172.80,182.76] y[512.37,522.33]; the form's own printed text reads 'Interpreter Needed?' at x[61.80,124.50] y[514.50,521.73]; the shared capture returned \"Interpreter Needed?       Yes\", which the form prints elsewhere on the page and which is not this blank's caption"
+    }
+  ]
+}
