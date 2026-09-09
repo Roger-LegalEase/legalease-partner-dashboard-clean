@@ -19,6 +19,14 @@ The form prints its own submission block:
 - A self-addressed stamped envelope.
 - Your disposition documentation.
 
+## If you cannot pay the fee
+
+The controlling record carries one line about a fee waiver, and this is it, in full: "The source review does not address a fee waiver."
+
+The record records that line as conditional: Applies only when the participant cannot pay the filing fee.
+
+That is the whole of what the record establishes, and this packet does not go past it. It does not say a waiver exists and it does not say none exists — it says the source review did not address the question, so nothing here should be read as telling you the fee can be waived. This packet contains no fee-waiver form: the record declares one component for this packet, the application itself. If you cannot raise the fee, ask the Hawaii Criminal Justice Data Center at the address above before you send the application, rather than sending it without payment.
+
 ## Service
 
 No party is served. This is an agency application; there is no opposing party and no certificate of service.

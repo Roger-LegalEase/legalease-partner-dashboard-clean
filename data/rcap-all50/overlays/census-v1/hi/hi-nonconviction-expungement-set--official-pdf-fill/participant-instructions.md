@@ -37,6 +37,19 @@ The written application is the document in this packet. The disposition document
 - **Checklist box: Mailing Address** — confirm the mailing address printed on the application is the one you want the certificate mailed to, then check this box
 - **Checklist box: Payment — Money Order or Cashier's Check issued in the United States** — enclose the money order or cashier's check payable to "State of Hawaii" in the amount the form prints, then check this box
 
+### The record's own required-before-filing list — all 8 items, in its words
+
+- Obtain Photo identification. Include a copy of your photo identification with the application.
+- Obtain Money order for the application fee. Obtain a money order for the HCJDC fee and enclose it with the application.
+- Obtain Stamped self-addressed envelope. Enclose a stamped, self-addressed envelope so HCJDC can return the result.
+- Signature and date — HCJDC application, signature block.
+- The applicant signs their own application.
+- The source review does not state a notarization requirement.
+- An application fee applies, paid by money order. The source review does not state the amount.
+- The source review does not address a fee waiver.
+
+2 of those 8 lines are the record reporting what the source review does **not** establish. They are printed above exactly as the record states them, rather than resolved for you: where the record does not settle a point, this packet does not settle it either, and it does not leave the point out.
+
 ## Facts the route turns on — check each against your own record before you file
 
 - Exact statute and disposition?
@@ -56,6 +69,15 @@ The form itself prints the circumstances in which an expungement order **shall n
 - Treatment completion
 - Deferred-acceptance or bail-forfeiture exception
 - Statutory exclusions
+
+## Stop and get help from a Hawaii lawyer — the 2 conditions the record names
+
+This packet is built to be completed by you, without a lawyer. The controlling record names 2 conditions at which that stops being true. If any one of them is true of your record or your situation, stop and speak to a Hawaii lawyer before you go any further with this application:
+
+- The record is federal, military, or from another jurisdiction.
+- Any immigration matter.
+
+These 2 are the whole of what the record names, printed in its own words. They are not eligibility rules: a stop condition can be true of you even where the route above applies.
 
 ## Nothing in this packet is legal advice, and nothing in it is approved for filing on your behalf
 
