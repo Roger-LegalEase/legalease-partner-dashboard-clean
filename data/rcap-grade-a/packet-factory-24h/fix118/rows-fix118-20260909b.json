@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "rcap-lane-return/v2",
+  "lane": "FIX118",
+  "laneKind": "repair",
+  "round": 2,
+  "returnedAt": "2026-09-09",
+  "baseSha": "d2417e027",
+  "grantSet": "1129e50e83d7836f",
+  "verdictsAnswered": [
+    { "familyId": "il-seal-2yr-set", "lane": "vf04", "verifiedAtBase": "159c0b5cf", "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909b.json" },
+    { "familyId": "il-seal-3yr-set", "lane": "vf05", "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480", "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909b.json" },
+    { "familyId": "il-exp-qualprob-set", "lane": "vf03", "verifiedAtBase": "159c0b5cf", "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909b.json" }
+  ],
+  "rasterCapability": {
+    "canRasterHere": false,
+    "reason": "No browser in this container. No pdftoppm, no apt-get, no playwright install was attempted. visualDefects is not measured by this lane.",
+    "everyFamilyReturns": "BUILT_RASTER_PENDING",
+    "whatARasterShouldNowFind": "VF03, VF04 and VF05 each measured this cohort BEFORE FIX118 round one and scored visualDefects 19 to 20 from the synthesized check-box borders. Round one removed all 91 of those stamped appearances per fixture, confirmed structurally on the delivered bytes and re-confirmed here (inkWithoutGlyphs = 0 on all six). Whether the rendered pages are now clean is a raster question this lane cannot answer, and the counter stays unmeasured rather than being asserted to zero."
+  },
+  "pdfBytesThisRound": "UNCHANGED. Round two is a participant-guide repair only; no fixture was rebuilt to different bytes. Every SHA-256 below is the round-one digest, recomputed from the committed tree at this base and unchanged by this round's builds.",
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["SELF_HELP_STOP", "REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": [],
+      "obligationCoverage": {
+        "SELF_HELP_STOP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "verifierFinding": "VF04: the registry track names eight selfHelpStopConditions; the delivered '## Stop and get help' section carried four. Absent: an unrecognized case on the transcript which may indicate identity theft; federal or out-of-state records an Illinois court cannot reach; a motion to vacate, modify or reconsider under 5.2(d)(12); and denial of the petition. VF04 added that the out-of-state omission bites hardest on this track, whose two-year clock runs from termination of the last sentence 'in any jurisdiction' while the ISP transcript will not show out-of-state sentences.",
+          "recordChecked": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-seal-2yr].selfHelpStopConditions and data/record-clearing/legal-design-intake/IL.memo.json tracks[trackId=il-seal-2yr].selfHelpStopConditions carry eight conditions each and agree string-for-string. The record settles this obligation; nothing had to be composed.",
+          "repair": "The stop section was one sentence this builder wrote. It is now generated from track.selfHelpStopConditions and printed in the record's own words, one line each, exactly as FIX13 already made packetSet.requiredBeforeFiling behave. controllingRecord() now asserts the list is present and non-empty, so a registry that lost it fails the build rather than shipping a stop section that claims to quote a record it does not have. The self-test asserts every condition reaches the file verbatim and that the old four-condition sentence does not survive beside it.",
+          "evidence": "8 of 8 registry conditions present verbatim in the delivered participant-instructions.md by exact string containment, up from 4. The hand-written sentence 'Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.' is gone.",
+          "nothingComposed": "Every printed line is the record's own text. No condition was written that the record does not establish, and none was dropped."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "verdict": "REPAIRED BY THIS LANE - the scored finding in round one, the recorded observation in round two",
+          "verifierFindingScored": "VF04's scored REQUIRED_BEFORE_FILING detail is the arrest60-through-arrest70 defect and nothing else: 'the guide prints eleven further pre-filing obligations: Complete arrest60 on EXP-AD Case List page 1 through Complete arrest70 ... They are the same kind of slot on the same 70-row table, and the split is arbitrary.'",
+          "scoredFindingState": "DISCHARGED IN ROUND ONE, RE-CONFIRMED HERE at base d2417e027. grep -c 'Complete arrest' on the delivered guide is 0, was 11. production-field-map.json classifies all 69 unused Case List cells identically as OPTIONAL_PARTICIPANT_CONTENT with requiredBeforeFiling absent; a scan of every repeating group in the map finds no group split across dispositions.",
+          "verifierObservationRepairedNow": "VF04 observation: '46 blank fee-waiver elections are classified in the refusal ledger as participant elections but never reach the participant guide, which lists 58 dollar-amount blanks on the same form and none of the check boxes beside them. Among the omitted are Section 1A, all five Section 3 public-benefit boxes, and the page-2 STOP routing that decides whether the filer qualifies for a full waiver under 735 ILCS 5/5-105(a)(2)(i), (b)(1). A filer following the guide would enter amounts beside unchecked boxes.' That is the same REQUIRED_BEFORE_FILING obligation, scored on il-seal-3yr-set by VF05 as its defect (c), and it is repaired here.",
+          "repair": "Two changes. (1) A new '### The boxes only you can tick' section says plainly that the list above is every blank the packet leaves you to write in and not every decision it leaves you, then lists every fee-waiver check-box election, generated from the delivered refusals so it cannot drift from them, with the reason: this packet writes nothing on the Application for Waiver of Court Fees but the caption and the participant's contact details, it makes none of that form's financial statements, and a form carrying amounts next to unticked boxes is not a completed application. It closes by telling the filer not to tick any Request box their certified record does not support, because the Request is verified under 735 ILCS 5/1-109. (2) VF05's defect (d), the same shortfall on this family: the 'Every item this packet leaves for you' preamble now states that the packet is delivered flattened because AOIC requires a flattened PDF for e-filing, that a flattened PDF has no fillable fields and the delivered file carries none, and that the filer must print it and complete every item by hand in ink.",
+          "evidence": "46 fee-waiver elections listed, matching the 46 selection-control refusals the ledger records for FW-CIV-APPLICATION exactly - the self-test asserts the two counts are equal, so an election the ledger gains and the guide does not fails the build. '5 - Checkboxes' (the page-1 waiver-type election) and '111 - Checkboxes' (the signature page) are both present by name. The print-and-complete-by-hand sentence is present and asserted.",
+          "notDoneHere": "The Request's own 29 unticked check boxes are NOT commanded. They are alternative statutory grounds on a Request verified under 735 ILCS 5/1-109; telling a two-year misdemeanor-sealing petitioner to complete them would invite a false sworn statement. VF04 did not name them and this lane does not add them."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set (no --write), PASS_COMPLETE, 44/424 written",
+      "countersHonesty": "Unchanged, and honestly so: SELF_HELP_STOP and the guidance half of REQUIRED_BEFORE_FILING are obligations measured on the participant document, not counters this verifier keeps. VF04 itself carried these as a FAIL and an observation while reporting eight of nine counters at zero.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. VF04 scored 19 from a 300 dpi raster of the PRE-round-one bytes, all 19 attributed to the synthesized check-box borders round one removed. The 0 above is verify-packet-completeness.mjs's unrastered value, carried forward, not a claim that the pages are clean.",
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003", "byteLength": 1728326, "pageCount": 13, "unchangedThisRound": true },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d", "byteLength": 1729052, "pageCount": 13, "unchangedThisRound": true }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["SELF_HELP_STOP", "REQUIRED_BEFORE_FILING", "REPEATING_ROWS"],
+      "obligationsThisRowDoesNotDischarge": [],
+      "obligationCoverage": {
+        "SELF_HELP_STOP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "verifierFinding": "VF05: IL.memo.json tracks[il-seal-3yr].selfHelpStopConditions enumerates 8; the delivered guide's single stop sentence carried 3 verbatim in substance, paraphrased a 4th loosely as 'the printed eligibility facts do not match' where the record says 'The disposition on the transcript is ambiguous or contested', and omitted 4 outright. VF05 called it the same failure mode FIX13 repaired on packetSet.requiredBeforeFiling, on a second enumerated record list the repair did not reach - which is exactly how it is repaired here.",
+          "recordChecked": "Registry and IL.memo.json both carry eight conditions for il-seal-3yr and agree string-for-string.",
+          "repair": "Generated from track.selfHelpStopConditions, printed in the record's own words, controllingRecord() asserts the list exists, and the self-test asserts all eight reach the file and that the loose paraphrase does not survive. The paraphrase VF05 objected to is gone with the sentence that carried it.",
+          "evidence": "8 of 8 present verbatim by exact string containment, up from 3 verbatim plus 1 paraphrase."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "verdict": "REPAIRED BY THIS LANE across all four defects VF05 named",
+          "a_electionColumn": "DISCHARGED IN ROUND ONE, RE-CONFIRMED HERE. VF05: the guide directed the election to a Case List per-case election column that does not exist, and steered the petitioner away from where the packet made it. The guide now states that the record places the election in such a column, that the official Case List carries none and what its 78 fields actually are, that this packet made the election on the Request at item 12 and the Section 19 limb, and that a wrong election is corrected on the Request rather than the Case List.",
+          "b_arrestTail": "DISCHARGED IN ROUND ONE, RE-CONFIRMED HERE. grep -c 'Complete arrest' is 0, was 11.",
+          "c_checkboxElections": "REPAIRED THIS ROUND. VF05: 'The same list, presented as complete, omits every checkbox election on the fee-waiver form the packet ships: all 53 FW-CIV-APPLICATION checkbox widgets including 5 - Checkboxes (the waiver-type election on page 1) and 111 - Checkboxes on the signature page, plus Request Section 20.' A new '### The boxes only you can tick' section stops presenting the write-in list as complete and lists every fee-waiver election, generated from the delivered refusals. Request Section 20 is disclosed by name with the official form's own words for it, the printed instruction on Request page 5 that Sections 15 to 24 are 'check all of the boxes that apply', and the reason the packet cannot tick it: whether the filer carries a registration obligation is a fact about them the packet does not hold. It is disclosed, not ticked.",
+          "d_flattenedAndUnfillable": "REPAIRED THIS ROUND. VF05: 'It directs 69 completions onto a document it deliberately delivers flattened and un-fillable (AcroForm absent, 0 form fields in both fixtures) without ever telling the participant to print it; only the signature paragraph says in ink.' The 'Every item this packet leaves for you' preamble now states that the packet is delivered flattened because AOIC requires a flattened PDF for e-filing, that a flattened PDF has no fillable fields and the delivered file carries none - which the build checks on every packet it produces - and that the filer must print it and complete every item, and every box in the section after it, by hand in ink.",
+          "evidence": "46 fee-waiver elections listed, equal to the 46 selection-control refusals the ledger records for FW-CIV-APPLICATION, asserted equal in the self-test. '5 - Checkboxes' and '111 - Checkboxes' present by name. The Section 20 disclosure and the print-and-complete sentence are both present and asserted.",
+          "unresolvedUnderlyingRecordConflict": "VF05 wrote of defect (a) that 'the root is the record ... and a lane cannot resolve that by editing'. That remains true and is stated here so it is not read as hidden: registry packetSet.requiredBeforeFiling line 6 and IL.memo.json manualCompletionItems still read 'Case List, per-case election column' for a form that has no such column. The record is quoted verbatim in the guide, as the obligation requires, and the builder's own voice now states the divergence. Correcting the record is the record owner's act, not a repair lane's, and the same line reaches the other two families. This is a record-level correction still owed, not an artifact defect left in place."
+        },
+        "REPEATING_ROWS": {
+          "verdict": "REPAIRED - IN production-field-map.json, NOT ONLY IN THE GUIDE",
+          "verifierFinding": "VF05: 'production-field-map.json splits one repeating group at an arbitrary boundary: arrest2 through arrest59 (58 cells) are classified Optional participant-authored additional-record slot ... while arrest60 through arrest70 (11 cells) are classified The platform does not hold this participant, case, or financial fact; supply it before filing. Nothing distinguishes them: arrest59 sits at /Rect [457,350,83,14] and arrest60 at [457,328,83,14], adjacent cells in the same column of the same 5x14 grid. The tail is exactly 70 minus 59 - an off-by-N in the classifier.'",
+          "repair": "The fix was made in the classifier, so it lands in the map. caseListArrestSlot() reads the cell number from the field name and optionalUnusedSlot() classifies every cell above arrest1 as an unused optional slot; the old /^arrest(?:[2-9]|[1-5]\\d)$/ that stopped at arrest59 is gone.",
+          "evidence": "Read from the committed production-field-map.json, not from the guide: 69 unused Case List arrest cells, all 69 carrying completenessDisposition OPTIONAL_PARTICIPANT_CONTENT and the single reason text 'Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete active-route record, so every unused row remains wholly blank.', and 0 carrying requiredBeforeFiling. A scan of every repeating group in the map - Request table columns, Order case slots, Case List cells - finds no group split across dispositions, on this family or the other two."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set (no --write), PASS_COMPLETE, 44/424 written",
+      "countersHonesty": "Unchanged. All three obligations repaired this round are measured on the participant document and the field map, not on counters this verifier keeps.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. The pre-round-one raster reads attributed this family's visual defects to the synthesized check-box borders round one removed; whether the rendered pages are now clean needs a raster this lane cannot run.",
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab", "byteLength": 1728343, "pageCount": 13, "unchangedThisRound": true },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90", "byteLength": 1729034, "pageCount": 13, "unchangedThisRound": true }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["SELF_HELP_STOP", "REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": [],
+      "obligationCoverage": {
+        "SELF_HELP_STOP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "verifierFinding": "VF03: eight registry selfHelpStopConditions, four in the delivered guide. Absent: the unrecognized case on the transcript, federal or out-of-state records an Illinois court cannot reach, a motion to vacate/modify/reconsider under 5.2(d)(12), and denial of the petition. VF03 noted the denial case and the out-of-state case are the two a self-represented filer is least able to handle unaided, and the record names both.",
+          "recordChecked": "Registry and IL.memo.json both carry eight conditions for il-exp-qualprob and agree string-for-string.",
+          "repair": "Generated from track.selfHelpStopConditions in the record's own words; controllingRecord() asserts the list exists; the self-test asserts all eight reach the file and the old sentence does not.",
+          "evidence": "8 of 8 present verbatim, up from 4. The guide's closing line names the two VF03 called out - an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "verdict": "REPAIRED BY THIS LANE - the scored finding in round one, the recorded observation in round two",
+          "verifierFindingScored": "VF03's scored detail is the arrest60-through-arrest70 defect and nothing else.",
+          "scoredFindingState": "DISCHARGED IN ROUND ONE, RE-CONFIRMED HERE. grep -c 'Complete arrest' is 0, was 11; all 69 unused Case List cells share one disposition in production-field-map.json and none is requiredBeforeFiling.",
+          "verifierObservationRepairedNow": "VF03 observation, identical to VF04's and scored by VF05 as defect (c): the 46 blank fee-waiver elections never reach the participant guide, which lists 58 dollar-amount blanks on the same form and none of the boxes beside them, so a filer following the guide would enter amounts beside unchecked boxes.",
+          "repair": "The '### The boxes only you can tick' section lists every fee-waiver election, generated from the delivered refusals, and the 'Every item this packet leaves for you' preamble now tells the filer the packet is delivered flattened, carries no fillable fields, and must be printed and completed by hand in ink - VF05's defect (d) on this family.",
+          "evidence": "46 fee-waiver elections listed, equal to the ledger's 46 and asserted equal in the self-test; '5 - Checkboxes' and '111 - Checkboxes' present by name; the print-and-complete sentence present and asserted.",
+          "scopeNote": "Request Section 20 is deliberately NOT listed on this family. This route answers item 12 No, and the guide's own '## What this packet asks for, and what it does not' section tells the filer that Sections 13 to 23 are skipped and left blank and to not fill them in. Listing Section 20 would contradict that instruction. VF03 did not name Section 20; VF05 named it only on the felony-sealing family, where it is listed. The self-test asserts Section 20 does NOT appear here."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set (no --write), PASS_COMPLETE, 45/424 written",
+      "countersHonesty": "Unchanged, for the same reason as the other two.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. VF03 scored 20 from a raster of the PRE-round-one bytes, attributed to the synthesized check-box borders round one removed.",
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68", "byteLength": 1728424, "pageCount": 13, "unchangedThisRound": true },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56", "byteLength": 1729148, "pageCount": 13, "unchangedThisRound": true }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    }
+  ],
+  "foundAndNotFixed": [
+    {
+      "finding": "The controlling record still places the per-case expunge-versus-seal election on a Case List column the official form does not have.",
+      "where": "data/record-clearing/legal-design-track-registry.json tracks[il-seal-2yr, il-seal-3yr, il-exp-qualprob].packetSet.requiredBeforeFiling line 6, and data/record-clearing/legal-design-intake/IL.memo.json manualCompletionItems.",
+      "evidence": "The blank official Case List has 78 AcroForm fields: 1 dropdown (county), 76 text fields (five caption fields, '7 - Case Number', arrest1..arrest70) and 1 check box ('Page 1 - More Arrests or Case Numbers'). No election field exists. VF05 reached the same count independently.",
+      "whyNotFixed": "Editing a controlling legal record is not a repair lane's act. All three guides quote the record's line verbatim, as the obligation requires; the 3yr guide additionally states the divergence in the builder's own voice and points at where the packet made the election.",
+      "needsFrom": "The owner of the Illinois legal-design record."
+    },
+    {
+      "finding": "The Request's own unticked check boxes - 29 on the sealing routes, 28 on the expungement route - are disclosed as a class but not enumerated in the guide.",
+      "where": "All three families' participant-instructions.md, '### The boxes only you can tick'.",
+      "whyNotFixed": "They are alternative statutory grounds on a Request verified under 735 ILCS 5/1-109. Commanding a filer to 'complete' a ground their record does not support would invite a false sworn statement, which is a worse defect than the one being repaired. No verifier named them; VF05 named only the fee-waiver form and Request Section 20, both of which are now disclosed. The guide instead tells the filer not to tick any box the certified record does not support, and names the perjury exposure.",
+      "needsFrom": "Nothing, unless a verifier reads the obligation as requiring enumeration - in which case it needs a legal-design decision about which grounds may be put in front of a self-represented filer, not a builder change."
+    },
+    {
+      "finding": "The registry track for il-seal-2yr carries a release blocker reading that a county fee table must be built before a fee figure is shown to a participant, while packetSet.requiredBeforeFiling itself contains the sentence naming '$60 to $235; McLean County publishes $136', which FIX13's verbatim-printing rule then puts in front of the participant.",
+      "where": "Raised by VF04 under FEE_AND_WAIVER as an observation routed to the integrator rather than scored. The record speaks with two voices.",
+      "whyNotFixed": "Not an obligation handed to this lane, and it cannot be resolved by a builder: printing the ten lines verbatim is what FIX13 was required to do, and suppressing one of them would break that rule. It needs the record to stop contradicting itself.",
+      "needsFrom": "The owner of the Illinois legal-design record."
+    },
+    {
+      "finding": "reports/actual-writes.json still reports flattenedWidgetAppearancesReadFromOutputBytes as writes.length and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a literal 0; neither is read from the output bytes despite the field names.",
+      "where": "All three builders' build() function.",
+      "whyNotFixed": "Not among the obligations handed to this lane in either round; correcting the numbers changes a report shape other lanes read. Carried forward from the round-one return unchanged.",
+      "needsFrom": "The owner of the rcap-actual-writes/v2 report shape."
+    },
+    {
+      "finding": "Every Illinois official_pdf_fill fixture still ships an invalid cross-reference table and dangling /Annots left by pdf-lib's flatten(); poppler reports 'Couldn't find trailer dictionary' and reconstructs. A working repair exists as pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs.",
+      "where": "All Illinois families, not only these three. VF04 recorded it as an observation on this cohort.",
+      "whyNotFixed": "It reproduces on families outside this lane's grant and is not among the obligations handed to it, in either round.",
+      "needsFrom": "The owner of the Illinois writer."
+    }
+  ],
+  "neverDone": {
+    "rasterAttempted": false,
+    "pdftoppm": false,
+    "aptGet": false,
+    "playwrightInstall": false,
+    "centralArtifactsRegenerated": false,
+    "recordEdited": false,
+    "claimsReleased": false,
+    "gitAddAll": false,
+    "forcePush": false,
+    "pushedToMain": false,
+    "ownVerdictIssued": false
+  }
+}

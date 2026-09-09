@@ -171,6 +171,12 @@ function controllingRecord() {
   assert.ok(track, `track absent from the registry: ${TRACK_ID}`);
   assert.ok(Array.isArray(track.packetSet?.requiredBeforeFiling) && track.packetSet.requiredBeforeFiling.length,
     `the registry states no requiredBeforeFiling for ${TRACK_ID}; refusing to write a guide that claims to quote it`);
+  // FIX118 round two, SELF_HELP_STOP. The same rule for the second enumerated
+  // list the record carries. The guide prints these in the record's own words, so
+  // an empty or absent list must fail the build rather than ship a stop section
+  // that claims to carry a record it does not have.
+  assert.ok(Array.isArray(track.selfHelpStopConditions) && track.selfHelpStopConditions.length,
+    `the registry states no selfHelpStopConditions for ${TRACK_ID}; refusing to write a stop section that claims to quote it`);
   return track;
 }
 const FIXED_DATE = new Date("2026-09-03T00:00:00.000Z");
@@ -621,7 +627,35 @@ async function build() {
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
   const beforeFiling = track.packetSet.requiredBeforeFiling.map((line) => `- ${line}`).join("\n");
   const signature = track.rules.participantSignature;
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## What this packet asks for, and what it does not\n\nThis is an expungement-only packet. On the Request, item 1 \"I am requesting to expunge records\" is answered Yes and item 12 \"I am requesting to seal records\" is answered No, which is what page 4 of the form directs a filer requesting only expungement to do. Because item 12 is No, Sections 13 to 23 are skipped and left blank, and the SEALING half of the proposed Order is left blank. Do not fill them in. If you also need records sealed, that is a different request on a different statutory ground and it needs its own packet.\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nCompare the ISP statewide transcript named above against every certified disposition, confirm from the certified disposition that the qualified probation terminated successfully and that at least five years have passed since it ended, and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and any route-specific evidence identified above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nIf an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
+  // FIX118 round two, SELF_HELP_STOP. VF03, VF04 and VF05 each measured the same
+  // thing at 159c0b5cf: the controlling record names eight self-help stop
+  // conditions and the delivered guide carried four, one of them a loose
+  // paraphrase. The four absent ones were an unrecognised case on the transcript
+  // (possible identity theft), federal or out-of-state records an Illinois court
+  // cannot reach, a motion to vacate/modify/reconsider under 5.2(d)(12), and
+  // denial of the petition -- the last two being the cases a self-represented
+  // filer is least able to handle unaided. The section was a sentence this
+  // builder wrote. It is now read from the record and printed in the record's own
+  // words, exactly as packetSet.requiredBeforeFiling already is, and the self-test
+  // fails the build if any line does not reach the file.
+  const stopConditions = track.selfHelpStopConditions.map((line) => `- ${line}`).join("\n");
+
+  // FIX118 round two, REQUIRED_BEFORE_FILING. The "Every item this packet leaves
+  // for you" list is built from refusals carrying requiredBeforeFiling, which is
+  // every blank the packet leaves the participant to WRITE IN. It never carried a
+  // single check box, because a check-box refusal is recorded as a participant
+  // election rather than as a required blank. So the guide listed 58 dollar
+  // amounts on the fee-waiver form and not one of the boxes beside them, and a
+  // filer following it would enter amounts next to unticked boxes. This packet
+  // writes nothing on the Application for Waiver of Court Fees but the caption and
+  // the participant's contact details; it makes none of that form's financial
+  // statements, so every one of its check boxes is the participant's to make. The
+  // list is generated from the delivered refusals, so it cannot drift from them.
+  const feeWaiverElectionRows = packets.canonical.refusals.filter((row) => row.isSelectionControl && row.documentId === "FW-CIV-APPLICATION");
+  assert.ok(feeWaiverElectionRows.length, "the fee-waiver form's participant elections must reach the guide");
+  const feeWaiverElections = feeWaiverElectionRows.map((row) => `- ${row.fieldName} \u2014 FW-CIV-APPLICATION page ${row.page}`).join("\n");
+  const registryCarveOut = "";
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## What this packet asks for, and what it does not\n\nThis is an expungement-only packet. On the Request, item 1 \"I am requesting to expunge records\" is answered Yes and item 12 \"I am requesting to seal records\" is answered No, which is what page 4 of the form directs a filer requesting only expungement to do. Because item 12 is No, Sections 13 to 23 are skipped and left blank, and the SEALING half of the proposed Order is left blank. Do not fill them in. If you also need records sealed, that is a different request on a different statutory ground and it needs its own packet.\n\n## Required before filing\n\nThe controlling record requires each of these before this packet is filed. They are printed here in the record's own words.\n\n${beforeFiling}\n\nCompare the ISP statewide transcript named above against every certified disposition, confirm from the certified disposition that the qualified probation terminated successfully and that at least five years have passed since it ended, and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.\n\n### The Request is not signed for you\n\n${signature} The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.\n\n### Every item this packet leaves for you\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\nThis packet is delivered flattened, because AOIC requires a flattened PDF for e-filing. A flattened PDF has no fillable fields: the file you received carries none, which the build checks on every packet it produces, so it cannot be typed into. Print it, and complete every item below, and every box in the section after it, by hand in ink.\n\n${requiredList}\n\n### The boxes only you can tick\n\nThe list above is every blank this packet leaves for you to write in. It is not every decision it leaves you. The official forms also carry check boxes, and this packet ticks only the ones its route determines.\n\nThis packet writes nothing on the Application for Waiver of Court Fees except the caption and your name and contact details. It makes none of that form's financial statements, so every check box on it is yours. The dollar amounts listed above say nothing without the box beside them, and a form carrying amounts next to unticked boxes is not a completed application:\n\n${feeWaiverElections}${registryCarveOut}\n\nDo not tick any box on the Request that your certified record does not support. You verify the Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury.\n\nAttach certified dispositions and any route-specific evidence identified above.\n\n## What it costs, and the waiver\n\n${track.rules.fees}\n\n${track.rules.feeWaiver}\n\n## Who serves, and how\n\n${track.rules.service}\n\n${track.rules.notice}\n\nIf an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.\n\n## Where this is filed\n\n${track.rules.filing}\n\nThe filing destination is the ${track.destination.name}. ${track.destination.detail}\n\n## Stop and get help\n\nStop automated assistance and get a lawyer if any of these is true. They are the controlling record's own words.\n\n${stopConditions}\n\nTwo of those this packet cannot help with at all: an Illinois court cannot reach a federal or out-of-state record, and a denied petition needs a lawyer rather than another packet.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\n${track.rules.filing}\n\nThe destination is the ${track.destination.name}. ${track.destination.detail}\n\n**Fees.** ${track.rules.fees}\n\n**Waiver.** ${track.rules.feeWaiver}\n\n**Service.** ${track.rules.service}\n\nThe judge or clerk completes the proposed order, the clerk-assigned case numbers, and the later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: NOT_MEASURED_BY_THIS_BUILDER, countersNote: "A builder does not measure its own output. Every one of the nine is null here because this file measures none of them: they are the completeness verifier's and an independent lane's to count from the delivered bytes. They used to be written as eight zeros and one null, which reported a clean measurement that had never been taken.", artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
@@ -724,6 +758,29 @@ function selfTest() {
   }
   assert.ok(instructions.includes("Sign and date that block yourself, in ink"),
     "the guide must tell the petitioner to sign the verification block the packet leaves blank");
+  // FIX118 round two, SELF_HELP_STOP. Every condition the controlling record
+  // names reaches the file verbatim, so a registry edit the guide does not carry
+  // fails the build instead of shipping a stop section that quotes a record it
+  // has drifted from.
+  assert.ok(track.selfHelpStopConditions.length >= 8, `the record must still carry its stop conditions: ${track.selfHelpStopConditions.length}`);
+  for (const condition of track.selfHelpStopConditions) {
+    assert.ok(instructions.includes(condition), `participant-instructions.md must carry the stop condition: ${condition.slice(0, 60)}`);
+  }
+  assert.ok(!/Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing/.test(instructions),
+    "the hand-written four-condition stop sentence must not survive alongside the record's eight");
+  // FIX118 round two, REQUIRED_BEFORE_FILING. Every fee-waiver election the
+  // refusal ledger records reaches the participant guide, one line each.
+  const declaredFeeWaiverElections = fieldMap.refusals.filter((row) => row.isSelectionControl && row.documentId === "FW-CIV-APPLICATION").length;
+  assert.ok(declaredFeeWaiverElections > 0, "the refusal ledger must record the fee-waiver elections");
+  assert.equal((instructions.match(/\u2014 FW-CIV-APPLICATION page \d+$/gm) ?? []).length, declaredFeeWaiverElections,
+    `every fee-waiver election must reach the guide: ${declaredFeeWaiverElections} declared`);
+  for (const fieldName of ["5 - Checkboxes", "111 - Checkboxes"]) {
+    assert.ok(instructions.includes(fieldName), `the guide must name the fee-waiver election: ${fieldName}`);
+  }
+  assert.ok(instructions.includes("Print it, and complete every item below"),
+    "the guide must tell the participant the delivered PDF is flattened, carries no fillable fields, and must be printed");
+  assert.ok(!/Request Section 20 is not ticked/.test(instructions),
+    "this route answers item 12 No and the guide tells the filer not to fill Sections 13 to 23, so Section 20 must not be commanded here");
   console.log("il-exp-qualprob-set self-test passed");
 }
 
