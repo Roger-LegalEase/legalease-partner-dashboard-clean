@@ -1,0 +1,404 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "shift": "20260909d",
+  "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+  "worktree": "/home/user/pfd-worktree",
+  "branch": "pfd-vf-20260909",
+  "writtenAlongsideRatherThanOver": "rows-vf03-20260909b.json, rows-vf03-20260909c.json and rows.json survive byte-for-byte. This lane wrote only rows-vf03-20260909d.json and checkpoints-vf03-20260909d.json.",
+  "independence": "This lane did not build, repair or raster any family below. It edited no packet, builder, overlay, manifest, registry or central artifact, and released no claim.",
+  "measurementNote": "Every counter and obligation below was measured in this container from the committed artifact bytes and the controlling committed records: pdftotext -layout page by page, pdftoppm renders read as images, pdf-lib field and annotation enumeration, and sha256 recomputation of every source and fixture. verify-packet-completeness.mjs is recorded only as a cross-check, never as the measurement.",
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "postRepairNote": "A reread of the CURRENT bytes at b8a2495f4a84bff00aeb268c81deec6114dc581b. This family last returned FAIL_REPAIR_REQUIRED at 285c9b91c on REQUIRED_BEFORE_FILING and ARTIFACTS; both are re-measured here and both are repaired. The family nonetheless fails, on a different obligation that no earlier lane scored: ROUTE_OPTIONS.",
+      "pairReadIllinois": "The two Illinois sealing tracks were read side by side because 22 of their 26 rendered pages are byte-identical. I extracted all 26 pages of each family with pdftotext -layout and hashed page by page: pages 4 and 5 of BOTH the canonical and the boundary fixture differ; the other eleven pages of each fixture are identical text. The four differing pages carry exactly four differences, and I read every one of them on the page: (1) Request page 4, sealing table row 1, Charge cell -- 'Retail theft, Class A misdemeanor' vs 'Possession of a controlled substance, Class 4 felony'; (2) Request page 4, same row, Outcome cell -- 'MC' vs 'FC', which are the form's own printed Outcome Abbreviations for Sealing for Misdemeanor Conviction and Felony Conviction; (3) Request page 5, Section 17 ticked in il-seal-2yr-set and blank in il-seal-3yr-set; (4) Request page 5, Section 19.c ticked in il-seal-3yr-set and blank in il-seal-2yr-set. For each of the other 22 pages I read the page and can say why the two remedies do not differ there: Request pages 1-3 are the expungement branch, blank in both, and the form's own note above Section 1 tells a seal-only filer 'do not fill out this section', so the blank is the printed instruction and not an omission; Request page 6 is Sections 23-24 (trafficking, reckless driving), elected by neither, plus the verification, lawyer and official-use blocks; packet page 7 is the EXP-AD Case List, whose 78 AcroForm fields I enumerated with pdf-lib and which carries no charge, outcome, ground or election field at all -- only the caption and seventy unlabelled arrest-or-case cells, so the same case number produces the same page; packet pages 8-9 are the EXP-AD Order Granting, whose only case-specific fields are the expungement and sealing case-number grids and the recipient block, with no charge, outcome or ground field, so it too is legitimately identical; packet pages 10-13 are the FW-CIV-APPLICATION, which carries only the caption, name and contact details in both. Taking the Captain's list one at a time: ELIGIBILITY RECITALS are carried, on Request page 5. WAITING-PERIOD COMPUTATION is carried on page 5 and nowhere else, because none of the four official forms has a sentence-completion-date field or any arithmetic field; the period is asserted solely by the printed words of the elected limb ('2 years' in Section 17, '3 years' in Section 19.c). That is symmetric between the two and is the most the form allows. STATUTORY CITATION is on the face of NEITHER petition: the EXP-AD Request prints statutory cites only inside its own option text (Section 15, Section 18) and has no route-citation field, so no filing-face difference is possible or missing. The citation lives only in participant-instructions.md, and there it is asymmetric -- see the crossChecks entry. FILING DESTINATION, SERVICE and FEE are identical in both families' filing-instructions.md and participant-instructions.md, and correctly so: all three are 20 ILCS 2630/5.2 petition-level rules that do not vary with the waiting period. Destination is the circuit clerk of each county of arrest or charge under Section 5.2(d)(1); the CLERK serves under Section 5.2(d)(4) and the participant serves no one; the fee is a circuit clerk fee plus a $60 ISP order-processing fee, county-collected, with the Rule 298 waiver, and both packets ship the FW-CIV-APPLICATION. ANSWER: yes, the four pages carry the whole of what these two remedies differ by on the face of the filing. The pair is not a clone and I found no difference that belongs on one petition and is missing from it. The defect I did find is not between the two families but inside il-seal-2yr-set, and it is a ROUTE_OPTIONS failure scored on that family alone.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 3,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key in production-field-map.json and in product-wiring.json is obligation:track-pathway:IL:il-seal-2yr:adult-conviction-sealing and the delivered paper carries that route. Request item 12 'I am requesting to seal records' is ticked Yes on packet page 4 and the No box is blank, which I confirmed by rendering the page rather than by reading a field value. Section 17 is ticked on page 5 in its printed words 'I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence', and the sealing table Outcome cell reads MC, the form's own printed abbreviation for Misdemeanor Conviction. The whole expungement branch (Request pages 1-3) is blank."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four declared sources rehashed by me from bytes in this container and all four exact against source-receipt.json. EXP-AD Request 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853, EXP-AD Order Granting 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305 and FW-CIV-APPLICATION b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5 from MASTER_LIBRARY_SOURCE_DIR; the EXP-AD Case List is held under the other custody named in the receipt and I recomputed it at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c. Source page counts measured 6 + 1 + 2 + 4 = 13, equal to the delivered page count."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four components declared and four delivered whole. I identified each in the delivered text by its own printed AOIC number: ATJ 2901.9 pages 1-6 (EXP-AD Request, primary_filing), ATJ 2902.1 page 7 (EXP-AD Case List, attachment), ATJ 2905.6 pages 8-9 (EXP-AD Order Granting, proposed_order), and the FW-CIV Application for Waiver of Court Fees pages 10-13 (fee_waiver). Page-for-page against the pinned sources: 6+1+2+4 = 13 delivered pages, no page dropped and none added. Nothing in the sealing/expunging difference between the two Illinois tracks calls for a component the other lacks; both tracks' registry component lists are the same four."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 44 declared writes produce readable ink on the delivered page. I token-diffed each of the 13 delivered pages against its pinned blank source page and every added token resolves to a declared write: caption and participant identity on packet pages 1, 7, 8; the sealing row on page 4; the elected ground tick on page 5; the signature-block identity and self-represented tick on page 6; the Order recipient block on page 9; the FW-CIV caption and name on page 10 and its signature block on page 13. Six declared drawnText strings did not appear as one contiguous run and I resolved each by rendering: the full legal name and the street address wrap onto two lines inside their fields on pages 6, 10 and 13, and the elected-ground checkbox records its AcroForm on-value 'Yes' while drawing a tick glyph."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The delivered fixtures carry no AcroForm at all: pdf-lib loads each and reports 0 fields and no /AcroForm in the catalog, so no field remains writable. Nothing court-owned was written. The map's declared-write set and its refusal set partition the 424 source fields exactly with no overlap, and every court/clerk/prosecutor-owned field -- including 'EXP-AD Request:7 - Case Number', refused as 'The form reserves this case number for the Circuit Clerk' -- is on the refusal side. The Order's judge and ENTERED blocks and the official-use block on Request page 6 are blank on the delivered page, which I confirmed by reading the page."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by rendering, not by a counter. I rendered the boundary fixture's Request pages 4-6 at 110 dpi and looked at them. The boundary persona's long charge string ('Retail theft of property not exceeding three hundred dollars, Class A misdemeanor, with an extended statutory description that materially exceeds one line') and the long arresting-agency string auto-shrink and wrap to three and two lines respectively, entirely inside the printed row-1 cell borders, and do not touch row 2. The long name, e-mail and address on the signature block wrap onto the printed rule and do not overprint the 'Street, Apt. # / City / State / Zip Code' labels. No value is ellipsized anywhere in either fixture. No glyph crosses a cell border on any page I rendered."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All eight selfHelpStopConditions on the registry track are present verbatim in participant-instructions.md under 'Stop and get help', checked one by one by exact whitespace-normalised string containment, and the guide adds that two of them -- a federal or out-of-state record and a denied petition -- this packet cannot help with at all."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "filing-instructions.md and participant-instructions.md both name the circuit clerk of each county where an arrest occurred or a charge was brought, a separate packet per county, Cook County to the district matching the case, and e-filing where the county requires it. That matches the registry destination object ('Circuit clerk of the county of arrest or charge') and the venue paragraph citing Section 5.2(d)(1). No residence-county language anywhere."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide names the method, the recipients and the objection period: the circuit court clerk serves under Section 5.2(d)(4) and the participant serves no one; notice goes to the State's Attorney, the Illinois State Police, the arresting agency and, for municipal ordinance violations, the chief legal officer; the objection period is 60 days from service under Section 5.2(d)(5)(B), and absent objection the court shall enter an order under Section 5.2(d)(6)(B). This is a Section 5.2 petition-level rule and is correctly identical to the sibling Illinois sealing track."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All ten requiredBeforeFiling lines on the registry track are present verbatim in participant-instructions.md, checked by exact whitespace-normalised containment. The Request's verification block is deliberately blank on the delivered page and the guide says so in terms, names the wet-signature expectation and cites 735 ILCS 5/1-109. The prior FAIL on this obligation is repaired: the sentence VF02 quoted at line 22 -- 'Make the per-case expunge or seal election in the Case List's per-case election column' -- is gone, and the guide now states that the shipped Case List has no election column, enumerates its 78 fields, and says the election was made on the Request instead. I verified that claim independently by enumerating the Case List's fields with pdf-lib: 78, none of them an election field."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The prior ARTIFACTS FAIL is repaired and I re-measured rather than adopting the claim. Reloading each delivered fixture with pdf-lib and resolving every page's /Annots entry against the document returns 21 annotation references and ZERO unresolvable ones on both fixtures (VF02 measured 146 dangling per fixture on the previous bytes); all 21 are /Link subtype, the ilcourts.info hyperlinks carried by the source form. Poppler now opens both files silently: pdfinfo and pdftotext produce no 'Couldn't find trailer dictionary' and exit 0. Hashes: canonical and boundary rehash here to exactly what approval-request.json, reports/rendered-artifacts.json and the admitted raster verdict pin, and the raster verdict (workflowRunId 34407406641, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490) pins the CURRENT post-repair bytes, so the RASTER_PASS covers what I read."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read across document boundaries, not only within each document. The delivered order is primary_filing (ATJ 2901.9 pages 1 of 6 through 6 of 6), attachment (ATJ 2902.1 page 1 of 1), proposed_order (ATJ 2905.6 pages 1 of 2 and 2 of 2), fee_waiver (FW-CIV pages 1-4), which matches the declared component order 1-2-3-4 in both the registry packetSet and product-wiring.json. Every document's own printed 'Page n of m' footer runs in sequence with no gap and no repeat, and each boundary falls exactly where the previous document's last printed page number says it should."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The route declares five dispositions and the packet delivers one, presenting the other four as belonging to no route. data/record-clearing/legal-design-track-registry.json, track il-seal-2yr, dispositions = ['supervision_successfully_completed', 'qualified_probation', 'conditional_discharge_completed_without_revocation', 'probation_completed_without_revocation', 'misdemeanor_conviction'], and its mechanism sentence reads 'a two-year sealing bucket effective June 1, 2026, covering successfully completed supervision, qualified probation, conditional discharge or probation completed without revocation, and misdemeanor convictions'. Its own requiredBeforeFiling line asks the participant to check the answer to 'For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?' -- a multi-way question. The delivered Request page 5 prints all four two-year grounds: Section 16 (supervision, 2 years), Section 17 (misdemeanor conviction, 2 years), Section 18 (qualified probation / Cannabis Control Act Section 10 / Controlled Substances Act Section 410 / Meth Act Section 70 / Offender Initiative Program, 2 years) and Section 19.a (conditional discharge or probation completed without revocation, 2 years). The packet ticks Section 17 only. production-field-map.json refuses Section 16, Section 18 and Section 19.a with the string 'A participant election or financial fact not determined by this packet route' and routeDetermined: false. That reason is untrue of this route: those three printed grounds ARE this route's other declared dispositions. participant-instructions.md never mentions Section 16, Section 18 or Section 19.a. It names only Section 17 and a negative election of Section 15. A participant on this track whose disposition is supervision, qualified probation, or unrevoked conditional discharge or probation -- four of the track's five dispositions -- is handed a petition that states the wrong ground and is told nothing about which box states theirs, on a document they verify under 735 ILCS 5/1-109. The sibling il-seal-3yr-set is the control and shows this is the factory's own standard: for its two three-year limbs it marks 19.b isAlternativeToElectedGround: true, gives 19.a and 19.b route-specific refusal reasons instead of the boilerplate, and devotes a guide section 'The Section 19 ground this packet ticked' to telling the participant to tick the other limb and untick this one if the certified record so shows. il-seal-2yr-set does none of that for any of its three alternative grounds. Corroborated by a second committed record: il-seal-3yr-set's own guide says of Section 19.a 'that is the two-year limb for a sentence of conditional discharge or probation that was NOT revoked, and it is a different route' -- naming 19.a as belonging to the two-year route that omits it."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The Request's Section 13 sealing grid is ten printed rows. Printed row 1 is complete in both fixtures -- all five cells written (Arrest or Case Number, Arresting Agency, Charge, Date of Arrest, Outcome) -- and rows 2 through 10 are wholly blank on the rendered page, with no partial row and no value on a row whose other cells are empty. The 'I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form' box is correctly unticked, since no additional form ships. The expungement grid on Request page 2 is blank in all ten rows, correct for a seal-only route. The Case List's seventy cells carry one case number in the first cell and nothing else. The Order's two case-number grids carry the same case number in the SEALING grid and nothing in the EXPUNGEMENT grid."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both filing-instructions.md and participant-instructions.md state the fee structure without inventing a figure: a circuit clerk fee plus an ISP processing fee, both county-collected; ISP charges nothing to file a petition and $60 to process a court order; county totals commonly run roughly $60 to $235 with McLean County publishing $136; and 'Treat every figure as county-specific'. The waiver is named as Supreme Court Rule 298 with Section 5.2(d)(1) requiring no fee where a Rule 298 order has been obtained. The FW-CIV-APPLICATION ships as pages 10-13 and the packet writes nothing on it beyond the caption, name and contact details; the guide says so explicitly and lists all 46 of its check boxes as the participant's, which I spot-checked against the rendered pages. The registry's own release blocker -- that no statewide county fee table exists -- is honoured rather than papered over, because no single figure is presented as the fee."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "Enumerated all 424 AcroForm fields across the four pinned source PDFs with pdf-lib (EXP-AD Request 151, Case List 78, Order Granting 74, FW-CIV 121) and checked every form-required item against the delivered page. The only blanks that a filer must still complete are the verification block, the FW-CIV financial items and check boxes, and (on il-seal-3yr-set) Section 20 -- every one of them named in participant-instructions.md as the participant's. Request Section 1 is blank in both and is NOT counted, because the form's own note above it tells a seal-only filer 'do not fill out this section'.",
+        "requiredFactsNotCollected": "Read every fact the delivered pages assert against the fixture persona and the registry's participantQuestions. Every fact the route needs to state its ground is on the paper: county, identity, case number, arresting agency, charge, arrest date, outcome code and the elected ground. Nothing the route determines is missing.",
+        "unclassifiedBlanks": "Reconciled the field map's classification against the source forms by exact field name, not by count alone: 44 writes + 380 refusals = 424 declared, and the set of (documentId, fieldName) pairs equals the set enumerated from the four source PDFs exactly -- zero in the source and not declared, zero declared and not in the source. Every blank therefore carries a classification.",
+        "incompleteRows": "Rendered Request page 4 at 110 dpi in both fixtures and counted cells on the printed grid. Row 1 complete at 5 of 5 cells; rows 2-10 empty at 0 of 5. No row carries some cells and not others.",
+        "requiredOptionsMissing": "Three: Request Section 16, Section 18 and Section 19.a. Counted by taking the registry track's five declared dispositions, mapping each to the printed two-year ground on Request page 5 that states it, and checking which are either ticked or named to the participant as this route's alternative. Only Section 17 is. See the ROUTE_OPTIONS detail.",
+        "requiredComponentsMissing": "Zero. All four declared components render whole and in order; identified on the delivered pages by their printed AOIC numbers and confirmed page-for-page against the pinned source page counts (6+1+2+4=13).",
+        "invisibleWrites": "Zero. Token-diffed every delivered page against its pinned blank source page with pdftotext, which extracts text regardless of render colour or text-rendering mode, and every added token resolves to a declared write. Exactly four tick glyphs appear across the packet (pages 4, 5, 6, 13) and all four are declared checkbox writes. No declared write produced no mark.",
+        "protectedWrites": "Zero. pdf-lib reports 0 AcroForm fields and no /AcroForm on both delivered fixtures, so nothing remains writable. The write set and refusal set do not overlap, and every court-, clerk-, prosecutor- or agency-owned field sits on the refusal side; I read the Order's judge block, the Request's official-use block and the clerk-assigned case-number fields on the rendered pages and all are blank.",
+        "visualDefects": "Zero. Rendered the boundary fixture's Request pages 4-6 and the canonical Request page 5 at 110 dpi and read them as images. No clipping, no overlap, no ellipsis, no stray ink, no synthesized border. I did not rely on any published geometry counter."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set returns PASS_COMPLETE, 44/424 written, nine zeros. Green -- and on il-seal-2yr-set the family still fails, because no counter asks whether a route's other declared dispositions have a printed ground the packet points at.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-2yr-set/il-seal-2yr-set.verdict.json: RASTER_PASS, workflowRunId 34407406641, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490, pagesMeasured 26, coversTheWholeFamily true. Its pinned canonical and boundary digests equal the digests I recomputed from the delivered bytes, so the raster covers the post-repair bytes I read.",
+        "priorFailReread": "product-wiring.json carries lastIndependentVerification FAIL_REPAIR_REQUIRED at base 285c9b91c4cc345c77cdad6a37d015e6f61f45bc (lane vf02). Both failed obligations from that return were re-measured here rather than adopted, and both are repaired: the Case List election-column sentence is gone from participant-instructions.md, and dangling /Annots references are 146 -> 0 per fixture with poppler now opening both files silently.",
+        "recordsThatDisagree": "Two committed records disagree about the fee waiver's requirement level and I measured against the registry rather than reconciling them. data/record-clearing/legal-design-track-registry.json, track il-seal-2yr, packetSet.components marks the FW-CIV-APPLICATION fee_waiver component requirement 'conditional'. product-wiring.json proposedRepresentation marks the same component requirement 'required'. The packet ships it either way, so nothing turns on it here, but the contradiction is real and is not mine to resolve.",
+        "statutoryCitationAsymmetry": "The Captain asked specifically about the statutory citation, so I measured it in both deliverables. il-seal-3yr-set's participant-instructions.md names its authority in the first line of the route summary: '20 ILCS 2630/5.2(c)(2)(D), (E), (F) and (c)(3)(C)', which matches the registry authority array for track il-seal-3yr. il-seal-2yr-set's participant-instructions.md names NO sealing authority at all -- grepping it for statutory citations returns only 735 ILCS 5/1-109 (verification) and the procedural subsections 5.2(d)(4), (d)(5)(B), (d)(6)(B) and (d)(12) -- while its registry track carries eight authority citations (5.2(c)(2)(C), (C-5), (D), (E), (c)(3)(B), (a)(1)(F), (a)(1)(M), (d)(6)(C)). I did not score this as a failure of any of the fifteen: the official form has no citation field, so nothing is missing from the face of either petition, and 'authority' is not a requiredBeforeFiling line. It is recorded here as a real asymmetry between two families of one cohort for the Captain to weigh.",
+        "defectCatalogue": "Checked deliberately against data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json. map-honest-writes-not: NOT PRESENT. I reconciled reports/actual-writes.json against production-field-map.json by (documentId, fieldName): 44 declared writes, 44 actual writes, zero in the map and not written, zero written and not in the map. I then token-diffed every delivered page against the pinned blank source page and every added token resolves to a declared write; nothing was written that the map did not declare. acroform-index-is-not-the-printed-row: NOT PRESENT in a harmful form. The sealing table is a 10-row grid; only printed row 1 is written and its five cells all carry the suffix '- 1'. I confirmed by rendering the page that the values land on printed row 1. extracted-line-order-is-not-column-order: checked. I read the sealing table headings by rendering page 4 at 110 dpi rather than trusting extraction order; the Outcome column is the rightmost and 'MC'/'FC' land in it. internal-record-text-printed-on-a-filing: NOT PRESENT. The token diff against the blank sources shows no sentence added to any page; every added token is a participant or matter value or a tick. No record analysis reaches the paper. a-published-zero-where-a-measurement-existed: reports/build-summary.json publishes all nine counters as null with an explicit note that a builder does not measure its own output, which is the honest form. No hardcoded zero. a-geometry-counter-with-no-teeth: I did not rely on any published geometry counter. I rendered the boundary fixture and looked at the page. two-families-one-filing: answered above.",
+        "cloneCheck": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json lists neither Illinois family in familiesDeliveringACloneOfAnother, and my own per-page text hashing agrees: 4 of 26 pages differ, so the fixture sets do not read identically. The near-clone question the Captain raised is answered in the pairReadIllinois field of this row.",
+        "fixturePersonaObservation": "Recorded, not scored. Both il-seal-2yr-set fixtures use an Illinois felony docket prefix on a misdemeanor conviction: canonical case number 2021-CF-004217 with charge 'Retail theft, Class A misdemeanor' and outcome MC, and boundary 2024-CF-000001-99 with a Class A misdemeanor. The same case numbers are correct on il-seal-3yr-set, whose charges are felonies, which suggests the two-year fixture was derived from the three-year one by swapping the charge text. matter.case_number is a participant-supplied fact, so no real filing is made wrong by this and I did not fail an obligation on it, but the canonical fixture is not a coherent demonstration of the two-year misdemeanor track."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/source-receipt.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/product-wiring.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/approval-request.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/actual-writes.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/build-summary.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-2yr-set/il-seal-2yr-set.verdict.json"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "note": "track il-seal-2yr at tracks[137]"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
+          "note": "the prior FAIL on il-seal-2yr-set, re-measured not adopted"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+          "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "grantsNothing": "This lane read and measured. It edited no packet, repaired nothing, released no claim and approves no output. An independent PASS proves a packet complete against its own controlling records; it promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "postRepairNote": "A reread of the CURRENT bytes at b8a2495f4a84bff00aeb268c81deec6114dc581b. This family last returned FAIL_REPAIR_REQUIRED at 285c9b91c on REQUIRED_BEFORE_FILING and ARTIFACTS; both are re-measured here and both are repaired. No obligation fails on this reread.",
+      "pairReadIllinois": "The two Illinois sealing tracks were read side by side because 22 of their 26 rendered pages are byte-identical. I extracted all 26 pages of each family with pdftotext -layout and hashed page by page: pages 4 and 5 of BOTH the canonical and the boundary fixture differ; the other eleven pages of each fixture are identical text. The four differing pages carry exactly four differences, and I read every one of them on the page: (1) Request page 4, sealing table row 1, Charge cell -- 'Retail theft, Class A misdemeanor' vs 'Possession of a controlled substance, Class 4 felony'; (2) Request page 4, same row, Outcome cell -- 'MC' vs 'FC', which are the form's own printed Outcome Abbreviations for Sealing for Misdemeanor Conviction and Felony Conviction; (3) Request page 5, Section 17 ticked in il-seal-2yr-set and blank in il-seal-3yr-set; (4) Request page 5, Section 19.c ticked in il-seal-3yr-set and blank in il-seal-2yr-set. For each of the other 22 pages I read the page and can say why the two remedies do not differ there: Request pages 1-3 are the expungement branch, blank in both, and the form's own note above Section 1 tells a seal-only filer 'do not fill out this section', so the blank is the printed instruction and not an omission; Request page 6 is Sections 23-24 (trafficking, reckless driving), elected by neither, plus the verification, lawyer and official-use blocks; packet page 7 is the EXP-AD Case List, whose 78 AcroForm fields I enumerated with pdf-lib and which carries no charge, outcome, ground or election field at all -- only the caption and seventy unlabelled arrest-or-case cells, so the same case number produces the same page; packet pages 8-9 are the EXP-AD Order Granting, whose only case-specific fields are the expungement and sealing case-number grids and the recipient block, with no charge, outcome or ground field, so it too is legitimately identical; packet pages 10-13 are the FW-CIV-APPLICATION, which carries only the caption, name and contact details in both. Taking the Captain's list one at a time: ELIGIBILITY RECITALS are carried, on Request page 5. WAITING-PERIOD COMPUTATION is carried on page 5 and nowhere else, because none of the four official forms has a sentence-completion-date field or any arithmetic field; the period is asserted solely by the printed words of the elected limb ('2 years' in Section 17, '3 years' in Section 19.c). That is symmetric between the two and is the most the form allows. STATUTORY CITATION is on the face of NEITHER petition: the EXP-AD Request prints statutory cites only inside its own option text (Section 15, Section 18) and has no route-citation field, so no filing-face difference is possible or missing. The citation lives only in participant-instructions.md, and there it is asymmetric -- see the crossChecks entry. FILING DESTINATION, SERVICE and FEE are identical in both families' filing-instructions.md and participant-instructions.md, and correctly so: all three are 20 ILCS 2630/5.2 petition-level rules that do not vary with the waiting period. Destination is the circuit clerk of each county of arrest or charge under Section 5.2(d)(1); the CLERK serves under Section 5.2(d)(4) and the participant serves no one; the fee is a circuit clerk fee plus a $60 ISP order-processing fee, county-collected, with the Rule 298 waiver, and both packets ship the FW-CIV-APPLICATION. ANSWER: yes, the four pages carry the whole of what these two remedies differ by on the face of the filing. The pair is not a clone and I found no difference that belongs on one petition and is missing from it. The defect I did find is not between the two families but inside il-seal-2yr-set, and it is a ROUTE_OPTIONS failure scored on that family alone.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key in production-field-map.json and in product-wiring.json is obligation:track-pathway:IL:il-seal-3yr:adult-conviction-sealing and the delivered paper carries that route. Request item 12 'I am requesting to seal records' is ticked Yes on packet page 4 and the No box is blank, which I confirmed by rendering the page rather than by reading a field value. Section 19.c is ticked on page 5 in its printed words 'I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence', 19.a and 19.b are blank, and the sealing table Outcome cell reads FC, the form's own printed abbreviation for Felony Conviction. The whole expungement branch (Request pages 1-3) is blank. The guide names the authority 20 ILCS 2630/5.2(c)(2)(D), (E), (F) and (c)(3)(C), which matches the legal-design-track-registry authority array for track il-seal-3yr."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four declared sources rehashed by me from bytes in this container and all four exact against source-receipt.json. EXP-AD Request 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853, EXP-AD Order Granting 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305 and FW-CIV-APPLICATION b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5 from MASTER_LIBRARY_SOURCE_DIR; the EXP-AD Case List is held under the other custody named in the receipt and I recomputed it at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c. Source page counts measured 6 + 1 + 2 + 4 = 13, equal to the delivered page count."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four components declared and four delivered whole. I identified each in the delivered text by its own printed AOIC number: ATJ 2901.9 pages 1-6 (EXP-AD Request, primary_filing), ATJ 2902.1 page 7 (EXP-AD Case List, attachment), ATJ 2905.6 pages 8-9 (EXP-AD Order Granting, proposed_order), and the FW-CIV Application for Waiver of Court Fees pages 10-13 (fee_waiver). Page-for-page against the pinned sources: 6+1+2+4 = 13 delivered pages, no page dropped and none added. Nothing in the sealing/expunging difference between the two Illinois tracks calls for a component the other lacks; both tracks' registry component lists are the same four."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 44 declared writes produce readable ink on the delivered page. I token-diffed each of the 13 delivered pages against its pinned blank source page and every added token resolves to a declared write: caption and participant identity on packet pages 1, 7, 8; the sealing row on page 4; the elected ground tick on page 5; the signature-block identity and self-represented tick on page 6; the Order recipient block on page 9; the FW-CIV caption and name on page 10 and its signature block on page 13. Six declared drawnText strings did not appear as one contiguous run and I resolved each by rendering: the full legal name and the street address wrap onto two lines inside their fields on pages 6, 10 and 13, and the elected-ground checkbox records its AcroForm on-value 'Yes' while drawing a tick glyph."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The delivered fixtures carry no AcroForm at all: pdf-lib loads each and reports 0 fields and no /AcroForm in the catalog, so no field remains writable. Nothing court-owned was written. The map's declared-write set and its refusal set partition the 424 source fields exactly with no overlap, and every court/clerk/prosecutor-owned field -- including 'EXP-AD Request:7 - Case Number', refused as 'The form reserves this case number for the Circuit Clerk' -- is on the refusal side. The Order's judge and ENTERED blocks and the official-use block on Request page 6 are blank on the delivered page, which I confirmed by reading the page."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by rendering, not by a counter. I rendered the boundary fixture's Request pages 4-6 at 110 dpi and looked at them. The boundary persona's long charge string ('Retail theft of property not exceeding three hundred dollars, Class A misdemeanor, with an extended statutory description that materially exceeds one line') and the long arresting-agency string auto-shrink and wrap to three and two lines respectively, entirely inside the printed row-1 cell borders, and do not touch row 2. The long name, e-mail and address on the signature block wrap onto the printed rule and do not overprint the 'Street, Apt. # / City / State / Zip Code' labels. No value is ellipsized anywhere in either fixture. No glyph crosses a cell border on any page I rendered."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All eight selfHelpStopConditions on the registry track are present verbatim in participant-instructions.md under 'Stop and get help', checked one by one by exact whitespace-normalised string containment, and the guide adds that two of them -- a federal or out-of-state record and a denied petition -- this packet cannot help with at all."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "filing-instructions.md and participant-instructions.md both name the circuit clerk of each county where an arrest occurred or a charge was brought, a separate packet per county, Cook County to the district matching the case, and e-filing where the county requires it. That matches the registry destination object ('Circuit clerk of the county of arrest or charge') and the venue paragraph citing Section 5.2(d)(1). No residence-county language anywhere."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide names the method, the recipients and the objection period: the circuit court clerk serves under Section 5.2(d)(4) and the participant serves no one; notice goes to the State's Attorney, the Illinois State Police, the arresting agency and, for municipal ordinance violations, the chief legal officer; the objection period is 60 days from service under Section 5.2(d)(5)(B), and absent objection the court shall enter an order under Section 5.2(d)(6)(B). This is a Section 5.2 petition-level rule and is correctly identical to the sibling Illinois sealing track."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All ten requiredBeforeFiling lines on the registry track are present verbatim in participant-instructions.md, checked by exact whitespace-normalised containment. The Request's verification block is deliberately blank on the delivered page and the guide says so in terms, names the wet-signature expectation and cites 735 ILCS 5/1-109. The prior FAIL on this obligation is repaired: the sentence VF02 quoted at line 22 -- 'Make the per-case expunge or seal election in the Case List's per-case election column' -- is gone, and the guide now states that the shipped Case List has no election column, enumerates its 78 fields, and says the election was made on the Request instead. I verified that claim independently by enumerating the Case List's fields with pdf-lib: 78, none of them an election field."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The prior ARTIFACTS FAIL is repaired and I re-measured rather than adopting the claim. Reloading each delivered fixture with pdf-lib and resolving every page's /Annots entry against the document returns 21 annotation references and ZERO unresolvable ones on both fixtures (VF02 measured 146 dangling per fixture on the previous bytes); all 21 are /Link subtype, the ilcourts.info hyperlinks carried by the source form. Poppler now opens both files silently: pdfinfo and pdftotext produce no 'Couldn't find trailer dictionary' and exit 0. Hashes: canonical and boundary rehash here to exactly what approval-request.json, reports/rendered-artifacts.json and the admitted raster verdict pin, and the raster verdict (workflowRunId 34407406641, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490) pins the CURRENT post-repair bytes, so the RASTER_PASS covers what I read."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read across document boundaries, not only within each document. The delivered order is primary_filing (ATJ 2901.9 pages 1 of 6 through 6 of 6), attachment (ATJ 2902.1 page 1 of 1), proposed_order (ATJ 2905.6 pages 1 of 2 and 2 of 2), fee_waiver (FW-CIV pages 1-4), which matches the declared component order 1-2-3-4 in both the registry packetSet and product-wiring.json. Every document's own printed 'Page n of m' footer runs in sequence with no gap and no repeat, and each boundary falls exactly where the previous document's last printed page number says it should."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry track il-seal-3yr declares dispositions ['felony_conviction', 'conviction_not_captured_by_two_year_category'] and the form prints exactly two three-year limbs, Section 19.b (revoked conditional discharge or probation, 3 years) and Section 19.c (completed Illinois prison or jail sentence, 3 years). The packet elects 19.c and presents 19.b as the route's own alternative in both records: production-field-map.json refuses 19.b with 'The other printed three-year ground. This packet elects the Section 19 limb the certified record supports and leaves this one blank; tick this one instead, and untick the other, if the certified record shows a revoked sentence of conditional discharge or probation' and marks it isAlternativeToElectedGround: true, and participant-instructions.md carries a dedicated section saying the same in the form's own words. It also correctly excludes 19.a with a route-specific reason naming it as the two-year limb and a different route. Both of the route's printed options are therefore represented."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The Request's Section 13 sealing grid is ten printed rows. Printed row 1 is complete in both fixtures -- all five cells written (Arrest or Case Number, Arresting Agency, Charge, Date of Arrest, Outcome) -- and rows 2 through 10 are wholly blank on the rendered page, with no partial row and no value on a row whose other cells are empty. The 'I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form' box is correctly unticked, since no additional form ships. The expungement grid on Request page 2 is blank in all ten rows, correct for a seal-only route. The Case List's seventy cells carry one case number in the first cell and nothing else. The Order's two case-number grids carry the same case number in the SEALING grid and nothing in the EXPUNGEMENT grid."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both filing-instructions.md and participant-instructions.md state the fee structure without inventing a figure: a circuit clerk fee plus an ISP processing fee, both county-collected; ISP charges nothing to file a petition and $60 to process a court order; county totals commonly run roughly $60 to $235 with McLean County publishing $136; and 'Treat every figure as county-specific'. The waiver is named as Supreme Court Rule 298 with Section 5.2(d)(1) requiring no fee where a Rule 298 order has been obtained. The FW-CIV-APPLICATION ships as pages 10-13 and the packet writes nothing on it beyond the caption, name and contact details; the guide says so explicitly and lists all 46 of its check boxes as the participant's, which I spot-checked against the rendered pages. The registry's own release blocker -- that no statewide county fee table exists -- is honoured rather than papered over, because no single figure is presented as the fee."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "Enumerated all 424 AcroForm fields across the four pinned source PDFs with pdf-lib (EXP-AD Request 151, Case List 78, Order Granting 74, FW-CIV 121) and checked every form-required item against the delivered page. The only blanks that a filer must still complete are the verification block, the FW-CIV financial items and check boxes, and (on il-seal-3yr-set) Section 20 -- every one of them named in participant-instructions.md as the participant's. Request Section 1 is blank in both and is NOT counted, because the form's own note above it tells a seal-only filer 'do not fill out this section'.",
+        "requiredFactsNotCollected": "Read every fact the delivered pages assert against the fixture persona and the registry's participantQuestions. Every fact the route needs to state its ground is on the paper: county, identity, case number, arresting agency, charge, arrest date, outcome code and the elected ground. Nothing the route determines is missing.",
+        "unclassifiedBlanks": "Reconciled the field map's classification against the source forms by exact field name, not by count alone: 44 writes + 380 refusals = 424 declared, and the set of (documentId, fieldName) pairs equals the set enumerated from the four source PDFs exactly -- zero in the source and not declared, zero declared and not in the source. Every blank therefore carries a classification.",
+        "incompleteRows": "Rendered Request page 4 at 110 dpi in both fixtures and counted cells on the printed grid. Row 1 complete at 5 of 5 cells; rows 2-10 empty at 0 of 5. No row carries some cells and not others.",
+        "requiredOptionsMissing": "Zero. The registry track declares two dispositions and the form prints two three-year limbs; the packet elects 19.c and names 19.b as this route's alternative in both the field map and the guide, so both printed options are represented.",
+        "requiredComponentsMissing": "Zero. All four declared components render whole and in order; identified on the delivered pages by their printed AOIC numbers and confirmed page-for-page against the pinned source page counts (6+1+2+4=13).",
+        "invisibleWrites": "Zero. Token-diffed every delivered page against its pinned blank source page with pdftotext, which extracts text regardless of render colour or text-rendering mode, and every added token resolves to a declared write. Exactly four tick glyphs appear across the packet (pages 4, 5, 6, 13) and all four are declared checkbox writes. No declared write produced no mark.",
+        "protectedWrites": "Zero. pdf-lib reports 0 AcroForm fields and no /AcroForm on both delivered fixtures, so nothing remains writable. The write set and refusal set do not overlap, and every court-, clerk-, prosecutor- or agency-owned field sits on the refusal side; I read the Order's judge block, the Request's official-use block and the clerk-assigned case-number fields on the rendered pages and all are blank.",
+        "visualDefects": "Zero. Rendered the boundary fixture's Request pages 4-6 and the canonical Request page 5 at 110 dpi and read them as images. No clipping, no overlap, no ellipsis, no stray ink, no synthesized border. I did not rely on any published geometry counter."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set returns PASS_COMPLETE, 44/424 written, nine zeros. Green -- and on il-seal-2yr-set the family still fails, because no counter asks whether a route's other declared dispositions have a printed ground the packet points at.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-3yr-set/il-seal-3yr-set.verdict.json: RASTER_PASS, workflowRunId 34407406641, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490, pagesMeasured 26, coversTheWholeFamily true. Its pinned canonical and boundary digests equal the digests I recomputed from the delivered bytes, so the raster covers the post-repair bytes I read.",
+        "priorFailReread": "product-wiring.json carries lastIndependentVerification FAIL_REPAIR_REQUIRED at base 285c9b91c4cc345c77cdad6a37d015e6f61f45bc (lane vf03). Both failed obligations from that return were re-measured here rather than adopted, and both are repaired: the Case List election-column sentence is gone from participant-instructions.md, and dangling /Annots references are 146 -> 0 per fixture with poppler now opening both files silently.",
+        "recordsThatDisagree": "Two committed records disagree about the fee waiver's requirement level and I measured against the registry rather than reconciling them. data/record-clearing/legal-design-track-registry.json, track il-seal-3yr, packetSet.components marks the FW-CIV-APPLICATION fee_waiver component requirement 'conditional'. product-wiring.json proposedRepresentation marks the same component requirement 'required'. The packet ships it either way, so nothing turns on it here, but the contradiction is real and is not mine to resolve.",
+        "statutoryCitationAsymmetry": "The Captain asked specifically about the statutory citation, so I measured it in both deliverables. il-seal-3yr-set's participant-instructions.md names its authority in the first line of the route summary: '20 ILCS 2630/5.2(c)(2)(D), (E), (F) and (c)(3)(C)', which matches the registry authority array for track il-seal-3yr. il-seal-2yr-set's participant-instructions.md names NO sealing authority at all -- grepping it for statutory citations returns only 735 ILCS 5/1-109 (verification) and the procedural subsections 5.2(d)(4), (d)(5)(B), (d)(6)(B) and (d)(12) -- while its registry track carries eight authority citations (5.2(c)(2)(C), (C-5), (D), (E), (c)(3)(B), (a)(1)(F), (a)(1)(M), (d)(6)(C)). I did not score this as a failure of any of the fifteen: the official form has no citation field, so nothing is missing from the face of either petition, and 'authority' is not a requiredBeforeFiling line. It is recorded here as a real asymmetry between two families of one cohort for the Captain to weigh.",
+        "defectCatalogue": "Checked deliberately against data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json. map-honest-writes-not: NOT PRESENT. I reconciled reports/actual-writes.json against production-field-map.json by (documentId, fieldName): 44 declared writes, 44 actual writes, zero in the map and not written, zero written and not in the map. I then token-diffed every delivered page against the pinned blank source page and every added token resolves to a declared write; nothing was written that the map did not declare. acroform-index-is-not-the-printed-row: NOT PRESENT in a harmful form. The sealing table is a 10-row grid; only printed row 1 is written and its five cells all carry the suffix '- 1'. I confirmed by rendering the page that the values land on printed row 1. extracted-line-order-is-not-column-order: checked. I read the sealing table headings by rendering page 4 at 110 dpi rather than trusting extraction order; the Outcome column is the rightmost and 'MC'/'FC' land in it. internal-record-text-printed-on-a-filing: NOT PRESENT. The token diff against the blank sources shows no sentence added to any page; every added token is a participant or matter value or a tick. No record analysis reaches the paper. a-published-zero-where-a-measurement-existed: reports/build-summary.json publishes all nine counters as null with an explicit note that a builder does not measure its own output, which is the honest form. No hardcoded zero. a-geometry-counter-with-no-teeth: I did not rely on any published geometry counter. I rendered the boundary fixture and looked at the page. two-families-one-filing: answered above.",
+        "cloneCheck": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json lists neither Illinois family in familiesDeliveringACloneOfAnother, and my own per-page text hashing agrees: 4 of 26 pages differ, so the fixture sets do not read identically. The near-clone question the Captain raised is answered in the pairReadIllinois field of this row.",
+        "fixturePersonaObservation": "Recorded, not scored. Both il-seal-2yr-set fixtures use an Illinois felony docket prefix on a misdemeanor conviction: canonical case number 2021-CF-004217 with charge 'Retail theft, Class A misdemeanor' and outcome MC, and boundary 2024-CF-000001-99 with a Class A misdemeanor. The same case numbers are correct on il-seal-3yr-set, whose charges are felonies, which suggests the two-year fixture was derived from the three-year one by swapping the charge text. matter.case_number is a participant-supplied fact, so no real filing is made wrong by this and I did not fail an obligation on it, but the canonical fixture is not a coherent demonstration of the two-year misdemeanor track."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/source-receipt.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/product-wiring.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/approval-request.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/reports/actual-writes.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/reports/build-summary.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/reports/rendered-artifacts.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-3yr-set/il-seal-3yr-set.verdict.json"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "note": "track il-seal-3yr at tracks[138]"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
+          "note": "the prior FAIL on il-seal-2yr-set, re-measured not adopted"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+          "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "This lane read and measured. It edited no packet, repaired nothing, released no claim and approves no output. An independent PASS proves a packet complete against its own controlling records; it promotes no route and opens no commercial path."
+    }
+  ]
+}

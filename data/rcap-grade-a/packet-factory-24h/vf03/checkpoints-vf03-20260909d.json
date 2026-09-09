@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "VF03",
+  "laneKind": "independent-verification",
+  "workerBranch": "pfd-vf-20260909",
+  "returnFilename": "checkpoints-vf03-20260909d.json",
+  "writtenAlongsideRatherThanOver": "checkpoint-blocked-before-claim.json, rows-vf03-20260909b.json, rows-vf03-20260909c.json and rows.json survive byte-for-byte.",
+  "note": "Four families granted on this shift, all VERIFY_PENDING with an admitted RASTER_PASS and a live independent-verification grant on VF03, each asserted before any artifact of it was read. Each family is committed and pushed as it is finished rather than batched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "familiesInThisCheckpoint": [
+        "il-seal-2yr-set",
+        "il-seal-3yr-set"
+      ],
+      "familiesCompleted": 2,
+      "familiesStopped": 0,
+      "stoppedFamilies": [],
+      "headShaAtCheckpoint": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "verdicts": {
+        "il-seal-2yr-set": "FAIL_REPAIR_REQUIRED",
+        "il-seal-3yr-set": "PASS_COMPLETE_INDEPENDENT"
+      },
+      "failedObligations": {
+        "il-seal-2yr-set": [
+          "ROUTE_OPTIONS"
+        ],
+        "il-seal-3yr-set": []
+      },
+      "nineCountersZeroOn": [
+        "il-seal-3yr-set"
+      ],
+      "packetsSelfVerified": 0,
+      "overlayDirectoriesTouched": [],
+      "claimsReleased": [],
+      "checkpointNote": "The Illinois near-clone question the Captain raised is answered in the pairReadIllinois field of both rows: 22 of 26 pages identical, four differences on pages 4 and 5, and a page-by-page account of why each of the other 22 pages could not have differed. The pair is not a clone and no difference that belongs on the face of one petition is missing from it. The defect found is inside il-seal-2yr-set, not between the two."
+    }
+  ]
+}
