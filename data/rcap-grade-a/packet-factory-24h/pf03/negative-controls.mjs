@@ -238,6 +238,49 @@ const census = await censusFor(sourceBytes);
   assert.ok(refusedForWidth && !wrote, "an unfittable value must be refused, never shortened");
 }
 
+/* ------------------------------------------------------------------------ *
+ * CONTROL 5 — the route record stops recording the felony/misdemeanour
+ * characterisation as a later-completion field for ma-seal-admin-set.
+ *
+ * The repair: ma-seal-admin-set leaves the Part A election to the participant
+ * and declares it determined by the CASE rather than by the route. That
+ * declaration is only honest because the controlling record itself treats the
+ * characterisation as completed later. Without that record the family would be
+ * shipping an unmade statutory election on nothing, so the build must refuse.
+ * ------------------------------------------------------------------------ */
+{
+  const file = path.join(ROOT, ROUTE_CENSUS);
+  const original = fs.readFileSync(file);
+  const before = sha(original);
+  let refused = false;
+  let message = null;
+  try {
+    const doc = JSON.parse(original.toString("utf8"));
+    const fam = doc.packetFamilies.find((f) => f.worklistGroupId === "ma-seal-admin-set");
+    for (const r of fam.routes) {
+      const cell = r.deliverable.laterCompletionFields;
+      cell.entries = cell.entries.filter((e) => !/felony or misdemeanour characterisation/i.test(e));
+    }
+    fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
+    const mod = await import(`${ROOT}/scripts/build-census-v1-ma-seal-admin-set.mjs?nc=${Date.now()}`);
+    try {
+      await mod.runFamily(["--check"]);
+    } catch (e) { refused = true; message = e.message.split("\n")[0]; }
+  } finally {
+    fs.writeFileSync(file, original);
+    const after = sha(fs.readFileSync(file));
+    assert.equal(after, before, `the negative control did not restore ${ROUTE_CENSUS} byte-for-byte`);
+  }
+  record("route-record-stops-recording-the-characterisation-so-the-admin-build-refuses", refused, {
+    evidence: refused ? `build refused: ${String(message).slice(0, 170)}` : "the build proceeded without the record that justifies leaving Part A to the participant",
+    whatTheRepairIs:
+      "routeRecord() asserts the census still records the felony/misdemeanour characterisation as a later-completion "
+      + "field before the family may leave the Part A election unmade",
+    sharedRecordRestoredByteForByte: true
+  });
+  assert.ok(refused, "the build must refuse when the record justifying an unmade election disappears");
+}
+
 const out = {
   schemaVersion: "rcap-pf03-negative-controls/v1",
   lane: "PF03",
