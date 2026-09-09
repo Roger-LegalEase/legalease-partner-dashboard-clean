@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-packet-approval-request/v2",
+  "familyId": "al-trafficking-set",
+  "status": "BUILT_RASTER_PENDING",
+  "implementationStrategy": "official_pdf_fill",
+  "strategyRecordDisagreement": {
+    "masterQueueAndWorklistSay": "custom_pleading",
+    "controllingLegalRecordSays": "official_pdf_fill",
+    "where": "data/record-clearing/legal-design-intake/AL.memo.json track al-trafficking: outputStrategy, every component's officialFormId, and controllingAuthority.summary \"The route uses the same official CR-65 petition as the other Alabama tracks.\"",
+    "builtAs": "official_pdf_fill",
+    "why": "Composing a pleading while the controlling legal record directs an official form would be a source-fidelity defect. Recorded rather than resolved: reconciling the queue label is a Captain action."
+  },
+  "routeKeys": [
+    "obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "CR-65"
+    },
+    {
+      "kind": "certificate_of_service",
+      "documentId": "CR-65"
+    },
+    {
+      "kind": "fee_waiver",
+      "documentId": "C-10-CRIMINAL"
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical--misdemeanor",
+      "fixtureClass": "canonical",
+      "variant": "misdemeanor",
+      "statute": "Ala. Code § 15-27-1(a)(8)",
+      "electedAt": "CR-65 Check Box9.0",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--misdemeanor.pdf",
+      "sha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0",
+      "byteLength": 906087,
+      "pageCount": 11
+    },
+    {
+      "fixture": "boundary--misdemeanor",
+      "fixtureClass": "boundary",
+      "variant": "misdemeanor",
+      "statute": "Ala. Code § 15-27-1(a)(8)",
+      "electedAt": "CR-65 Check Box9.0",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--misdemeanor.pdf",
+      "sha256": "039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b",
+      "byteLength": 906308,
+      "pageCount": 11
+    },
+    {
+      "fixture": "canonical--felony",
+      "fixtureClass": "canonical",
+      "variant": "felony",
+      "statute": "Ala. Code § 15-27-2(a)(8)",
+      "electedAt": "CR-65 Check Box10.4",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--felony.pdf",
+      "sha256": "e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7",
+      "byteLength": 905834,
+      "pageCount": 11
+    },
+    {
+      "fixture": "boundary--felony",
+      "fixtureClass": "boundary",
+      "variant": "felony",
+      "statute": "Ala. Code § 15-27-2(a)(8)",
+      "electedAt": "CR-65 Check Box10.4",
+      "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--felony.pdf",
+      "sha256": "f919d1ab62928c921ce8292079efd2baf7af243dfcfbc7ae7453dd91bdf9778d",
+      "byteLength": 906055,
+      "pageCount": 11
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "selfVerified": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
