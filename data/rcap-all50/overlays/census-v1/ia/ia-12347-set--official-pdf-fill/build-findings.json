@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ia-12347-set",
+  "findings": [
+    {
+      "finding": "Both official-form identities this family names -- \"Rule 2.86 Form 4\" and \"Certification of Service by Mailing or Delivery\" -- resolve to one two-page binary.",
+      "consequence": "The packet is one source document carrying two components. The source receipt records two source rows against one file and names the page each component occupies, rather than implying a second file that does not exist."
+    },
+    {
+      "finding": "The binary carries no AcroForm: 0 fields on 2 pages of 612x792.",
+      "consequence": "Values are drawn into page content at coordinates measured from the printed captions that name each slot. Every rect carries its own measurement basis in the field map."
+    },
+    {
+      "finding": "The form prints \"Please check each statement below after you have read it\" above the two Read Before Signing boxes.",
+      "consequence": "Both boxes are left unmarked and carried as genuine participant elections. Marking them would assert that a person had read something this build cannot know they read."
+    },
+    {
+      "finding": "The two numbered items are the statutory elements of the section 123.47(9) route this packet is built for.",
+      "consequence": "Both are marked as route determinations and the conviction date is written, so the application states which route it proceeds under rather than asking the participant."
+    },
+    {
+      "finding": "The certification of service on page 2 is completed only after a copy is actually mailed or delivered.",
+      "consequence": "Every field of it is left blank -- including the certifier's own printed name, which this packet holds -- because a certificate of mailing completed before the mailing happened would be false. The recipient's name and address are carried as disclosed required-before-filing items."
+    },
+    {
+      "finding": "The A/B representation election is not answered by this packet.",
+      "consequence": "The self-represented block is drafted for review and the election is carried as a participant election. The attorney block is refused as attorney-only on every field."
+    }
+  ]
+}

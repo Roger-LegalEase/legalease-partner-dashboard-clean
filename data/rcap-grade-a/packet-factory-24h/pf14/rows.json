@@ -143,6 +143,313 @@
       "artifacts": [],
       "rasterState": "NOT_BUILT",
       "selfVerified": false
+    },
+    {
+      "itemId": "ia-12347-set",
+      "status": "COMPLETED",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "IA",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-12347:underage-alcohol-12347"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok 2/2 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:Rule 2.86 Form 4",
+          "formNumber": "Rule 2.86 Form 4",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf"
+        },
+        {
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "formNumber": "Certification of Service by Mailing or Delivery",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "sameBinaryAs": "Rule 2.86 Form 4",
+          "pages": [
+            2
+          ]
+        }
+      ],
+      "componentsRendered": [
+        "primary_filing",
+        "certificate_of_service"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "totals": {
+        "terminalFields": 39,
+        "written": 16,
+        "blank": 23
+      },
+      "blanksByDisposition": {
+        "PARTICIPANT_ELECTION_GENUINE": 3,
+        "PROTECTED_FIELD": 6,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+        "REQUIRED_BEFORE_FILING": 6
+      },
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+          "byteLength": 302931
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+          "byteLength": 302843
+        }
+      ],
+      "canonicalSha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+      "boundarySha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "Rendered locally through scripts/raster/pdf-page-raster.mjs on a calibrated Chromium (residual 0.5px, 2.667 px/pt) as this lane's own build check, and every raster PNG was deleted after measuring. A local raster is not central acceptance: the family returns BUILT_RASTER_PENDING and the hashes above are what the central raster acceptance binds.",
+      "writeProof": "byte-level. Each saved fixture is re-opened, its page content streams are decompressed, the streams the source already carried are excluded, and every remaining hex-encoded show-text operator is decoded with the position matrix that precedes it. A declared write that is not readable at its declared coordinates in the output bytes stops the build; ink in an added stream that no declared write accounts for is counted against nonWhitespaceGlyphsOutsideMeasuredWriteBoxes.",
+      "findings": [
+        "Both official-form identities this family names resolve to ONE two-page binary. The custody reconciliation resolves them on first-hand document text: the Certification of Service is the section heading printed on page 2 of the application itself. The receipt records two source rows against one file and names the page each component occupies rather than implying a second file that does not exist.",
+        "The two Read Before Signing boxes are left unmarked. The form prints 'Please check each statement below after you have read it', which is an act of the person filing; marking them would assert that somebody had read something this build cannot know they read.",
+        "The two numbered items ARE the statutory elements of the section 123.47(9) route, so both are marked as route determinations and the conviction date is written. The application therefore states which route it proceeds under rather than asking the participant.",
+        "Every field of the certification of service is blank, including the certifier's own printed name which this packet holds, because a certificate of mailing completed before the mailing happened would be false. The recipient's name, address, city, state and ZIP are carried as disclosed required-before-filing items.",
+        "The caption's second plaintiff line ('State of Iowa or ______') is carried and disclosed rather than left as an unaccounted printed rule: a section 123.47 charge may be prosecuted by a city under its own ordinance, the platform holds no prosecuting-entity name, and inventing a city would put a false plaintiff on a filing sworn under penalty of perjury."
+      ],
+      "selfVerified": false,
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-12347-set' -> PASS_COMPLETE, 16/39 written, all nine counters zero",
+      "overlayDirectoryTouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-or-official-pdf-fill",
+      "status": "COMPLETED",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "OR",
+      "routeKeys": [
+        "obligation:track-only:OR:or_arrest_no_charges",
+        "obligation:track-only:OR:or_dismissed_charge"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok 2/2 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 2 found by content hash because the declared path is in a custody that is not mounted here",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "revision": "REV-2026-01",
+          "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+          "byteLength": 256978
+        },
+        {
+          "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+          "formNumber": "OR-OSP-SET-ASIDE-CCH",
+          "revision": "REV-2022-01",
+          "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+          "byteLength": 229147
+        }
+      ],
+      "measurementsBound": [
+        {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "file": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        }
+      ],
+      "componentsRendered": [
+        "motion_and_declaration",
+        "criminal_history_request",
+        "filing_instructions"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "totals": {
+        "terminalFields": 184,
+        "written": 24,
+        "blank": 160
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 121,
+        "REQUIRED_BEFORE_FILING": 19,
+        "PROTECTED_FIELD": 12,
+        "PARTICIPANT_ELECTION_GENUINE": 8
+      },
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--motion-and-declaration.pdf",
+          "sha256": "46cf0f005e6ef9e465e9aaf4b13e348a559db982f7ca188b6f49ddaee18f757c",
+          "byteLength": 217068
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
+          "sha256": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
+          "byteLength": 453717
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--motion-and-declaration.pdf",
+          "sha256": "7e3d8ade5aa12161c821386dace24646e4086de3e3c05aef6baa2106a80ddd32",
+          "byteLength": 217129
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
+          "sha256": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19",
+          "byteLength": 453590
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf",
+          "sha256": "4bec344b2419cbbec3e813677259f1639d64bba56fff2dce85e9d95e77c6208e",
+          "byteLength": 216970
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
+          "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+          "byteLength": 453594
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--motion-and-declaration.pdf",
+          "sha256": "b9ae2b154948672b5a331134f2056ffbace877109a51f898f6a2488c60da3689",
+          "byteLength": 217025
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
+          "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
+          "byteLength": 453455
+        }
+      ],
+      "canonicalSha256": {
+        "or_arrest_no_charges": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+        "or_dismissed_charge": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec"
+      },
+      "boundarySha256": {
+        "or_arrest_no_charges": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
+        "or_dismissed_charge": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "Rendered locally through scripts/raster/pdf-page-raster.mjs on a calibrated Chromium (residual 0.5px) as this lane's own build check, and every raster PNG was deleted after measuring. A local raster is not central acceptance: the family returns BUILT_RASTER_PENDING and the hashes above are what the central raster acceptance binds.",
+      "writeProof": "flat overlay through scripts/rcap-official-forms/rcap-official-form-finalize.mjs. Every value is drawn at an anchor measured against this exact binary, every option mark is two diagonal strokes inset inside the court's own stroked box, and the build refuses the fixture if any anchor it claims was refused or any selection was not marked. No new box is ever drawn and the court's boxes are never redrawn.",
+      "findings": [
+        "This family carries two routes on ONE court form and each route IS an option the form prints: or_arrest_no_charges (ORS 137.225(1)(c)) marks Option 3, or_dismissed_charge (ORS 137.225(1)(d)) marks Option 2. Each route is rendered with its own canonical and boundary fixture and the two motions are carried as separate document identities, so one route's write is never read against the other route's refusal.",
+        "The form prints '(leave blank if no court case)' beside the Case No. line. On or_arrest_no_charges the case-number slot is refused with that printed instruction as its named route condition and no case number is carried in that route's fixtures at all; on or_dismissed_charge the case number is written.",
+        "FINDING FOR THE OWNER: the packet-set manifest names a REQUIRED proposed_order component on both routes and assigns it to this same OR-OJD-ADULT-SET-ASIDE-PACKET binary. That binary contains a Motion, a Declaration of Eligibility and a Certificate of Mailing and no proposed order, and the Oregon corpus holds no order form at all. No order is drafted here, because an order is the court's act; the packet, the participant instructions and the composed filing instructions all say in terms that no proposed order is enclosed, and it is raised as a counsel question.",
+        "The option geometry records 10 of the 14 checkbox-shaped boxes it found: three options and seven declaration statements. The four it does not record are Option 1's two sub-elections and the two 'additional page' boxes. Option 1's sub-elections are off-route on both routes; the additional-page boxes are not marked because no committed measurement gives their coordinates and this build authors no coordinate.",
+        "The last three declaration boxes are printed under 'If you selected Option 1 above', so on both routes they are refused with that printed sentence as the named route condition rather than carried as elections the participant is expected to make.",
+        "The Phone column on the page-5 contact line is the court's own 34 points and no phone number fits it at the minimum readable machine font, so the phone is a disclosed required-before-filing item written by hand and the anchor is never offered to the renderer."
+      ],
+      "selfVerified": false,
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-or-official-pdf-fill' -> PASS_COMPLETE, 24/184 written, all nine counters zero",
+      "overlayDirectoryTouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "MO",
+      "routeKeys": [
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition",
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 'mo-art-xiv-marijuana-set'",
+      "claimResult": "CLAIM_OK PF14 mo-art-xiv-marijuana-set (packet-build, grant set 77b524008f638d29)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family mo-art-xiv-marijuana-set",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable",
+      "failedCheck": "family_sources_bind",
+      "refusalText": "1 source(s) do not resolve to exactly one committed index entry: official-form:FI-05",
+      "failedSourceIdentities": [
+        {
+          "sourceIdentity": "official-form:FI-05",
+          "indexMatches": 0,
+          "why": "no entry in the committed corpus index carries this exact form number"
+        }
+      ],
+      "whatWasMeasured": "The family names two official forms. official-form:CR375 resolves byte-exact to STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf at 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780. official-form:FI-05 carries ZERO entries in data/rcap-all50/local-source-corpus-index.json. MASTER_QUEUE.json records a boundSource for FI-05 at 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e resolved by 'captain_shared_exact_binding' at the path 'LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf', which is not an entry in the committed corpus index and is not in any custody mounted here. A hash recorded in a generated queue is not a committed source identity, and this lane did not try to make it one.",
+      "whyThisIsARowStopAndNotALaneStop": "Only family_sources_bind moved. Every other registered check passed at the lane gate and at this family's own row gate, so the environment is intact and the finding is about this family's sources.",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
-  ]
+  ],
+  "shifts": [
+    {
+      "shift": "FABLE-PD, branch fable/pd, base 472444b86139bccc35dac4ee17cc01148f1064d6",
+      "familiesAssigned": 5,
+      "rowsReturned": 5,
+      "completed": 0,
+      "stopped": 5,
+      "summary": "All five families refused at the claim gate as ALREADY_RELEASED. Nothing read, nothing written, no grant reopened. The lane-level fields at the top of this file are that shift's own summary and are left as that shift wrote them."
+    },
+    {
+      "shift": "pf14-build-20260909, Claude packet-build lane in an isolated git worktree at /home/user/pf14-worktree, base 91977e016b8bba80b7c20f69202a3e1de55fdf53",
+      "familiesAssigned": 4,
+      "rowsReturned": 4,
+      "completed": 0,
+      "stopped": 0,
+      "laneGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs",
+        "note": "Run without --codex-cloud and without --minimum-captain-sha: this lane is a git worktree on a browser-equipped container, not a Codex Cloud task.",
+        "firstRun": {
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+          "checkThatMoved": "private_is_git_ignored",
+          "detail": "private/ is NOT git-ignored",
+          "why": "The container setup mounts the private source tree as a SYMLINK named private. .gitignore line 53 is the directory pattern `private/`, which does not match a symlink, and `git check-ignore -q private/` additionally exits 128 with \"pathspec 'private/' is beyond a symbolic link\". Nothing in the repository moved: the check was measuring the shape of the mount, not a repository change.",
+          "whatWasChanged": "The mount, not the check and not the repository. `private` was replaced by a real directory containing one symlink per child of the source tree (human-source-returns, source-imports, source-corpus-environment.txt). The repository's own committed .gitignore then ignores it on its own terms and `git ls-files private/` returns nothing, which is exactly the invariant the check states.",
+          "verbatim": "  ok  repo_identity                          pf14-build-20260909 at 91977e01\n  ok  clone_is_complete                      full clone, all heads fetchable\n  -  assigned_branch_tip_visible            no --branch given; check not applicable\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 22.22.2\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\nFAIL  private_is_git_ignored                 private/ is NOT git-ignored\n  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1\n  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions\n  ok  corpus_matches_committed_index         24 sampled entries verify byte-exact; d_source_packs, nationwide_recovery_pool_2026_09_02, src05_worker_materialization_2026_09_02 not mounted here and not compared\n  -  family_sources_bind                    no --family given; check not applicable\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent: 12 hashes, 6 families, 7 refused capabilities\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable\n"
+        },
+        "run": {
+          "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+          "verbatim": "  ok  repo_identity                          pf14-build-20260909 at 91977e01\n  ok  clone_is_complete                      full clone, all heads fetchable\n  -  assigned_branch_tip_visible            no --branch given; check not applicable\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 22.22.2\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1\n  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions\n  ok  corpus_matches_committed_index         24 sampled entries verify byte-exact; d_source_packs, nationwide_recovery_pool_2026_09_02, src05_worker_materialization_2026_09_02 not mounted here and not compared\n  -  family_sources_bind                    no --family given; check not applicable\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent: 12 hashes, 6 families, 7 refused capabilities\n\nPACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable\n"
+        },
+        "separateFinding": "A repository-local core.excludesFile is set in the shared .git/config of /home/user/captain-worktree, pointing at /tmp/claude-0/.../scratchpad/vf07-excludes, a file outside the repository whose only line is `private`. Every worktree of that repository inherits it. It happened to ignore the symlink, which is why the failure above was a near miss rather than a silent pass. This lane did not remove it: it is another lane's configuration in a shared repository config. Reported for whoever owns that checkout.",
+        "rasterizerProbe": {
+          "command": "node scripts/verify-packet-build-environment.mjs --require-rasterizer",
+          "page_rasterizer_available": "ok - chromium at /opt/pw-browsers/chromium-1223/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px",
+          "browser_environment_exported": "FAIL - RCAP_CHROMIUM_PATH is not exported and neither PLAYWRIGHT_BROWSERS_PATH nor RCAP_CHROMIUM_PATH appears in private/source-corpus-environment.txt or /root/.legalease-corpus-env. This is an env-export bookkeeping check about where the browser path is written down, not about whether a browser resolves: the rasterizer check on the line above executed one. This lane's gate is the unflagged invocation, which passes; the probe is recorded because it was run.",
+          "popplerUsed": false,
+          "note": "build_time_rasterizer_available reports pdftoppm on this container. This lane never called it. Every raster went through scripts/raster/pdf-page-raster.mjs, which discovers and executes Chromium."
+        }
+      },
+      "summary": ""
+    }
+  ],
+  "totalRowsInThisFile": 8,
+  "everyEarlierRowIsByteIdentical": "The five FABLE-PD rows above were read, left untouched and re-read after this append. This file round-trips byte-for-byte through JSON.stringify(value, null, 2) + newline, so appending changes only the bytes of the appended rows and the keys named in shifts/totalRowsInThisFile."
 }

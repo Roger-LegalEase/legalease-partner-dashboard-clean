@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "rcap-or-official-pdf-fill",
+  "requested": "visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "BUILT_RASTER_PENDING",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-only:OR:or_arrest_no_charges",
+    "obligation:track-only:OR:or_dismissed_charge"
+  ],
+  "components": [
+    "motion_and_declaration",
+    "criminal_history_request",
+    "filing_instructions"
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical--arrest-no-charges",
+      "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
+      "option": "Option 3",
+      "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
+      "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+      "byteLength": 453594,
+      "pageCount": 9
+    },
+    {
+      "fixture": "boundary--arrest-no-charges",
+      "routeKey": "obligation:track-only:OR:or_arrest_no_charges",
+      "option": "Option 3",
+      "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
+      "sha256": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
+      "byteLength": 453717,
+      "pageCount": 9
+    },
+    {
+      "fixture": "canonical--dismissed-charge",
+      "routeKey": "obligation:track-only:OR:or_dismissed_charge",
+      "option": "Option 2",
+      "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
+      "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
+      "byteLength": 453455,
+      "pageCount": 9
+    },
+    {
+      "fixture": "boundary--dismissed-charge",
+      "routeKey": "obligation:track-only:OR:or_dismissed_charge",
+      "option": "Option 2",
+      "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
+      "sha256": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19",
+      "byteLength": 453590,
+      "pageCount": 9
+    }
+  ],
+  "counselQuestionsRaised": [
+    "The packet-set manifest names a required proposed_order component on both routes and assigns it to the same OJD binary, which contains no order. Confirm whether a proposed order is owed on these two routes and, if so, from what held source, because this build drafts none.",
+    "Option 3 is marked for ORS 137.225(1)(c) and Option 2 for ORS 137.225(1)(d). Confirm those pairings, and in particular that a dismissal described in ORS 137.225(1)(c) does not belong on Option 2.",
+    "The first four declaration boxes are carried as participant elections on both routes and the last three are refused as Option 1 only. Confirm that declaration box 3, \"I have filed fingerprints with the Oregon State Police\", is genuinely the participant's own assertion rather than something the packet should be marking once the Oregon State Police request is enclosed."
+  ],
+  "independentVerificationStatus": "PENDING",
+  "approvedForLive": false,
+  "live": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

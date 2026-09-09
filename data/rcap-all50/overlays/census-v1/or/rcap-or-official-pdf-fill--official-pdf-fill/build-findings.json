@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "rcap-or-official-pdf-fill",
+  "findings": [
+    {
+      "finding": "This family carries two routes on one court form, and each route IS an option the form prints.",
+      "consequence": "or_arrest_no_charges marks Option 3 and or_dismissed_charge marks Option 2, both as route determinations. Each route's packet is rendered separately with its own canonical and boundary fixture, and the two motions are carried as separate document identities so one route's write is never read against the other route's refusal."
+    },
+    {
+      "finding": "The form prints \"(leave blank if no court case)\" beside the Case No. line.",
+      "consequence": "On or_arrest_no_charges the case-number slot is refused with that printed instruction as its named route condition, and no case number is carried in that route's fixtures at all. On or_dismissed_charge the case number is written."
+    },
+    {
+      "finding": "The packet-set manifest assigns a required proposed_order component on BOTH routes to OR-OJD-ADULT-SET-ASIDE-PACKET.",
+      "consequence": "That binary contains a Motion, a Declaration of Eligibility and a Certificate of Mailing, and no proposed order; the Oregon corpus holds no Oregon order form at all. No order is drafted here -- an order is the court's act -- and the packet, the participant instructions and the composed filing instructions all say in terms that the packet contains no proposed order. This is raised as a counsel question rather than filled by this build."
+    },
+    {
+      "finding": "The option geometry measurement reports 14 checkbox-shaped boxes on the form and records coordinates for 10: three options and seven declaration statements.",
+      "consequence": "The four it does not record are Option 1's two sub-elections and the two \"additional page\" boxes. Option 1's sub-elections are off-route on both of this family's routes. The two additional-page boxes are not marked, because no committed measurement gives their coordinates and this build authors no coordinate; the participant instructions tell the reader to tick the additional-page box by hand if they attach one."
+    },
+    {
+      "finding": "The last three declaration boxes are printed under \"If you selected Option 1 above, all of the following must also be true\".",
+      "consequence": "On both of this family's routes they are refused with that printed sentence as the named route condition, rather than being carried as elections the participant is expected to make."
+    },
+    {
+      "finding": "The Phone column on the page-5 contact line is the court's own 34 points.",
+      "consequence": "No phone number fits it at the minimum readable machine font. The phone is carried as a disclosed required-before-filing item the participant writes by hand and the anchor is never offered to the renderer, so it is not attempted and refused on every run."
+    },
+    {
+      "finding": "Pages 1 to 3 of the binary are the court's printed instruction sheet.",
+      "consequence": "Every rule the measurement found on them is a typographic underline in prose and is classified as never a filing fact, rather than being left unclassified or read as a blank."
+    }
+  ]
+}
