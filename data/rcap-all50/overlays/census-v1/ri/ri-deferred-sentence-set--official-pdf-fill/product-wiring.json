@@ -56,17 +56,29 @@
       }
     ],
     "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34297296663",
-      "jobId": "102297334375",
-      "artifactId": null,
-      "boundToCanonicalSha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
-      "coversTheWholeFamily": true
+      "verdict": "STALE_RECEIPT_BYTES_MOVED",
+      "boundToCanonicalSha256": null,
+      "coversTheWholeFamily": false,
+      "coversTheCurrentBytes": false,
+      "whyThereIsNoLiveReceipt": "FIX120 pass 2 repaired rules.notice at origin for track ri_deferred_sentence (RI-B-03 second limb) and rebuilt this family, so the canonical bytes moved from 5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731 to 94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6. The central raster receipt preserved below was bound to the OLD bytes and does not cover the current ones. It is NOT repointed, because repointing a receipt to bytes that were never rendered under it would assert an acceptance that never happened. This lane rendered pages locally only to read them; it built and repaired this family and is therefore not an independent verifier of it. No raster pass, no acceptance and no verification is asserted here. The family needs a fresh central raster run and a fresh independent verification.",
+      "supersededReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34297296663",
+        "jobId": "102297334375",
+        "artifactId": null,
+        "boundToCanonicalSha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "coversTheWholeFamily": true
+      },
+      "supersededBy": "FIX120 pass 2 at base a5e4658d8"
     },
     "lastIndependentVerification": {
-      "verdict": "BLOCKED_LEGAL_INPUT",
-      "lane": "vf03",
-      "verifiedAtBase": "5727d573f"
+      "coversTheCurrentBytes": false,
+      "note": "Preserved verbatim below. It predates the FIX120 pass-2 repair and was recorded against different bytes, so it says nothing about canonical 94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6.",
+      "preserved": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "5727d573f"
+      }
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -89,7 +101,7 @@
         "order": 1,
         "documentId": "ri_deferred_sentence-primary-filing-1",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "sha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
         "requirement": "required"
       },
       {
@@ -98,7 +110,7 @@
         "order": 2,
         "documentId": "ri_deferred_sentence-proposed-order-2",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "sha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
         "requirement": "required"
       },
       {
@@ -107,7 +119,7 @@
         "order": 3,
         "documentId": "ri_deferred_sentence-notice-package-3",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "sha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
         "requirement": "required"
       },
       {
@@ -116,7 +128,7 @@
         "order": 4,
         "documentId": "ri_deferred_sentence-filing-instructions-4",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "sha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
         "requirement": "required"
       },
       {
@@ -125,7 +137,7 @@
         "order": 5,
         "documentId": "ri_deferred_sentence-certified-copy-delivery-checklist-5",
         "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+        "sha256": "94a1f97d7084ad86d34fa3b5937b7089f6b8e2d9977e2b45e8ed78d9180585d6",
         "requirement": "required"
       }
     ]
