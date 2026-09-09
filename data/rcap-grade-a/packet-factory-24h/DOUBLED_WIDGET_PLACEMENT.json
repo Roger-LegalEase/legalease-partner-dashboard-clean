@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-doubled-widget-placement/v1",
+  "recordedBy": "Captain, 2026-09-09, from an independent reader's finding and my own arithmetic over the delivered bytes",
+  "foundBy": "VF08, reading wv_conv_nonviolent_felony-set at the raster gate rather than trusting its build report",
+  "theDefect": "The shared flattener places every widget appearance with '1 0 0 1 <rect.x> <rect.y> cm'. A text-field XObject carries an origin-anchored BBox ([0 0 w h]) and lands where it is placed. A CHECK-BOX XObject on these forms carries an ABSOLUTE-PAGE-COORDINATE BBox and draws at absolute coordinates, so the translate is applied a second time to coordinates that already carry it. Each such box lands at roughly twice its intended position.",
+  "howIProvedItRatherThanInferringIt": "For every delivered fixture, each placement was matched to its XObject and tested arithmetically: the defect is present when the placement translate EQUALS the BBox lower-left and that lower-left is not the origin. On wv-conv-single-misdemeanor-set page 1, all four placements read '1 0 0 1 91.6836 324.912 cm' against a BBox lower-left of [91.684, 324.912] -- the same numbers, so the box meant for (91.68, 324.91) draws at (183.37, 649.82).",
+  "aCorrectionToMyOwnFirstPass": "A looser structural test -- any non-origin BBox -- flagged 50 fixtures across 14 overlay directories in Kentucky, Michigan, North Carolina, Wisconsin and West Virginia. That was over-reporting. A non-origin BBox is only a defect when the placement translate duplicates it, and on the KY, MI, NC and WI families it does not. The arithmetic test is the honest one and it clears eleven of the fourteen.",
+  "whatIsActuallyAffected": [
+    {
+      "family": "wv_conv_multiple_misdemeanors-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "doubledPlacementsPerFixture": 26
+    },
+    {
+      "family": "wv_conv_nonviolent_felony-set",
+      "state": "VERIFY_PENDING",
+      "doubledPlacementsPerFixture": 26
+    },
+    {
+      "family": "wv_conv_single_misdemeanor-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "doubledPlacementsPerFixture": 26
+    }
+  ],
+  "theWorstSingleDisplacement": "wv-conv-multiple-misdemeanors-set: a box intended at (148.67, 682.72) draws at (297.34, 1365.44), 698.7 pt away and far above the top edge of a Letter page. It is not on the paper at all.",
+  "whatItCostsAParticipant": "VF08 read the rendered pages of the nonviolent-felony family: the four page-1 eligibility-recital boxes are gone from the left margin and four empty squares are stamped over the petitioner's name line, over the form's own bold title, over a CHARGE row rule and inside the body of the statutory recital; the four page-2 order-election boxes are gone and three squares land in the answer areas with a fourth clipped off the top edge; both page-3 boxes are off the page entirely; the three page-4 delivery-method boxes are gone and three squares are stamped over the certificate recipients. The participant has no box to tick for the eligibility recital the guide expressly tells them to choose, none for the six order elections, and none for the service method the certificate requires.",
+  "whyEveryGateMissedIt": [
+    "The strays are VECTOR RECTS, not glyphs, so text extraction sees nothing and the published nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0.",
+    "Each is drawn from a census widget's OWN coordinates, which is the blind spot already recorded in DEFECTS_NO_COUNTER_CAN_SEE.json.",
+    "The raster gate cannot see it either. The pages render, are non-blank and are cropped to the paper, which is exactly and only what RASTER_PASS certifies.",
+    "Two of the three families are COMPLETE_PACKET_PROVEN, so an independent reader had already passed them."
+  ],
+  "whatIAmDoingAboutIt": "The two terminal families are being withdrawn from terminal and all three routed to a repair lane. A published family whose participant has no box to tick is not a deliverable, and a count that includes it is wrong.",
+  "notAProductionClaim": "This measurement withdraws a claim; it grants nothing and opens no route.",
+  "perFixtureProof": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+      "family": "wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "placementsRead": 13,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-2708199956",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+      "family": "wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "placementsRead": 13,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-2708199956",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+      "family": "wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "placementsRead": 70,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-1518621681",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+      "family": "wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "placementsRead": 70,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-1518621681",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+      "family": "wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "placementsRead": 13,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-2708199956",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+      "family": "wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "placementsRead": 13,
+      "doubledPlacements": 13,
+      "worstExample": {
+        "xobject": "FlatWidget-2708199956",
+        "intendedOrigin": [
+          148.67,
+          682.72
+        ],
+        "actualOrigin": [
+          297.34,
+          1365.44
+        ],
+        "offsetPt": 698.7
+      }
+    }
+  ]
+}
