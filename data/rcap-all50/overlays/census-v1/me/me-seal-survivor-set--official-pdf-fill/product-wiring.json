@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "me-seal-survivor-set",
+  "routeKeys": [
+    "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+  ],
+  "routeSelectionId": "me-cr-307-cr-308-survivor-sealing",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+  "builtBy": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+  "note": "Review artifacts and maps create no authority. This route additionally carries two pending source-acquisition gates and must not be delivered to a participant until they close.",
+  "binding": {
+    "family": "me-seal-survivor-set",
+    "jurisdiction": "ME",
+    "routeKeys": [
+      "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:me-seal-survivor-primary-filing-1",
+      "component:me-seal-survivor-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/participant-instructions.md",
+    "filingInstructions": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/filing-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-307",
+        "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:CR-308",
+        "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "declaredInstrumentKindMismatch": {
+      "queueDeclares": [
+        "Maine § 2264(7) Survivor Sealing Motion"
+      ],
+      "measured": "MASTER_QUEUE's instrumentKinds for this family holds the packet-family LABEL rather than instrument kinds. The two declared packetComponents are a primary filing and a proposed order, which is what this build produces. Recorded rather than silently normalised."
+    }
+  }
+}

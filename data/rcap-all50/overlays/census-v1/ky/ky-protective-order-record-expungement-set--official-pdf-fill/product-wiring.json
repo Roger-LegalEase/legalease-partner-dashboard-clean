@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ky_protective_order_record_expungement-set",
+  "routeKeys": [
+    "obligation:track-only:KY:ky_protective_order_record_expungement"
+  ],
+  "routeSelectionId": "ky-aoc-275-18-protective-order-expungement",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+  "builtBy": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "binding": {
+    "family": "ky_protective_order_record_expungement-set",
+    "jurisdiction": "KY",
+    "routeKeys": [
+      "obligation:track-only:KY:ky_protective_order_record_expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "court_order",
+      "primary_filing",
+      "service_instructions"
+    ],
+    "packetComponents": [
+      "component:ky_protective_order_record_expungement-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md",
+    "filingInstructions": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-275.18",
+        "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "declaredInstrumentKindsWithoutAComponent": {
+      "kinds": [
+        "court_order",
+        "service_instructions"
+      ],
+      "note": "MASTER_QUEUE declares three instrument kinds for this family and one packet component. The route census names a court_order and a service_instructions component; neither has a bound source, and the court order for this motion is the clerk's own notification block printed on the face of AOC-275.18. Recorded rather than silently treated as delivered."
+    }
+  }
+}
