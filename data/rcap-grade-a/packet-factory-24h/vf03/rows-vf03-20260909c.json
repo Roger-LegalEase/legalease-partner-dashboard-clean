@@ -186,6 +186,225 @@
       ],
       "visualDefects": [],
       "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
+    },
+    {
+      "itemId": "la-985-expungement-by-redaction-set",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading",
+      "implementationStrategy": "custom_pleading, composed from codified statutory authority under the LA-STATUTORY-FORMS owner determination",
+      "postRepairReread": false,
+      "verdictNote": "FAIL_REPAIR_REQUIRED is the single verdict because there is repairable work a repair lane can do now without counsel. It is not the whole story: two obligations below are scored BLOCKED_LEGAL_INPUT on release blockers the controlling record itself carries, so this family cannot reach a terminal PASS on repair alone even after the two defects are fixed. Captain should read both parts.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 6,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true,
+        "requiredFactsNotCollectedDetail": "Six of the record's required participantInputs - originalArrestCharges, dispositionType, underlyingEntitlement, otherIndividualsNamed, othersEntitled and recordLocations - have no fact behind them on either fixture. Each is nonetheless classified as a WRITTEN field and carries text that restates its own question or describes the fixture, so the builder's own counter and the repository verifier both score it collected."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records is identical in the MASTER_QUEUE.json family row, production-field-map.json and packet-set-manifest.json. The relief is stated on the face of the delivered paper, which is what this route needs, because Article 985 relief has no election box: packet page 1 is titled 'ARTICLE 989 MOTION FOR EXPUNGEMENT, REQUESTING EXPUNGEMENT BY REDACTION UNDER ARTICLE 985' and prays for it, page 5 is titled 'ARTICLE 992 ORDER OF EXPUNGEMENT, CARRYING THE ARTICLE 985 REDACTION PARAGRAPH', and page 6 carries the dedicated Article 985 redaction section. That is exactly what the memo's legalDesignDecision limitation instructs: 'Use the Art. 989 motion and select the redaction option in the Art. 992 order, which contains a dedicated redaction paragraph. Do not create a custom redaction pleading.' The motion itself prints the reason on page 1 - Article 986 provides that only the statutory forms shall be used, so there is no separate redaction motion."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "detail": "What binds, binds. The receipt declares two source binaries and both recompute exactly against the 501-file Master Library index by content: 0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2 = STATES/LA/05_SOURCE_GATED/...LA-CCRP-ART-993 article-993-supplemental-sheet..., and 13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a = ...LA-CCRP-ART-990 article-990-affidavit-of-response.... The receipt is honest that neither is rendered into the packet, calling each 'authority reference bound by digest; not a rendered component of this packet'. What does NOT bind is everything the packet actually renders. The Article 989 motion, the Article 991 order and the Article 992 order are composed, and no held bytes exist for any of them: I listed the Louisiana holdings of the Master Library and it carries Articles 984, 990, 993, 995, 998 and 999.1 and nothing else, so there is no copy of Articles 989, 991 or 992 in this container to compare the composed text against, and no legis.la.gov HTML capture either. The composition is authorized - I read the owner determination LA-STATUTORY-FORMS in data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json and it names this exact family, grants composition from authority of LA-CCRP-ART-988, 989, 991 and 992, lists remainOfficialAndMustBeHeld as empty, and says 'Do not wait for separate agency-issued fillable PDFs', so the builder's account of it is accurate. But the controlling legal record still carries the matter open: LA.memo.json track la-985-expungement-by-redaction, unresolvedQuestions item 1, impact release_blocker, affectedElement correct_form, reads 'Articles 987, 988, 989, 991, 992 and 994 - the Article 986 mandatory forms on which every Louisiana motion track depends - are retained by no Master Library Edition 1.1 asset... Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released.' I confirmed that question's factual premise myself against the corpus. So the obligation is neither passed nor failed here: it is blocked on an open legal input, and the packet carries the question verbatim into participant-instructions.md line 149 rather than hiding it."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "detail": "The mechanical half checks out. The committed packet-set manifest declares six components: four required and generated (Article 989 primary_filing, Article 991 proposed_order, Article 992 proposed_order, and the instructions component at order 6), and two conditional and not generated (the Article 988 fee waiver and the Article 993 continuation), each recorded with the record's own condition text and a stated reason. All four required components are rendered and present, which I read off the delivered pages: 989 motion on packet pages 1-3, 991 order on page 4, 992 order on pages 5-6, instructions on pages 7-16. Neither conditional condition is met on either fixture, so requiredComponentsMissing measures 0. Two observations. First, MASTER_QUEUE.json lists four packetComponents for this family and names the fee waiver among them while omitting the instructions and continuation components the manifest declares; that is a queue-versus-manifest bookkeeping difference for Captain, not a packet defect, because the manifest is the authority. Second and controlling: LA.memo.json unresolvedQuestions item 4, impact release_blocker, affectedElement packet_components, asks 'Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion'. That question is about whether this component set is the right one, it is open on the record, and I will not answer it in a verifier row. The build did not guess it either; it carried it verbatim into the guide and into approval-request.json for counsel."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "All 37 declared writes produce readable ink and print on the page they belong to; that half is sound. Six of them, however, are not facts. On the Article 989 motion the build writes: original_arrest_charges = 'Original arrest charge and statute for each count exactly as they appear on the state rap sheet', which is the field's own printed prompt written back into the field as its answer; disposition_type = 'Disposition wording from the canonical fixture court record'; underlying_entitlement = 'Article 977 - misdemeanor conviction, as the fixture court record states it'; other_individuals_named = 'One other individual is named in the record of this arrest, as the fixture record states'; others_entitled = 'Not known to the fixture participant'; record_locations = '...as far as the fixture participant knows'. Five of the six are written a second time onto the Article 992 PROPOSED ORDER OF EXPUNGEMENT, the document a judge signs, at packet page 5. The boundary fixture repeats the pattern with longer prompt-restatements. Every one of the six is a REQUIRED participantInput on the controlling record - originalArrestCharges, dispositionType, underlyingEntitlement, otherIndividualsNamed, othersEntitled, recordLocations - so these are facts the route needs and the platform did not hold. The correct treatment was available and the same builder used it seven times over: race, gender, the last four SSN digits, the arrest or booking number, the SID number, the agency item number and the driver's licence number are all classified REQUIRED_BEFORE_FILING, left visibly blank, and named in the guide's 'What you must supply before filing' table. These six were instead classified written, so not one of them appears in that table, and the guide's lead-in tells the participant to 'Check every prefilled fact against your own court record', framing them as facts to check rather than prompts to replace. Two consequences make this an output defect rather than a fixture nicety. The build-harness word 'fixture' is printed four times on the face of a motion and a proposed order. And the cell the Louisiana State Police list of common fatal errors singles out - the original arrest charge, which the guide itself warns at line 141 must not be the amended charge and must not omit counts - carries nothing but a restatement of its own question. No other family I read this shift does this: az_certificate_second_chance-set, fl-self-defense-set, hi_nonconviction_expungement-set and all three Illinois families supply real-shaped participant facts in every written cell."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "Coverage is otherwise very good: the guide carries all 20 registry items, all 6 selfHelpStopConditions, all 3 exclusions and all 4 unresolvedQuestions verbatim, numbered, with the count printed beside them, and all 7 blanks the field map classes REQUIRED_BEFORE_FILING appear in the 'What you must supply before filing' table with what to write. The failure is a false statement about this packet inside a required-before-filing item. participant-instructions.md item 5 of 18, and again at the obtain_document entry, prints the record's howToObtain verbatim: 'The packet gives you the Article 988 form with your own fields filled in. Take or send it to the district attorney's office BEFORE the motion is filed.' This packet does not give the participant the Article 988 form. The guide itself says so 22 lines earlier, under 'What is not generated, and the condition the record states': the fee-waiver component 'is not generated'. The two statements are never reconciled, and the stakes are the Article 983(A) five-hundred-and-fifty-dollar cap, non-refundable even if the motion is denied, because item 5 also says 'Filing without it means paying the fee.' The builder solved exactly this problem for the OTHER not-generated component one line later - for the Article 993 supplemental sheet it adds 'ask the clerk of court for the Article 993 supplemental sheet rather than adding pages of your own' - and did not do the same for Article 988."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The field map records one routeSelectionsMade entry, ARTICLE_985_EXPUNGEMENT_BY_REDACTION, with routeDetermined true, and states where it is made: 'the motion is titled and prayed as a request for expungement by redaction under Article 985, and the proposed Article 992 order carries the Article 985 redaction section'. I confirmed both on the delivered pages. This route has no tick or checkbox to leave unselected - Article 986 forecloses a separate redaction pleading, so the election IS the instrument set and the title, and it is made. No refusal carries routeDetermined true. The four attorney-block fields are classified NOT_APPLICABLE_ON_THIS_ROUTE with the stated reason that the fixture records no representation, and the delivered page 2 says so in words beneath the empty block."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The composed instruments carry no repeating row group - no arrest table, no charge grid, no numbered rows. The builder's own totals agree, recording rowsInspected 0. The nearest analogue is the multi-count case, and the record handles it by a separate instrument rather than by rows: where an arrest carries more counts than the Article 989 motion holds, the Article 993 supplemental sheet applies, and the guide tells the participant to ask the clerk for it rather than adding pages of their own. Zero incomplete rows is a measurement here, not a default."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the strongest part of the family and I checked it on the delivered bytes page by page. All 18 fields classified PROTECTED_FIELD are visibly empty dot-leaders. On the Article 989 motion: the unrepresented mover's signature and its date are blank (only the printed name is filled), the attorney signature is blank, and the clerk's 'Filed on' stamp and certificate of service are blank under a heading that reads 'FOR THE CLERK - LEAVE BLANK'. On the Article 991 order: the four ordering paragraphs, the no-contradictory-hearing finding, the return date, the date and place of the order and the judge's signature are all blank. On the Article 992 order: whether the motion is granted or denied, the findings, the decretal paragraphs, the date and place and the judge's signature are all blank. Both proposed orders carry a printed banner - 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided, and no relief exists unless and until a judge completes and signs it and the clerk enters it' - so neither can be mistaken for an executed order. The Article 985 redaction paragraph, the one blank on the packet that most looks like the packet's to write, is left blank with the reason printed beneath it from Article 985(C), and the two mover-supplied facts the paragraph needs are printed above it so the court has them to hand. No signature block is misleading and no court-owned field carries ink."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash here to what the record names: canonical.pdf = 735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529 (50019 bytes, 16 pages) and boundary.pdf = 519d4aba86f99142e174da572db769229b2e1aa412dcb264f7ffe79f24574764 (50787 bytes, 16 pages), which is what reports/rendered-artifacts.json declares and what the admitted raster verdict pinned. Both files are structurally sound: poppler opens each silently with no cross-reference reconstruction, and reloading with pdf-lib resolves every page annotation reference with none dangling - which I checked deliberately, because the three Illinois EXP-AD families I read this shift carry 146 dangling references each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The field map's pageOrder is primary-filing-1, proposed-order-2, proposed-order-3, instructions-6, and the page manifest maps that onto packet pages 1-3, 4, 5-6 and 7-16. Read back from the delivered text the order is exactly that: page 1 heads 'LA-CCRP-ART-989', page 4 heads 'LA-CCRP-ART-991', page 5 heads 'LA-CCRP-ART-992', page 7 heads the instructions component, and each page carries its own 'Assigned component identity' line naming the component it belongs to, which makes the manifest checkable from the paper itself. Both fixtures are 16 pages with identical manifests, contiguous and in ascending source-page order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured over every word box of all 16 pages of both fixtures. Zero words fall outside the 612x792 media box; the furthest right edge anywhere is x=554.5 against a 612pt page, so nothing crowds the margin. Zero pairs of words on the same baseline overlap: I sorted every page's words by baseline and x and found no case where a word begins before the previous word ends. That covers the long boundary values, which wrap onto further lines inside the composed body rather than running off the measure. The admitted raster receipt for these exact digests measured 32 pages and reports problems [] and environmentProblems []."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's destination is {kind: clerk, name: 'Clerk of court for the parish of arrest or conviction', detail: 'File the Article 989 motion with the proposed Article 991 and Article 992 orders, selecting the redaction relief in the Article 992 order. The clerk serves under Article 979.'}, and both the name and the full detail string are carried verbatim in the delivered guides. The guides add the Article 972.1 list of courts with trial jurisdiction and the Article 986 rule that only the statutory forms shall be used, so there is no drafted pleading and no local variant, with Article 986(C) letting a clerk alter the form only to show that court's name."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both are stated from the record. Fee: 'Article 983(A) caps the total cost at five hundred fifty dollars, collected by the clerk at filing and non-refundable even if the motion is denied.' Waiver: 'Article 983(F) through the Article 988 Motion for Fee Exemption where the underlying basis meets its grounds', with the mechanics carried in full - the participant fields are completed, the form goes to the district attorney BEFORE filing, the district attorney or a designee completes the certification boxes and signs and returns it within fifteen days, it is appended at filing only if the participant is found eligible, and filing without it means paying the fee. The condition on which the Article 988 component is generated is quoted from the record and the packet states that this fixture does not meet it. The obligation as written - that the fee and any waiver route are stated - is met. The separate defect that the guide also tells the participant the packet gives them a form it does not give them is scored once, under REQUIRED_BEFORE_FILING, rather than counted twice here."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Answered completely and from the record. 'The participant does not serve anyone. Under Article 979 the clerk of court serves notice of the motion by United States mail or electronically on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law-enforcement agency, and files a certificate of service showing the mailing date. Under Article 982, if expungement is granted the clerk serves the order and judgment on the district attorney, the Bureau, the sheriff of the parish of conviction and the arresting agency.' The objection machinery is carried with it: sixty days from service under Article 980, one extension of not more than thirty days under Article 980(C), a timely objection meaning a contradictory hearing the objecting party must ask to have set, and an Affidavit of No Opposition from each named agency supporting an ex parte grant. The delivered motion page 3 repeats the rule beneath the clerk's own blank block: 'Under Article 979 the clerk serves the motion and files the certificate of service. The mover serves nobody.'"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The memo names six selfHelpStopConditions for this track and all six are carried verbatim, confirmed one by one by exact string containment: any co-defendant case; that whether redaction rather than full expungement is the correct request is unclear; that the relationship between the petitioner's record and the shared record is disputed; any named agency filing an Article 990 affidavit of response objecting; the court setting a contradictory hearing under Article 980(D); and the participant being in hard-labour custody so Article 975 bars filing. All three exclusions are carried verbatim as well, including that Article 985 is not an independent eligibility ground and that a record naming only the petitioner has nothing to redact. The build's own account is accurate: the count is printed beside the list so short carriage would be visible."
+        }
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "blockedObligationNames": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "file": "the builder for this family, and both fixtures under data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/",
+          "defect": "Six required participantInputs are classified as written and carry prompt-restatements or fixture-descriptions instead of facts, on the Article 989 motion (packet pages 1-2) and, for five of them, again on the Article 992 proposed Order of Expungement (packet page 5).",
+          "exactValuesOnTheCanonicalFixture": {
+            "LA-CCRP-ART-989.original_arrest_charges": "Original arrest charge and statute for each count exactly as they appear on the state rap sheet",
+            "LA-CCRP-ART-989.disposition_type": "Disposition wording from the canonical fixture court record",
+            "LA-CCRP-ART-989.underlying_entitlement": "Article 977 - misdemeanor conviction, as the fixture court record states it",
+            "LA-CCRP-ART-989.other_individuals_named": "One other individual is named in the record of this arrest, as the fixture record states",
+            "LA-CCRP-ART-989.others_entitled": "Not known to the fixture participant",
+            "LA-CCRP-ART-989.record_locations": "The clerk of court for the parish, the arresting agency and the Louisiana Bureau of Criminal Identification and Information, as far as the fixture participant knows"
+          },
+          "repair": "Either give the fixtures real participant answers for these six required inputs, as every other family in this factory does, or reclassify the cells the fixture cannot answer as REQUIRED_BEFORE_FILING so they print blank and reach the guide's 'What you must supply before filing' table with what to write - the treatment this same builder already applies to race, gender, the SSN last four, the arrest number, the SID number, the agency item number and the driver's licence number. Either way, no delivered page should print the word 'fixture', least of all the Article 992 proposed Order of Expungement. Re-render both fixtures and re-raster.",
+          "whyTheCountersMissedIt": "The nine counters score a cell by whether text is present, not by whether the text is a fact, so knownRequiredFieldsMissing and requiredFactsNotCollected both read 0 and verify-packet-completeness.mjs returns PASS_COMPLETE."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/participant-instructions.md",
+          "defect": "Item 5 of 18, and the matching obtain_document entry, tell the participant 'The packet gives you the Article 988 form with your own fields filled in.' The Article 988 fee-waiver component is not generated in this packet, and the guide says so 22 lines earlier without ever reconciling the two.",
+          "repair": "Add the same one-sentence reconciliation the guide already gives for the other not-generated component: where the Article 983(F) grounds may apply, ask the clerk of court or the district attorney's office for the Article 988 Motion for Fee Exemption, because this packet does not include it. Generating the item text conditionally on whether the component was generated would prevent the next occurrence.",
+          "stakes": "Article 983(A) caps the cost at $550, collected at filing and non-refundable even on denial, and the same item tells the participant that filing without the exemption means paying it."
+        }
+      ],
+      "openLegalInputsThatNoRepairDischarges": [
+        {
+          "record": "data/record-clearing/legal-design-intake/LA.memo.json, track la-985-expungement-by-redaction, unresolvedQuestions[0]",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "summary": "The Article 986 mandatory forms for Articles 987, 988, 989, 991, 992 and 994 are held by no Master Library asset; the record asks that the canonical source form for each be confirmed and adopted in a successor edition before any Louisiana packet is released. I confirmed the premise against the corpus: Louisiana holdings are Articles 984, 990, 993, 995, 998 and 999.1 only.",
+          "effect": "SOURCE_IDENTITY cannot be passed here for the three composed instruments, and no build repair changes that."
+        },
+        {
+          "record": "data/record-clearing/legal-design-intake/LA.memo.json, track la-985-expungement-by-redaction, unresolvedQuestions[3]",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "summary": "Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion.",
+          "effect": "COMPONENT_SET cannot be passed here, and no build repair changes that. The build did not guess it and carried it verbatim to counsel."
+        }
+      ],
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-expungement-by-redaction-set returned PASS_COMPLETE, 37/66 written, nine zeros. It is green and the family fails: the verifier counts a cell as collected when text is present in it.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-985-expungement-by-redaction-set/la-985-expungement-by-redaction-set.verdict.json, RASTER_PASS at packetCommitSha 159c0b5cf25e10a7fad6a7defb60bd6692e52480, pagesMeasured 32, coversTheWholeFamily true, problems [] and environmentProblems []. Its pinned digests equal the digests I recomputed, so it is over the current bytes.",
+        "ownerDeterminationVerifiedNotAdopted": "The builder's claim that LA-STATUTORY-FORMS grants this family composition of exactly Articles 988, 989, 991 and 992 with nothing remaining official and held was checked at data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json and is accurate word for word."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/production-field-map.json",
+          "sha256": "4887f82b653c6beb46a6cecb11c066aecb6e281e8263ec71af11c2cfea4d5364"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/participant-instructions.md",
+          "sha256": "736361e7931ba063602f8e7f05adbf2cf0d4b6d6a7859b9b9b9e1d40a5c25096"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/filing-instructions.md",
+          "sha256": "be4328136922ed74351b16b70739986ec44b81abe40e84988a14417a6cd4a2b8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/source-receipt.json",
+          "sha256": "eb0a0001193d92f3aaa0de46592e0239bfba3d7b2c742e9adfd15bd6544fd7f6"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/packet-set-manifest.json",
+          "sha256": "7d024c561c85631f966b6a4213c77341b25b16b4b84d52e2e0fa521b7f824d47"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/build-findings.json",
+          "sha256": "d9d13903e4df70a80cff1275d5cdea5b0debd009413e6676b4a73ec9660b615e"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/actual-writes.json",
+          "sha256": "1801c74c703ba6227bb0404300a19bf7442c5036349333bf66d655acba289e04"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "669d10ba930a7872cae51c99153ab20d1077fe46bb62b610a9befe070b929dad"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "519d4aba86f99142e174da572db769229b2e1aa412dcb264f7ffe79f24574764"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-985-expungement-by-redaction-set/la-985-expungement-by-redaction-set.verdict.json",
+          "sha256": "9c4008238e083388955ad425a8e53b2745403a0d29254ba1423977bbb8a36a45"
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/LA.memo.json",
+          "sha256": "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
+        },
+        {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+          "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+          "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+          "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a"
+        }
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
     }
   ]
 }
