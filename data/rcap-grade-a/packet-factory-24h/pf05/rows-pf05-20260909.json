@@ -8,14 +8,14 @@
   "returnFilename": "rows-pf05-20260909.json",
   "writtenAlongsideRatherThanOver": "rows.json, LANE_NOT_EXECUTED.json and PFB_SHIFT_RETURN.json (earlier PF05 material) survive byte-for-byte; this return is a distinct file.",
   "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
-  "headShaAtReturn": "c85647aab53d59fb1998c58915addb632ab48419",
+  "headShaAtReturn": "fccf834b4a2455a6abe60e10caf4d24117c3015e",
   "headShaAtReturnIs": "the parent of the commit that carries this file, read with git rev-parse HEAD before committing. It is not the sha of that commit, which cannot be known before it exists, and it is not transcribed by hand.",
   "worktree": "/home/user/pfc-worktree",
-  "familiesAssignedByPrompt": 3,
-  "familiesGrantedByClaimLedger": 3,
-  "rowsReturned": 2,
+  "familiesAssignedByPrompt": 4,
+  "familiesGrantedByClaimLedger": 4,
+  "rowsReturned": 3,
   "familiesCompleted": 0,
-  "familiesStopped": 2,
+  "familiesStopped": 3,
   "blockedSource": [
     "nh_conviction_streamlined-set",
     "nc_auto_146_a4_agency_followup-set"
@@ -23,7 +23,7 @@
   "blockedLegalInput": [],
   "blockedBeforeClaim": [],
   "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "shiftIsIncomplete": "This return covers families 1 and 3. ut_pet_cannabis-set is not yet returned and no row for it is present. Absence of a row here is not a result for that family.",
+  "shiftIsIncomplete": "This return covers families 1, 2 and 3. ar-misdemeanor-seal-set was added to this lane mid-shift by the Captain and is not yet returned; no row for it is present, and its absence here is not a result for it.",
   "rasterState": "BUILT_RASTER_PENDING",
   "rasterNote": "No packet was built in this return, so there is nothing to raster and no digest to bind. rasterState is carried for schema continuity and zeroes nothing.",
   "packetsSelfVerified": 0,
@@ -191,6 +191,99 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_cannabis-set",
+      "status": "STOPPED",
+      "stopReason": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+      "stopClass": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+      "stopClassIsNewHere": "It is deliberately NOT BLOCKED_SOURCE. All five declared digests resolve and were re-hashed from the custody bytes by this lane, so calling it a source block would misdescribe it and would send an acquisition lane after bytes that are already held. It is also not a strategy mismatch: ca-1203-4-set is declared official_pdf_fill over flat sources and renders through finalizeFlatOverlay, and these five draw rules the same way, so the flat path is legitimately available here. The blocker is narrower than either and this string names it.",
+      "verdict": null,
+      "jurisdiction": "UT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:UT:ut_pet_cannabis:path-j-cannabis-possession-petition-without-a-bci-certificate"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "claimAssertion": "CLAIM_OK PF05 ut_pet_cannabis-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "allFiveDeclaredSourcesResolvedByContentDigest": true,
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:1044XX",
+          "component": "civil_cover_sheet",
+          "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+          "byteLength": 119736,
+          "pages": 2
+        },
+        {
+          "sourceId": "official-form:1003EX",
+          "component": "petition",
+          "sha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+          "byteLength": 129711,
+          "pages": 4
+        },
+        {
+          "sourceId": "official-form:1023EX",
+          "component": "proposed_order",
+          "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+          "byteLength": 110830,
+          "pages": 3,
+          "note": "held in the Nationwide recovery pool custody, which is mounted in the main clone and not at this sparse worktree repoRoot. Resolved by content hash against that root and re-hashed from the bytes; not resolved by path and not substituted."
+        },
+        {
+          "sourceId": "official-form:1146XX",
+          "component": "acceptance_of_service",
+          "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+          "byteLength": 192790,
+          "pages": 1
+        },
+        {
+          "sourceId": "official-form:1148XX",
+          "component": "consent_and_waiver_of_hearing",
+          "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+          "byteLength": 191518,
+          "pages": 2
+        }
+      ],
+      "why": "Not one of the five carries a fillable control. Each has no /AcroForm in its catalog, no /XFA and zero annotations on every page, measured from the bytes; the committed corpus index agrees, recording all five as structuralClassObserved flat_pdf with acroFieldCount 0. That alone is not a stop, because the factory has a sanctioned flat path. The stop is what that path can reach. Applied to 1003EX, the petition, it places the participant name, street address, phone and email in the top-left contact block and refuses Case Number, Judicial District and County, Court Address and the caption Petitioner name, each for want of a drawn rule. Utah writes those blanks as typed underscore leaders in the text layer rather than as rectangles, and the method gives a caption with no rule no coordinate. A cannabis-expungement petition that does not state its case number, its court or the petitioner name is not a filing, so what the method can place is not a packet.",
+      "noFillableUtahEditionIsHeld": "Zero of the 59 UT entries in the committed corpus index carry an AcroForm, so there is no fillable edition of any of these five to bind instead.",
+      "wrongPartyHazardMeasuredNotAsserted": {
+        "whatWasMeasured": "Every anchor the shared derivation keeps was classified against the printed HEADINGS of its own page - located by matching the heading text and then by column x or by distance below it - rather than against its caption string. 15 of the 36 kept anchors across the five documents land inside a block the form says belongs to somebody else.",
+        "perDocument": {
+          "1044XX": 9,
+          "1003EX": 0,
+          "1023EX": 2,
+          "1146XX": 2,
+          "1148XX": 2
+        },
+        "examples": [
+          "1044XX is a two-column cover sheet with Defendant/Respondent governing from x=310. Seven anchors carrying participant.full_legal_name, participant.street_address and participant.phone start at x=320.1, which would name the participant as the opposing party, and two more sit ~26pt below the Attorney or Licensed Paralegal Practitioner headings, which would state the participant is counsel.",
+          "1146XX and 1148XX print the participant contact block at the top and the prosecutor block lower down. participant.street_address lands 30.7pt and participant.phone 78.8pt below the printed heading Prosecutor (print name), on an Acceptance of Service.",
+          "1003EX gives a 474pt participant.full_legal_name box to the line I am [ ] Plaintiff/Petitioner [ ] Plaintiff/Petitioners Attorney (Utah Bar #:____), which is an election and a bar number, not a name blank."
+        ],
+        "whyThisIsInTheReturn": "It is not the stop and it does not become one, because a curated anchor set fixes it. It is here so the next lane does not run the shared derivation over these five and ship its output."
+      },
+      "captionChannelDefectOnTheseBytes": {
+        "finding": "The caption channel misreads these bytes. Kerned runs come back transposed - PlaintiffP/etitioner, Check your email.ou wY, Judicial District C ounty - and the shared captionIsUndecodable test looks only for control characters and replacement glyphs above a 15% share, so transposition passes it.",
+        "measured": "2 of the 5 anchors the method keeps on the petition were bound off a caption that was never correctly read.",
+        "status": "Reported, not corrected. scripts/generate-rcap-flat-overlay-profiles.mjs and scripts/rcap-official-forms/ are shared and are not this lane to edit. That generator writes overlay-profile.derived.json for review rather than a filed packet, so the exposure is bounded, but the same caption channel is what a build lane would reach for."
+      },
+      "whatWouldUnblockIt": [
+        "binding a fillable Utah edition of 1003EX, 1023EX, 1044XX, 1146XX and 1148XX if the courts publish one, so the case number, court and caption blanks have controls to write into",
+        "or a reviewed extension of the flat-overlay method that measures a typed underscore leader in the text layer as a write box - these forms use that device for every blank that matters, and the present method refuses to guess at it by design, which is the correct default and also the thing that blocks this family",
+        "and in either case a curated anchor set for this family, because run uncurated the shared derivation places 15 anchors inside a block another party owns"
+      ],
+      "reproducedBy": "scripts/build-census-v1-ut_pet_cannabis-set.mjs, written by this lane. It resolves the five digests, re-hashes them, measures fillability from the bytes, reproduces the sanctioned derivation, classifies each anchor against the printed headings and returns this refusal with null counters. It creates no overlay directory and writes no file.",
+      "artifactsRead": 5,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "orderDeviation": "PF05.md orders the families NH, UT, NC on a cheapest-first rationale. NC turned out to be the cheapest of the three - its single bound source does not resolve anywhere, which is a measurement, not a build - so it was measured and returned before UT rather than after. Nothing about UT was skipped or pre-judged to do it.",
@@ -203,5 +296,13 @@
     ],
     "filesHashedAcrossPasses": "6051 in the four-root pass and 5939 in the whole-main-repo pass",
     "networkAcquisitions": 0
+  },
+  "stoppedForOtherReasons": [
+    "ut_pet_cannabis-set"
+  ],
+  "captainMidShiftInstruction": {
+    "received": "Add ar-misdemeanor-seal-set as a fourth family; both its sources are held byte-exact. Before stopping any family for a source reason, read data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json and bind by the digest it carries.",
+    "sweepFileNotAvailableToThisLane": "SOURCE_IDENTITY_RESOLUTION_SWEEP.json is not in this worktree and is not present on ANY pushed branch of origin - checked with git ls-tree across every remote branch after a full fetch. It exists only inside other agents active worktrees (src1, pf14, pf23, captain), which the lane brief forbids this lane to read. So no family here was bound by the sweep, and where a source question arose this lane answered it with its own content-hash sweep, which is the same method.",
+    "whatThisLaneDidInstead": "Hashed every file under every custody root reachable to it - the master library at /home/user/corpus-x, the whole main clone including private/source-imports (master library, Nationwide recovery pool, D source packs, human source returns) and reference/, and the remaining non-worktree mounts corpus-dl, vf-g-ro, fix96-scratch, pf27-scratch, vf-g-scratch - and compared by digest, never by filename."
   }
 }
