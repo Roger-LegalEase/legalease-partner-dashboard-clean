@@ -5443,11 +5443,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF15",
+      "lane": "VF16",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF13 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at cc9c11cf0: fixtures byte-unchanged, fourteen obligations carried on that identity, nine counters zero, and the single failure was the queue's own rasterReceipt still claiming a coverage the row did not measure. Lane finished."
+      "releaseReason": "VF15 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at 56741a88d: fixtures byte-unchanged, fourteen carried, nine counters zero, and it found the third record describing run 34058277654 — the hand-authored censusV1Representation block, which the Captain's own earlier edit had left disagreeing with the queue. Lane finished, and its finding is what produced the agreement check."
     },
     {
       "subjectType": "packet-family",
@@ -13701,7 +13701,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6ec0e973623a7b0e1a24d7722fb4916eac9c13e33b6612d0f4c77fc868a72bf6",
+  "claimsDigest": "b2eabd545925b2976e3d883df7d5c8f47223dba9de5cafdfab9f44a259c98eb4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32976,6 +32976,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T01:20:09.657Z",
       "reason": "VF13 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at cc9c11cf0: fixtures byte-unchanged, fourteen obligations carried on that identity, nine counters zero, and the single failure was the queue's own rasterReceipt still claiming a coverage the row did not measure. Lane finished."
+    },
+    {
+      "lane": "VF15",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T01:37:32.239Z",
+      "reason": "VF15 returned FAIL_REPAIR_REQUIRED on ARTIFACTS at 56741a88d: fixtures byte-unchanged, fourteen carried, nine counters zero, and it found the third record describing run 34058277654 — the hand-authored censusV1Representation block, which the Captain's own earlier edit had left disagreeing with the queue. Lane finished, and its finding is what produced the agreement check."
     }
   ],
   "reissues": [
@@ -48938,6 +48947,17 @@
       "previouslyReleasedAt": "2026-09-09T01:20:09.657Z",
       "transferredAt": "2026-09-09T01:20:09.778Z",
       "reason": "The Captain repaired what VF13 found, at 508723c5b, so VF13 cannot read its own finding's repair. VF15 is the third reader in this chain and each repair has been smaller than the last: stale records, then one receipt block, then the queue's copy of that receipt."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF15",
+      "toLane": "VF16",
+      "previouslyReleasedAt": "2026-09-09T01:37:32.239Z",
+      "transferredAt": "2026-09-09T01:37:32.349Z",
+      "reason": "The Captain corrected what VF15 found, at 64a979b22, so VF15 cannot read its own finding's repair. VF16 reads a family whose divergence class is now asserted by scripts/verify-acceptance-receipt-agreement.mjs rather than left to careful reading."
     }
   ],
   "grants": [
