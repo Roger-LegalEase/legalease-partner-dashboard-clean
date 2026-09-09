@@ -52,10 +52,77 @@ const FAMILY_CONFIG = {
     routeSummary: "Misdemeanor or violation charge dismissed without prejudice more than one year ago, not refiled, with the form's two-year conviction-free condition.",
     recordComparison: "Read the certified local record and confirm it shows the charge was DISMISSED WITHOUT PREJUDICE, the date that happened, and that the charge has not been refiled. Confirm more than one year has passed since the dismissal and that the form's two-year conviction-free condition is met. Correct the selection if the record says otherwise."
   },
+  /*
+   * AL6-04: why this route checks nothing on CR-65.
+   *
+   * CR-65 Section V is a CONJUNCTIVE SWORN CERTIFICATION. The form prints
+   * "AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight
+   * boxes, the conviction is not eligible for expungement", and the petition is
+   * sworn on page 6. This family used to check all eight on the participant's
+   * behalf, under factId route.selection with routeDetermined true.
+   *
+   * Six of the eight assert facts this route never establishes and never asks
+   * about. AL.memo.json track al-pardoned-felony records waitingPeriods [] --
+   * EMPTY, so no 180-day period exists in the record at all -- exclusions []
+   * empty, and only four participantInputs: pardonDate, restorationLanguage,
+   * firearmRightsExcluded, countyOfFiling. Nothing in it speaks to whether the
+   * conviction is a violent offense under § 12-25-32, a sex offense under
+   * § 15-20A-5, an offense involving moral turpitude under § 17-3-30.1, a
+   * serious traffic offense under Article 9 of Chapter 5A of Title 32, whether
+   * the petitioner was arrest-free for the 15 years before filing, or whether
+   * they held a commercial driver licence at the time of the offense.
+   *
+   * The seventh, "All civil and political rights that were forfeited as a
+   * result of the conviction have been restored", is worse than unestablished:
+   * it is the open question. The same memo carries it as a retained
+   * legal_design_blocker -- "whether a pardon that withholds firearm rights
+   * satisfies the statutory restoration requirement remains dispositive and
+   * must be resolved before that branch ships" -- and as a stop condition,
+   * "The pardon withholds firearm rights and the restoration question
+   * controls." The route expressly contemplates that this box may be FALSE.
+   *
+   * The eighth, Check Box10.6, is the route's defining disposition, but it too
+   * asserts restoration: "a certificate of pardon WITH RESTORATION of civil and
+   * political rights". The memo's own limitation classifies restoration
+   * language as a participant-entered fact -- "Pardon date, restoration
+   * language, and certificate terms are participant-entered facts" -- so the
+   * platform is told in terms that this is not its fact to assert.
+   *
+   * The tempting repair is to check fewer boxes, or to tell the participant in
+   * an instruction to go back and confirm what the packet already swore. Both
+   * are wrong. Ink already on a sworn certification is not cured by prose
+   * elsewhere, and a partly-ticked conjunctive certification still swears the
+   * limbs it ticks. So this route checks NONE of the eight and hands the whole
+   * certification back, naming every limb and what each one asserts. The
+   * sibling al-misd-conviction-set keeps its seven Section II ticks precisely
+   * because each of those seven IS backed by a memo exclusion, waiting period
+   * or participant input; here six are backed by nothing and two by a question
+   * the record marks unresolved.
+   */
   "al-pardoned-felony-set": {
-    trackId: "al-pardoned-felony", selected: ["Check Box10.6", "Check Box11.0", "Check Box11.1", "Check Box11.2", "Check Box11.3", "Check Box11.4", "Check Box11.5", "Check Box11.6"],
-    routeSummary: "Pardoned felony route after the pardon and every Section V condition. Attach the certificate of pardon.",
-    recordComparison: "Read the pardon certificate and confirm it restores your civil and political rights, then confirm every condition printed in CR-65 Section V. Read the restoration language itself rather than assuming it: if the pardon withholds firearm rights, that restoration question controls and this route may not fit."
+    trackId: "al-pardoned-felony", selected: [],
+    routeSummary: "Pardoned felony route under Ala. Code § 15-27-2(c). This packet does not check any box in CR-65 Section V. Section V is a sworn certification of eight separate conditions, and the held record establishes only that a pardon was granted -- so you must read all eight and check them yourself, or stop.",
+    recordComparison: "Do not sign the petition until you have read all eight conditions printed in CR-65 Section V and checked, yourself, only those that are true of you. They are listed under \"The eight conditions you must certify yourself\" below. This packet checks none of them, because the held record establishes only that a pardon was granted. Read the restoration language on the pardon certificate itself rather than assuming it: if the pardon withholds firearm rights, that restoration question controls, it is unresolved in this record, and this route may not fit at all.",
+    /*
+     * The eight limbs, quoted as CR-65 prints them, each paired with what the
+     * held record does and does not say about it. This is rendered into the
+     * guide only for this family; the other three families this host builds
+     * carry no such section and their guides are unchanged.
+     */
+    electionsHandedBack: {
+      heading: "The eight conditions you must certify yourself",
+      preamble: "CR-65 Section V says the conviction is eligible only if ALL of the following have occurred, and the petition is sworn. This packet leaves every one of these boxes empty on purpose. Read each one, decide whether it is true of you, and check it yourself. If any one of them is not true, the conviction is not eligible for expungement on this route and you should stop and speak with an Alabama lawyer.",
+      items: [
+        { box: "Check Box10.6", printed: "I was granted a certificate of pardon with restoration of civil and political rights for the conviction from the Board of Pardons and Paroles.", record: "The held record establishes that a pardon was granted. It does not establish that your certificate restored your civil and political rights -- it classifies the pardon date, the restoration language and the certificate terms as facts you supply. Read your certificate and decide this one yourself." },
+        { box: "Check Box11.0", printed: "All civil and political rights that were forfeited as a result of the conviction have been restored.", record: "UNRESOLVED IN THE HELD RECORD. Whether a pardon that withholds firearm rights satisfies this restoration requirement is recorded as dispositive and unresolved. If your pardon excludes firearm rights, do not check this box; stop and speak with an Alabama lawyer." },
+        { box: "Check Box11.1", printed: "One hundred eighty days have passed from the date of the issuance of the certification of pardon.", record: "The held record states no waiting period for this route at all. Read the date on your certificate of pardon and count the days yourself." },
+        { box: "Check Box11.2", printed: "the conviction is not a violent offense, as provided in Section 12-25-32, unless it falls within an exception under Section IV.", record: "The held record does not say whether your conviction is a violent offense, and never asks. Check § 12-25-32 against your conviction." },
+        { box: "Check Box11.3", printed: "the conviction is not a sex offense, as provided in Section 15-20A-5.", record: "The held record does not say whether your conviction is a sex offense, and never asks. Check § 15-20A-5 against your conviction." },
+        { box: "Check Box11.4", printed: "the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition.", record: "The held record says nothing about moral turpitude and holds no 15-year arrest history for you. Both halves of this box are yours to establish." },
+        { box: "Check Box11.5", printed: "The conviction is not a serious traffic offense, as provided in Article 9 of Chapter 5A of Title 32.", record: "The held record does not say whether your conviction is a serious traffic offense, and never asks." },
+        { box: "Check Box11.6", printed: "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit.", record: "The held record holds no commercial-licence fact for you and never asks for one." }
+      ]
+    }
   }
 };
 
@@ -409,6 +476,16 @@ export function writeGuides({ out, familyId, config, rules, track, memoDigest, r
       `${(track.supportingDocuments ?? []).length + 4 + index}. ${item.item} on ${item.whereInPacket}, and only after everything above is done. ${item.why} This packet deliberately leaves your signature and every date blank; do not sign or date early.`)
   ].join("\n");
   const stops = (track.selfHelpStopConditions ?? []).map((stop) => `- ${stop}`).join("\n");
+  /*
+   * A sworn certification this route cannot make for the participant.
+   *
+   * Rendered only where the family's config declares it, so the families that
+   * do make their election carry no such section and their guides do not move.
+   */
+  const handedBack = config.electionsHandedBack
+    ? `\n## ${config.electionsHandedBack.heading}\n\n${config.electionsHandedBack.preamble}\n\n${config.electionsHandedBack.items.map((item) =>
+        `### ${item.box} — left empty by this packet\n\nThe form prints: "${item.printed}"\n\nWhat the held record says: ${item.record}`).join("\n\n")}\n`
+    : "";
   fs.writeFileSync(path.join(out, "participant-instructions.md"), `# Alabama expungement packet - ${familyId}
 
 ## Route selected
@@ -432,7 +509,7 @@ does not hold that fact. Fill every one on both the canonical and the
 boundary-style packet before filing.
 
 ${requiredList}
-
+${handedBack}
 ## Service
 
 The record states: "${rules.service}" Serve the district attorney, the

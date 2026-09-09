@@ -2,7 +2,7 @@
 
 ## Route selected
 
-Pardoned felony route after the pardon and every Section V condition. Attach the certificate of pardon.
+Pardoned felony route under Ala. Code § 15-27-2(c). This packet does not check any box in CR-65 Section V. Section V is a sworn certification of eight separate conditions, and the held record establishes only that a pardon was granted -- so you must read all eight and check them yourself, or stop.
 
 ## What the held record establishes
 
@@ -20,7 +20,7 @@ Every quoted line below is taken verbatim from the Alabama legal-design record `
 
 1. Obtain: Pardon certificate. Where from: Alabama Board of Pardons and Paroles. How: Attach the pardon certificate to the petition. It is a filing attachment and reference document; LegalEase does not approve it.
 2. Obtain: Certified ALEA criminal record. Where from: Alabama Law Enforcement Agency. How: Request a certified criminal record from ALEA.
-3. Read the pardon certificate and confirm it restores your civil and political rights, then confirm every condition printed in CR-65 Section V. Read the restoration language itself rather than assuming it: if the pardon withholds firearm rights, that restoration question controls and this route may not fit.
+3. Do not sign the petition until you have read all eight conditions printed in CR-65 Section V and checked, yourself, only those that are true of you. They are listed under "The eight conditions you must certify yourself" below. This packet checks none of them, because the held record establishes only that a pardon was granted. Read the restoration language on the pardon certificate itself rather than assuming it: if the pardon withholds firearm rights, that restoration question controls, it is unresolved in this record, and this route may not fit at all.
 4. Fill in every blank listed under "Blanks you must fill in" below. Each one is a fact this packet does not hold for you.
 5. Decide the fee. The record states: "$500, or C-10-Criminal where indigency is claimed." If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet; the judge, not you, completes its order page.
 6. Signature and date on CR-65, signature block, and only after everything above is done. The petitioner signs their own petition. This packet deliberately leaves your signature and every date blank; do not sign or date early.
@@ -89,6 +89,58 @@ boundary-style packet before filing.
 - Total assets
 - Monthly exceptional-expense subtotal (item 3d)
 - Total monthly expenses (item 3e)
+
+## The eight conditions you must certify yourself
+
+CR-65 Section V says the conviction is eligible only if ALL of the following have occurred, and the petition is sworn. This packet leaves every one of these boxes empty on purpose. Read each one, decide whether it is true of you, and check it yourself. If any one of them is not true, the conviction is not eligible for expungement on this route and you should stop and speak with an Alabama lawyer.
+
+### Check Box10.6 — left empty by this packet
+
+The form prints: "I was granted a certificate of pardon with restoration of civil and political rights for the conviction from the Board of Pardons and Paroles."
+
+What the held record says: The held record establishes that a pardon was granted. It does not establish that your certificate restored your civil and political rights -- it classifies the pardon date, the restoration language and the certificate terms as facts you supply. Read your certificate and decide this one yourself.
+
+### Check Box11.0 — left empty by this packet
+
+The form prints: "All civil and political rights that were forfeited as a result of the conviction have been restored."
+
+What the held record says: UNRESOLVED IN THE HELD RECORD. Whether a pardon that withholds firearm rights satisfies this restoration requirement is recorded as dispositive and unresolved. If your pardon excludes firearm rights, do not check this box; stop and speak with an Alabama lawyer.
+
+### Check Box11.1 — left empty by this packet
+
+The form prints: "One hundred eighty days have passed from the date of the issuance of the certification of pardon."
+
+What the held record says: The held record states no waiting period for this route at all. Read the date on your certificate of pardon and count the days yourself.
+
+### Check Box11.2 — left empty by this packet
+
+The form prints: "the conviction is not a violent offense, as provided in Section 12-25-32, unless it falls within an exception under Section IV."
+
+What the held record says: The held record does not say whether your conviction is a violent offense, and never asks. Check § 12-25-32 against your conviction.
+
+### Check Box11.3 — left empty by this packet
+
+The form prints: "the conviction is not a sex offense, as provided in Section 15-20A-5."
+
+What the held record says: The held record does not say whether your conviction is a sex offense, and never asks. Check § 15-20A-5 against your conviction.
+
+### Check Box11.4 — left empty by this packet
+
+The form prints: "the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition."
+
+What the held record says: The held record says nothing about moral turpitude and holds no 15-year arrest history for you. Both halves of this box are yours to establish.
+
+### Check Box11.5 — left empty by this packet
+
+The form prints: "The conviction is not a serious traffic offense, as provided in Article 9 of Chapter 5A of Title 32."
+
+What the held record says: The held record does not say whether your conviction is a serious traffic offense, and never asks.
+
+### Check Box11.6 — left empty by this packet
+
+The form prints: "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit."
+
+What the held record says: The held record holds no commercial-licence fact for you and never asks for one.
 
 ## Service
 
