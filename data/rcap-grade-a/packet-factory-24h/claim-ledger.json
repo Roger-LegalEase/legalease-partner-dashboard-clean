@@ -6083,10 +6083,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T18:16:10.709Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 returned FAIL_REPAIR_REQUIRED at bc63f6bbc: the withdrawn empty row keeps its election checkbox marked (REPEATING_ROWS); standing failures discharged"
     },
     {
@@ -6145,10 +6145,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T18:16:10.938Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 returned FAIL_REPAIR_REQUIRED at bc63f6bbc: the withdrawn empty row keeps its election checkbox marked (REPEATING_ROWS); standing failures discharged"
     },
     {
@@ -6177,10 +6177,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T18:16:11.179Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 returned FAIL_REPAIR_REQUIRED at bc63f6bbc: the withdrawn empty row keeps its election checkbox marked (REPEATING_ROWS); standing failures discharged"
     },
     {
@@ -6209,10 +6209,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF11",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-06T18:16:11.449Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF03 returned FAIL_REPAIR_REQUIRED at bc63f6bbc: the withdrawn empty row keeps its election checkbox marked (REPEATING_ROWS); standing failures discharged"
     },
     {
@@ -13691,7 +13691,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "76debb9318e02b6f672a6c77a613b016ac08c2ccb92da90add14a36e644b3a8f",
+  "claimsDigest": "30c8eb5c8b97f22e94b19dc3ced8c1b39923b88a16d407c43328927a71a0aa03",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -48604,6 +48604,50 @@
       "previouslyReleasedAt": "2026-09-03T06:25:31.204Z",
       "transferredAt": "2026-09-08T23:48:46.717Z",
       "reason": "VF01's read of this family is spent; FIX101 has since recomputed the two stale source-receipt input digests that ARTIFACTS was failing on, with no fixture byte moved. VF10 reads the current records against the unchanged bytes and built nothing here"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-06T18:16:10.709Z",
+      "transferredAt": "2026-09-09T00:09:31.408Z",
+      "reason": "VF03's read of this family is spent; FIX105 has since repaired REPEATING_ROWS and the bytes moved, and central run 34292115043 returned RASTER_PASS bound to the repaired digests. VF11 reads the current bytes and built and repaired nothing here"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_disorderly_persons-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-06T18:16:10.938Z",
+      "transferredAt": "2026-09-09T00:09:31.506Z",
+      "reason": "VF03's read of this family is spent; FIX105 has since repaired REPEATING_ROWS and the bytes moved, and central run 34292115043 returned RASTER_PASS bound to the repaired digests. VF11 reads the current bytes and built and repaired nothing here"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-06T18:16:11.179Z",
+      "transferredAt": "2026-09-09T00:09:31.610Z",
+      "reason": "VF03's read of this family is spent; FIX105 has since repaired REPEATING_ROWS and the bytes moved, and central run 34292115043 returned RASTER_PASS bound to the repaired digests. VF11 reads the current bytes and built and repaired nothing here"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF11",
+      "previouslyReleasedAt": "2026-09-06T18:16:11.449Z",
+      "transferredAt": "2026-09-09T00:09:31.717Z",
+      "reason": "VF03's read of this family is spent; FIX105 has since repaired REPEATING_ROWS and the bytes moved, and central run 34292115043 returned RASTER_PASS bound to the repaired digests. VF11 reads the current bytes and built and repaired nothing here"
     }
   ],
   "grants": [
