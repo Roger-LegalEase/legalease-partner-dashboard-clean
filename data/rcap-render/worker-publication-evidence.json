@@ -5,20 +5,20 @@
     "commit": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
     "note": "Consumed from publish-only run 34265052706 attempt 1, job 102192199058, which built and pushed the exact supplied source SHA c065d2485b97be9a9c53313551226b0b6c3c9cfb — the merge commit of PR #224, the 194-family recovery integration. That SHA is the head of the release integration branch, which is what the workflow's containment gate accepted."
   },
-  "publicationTimestamp": "2026-09-08T18:48:41Z",
-  "workflowRunId": 34265052706,
+  "publicationTimestamp": "2026-09-09T01:24:25Z",
+  "workflowRunId": 34298919203,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationArtifactId": 10071524633,
-  "publicationArtifactName": "rcap-render-worker-publication-c065d2485b97be9a9c53313551226b0b6c3c9cfb",
-  "publicationArtifactSha256": "85cbd0c359560d3ae6711da36a22d444fc037a7b5ef42a5a4556dd82ec13d87d",
-  "sourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+  "publicationArtifactId": 10084221394,
+  "publicationArtifactName": "rcap-render-worker-publication-1e95f1f067e2f26094228b6f0c922c875c25f33a",
+  "publicationArtifactSha256": null,
+  "sourceSha": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
   "dockerfileSha256": "c5db0a593258420a62e3e3d1a1979e374a33bfc542e766e86bbc9be69b00c7ac",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
-  "immutableRegistryDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+  "imageTag": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+  "immutableRegistryDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
   "packageVisibility": "private",
   "packageVisibilityNote": "Carried forward as the package's standing visibility, not re-determined for this publication. The acceptance workflow re-proves it per run: its anonymous-pull step fails the run if GHCR ever issues an unauthenticated token for this repository.",
   "mutableLatestTagCreated": false,
@@ -29,15 +29,15 @@
   "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
   "containedIn": "claude/legalease-sprint-captain-utucnw",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:c065d2485b97be9a9c53313551226b0b6c3c9cfb",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34265052706",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34298919203",
   "exactlyOnePublication": {
     "claim": "One image was published for this source SHA and its tag was never moved.",
     "howItIsKnown": "Run 34265052706 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both found the source-SHA tag free. tag_replacement_authorization was left empty, so no replacement was authorized.",
     "attemptThatPublished": 1
   },
-  "registryPullByDigestStatus": "proved_by_acceptance_run_34289593168",
-  "registryPullByDigestNote": "Acceptance run 34289593168 authenticated to GHCR and pulled ghcr.io/roger-legalease/rcap-render-worker@sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802, proved the tag and digest are the same image, and read the OCI revision label off the pulled bytes.",
+  "registryPullByDigestStatus": "not_attempted_here",
+  "registryPullByDigestNote": "This container cannot reach ghcr.io through the egress proxy. The acceptance workflow performs the authenticated pull by digest and is the evidence for it.",
   "supersededPublication": {
     "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
     "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
@@ -46,6 +46,14 @@
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+      "immutableRegistryDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+      "publicationRunId": 34265052706,
+      "disposition": "superseded_by_input_drift",
+      "why": "Three worker-packaged inputs changed after this image was built: data/record-clearing/legal-design-packet-set-manifests.json (edited by FIX96 and FIX120) and the fulfillment-authority registry and observation snapshot the authority generator writes. The image remains exactly what it was and is neither deleted nor retagged; it simply no longer contains the current packaged inputs.",
+      "wasAcceptedBy": 34289593168
+    },
     {
       "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
       "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
@@ -145,14 +153,7 @@
       "publicationRunId": 32599252817
     }
   ],
-  "reconciliationStatus": {
-    "state": "published_and_accepted_not_deployed",
-    "reconciledMainBase": null,
-    "reconciledMainBaseNote": "This publication is not contained in main. The workflow accepted it under RELEASE_INTEGRATION_BRANCH containment, which is the documented candidate path: the required PR check includes the staging-action gate, which cannot pass until a worker is published for the current image inputs, so requiring the merge to main first would deadlock.",
-    "releaseIntegrationHead": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
-    "why": "Built from the exact merge commit of the 194-family recovery integration. The prior image's acceptance failure was a missing runtime data file; the Dockerfile at this SHA copies the runtime-data closure enumerated in deploy/rcap-render-worker/runtime-data-manifest.json, including data/record-clearing/legal-decisions/route-ratification-registry.json. Whether that actually fixes the startup contract is what acceptance measures; it is not asserted here. Acceptance run 34289593168 then measured the startup contract on the pulled digest and passed, including the unconfigured exit 2 that the prior image failed.",
-    "priorDigestsRemainInRegistry": true
-  },
+  "reconciliationStatus": "one current publication recorded; its acceptance has not run",
   "supersededWorkerImageAcceptance": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
     "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
@@ -311,55 +312,22 @@
   },
   "workerImageAcceptance": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
-    "status": "accepted",
-    "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
-    "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
-    "workflowFile": ".github/workflows/rcap-worker-image-acceptance.yml",
-    "workflowName": "RCAP worker image acceptance",
-    "workflowRunId": 34289593168,
-    "workflowRunNumber": 435,
-    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34289593168",
-    "workflowAttempt": 1,
-    "event": "workflow_dispatch",
-    "selectedBranch": "claude/legalease-sprint-captain-utucnw",
-    "headSha": "a4bb5ac437bde5eaeb43f0838215776016d89fce",
-    "conclusion": "success",
-    "subjectDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
-    "subjectSourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
-    "howTheSubjectWasChosen": "The workflow reads sourceSha and immutableRegistryDigest from this file rather than from a typed input, so the image it accepted is the one this record names.",
-    "whatItProved": [
-      "the registry resolved the source-SHA tag and it agrees with the digest",
-      "an anonymous pull token was refused, so the package is still private",
-      "an authenticated pull by immutable digest succeeded",
-      "the image states its own source through org.opencontainers.image.revision, on the normal path, with the retired exception not consulted",
-      "the container runs as rcapworker, not root, with a non-zero uid",
-      "a HEALTHCHECK is declared and its declared command succeeds",
-      "the unconfigured worker fails closed with exit 2 from the Supabase storage refusal, which also proves the whole module graph resolves inside the image",
-      "SIGTERM reaches an installed handler and the loop reports a completed graceful shutdown",
-      "the scratch directory is present, owned by rcapworker, empty and writable",
-      "the secret scan still catches a credential-shaped string and still ignores prefix-only policy code, and the image filesystem, config env and layer history are clean"
-    ],
-    "whyThisMatters": "The previous image failed this same workflow on run 34262980303 by exiting 1 on a missing runtime data file instead of the required unconfigured exit 2. That failure is what the republication was for, and this run is the measurement that it is fixed.",
-    "whatItDoesNotEstablish": "Acceptance is read-only. It deploys nothing, starts no worker, touches neither staging nor production, and is not an end-to-end delivery proof. No SBOM or SLSA provenance attestation exists for this image; the source binding rests on the OCI revision label and the image-input fingerprint.",
-    "artifactsDownloaded": false,
-    "whyNoArtifact": "This workflow uploads no artifact; its evidence is the run metadata and job logs."
+    "status": "not_yet_run_for_this_publication",
+    "subjectDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+    "subjectSourceSha": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+    "howTheSubjectIsChosen": "The acceptance workflow reads sourceSha and immutableRegistryDigest from this file rather than from a typed input, so the image it examines is the one this record names.",
+    "whatIsOwed": "an authenticated pull by digest, an OCI revision naming this source, non-root, a healthcheck, fail-closed exit 2 startup, graceful SIGTERM, an empty scratch and a clean secret scan"
   },
   "releaseTruth": {
     "imagePublished": true,
-    "imageAccepted": true,
+    "imageAccepted": false,
     "applicationProductionDeployedByThisTask": false,
     "productionWorkerUpdated": false,
     "rlsMigrationApplied": false,
     "productionUsersChanged": false,
     "productionSessionsRevoked": false
   },
-  "publicationArtifactEvidenceBasis": {
-    "what": "The artifact's identity, size and zip digest come from the GitHub Actions artifacts API and from the run's own upload log; the digest and build inputs below come from the run's own step output.",
-    "artifactZipSha256Source": "actions artifacts API (digest field) and the upload step's printed SHA256, which agree",
-    "artifactBytesDownloaded": false,
-    "whyNotDownloaded": "This session's egress proxy denies CONNECT to productionresultssa5.blob.core.windows.net, where Actions artifact content is served (curl exit 56, HTTP 403 from the proxy). The zip was therefore not opened here. Its recorded content is not asserted from bytes read in this session; the digest below is the one the publishing run printed.",
-    "digestSource": "run 34265052706 job 102192199058 step \"Fail if the registry returned no digest\", which printed: Published ghcr.io/roger-legalease/rcap-render-worker@sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802"
-  },
+  "publicationArtifactEvidenceBasis": "The publication artifact was NOT downloaded here: the download redirects to blob storage the egress proxy denies with 403. The digest, run id, artifact id and source SHA are read from the workflow run's own job log, which printed the digest before the artifact was uploaded and refuses any value that is not sha256 plus 64 hex characters.",
   "supersededWorkerImageAcceptanceB680": {
     "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
     "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
@@ -401,5 +369,41 @@
     "disposition": "superseded_by_republication",
     "why": "Accepted a different image (sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864). Retained as history; it says nothing about sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802."
   },
-  "supersededPublicationMeaning": "The publication the retired source-binding exception in data/rcap-render/worker-source-binding-exception.json covers. It is an anchor for that record, not a pointer at the most recent superseded image; the immediately previous publication (b680a4e4) is the head of supersededChain."
+  "supersededPublicationMeaning": "The publication the retired source-binding exception in data/rcap-render/worker-source-binding-exception.json covers. It is an anchor for that record, not a pointer at the most recent superseded image; the immediately previous publication (b680a4e4) is the head of supersededChain.",
+  "supersededWorkerImageAcceptanceC065": {
+    "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
+    "status": "accepted",
+    "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
+    "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
+    "workflowFile": ".github/workflows/rcap-worker-image-acceptance.yml",
+    "workflowName": "RCAP worker image acceptance",
+    "workflowRunId": 34289593168,
+    "workflowRunNumber": 435,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34289593168",
+    "workflowAttempt": 1,
+    "event": "workflow_dispatch",
+    "selectedBranch": "claude/legalease-sprint-captain-utucnw",
+    "headSha": "a4bb5ac437bde5eaeb43f0838215776016d89fce",
+    "conclusion": "success",
+    "subjectDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+    "subjectSourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+    "howTheSubjectWasChosen": "The workflow reads sourceSha and immutableRegistryDigest from this file rather than from a typed input, so the image it accepted is the one this record names.",
+    "whatItProved": [
+      "the registry resolved the source-SHA tag and it agrees with the digest",
+      "an anonymous pull token was refused, so the package is still private",
+      "an authenticated pull by immutable digest succeeded",
+      "the image states its own source through org.opencontainers.image.revision, on the normal path, with the retired exception not consulted",
+      "the container runs as rcapworker, not root, with a non-zero uid",
+      "a HEALTHCHECK is declared and its declared command succeeds",
+      "the unconfigured worker fails closed with exit 2 from the Supabase storage refusal, which also proves the whole module graph resolves inside the image",
+      "SIGTERM reaches an installed handler and the loop reports a completed graceful shutdown",
+      "the scratch directory is present, owned by rcapworker, empty and writable",
+      "the secret scan still catches a credential-shaped string and still ignores prefix-only policy code, and the image filesystem, config env and layer history are clean"
+    ],
+    "whyThisMatters": "The previous image failed this same workflow on run 34262980303 by exiting 1 on a missing runtime data file instead of the required unconfigured exit 2. That failure is what the republication was for, and this run is the measurement that it is fixed.",
+    "whatItDoesNotEstablish": "Acceptance is read-only. It deploys nothing, starts no worker, touches neither staging nor production, and is not an end-to-end delivery proof. No SBOM or SLSA provenance attestation exists for this image; the source binding rests on the OCI revision label and the image-input fingerprint.",
+    "artifactsDownloaded": false,
+    "whyNoArtifact": "This workflow uploads no artifact; its evidence is the run metadata and job logs.",
+    "supersededBecause": "it accepted sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802, built from c065d2485b97be9a9c53313551226b0b6c3c9cfb, and this record now names sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633 from 1e95f1f067e2f26094228b6f0c922c875c25f33a. The acceptance remains true of the image it examined."
+  }
 }
