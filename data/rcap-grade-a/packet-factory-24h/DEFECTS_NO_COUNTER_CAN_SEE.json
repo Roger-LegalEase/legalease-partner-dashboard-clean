@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-defects-no-counter-can-see/v1",
+  "recordedBy": "Captain, 2026-09-09, from lane returns",
+  "why": "Four lanes today delivered packets that passed all nine completeness counters and were still wrong on the page. The counters are not broken; they answer the questions they were built to answer. These are the questions they do not ask. Every one was found by reading the delivered PDF bytes rather than the build report, and every one would have reached a participant.",
+  "howEveryOneOfTheseWasFound": "By diffing the delivered pages against the pinned source, or by reading the produced PDF at appearance level. Not one was found by a counter, a build report or a self-check.",
+  "defects": [
+    {
+      "id": "map-honest-writes-not",
+      "foundBy": "PF04, wv_conv_nonviolent_felony-set",
+      "what": "The build wrote four values onto a petition sworn before a notary that its own field map declared blank: the legal name on both lines of 'current name, previous names, and all aliases', and the current address on both lines of 'all addresses since the offense'.",
+      "whyItMatters": "A legal name alone asserts there are no aliases. One address written twice asserts a residence history. Both are sworn statements about the participant's life, invented by a builder.",
+      "whyNoCounterSawIt": "The completeness contract reads the field map, and the map was honest about its intent. The finalizer wrote something else. Nothing compared the two.",
+      "theFix": "A gate that stops when the finalizer's writes and the map's writes disagree. PF04 added one to its own scripts and tested it by removing a refusal to confirm it fires.",
+      "whoElseIsExposed": "Every family on the finalizeOfficialForm path."
+    },
+    {
+      "id": "acroform-index-is-not-the-printed-row",
+      "foundBy": "PF23, ma-seal-court-set (TC0057)",
+      "what": "On a 37-row charge table, 52 of 111 cells carry an AcroForm index that disagrees with the row number printed beside them. Printed row 5 is TextField3[6] / DropDownList1[9] / DateField1[7]; printed row 13 is TextField3[12] / DropDownList1[1] / DateField1[12].",
+      "whyItMatters": "A builder that derives a row number from a field index labels a cell for one charge and places it on another charge's line, on a petition signed under a perjury warning.",
+      "whyNoCounterSawIt": "The cell count is right and the label count is right. Both counters read clean while every affected charge is on the wrong line.",
+      "theFix": "Resolve each cell's row by geometry against the printed number, and refuse the build if a cell matches none or more than one.",
+      "whoElseIsExposed": "Any family whose official form carries a numbered table. An index-derived row number is not evidence."
+    },
+    {
+      "id": "extracted-line-order-is-not-column-order",
+      "foundBy": "PF23, ma-seal-court-set (TC0057)",
+      "what": "'Charge Date of Nolle Prosequi or' extracts as one line, which reads as though the date column is in the middle. By item x-position the middle heading is 'State Whether the Court Entered a Nolle Prosequi or Dismissed the Charge' and the right one is 'Date of Nolle Prosequi or Dismissal'. Confirmed independently by the middle widget's own option list: Nolle Prosequi / Dismissed.",
+      "whyItMatters": "The naive reading tells a participant to write a date in the box asking which disposition the court entered.",
+      "whyNoCounterSawIt": "Nothing counts whether a heading was read in the right order.",
+      "theFix": "Read headings by x-position, and cross-check against the widget's own option list where it has one."
+    },
+    {
+      "id": "internal-record-text-printed-on-a-filing",
+      "foundBy": "PF12, rcap-hi-custom-pleading; PF14, la-976-arrest-no-conviction-set",
+      "what": "A proposed order recited its legal-design record's mandate sentences verbatim, two of which are analysis addressed to the builder -- one literally saying the packet copy must not tell a participant the order is guaranteed. Separately, a machine vocabulary of eligible dispositions printed as a bullet list on the face of a motion, and a memo's internal component note printed at the foot of a composed form.",
+      "whyItMatters": "A proposed order handed to a judge reciting instructions addressed to its own builder is not a filing.",
+      "whyNoCounterSawIt": "The text is present, non-empty, inside its write box and quoted verbatim from a controlling record. Every check passes.",
+      "theFix": "Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text."
+    },
+    {
+      "id": "a-published-zero-where-a-measurement-existed",
+      "foundBy": "FIX01, md_pardon_expungement-set and mo-art-xiv-marijuana-set",
+      "what": "addedGlyphsReadFromOutputBytes was a hardcoded literal 0 while a real reading of the same quantity sat beside it under flattenedShowTextGlyphsReadFromOutputBytes. The packets published a zero where they held a measurement. Real values were 627/1007 and 887/1159.",
+      "whyItMatters": "A zero that was never measured is indistinguishable, downstream, from a zero that was.",
+      "whyNoCounterSawIt": "The field was present and numeric.",
+      "whoElseIsExposed": "scripts/build-census-v1-ne-seal-pardoned-set.mjs carries the same pattern and has not been repaired."
+    },
+    {
+      "id": "a-geometry-counter-with-no-teeth",
+      "foundBy": "FIX01, ca-17b-reduction-set",
+      "what": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads zero with the defect present when the stray ink draws at a widget's own rect -- the CR-180 privacy banner draws at the Warning pushbutton's rect, which IS in the census, so it lands inside a measured box.",
+      "whyItMatters": "That counter's zero is being trusted as evidence that nothing strayed. For this class of defect it is not evidence of anything.",
+      "theFix": "The reading that has teeth here is flattenedControlChromeGlyphsReadFromOutputBytes: 126 glyphs at 4 widgets on the pre-repair bytes, 0 now."
+    },
+    {
+      "id": "two-families-one-filing",
+      "foundBy": "RX1, from raster run 34403364607",
+      "what": "al-felony-nonconviction-90-set and al-pardoned-felony-set render byte-identical page images to each other. Their PDFs share a 577-byte prefix and differ only in the /Title metadata string. The pardoned family ticks zero of the eight eligibility boxes its own CR-65 Section V requires.",
+      "whyNoCounterSawIt": "Every gate in this factory asks its question of one family at a time. Nothing had ever compared two families to each other.",
+      "theFix": "scripts/rcap-packet-completeness/verify-no-cloned-family-packets.mjs, and its finding at CLONED_FAMILY_PACKETS.json: 14 cloned deliverable groups."
+    }
+  ],
+  "whatThisIsNot": "Not a verdict on any family and not a promotion of anything. It is the list of questions the counters do not ask, kept in one place so a lane can check them deliberately instead of rediscovering them.",
+  "theOneRuleThatWouldHaveCaughtMostOfThese": "Read the delivered PDF, not the build report. Every defect here was invisible to the report that described it."
+}
