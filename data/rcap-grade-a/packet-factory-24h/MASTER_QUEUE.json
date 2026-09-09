@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "minimumCaptainSha": "eed4fb4912416240f60a27dcb62b6ac4e33fb35b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,8 +72,8 @@
     "sourceReady": 57,
     "sourceBlocked": 6,
     "legalBlocked": 17,
-    "verifyPending": 9,
-    "repairRequired": 14,
+    "verifyPending": 8,
+    "repairRequired": 15,
     "sumsToDenominator": true
   },
   "byState": {
@@ -81,12 +81,12 @@
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 17,
-    "FAIL_REPAIR_REQUIRED": 24,
+    "FAIL_REPAIR_REQUIRED": 25,
     "SOURCE_READY": 57,
     "BUILT_RASTER_PENDING": 12,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
-    "VERIFY_PENDING": 9,
+    "VERIFY_PENDING": 8,
     "HANDOFF_READY": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -19118,11 +19118,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf13",
-        "verifiedAtBase": "d4653b258",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json"
+        "lane": "vf05",
+        "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909b.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -19152,19 +19154,33 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
       ],
       "failedObligations": [
         {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The section exists but prints under half of the record it claims to carry. IL.memo.json tracks[il-seal-3yr].selfHelpStopConditions enumerates 8 conditions. The delivered guide's single stop sentence carries 3 verbatim in substance (objection by the State's Attorney / ISP / arresting agency / chief legal officer; the court sets a contested hearing; immigration consequences), paraphrases a 4th loosely as 'the printed eligibility facts do not match' (record: 'The disposition on the transcript is ambiguous or contested'), and omits 4 outright: (1) 'A case appears on the transcript that the participant does not recognize, which may indicate identity theft.'; (2) 'The participant has federal or out-of-state records, which an Illinois court cannot reach.'; (3) 'A motion to vacate, modify or reconsider is filed under 5.2(d)(12).'; (4) 'The petition is denied.' This is the same failure mode FIX13 repaired on packetSet.requiredBeforeFiling, on a second enumerated record list the repair did not reach.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Checked against IL.memo.json directly. Both documents the memo marks requiredBeforeFiling for track il-seal-3yr are named to obtain ('Obtain the ISP statewide transcript and certified dispositions for every arrest or case') and the guide closes with an attach sentence, so this family is not as bare as il-seal-2yr-set. It still fails: zero of the ten packetSet.requiredBeforeFiling lines in the controlling record reach participant-instructions.md. No how-to-obtain is given for either record, so the fingerprint-based ISP Access and Review route is never explained; and the record's 'Petitioner's signature and verification date -- Request, verification block.' and 'The petitioner signs and verifies the Request. A wet signature is expected.' are absent, so a filer following this guide files a Request whose verification block the packet deliberately left blank and which nothing told them to sign. The fee and the Rule 298 waiver appear only in filing-instructions.md. Same root cause as the other two: scripts/build-census-v1-il-seal-3yr-set.mjs never reads track.packetSet.requiredBeforeFiling.",
-          "findingReadFrom": "finding",
-          "evidence": "data/record-clearing/legal-design-track-registry.json tracks[trackId=il-seal-3yr].packetSet.requiredBeforeFiling vs data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md"
+          "finding": "The FIX13 repair holds: all 10 packetSet.requiredBeforeFiling lines are present in participant-instructions.md byte-exact, including the smart-quote and em-dash lines, verified by exact substring match against the registry -- so the petitioner is now told to sign and verify the Request, that a wet signature is expected, and the fee and the Rule 298 waiver. Four separate defects remain in the operative guidance the builder wrote around those lines. (a) The guide directs the required expunge-versus-seal election to 'the Case List's per-case election column, which is where the record places it -- not on the Request'. That column does not exist: this lane enumerated all 78 AcroForm fields on the blank ATJ 2902.1 Case List (1 dropdown, 76 text fields, 1 checkbox; 70 of the text fields are the unlabelled arrest/case cells of a 5x14 grid) and there is no election field of any kind. Worse, the sentence steers the petitioner AWAY from where this packet actually made the election -- Request Section 12 and the Section 13 table, and the Order's section 2. The root is the record: registry packetSet.requiredBeforeFiling line 6 and IL.memo.json manualCompletionItems both say 'Case List, per-case election column', and the official form has no such column. A lane cannot resolve that by editing. (b) The 'Every item this packet leaves for you' list, headed 'Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.', opens by commanding eleven Case List cells that are not owed -- 'Complete arrest60 on EXP-AD Case List page 1' through arrest70 -- by raw internal field identifiers that appear nowhere on the printed form. See REPEATING_ROWS for the classifier bug that produces them. (c) The same list, presented as complete, omits every checkbox election on the fee-waiver form the packet ships: all 53 FW-CIV-APPLICATION checkbox widgets including '5 - Checkboxes' (the waiver-type election on page 1) and '111 - Checkboxes' on the signature page, plus Request Section 20. (d) It directs 69 completions onto a document it deliberately delivers flattened and un-fillable (AcroForm absent, 0 form fields in both fixtures) without ever telling the participant to print it; only the signature paragraph says 'in ink'.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "The Request's Section 13 grid is clean: row 1 carries ink in all five cells in both fixtures and rows 2-10 are wholly blank, and the Order's and Case List's case rows behave the same way. The Case List's own 70-cell repeating grid is not. production-field-map.json splits one repeating group at an arbitrary boundary: arrest2 through arrest59 (58 cells) are classified 'Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete active-route record, so every unused row remains wholly blank.', while arrest60 through arrest70 (11 cells) are classified 'The platform does not hold this participant, case, or financial fact; supply it before filing'. Nothing distinguishes them: arrest59 sits at /Rect [457,350,83,14] and arrest60 at [457,328,83,14], adjacent cells in the same column of the same 5x14 grid, identically unlabelled on the printed form. The tail is exactly 70 minus 59 -- an off-by-N in the classifier -- and it is what puts 'Complete arrest60 ... Complete arrest70' in front of the petitioner.",
+          "findingReadFrom": "detail",
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
@@ -19651,7 +19667,7 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
         "verifiedAtBase": "c9bbb6ecd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-five-families.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -41310,7 +41326,7 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
         "verifiedAtBase": "c9bbb6ecd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-five-families.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",

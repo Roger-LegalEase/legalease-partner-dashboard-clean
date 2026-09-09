@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "generatedAtCommit": "eed4fb4912416240f60a27dcb62b6ac4e33fb35b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4207,10 +4207,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T14:52:41.956Z"
     },
     {
       "subjectType": "packet-family",
@@ -4237,11 +4237,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX13",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T13:21:40.035Z",
-      "releaseReason": "FIX13 674da4c5b: repaired and measured on the bytes; requiredBeforeFiling now read from the track registry, cannabis ellipsis and item-1 contradiction closed"
+      "releasedAt": "2026-09-09T13:21:40.035Z"
     },
     {
       "subjectType": "packet-family",
@@ -7781,7 +7780,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.762Z"
@@ -7842,7 +7841,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T03:40:34.868Z"
@@ -13935,7 +13934,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0c0cef55730c27698083dc1ea41a9b63ebc3544aa2bfb7a1c9feb5e57974e103",
+  "claimsDigest": "f2364f862a8b62e461b05cc844966e594aadac28f98be7862c0672020fbc111f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34254,6 +34253,15 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-09T14:30:06.683Z",
       "reason": "PF07 79ec24edd STOPPED/BLOCKED_SOURCE: ABPP-3 874e738a... zero hits across all 1857 files in the five mounted roots; counters null"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-09T14:52:41.956Z",
+      "reason": "VF05 353f161bb returned FAIL_REPAIR_REQUIRED: the FIX13 repair holds byte-exact, but the guide sends the petitioner to an election column that does not exist on ATJ 2902.1, prints raw arrest60-arrest70 field ids, and carries 3 of 8 declared stop conditions; FEE_AND_WAIVER is BLOCKED_LEGAL_INPUT on the memo's county-fee-table release blocker"
     }
   ],
   "reissues": [

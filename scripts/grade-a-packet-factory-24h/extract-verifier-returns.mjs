@@ -156,9 +156,57 @@ const dirsUnder = (base, keep) => fs.existsSync(path.join(ROOT, base))
   ? fs.readdirSync(path.join(ROOT, base), { withFileTypes: true })
       .filter((d) => d.isDirectory() && keep(d.name)).map((d) => ({ base, name: d.name })).sort((a, b) => a.name.localeCompare(b.name))
   : [];
+/*
+ * A VERIFICATION RETURN IS NOT ALWAYS CALLED rows.json.
+ *
+ * This read `${lane}/rows.json` and nothing else. The packet-build side fixed
+ * exactly this once already -- two New Hampshire families and a Michigan one
+ * were held at SOURCE_READY because a newer return sat under a different name
+ * -- and the fix was never applied here.
+ *
+ * It became systematic today. Two verification lanes had collided by appending
+ * to one shared rows.json, so every lane brief since tells the lane to write
+ * ALONGSIDE under a distinct name and leave the existing file byte-for-byte
+ * intact. Both instructions are right, and together they made every return that
+ * obeyed them invisible: VF05 delivered a FAIL_REPAIR_REQUIRED on
+ * il-seal-3yr-set with three measured defects, into
+ * `vf05/rows-vf05-20260909b.json`, and nothing read it.
+ *
+ * So the lane's returns are found by SHAPE, as they are on the build side: any
+ * JSON in the lane directory that is a non-empty array of row objects, or an
+ * object whose `rows` is one, where every row names a family and carries a
+ * verdict. That admits a return under any filename and excludes the
+ * repair-assignment lists, checkpoints and gate notes that also live in these
+ * directories, none of which carry a verdict per family.
+ */
+const returnFilesIn = (base, dir) => {
+  const abs = path.join(ROOT, base, dir);
+  if (!fs.existsSync(abs)) return [];
+  const out = [];
+  for (const file of fs.readdirSync(abs).sort()) {
+    if (!file.endsWith(".json")) continue;
+    let doc;
+    try { doc = JSON.parse(fs.readFileSync(path.join(abs, file), "utf8")); }
+    catch { continue; }
+    const list = Array.isArray(doc) ? doc : doc?.rows;
+    if (!Array.isArray(list) || list.length === 0) continue;
+    if (!list.every((r) => r && typeof r === "object" && (r.itemId ?? r.familyId) && r.verdict)) continue;
+    out.push({ base, name: dir, file: `${base}/${dir}/${file}` });
+  }
+  return out;
+};
 const sweep = [
-  ...dirsUnder(RETURNS, () => true),
-  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n)),
+  ...dirsUnder(RETURNS, () => true).flatMap((s) => {
+    const found = returnFilesIn(s.base, s.name);
+    /* A directory whose only return is the canonical name keeps its original
+     * shape, so a lane that never wrote one is still reported as silent
+     * rather than quietly dropped from the sweep. */
+    return found.length ? found : [s];
+  }),
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf\d+$/.test(n)).flatMap((s) => {
+    const found = returnFilesIn(s.base, s.name);
+    return found.length ? found : [s];
+  }),
   ...chatReviewInputs(ROOT)
 ];
 const dirs = sweep.map((s) => s.name);
