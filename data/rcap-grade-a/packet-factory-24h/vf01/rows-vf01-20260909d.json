@@ -652,6 +652,176 @@
         "CLIPPING_AND_OVERLAP"
       ],
       "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "hi_nonconviction_expungement-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill",
+      "implementationStrategy": "participant_agency_application",
+      "postRepairReread": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId hi_nonconviction_expungement-set is identical in source-receipt.json, production-field-map.json, reports/rendered-artifacts.json and the MASTER_QUEUE row, and the single routeKey obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement is identical across them. The instrument matches the route: the registry names HCJDC-159B for track hi_nonconviction_expungement and the delivered page prints 'HCJDC 159(b) Rev. 06/03/2026' in its own footer, which equals the printedIdentity the receipt declares. The route the packet proceeds under is stated in three places I read - the field map's routeSelectionNote, participant-instructions.md's Route line and filing-instructions.md - all naming HRS s 831-3.2 non-conviction arrest-information expungement, and the form's other branch (the first-time drug/property offender and DUI-under-21 CONVICTION paragraph) is declared not applicable on this route with a named route condition."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The declared source recomputes exactly: private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf = 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, equal to the digest in the receipt and in the MASTER_QUEUE sourceHashes row. I read the binary: 1 page, and no AcroForm at all, which is why the field map's geometrySource says every write and refusal area is measured out of the bound source bytes rather than read from widgets - I confirmed that is the situation rather than a claim. All three legal records the receipt binds by digest also rehash exactly as declared, and I had to materialize two of them into the sparse checkout to check: src/lib/rcap-engine/compiled/profiles/HI-hawaii.json = 30a1ffcd9ec2eda42fbf739a9806b61999777c52b709774ac2609095ef44ccc1, src/lib/legal-authority/routes/p0.json = 6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058, and data/record-clearing/legal-design-track-registry.json = 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The track registry's packetSet declares exactly one component, hi_nonconviction_expungement-primary-filing-1, role primary_filing, requirement required, officialFormId HCJDC-159B, and the MASTER_QUEUE row lists that same single componentId. Both fixtures deliver it and nothing else: one page, headed 'Expungement Application / Hawaii Criminal Justice Data Center, Department of the Attorney General', footed 'HCJDC 159(b) Rev. 06/03/2026'. The guide's 'What this packet contains' names the written application and the disposition documentation, and immediately says of the second that it is the participant's to obtain and attach and that the packet does not contain it and cannot obtain it - so nothing is claimed to be in the packet that is not. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally rather than by matching strings, because this form has no AcroForm: I read every word box out of each delivered fixture with pdftotext -bbox and asked what stands inside each of the six rectangles the field map declares. All six declared writes print complete in both fixtures. Canonical: 'Reyes, Jordan Avery' on the Current Legal Name rule, '06/14/1988' on Date of Birth, '412 Aloha Street, Honolulu, HI 96813' on Home Address and again on Mailing Address, '808-555-0142' on Phone, 'jordan.reyes@example.org' on Email. Boundary prints whole and untruncated, with no ellipsis and nothing running past its rule: 'Montgomery-Washington, Alexandria Catherine Kahananui', '1188 Kalanianaole Highway Apartment 1407, Honolulu, Hawaii 96821-4417', 'Post Office Box 61407, Kailua, Hawaii 96734-1407', '(808) 555-0199 extension 4417' and the 44-character address 'alexandria.montgomery.washington@example.org'. knownRequiredFieldsMissing 0. I ALSO CHECKED THE ALIAS DEFECT THE BRIEF NAMES, because this form carries exactly the line that defect was found on: 'Other Names Used' is delivered BLANK in both fixtures, not filled with the legal name, and the field map's stated reason is that the platform holds no alias history and an agency application that omits an alias is the participant's own declaration to make. It is disclosed to the participant as a required-before-filing blank with the instruction to write every other name used or write NONE."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the delivered bytes two ways. Positionally, no word stands in any protected region of either fixture: the Signature rule is empty, the Date rule beside it is empty, and the boxed 'LEAVE BLANK; HCJDC USE ONLY' panel is empty. By whole-page pixel diff against the pinned source at 150 dpi, the added ink resolves into exactly five text-line bands, none of which falls in the signature, date or agency-use area. No signature, no date, no notarization and no agency mark is asserted. The optional Social Security Number is also left blank, which is correct: the form prints that it is optional, and the field map refuses it as a participant-authored identifier. protectedWrites 0."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured on the pixel channel and not only the glyph channel, which is the lesson this lane took from co_petition_seal_arrest-set today. Rendering the delivered page and the pinned source page to 150 dpi greyscale and taking a directional diff: the canonical fixture adds 3727 dark pixels in exactly 5 connected regions and REMOVES ZERO, and the boundary fixture adds 6914 dark pixels in the same 5 regions and removes zero. Every one of the five is a band 12 to 15 pixels tall - one line of text at that resolution - lying on a printed fill rule: rows 802-816 (name), 884-895 (date of birth), 944-957 (home address), 985-998 (mailing address) and 1026-1040 (phone and email, which share a line). There is no stroked outline, no doubled box, no ring and no rectangle anywhere in the added ink, and nothing the official form prints was displaced or erased. Independently, a positional stray test - every delivered word not present at that position in the source and not inside a declared write box - returns 0 on both fixtures. Read as a rendered page, the five checklist squares, the two initial cells and the signature rules all draw exactly as the issuer draws them."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "REPAIRED AND RE-READ. This is one of the three obligations lane vf02 failed on 20260909c, where it grepped the whole family and found neither 'immigration' nor 'federal' anywhere. FIX05 closed it. participant-instructions.md now carries a section headed 'Stop and get help from a Hawaii lawyer - the 2 conditions the record names', which tells the participant to stop and speak to a Hawaii lawyer before going further, and prints both conditions the track registry holds in selfHelpStopConditions: 'The record is federal, military, or from another jurisdiction.' and 'Any immigration matter.' I checked both as exact substrings of the delivered guide and both are present. The section also draws the distinction vf02 said was missing - 'They are not eligibility rules: a stop condition can be true of you even where the route above applies' - which separates it from the 'When this route does not apply' section that vf02 correctly said did not fill the gap."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The destination is printed on the delivered paper itself, which I read out of the bytes: 'Submit completed application along with a self-addressed stamped envelope to: Hawaii Criminal Justice Data Center, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813'. That is the form's own ink, not a write, and it agrees with the track registry's destination record (kind agency, name 'Hawaii Criminal Justice Data Center', 'Single statewide office') and its venue ('Statewide Hawaii agency process through HCJDC at a single statewide office'). No address, office or clerk practice is fabricated by the packet."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured, and the measurement is that this route has no party to serve. I read the track registry's packetSet.participantActionRequired end to end: its nine items are three obtain_document, one complete_field, one sign, one notarize, one pay_fee, one apply_fee_waiver and one file, and there is NO serve_party item at all - which is right for an agency application to a single statewide office rather than a filing served on opposing parties. The registry's one submission item is discharged instead of served: 'Submit the HCJDC application with photo identification, the money order and a stamped self-addressed envelope.' All three of those enclosures are disclosed to the participant, verbatim, in the guide's eight-item list, and the form prints the submission address itself. Nothing invents a service recipient, method or deadline. Scored PASS rather than NOT_MEASURABLE_HERE because the absence of a service obligation is a fact I read off the controlling record, not an obligation I could not reach."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "REPAIRED AND RE-READ. vf02 failed this on 20260909c because two of the record's eight items were absent from the entire family directory - 'The source review does not state a notarization requirement.' and 'The source review does not address a fee waiver.' FIX05 closed it, and I verified every item myself rather than the two. The track registry's packetSet.requiredBeforeFiling for hi_nonconviction_expungement holds exactly eight strings and ALL EIGHT are present as exact substrings of the delivered participant-instructions.md, printed under the heading 'The record's own required-before-filing list - all 8 items, in its words': the photo identification, the money order, the stamped self-addressed envelope, the signature and date, the applicant signing personally, the notarization non-statement, the application fee with its unstated amount, and the fee-waiver non-statement. The guide then names what it is doing with the two non-statements: '2 of those 8 lines are the record reporting what the source review does not establish. They are printed above exactly as the record states them, rather than resolved for you: where the record does not settle a point, this packet does not settle it either, and it does not leave the point out.' Separately, the guide carries its own 'Required before filing - you must complete each of these yourself' list covering the eight blanks left on the paper, including the initial cell, the two sex markers, Other Names Used and the five checklist boxes."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared fixtures exist and both digests recompute exactly: canonical.pdf = f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43 and boundary.pdf = 696e190fa18b54f8e7694eaed727dc7f8b10d7515a847d9fec904b9a3b3879a1, and pdfinfo reports 1 page on each. I checked raster currency deliberately, because this family was repaired after its raster: FIX05 (commit aabd5f8e7) changed filing-instructions.md, participant-instructions.md, product-wiring.json, production-field-map.json and source-receipt.json and did NOT touch either fixture, which I confirmed with git diff --stat against vf02's base 285c9b91c4cc345c77cdad6a37d015e6f61f45bc. So the admitted receipt at raster-runs/admitted/hi_nonconviction_expungement-set/, RASTER_PASS with pagesMeasured 2, coversTheWholeFamily true, problems [], packetCommitSha 159c0b5cf25e10a7fad6a7defb60bd6692e52480, workflowRunId 34364359375, still pins the current bytes - both its pinned digests equal what I recomputed."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures are a single page and that page is source page 1 of HCJDC-159B, which I confirmed by reading the delivered header and footer ('Expungement Application' through 'HCJDC 159(b) Rev. 06/03/2026') and by the whole-page pixel diff against source page 1, which aligns with zero removed pixels. The pinned source is itself one page. With one page and one component there is no order to get wrong, no page duplicated, transposed or dropped, and delivered page count equals declared page count equals source page count."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This form's route mark is an INITIAL CELL beside a sworn paragraph, under the printed instruction 'Initial by all that apply', and there are two of them: the s 831-3.2 non-conviction paragraph and the first-time drug/property offender and DUI-under-21 conviction paragraph. Both are delivered blank in both fixtures, which I confirmed on the page image and in the text layer, and that is the correct treatment: an initial is the applicant's own sworn mark and writing one would be forging a declaration. The refusal is not silent. The field map's routeSelectionNote states in terms that the build never writes an applicant's initials and that the route the packet proceeds under is stated in the map and both instruction files instead. The correct cell is named to the participant as a required-before-filing item: 'Initial cell beside the Expungement of Non-Conviction Information paragraph - write your initials in this cell - it is the paragraph this packet is built for, and initialling it is your own sworn declaration.' The other paragraph is declared not applicable on this route with a named route condition, and the form's own rule that a conviction application must attach the court order is printed on the delivered page. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured, and the measurement is that this form carries no repeating row structure. I read the whole delivered page and the field map's full inventory of 6 writes and 14 refusals: the application collects one set of identity facts on single rules (name, other names, SSN, date of birth, sex marker, home address, mailing address, phone, email), then two initial cells, then a five-item completion checklist, then a signature and date. There is no numbered table, no indexed row group and no repeated line pair anywhere on the page, so there is no row that could be left half-written, and incompleteRows is 0 for that reason. Scored PASS rather than NOT_MEASURABLE_HERE because the absence of a row structure is a fact I read off the delivered page, not an obligation I could not reach."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "REPAIRED AND RE-READ. vf02 passed the fee half and failed the waiver half on 20260909c, finding no mention of a fee waiver anywhere in the family. FIX05 closed it: the registry's apply_fee_waiver item, 'The source review does not address a fee waiver.', is now printed verbatim in the guide's eight-item list, and the guide states why a non-statement is printed rather than resolved. The fee half I re-verified myself and it holds: the registry says only 'An application fee applies, paid by money order. The source review does not state the amount', and every figure the packet reports is the FORM'S OWN PRINTED INK, not added by the build - I confirmed this on the pixel diff, where the entire fee paragraph lies outside all five added-ink regions. Read off the delivered page: first-time expungement $35, non-first-time $50, a non-refundable $10 processing fee included, duplicate certificate $20.00, refund of the fee minus the $10 if the application is denied, payment by money order or cashier's check issued in the United States, personal checks not accepted, payable to 'State of Hawaii'. No amount, waiver form or waiver standard is fabricated."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. Measured positionally because the form has no AcroForm: all six declared write rectangles hold their declared value complete in both fixtures, read out of the delivered word boxes.",
+        "requiredFactsNotCollected": "0. All eight items of the track registry's packetSet.requiredBeforeFiling are present as exact substrings of participant-instructions.md, checked one by one; the two obtain_document items and the enclosures named by the registry's file item are all disclosed.",
+        "unclassifiedBlanks": "0. The field map holds 14 refusals and every one carries the printed label of the blank it refuses and a stated reason, and every one appears in the guide either in the you-must-complete list or in the required-before-filing list.",
+        "incompleteRows": "0. There is no repeating row structure on this one-page application - no numbered table, no indexed row group, no repeated line pair - so no row can be half-written.",
+        "requiredOptionsMissing": "0. The route mark is an initial cell beside a sworn paragraph; refusing to write an applicant's initials is correct, the correct paragraph is named to the participant as a required-before-filing item, and the other paragraph is declared not applicable with a named route condition.",
+        "requiredComponentsMissing": "0. The one required component the registry and the MASTER_QUEUE row declare is delivered in both fixtures.",
+        "invisibleWrites": "0. Each of the six declared writes produces readable ink in both fixtures and each lands inside its declared rectangle; there is no write that drew nothing and no ink that produced no readable word.",
+        "protectedWrites": "0. No word stands on the Signature rule, the Date rule or in the 'LEAVE BLANK; HCJDC USE ONLY' panel in either fixture, and the pixel diff puts none of the five added regions in those areas. Zero source pixels removed.",
+        "visualDefects": "0. Measured by me, on the pixel channel and not only the glyph channel. Whole-page directional diff at 150 dpi against the pinned source: canonical adds 3727 dark pixels and removes 0; boundary adds 6914 and removes 0; the added pixels resolve into exactly 5 connected regions, every one a 12-15 pixel text band on a printed fill rule. No stroked outline, no doubled box, no synthesized border, no clipping, no overlap."
+      },
+      "crossChecks": {
+        "clonedFamilyPackets": "RAISED AND ANSWERED. hi/hi-nonconviction-expungement-set--official-pdf-fill is listed in familiesDeliveringACloneOfAnother in data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json, in a canonical-fixture group of two with hi/hi-712-1200-deferred-expungement-set--official-pdf-fill. I re-measured it independently rather than taking it: extracting and whitespace-normalising the packet text of all eight HI fixtures and grouping by SHA-256 reproduces the finding exactly - both families' canonical fixtures hash to 11f3a31651d285b3... at 6016 characters. Their boundary fixtures differ, and I diffed them: the entire difference is participant identity data (surname, address, phone format), nothing route-bearing. WHY THIS IS NOT A DEFECT IN THIS FAMILY. HCJDC-159B is a single statewide application and the only route-bearing mark on it is an initial cell, which neither family writes because an initial is the applicant's own sworn mark. So there is nothing on the paper that could differ between the two routes. Both routes moreover elect the SAME printed paragraph: I read the sibling's guide and it directs the participant to 'place your initials beside the Expungement of Non-Conviction Information paragraph', the same paragraph as here. That is correct law on the face of the delivered form, which prints in its own exclusion list that an order shall not issue 'Pursuant to HRS s 712-1200, for a period of three (3) years upon discharge... in the case of a Deferred Acceptance of Guilty Plea' - i.e. a s 712-1200 deferred-acceptance discharge becomes non-conviction information reachable under s 831-3.2 once that period runs. What separates the two routes is the waiting period, and the registry carries it: the sibling track hi_712_1200_deferred_expungement has a waitingPeriods entry of three years under HRS s 712-1200(4)(c), and this track hi_nonconviction_expungement has waitingPeriods []. Timing is a fact of eligibility, not a mark on the paper. So identical paper is the right answer for THIS family. WHAT I AM NOT DECIDING: whether the sibling family owed anything different, including whether its own guide carries its three-year rule. I did not claim it and I issue no verdict on it; a clone names a question and this half of it is answered.",
+        "priorVerdictAndRepair": "Lane vf02 returned FAIL_REPAIR_REQUIRED on this family at base 285c9b91c4cc345c77cdad6a37d015e6f61f45bc (vf02/rows-vf02-20260909c.json) on REQUIRED_BEFORE_FILING, FEE_AND_WAIVER and SELF_HELP_STOP - three omissions from the guide, with all nine counters at zero. Commit aabd5f8e7 (FIX05) repaired all three and touched no fixture. I re-read all three against the controlling records and all three are genuinely closed; I did not take the repair's word for any of them. postRepairReread true.",
+        "recordDisagreementQueueVerdictVsState": "The MASTER_QUEUE row for this family carries state VERIFY_PENDING while the same row carries selectedIndependentVerdict FAIL_REPAIR_REQUIRED from lane vf02 at base 285c9b91, pointing at vf02/rows-vf02-20260909c.json. Both recorded. The queue's selected verdict predates FIX05 and my grant is live on the current bytes, so I measured against the bytes at b8a2495f; I have not reconciled the row and have edited no central artifact.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/hi_nonconviction_expungement-set/hi_nonconviction_expungement-set.verdict.json, RASTER_PASS, pagesMeasured 2, coversTheWholeFamily true, problems [], packetCommitSha 159c0b5cf25e10a7fad6a7defb60bd6692e52480, workflowRunId 34364359375. Its pinned digests equal the digests I recomputed, and FIX05 changed no fixture, so the receipt is current for these bytes."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/production-field-map.json",
+          "sha256": "f86c25c9d377f61c8a15d920ef1d7d0d256709ab631b1bb0a1c1b726f116afad"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "572f72a1ccbc299fc7cf96732768677d81ba272a0fdff186fcfc08d00b34bb9f"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "f582bd1e91b6bb471e8363398a17faccc83b36dcb3b0e1e275e8668bde351907"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/source-receipt.json",
+          "sha256": "f4c6e7c37e3dac32a71f5019c3bdaa95aad241f9a0538cbd41219b4185753a5c"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "57d3fd23eb895bea8d7230d84a99943fea9cf016f50d2dee20aced03d417f0ab"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "ca43d9309753c373fa5a376f4305d3ac2d3203f6dcdcd0c28ab36323d711e5c5"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "696e190fa18b54f8e7694eaed727dc7f8b10d7515a847d9fec904b9a3b3879a1"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a"
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+          "sha256": "30a1ffcd9ec2eda42fbf739a9806b61999777c52b709774ac2609095ef44ccc1"
+        },
+        {
+          "path": "src/lib/legal-authority/routes/p0.json",
+          "sha256": "6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
     }
   ]
 }
