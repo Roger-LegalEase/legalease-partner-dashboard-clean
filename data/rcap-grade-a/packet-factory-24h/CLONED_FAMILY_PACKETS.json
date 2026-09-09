@@ -3,7 +3,7 @@
   "question": "Do two different families deliver a document that reads identically?",
   "measuredBy": "pdftotext -layout over every fixture PDF, whitespace-normalised, PLUS the page positions of every path-placing operator read from the decompressed content streams, grouped by the SHA-256 of the pair",
   "whyNotRawBytes": "The case that prompted this differs only in the /Title metadata string. Raw-byte comparison reports two distinct files and misses that the pages are the same.",
-  "fixturesRead": 931,
+  "fixturesRead": 943,
   "fixturesWithNoReadableText": 0,
   "fixturesWithNoReadableMarks": 0,
   "whyMarksAreRead": "VF07 found three Oregon motions sharing one extracted text and differing only in which route box is ticked -- and a tick there is two diagonal path strokes, not glyphs. Text alone read three different filings as one, which is the exact defect this file exists to report arriving as a false positive.",
@@ -33,6 +33,8 @@
     "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
   ],
   "sharedDocumentGroups": 30,
+  "nearCloneGroups": 5,
+  "whatANearCloneIs": "Families whose delivered documents carry IDENTICAL extracted text and differ only in drawn marks -- a tick, and nothing else, distinguishing two routes. Never a defect on its own: on some forms the tick IS the filing. It is a question for a reader, and a whole-fixture identity test cannot surface it by construction.",
   "theDifference": "clonedDeliverables is the finding: two families whose WHOLE fixture set reads identically, which means two petitions that are the same filing. sharedDocuments is an observation: one document appearing in several families, which is ordinary for a statewide cover sheet or fee-waiver form and is not by itself a defect.",
   "whatThisDoesNotDecide": "A clone names a question, not its answer. It says two families deliver the same document; it does not say which of them owed a different one. Nothing here is deleted, rewritten or promoted.",
   "clonedDeliverables": [
@@ -740,6 +742,77 @@
           ]
         }
       ]
+    }
+  ],
+  "nearClones": [
+    {
+      "fixture": "boundary",
+      "documentCount": 2,
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 2,
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 8,
+      "familyCount": 3,
+      "families": [
+        "ca/ca-1203-41-set--official-pdf-fill",
+        "ca/ca-1203-42-set--official-pdf-fill",
+        "ca/ca-1203-4a-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 3,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "mn/mn-petition-15218-set--official-pdf-fill",
+        "mn/mn-petition-juvenile-as-adult-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "mn/mn-petition-15218-set--official-pdf-fill",
+        "mn/mn-petition-juvenile-as-adult-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
     }
   ],
   "sharedDocuments": [

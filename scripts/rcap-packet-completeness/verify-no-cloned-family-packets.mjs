@@ -108,7 +108,8 @@ for (const f of fixtures) {
   if (marks === null) marksUnreadable += 1;
   const key = sha(Buffer.from(`${norm}\u0000${marks ?? "MARKS_NOT_READ"}`, "utf8"));
   if (!byText.has(key)) byText.set(key, []);
-  byText.get(key).push({ ...f, bytes: fs.statSync(f.file).size, fileSha256: sha(fs.readFileSync(f.file)) });
+  byText.get(key).push({ ...f, bytes: fs.statSync(f.file).size, fileSha256: sha(fs.readFileSync(f.file)),
+    textKey: sha(Buffer.from(norm, "utf8")), marksKey: marks === null ? null : sha(Buffer.from(marks, "utf8")) });
 }
 
 /*
@@ -128,8 +129,10 @@ for (const [key, members] of byText) {
   for (const m of members) {
     const fixture = /boundary/i.test(path.basename(m.file)) ? "boundary" : "canonical";
     const id = `${m.familyDir}::${fixture}`;
-    if (!packetOf.has(id)) packetOf.set(id, { familyDir: m.familyDir, fixture, docs: [], files: [] });
+    if (!packetOf.has(id)) packetOf.set(id, { familyDir: m.familyDir, fixture, docs: [], files: [], textOnly: [], marks: [] });
     packetOf.get(id).docs.push(key);
+    packetOf.get(id).textOnly.push(m.textKey);
+    packetOf.get(id).marks.push(m.marksKey ?? "MARKS_NOT_READ");
     packetOf.get(id).files.push({ file: m.file, bytes: m.bytes, fileSha256: m.fileSha256 });
   }
 }
@@ -155,6 +158,55 @@ for (const [key, members] of byPacket) {
 }
 clonedDeliverables.sort((a, b) => b.familyCount - a.familyCount || a.families[0].localeCompare(b.families[0]));
 
+/*
+ * NEAR-CLONES: SAME WORDS, DIFFERENT TICK.
+ *
+ * A receipt lane found two Minnesota families delivering one 17-page petition
+ * whose extracted text is identical page for page -- jaccard 1.00 -- and whose
+ * marks differ in exactly SIX path tokens on one page: two diagonal strokes
+ * moved 88pt down the page. One tick, and nothing else, distinguishes two
+ * different statutory grounds.
+ *
+ * The clone check above is right not to group them: they ARE different
+ * documents, because a tick is ink and this file now reads ink. But a pair like
+ * that is a question worth putting to a reader, and reporting it is the only way
+ * anyone sees it -- a whole-fixture identity test never will, by construction.
+ *
+ * This is an OBSERVATION and never a defect. On some forms the tick IS the
+ * filing: an Illinois reader established that its two sealing families differ on
+ * four pages and that those four pages carry the whole of what the two remedies
+ * differ by. On others it is the whole of an under-differentiated packet. The
+ * difference is legal, and nothing here decides it.
+ */
+const nearClones = [];
+{
+  const byWords = new Map();
+  for (const p of packetOf.values()) {
+    /* Group by the WORDS alone: the same set of document texts, in any order. */
+    const key = sha(Buffer.from(p.textOnly.slice().sort().join("|"), "utf8"));
+    if (!byWords.has(key)) byWords.set(key, []);
+    byWords.get(key).push(p);
+  }
+  for (const members of byWords.values()) {
+    const families = [...new Set(members.map((m) => m.familyDir))];
+    if (families.length < 2) continue;
+    /* Only interesting where the MARKS differ -- otherwise it is a clone and the
+     * check above has already reported it. */
+    const markSets = new Set(members.map((m) => sha(Buffer.from(m.marks.slice().sort().join("|"), "utf8"))));
+    if (markSets.size < 2) continue;
+    nearClones.push({
+      fixture: members[0].fixture,
+      documentCount: members[0].docs.length,
+      familyCount: families.length,
+      families: families.sort(),
+      identicalExtractedText: true,
+      distinctMarkSets: markSets.size,
+      theQuestion: "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    });
+  }
+  nearClones.sort((a, b) => b.familyCount - a.familyCount || a.families[0].localeCompare(b.families[0]));
+}
+
 const sharedDocuments = [];
 for (const [key, members] of byText) {
   const families = new Set(members.map((m) => m.familyDir));
@@ -176,14 +228,18 @@ const doc = {
   clonedDeliverableGroups: clonedDeliverables.length,
   familiesDeliveringACloneOfAnother: [...new Set(clonedDeliverables.flatMap((g) => g.families))].sort(),
   sharedDocumentGroups: sharedDocuments.length,
+  nearCloneGroups: nearClones.length,
+  whatANearCloneIs: "Families whose delivered documents carry IDENTICAL extracted text and differ only in drawn marks -- a tick, and nothing else, distinguishing two routes. Never a defect on its own: on some forms the tick IS the filing. It is a question for a reader, and a whole-fixture identity test cannot surface it by construction.",
   theDifference: "clonedDeliverables is the finding: two families whose WHOLE fixture set reads identically, which means two petitions that are the same filing. sharedDocuments is an observation: one document appearing in several families, which is ordinary for a statewide cover sheet or fee-waiver form and is not by itself a defect.",
   whatThisDoesNotDecide: "A clone names a question, not its answer. It says two families deliver the same document; it does not say which of them owed a different one. Nothing here is deleted, rewritten or promoted.",
   clonedDeliverables,
+  nearClones,
   sharedDocuments
 };
 
 if (WRITE) { fs.writeFileSync(OUT, `${JSON.stringify(doc, null, 2)}\n`); console.log(`Wrote ${OUT}`); }
 console.log(`${fixtures.length} fixture PDF(s) read · ${unreadable} with no readable text`);
-console.log(`${clonedDeliverables.length} cloned deliverable group(s) · ${sharedDocuments.length} shared-document group(s)`);
+console.log(`${clonedDeliverables.length} cloned deliverable group(s) · ${nearClones.length} near-clone group(s) · ${sharedDocuments.length} shared-document group(s)`);
+for (const g of nearClones) console.log(`  NEAR   ${g.fixture}, same words, ${g.distinctMarkSets} distinct mark sets: ${g.families.join(", ")}`);
 for (const g of clonedDeliverables) console.log(`  CLONE  ${g.fixture}, ${g.documentCount} doc(s)${g.identicalFileBytes ? ", identical file bytes" : ""}: ${g.families.join(", ")}`);
 process.exit(clonedDeliverables.length ? 1 : 0);
