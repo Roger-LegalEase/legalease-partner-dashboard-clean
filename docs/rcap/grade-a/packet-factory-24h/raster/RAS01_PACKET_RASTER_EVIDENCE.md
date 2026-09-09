@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `5a89a7b9cdab60a76aef9359a66a22060a764baf`
+**Minimum required ancestor:** `6fd59ba1349f2ed1fd41e3d19531ca103928afda`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -55,7 +55,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
   - boundary `data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--misdemeanor.pdf` — `039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b` · 11 page(s)
 - the row pins `data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--misdemeanor.pdf` and `data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--misdemeanor.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
 - expected pages 44 across all documents · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### ar-misdemeanor-dwi-seal-set
 
@@ -227,14 +227,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf` — `fb7c7dbd4bb01d187fadd69e6857a57be57d840d44049a23ecc9692a54927008`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf` — `e8f82821fe6368795fe7f6cafcf774b1a10014661a5b1228284b05c3fa0139ec`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### il-seal-3yr-set
 
 - canonical `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf` — `a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf` — `c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF06
 
 ### in_conviction_d6-set
 
@@ -318,7 +318,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf` — `b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847`
 - boundary `data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf` — `98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf`
 - expected pages 2 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF03
 
 ### ne-seal-pre2017-set
 
@@ -331,7 +331,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
   - boundary `data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill/fixtures/boundary--dismissed-prosecutor-motion.pdf` — `f3f282bcc1d89bdb9ab829665c29abffe939db712a764925c70bfec92307c7ca` · 5 page(s)
 - the row pins `data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill/fixtures/canonical--dismissed-prosecutor-motion.pdf` and `data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill/fixtures/boundary--dismissed-prosecutor-motion.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
 - expected pages 30 across all documents · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### nj_arrest_no_conviction-set
 
@@ -497,7 +497,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `bc0ee71288e77b08d346082a8d56d304f844c3f10e9525c43684ad7b8a7ba8e4`
 - boundary `data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `5371f7c74286adde7da2738fe282884947acde43d26efb74f5bf0556c270ce6c`
 - expected pages 4 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF08
 
 ## What you check, per family
 

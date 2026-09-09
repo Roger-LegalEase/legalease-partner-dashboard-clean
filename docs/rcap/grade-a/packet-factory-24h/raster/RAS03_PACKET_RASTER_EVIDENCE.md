@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `5a89a7b9cdab60a76aef9359a66a22060a764baf`
+**Minimum required ancestor:** `6fd59ba1349f2ed1fd41e3d19531ca103928afda`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -89,14 +89,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/canonical.pdf` — `fa7bd28a1f28cfb38f3f1da3a98d97f2ba3e7827e1c813a43ee51560f225144d`
 - boundary `data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/boundary.pdf` — `69618b989b84945c1f0bf121430b589ecbec6368087cf620901c5a286c45aabb`
 - expected pages 1 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### co_petition_seal_arrest-set
 
 - canonical `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf` — `1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1`
 - boundary `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf` — `a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50`
 - expected pages 5 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF03
 
 ### composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition
 
@@ -229,14 +229,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/canonical.pdf` — `17fe8e131ec81a522b85dbc013f28b2d2e4c8eecf9272306ef74dc27e89b35d5`
 - boundary `data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/fixtures/boundary.pdf` — `f1970b3b9708671360488181b74090290648cb361e87ec105b7d240590b55ad3`
 - expected pages 23 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF07
 
 ### ma-expunge-k-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/canonical.pdf` — `084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea`
 - boundary `data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/fixtures/boundary.pdf` — `6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832`
 - expected pages 2 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### ma-seal-decrim-set
 
@@ -333,7 +333,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69`
 - boundary `data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `25a94c99e835a898aae79d4111a6da2ecbcb4342cd7b78530587e783dcc8a9ff`
 - expected pages 20 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF06
 
 ### rcap-nv-custom-pleading
 

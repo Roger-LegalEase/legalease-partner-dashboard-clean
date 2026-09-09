@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `5a89a7b9cdab60a76aef9359a66a22060a764baf`
+**Minimum required ancestor:** `6fd59ba1349f2ed1fd41e3d19531ca103928afda`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -253,7 +253,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf` — `090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf` — `9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF05
 
 ### in_arrest_no_charges-set
 
@@ -421,7 +421,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf` — `bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15`
 - boundary `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf` — `aeefc64429488991c8dd5b7bbf04d74fc6b93a032d778857c6ead0dad4741dff`
 - expected pages 5 · requested scale 2.5
-- built by VF01
+- built by VF05
 
 ### rcap-ks-custom-pleading
 
