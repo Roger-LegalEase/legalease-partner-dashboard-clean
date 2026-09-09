@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "wv_acc_treatment_job_readiness-set",
+  "worklistGroupId": "wv_acc_treatment_job_readiness-set",
+  "jurisdiction": "WV",
+  "implementationStrategy": "custom_pleading",
+  "hybridNote": "The MASTER_QUEUE calls this family custom_pleading and it binds two official forms; both are true. Two of its seven components are official_pdf_fill petitions and two more are pages of whichever petition is used, so this receipt records exact custody for two binaries rather than the no-official-form-exists line a purely composed family carries.",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "networkAcquisitionsMade": 0,
+  "bindingMethod": "each petition's own declared path and SHA-256 from the MASTER_QUEUE row, read at build time and matched byte-for-byte against the first mounted custody root that holds it, with the digest asserted a second time in the builder and a third time against SOURCE_IDENTITY_RESOLUTION_SWEEP.json",
+  "routeKey": "obligation:track-pathway:WV:wv_acc_treatment_job_readiness:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+  "statutoryAuthority": "W. Va. Code § 61-11-26a",
+  "allSourcesExact": true,
+  "declaredSourceCount": 4,
+  "distinctDocumentsBound": 2,
+  "aliasNote": "The queue declares four sources for two documents: each petition appears once as official-form:SCA-C90x and once as source-sha256:<that same digest>, at the same declared path. Those are ALIASES of one identity. The build asserts that shape and stops if it ever becomes the other one — two differently named forms under a single digest, which is the defect the source-identity sweep measured on ia-dci77-set.",
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:SCA-C906",
+        "source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
+      ],
+      "documentId": "SCA-C906",
+      "formNumber": "SCA-C906",
+      "pathInArchive": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+      "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+      "byteLength": 176072,
+      "custodyRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "instrumentKind": "primary_filing",
+      "pageCount": 4,
+      "acroFieldCount": 75,
+      "encryptedInInput": false,
+      "xfaPresentInTheAcroFormDictionary": false,
+      "custodyRootsSearched": [
+        {
+          "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "exists": true,
+          "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
+        }
+      ]
+    },
+    {
+      "sourceIds": [
+        "official-form:SCA-C907",
+        "source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222"
+      ],
+      "documentId": "SCA-C907",
+      "formNumber": "SCA-C907",
+      "pathInArchive": "LegalEase West Virginia/SCA-C907.pdf",
+      "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+      "byteLength": 283289,
+      "custodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "instrumentKind": "primary_filing",
+      "pageCount": 4,
+      "acroFieldCount": 72,
+      "encryptedInInput": false,
+      "xfaPresentInTheAcroFormDictionary": false,
+      "custodyRootsSearched": [
+        {
+          "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "exists": false,
+          "sha256": null
+        },
+        {
+          "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "exists": true,
+          "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222"
+        }
+      ]
+    }
+  ],
+  "sweepMeasurement": {
+    "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "perForm": {
+      "SCA-C906": {
+        "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+        "copiesInCustody": 2,
+        "custodies": [
+          "master_library",
+          "other"
+        ],
+        "pageCount": 4,
+        "acroFieldCount": 75,
+        "byteLength": 176072,
+        "embeddedTitle": "SCA-C906-PetitionExpungementRecordsMisdemeanorViolations",
+        "xfaPresentInTheSweep": false
+      },
+      "SCA-C907": {
+        "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf",
+        "copiesInCustody": 1,
+        "custodies": [
+          "nationwide_recovery_pool_2026_09_02"
+        ],
+        "pageCount": 4,
+        "acroFieldCount": 72,
+        "byteLength": 283289,
+        "embeddedTitle": "Petition For Expungement of Felony Violations",
+        "xfaPresentInTheSweep": false
+      }
+    }
+  },
+  "custodyRecordDisagreement": {
+    "finding": "SOURCE_READY_BUILDABILITY.json and the MASTER_QUEUE row classify this family custodyClass \"SOURCE_GENUINELY_MISSING\" — SOURCE_GENUINELY_MISSING — with documentSourcesResolved 0, while both declared paths hold their declared digests exactly.",
+    "basis": "The same buildability row carries kind 'held_pdf', firstBytes '%PDF-' and resolvedBy 'declared_path' for all four declared sources, and the MASTER_QUEUE row reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true beside the scalar that says they are missing. This build looked: both bind.",
+    "consequence": "recorded for whoever owns the custody scalar"
+  },
+  "encryptionCheck": {
+    "why": "an encrypted official source is a real and handled shape in this factory — the pikepdf unlocked-derivative pattern proven on five California forms and a Maine family — and pdf-lib does not report it as one, because ignoreEncryption makes it parse ciphertext as plaintext and throw something unrelated. So the pinned bytes were checked directly for an /Encrypt entry.",
+    "result": {
+      "SCA-C906": "not encrypted",
+      "SCA-C907": "not encrypted"
+    },
+    "consequence": "neither pinned binary is encrypted, both parse cleanly, and no unlocked derivative was generated, used or needed. A decrypted review derivative for a DIFFERENT SCA-C906 binary exists in the repository at data/rcap-all50/overlays/rescued-encrypted-pdfs/west-virginia-sca-c906-rescued.pdf; it is 150,937 bytes with 71 AcroForm fields against this family's pinned 176,072 bytes with 75, and its caption field is named PetitionerName where the pinned binary's is PetitionerName1. It is a different revision of the form, it is not bound here, and binding it would satisfy one identity with another document's bytes."
+  },
+  "sanitationObserved": {
+    "xfaPresentInInput": false,
+    "xfaRemoved": false,
+    "synthesizedAppearancesSuppressed": null,
+    "synthesizedWidgetBordersSuppressed": null
+  },
+  "composedComponentsAuthoredByThisBuild": [
+    "wv_acc_treatment_job_readiness-supplemental-pleading-3",
+    "wv_acc_treatment_job_readiness-records-checklist-6",
+    "wv_acc_treatment_job_readiness-filing-instructions-7"
+  ],
+  "compositionSources": [
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that the 06/04/2019 revision of either form is the current published edition — no freshness review has been done here",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for expungement under W. Va. Code § 61-11-26a"
+  ]
+}
