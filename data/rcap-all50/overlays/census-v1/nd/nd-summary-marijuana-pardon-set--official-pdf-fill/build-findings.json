@@ -1,50 +1,40 @@
 {
   "schemaVersion": "rcap-family-build-findings/v1",
   "familyId": "nd-summary-marijuana-pardon-set",
-  "status": "BLOCKED_NON_FILING_HOLD",
-  "buildStatus": "official_forms_ingested",
-  "packetRendered": false,
-  "fixturesWritten": 0,
-  "commercialRoutesOpened": 0,
-  "approvalRequested": false,
-  "promotionRequested": false,
-  "finding": {
-    "what": "finalizeOfficialForm refused to fill SFN-61663: the source's printed text matched a non-filing notice pattern.",
-    "matchedText": "This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to",
-    "matchedBy": "scripts/rcap-official-forms/rcap-source-notice.mjs NON_FILING_NOTICE_PATTERNS id=informational_purposes_only",
-    "printedWhere": "SFN 61663 page 1 footer, below the Open Record Notice and the Effect of Pardon with Removal of Guilt paragraphs.",
-    "assessment": "Probable false positive. The matched sentence disclaims legal advice about the advisory notes above it; it does not say the form is a reference copy.",
-    "evidenceThatThisIsTheFilingCopy": [
-      "Prescribed state form number SFN 61663 (02-2020); N.D.C.C. 12-55-1.06 requires the application be made on a form prescribed by the pardon clerk.",
-      "Printed instruction: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you.'",
-      "Printed submission channels: fax 701-328-6780, P.O. Box 1898 Bismarck ND 58502-1898, pardonclerk@nd.gov.",
-      "36 AcroForm widgets including 'Signature of Applicant'.",
-      "No 'sample', 'specimen', 'draft' or 'do not file' text anywhere in the document."
-    ],
-    "corroboratingDetector": "NON_FILING_PATTERNS in scripts/rcap-official-forms/rcap-non-filing-notice.mjs is subject-anchored on 'THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY' and returns false on this footer, while still matching the North Carolina translation notice it was written for.",
-    "whyThisLaneDidNotProceed": "The detector is shared by every official_pdf_fill family and lies outside this build's assigned paths. Editing it is another lane's decision, and trimming documentTextLines to dodge the hold would be withholding evidence from a safety gate.",
-    "ownedBy": "the lane that owns scripts/rcap-official-forms/rcap-source-notice.mjs",
-    "suggestedRemedy": "Restore the subject anchor on the informational_purposes_only pattern so it matches a document describing itself, not a legal-advice disclaimer. Re-run this builder unchanged afterwards; the census is already clean at 36/36 fields."
-  },
-  "censusIsComplete": true,
-  "censusSummary": [
+  "blocking": [],
+  "findings": [
     {
-      "formNumber": "SFN-61663",
-      "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
-      "pages": 2,
-      "fields": 36,
-      "writes": 6,
-      "supply": 26,
-      "elections": 2,
-      "protected": 2,
-      "unmapped": 0,
-      "staleDictionaryEntries": 0
+      "finding": "MASTER_QUEUE names this source `official-form:SFN-61663`, the number printed on the form. The committed corpus index files the identical binary under the slug ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA and classes it SUPPORT rather than FORM.",
+      "consequence": "A resolver matching the queue's number against the index finds nothing while the bytes sit there. This build binds by the index's own form number and then by exact SHA-256 -- c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f -- and the source receipt records both identifiers so the two names are never read as two documents. The same binary is also indexed in the D source packs, a custody this container does not mount; one binary in two custodies is one identity."
+    },
+    {
+      "finding": "THREE FIELD NAMES ON THIS FORM WOULD HAVE TAKEN A PARTICIPANT FACT AND MEANT SOMETHING ELSE. The shared field semantics binds by field name, and decideBinding returns participant.city for the offence table's `City or County` column, matter.case_number for its `Case Number` column, and participant.phone for both `Home Telephone Number` and `Work Telephone Number`.",
+      "consequence": "Each is refused by role before anything is rendered, and each refusal is recorded in reports/blanks-left-for-the-participant.json under nearMissesRefusedByRole rather than quietly avoided. Left alone the packet would have written the participant's home town into the column asking where the offence was prosecuted, their matter's case number into the first offence row beside five empty cells, and one unqualified contact number into two boxes asking different questions. The byte proof confirms none of the three carries ink."
+    },
+    {
+      "finding": "The offence table in item 5 asks for six things per row -- judge, prosecutor, defence counsel, city or county, offence and case number -- for three rows, and the platform holds at most one of the six.",
+      "consequence": "No cell is written and all eighteen are carried to the participant. A row carrying a case number beside five blanks reads as a finished row and is not one, and this form's own instructions say an application that is not complete is RETURNED to the applicant, which can postpone the hearing. Filling one column would have been actively worse than filling none."
+    },
+    {
+      "finding": "The completeness contract's COURT_ONLY field class matches the word `judge`, and this form's offence table asks the APPLICANT to name the judge for each offence.",
+      "consequence": "Classified by caption alone, those three cells are excused as protected and are then never disclosed -- an item the board requires that nothing asks the participant for. Each is declared under the case-determined exception, with its reason on its own row, so it counts as required before filing and is printed in participant-instructions.md. THIS IS THE EXCEPTION USED OUTSIDE THE ROUTE-ELECTION SETTING IT WAS WRITTEN FOR, and it is called out here so a reviewer can challenge it rather than discover it. The alternative -- letting the contract excuse the blank -- would have produced a passing packet that leaves the applicant unaware of a required field, which is the failure the counters exist to prevent."
+    },
+    {
+      "finding": "The shared semantics refuses the social security number as `government_identifier` and the race box as `race`, before this build reaches either.",
+      "consequence": "Both are carried to the participant by name, with the instruction stating plainly that the platform does not hold them and will not ask for them. Place of birth is refused the same way for the same reason. No identifier value of any kind appears in this packet, in either fixture."
+    },
+    {
+      "finding": "This is a pardon application and not a record-clearing filing. The form's own first instruction is in capitals: a request for a pardon will not expunge a criminal history record. Its closing note adds that the application becomes a public record on receipt and that the hearing is minuted online.",
+      "consequence": "participant-instructions.md leads with all three facts, before any instruction about how to fill the form in. A packet that presented this relief as expungement would be misdescribing what the participant is applying for, and the public-record consequence is one a participant may reasonably decide against."
+    },
+    {
+      "finding": "The form is a two-page document whose second page is the text of N.D.C.C. ch. 12-55.1 and carries no widgets.",
+      "consequence": "Both pages are carried into each fixture unchanged apart from page one's writes, so the packet delivers the statute the board applies alongside the application. Page two should raster identical to the pinned source."
+    },
+    {
+      "severity": "advisory",
+      "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
+      "consequence": "Recorded in reports/actual-writes.json under unfittable, with the measured width. That is the boundary fixture doing its job; the canonical fixture writes the value."
     }
-  ],
-  "whatThisDoesNotClaim": [
-    "No packet was produced. No fixture, no field map, no participant instructions were written.",
-    "No verification was performed and none is asserted. This lane does not verify its own work.",
-    "No promotion, approval or route change is requested, and none is authorized by this file.",
-    "The family's terminal state is not set here."
   ]
 }

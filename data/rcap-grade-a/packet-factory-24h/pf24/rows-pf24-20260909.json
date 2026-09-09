@@ -11,7 +11,7 @@
   "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
   "familiesAssignedByPrompt": 4,
   "familiesGrantedByClaimLedger": null,
-  "rowsReturned": 1,
+  "rowsReturned": 2,
   "packetsSelfVerified": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
@@ -172,8 +172,173 @@
           "measured": "the count of 4 counts custody bindings, not documents; three documents are held."
         }
       ]
+    },
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "jurisdiction": "ND",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief"
+      ],
+      "builtBy": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "claim": "CLAIM_OK PF24 nd-summary-marijuana-pardon-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "whatWasUnmetBeforeThisShift": "A builder existed and no measured result did. The committed build-findings.json recorded status BLOCKED_NON_FILING_HOLD: finalizeOfficialForm had refused to fill SFN-61663 because the shared non-filing-notice detector matched the form's closing legal-advice disclaimer. Only source-receipt.json, field-census.census-v1.json and that stale block record were committed; no fixture, no field map, no instructions.",
+      "whatTheRunActuallyShowed": "The hold no longer fires. scripts/rcap-official-forms/rcap-source-notice.mjs has since been corrected by the lane that owns it, and the builder ran unchanged to a complete packet on the first invocation. The block record was stale, not live. It was replaced by this run's own findings; nothing was edited to get past a gate.",
+      "defectFoundInTheDeliveredBytesAndRepaired": {
+        "defect": "CAPTION_EVIDENCE_ATTRIBUTED_THE_FIELD_NAMES_TO_THE_WRONG_STATE",
+        "where": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json",
+        "demonstratedBy": "The delivered record said the printed captions were \"corroborated by Colorado's authored field name\" and cited \"two of this packet's sibling Colorado forms\". This is a North Dakota packet built from one North Dakota form, and no Colorado document is bound to it.",
+        "whyItIsADefect": "The caption-evidence record exists so a reviewer can tell a checked caption basis from a guessed one. Naming the wrong authority for the authored field names, and citing sibling documents that are not in the packet, makes the evidence unreadable as evidence. It is copy-paste residue in the builder, not a rendering fault.",
+        "repair": "The builder now names the authority that actually authored the AcroForm field names — the North Dakota Department of Corrections and Rehabilitation, in SFN 61663 — and the false sibling-forms sentence is gone. Nothing else changed: both fixture SHA-256s are byte-identical before and after the repair.",
+        "counterImpact": "none; this is prose in an evidence record, and it moved no counter"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "countersMeasuredBy": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json, computed by the builder over its own field map, byte proof, rendered artifacts and participant-instructions.md",
+      "countersAreNotAVerdict": "This lane built these bytes and sets no verdict. PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central workflow and an independent verification lane.",
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 23,
+        "PROTECTED_FIELD": 5,
+        "PARTICIPANT_ELECTION_GENUINE": 2
+      },
+      "officialForm": {
+        "documentId": "SFN-61663",
+        "editionFooter": "SFN 61663 (02-2020)",
+        "officialFormFamily": "North Dakota Pardon Advisory Board Application to Pardon Eligible Marijuana Offenses"
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:SFN-61663"
+          ],
+          "pathInArchive": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+          "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+          "custodyRoot": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "boundBy": "exact_content_sha256",
+          "receipt": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json"
+        }
+      ],
+      "allSourcesExact": true,
+      "networkAcquisitions": 0,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b305228a5f6acb2ac116795aff1d16d61816c2354a2c35f4de2914016949a847",
+          "byteLength": 40720,
+          "pageCount": 2,
+          "digestTakenWith": "sha256sum"
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "98c1d6adfd637e81da158c08ff9cb6923f4f3364ad11da6eabcf5c2607b61fbf",
+          "byteLength": 40590,
+          "pageCount": 2,
+          "digestTakenWith": "sha256sum"
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 60,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "acroFormFieldsRemainingInTheOutput": 0,
+          "documentAuthoredAppearances": 0,
+          "refusedFieldsWithInk": 0,
+          "selectionsMarked": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 115,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+          "acroFormFieldsRemainingInTheOutput": 0,
+          "documentAuthoredAppearances": 0,
+          "refusedFieldsWithInk": 0,
+          "selectionsMarked": []
+        }
+      ],
+      "glyphReadingsMeasuredFrom": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json, read back at every measured /Rect of the finalized bytes rather than from the finalizer's own report",
+      "totals": {
+        "terminalFields": 36,
+        "written": 6,
+        "blank": 30
+      },
+      "routeSelectionsMade": 0,
+      "requiredBeforeFiling": 26,
+      "boundaryOnlyRefusals": [
+        {
+          "field": "SFN-61663/State",
+          "factId": "participant.state",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "measuredWhy": "the box the form prints is 34.32 points wide and the boundary value \"North Dakota\" needs 35.5 points at 6 point, the smallest size that stays readable, so it was refused rather than allowed to cross the rule"
+        }
+      ],
+      "requiredArtifactsPresent": {
+        "canonicalFixturePdf": true,
+        "boundaryFixturePdf": true,
+        "fieldMap": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/production-field-map.json",
+        "fieldCensus": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/field-census.census-v1.json",
+        "participantAndFilingInstructions": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/participant-instructions.md",
+        "completenessCounters": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/completeness-counters.json",
+        "actualWrites": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/actual-writes.json",
+        "blanks": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "captionEvidence": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/reports/caption-evidence.json",
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/source-receipt.json",
+        "bothGlyphReadingsPerArtifact": true
+      },
+      "filingInstructionsNote": "This builder delivers participant and filing instructions as one document. participant-instructions.md is headed \"Filing instructions\" and carries the filing destination, the three submission channels the form prints, the 90-day deadline, the required attachments and the signature requirement. There is no separate filing-instructions.md.",
+      "appearanceLevelInspection": {
+        "method": "both fixtures re-opened from the committed bytes; page rasters read as images; text extracted per page",
+        "acroFormFieldsRemaining": 0,
+        "sourceAuthoredDefaultsFound": 0,
+        "invisibleWritesFound": 0,
+        "signatureBlocksPrefilled": 0,
+        "observed": "In both fixtures the \"Signature of Applicant\" and \"Date\" cells are empty, both Check Applicable Response boxes are unticked, and all eighteen cells of the item 5 offence table are empty. Every written value sits inside its printed rule. In the boundary fixture the State cell is empty because the refusal above fired; nothing overflows.",
+        "inspectedBy": "PF24, the lane that built it — this is a build-side read, not verification"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 4,
+      "rasterNote": "Four pages were rastered locally with the repository's calibrated Chromium rasteriser and read at appearance level; the PNGs are committed as the builder wrote them. A local render is not a receipt. The authoritative render is the central hash-bound workflow, on the two fixture SHA-256s recorded above.",
+      "determinism": "the builder was run three times; both fixture SHA-256s were identical on every run",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "contradictionsFoundInCommittedRecords": [
+        {
+          "record": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill/build-findings.json (at the shift base commit)",
+          "says": "status BLOCKED_NON_FILING_HOLD — the shared detector refuses to fill SFN-61663",
+          "measured": "the detector does not fire; the builder ran unchanged to a complete packet. The committed block was stale."
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "families[nd-summary-marijuana-pardon-set].rasterEnrolmentRefusal",
+          "says": "no fixtures directory; packet build has not completed; no completeness audit",
+          "measured": "all three are now false: fixtures/, a completeness-counters record and a full packet exist at the paths above."
+        }
+      ]
     }
   ],
-  "familiesCompleted": 0,
+  "familiesCompleted": 1,
   "familiesStopped": 1
 }

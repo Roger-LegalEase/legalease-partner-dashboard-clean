@@ -1082,14 +1082,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "Department's own field names are those captions.",
     whyThisIsRecordedAnyway:
       "So the claim is checkable. A caption basis asserted without the extraction beside it cannot be told apart from "
-      + "one that was guessed, and two of this packet's sibling Colorado forms genuinely cannot be caption-checked at "
-      + "all. The extraction at every widget's own coordinate is recorded below either way.",
+      + "one that was guessed. The extraction at every widget's own coordinate is recorded below either way.",
     perDocument: censuses.map(({ source }) => ({
       document: source.formNumber,
       captionsExtractCleanly: source.captionsExtractCleanly === true,
       basis: source.captionsExtractCleanly
-        ? "the printed caption read from this document's own text stream at each widget's coordinate, corroborated by Colorado's authored field name"
-        : "Colorado's authored AcroForm field names plus the printed section heading; the scrambled extraction is recorded per field as evidence of why no printed-caption check is available"
+        ? "the printed caption read from this document's own text stream at each widget's coordinate, corroborated by "
+          + "the AcroForm field name the North Dakota Department of Corrections and Rehabilitation authored into SFN 61663"
+        : "the AcroForm field names the North Dakota Department of Corrections and Rehabilitation authored into SFN 61663, "
+          + "plus the printed section heading; the scrambled extraction is recorded per field as evidence of why no "
+          + "printed-caption check is available"
     })),
     perField: censuses.flatMap(({ source, census }) => census.rows.map((r) => ({
       document: source.formNumber, field: r.key, page: r.page, rect: r.rect,
