@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-raster-receipt-transport-index/v1",
+  "generatedBy": "Captain, 2026-09-09",
+  "why": "Five recovery-request files had accumulated and two of them were already fulfilled. This is the current state of every raster run whose receipts this session could not fetch, so nobody re-fetches a consumed one or misses an outstanding one. Read this file first; the per-run files carry the detail.",
+  "theBlocker": "The Actions API answers from this session. The artifact blob store does not: download_workflow_run_artifact returns a signed URL and the egress proxy answers CONNECT tunnel failed, response 403 against productionresultssa6.blob.core.windows.net. Every run below rendered and measured successfully; nothing needs rerendering.",
+  "consumed": [
+    {
+      "runId": "34373388204",
+      "families": ["fl-self-defense-set"],
+      "deliveredAt": "commit bcc6f0e41191261a4541b2dd8f3b193cfd7298e1",
+      "admitted": true,
+      "outcome": "fl-self-defense-set is COMPLETE_PACKET_PROVEN.",
+      "requestFile": "RECOVERY_REQUEST_34373388204.json",
+      "doNotRefetch": true
+    },
+    {
+      "runId": "34378560072",
+      "families": ["il-seal-2yr-set", "il-seal-3yr-set", "il-exp-qualprob-set"],
+      "deliveredAt": "commit 3cf812398f753738ca743f91411e12c742101c5a",
+      "admitted": true,
+      "outcome": "Admitted, and then SUPERSEDED: the FIX06/07/08 ARTIFACTS repair moved all six PDFs, so those receipts no longer describe the current bytes and all three families are queued again in run 34399508391.",
+      "requestFile": "RECOVERY_REQUEST_34378560072.json",
+      "doNotRefetch": true
+    }
+  ],
+  "outstanding": [
+    {
+      "runId": "34357236801",
+      "families": ["pa_pardon_expungement-set"],
+      "artifactId": "10106541378",
+      "digest": "sha256:6e77ace7460682422f0f9f50bf8a394486081000950f8f843817f6d06374f897",
+      "expiresAt": "2026-09-23T13:34:39Z",
+      "unblocks": "The last family whose packet is finished and whose receipt already exists. Two documents; the importer now reads its declaration rather than globbing its directory, so it will admit.",
+      "requestFile": "RECOVERY_REQUEST_34357236801_pa.json",
+      "sendOnlyThisFamily": "Six other artifacts exist on that run. Three are superseded Illinois receipts, one is already admitted, one is co_petition_seal_arrest-set whose bytes have since moved."
+    },
+    {
+      "runId": "34386107249",
+      "runAttempt": 2,
+      "families": ["al-trafficking-set", "ne-seal-pre2017-set", "rcap-or-official-pdf-fill"],
+      "artifacts": {
+        "al-trafficking-set": "10118412473",
+        "ne-seal-pre2017-set": "10118301391",
+        "rcap-or-official-pdf-fill": "10118354930"
+      },
+      "unblocks": "The first rasters over FULL declared sets: 4 documents and 44 pages, 6 and 30, 4 and 36. Their verdicts carry one page-image directory per document rather than per role.",
+      "requestFile": "RECOVERY_REQUEST_34386107249.json"
+    },
+    {
+      "runId": "34389568508",
+      "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set", "al-pardoned-felony-set"],
+      "artifacts": {
+        "al-felony-dwop-set": "10119404600",
+        "al-felony-nonconviction-90-set": "10119472127",
+        "al-pardoned-felony-set": "10119423366"
+      },
+      "unblocks": "The three FIX119 repairs. al-pardoned-felony-set has genuinely new bytes: eight ticks removed from the CR-65 Section V conjunctive sworn certification, so this is the first look at what that page now shows.",
+      "requestFile": "RECOVERY_REQUEST_34389568508.json"
+    },
+    {
+      "runId": "34399508391",
+      "families": ["il-seal-3yr-set", "il-seal-2yr-set", "il-exp-qualprob-set", "co_petition_seal_arrest-set"],
+      "status": "in_progress at the time of writing; identities to be recorded when it finishes",
+      "unblocks": "The Illinois ARTIFACTS repair on all six moved PDFs, and Colorado's 23 synthesized widget borders."
+    }
+  ],
+  "bundleShapeThatWorks": "A tar.xz carrying <runId>/<family>.verdict.json for each family plus the canary, negative-control and runtime receipts; a PAGE_IMAGES_SHA256.json inventory with runId, familyId, member, bytes, sha256, pngWidth and pngHeight per page image; and a TRANSPORT.json naming the run, artifact, job and canary identities. PNG bodies are not needed and have never been sent. Four bundles of this shape have been consumed without a single refusal for cause.",
+  "whatThisCosts": "Thirteen families are BUILT_RASTER_PENDING and eleven of them are waiting on a receipt rather than on any work. Repair capacity is not the constraint; this is.",
+  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production."
+}
