@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `04e843b9824022c5687eff48746df23eb2c969b7` (or the newer dispatch base)
+**Minimum required ancestor:** `1a29495db78018acde557d936feefd3f38f908c5` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'mo-art-xiv-marijuana-set' \
   --codex-cloud \
-  --minimum-captain-sha 04e843b9824022c5687eff48746df23eb2c969b7
+  --minimum-captain-sha 1a29495db78018acde557d936feefd3f38f908c5
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,7 +41,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'mo-art-xiv-marijuana-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-pardoned-felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'il-seal-2yr-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ri_multiple_misdemeanors-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,7 +63,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `mo-art-xiv-marijuana-set`
 - `al-pardoned-felony-set`
-- `il-seal-2yr-set`
+- `ri_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -78,10 +78,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs`
 - `scripts/build-census-v1-al-pardoned-felony-set.mjs`
-- `scripts/build-census-v1-il-seal-2yr-set.mjs`
+- `scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs`
 
 ## Never write here
 
