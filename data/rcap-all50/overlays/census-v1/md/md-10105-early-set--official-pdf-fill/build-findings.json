@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "md_10105_early-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "CC-DC-CR-072C prints \"Form 4-503.2 GENERAL WAIVER AND RELEASE (Criminal Procedure § 10-105)\" on the lower half of its own single sheet, at y=200 of page 1 of the pinned binary, with its own petitioner signature, witness signature and printed-name-of-witness lines. CC-DC-CR-078 is the standalone edition of the same Form 4-503.2.",
+      "consequence": "The committed component record already marks CC-DC-CR-078 conditional, on the condition \"Where the alternative route is used: CC-DC-CR-072A plus a standalone waiver.\" This build renders both, in component order, and states in participant-instructions.md that a filer on CC-DC-CR-072C signs the waiver on the petition and does NOT also sign the standalone sheet. Signing both would release the same tort claims twice for one charge. The condition travels with the component in production-field-map.json, reports/rendered-artifacts.json and the source receipt."
+    },
+    {
+      "finding": "CC-DC-CR-078 asks for a home telephone number and a work telephone number in separate boxes; CC-DC-CR-072C prints one unqualified Telephone line.",
+      "consequence": "The unqualified box is written and both qualified boxes are refused and carried to the participant. The platform holds one contact number and no fact about which kind it is; writing it into the home box would assert something nobody told us, and writing it into both would put one number in two boxes asking different questions. Recorded under nearMissesRefusedByRole rather than quietly avoided."
+    },
+    {
+      "finding": "MASTER_QUEUE declares CC-DC-CR-072C at path \"LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf\" and the committed corpus index files those exact bytes under the custody nationwide_recovery_pool_2026_09_02, whose declared root is repository-relative. This is a sparse worktree that does not materialise private/, so joining that root onto this checkout finds nothing while the binary sits in the main working tree of the same repository.",
+      "consequence": "The resolver searches every custody the index declares, under this checkout AND under the main working tree located from git's own common directory, and binds only on an exact SHA-256. The receipt records the custody each document's bytes actually came from. Nothing is bound by path. Note also that the recovery pool is declared a PARTIAL custody: it satisfies an individual source obligation and never a completeness assertion, and no completeness assertion is made from it here."
+    },
+    {
+      "finding": "The city/county chooser on both forms ships with a selected value of fifty space characters, which is the first entry of its own option list.",
+      "consequence": "It is recorded per field as sourceValue in the census, and the finalizer's own chooser-prompt suppression is reported per fixture as promptsSuppressed in reports/actual-writes.json. Either way the line draws whitespace and no participant fact, and the byte proof treats a whitespace appearance as no ink."
+    },
+    {
+      "finding": "Both forms carry a Reset pushbutton. A pushbutton whose appearance is regenerated before flatten is stamped onto the filed page as ordinary ink.",
+      "consequence": "This build passes detachNestedControlFields to the shared finalizer, which detaches suppressed controls from a nested field tree as well as a flat one, and the visual review sheet asks the reviewer to confirm the word \"Reset\" appears nowhere on either sheet."
+    },
+    {
+      "finding": "This build also passes evaluateDeclaredMinimumSize and alignWidgetFontSizeToFit, two other opt-in flags whose comments in the shared finalizer say the default should flip once every family can be rebuilt together.",
+      "consequence": "Each closes a measured defect - a value refused without its declared minimum ever being tried, and a fitted font size the widget's own /DA would have ignored while the report called the write \"shrunk\". This family is new, so no earlier bytes move on that account. Recorded so a reviewer can see the difference from the older official_pdf_fill families rather than discover it."
+    },
+    {
+      "finding": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is MEASURED here rather than declared zero. Twenty-five overlay directories in this factory emit no such reading at all, and the two working builders this family was patterned on emit the field with a hard-coded 0.",
+      "consequence": "The reading is produced by differencing every flattened appearance in the artifact against the same source flattened with nothing written on it, keeping only appearances that land at no measured widget rectangle. The method is recorded per document in reports/actual-writes.json as outsideBoxProofMethod, and any ink it finds is listed under inkOutsideMeasuredWriteBoxes."
+    },
+    {
+      "finding": "Every sentence of guide prose that states a fee, a service rule, a notice period, a self-help stop condition or a limitation is a string taken from tracks[trackId=md_10105_early] of data/record-clearing/legal-design-track-registry.json, which is hashed whole and per entry in the source receipt. The tort-claim comparison and the § 10-105.1 automatic-route notice lead the participant instructions because that record classifies both as packet instructions and says presenting this route without the comparison is a defect.",
+      "consequence": "No fee, deadline, clerk practice, service rule or review approval is stated that the record does not state. The record says the fee is $0 and that the court serves the State's Attorney; the packet says exactly that and nothing further."
+    },
+    {
+      "finding": "The boundary fixture's 58-character e-mail address does not fit CC-DC-CR-072C's 157-point e-mail box at the minimum readable font, and the shared finalizer refuses it rather than clipping it.",
+      "consequence": "The boundary packet carries no e-mail on that line. That is the boundary fixture doing its job, and this family's field map records it honestly: the boundary column is built from the BOUNDARY render report rather than copied from the canonical one, so the row shows as a canonical write and a boundary refusal with the measured required width beside it. The pattern this family was built from sets boundaryWrites = canonicalWrites, which on this family would have claimed ink the boundary artifact does not have."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The committed track record carries four open gates for this route: output review, visual review, technical proof, and a source gate reading \"One or more official sources have no recorded SHA-256, so staleness cannot be detected.\"",
+      "consequence": "The source gate is answered for the two binaries this family renders - both are pinned by exact digest in the receipt - and is NOT answered for the statute and rule URLs the same record lists with sha256 null. The other three gates are outside a build lane entirely. None of them is closed by this build and none is claimed to be."
+    }
+  ]
+}

@@ -1,0 +1,762 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "rcap-in-custom-pleading",
+  "finding": "The Coalition for Court Access authored this bundle's AcroForm field names as short mnemonics rather than as the printed captions - `cap-PetitionerFullName`, `DD-cap-CourtType`, `Check Box13`, `ProsecutorAddress3`. Several of them therefore do NOT appear verbatim on the paper, and this file records which, rather than asserting a caption basis the page does not support.",
+  "method": "The whole printed page is extracted, lowercased and flattened to alphanumeric words; the field name is flattened the same way; `printedCaptionFound` is true when the flattened name occurs in the flattened text of a page the field has a widget on. Where it is false, the printed line read at the widget's own coordinate is recorded beside it, and the label this build uses is drawn from the printed sentence at that coordinate and from the numbered item the widget sits under.",
+  "whyItMattersHere": "A sibling Indiana family delivers these same three documents blank and records in its own findings that a field-level map for them is owed, because captions harvested at their positions come back as fragments. This family is the official_pdf_fill treatment of those three documents, so each label is recorded with the printed line it was read from and a reviewer can check every one against the paper.",
+  "perDocument": [
+    {
+      "document": "CCA-GF-0120-3016",
+      "fields": 31,
+      "captionsFoundInPrintedText": 3,
+      "captionsNotFound": [
+        "cap-COUNTY",
+        "cap-PetitionerFullName",
+        "DD-cap-CourtType",
+        "Check Box1",
+        "Fax",
+        "Check Box2",
+        "Check Box3",
+        "Check Box4",
+        "CauseNumber1",
+        "CauseNumber2",
+        "CauseNumber3",
+        "CauseNumber4",
+        "Caption1",
+        "Caption2",
+        "Caption3",
+        "Caption4",
+        "Caption5",
+        "Caption6",
+        "CauseNumber5",
+        "CauseNumber6",
+        "AdditionalInformation",
+        "Check Box6",
+        "Check Box7",
+        "County2",
+        "Date1",
+        "Date2",
+        "County1",
+        "ProsecutorAddress1"
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "fields": 10,
+      "captionsFoundInPrintedText": 0,
+      "captionsNotFound": [
+        "cap-COUNTY",
+        "cap-PetitionerFullName",
+        "DD-cap-CourtType",
+        "Date5",
+        "Date6",
+        "County6",
+        "County5",
+        "ProsecutorAddress3",
+        "Check Box13",
+        "Check Box14"
+      ]
+    },
+    {
+      "document": "Confidential Information Form",
+      "fields": 2,
+      "captionsFoundInPrintedText": 0,
+      "captionsNotFound": [
+        "cap-PetitionerFullName",
+        "PetFullSSN"
+      ]
+    }
+  ],
+  "perField": [
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "cap-COUNTY",
+      "labelThisBuildUses": "County of the court",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 681,
+          "extracted": "COUNTY OF __________________ CAUSE NO. ____________________________________"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "cap-COUNTY",
+      "labelThisBuildUses": "County of the court",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 681,
+          "extracted": "COUNTY OF __________________ CAUSE NO. ____________________________________"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "cap-PetitionerFullName",
+      "labelThisBuildUses": "Petitioner full legal name",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 598,
+          "extracted": "___________________________________"
+        },
+        {
+          "page": 1,
+          "y": 585,
+          "extracted": "Petitioner"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "cap-PetitionerFullName",
+      "labelThisBuildUses": "Petitioner full legal name",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 598,
+          "extracted": "___________________________________"
+        },
+        {
+          "page": 1,
+          "y": 585,
+          "extracted": "Petitioner"
+        }
+      ]
+    },
+    {
+      "document": "Confidential Information Form",
+      "field": "cap-PetitionerFullName",
+      "labelThisBuildUses": "Petitioner full legal name",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 598,
+          "extracted": "___________________________________"
+        },
+        {
+          "page": 1,
+          "y": 585,
+          "extracted": "Petitioner"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "DD-cap-CourtType",
+      "labelThisBuildUses": "Court type - Circuit, Superior, City or Town (selection)",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 709,
+          "extracted": "STATE OF INDIANA IN THE __________________ _________________ COURT"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "DD-cap-CourtType",
+      "labelThisBuildUses": "Court type - Circuit, Superior, City or Town (selection)",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 709,
+          "extracted": "STATE OF INDIANA IN THE __________________ _________________ COURT"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Email",
+      "labelThisBuildUses": "Email address",
+      "section": "Appearance - your contact details",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 405,
+          "extracted": "Email address:"
+        },
+        {
+          "page": 1,
+          "y": 390,
+          "extracted": "\u0007\u0006 I will accept service at the above email address."
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box1",
+      "labelThisBuildUses": "I will accept service at the above email address (selection)",
+      "section": "Appearance - your contact details",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 390,
+          "extracted": "\u0007\u0006 I will accept service at the above email address."
+        },
+        {
+          "page": 1,
+          "y": 376,
+          "extracted": "Phone:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Phone",
+      "labelThisBuildUses": "Phone",
+      "section": "Appearance - your contact details",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 376,
+          "extracted": "Phone:"
+        },
+        {
+          "page": 1,
+          "y": 362,
+          "extracted": "Fax:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Fax",
+      "labelThisBuildUses": "Fax (optional)",
+      "section": "Appearance - your contact details",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 362,
+          "extracted": "Fax:"
+        },
+        {
+          "page": 1,
+          "y": 348,
+          "extracted": "OR, if in a related case, you have used the Attorney General confidential address, you may check"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box2",
+      "labelThisBuildUses": "Attorney General confidential address (selection)",
+      "section": "Appearance - your current address",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 320,
+          "extracted": "\u0007\u0006 Attorney General confidential address"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box3",
+      "labelThisBuildUses": "There are related cases - Yes (selection)",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 249,
+          "extracted": "\u0007\u0006 Yes"
+        },
+        {
+          "page": 1,
+          "y": 233,
+          "extracted": "\u0007\u0006 No"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box4",
+      "labelThisBuildUses": "There are related cases - No (selection)",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 233,
+          "extracted": "\u0007\u0006 No"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber1",
+      "labelThisBuildUses": "Related case 1 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 177,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber2",
+      "labelThisBuildUses": "Related case 2 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 150,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber3",
+      "labelThisBuildUses": "Related case 3 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 122,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber4",
+      "labelThisBuildUses": "Related case 4 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 95,
+          "extracted": "Caption: Case No.:"
+        },
+        {
+          "page": 1,
+          "y": 80,
+          "extracted": "Page 1 of 2 Approved by the Coalition for Court Access"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption1",
+      "labelThisBuildUses": "Related case 1 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 177,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption2",
+      "labelThisBuildUses": "Related case 2 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 150,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption3",
+      "labelThisBuildUses": "Related case 3 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 122,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption4",
+      "labelThisBuildUses": "Related case 4 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 1,
+          "y": 95,
+          "extracted": "Caption: Case No.:"
+        },
+        {
+          "page": 1,
+          "y": 80,
+          "extracted": "Page 1 of 2 Approved by the Coalition for Court Access"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption5",
+      "labelThisBuildUses": "Related case 5 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 695,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Caption6",
+      "labelThisBuildUses": "Related case 6 - caption",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 667,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber5",
+      "labelThisBuildUses": "Related case 5 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 695,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "CauseNumber6",
+      "labelThisBuildUses": "Related case 6 - cause number",
+      "section": "Related cases",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 667,
+          "extracted": "Caption: Case No.:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "AdditionalInformation",
+      "labelThisBuildUses": "Additional information as required by local rule (optional)",
+      "section": "Appearance - local rule",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": []
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box6",
+      "labelThisBuildUses": "Appearance certificate of service - served by first-class mail or hand delivery (selection)",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 518,
+          "extracted": "\u0007\u0006I hereby certify that I sent a copy of this document on ________________________ by first-"
+        },
+        {
+          "page": 2,
+          "y": 502,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Check Box7",
+      "labelThisBuildUses": "Appearance certificate of service - served through the Indiana E-filing System (selection)",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 414,
+          "extracted": "\u0007\u0006I hereby certify that on _________________________ a copy of this document was served"
+        },
+        {
+          "page": 2,
+          "y": 398,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "County2",
+      "labelThisBuildUses": "Appearance certificate of service - which county prosecutor was served electronically",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 398,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Date1",
+      "labelThisBuildUses": "Appearance certificate of service - date you sent it by mail or hand delivery",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 518,
+          "extracted": "\u0007\u0006I hereby certify that I sent a copy of this document on ________________________ by first-"
+        },
+        {
+          "page": 2,
+          "y": 502,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "Date5",
+      "labelThisBuildUses": "Form ACR certificate of service - date you sent it by mail or hand delivery",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 272,
+          "extracted": "\u0007\u0006I hereby certify that I sent a copy of this document on ________________________ by first-"
+        },
+        {
+          "page": 7,
+          "y": 256,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Date2",
+      "labelThisBuildUses": "Appearance certificate of service - date of the e-filing service",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 414,
+          "extracted": "\u0007\u0006I hereby certify that on _________________________ a copy of this document was served"
+        },
+        {
+          "page": 2,
+          "y": 398,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "Date6",
+      "labelThisBuildUses": "Form ACR certificate of service - date of the e-filing service",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 168,
+          "extracted": "\u0007\u0006I hereby certify that on _________________________ a copy of this document was served"
+        },
+        {
+          "page": 7,
+          "y": 152,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "County1",
+      "labelThisBuildUses": "Appearance certificate of service - which county prosecutor you sent it to",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 502,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        },
+        {
+          "page": 2,
+          "y": 488,
+          "extracted": "Prosecutor at the following address:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "County6",
+      "labelThisBuildUses": "Form ACR certificate of service - which county prosecutor was served electronically",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 152,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "ProsecutorAddress1",
+      "labelThisBuildUses": "Appearance certificate of service - the prosecutor's address",
+      "section": "Certificate of service - Appearance",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 2,
+          "y": 447,
+          "extracted": "______________________________"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "County5",
+      "labelThisBuildUses": "Form ACR certificate of service - which county prosecutor you sent it to",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 256,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        },
+        {
+          "page": 7,
+          "y": 242,
+          "extracted": "Prosecutor at the following address:"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "ProsecutorAddress3",
+      "labelThisBuildUses": "Form ACR certificate of service - the prosecutor's address",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 201,
+          "extracted": "______________________________"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "Check Box13",
+      "labelThisBuildUses": "Form ACR certificate of service - served by first-class mail or hand delivery (selection)",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 272,
+          "extracted": "\u0007\u0006I hereby certify that I sent a copy of this document on ________________________ by first-"
+        },
+        {
+          "page": 7,
+          "y": 256,
+          "extracted": "class U.S. mail, postage prepaid or via hand-delivery to the _______________________ County"
+        }
+      ]
+    },
+    {
+      "document": "CCA-XP-0120-7002 Form ACR",
+      "field": "Check Box14",
+      "labelThisBuildUses": "Form ACR certificate of service - served through the Indiana E-filing System (selection)",
+      "section": "Certificate of service - Form ACR",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 7,
+          "y": 168,
+          "extracted": "\u0007\u0006I hereby certify that on _________________________ a copy of this document was served"
+        },
+        {
+          "page": 7,
+          "y": 152,
+          "extracted": "upon the _________________________ County Prosecutor via the Indiana E-filing System."
+        }
+      ]
+    },
+    {
+      "document": "Confidential Information Form",
+      "field": "PetFullSSN",
+      "labelThisBuildUses": "Petitioner's full Social Security Number",
+      "section": "Confidential Information Form",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "page": 8,
+          "y": 594,
+          "extracted": "PETITIONERS FULL SOCIAL SECURITY NUMBER:_______________________________"
+        }
+      ]
+    },
+    {
+      "document": "CCA-GF-0120-3016",
+      "field": "Address",
+      "labelThisBuildUses": "Your current mailing address",
+      "section": "Appearance - your current address",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": []
+    }
+  ]
+}

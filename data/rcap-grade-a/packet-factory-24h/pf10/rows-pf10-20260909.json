@@ -1,0 +1,563 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "PF10",
+  "workerId": "PF10",
+  "lane": "pf10",
+  "workerBranch": "pfa-20260909",
+  "engine": "claude-opus-5",
+  "returnFilename": "rows-pf10-20260909.json",
+  "writtenAlongsideRatherThanOver": "This lane's own return file. No other lane's rows file and no central manifest is written by PF10.",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "worktree": "/home/user/pfa-worktree",
+  "familiesAssignedByPrompt": [
+    "md_10105_early-set",
+    "rcap-in-custom-pleading",
+    "co_municipal_conviction_seal-set"
+  ],
+  "familiesGrantedByClaimLedger": [],
+  "theUnmetRequirement": "All three families were SOURCE_READY with every bound source already held in custody and NO BUILD SCRIPT. This lane wrote the missing builder for each one.",
+  "custodyVerification": "Every source is bound by the digest MASTER_QUEUE declares, checked against the committed corpus index and then recomputed from the bytes on disk. No source is bound by path, and no similarly named file, revision or locator page is substituted for a form.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "No fixture in this return carries a raster receipt. This lane rendered no page locally, because a local browser render is not a receipt: the central raster workflow produces one, bound to the exact fixture SHA-256 recorded on each row.",
+  "packetsSelfVerified": 0,
+  "verdictsIssued": 0,
+  "whyNoVerdict": "A build lane does not verify its own packets. The nine counters on each row are the BUILDER's own count, computed with the repository's own contract functions; they are evidence for an independent lane, not a pass.",
+  "otherPfPromptsExecutedInThisWorktree": [],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": [],
+  "grantsNothing": "A built family is review evidence. It authorizes no fulfillment, opens no commercial route, promotes no route and changes no central state.",
+  "rows": [
+    {
+      "itemId": "md_10105_early-set",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "This lane built the family. The raster receipt comes from the central workflow on the digests below, and the completeness verdict from an independent verification lane. Neither is asserted here.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+      ],
+      "jurisdiction": "MD",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-md_10105_early-set.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 20,
+        "PROTECTED_FIELD": 14,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 9,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1,
+        "PARTICIPANT_ELECTION_GENUINE": 15
+      },
+      "componentSet": [
+        "md_10105_early-primary-filing-1",
+        "md_10105_early-attachment-2"
+      ],
+      "componentConditions": {
+        "md_10105_early-attachment-2": "Where the alternative route is used: CC-DC-CR-072A plus a standalone waiver."
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:CC-DC-CR-072C"
+          ],
+          "documentId": "CC-DC-CR-072C",
+          "pathInArchive": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+          "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+          "sha256RecomputedFromBytes": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+          "byteLength": 888008,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:CC-DC-CR-078"
+          ],
+          "documentId": "CC-DC-CR-078",
+          "pathInArchive": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-078__general-waiver-and-release__REV-2025-01__EN.pdf",
+          "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+          "sha256RecomputedFromBytes": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+          "byteLength": 35270,
+          "custody": "master_library",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+          "byteLength": 220570,
+          "pageCount": 2
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522",
+          "byteLength": 220812,
+          "pageCount": 2
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "formNumber": "CC-DC-CR-072C",
+          "valuesReportedByFinalizer": 9,
+          "addedGlyphsReadFromOutputBytes": 137,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "CC-DC-CR-078",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 75,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "CC-DC-CR-072C",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 249,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "CC-DC-CR-078",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 180,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 20,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "requiredBeforeFiling": 20,
+      "participantElections": 15,
+      "routeSelectionsMade": 0,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-in-custom-pleading",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "This lane built the family. The raster receipt comes from the central workflow on the digests below, and the completeness verdict from an independent verification lane. Neither is asserted here.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:IN:in_collateral_action",
+        "obligation:track-only:IN:in_supplemental_order",
+        "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      ],
+      "jurisdiction": "IN",
+      "implementationStrategy": "custom_pleading",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-rcap-in-custom-pleading.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 2,
+        "REQUIRED_BEFORE_FILING": 23,
+        "PARTICIPANT_ELECTION_GENUINE": 10
+      },
+      "componentSet": [
+        "in_conviction_serious_felony-attachment-4",
+        "in_conviction_serious_felony-attachment-5",
+        "in_conviction_serious_felony-attachment-6"
+      ],
+      "componentConditions": {
+        "in_conviction_serious_felony-attachment-4": "Required for a self-represented filer."
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:CCA-GF-0120-3016"
+          ],
+          "documentId": "CCA-GF-0120-3016",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:CCA-XP-0120-7002 Form ACR"
+          ],
+          "documentId": "CCA-XP-0120-7002 Form ACR",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:Confidential Information Form"
+          ],
+          "documentId": "Confidential Information Form",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+          "byteLength": 221589,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8",
+          "byteLength": 221845,
+          "pageCount": 4
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 198,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 46,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 410,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 46,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "requiredBeforeFiling": 23,
+      "participantElections": 10,
+      "routeSelectionsMade": 0,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "oneBinaryThreeIdentities": "MASTER_QUEUE names three sourceIds for this family and every one of them declares the same digest, b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. This is one published binary carrying three documents, not three binaries, and the three documents below are page slices of it whose selection is proved from each page's own printed face.",
+      "implementationStrategyAsDelivered": "official_form_retention_and_fill",
+      "whyThatDiffersFromTheQueuesLabel": "MASTER_QUEUE calls this family custom_pleading. Its three declared components are official forms whose own outputStrategy in the committed packet-set manifest is official_pdf_fill, and nothing composed is declared, so what this build delivers is three issuer-published documents filled inside the issuer's own boxes. The queue's label is recorded above unchanged and the delivered treatment is named beside it.",
+      "pageSelectionProof": [
+        {
+          "documentId": "CCA-GF-0120-3016",
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "sourcePage": 1,
+          "packetPage": 1,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-GF-0120-3016",
+            "Page 1 of 2"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "CCA-GF-0120-3016",
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "sourcePage": 2,
+          "packetPage": 2,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-GF-0120-3016",
+            "Page 2 of 2"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "CCA-XP-0120-7002 Form ACR",
+          "componentId": "in_conviction_serious_felony-attachment-5",
+          "sourcePage": 7,
+          "packetPage": 3,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-XP-0120-7002",
+            "Notice of Exclusion of Confidential Information from Public Access",
+            "Page 1 of 1"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "Confidential Information Form",
+          "componentId": "in_conviction_serious_felony-attachment-6",
+          "sourcePage": 8,
+          "packetPage": 4,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CONFIDENTIAL INFORMATION FORM",
+            "Not Public Record"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        }
+      ],
+      "componentsOfThisFamilysOwnRoutesThatNothingBuilds": [
+        {
+          "componentId": "in_conviction_serious_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-instructions-7",
+          "role": "instructions",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_collateral_action-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_collateral_action-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_collateral_action-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_supplemental_order-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        },
+        {
+          "componentId": "in_supplemental_order-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        },
+        {
+          "componentId": "in_supplemental_order-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        }
+      ],
+      "scopeFinding": "This family delivers the three statewide supporting forms of a filing it does not deliver. Its own routes' primary filings, proposed orders and remaining attachments are declared by no family in the queue. The packet says so on its own first page of instructions; widening the scope or opening more families is a queue decision, not a build lane's."
+    },
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "This lane built the family. The raster receipt comes from the central workflow on the digests below, and the completeness verdict from an independent verification lane. Neither is asserted here.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:CO:co_municipal_conviction_seal"
+      ],
+      "jurisdiction": "CO",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 25,
+        "PROTECTED_FIELD": 13,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 3,
+        "LATER_COMPLETION": 1
+      },
+      "componentSet": [
+        "co_municipal_conviction_seal-primary-filing-1",
+        "co_municipal_conviction_seal-proposed-order-2"
+      ],
+      "componentConditions": {},
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:JDF-683"
+          ],
+          "documentId": "JDF-683",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "sha256RecomputedFromBytes": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "byteLength": 82760,
+          "custody": "master_library",
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:JDF-686"
+          ],
+          "documentId": "JDF-686",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+          "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "sha256RecomputedFromBytes": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "byteLength": 63657,
+          "custody": "master_library",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+          "byteLength": 144207,
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+          "byteLength": 144266,
+          "pageCount": 5
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "formNumber": "JDF-683",
+          "valuesReportedByFinalizer": 7,
+          "addedGlyphsReadFromOutputBytes": 107,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "JDF-686",
+          "valuesReportedByFinalizer": 9,
+          "addedGlyphsReadFromOutputBytes": 96,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "JDF-683",
+          "valuesReportedByFinalizer": 6,
+          "addedGlyphsReadFromOutputBytes": 171,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "JDF-686",
+          "valuesReportedByFinalizer": 8,
+          "addedGlyphsReadFromOutputBytes": 200,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "requiredBeforeFiling": 28,
+      "participantElections": 0,
+      "routeSelectionsMade": 0,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "implementationStrategyAsDelivered": "measured_flat_overlay_on_both_documents",
+      "whyThatDiffersFromTheQueuesLabel": "The queue's strategy for this family is official_pdf_fill and BOTH bound documents are flat: the committed corpus index records acroFieldCount 0 for each, and this build confirms it from the bytes. There is nothing to fill, so every value is placed on a printed rule measured out of the page's own content stream.",
+      "supersededSourceNote": "The queue's source readiness for this family records official-form:JDF-684 as superseded by official-form:JDF-686, and its committed source reconciliation reads \"Build from JDF 683 and the corrected JDF 686 proposed granting-order component.\" That is what this build renders. JDF 684 is bound nowhere here.",
+      "legalDesignBuildBlockersOpen": [
+        {
+          "question": "Municipal form coverage and current municipal-court procedure.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "Colorado operational amendments / True blockers retained",
+            "sourceStatement": "**CO-7:** municipal form coverage and current municipal-court procedure."
+          }
+        },
+        {
+          "question": "Section 24-72-708 was not read in full. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+            "sourceHeading": "TRACK CO-7 / limitations",
+            "sourceStatement": "Section 24-72-708 was not read in full in this review. Confirm the waiting period, the exclusion set, the objection mechanics, and the fee before building.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "whyThoseDoNotStopThisBuild": "AGENTS.md's build-first review model makes counsel review a blocker for approved_for_live and live, not for building through state_built. The blockers are carried on the packet's own instructions page and in approval-request.json instead of being resolved here, and nothing in this build asserts eligibility, a fee or a waiting period.",
+      "printedSelectionControlsNotMeasured": 22,
+      "printedBlanksNotMeasured": 4,
+      "contradictionsMeasuredAgainstTheRecords": [
+        "MASTER_QUEUE records legalInputStatus SETTLED for this family while the committed legal-design track record carries two open build_blocker questions and states the fee as \"Unconfirmed. The fee must be confirmed before building.\" The packet was built silent on every point the record leaves open; the disagreement is reported and not resolved by this lane.",
+        "The track record's release blocker says JDF 683 with 682, 684, 685 and 686 \"have not been acquired\". Measured: JDF 683 and JDF 686 are held and bind by exact digest in this build. That sentence is stale for those two forms and stands for the other three.",
+        "The shared rule reader scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs defaults to minLength 40, which hides JDF 686's 31.25pt section-1 State rule while JDF 683's 40.27pt equivalent is seen. Measured on both binaries; this build narrows the threshold through the module's own published option rather than editing it."
+      ]
+    }
+  ],
+  "headShaAtReturn": "a16e37fae55a42265c1564caa1849a0ae33b7459",
+  "rowsReturned": 3,
+  "familiesCompleted": [
+    "md_10105_early-set",
+    "rcap-in-custom-pleading",
+    "co_municipal_conviction_seal-set"
+  ],
+  "familiesStopped": [],
+  "familiesNotYetReturned": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": []
+}
