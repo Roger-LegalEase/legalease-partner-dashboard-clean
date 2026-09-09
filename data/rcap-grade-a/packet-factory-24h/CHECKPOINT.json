@@ -10,14 +10,14 @@
   "states": {
     "SOURCE_BLOCKED": 6,
     "SOURCE_READY": 73,
-    "LEGAL_BLOCKED": 13,
+    "LEGAL_BLOCKED": 14,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 1,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 34,
+    "FAIL_REPAIR_REQUIRED": 37,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
@@ -39,8 +39,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 39,
-    "lanesProvisionedEmpty": 17,
+    "lanesWithWorkAtDispatch": 35,
+    "lanesProvisionedEmpty": 21,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -139,6 +139,12 @@
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "ri_first_offender_felony-set",
+      "exactBlocker": "SOURCE_BOUND_BY_HELD_BYTES: official-form:Superior-55, official-form:Superior-55-ORDER",
+      "owner": "PROMO03",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
       "family": "ut_pet_limitations-set",

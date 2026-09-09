@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 986,
+    "rows": 991,
     "independentVerdicts": 252,
-    "failRepairRequired": 39,
+    "failRepairRequired": 42,
     "passIndependent": 194
   },
   "failRepairRequiredFamilies": [
@@ -78,6 +78,9 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
+    "ri_deferred_sentence-set",
+    "ri_first_offender_misdemeanor-set",
+    "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set"
   ],
@@ -11828,6 +11831,28 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf13/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf13/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf15",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0cc3c9b5c",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL. A third record still disagrees about run 34058277654, and it is the family's own product record. It places a by-design boundary exclusion into documentsNotCovered, the field that means a canonical document the gate was asked for and did not render and on which acceptance-identity.mjs:257 fails a row outright - the same merge of the two questions that 1e95f1f06 records as having demoted de_mandatory_expungement-set. It names boundary.pdf under both questions inside one block. And it continues to assert, in wordsTakenFrom and whyThisReceiptIsTheOne, that it cannot drift from the queue and that the queue carries exactly this receipt; both are now false. No byte, digest, page count, run, job or rendered commit is implicated. The repair is records-only and narrow.",
+          "evidence": "MEASURED FRESH. This is the one obligation this read owes and the only one measured fresh. What is right, each recomputed rather than read: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 / 33154 B / 11 pages and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 / 33493 B / 11 pages. product-wiring censusV1Representation.fixtures pins exactly those six values; reports/rendered-artifacts.json pins exactly those six values in pdfs[]; the RASTER_QUEUE row pins the same two digests, expectedPages 11 and pageCountEvidence 11 for each document. Every digest and page count in every record agrees with an independent recomputation. What is wrong is not a byte and not a count: the records describing run 34058277654 do not say the same thing. The queue's rasterReceipt carries documentsNotCovered [], whatThisGateDidNotRender ['boundary.pdf'], coversTheWholeFamily true, everyCanonicalDocumentRendered true. product-wiring.json's acceptanceReceipt for the same run carries documentsNotCovered ['boundary.pdf'] and has no whatThisGateDidNotRender, no coversTheWholeFamily and no everyCanonicalDocumentRendered key. git log confirms product-wiring.json's last touch is 8bb1b82f0 and that neither 508723c5b nor 1e95f1f06 touched any family record."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": false
     },
     {
@@ -20948,6 +20973,28 @@
     {
       "familyId": "ri_deferred_sentence-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0cc3c9b5c",
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "RI-B-03 is not fully closed on this family. The imported, undefined first-offender lookback was removed from selfHelpStopConditions but survives in rules.notice at origin (data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/RI.memo.json, track ri_deferred_sentence) and is printed uncaveated on page 7 of both fixtures, where it contradicts pages 12 and 13 of the same packet.",
+          "evidence": "The stop LIST itself is correctly repaired and matches the registry word for word: the two imported first-offender stops are gone and replaced by a stop on any doubt the court will make the Sec. 12-19-19(c) compliance finding (saying in terms that a prior conviction or probation on another case is not itself a bar here) and a stop on any source imposing a further five- or ten-year wait. But RI-B-03's second limb survives elsewhere in this packet. rules.notice on track ri_deferred_sentence still carries the sentence 'The court may grant if it finds no felony or misdemeanor arrest or conviction during the lookback, no pending criminal proceeding, financial obligations satisfied or waived or reduced, good moral character, rehabilitation to the court's satisfaction, and that expungement is consistent with the public interest', and the packet prints it verbatim on page 7 under 'WHAT THE COMMITTED RECORD SAYS ABOUT THE HEARING'. That is the same sentence carried on all four tracks, and it is route-correct on the three routes that have a statutory lookback; this route has none - its waitingPeriods entry is the single line 'none beyond completion; eligibility for consideration is immediate on the court's compliance finding'. So a completed, compliant deferred-sentence participant with an arrest in some undefined lookback reads page 7 as a grant condition that bars the route, and nothing on page 7 or 8 caveats it. RI-B-03's own regression test says a completed compliant deferred-sentence scenario is not given a new waiting period or categorical prior bar."
+        }
+      ],
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "d7e293f81",
@@ -21001,7 +21048,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -21115,6 +21162,32 @@
       ],
       "blockedLegalObligationNames": [
         "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0cc3c9b5c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "RI-B-06 remains open and binds this family. The route's own required sworn election has no truthful text on the current official form, and the answer must come from an issuer correction by the Rhode Island Judiciary or a qualified legal determination. Nothing in this container can supply it.",
+          "evidence": "Read at 300 dpi on the held bytes: page 1 of Superior-55 says Part Two is for a person 'convicted of a single FELONY offense', and the fourth box of Part Two on page 3 of the same form reads 'That I was convicted of a single MISDEMEANOR offense'. Both texts are on the form this reader hashed, so RI-B-06 is real and was confirmed here first-hand rather than relayed. A felony filer cannot truthfully mark the box the route requires, and no held source supplies corrected wording, an attachment or an acknowledged court handling. The packet's response is correct: it marks nothing, prints both texts as they are printed, tells the filer not to mark a box that is untrue, sends the question to the clerk or a lawyer, and says in terms 'WHAT WOULD SETTLE IT IS NOT IN THIS PACKET ... none is established by any source this build holds'. Every other election on the form is right: expunged marked, sealed blank, the second relief bullet marked, the Sec. 12-1-12 bullet blank, all judicial-complex boxes blank, every sworn box in every Part blank. This obligation is therefore not failed for a defect; it cannot be met on the sources held here."
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "ROUTE_OPTIONS"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
@@ -21275,7 +21348,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -21290,6 +21363,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
       "superseded": true
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0cc3c9b5c",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The origin records still clear the filing-fee release blocker for this DISTRICT COURT track on a SUPERIOR COURT answer, which is exactly what RI-B-07 says does not reach it. data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/RI.memo.json both carry, in researchResolvedQuestions for this track, the entry whose original blocker statement reads 'Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.', resolved with answer '$0 expungement filing fee for the identified Superior Court routes ...' and support 'Rhode Island Superior Court FAQ'. The underlying decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json lists all four Rhode Island tracks, including the two District Court ones, and directs 'Use the supported Superior Court no-filing-fee answer', recording that 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. RI-B-07 is dated one day later and holds that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule'. FIX120 repaired the printed page and source-receipt.json but did not reopen that blocker at origin: RI-B-07 appears zero times in the track registry, zero times in RI.memo.json and zero times in legal-design-packet-set-manifests.json, and neither record carries any District Court scope limit. The consequence is that the page says the charge is not established while a release-gating record says the question is resolved for this track.",
+          "evidence": "The participant-facing text is honest and invents nothing: page 11 carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT', says the case is in the DISTRICT COURT and no District Court filing-fee schedule is held, says the Superior Court's no-fee answer does not establish what the District Court charges, prints no figure, refuses to revive the repealed $100 grant charge or to apply the civil schedule, and tells the participant to ask the clerk of the District Court division. participant-instructions.md carries the same section, and source-receipt.json's whatThisReceiptDoesNotEstablish names RI-B-07 as a finding this build does not close. The $5 BCI state-check cost is stated as a charge for the record and not a court fee. What fails is not the page but the record behind it. RI-B-02 is separately repaired and correct on this route: page 14 step 1 follows the actual court order, distinguishes restitution from remittable costs and fines, tells the participant to ask the clerk and bring the waiver or reduction order, and forbids self-declaring an obligation waived, with the court's instruction 8 quoted unchanged above it."
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -21440,7 +21535,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
@@ -21455,6 +21550,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
       "superseded": true
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0cc3c9b5c",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The origin records still clear the filing-fee release blocker for this DISTRICT COURT track on a SUPERIOR COURT answer, which is exactly what RI-B-07 says does not reach it. data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/RI.memo.json both carry, in researchResolvedQuestions for this track, the entry whose original blocker statement reads 'Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials.', resolved with answer '$0 expungement filing fee for the identified Superior Court routes ...' and support 'Rhode Island Superior Court FAQ'. The underlying decision record data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json lists all four Rhode Island tracks, including the two District Court ones, and directs 'Use the supported Superior Court no-filing-fee answer', recording that 'the Chapter 12-1.3 filing-fee release blocker moved to researchResolvedQuestions'. RI-B-07 is dated one day later and holds that the Superior FAQ 'is not, by itself, an independently verified District Court filing-fee schedule'. FIX120 repaired the printed page and source-receipt.json but did not reopen that blocker at origin: RI-B-07 appears zero times in the track registry, zero times in RI.memo.json and zero times in legal-design-packet-set-manifests.json, and neither record carries any District Court scope limit. The consequence is that the page says the charge is not established while a release-gating record says the question is resolved for this track.",
+          "evidence": "The participant-facing text is honest and invents nothing: page 11 carries 'WHAT IS NOT ESTABLISHED, AND YOU SHOULD NOT ASSUME IT', says the case is in the DISTRICT COURT and no District Court filing-fee schedule is held, says the Superior Court's no-fee answer does not establish what the District Court charges, prints no figure, refuses to revive the repealed $100 grant charge or to apply the civil schedule, and tells the participant to ask the clerk of the District Court division. participant-instructions.md carries the same section, and source-receipt.json's whatThisReceiptDoesNotEstablish names RI-B-07 as a finding this build does not close. The $5 BCI state-check cost is stated as a charge for the record and not a court fee. What fails is not the page but the record behind it. RI-B-02 correctly does NOT name this family, and page 15 accordingly keeps the court's own instruction 8 and the original PAY EVERYTHING OFF step; that is by design and is not scored against this route."
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
+      "superseded": false
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
