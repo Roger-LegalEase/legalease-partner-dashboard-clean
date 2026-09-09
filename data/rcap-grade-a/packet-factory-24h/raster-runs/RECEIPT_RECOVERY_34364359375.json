@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery/v1",
+  "runId": "34364359375",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowDefinitionHeadSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "packetCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "why": "This session's egress policy denies Actions artifact blob storage, so the original ZIPs could not be fetched here. The receipts were recovered and packaged elsewhere and delivered as a bundle; the bundle-directory path of admit-completed-fixture-raster.py reads the original verdicts and the published page-image inventory, and records per image that the PNG bytes were not read here.",
+  "recoveredBy": "ChatGPT, 2026-09-09; original archives downloaded and rehashed there",
+  "bundle": {
+    "archive": "original-raster-receipts.tar.xz",
+    "bytes": 10020,
+    "sha256": "6f41ec5fe81e1023efbae1de12cc944acd371e5ff53e47e0fd3b6eec51093a9d",
+    "gitBlobSha": "7f4956c16b9e6e9828c665e7212b523c7b077bd0",
+    "digestVerifiedHere": true,
+    "members": [
+      "34364359375/az_certificate_second_chance-set.verdict.json",
+      "34364359375/hi_nonconviction_expungement-set.verdict.json",
+      "34364359375/la-985-expungement-by-redaction-set.verdict.json",
+      "34364359375/ma-seal-admin-set.verdict.json",
+      "34364359375/ma-seal-decrim-set.verdict.json",
+      "34364359375/me-seal-gen-set.verdict.json",
+      "34364359375/nc_145_5_misdemeanor-set.verdict.json",
+      "34364359375/canary-receipt.json",
+      "34364359375/negative-controls.json",
+      "34364359375/runtime-receipt.json",
+      "PAGE_IMAGES_SHA256.json",
+      "TRANSPORT.json"
+    ]
+  },
+  "runReadFromApiHere": {
+    "tool": "mcp__github__actions_get get_workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "path": ".github/workflows/rcap-packet-raster-acceptance-batch.yml"
+  },
+  "jobsReadFromApiHere": {
+    "tool": "mcp__github__actions_list list_workflow_jobs",
+    "totalCount": 9,
+    "canaryJobId": "102509141260",
+    "matrixJobId": "102509934585",
+    "familyJobs": {
+      "ma-seal-admin-set": "102510267939",
+      "la-985-expungement-by-redaction-set": "102510268057",
+      "az_certificate_second_chance-set": "102510268111",
+      "hi_nonconviction_expungement-set": "102510268153",
+      "nc_145_5_misdemeanor-set": "102510268221",
+      "ma-seal-decrim-set": "102510268325",
+      "me-seal-gen-set": "102510268368"
+    },
+    "everyJobConclusion": "success"
+  },
+  "artifactsFromTransportJson": {
+    "az_certificate_second_chance-set": { "artifactId": "10109471408", "zipSha256": "e3b1b329d2b3244698953403341bf545bb042b665ba8b0fdae37b5119a67a267" },
+    "hi_nonconviction_expungement-set": { "artifactId": "10109439157", "zipSha256": "68c6d557f1fc2dcb20d65a18cfb84fc007018f7679bc05798d0b651c36cdcc1b" },
+    "la-985-expungement-by-redaction-set": { "artifactId": "10109677878", "zipSha256": "1acfe845c6bed79b2553ab7eed6e9b98139dcb598b9dd2415c9d9171d3dec104" },
+    "ma-seal-admin-set": { "artifactId": "10110081588", "zipSha256": "0621ecb821f78a8a177eb3b54bfca152636f5d133ec01a3cd88836a68557616f" },
+    "ma-seal-decrim-set": { "artifactId": "10109409386", "zipSha256": "f40f3569e3fab56004ec18fd03a7f19bc9ea9d1ea34c79fa1b089f01aecfd166" },
+    "me-seal-gen-set": { "artifactId": "10109409164", "zipSha256": "fb9e93a6373697b26e10af692401194046390f8f54cc0f87a33f3a195a2034bc" },
+    "nc_145_5_misdemeanor-set": { "artifactId": "10109472816", "zipSha256": "0236501a9164c02141e93ec92a9ba228c50b116a90da828201b2b643e4ebdcee" },
+    "note": "Read out of TRANSPORT.json inside the verified bundle, not from the Actions API here; the ZIP bytes themselves were never fetched into this session. TRANSPORT.json records an eighth archive, the canary."
+  },
+  "pageImages": {
+    "measurementsCovered": 60,
+    "documents": 14,
+    "families": 7,
+    "bytesReadHere": false,
+    "disclosure": "The identity path of the importer omits the PNG viewport check because the verdict records only the paper rectangle inside the viewport; every admitted image records viewportDimensionsCheckedAgainstASecondSource: false. Byte length and SHA-256 are cross-checked between the verdict and the inventory, which are two independently published records."
+  },
+  "admittedHere": [
+    "az_certificate_second_chance-set",
+    "hi_nonconviction_expungement-set",
+    "la-985-expungement-by-redaction-set",
+    "ma-seal-admin-set",
+    "ma-seal-decrim-set",
+    "me-seal-gen-set",
+    "nc_145_5_misdemeanor-set"
+  ],
+  "refusedHere": [],
+  "newTerminalPromotions": 0,
+  "meaning": "Current-byte raster evidence only. No independent semantic approval, no verdict, no terminal state. Each family still needs its independent verification return before it can transition."
+}
