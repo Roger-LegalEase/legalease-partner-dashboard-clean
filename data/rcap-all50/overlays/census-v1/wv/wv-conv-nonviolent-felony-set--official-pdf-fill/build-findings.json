@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wv_conv_nonviolent_felony-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The committed record forbids this build from making the determination the form's own eligibility recitals assert: \"The nonviolent determination and the same-transaction analysis are legal conclusions, not participant questions.\" Section 61-11-26(p)(5) makes two of the four limbs of the nonviolent definition express findings OF THE CIRCUIT COURT, and this petition is verified under oath before a notary.",
+      "consequence": "None of the four eligibility recitals on page 1 is ticked. The two § 61-11-26a recitals are declared NOT_APPLICABLE_ON_THIS_ROUTE against a named route condition - they are the three-year branch and this family is § 61-11-26. The two § 61-11-26 recitals are declared required-before-filing with determinedByTheCaseNotTheRoute and the record's own sentence as the reason, and both are printed in participant-instructions.md."
+    },
+    {
+      "finding": "The three date-of-birth widgets on page 1 are NAMED PetDOBDay, PetDOBMonth and PetDOBYear in that left-to-right order, and the form prints nothing but \"DOB: / /\" above them. The widget names say day-month-year; the ordinary American convention on a court form is month-day-year. The two disagree and no committed record settles which the Supreme Court of Appeals intends.",
+      "consequence": "The platform holds the date of birth and writes none of the three boxes. All three are declared required-before-filing and the guide tells the participant what the conflict is. Writing a month into a box named Day on a petition sworn before a notary would assert a date of birth that is not the participant's, and a filled box is harder to notice than an empty one. This is a source question for whoever can read the Court's own guidance, and it is carried as a counsel question rather than guessed."
+    },
+    {
+      "finding": "THIS FAMILY SHIPPED FOUR VALUES ONTO A SWORN PETITION THAT ITS OWN FIELD MAP DECLARED BLANK, AND ALL NINE COUNTERS READ ZERO OVER IT. Item d on page 2 asks for the petitioner's \"current name, previous names, and all aliases\" across two lines and item e asks for \"all of petitioner's addresses from the date of offense to current\" across two more. The map declared all four required-before-filing. The shared finalizer wrote them anyway - PetitionersCurrentName1 and ...2 match the name descriptor on a bare \\bname\\b, PetitionersOffenseAddress1 and ...2 match the street-address descriptor - so the delivered page carried the legal name on both name lines and the current street address on both address lines.",
+      "consequence": "Item d asks for three things, and a legal name alone ASSERTS there are no previous names and no aliases. Item e asks for a residence history, and one address written twice ASSERTS the petitioner has lived at one address since the offence. Both assertions would have been made on a petition verified under oath before a notary, and the committed record separately names the address history as a manual completion item. All four are now refused BY ROLE, which the finalizer checks before any name or caption match. Two things about how it was found matter more than the fix. First, no counter could see it: the completeness contract reads the MAP, the map was telling the truth about what it intended, and the ink audit charges only glyphs outside a measured box - there are none on an AcroForm path. It was found by diffing the delivered pages against the pinned source item by item and noticing ten added items where the map declared six. Second, the same gap can open on any family on this path, so this script now compares report.written against its own declared writes per document and per fixture and STOPS rather than rendering when they disagree - stopClass FINALIZER_WROTE_A_FIELD_THE_MAP_DECLARES_BLANK. That gate was tested by removing one refusal and confirming it fires and names the field and the fact."
+    },
+    {
+      "finding": "`CertifyName` on page 4 binds the petitioner's own name through the ordinary descriptor channel, and page 4 is a CERTIFICATE OF SERVICE - it certifies a delivery that has not happened when the packet is produced.",
+      "consequence": "CertifyName and the three certificate date widgets are declared unwritable BY ROLE, which the finalizer checks before any name or caption match, as well as protected in the field map. Nothing on page 4 carries ink."
+    },
+    {
+      "finding": "`PetAdd1` and `PetAdd2` are one address block in two widgets and BOTH match the street-address descriptor, and `PetitionerName2` - the verification's own name line on page 3 - matches no descriptor at all.",
+      "consequence": "All three are written through the finalizer's own opt-in narrativeAcrossFields channel, one held fact per field. Without it the petition would carry the street line twice with no city, state or ZIP, and a verification sworn before a notary with no name in it. Reported for the lane that owns scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does not open."
+    },
+    {
+      "finding": "The widget named `MulitipleFelonlySatisfiesDate` on page 1 has a NEGATIVE height (-17) in its own /Rect, and its name carries two typographical errors as the Court published them.",
+      "consequence": "Nothing is written into it - it is a § 61-11-26a recital date and is not on this route - so the malformed rectangle affects no output here. It is recorded because a family that DID write to it would be drawing into an inverted box, and because the field map must use the Court's own spelling rather than a corrected one."
+    },
+    {
+      "finding": "The committed packet-set manifest declares six components. Three are official_pdf_fill and all three name the same officialFormId, SCA-C907, because the Court publishes the petition, the verification and the certificate of service as one four-page instrument. The other three are process_guidance.",
+      "consequence": "The instrument is delivered whole, so all three fill components are rendered. The three process_guidance components are carried in participant-instructions.md, and the record's own six-component table is printed in the guide so a reader can check what they received against what the record declares."
+    }
+  ],
+  "captionCorrectionsApplied": []
+}

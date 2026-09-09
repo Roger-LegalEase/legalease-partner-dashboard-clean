@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "census-pending-family:ME:juvenile-sealing",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The pinned JV-043 binary is an ENCRYPTED PDF - /Filter /Standard, /R 6, AES-256, /StmF /StdCF /StrF /StdCF - and pdf-lib cannot read it. The committed corpus index already records structuralClassObserved \"unreadable\" for this entry, and the source-identity sweep's own acroFieldCount of 14 was produced by a reader that is not the one every builder in this factory uses.",
+      "consequence": "The bytes are carried through the repository's proven transport unlock: pikepdf opens the exact pinned source and saves a derivative with deterministic_id, the derivative is proved equivalent to the official binary by the repository's own fidelity reader, and the family stops rather than rendering if the proof fails. Measured on this build: page count identical, page geometry identical, no field only in one side, no field difference, content stream identical on the single page, derivative not encrypted, source SHA-256 unchanged before and after. The derivative is build-time only and is never committed."
+    },
+    {
+      "finding": "Three of the fourteen fields cannot bind through the ordinary descriptor channel. `Juvenile` is the caption's name line, and neither its field name nor its printed caption is among the party words the name descriptor knows. `Mailing Address 1` and `Mailing Address 2` BOTH match the street-address descriptor, which matches `addr(ess)?\\s*(line\\s*)?\\d`, so the ordinary channel would write the street line onto both and deliver a mailing address with no city, state or ZIP.",
+      "consequence": "All three are written through the finalizer's own opt-in narrativeAcrossFields channel, one held fact per field and no caller text of any kind. Reported here for the lane that owns scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does not open."
+    },
+    {
+      "finding": "The signature widget on this form is NAMED \"undefined\" - the Judicial Branch left it unnamed - and its caption \"Signature of Juvenile\" is printed BELOW the rule rather than beside it.",
+      "consequence": "Both the signature and the date beside it are declared unwritable BY ROLE, which the finalizer checks first and does not allow any name or caption match to override, as well as being declared protected in the field map. A refusal that rested on a name that is not a name would be one rename away from signing a petition for somebody."
+    },
+    {
+      "finding": "This route's destination is recorded as \"not recorded\" in the route-obligation census, and no committed record this family binds states a filing fee, a fee-waiver route or a service requirement for this petition.",
+      "consequence": "The packet states each of those as an express non-statement and names the office that answers it - the clerk of the court being filed in - rather than quoting a figure or a rule no record supports. The compiled profile's CV-067 and CV-191 fee-waiver instruments are named to the participant but are not bound to this family and are not in the packet."
+    },
+    {
+      "finding": "READING THE DELIVERED BYTES CAUGHT A DATE IN THE WRONG ORDER. The first build of this family passed all nine counters and rendered the date of birth as \"2004-11-06\" onto a line whose own printed caption reads \"whose date of birth is (mm/dd/yyyy)\". No counter can see that: the value is present, visible, inside its widget and bound to the right fact, and the completeness contract has nothing that compares a rendered value against the order the form prints beneath it.",
+      "consequence": "The finalizer's own printedDateOrderByField channel is now declared for that field and the page renders 11/06/2004. Named explicitly rather than inferred, because both the field name and the caption carry the order as a string that could be reworded. Recorded here because it is a defect class the nine counters do not reach, and the only thing that found it was diffing the delivered page against the pinned source item by item."
+    },
+    {
+      "finding": "The committed route contract's packetComponents are two: \"Petition under § 3308-C\" and \"Final discharge proof\". Only the first is a document this platform can render.",
+      "consequence": "Proof of final discharge is carried as a document the participant must obtain, named in participant-instructions.md with where to get it and why the three-year clock depends on it. It is not silently dropped and it is not invented."
+    }
+  ],
+  "captionCorrectionsApplied": []
+}
