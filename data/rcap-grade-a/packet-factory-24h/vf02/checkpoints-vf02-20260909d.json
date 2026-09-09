@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "VF02",
+  "workerId": "VF02",
+  "workerBranch": "pfc-vf-20260909",
+  "shift": "vf02-20260909d",
+  "laneKind": "independent-verification, four VERIFY_PENDING families each holding an admitted RASTER_PASS",
+  "checkpointRule": "One row per family, written as it finishes, committed before the next is started. This lane builds nothing and repairs nothing; a defect is a verdict and a repair assignment, never an edit.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "what": "Claim gate. All four asserted on VF02 before any family artifact was opened - node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 '<familyId>' - each returning CLAIM_OK under grant set 68a665634f7e38b0. None refused, so no BLOCKED_BEFORE_CLAIM on this shift.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 2,
+      "what": "Preflight run and reported rather than worked around. PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable. Failures: private_is_git_ignored (private/ is NOT git-ignored here) and family_sources_bind for census-pending-family:ME:juvenile-sealing. Neither was repaired by this lane. The second is contradicted by the bytes, which is recorded in the Maine row rather than reconciled.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 3,
+      "what": "Artifact identity established for all four before any content reading. I recomputed canonical and boundary SHA-256 for each family from the bytes on disk and compared them to both reports/rendered-artifacts.json and the family's RASTER_QUEUE.json row. All eight digests agree in all three places, so each admitted RASTER_PASS is bound to the exact bytes this lane read. This matters for il-exp-qualprob-set and ri_multiple_misdemeanors-set, both flagged as having moved bytes since an earlier reading: their raster receipts are current with the files at this base.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 4,
+      "what": "Maine finished: PASS_COMPLETE_INDEPENDENT. The pointed check on the encrypted-source pattern clears - the family binds the official encrypted binary MJB-Form-jv-043.pdf (79d0e40d..., 173449 bytes, /Encrypt V5 R6 AES-256), NOT the committed review derivative maine-mjb-form-jv-043-rescued.pdf (e41e19e4...), whose digest appears nowhere in this family's records. I reproduced the build-time pikepdf transport myself and got the receipt's derivedSha256 exactly. All fifteen obligations scored, fourteen PASS and REPEATING_ROWS NOT_MEASURABLE_HERE because JV-043 carries no row structure. All nine counters measured zero by this lane. One receipt inaccuracy recorded as an observation: documents[0].byteLength carries the derivative's 172380 beside the official binary's digest.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing"
+      ],
+      "pushed": true
+    }
+  ]
+}
