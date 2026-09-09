@@ -8,13 +8,13 @@
   "returnFilename": "rows-pf05-20260909.json",
   "writtenAlongsideRatherThanOver": "rows.json, LANE_NOT_EXECUTED.json and PFB_SHIFT_RETURN.json (earlier PF05 material) survive byte-for-byte; this return is a distinct file.",
   "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
-  "headShaAtReturn": "fccf834b4a2455a6abe60e10caf4d24117c3015e",
+  "headShaAtReturn": "ea1eb64dad63aa41180c89975b6b7a21a9f4e5b7",
   "headShaAtReturnIs": "the parent of the commit that carries this file, read with git rev-parse HEAD before committing. It is not the sha of that commit, which cannot be known before it exists, and it is not transcribed by hand.",
   "worktree": "/home/user/pfc-worktree",
   "familiesAssignedByPrompt": 4,
   "familiesGrantedByClaimLedger": 4,
-  "rowsReturned": 3,
-  "familiesCompleted": 0,
+  "rowsReturned": 4,
+  "familiesCompleted": 1,
   "familiesStopped": 3,
   "blockedSource": [
     "nh_conviction_streamlined-set",
@@ -23,7 +23,7 @@
   "blockedLegalInput": [],
   "blockedBeforeClaim": [],
   "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "shiftIsIncomplete": "This return covers families 1, 2 and 3. ar-misdemeanor-seal-set was added to this lane mid-shift by the Captain and is not yet returned; no row for it is present, and its absence here is not a result for it.",
+  "shiftIsIncomplete": null,
   "rasterState": "BUILT_RASTER_PENDING",
   "rasterNote": "No packet was built in this return, so there is nothing to raster and no digest to bind. rasterState is carried for schema continuity and zeroes nothing.",
   "packetsSelfVerified": 0,
@@ -284,6 +284,135 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ar-misdemeanor-seal-set",
+      "status": "COMPLETED",
+      "stopReason": null,
+      "stopClass": null,
+      "verdict": null,
+      "jurisdiction": "AR",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-misdemeanor-seal"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "overlayDirectoryTouched": true,
+      "addedMidShiftBy": "the Captain, after a content sweep proved both sources held. This lane verified that independently before building: both digests were content-hash searched and re-hashed from the custody bytes.",
+      "claimAssertion": "CLAIM_OK PF05 ar-misdemeanor-seal-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "buildScript": "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": false,
+      "whyUnclassifiedBlanksIsSix": "Six blanks classify UNCLASSIFIED_BLANK under the shared completeness contract and the count is left standing. Five are continuation rules of a multi-line free-text list whose first rule is written or declared required - paragraph 1 second offence rule, paragraph 2 second and third, and the second line of the page 3 address block. The sixth, on each document, is the identification block FBI number that the FORM ITSELF marks (if known). Each is genuinely optional participant content and each is declared with disposition OPTIONAL_PARTICIPANT_CONTENT and a stated reason, but the contract reaches that disposition only from an APPROVED_REASONS prose match or a field label containing the word optional, and these labels are runs of underscores or the phrase (if known). This build did NOT reword its reasons to match the regex: the contract own comment names that as the abuse the counters exist to prevent. Reported as a shared-module gap rather than papered over. Because of it this family does not claim PASS_COMPLETE.",
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+          "documentId": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+          "byteLength": 775618,
+          "pages": 5,
+          "acroFields": 53,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+          "note": "the custody directory name is misspelled (Arkanasa), which is why a path-shaped gate reported a held source as unresolved. Found by content hash."
+        },
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "documentId": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "byteLength": 327235,
+          "pages": 3,
+          "acroFields": 37,
+          "custody": "master_library",
+          "pathInCustody": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+          "byteLength": 758469,
+          "pages": 5,
+          "fieldsWritten": 11,
+          "fieldsRefused": 42,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23",
+          "byteLength": 757887,
+          "pages": 5,
+          "fieldsWritten": 7,
+          "fieldsRefused": 46,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "sha256": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17",
+          "byteLength": 317484,
+          "pages": 3,
+          "fieldsWritten": 4,
+          "fieldsRefused": 33,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 37,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "sha256": "5e663e1986dcdba4fe888b51d3fc48b4a3a15ff6bc354db70221cf94e40e756b",
+          "byteLength": 316860,
+          "pages": 3,
+          "fieldsWritten": 1,
+          "fieldsRefused": 36,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 37,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "glyphReadingNote": "addedGlyphsReadFromOutputBytes is 0 by construction and the artifact record says so in its own words: this family writes through AcroForm widgets rather than by drawing into page content, so every mark it makes is a widget appearance and is counted in flattenedWidgetAppearancesReadFromOutputBytes, which is read back at each field own measured /Rect from the finished PDF. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is measured, not assumed, and is 0 on all four.",
+      "defectsFoundByReadingTheOutputRatherThanTheCounters": [
+        "The street address was written TWICE on the petition, on both rules of the page 3 address block, because the role refusal named the field Defendant Address  02 with two spaces and the real name has one. The counters were green while the paper carried the duplicate. Found by reading back every non-empty widget from the delivered PDF and fixed.",
+        "The order declared, in its own completeness record, that the packet writes nothing below its caption, while it wrote the date of birth into the page 3 identification block. The declaration was corrected and that block six blanks are now declared individually - race, sex and SID as the participant to state, ATN as the agency to state, FBI number as optional - rather than swept into a court-owned default they do not belong to.",
+        "The source receipt named a single sourceArchive for both documents. The two are in different custodies, so it now names none and each document records its own custody and the absolute path the bytes were read from."
+      ],
+      "nearMissesRefusedByRoleBeforeAnythingWasRendered": [
+        "Petitioner - the page 4 verification SIGNATURE line, whose field name the shared binder resolves to participant.full_legal_name. Writing it would have printed the participant name on the signature line of a sworn verification.",
+        "Date_2 - the page 5 certificate of service DATE line, whose harvested caption bled from the signature line above it and reads Defendant orDefendants, so the binder resolved it to participant.full_legal_name and would have printed a NAME on a DATE line.",
+        "COUNTY OF - the page 4 verification county, which the binder resolves to matter.county. That is the county where the oath is sworn, wherever the notary is, not the county of the case.",
+        "Defendant on the order - the defendant name inside the court DECREE sentence, distinct from the order caption."
+      ],
+      "captionGeometryFinding": "The three caption widgets on page 1 of both forms are named IN THE, COURT OF and DIVISION and the names do not describe the blanks. Measured from the page own text runs, the widget named COURT OF covers the COUNTY blank (318.70-434.40, between the printed OF at 318.0 and the _, at 427.2) and the widget named IN THE covers the COURT TYPE blank (142.40-243.70). The county binds through a printedLabelCorrection; the court type is left to the participant. Trusting the names would have printed the county where the court name belongs. reports/caption-evidence.json carries the measurement.",
+      "boundaryFixtureBehaviour": "The boundary fixtures deliberately drop caption writes that do not fit: county, case number and both name blanks on the petition, and county, case number and the caption name on the order. Every drop is a recorded refusal carrying the value, the widget rect, the minimum font size and the required width at that size - none is silent - and the participant guide warns that an over-long value leaves its blank empty rather than being drawn over the form rule.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "No page was rastered by this lane and no raster is committed. The central hash-bound workflow is the authority, on the four digests above.",
+      "selfVerified": false,
+      "independentVerificationStatus": null,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment, opens no commercial route and sets no verdict."
     }
   ],
   "orderDeviation": "PF05.md orders the families NH, UT, NC on a cheapest-first rationale. NC turned out to be the cheapest of the three - its single bound source does not resolve anywhere, which is a measurement, not a build - so it was measured and returned before UT rather than after. Nothing about UT was skipped or pre-judged to do it.",
@@ -303,6 +432,8 @@
   "captainMidShiftInstruction": {
     "received": "Add ar-misdemeanor-seal-set as a fourth family; both its sources are held byte-exact. Before stopping any family for a source reason, read data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json and bind by the digest it carries.",
     "sweepFileNotAvailableToThisLane": "SOURCE_IDENTITY_RESOLUTION_SWEEP.json is not in this worktree and is not present on ANY pushed branch of origin - checked with git ls-tree across every remote branch after a full fetch. It exists only inside other agents active worktrees (src1, pf14, pf23, captain), which the lane brief forbids this lane to read. So no family here was bound by the sweep, and where a source question arose this lane answered it with its own content-hash sweep, which is the same method.",
-    "whatThisLaneDidInstead": "Hashed every file under every custody root reachable to it - the master library at /home/user/corpus-x, the whole main clone including private/source-imports (master library, Nationwide recovery pool, D source packs, human source returns) and reference/, and the remaining non-worktree mounts corpus-dl, vf-g-ro, fix96-scratch, pf27-scratch, vf-g-scratch - and compared by digest, never by filename."
-  }
+    "whatThisLaneDidInstead": "Hashed every file under every custody root reachable to it - the master library at /home/user/corpus-x, the whole main clone including private/source-imports (master library, Nationwide recovery pool, D source packs, human source returns) and reference/, and the remaining non-worktree mounts corpus-dl, vf-g-ro, fix96-scratch, pf27-scratch, vf-g-scratch - and compared by digest, never by filename.",
+    "privateMountArrived": "A second message reported that private/ was missing from every sparse lane and symlinked it in. It resolves to /home/user/legalease-partner-dashboard-clean/private - the same tree this lane had already content-hash searched in full - so no stop here was a resolver artefact. NC was re-checked through the new mount after it arrived and its digest still returns zero hits; UT was re-run with everything mounted and its refusal is unchanged and no longer needs an env fallback to resolve 1023EX. AR resolves natively through the shared resolver now."
+  },
+  "shiftComplete": "All four families assigned to PF05 are returned: three STOPPED and one COMPLETED."
 }

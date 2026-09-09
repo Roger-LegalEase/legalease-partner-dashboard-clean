@@ -1,0 +1,2606 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ar-misdemeanor-seal-set",
+  "routeKeys": [
+    "obligation:track-only:AR:ar-misdemeanor-seal"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {
+        "1": "matter.charge",
+        "First Middle and Last name": "participant.full_legal_name"
+      },
+      "printedLabelCorrections": {
+        "COURT OF": {
+          "printedLabel": "COURT OF county, ARKANSAS",
+          "readFrom": "page 1, printed line at y=708.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+          "measuredEvidence": "the widget occupies x 318.70-434.40; the printed \"OF \" ends at x≈318.0 and the \"_, \" before \" ARKANSAS\" begins at x=427.2, so the widget spans the county blank and nothing else",
+          "why": "The widget's own name is \"COURT OF\", which reads as the court. The blank it covers is the county. The widget over the COURT-TYPE blank is named \"IN THE\". Only the geometry settles it, and the harvested caption at this widget is a run of underscores that settles nothing."
+        }
+      },
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "Petitioner",
+          "class": "participant_signature_line",
+          "why": "The verification's SIGNATURE line on page 4. The widget sits at y=527.40, above the printed word \"Petitioner\" at y=512 — the word is the line's caption, not a name blank. The binder reads the name \"Petitioner\" as participant.full_legal_name and would print the participant's name on the signature line of a sworn verification."
+        },
+        {
+          "field": "Date_2",
+          "class": "certificate_of_service_date",
+          "why": "The DATE line of the page 5 Certificate of Service, at y=408.10 under the printed \"Date\" at y=377. Its harvested caption bled from the signature line above it and reads \"Defendant orDefendant's\", so the binder resolves it to participant.full_legal_name and would print a NAME on a DATE line. Even with the caption right, service has not happened and nothing here dates it."
+        },
+        {
+          "field": "Defendant Address 02",
+          "class": "address_continuation_line",
+          "why": "The second printed rule of the two-line Defendant's Address block on page 3. The platform holds one street address and writes it on the first rule; filling both prints the same address twice."
+        },
+        {
+          "field": "COUNTY OF",
+          "class": "notarization_venue_not_held",
+          "why": "The verification's \"STATE OF ARKANSAS / COUNTY OF ____\" on page 4. This is the county where the oath is sworn, which is wherever the participant finds a notary, and not the county of the case. The binder resolves the name to matter.county and would assert the oath was taken in the county the case was handled in."
+        },
+        {
+          "field": "2",
+          "class": "offence_list_continuation_rule",
+          "why": "The second printed rule of paragraph 1's single free-text offence list. The offence the platform holds is written on the first rule; a further offence charged in the same arrest is the participant's to add."
+        },
+        {
+          "field": "guilty of the offenses of 1",
+          "class": "conviction_offence_line_not_a_charge_row",
+          "why": "Paragraph 2's \"guilty of the offense(s) of\" line. Paragraph 1 asks what you were CHARGED with and paragraph 2 what you were CONVICTED of; the offence of conviction may be a different or reduced offence, and the platform holds one offence for the matter."
+        },
+        {
+          "field": "guilty of the offenses of 2",
+          "class": "conviction_offence_line_not_a_charge_row",
+          "why": "The second rule of the same paragraph 2 offence list."
+        },
+        {
+          "field": "guilty of the offenses of 3",
+          "class": "conviction_offence_line_not_a_charge_row",
+          "why": "The third rule of the same paragraph 2 offence list."
+        },
+        {
+          "field": "in violation of ACA",
+          "class": "statute_section_not_held",
+          "why": "Paragraph 1's \"in violation of A.C.A.§ ______\" blank. The platform holds no statute-section fact; it comes off the participant's own paperwork."
+        },
+        {
+          "field": "in violation of ACA_2",
+          "class": "statute_section_not_held",
+          "why": "Paragraph 2's \"in violation of A.C.A.§ ______\" blank, for the offence of conviction, on the same footing."
+        },
+        {
+          "field": "Day 01",
+          "class": "arrest_date_component",
+          "why": "Day component of paragraph 1's arrest date. The platform holds matter.arrest_date as a whole date and holds no day fact."
+        },
+        {
+          "field": "Month 01",
+          "class": "arrest_date_component",
+          "why": "Month component of the same arrest date."
+        },
+        {
+          "field": "Year 01",
+          "class": "arrest_date_component",
+          "why": "Year component of the same arrest date."
+        },
+        {
+          "field": "Day 02",
+          "class": "conviction_date_component",
+          "why": "Day component of paragraph 2's conviction date. The platform holds matter.conviction_date as a whole date and holds no day fact."
+        },
+        {
+          "field": "Month 02",
+          "class": "conviction_date_component",
+          "why": "Month component of the same conviction date."
+        },
+        {
+          "field": "Year 02",
+          "class": "conviction_date_component",
+          "why": "Year component of the same conviction date."
+        },
+        {
+          "field": "IN THE",
+          "class": "court_identity_not_held",
+          "why": "The type of court in the caption — the blank in \"IN THE ______ COURT OF\", measured at x 142.40-243.70. The county is written; which Arkansas court takes this petition is the clerk's answer, and the platform holds no court-type fact for this route."
+        },
+        {
+          "field": "DIVISION",
+          "class": "court_division_not_held",
+          "why": "The caption's division blank on the second line, completed only where the filing court has divisions. The platform holds no division fact."
+        },
+        {
+          "field": "Date",
+          "class": "participant_signature_date",
+          "why": "The date beside the defendant's signature on page 3. Dating a signature that has not been made asserts the petition was signed on a day it was not."
+        },
+        {
+          "field": "do hereby certify that a true and correct",
+          "class": "certificate_of_service_attestation",
+          "why": "The certifying party's name in the page 5 Certificate of Service's \"I, ____, do hereby certify\" sentence. It is a sworn statement about an act of service that has not happened."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "agency_assigned_identifier",
+          "why": "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of and is the agency's to state."
+        },
+        {
+          "field": "Sex",
+          "class": "identification_fact_not_held",
+          "why": "The identification block's sex entry on page 4. The platform holds no such fact and does not infer one."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "COURT OF",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 318.72,
+            "y": 706.92,
+            "width": 115.68,
+            "height": 14.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "COURT OF county, ARKANSAS"
+        },
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 275.16,
+            "y": 632.28,
+            "width": 101.28,
+            "height": 14.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case N"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 602.28,
+            "width": 166.2,
+            "height": 14.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "1",
+          "factId": "matter.charges[0].charge",
+          "page": 1,
+          "rect": {
+            "x": 117,
+            "y": 434.88,
+            "width": 412.8,
+            "height": 14.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "________, and charged with the offense(s) of"
+        },
+        {
+          "field": "WHEREFORE the Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 3,
+          "rect": {
+            "x": 266.64,
+            "y": 546.6,
+            "width": 233.52,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "WHEREFORE, the Defendant,"
+        },
+        {
+          "field": "City",
+          "factId": "participant.city",
+          "page": 3,
+          "rect": {
+            "x": 101.76,
+            "y": 308.04,
+            "width": 171.48,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City"
+        },
+        {
+          "field": "State",
+          "factId": "participant.state",
+          "page": 3,
+          "rect": {
+            "x": 110.4,
+            "y": 283.8,
+            "width": 39,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "State"
+        },
+        {
+          "field": "Zip code",
+          "factId": "participant.zip",
+          "page": 3,
+          "rect": {
+            "x": 210.84,
+            "y": 283.8,
+            "width": 62.28,
+            "height": 23.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "State: _____ Zip code"
+        },
+        {
+          "field": "Comes the Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 4,
+          "rect": {
+            "x": 210.48,
+            "y": 608.04,
+            "width": 185.76,
+            "height": 21.84
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "that the foregoing Pe"
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "page": 4,
+          "rect": {
+            "x": 107.28,
+            "y": 115.92,
+            "width": 86.76,
+            "height": 21.84
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Sex"
+        },
+        {
+          "field": "Defendant Address 01",
+          "factId": "participant.street_address",
+          "page": 3,
+          "rect": {
+            "x": 69.84,
+            "y": 356.28,
+            "width": 225.96,
+            "height": 17.76
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        }
+      ],
+      "refused": [
+        {
+          "field": "IN THE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendants Signature",
+          "reason": "protected_category",
+          "category": "signature",
+          "regionHeading": null
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "COUNTY OF",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Notary Public",
+          "reason": "protected_category",
+          "category": "notarization",
+          "regionHeading": null
+        },
+        {
+          "field": "My Commissionexpires",
+          "reason": "protected_category",
+          "category": "notarization",
+          "regionHeading": null
+        },
+        {
+          "field": "Race",
+          "reason": "protected_category",
+          "category": "race",
+          "regionHeading": null
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "do hereby certify that a true and correct",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant of Defendants Attorney",
+          "reason": "protected_category",
+          "category": "attorney",
+          "regionHeading": null
+        },
+        {
+          "field": "Date_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box5",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box6",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "federal charges 01",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "federal charges 02",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box7",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box8",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Defendant Address 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day 03",
+          "reason": "protected_category",
+          "category": "notarization",
+          "regionHeading": null
+        },
+        {
+          "field": "Month 03",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Year 03",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "SID number",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "IN THE",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 1",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 2",
+          "category": "role"
+        },
+        {
+          "field": "guilty of the offenses of 3",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA_2",
+          "category": "role"
+        },
+        {
+          "field": "Defendants Signature",
+          "category": "signature"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "COUNTY OF",
+          "category": "role"
+        },
+        {
+          "field": "Petitioner",
+          "category": "role"
+        },
+        {
+          "field": "Notary Public",
+          "category": "notarization"
+        },
+        {
+          "field": "My Commissionexpires",
+          "category": "notarization"
+        },
+        {
+          "field": "Race",
+          "category": "race"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "government_identifier"
+        },
+        {
+          "field": "do hereby certify that a true and correct",
+          "category": "role"
+        },
+        {
+          "field": "Defendant of Defendants Attorney",
+          "category": "attorney"
+        },
+        {
+          "field": "Date_2",
+          "category": "role"
+        },
+        {
+          "field": "Day 01",
+          "category": "role"
+        },
+        {
+          "field": "Month 01",
+          "category": "role"
+        },
+        {
+          "field": "Year 01",
+          "category": "role"
+        },
+        {
+          "field": "Day 02",
+          "category": "role"
+        },
+        {
+          "field": "Month 02",
+          "category": "role"
+        },
+        {
+          "field": "Year 02",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box2",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box4",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box5",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box6",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box7",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box8",
+          "category": "type_guard"
+        },
+        {
+          "field": "Defendant Address 02",
+          "category": "role"
+        },
+        {
+          "field": "Day 03",
+          "category": "notarization"
+        },
+        {
+          "field": "SID number",
+          "category": "government_identifier"
+        }
+      ],
+      "fields": [
+        {
+          "field": "IN THE",
+          "fieldId": "IN THE",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_identity_not_held",
+          "buildRoleWhy": "The type of court in the caption — the blank in \"IN THE ______ COURT OF\", measured at x 142.40-243.70. The county is written; which Arkansas court takes this petition is the clerk's answer, and the platform holds no court-type fact for this route.",
+          "reason": "The type of court in the caption's \"IN THE ______ COURT OF\" blank. Which Arkansas court handled your case, and so takes this petition, is the answer the clerk of the county gives, and the participant writes it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "COURT OF",
+          "fieldId": "COURT OF",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "_________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "DIVISION",
+          "fieldId": "DIVISION",
+          "effectiveLabel": "IN THE __________",
+          "harvestedLabel": "IN THE __________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_division_not_held",
+          "buildRoleWhy": "The caption's division blank on the second line, completed only where the filing court has divisions. The platform holds no division fact.",
+          "reason": "The caption's division blank, completed only if that court has divisions. The clerk answers whether it does; the platform does not invent it.",
+          "refusalClass": null,
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "Case No",
+          "fieldId": "Case No",
+          "effectiveLabel": "Case N",
+          "harvestedLabel": "Case N",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "First Middle and Last name",
+          "fieldId": "First Middle and Last name",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "1",
+          "fieldId": "1",
+          "effectiveLabel": "________, and charged with the offense(s) of",
+          "harvestedLabel": "________, and charged with the offense(s) of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.charges[0].charge",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "2",
+          "fieldId": "2",
+          "effectiveLabel": "_____________________________________________________",
+          "harvestedLabel": "_____________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "offence_list_continuation_rule",
+          "buildRoleWhy": "The second printed rule of paragraph 1's single free-text offence list. The offence the platform holds is written on the first rule; a further offence charged in the same arrest is the participant's to add.",
+          "reason": "The second rule of paragraph 1's offence list. Your offence is written on the first rule; use this one only if the same arrest charged more than one offence.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "in violation of ACA",
+          "fieldId": "in violation of ACA",
+          "effectiveLabel": "in violation of A.C.A.§",
+          "harvestedLabel": "in violation of A.C.A.§",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "statute_section_not_held",
+          "buildRoleWhy": "Paragraph 1's \"in violation of A.C.A.§ ______\" blank. The platform holds no statute-section fact; it comes off the participant's own paperwork.",
+          "reason": "The \"in violation of A.C.A. § ______\" blank closing paragraph 1. The platform holds no statute-section fact; the participant copies it from their arrest or court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "guilty of the offenses of 1",
+          "fieldId": "guilty of the offenses of 1",
+          "effectiveLabel": "guilty of the offense(s) of",
+          "harvestedLabel": "guilty of the offense(s) of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_offence_line_not_a_charge_row",
+          "buildRoleWhy": "Paragraph 2's \"guilty of the offense(s) of\" line. Paragraph 1 asks what you were CHARGED with and paragraph 2 what you were CONVICTED of; the offence of conviction may be a different or reduced offence, and the platform holds one offence for the matter.",
+          "reason": "Paragraph 2's \"guilty of the offense(s) of\" line. The platform holds one offence for this matter and writes it on paragraph 1's charged-offence line; the offence you were convicted of may be a different or reduced offence, so it is yours to write from your judgment before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "guilty of the offenses of 2",
+          "fieldId": "guilty of the offenses of 2",
+          "effectiveLabel": "______________________________________________________",
+          "harvestedLabel": "______________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_offence_line_not_a_charge_row",
+          "buildRoleWhy": "The second rule of the same paragraph 2 offence list.",
+          "reason": "The second rule of paragraph 2's conviction-offence list. Use it only if you were convicted of more than one offence in this case.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "guilty of the offenses of 3",
+          "fieldId": "guilty of the offenses of 3",
+          "effectiveLabel": "______________________________________________________",
+          "harvestedLabel": "______________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_offence_line_not_a_charge_row",
+          "buildRoleWhy": "The third rule of the same paragraph 2 offence list.",
+          "reason": "The third rule of the same paragraph 2 list, on the same footing.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "in violation of ACA_2",
+          "fieldId": "in violation of ACA_2",
+          "effectiveLabel": "in violation of A.C.A.§",
+          "harvestedLabel": "in violation of A.C.A.§",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "statute_section_not_held",
+          "buildRoleWhy": "Paragraph 2's \"in violation of A.C.A.§ ______\" blank, for the offence of conviction, on the same footing.",
+          "reason": "The \"in violation of A.C.A. § ______\" blank in paragraph 2, for the offence of conviction. The participant copies it from their judgment before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "WHEREFORE the Defendant",
+          "fieldId": "WHEREFORE the Defendant",
+          "effectiveLabel": "WHEREFORE, the Defendant,",
+          "harvestedLabel": "WHEREFORE, the Defendant,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Defendants Signature",
+          "fieldId": "Defendants Signature",
+          "effectiveLabel": "_____________________________",
+          "harvestedLabel": "_____________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "other",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The defendant's signature on page 3. The petition is the defendant's own statement; the participant signs it.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "City",
+          "fieldId": "City",
+          "effectiveLabel": "City",
+          "harvestedLabel": "City",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.city",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": "_____________________________",
+          "harvestedLabel": "_____________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_signature_date",
+          "buildRoleWhy": "The date beside the defendant's signature on page 3. Dating a signature that has not been made asserts the petition was signed on a day it was not.",
+          "reason": "The date beside the defendant's signature on page 3, completed by the participant when the petition is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "State",
+          "fieldId": "State",
+          "effectiveLabel": "State",
+          "harvestedLabel": "State",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.state",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Zip code",
+          "fieldId": "Zip code",
+          "effectiveLabel": "State: _____ Zip code",
+          "harvestedLabel": "State: _____ Zip code",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.zip",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "COUNTY OF",
+          "fieldId": "COUNTY OF",
+          "effectiveLabel": "COUNTY OF",
+          "harvestedLabel": "COUNTY OF",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "notarization_venue_not_held",
+          "buildRoleWhy": "The verification's \"STATE OF ARKANSAS / COUNTY OF ____\" on page 4. This is the county where the oath is sworn, which is wherever the participant finds a notary, and not the county of the case. The binder resolves the name to matter.county and would assert the oath was taken in the county the case was handled in.",
+          "reason": "The county in the page 4 verification's \"STATE OF ARKANSAS / COUNTY OF ____\". This is the county where you swear the oath, which is wherever your notary is, and it is written by you or by the notary at the time of signing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Comes the Petitioner",
+          "fieldId": "Comes the Petitioner",
+          "effectiveLabel": "that the foregoing Pe",
+          "harvestedLabel": "that the foregoing Pe",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Petitioner",
+          "fieldId": "Petitioner",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_signature_line",
+          "buildRoleWhy": "The verification's SIGNATURE line on page 4. The widget sits at y=527.40, above the printed word \"Petitioner\" at y=512 — the word is the line's caption, not a name blank. The binder reads the name \"Petitioner\" as participant.full_legal_name and would print the participant's name on the signature line of a sworn verification.",
+          "reason": "The signature line of the page 4 verification, signed by the participant in front of the notary and not before.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Notary Public",
+          "fieldId": "Notary Public",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The notary's own signature line in the page 4 verification. Only the notary signs it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "My Commissionexpires",
+          "fieldId": "My Commissionexpires",
+          "effectiveLabel": "My Commission expires",
+          "harvestedLabel": "My Commission expires",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The notary's commission-expiry line, stated by the notary who takes the oath.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Race",
+          "fieldId": "Race",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The identification block's race entry on page 4, which the form states is required for identification in the state and national record systems. The platform does not hold or write it; the participant states it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "fieldId": "Arrest Tracking Number",
+          "effectiveLabel": "NATIONAL RECORD SYSTEMS",
+          "harvestedLabel": "NATIONAL RECORD SYSTEMS",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "agency_assigned_identifier",
+          "buildRoleWhy": "The ATN is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of and is the agency's to state.",
+          "reason": "The ATN is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Sex",
+          "fieldId": "Sex",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "identification_fact_not_held",
+          "buildRoleWhy": "The identification block's sex entry on page 4. The platform holds no such fact and does not infer one.",
+          "reason": "The identification block's sex entry, in the same block and on the same footing. The platform does not hold it; the participant states it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "DOB",
+          "fieldId": "DOB",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.date_of_birth",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "FBI No if known",
+          "fieldId": "FBI No if known",
+          "effectiveLabel": "FBI No. (if kno",
+          "harvestedLabel": "FBI No. (if kno",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "do hereby certify that a true and correct",
+          "fieldId": "do hereby certify that a true and correct",
+          "effectiveLabel": "I,",
+          "harvestedLabel": "I,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_attestation",
+          "buildRoleWhy": "The certifying party's name in the page 5 Certificate of Service's \"I, ____, do hereby certify\" sentence. It is a sworn statement about an act of service that has not happened.",
+          "reason": "The certifying party's name in the Certificate of Service's sworn \"I, ____, do hereby certify\" sentence. It is the filer's statement about an act of service, made after mailing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Defendant of Defendants Attorney",
+          "fieldId": "Defendant of Defendants Attorney",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The signature line on the page 5 Certificate of Service, signed by the participant (or their attorney) after service.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Date_2",
+          "fieldId": "Date_2",
+          "effectiveLabel": "Defendant orDefendant’s",
+          "harvestedLabel": "Defendant orDefendant’s",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 5,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "certificate_of_service_date",
+          "buildRoleWhy": "The DATE line of the page 5 Certificate of Service, at y=408.10 under the printed \"Date\" at y=377. Its harvested caption bled from the signature line above it and reads \"Defendant orDefendant's\", so the binder resolves it to participant.full_legal_name and would print a NAME on a DATE line. Even with the caption right, service has not happened and nothing here dates it.",
+          "reason": "The date on the page 5 Certificate of Service, completed by the participant after service has actually happened.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "Day 01",
+          "fieldId": "Day 01",
+          "effectiveLabel": "1.The Defendant was arrested on the",
+          "harvestedLabel": "1.The Defendant was arrested on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Day component of paragraph 1's arrest date. The platform holds matter.arrest_date as a whole date and holds no day fact.",
+          "reason": "The day component of paragraph 1's arrest date. The platform holds no day fact and writes nothing here; the participant copies the arrest date from their arrest or court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Month 01",
+          "fieldId": "Month 01",
+          "effectiveLabel": "1.The Defendant was arrested on the _______ day of",
+          "harvestedLabel": "1.The Defendant was arrested on the _______ day of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Month component of the same arrest date.",
+          "reason": "The month component of paragraph 1's arrest date, on the same footing as the day.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Year 01",
+          "fieldId": "Year 01",
+          "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Year component of the same arrest date.",
+          "reason": "The year component of paragraph 1's arrest date, on the same footing as the day and the month.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Day 02",
+          "fieldId": "Day 02",
+          "effectiveLabel": "on the",
+          "harvestedLabel": "on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Day component of paragraph 2's conviction date. The platform holds matter.conviction_date as a whole date and holds no day fact.",
+          "reason": "The day component of paragraph 2's conviction date. The participant copies the conviction date from their court paperwork before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Month 02",
+          "fieldId": "Month 02",
+          "effectiveLabel": "on the _______ day of",
+          "harvestedLabel": "on the _______ day of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Month component of the same conviction date.",
+          "reason": "The month component of paragraph 2's conviction date, on the same footing as the day.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Year 02",
+          "fieldId": "Year 02",
+          "effectiveLabel": "on the _______ day of ____________,",
+          "harvestedLabel": "on the _______ day of ____________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Year component of the same conviction date.",
+          "reason": "The year component of paragraph 2's conviction date, on the same footing as the day and the month.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box1",
+          "fieldId": "Check Box1",
+          "effectiveLabel": "7",
+          "harvestedLabel": "7",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 7's first alternative — all requirements completed and the conviction was not one of the misdemeanors listed in A.C.A. § 16-90-1405(b)(1). Which of the four is true of your case is read off your own paperwork; this route does not determine it.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box2",
+          "fieldId": "Check Box2",
+          "effectiveLabel": "A.C.A.§ 16-90-1405(b)(1);or",
+          "harvestedLabel": "A.C.A.§ 16-90-1405(b)(1);or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 7's second alternative — at least five years since sentence completion, for a conviction that IS one of the listed misdemeanors.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box3",
+          "fieldId": "Check Box3",
+          "effectiveLabel": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1); or",
+          "harvestedLabel": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1); or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 7's third alternative — at least ninety days since the court denied a Petition to Seal for a conviction that is not a listed misdemeanor.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box4",
+          "fieldId": "Check Box4",
+          "effectiveLabel": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1);or",
+          "harvestedLabel": "misdemeanors listed in A.C.A.§ 16-90-1405(b)(1);or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 7's fourth alternative — at least one year since the court denied a Petition to Seal for a conviction that is a listed misdemeanor.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box5",
+          "fieldId": "Check Box5",
+          "effectiveLabel": "f",
+          "harvestedLabel": "f",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 9's first box — no pending felony charges in any state or federal court. Whether you have one is not a fact the platform holds.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box6",
+          "fieldId": "Check Box6",
+          "effectiveLabel": "state",
+          "harvestedLabel": "state",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 9's second box — one or more pending felony charges, whose status you then state on the two rules beneath it.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "federal charges 01",
+          "fieldId": "federal charges 01",
+          "effectiveLabel": "as follows",
+          "harvestedLabel": "as follows",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The first status rule under paragraph 9's second box. A charge in the platform's list belongs to THIS matter; paragraph 9 asks about a pending felony somewhere else.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "federal charges 02",
+          "fieldId": "federal charges 02",
+          "effectiveLabel": "as follows: _________________________________________",
+          "harvestedLabel": "as follows: _________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The second rule of the same paragraph 9 status block, on the same footing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box7",
+          "fieldId": "Check Box7",
+          "effectiveLabel": "offender under",
+          "harvestedLabel": "offender under",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 10's IS box — required to register as a sex offender under A.C.A. § 12-12-901 et seq. A sworn statement about your own registration status.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box8",
+          "fieldId": "Check Box8",
+          "effectiveLabel": "Defendant [_] IS or",
+          "harvestedLabel": "Defendant [_] IS or",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "Paragraph 10's IS NOT box, on the same footing.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Defendant Address 01",
+          "fieldId": "Defendant Address 01",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Defendant Address 02",
+          "fieldId": "Defendant Address 02",
+          "effectiveLabel": "_____________________________",
+          "harvestedLabel": "_____________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "address_continuation_line",
+          "buildRoleWhy": "The second printed rule of the two-line Defendant's Address block on page 3. The platform holds one street address and writes it on the first rule; filling both prints the same address twice.",
+          "reason": "The second rule of the Defendant's Address block on page 3, for an apartment or unit line. The platform writes the one address it holds on the first rule; use this only if your address needs a second line.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "Day 03",
+          "fieldId": "Day 03",
+          "effectiveLabel": "Subscribed and sworn to before me on this",
+          "harvestedLabel": "Subscribed and sworn to before me on this",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The day in \"Subscribed and sworn to before me on this ___ day of ___, 20___\". The notary states the date the oath was actually taken.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Month 03",
+          "fieldId": "Month 03",
+          "effectiveLabel": ", day of",
+          "harvestedLabel": ", day of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The month of the same notarial date, on the same footing.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Year 03",
+          "fieldId": "Year 03",
+          "effectiveLabel": "_________________________________,",
+          "harvestedLabel": "_________________________________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The year of the same notarial date, on the same footing.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "SID number",
+          "fieldId": "SID number",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 4,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The State Identification number in the page 4 identification block. The platform holds no SID; the participant copies it from their arrest paperwork or ACIC criminal-history record before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        }
+      ]
+    },
+    {
+      "documentId": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "explicitMappings": {
+        "First Middle and Last name": "participant.full_legal_name"
+      },
+      "printedLabelCorrections": {
+        "COURT OF": {
+          "printedLabel": "COURT OF county, ARKANSAS",
+          "readFrom": "page 1, printed line at y=708.0: \"IN THE ______________ COURT OF ________________, ARKANSAS\"",
+          "measuredEvidence": "the widget occupies x 318.70-434.40, spanning the blank between the printed \"OF \" and the \"_, \" before \" ARKANSAS\" at x=427.2",
+          "why": "Same shifted naming as the petition, and the order's caption must match the petition's. The county is the one caption fact this packet can source."
+        }
+      },
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "Defendant",
+          "class": "court_decree_party_name",
+          "why": "The defendant's name inside the court's DECREE on page 3 — \"IT IS, THEREFORE, by the Court, ORDERED that the Petition of the Defendant, ______, to seal ... hereby is GRANTED.\" captionOnly already refuses it; stated here because the binder resolves the field name to participant.full_legal_name and because the sentence it sits in is the court's ruling, not the order's caption."
+        },
+        {
+          "field": "1",
+          "class": "court_recital_offence_line",
+          "why": "The offence line in the court's own recital of paragraph 1. captionOnly already refuses it; stated here because it is a recital of the court's finding rather than a blank this packet fills."
+        },
+        {
+          "field": "2",
+          "class": "court_recital_offence_line",
+          "why": "The second rule of the same recital."
+        },
+        {
+          "field": "the offenses of 1",
+          "class": "court_recital_offence_line",
+          "why": "The conviction-offence rule of the court's paragraph 2 recital."
+        },
+        {
+          "field": "the offenses of 2",
+          "class": "court_recital_offence_line",
+          "why": "The second rule of the same recital."
+        },
+        {
+          "field": "the offenses of 3",
+          "class": "court_recital_offence_line",
+          "why": "The third rule of the same recital."
+        },
+        {
+          "field": "in violation of ACA",
+          "class": "court_recital_statute_line",
+          "why": "The statute blank closing the court's paragraph 1 recital."
+        },
+        {
+          "field": "in violation of ACA_2",
+          "class": "court_recital_statute_line",
+          "why": "The statute blank in the court's paragraph 2 recital."
+        },
+        {
+          "field": "Judge",
+          "class": "court_only_signature",
+          "why": "The judge's signature line on page 3. Court-only."
+        },
+        {
+          "field": "Date",
+          "class": "court_only_signature_date",
+          "why": "The date beside the judge's signature. The court dates its own order."
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "class": "agency_assigned_identifier",
+          "why": "ACIC-assigned arrest identifier in the page 3 identification block; the agency's to state."
+        },
+        {
+          "field": "Day 01",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date in the court's recital. The platform holds no day fact."
+        },
+        {
+          "field": "Month 01",
+          "class": "arrest_date_component",
+          "why": "Month component of the same recital date."
+        },
+        {
+          "field": "Year 01",
+          "class": "arrest_date_component",
+          "why": "Year component of the same recital date."
+        },
+        {
+          "field": "Day 02",
+          "class": "conviction_date_component",
+          "why": "Day component of the conviction date in the court's recital."
+        },
+        {
+          "field": "Month 02",
+          "class": "conviction_date_component",
+          "why": "Month component of the same recital date."
+        },
+        {
+          "field": "Year 02",
+          "class": "conviction_date_component",
+          "why": "Year component of the same recital date."
+        },
+        {
+          "field": "IN THE",
+          "class": "court_identity_not_held",
+          "why": "The type of court in the order's caption, which must match the petition's. The platform holds no court-type fact for this route."
+        },
+        {
+          "field": "DIVISION",
+          "class": "court_division_not_held",
+          "why": "The caption's division blank, completed only where the filing court has divisions."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "COURT OF",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 318.72,
+            "y": 707.04,
+            "width": 115.68,
+            "height": 15.6
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "COURT OF county, ARKANSAS"
+        },
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 275.16,
+            "y": 621.12,
+            "width": 101.28,
+            "height": 15.6
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case N"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 586.68,
+            "width": 166.2,
+            "height": 15.6
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
+        },
+        {
+          "field": "DOB",
+          "factId": "participant.date_of_birth",
+          "page": 3,
+          "rect": {
+            "x": 107.28,
+            "y": 191.04,
+            "width": 86.76,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Sex"
+        }
+      ],
+      "refused": [
+        {
+          "field": "IN THE",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Judge",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "reason": "protected_category",
+          "category": "race",
+          "regionHeading": null
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Sex",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "FBI No if known",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        },
+        {
+          "field": "Day 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year 01",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Day 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Month 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Year 02",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box10",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box11",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box12",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box13",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box14",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "federal charges as follows 1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "federal charges as follows 2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box15",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box16",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "SID number",
+          "reason": "protected_category",
+          "category": "government_identifier",
+          "regionHeading": null
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "IN THE",
+          "category": "role"
+        },
+        {
+          "field": "DIVISION",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 1",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 2",
+          "category": "role"
+        },
+        {
+          "field": "the offenses of 3",
+          "category": "role"
+        },
+        {
+          "field": "in violation of ACA_2",
+          "category": "role"
+        },
+        {
+          "field": "Defendant",
+          "category": "role"
+        },
+        {
+          "field": "Judge",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "Race",
+          "category": "race"
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "category": "role"
+        },
+        {
+          "field": "FBI No if known",
+          "category": "government_identifier"
+        },
+        {
+          "field": "Day 01",
+          "category": "role"
+        },
+        {
+          "field": "Month 01",
+          "category": "role"
+        },
+        {
+          "field": "Year 01",
+          "category": "role"
+        },
+        {
+          "field": "Day 02",
+          "category": "role"
+        },
+        {
+          "field": "Month 02",
+          "category": "role"
+        },
+        {
+          "field": "Year 02",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box10",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box11",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box12",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box13",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box14",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box15",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box16",
+          "category": "type_guard"
+        },
+        {
+          "field": "SID number",
+          "category": "government_identifier"
+        }
+      ],
+      "fields": [
+        {
+          "field": "IN THE",
+          "fieldId": "IN THE",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_identity_not_held",
+          "buildRoleWhy": "The type of court in the order's caption, which must match the petition's. The platform holds no court-type fact for this route.",
+          "reason": "The type of court in the order's caption, which must match the petition's. Which Arkansas court handled your case is the answer the clerk of the county gives, and the participant writes the same answer on both forms before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "COURT OF",
+          "fieldId": "COURT OF",
+          "effectiveLabel": "COURT OF county, ARKANSAS",
+          "harvestedLabel": "IN THE ______________ COURT",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "DIVISION",
+          "fieldId": "DIVISION",
+          "effectiveLabel": "IN THE __________",
+          "harvestedLabel": "IN THE __________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_division_not_held",
+          "buildRoleWhy": "The caption's division blank, completed only where the filing court has divisions.",
+          "reason": "The caption's division blank, completed only if that court has divisions, to match the petition. The clerk answers whether it does; the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Case No",
+          "fieldId": "Case No",
+          "effectiveLabel": "Case N",
+          "harvestedLabel": "Case N",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "First Middle and Last name",
+          "fieldId": "First Middle and Last name",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "1",
+          "fieldId": "1",
+          "effectiveLabel": "________, and charged with the offense(s) of",
+          "harvestedLabel": "________, and charged with the offense(s) of",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_offence_line",
+          "buildRoleWhy": "The offence line in the court's own recital of paragraph 1. captionOnly already refuses it; stated here because it is a recital of the court's finding rather than a blank this packet fills.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "2",
+          "fieldId": "2",
+          "effectiveLabel": "___________________________________________________________",
+          "harvestedLabel": "___________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_offence_line",
+          "buildRoleWhy": "The second rule of the same recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "in violation of ACA",
+          "fieldId": "in violation of ACA",
+          "effectiveLabel": "in violation of A.C.A",
+          "harvestedLabel": "in violation of A.C.A",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_statute_line",
+          "buildRoleWhy": "The statute blank closing the court's paragraph 1 recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "the offenses of 1",
+          "fieldId": "the offenses of 1",
+          "effectiveLabel": "the offense(s) of",
+          "harvestedLabel": "the offense(s) of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_offence_line",
+          "buildRoleWhy": "The conviction-offence rule of the court's paragraph 2 recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "the offenses of 2",
+          "fieldId": "the offenses of 2",
+          "effectiveLabel": "the offense(s) of: _________________________________________",
+          "harvestedLabel": "the offense(s) of: _________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_offence_line",
+          "buildRoleWhy": "The second rule of the same recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "the offenses of 3",
+          "fieldId": "the offenses of 3",
+          "effectiveLabel": "___________________________________________________________",
+          "harvestedLabel": "___________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_offence_line",
+          "buildRoleWhy": "The third rule of the same recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "in violation of ACA_2",
+          "fieldId": "in violation of ACA_2",
+          "effectiveLabel": "on the _______ day",
+          "harvestedLabel": "on the _______ day",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_recital_statute_line",
+          "buildRoleWhy": "The statute blank in the court's paragraph 2 recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Defendant",
+          "fieldId": "Defendant",
+          "effectiveLabel": "IT IS, T",
+          "harvestedLabel": "IT IS, T",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_decree_party_name",
+          "buildRoleWhy": "The defendant's name inside the court's DECREE on page 3 — \"IT IS, THEREFORE, by the Court, ORDERED that the Petition of the Defendant, ______, to seal ... hereby is GRANTED.\" captionOnly already refuses it; stated here because the binder resolves the field name to participant.full_legal_name and because the sentence it sits in is the court's ruling, not the order's caption.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Judge",
+          "fieldId": "Judge",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_only_signature",
+          "buildRoleWhy": "The judge's signature line on page 3. Court-only.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "court_only_signature_date",
+          "buildRoleWhy": "The date beside the judge's signature. The court dates its own order.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Race",
+          "fieldId": "Race",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The identification block's race entry on page 3 of the order, which the form states is required for identification in the state and national record systems. The platform does not hold or write it; the participant states it, to match the petition.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Arrest Tracking Number",
+          "fieldId": "Arrest Tracking Number",
+          "effectiveLabel": "Arrest Tracking Num",
+          "harvestedLabel": "Arrest Tracking Num",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "agency_assigned_identifier",
+          "buildRoleWhy": "ACIC-assigned arrest identifier in the page 3 identification block; the agency's to state.",
+          "reason": "The ATN is assigned by Arkansas ACIC when an arrest is processed; it is the agency's identifier to state, here as on the petition.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Sex",
+          "fieldId": "Sex",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The identification block's sex entry, in the same block and on the same footing, to match the petition.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "DOB",
+          "fieldId": "DOB",
+          "effectiveLabel": "Sex",
+          "harvestedLabel": "Sex",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.date_of_birth",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "FBI No if known",
+          "fieldId": "FBI No if known",
+          "effectiveLabel": "FBI No. (if kno",
+          "harvestedLabel": "FBI No. (if kno",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The identification block's FBI number, which the form itself marks \"(if known)\". The platform holds no such identifier and does not guess one; write it only if you have it.",
+          "refusalClass": null,
+          "disposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "Day 01",
+          "fieldId": "Day 01",
+          "effectiveLabel": "1. The Defendant was arrested on t",
+          "harvestedLabel": "1. The Defendant was arrested on t",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Day component of the arrest date in the court's recital. The platform holds no day fact.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Month 01",
+          "fieldId": "Month 01",
+          "effectiveLabel": "1. The Defendant was arrested on the _______ da",
+          "harvestedLabel": "1. The Defendant was arrested on the _______ da",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Month component of the same recital date.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Year 01",
+          "fieldId": "Year 01",
+          "effectiveLabel": "1",
+          "harvestedLabel": "1",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "arrest_date_component",
+          "buildRoleWhy": "Year component of the same recital date.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Day 02",
+          "fieldId": "Day 02",
+          "effectiveLabel": "on the",
+          "harvestedLabel": "on the",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Day component of the conviction date in the court's recital.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Month 02",
+          "fieldId": "Month 02",
+          "effectiveLabel": "on the _______ day of",
+          "harvestedLabel": "on the _______ day of",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Month component of the same recital date.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Year 02",
+          "fieldId": "Year 02",
+          "effectiveLabel": "on the _______ day of ____________,",
+          "harvestedLabel": "on the _______ day of ____________,",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_date_component",
+          "buildRoleWhy": "Year component of the same recital date.",
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box9",
+          "fieldId": "Check Box9",
+          "effectiveLabel": "7",
+          "harvestedLabel": "7",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box10",
+          "fieldId": "Check Box10",
+          "effectiveLabel": "1405(b)(1);or",
+          "harvestedLabel": "1405(b)(1);or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box11",
+          "fieldId": "Check Box11",
+          "effectiveLabel": "in A.C.A.§ 16-90-1405(b)(1); or",
+          "harvestedLabel": "in A.C.A.§ 16-90-1405(b)(1); or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box12",
+          "fieldId": "Check Box12",
+          "effectiveLabel": "in A.C.A.§ 16-90-1405(b)(1);or",
+          "harvestedLabel": "in A.C.A.§ 16-90-1405(b)(1);or",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box13",
+          "fieldId": "Check Box13",
+          "effectiveLabel": "9",
+          "harvestedLabel": "9",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box14",
+          "fieldId": "Check Box14",
+          "effectiveLabel": "or",
+          "harvestedLabel": "or",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "federal charges as follows 1",
+          "fieldId": "federal charges as follows 1",
+          "effectiveLabel": "federal court and the status of that/those charges is/are as",
+          "harvestedLabel": "federal court and the status of that/those charges is/are as",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "federal charges as follows 2",
+          "fieldId": "federal charges as follows 2",
+          "effectiveLabel": "__________________________________________________",
+          "harvestedLabel": "__________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box15",
+          "fieldId": "Check Box15",
+          "effectiveLabel": "Defend",
+          "harvestedLabel": "Defend",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Check Box16",
+          "fieldId": "Check Box16",
+          "effectiveLabel": "Defendant [_] IS or",
+          "harvestedLabel": "Defendant [_] IS or",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The order's recitals, its paragraph boxes, its decree, the judge's signature and the date beside it are the court's own instrument, and this packet writes nothing in any of them.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "SID number",
+          "fieldId": "SID number",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The State Identification number in the order's identification block. The platform holds no SID; the participant copies it from the same ACIC criminal-history record they used for the petition.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        }
+      ]
+    }
+  ]
+}
