@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ef9a7077757f6f93ff8cf6450d81e6b7dbde5c70` (or the newer dispatch base)
+**Minimum required ancestor:** `9b2e819334064fa60a048d6df2f82a2d94e398f5` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json \
+  --family 'pa_pardon_expungement-set' \
   --codex-cloud \
-  --minimum-captain-sha ef9a7077757f6f93ff8cf6450d81e6b7dbde5c70
+  --minimum-captain-sha 9b2e819334064fa60a048d6df2f82a2d94e398f5
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- This lane currently holds no family. Do not launch it and do not invent a family identifier.
+- Assert only these 1 exact family before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
+- A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
+- Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
 ## How to raster
 
@@ -57,9 +60,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 0 families
+## The 1 family
 
-
+- `pa_pardon_expungement-set`
 
 ## What you receive
 
@@ -72,6 +75,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
+- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 
 ## Never write here
 

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ef9a7077757f6f93ff8cf6450d81e6b7dbde5c70",
+  "minimumCaptainSha": "9b2e819334064fa60a048d6df2f82a2d94e398f5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,20 +72,21 @@
     "sourceReady": 33,
     "sourceBlocked": 6,
     "legalBlocked": 18,
-    "verifyPending": 10,
-    "repairRequired": 17,
+    "verifyPending": 5,
+    "repairRequired": 18,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 193,
+    "COMPLETE_PACKET_PROVEN": 195,
     "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 18,
-    "BUILT_RASTER_PENDING": 21,
+    "BUILT_RASTER_PENDING": 22,
     "SOURCE_READY": 33,
-    "VERIFY_PENDING": 10,
-    "FAIL_REPAIR_REQUIRED": 26,
+    "VERIFY_PENDING": 5,
+    "FAIL_REPAIR_REQUIRED": 27,
     "SOURCE_BLOCKED": 6,
+    "VERIFIED_PASS": 1,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
     "WRONG_DELIVERY_TYPE": 1
@@ -8018,7 +8019,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -8052,7 +8058,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "VERIFIED_PASS",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
@@ -19011,9 +19017,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json"
+        "lane": "vf03",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -19045,26 +19051,19 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS",
-        "REQUIRED_BEFORE_FILING"
+        "ROUTE_OPTIONS"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "All ten of the record's requiredBeforeFiling lines are present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that section. FILE data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md, LINE 22, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1 rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column; I read the whole one-page form and it is a caption block, then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. The sentence also sends the participant away from where this packet actually made the election - item 12 Yes and Section 17 on the Request - and so contradicts the guide's own 'Route selected' paragraph five lines above it. This is defect (a) that VF05 scored on il-seal-3yr-set; FIX118 repaired it there and on no other family, and il-seal-2yr-set carries the sentence unchanged.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "The hash half passes and the structural half does not. Hashes: canonical.pdf rehashes here to d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003 (1728326 bytes, 13 pages) and boundary.pdf to d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d (1729052 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: reloading each delivered fixture with pdf-lib and resolving every page's /Annots entries against the document returns 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - references to widget annotation objects the flatten removed from the file and did not remove from the pages. Poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' on every invocation. All four official sources open silently, and so do az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set, which I read this shift and which carry zero dangling references, so this is a fault of the shared EXP-AD build path and not of the factory. It is the identical defect I measured on il-exp-qualprob-set, it is present in that family's pre-repair bytes at 159c0b5cf so it is not new damage from FIX118, and it is also present on il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. One repair answers six families. It is material rather than cosmetic here because participant-instructions.md tells the participant this packet is delivered pre-flattened specifically because AOIC requires a flattened PDF for e-filing.",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route declares five dispositions and the packet delivers one, presenting the other four as belonging to no route. data/record-clearing/legal-design-track-registry.json, track il-seal-2yr, dispositions = ['supervision_successfully_completed', 'qualified_probation', 'conditional_discharge_completed_without_revocation', 'probation_completed_without_revocation', 'misdemeanor_conviction'], and its mechanism sentence reads 'a two-year sealing bucket effective June 1, 2026, covering successfully completed supervision, qualified probation, conditional discharge or probation completed without revocation, and misdemeanor convictions'. Its own requiredBeforeFiling line asks the participant to check the answer to 'For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?' -- a multi-way question. The delivered Request page 5 prints all four two-year grounds: Section 16 (supervision, 2 years), Section 17 (misdemeanor conviction, 2 years), Section 18 (qualified probation / Cannabis Control Act Section 10 / Controlled Substances Act Section 410 / Meth Act Section 70 / Offender Initiative Program, 2 years) and Section 19.a (conditional discharge or probation completed without revocation, 2 years). The packet ticks Section 17 only. production-field-map.json refuses Section 16, Section 18 and Section 19.a with the string 'A participant election or financial fact not determined by this packet route' and routeDetermined: false. That reason is untrue of this route: those three printed grounds ARE this route's other declared dispositions. participant-instructions.md never mentions Section 16, Section 18 or Section 19.a. It names only Section 17 and a negative election of Section 15. A participant on this track whose disposition is supervision, qualified probation, or unrevoked conditional discharge or probation -- four of the track's five dispositions -- is handed a petition that states the wrong ground and is told nothing about which box states theirs, on a document they verify under 735 ILCS 5/1-109. The sibling il-seal-3yr-set is the control and shows this is the factory's own standard: for its two three-year limbs it marks 19.b isAlternativeToElectedGround: true, gives 19.a and 19.b route-specific refusal reasons instead of the boilerplate, and devotes a guide section 'The Section 19 ground this packet ticked' to telling the participant to tick the other limb and untick this one if the certified record so shows. il-seal-2yr-set does none of that for any of its three alternative grounds. Corroborated by a second committed record: il-seal-3yr-set's own guide says of Section 19.a 'that is the two-year limb for a sentence of conditional discharge or probation that was NOT revoked, and it is a different route' -- naming 19.a as belonging to the two-year route that omits it.",
           "findingReadFrom": "detail",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
@@ -19195,10 +19194,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909c.json"
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -19229,20 +19228,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ARTIFACTS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ARTIFACTS",
-          "finding": "The hash half passes and the structural half does not. Hashes: canonical.pdf rehashes here to d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab (1728343 bytes, 13 pages) and boundary.pdf to d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90 (1729034 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: reloading each delivered fixture with pdf-lib and resolving every page's /Annots entries against the document returns 146 unresolvable references on canonical and 146 on boundary, across all 13 pages - references to widget annotation objects the flatten removed from the file and did not remove from the pages. Poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' on every invocation, where all four official sources open silently and so do az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set, which I read this shift with zero dangling references. On il-exp-qualprob-set I read the bytes directly and found the mechanism: the trailer declares /Size 954 while the cross-reference table covers only 808 object numbers in 14 subsections, and the missing object numbers are absent from the file body as well, with no object streams and no cross-reference streams to hide them. It is not new damage from FIX118 - the pre-repair bytes at 159c0b5cf carry it - and it is present on il-seal-2yr-set, il-exp-qualprob-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set, so one repair in the shared EXP-AD build path answers six families. It is material rather than cosmetic because participant-instructions.md tells the participant this packet is delivered pre-flattened specifically because AOIC requires a flattened PDF for e-filing.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-3yr-set.mjs",
@@ -31269,7 +31259,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -31299,11 +31294,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Every write in the canonical fixture is correct and lands correctly. The FAILURE is in the boundary fixture and is narrow, provable and cheap to repair. production-field-map.json, maps[0].boundaryWrites, declares SIX writes including 'State' at rect x 452.76, y 455.76, width 34.32, height 18.6, factId participant.state. The delivered boundary fixture carries FIVE. I measured the State rectangle at 150 dpi on the delivered boundary page against the pinned source: ZERO added ink pixels, against 186 in the same rectangle on the canonical fixture. The State box on the delivered boundary filing is blank. reports/actual-writes.json records the cause honestly under `unfittable`: the boundary persona's participant.state is the string 'North Dakota', which needs 35.5pt at the 6pt minimum font in a 34.32pt box, so the shared finalizer refused it rather than clipping it. Refusing rather than clipping is the right instinct. What fails is what happens next. The refusal reaches no participant-facing record. reports/blanks-left-for-the-participant.json is fixture-independent and lists 26 required-before-filing blanks; State is not one of them, and its own field everyRequiredBeforeFilingItemIsDisclosed reads true. participant-instructions.md has no row for State and affirmatively tells the reader 'The platform filled in what it holds about you: your name, your date of birth and your address', which on this fixture is not true of the state component. The field map -- the document the completeness contract reads -- still declares the write. It matters because of this form's own printed rule, quoted in the packet's own instructions: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you, which could result in a postponement of your hearing.' This is the DEFECTS_NO_COUNTER_CAN_SEE entry `map-honest-writes-not` running in reverse: there the map declared a blank and the finalizer wrote, here the map declares a write and the finalizer did not, and nothing compares the two. The builder's own reports/completeness-counters.json reads knownRequiredFieldsMissing 0 with the box blank. The repair is one of two lines: normalise participant.state to its two-letter postal abbreviation before fitting -- the canonical fixture proves 'ND' fits the box with room to spare -- or route the finalizer's unfittable refusal into blanks-left-for-the-participant.json so the participant is told to write it in.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
@@ -31762,7 +31766,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -31796,7 +31805,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-seal-pre2017-set.mjs",
@@ -48540,7 +48549,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",

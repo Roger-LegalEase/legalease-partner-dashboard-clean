@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 134,
-    "rows": 1062,
-    "independentVerdicts": 272,
+    "returnDirectories": 135,
+    "rows": 1067,
+    "independentVerdicts": 275,
     "failRepairRequired": 38,
-    "passIndependent": 213
+    "passIndependent": 216
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -58,12 +58,12 @@
     "hi_nonconviction_expungement-set",
     "ia-12347-set",
     "il-seal-2yr-set",
-    "il-seal-3yr-set",
     "in_infraction_nondisclosure-set",
     "la-976-arrest-no-conviction-set",
     "md_pardon_expungement-set",
     "mn_petition_609a02_subd3-set",
     "mo-art-xiv-marijuana-set",
+    "nd-summary-marijuana-pardon-set",
     "nh_marijuana_annulment-set",
     "nj_disorderly_persons-set",
     "nj_indictable_conviction-set",
@@ -4341,6 +4341,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
       "superseded": true
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:ME:juvenile-sealing",
+      "superseded": false
     },
     {
       "familyId": "city mailed to",
@@ -10138,6 +10152,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route declares five dispositions and the packet delivers one, presenting the other four as belonging to no route. data/record-clearing/legal-design-track-registry.json, track il-seal-2yr, dispositions = ['supervision_successfully_completed', 'qualified_probation', 'conditional_discharge_completed_without_revocation', 'probation_completed_without_revocation', 'misdemeanor_conviction'], and its mechanism sentence reads 'a two-year sealing bucket effective June 1, 2026, covering successfully completed supervision, qualified probation, conditional discharge or probation completed without revocation, and misdemeanor convictions'. Its own requiredBeforeFiling line asks the participant to check the answer to 'For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?' -- a multi-way question. The delivered Request page 5 prints all four two-year grounds: Section 16 (supervision, 2 years), Section 17 (misdemeanor conviction, 2 years), Section 18 (qualified probation / Cannabis Control Act Section 10 / Controlled Substances Act Section 410 / Meth Act Section 70 / Offender Initiative Program, 2 years) and Section 19.a (conditional discharge or probation completed without revocation, 2 years). The packet ticks Section 17 only. production-field-map.json refuses Section 16, Section 18 and Section 19.a with the string 'A participant election or financial fact not determined by this packet route' and routeDetermined: false. That reason is untrue of this route: those three printed grounds ARE this route's other declared dispositions. participant-instructions.md never mentions Section 16, Section 18 or Section 19.a. It names only Section 17 and a negative election of Section 15. A participant on this track whose disposition is supervision, qualified probation, or unrevoked conditional discharge or probation -- four of the track's five dispositions -- is handed a petition that states the wrong ground and is told nothing about which box states theirs, on a document they verify under 735 ILCS 5/1-109. The sibling il-seal-3yr-set is the control and shows this is the factory's own standard: for its two three-year limbs it marks 19.b isAlternativeToElectedGround: true, gives 19.a and 19.b route-specific refusal reasons instead of the boilerplate, and devotes a guide section 'The Section 19 ground this packet ticked' to telling the participant to tick the other limb and untick this one if the certified record so shows. il-seal-2yr-set does none of that for any of its three alternative grounds. Corroborated by a second committed record: il-seal-3yr-set's own guide says of Section 19.a 'that is the two-year limb for a sentence of conditional discharge or probation that was NOT revoked, and it is a different route' -- naming 19.a as belonging to the two-year route that omits it.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
       "superseded": false
     },
     {
@@ -10277,6 +10314,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
       "superseded": false
@@ -14575,6 +14626,29 @@
       "superseded": true
     },
     {
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Every write in the canonical fixture is correct and lands correctly. The FAILURE is in the boundary fixture and is narrow, provable and cheap to repair. production-field-map.json, maps[0].boundaryWrites, declares SIX writes including 'State' at rect x 452.76, y 455.76, width 34.32, height 18.6, factId participant.state. The delivered boundary fixture carries FIVE. I measured the State rectangle at 150 dpi on the delivered boundary page against the pinned source: ZERO added ink pixels, against 186 in the same rectangle on the canonical fixture. The State box on the delivered boundary filing is blank. reports/actual-writes.json records the cause honestly under `unfittable`: the boundary persona's participant.state is the string 'North Dakota', which needs 35.5pt at the 6pt minimum font in a 34.32pt box, so the shared finalizer refused it rather than clipping it. Refusing rather than clipping is the right instinct. What fails is what happens next. The refusal reaches no participant-facing record. reports/blanks-left-for-the-participant.json is fixture-independent and lists 26 required-before-filing blanks; State is not one of them, and its own field everyRequiredBeforeFilingItemIsDisclosed reads true. participant-instructions.md has no row for State and affirmatively tells the reader 'The platform filled in what it holds about you: your name, your date of birth and your address', which on this fixture is not true of the state component. The field map -- the document the completeness contract reads -- still declares the write. It matters because of this form's own printed rule, quoted in the packet's own instructions: 'If you fail to complete this application in full, including the needed attachments, it will be returned to you, which could result in a postponement of your hearing.' This is the DEFECTS_NO_COUNTER_CAN_SEE entry `map-honest-writes-not` running in reverse: there the map declared a blank and the finalizer wrote, here the map declares a write and the finalizer did not, and nothing compares the two. The builder's own reports/completeness-counters.json reads knownRequiredFieldsMissing 0 with the box blank. The repair is one of two lines: normalise participant.state to its two-letter postal abbreviation before fitting -- the canonical fixture proves 'ND' fits the box with room to spare -- or route the finalizer's unfittable refusal into blanks-left-for-the-participant.json so the participant is told to write it in.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-summary-marijuana-pardon-set",
+      "superseded": false
+    },
+    {
       "familyId": "ne-expunge-le-error-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf08",
@@ -14614,6 +14688,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-seal-pardoned-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ne-seal-pre2017-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260909d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-seal-pre2017-set",
       "superseded": false
     },
     {
@@ -32790,9 +32878,8 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 31,
+  "rowsRefused": 30,
   "refusedRows": [
-    "vf02/census-pending-family:ME:juvenile-sealing: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): REPEATING_ROWS",
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
     "vf02/rcap-ks-custom-pleading::ks-12-4516-municipal::canonical: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
