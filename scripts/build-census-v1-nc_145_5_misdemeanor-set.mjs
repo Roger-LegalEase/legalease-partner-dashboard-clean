@@ -2522,7 +2522,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
       pageCount: b.entry.pageCount, acroFieldCount: b.entry.acroFieldCount,
       structuralClassObserved: b.entry.structuralClassObserved,
       instrumentKind: b.doc.instrumentKind ?? "participant_agency_application_form",
-      renderStrategy: (SPEC.officialCells?.[b.componentId] ?? []).length > 0 ? "measured_flat_overlay" : "delivered_unmodified"
+      /*
+       * WHAT WAS ACTUALLY DONE TO THIS DOCUMENT'S PAGES, which is not the same
+       * question as whether the family declared measured cells for it. This
+       * read "delivered_unmodified" for every AcroForm document in the packet,
+       * including the ones this build writes onto and flattens -- a false
+       * statement about the delivered bytes sitting in the source receipt,
+       * where it is exactly the sentence a reviewer would rely on.
+       */
+      renderStrategy: (SPEC.officialCells?.[b.componentId] ?? []).length > 0
+        ? "measured_flat_overlay"
+        : b.doc.acroform === true
+          ? `acroform_filled_and_flattened_by_the_shared_official_form_finalizer${b.transport ? "_after_a_proven_equivalent_unlock" : ""}`
+          : "delivered_unmodified"
     })),
     composedComponentsAuthoredByThisBuild: SPEC.components.filter((c) => !isOfficial(c)),
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,

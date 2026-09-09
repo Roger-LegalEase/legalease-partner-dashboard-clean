@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "me-seal-gen-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "THE PINNED SOURCE IS AN ENCRYPTED PDF AND pdf-lib CANNOT OPEN IT. Read from the pinned CR-218 (sha256 82a9e808..), pikepdf reports is_encrypted true, one page, an AcroForm with fifteen fields and no XFA. pdf-lib, which every builder in this corpus uses, fails on the same bytes before it reaches a page: its parser reports a series of invalid object references and PDFCatalog.Pages throws \"Expected instance of PDFDict, but got instance of undefined\". ignoreEncryption: true does not help, because the failure is in resolving the xref rather than in the security handler.",
+      "consequence": "The family is built through a TRANSPORT step and not through a substitution. At build time the exact pinned bytes are opened with pikepdf and saved with deterministic_id so the derivative is reproducible, and the derivative is then proved equivalent to the official binary by the repository's own fidelity reader — page count, page geometry, the terminal field set, every field difference, the page content streams and XFA. The family STOPS with UNLOCKED_DERIVATIVE_IS_NOT_EQUIVALENT_TO_THE_OFFICIAL_BINARY if any of those differ. The bound identity remains the official encrypted binary; its SHA-256 is recomputed from disk before and after the read and recorded in the receipt, and the derivative's own digest is recorded beside it as transport rather than as identity. The derivative is written to a build-time temporary directory and deleted when the build ends. The pattern is the one census-v1-ca-1203-4-set proved on five encrypted California forms."
+    },
+    {
+      "finding": "A DECRYPTED DERIVATIVE ALREADY EXISTS IN THE REPOSITORY AND THIS BUILD DOES NOT USE IT. data/rcap-all50/overlays/encrypted-pdf-rescue-report.json records this exact source as rescued by qpdf_decrypt to data/rcap-all50/overlays/rescued-encrypted-pdfs/maine-mjb-form-cr-218-rescued.pdf, sha256 ca66d3b984a58999f0cd0164d09c3f8875f3119ec09b6556472a10fe50ee17b9.",
+      "consequence": "Not bound. That digest appears in no committed source record and in no entry of the committed corpus index, and the rescue report and scripts/raster/unlock-encrypted-pdf.py both describe it as a review derivative. Binding it would satisfy one identity with the binary of another, which the captain source-identity rule forbids in terms. This build derives its own transport copy from the pinned bytes at build time and proves it, which is a measurement this lane may make rather than a determination it may not."
+    },
+    {
+      "finding": "CR-218 PRINTS ITS CAPTIONS BELOW THE RULES THEY CAPTION, which is the opposite of the convention the shared capture assumes. Measured from the form's own content stream: \"Defendants Signature\" is printed at y=217.1 beneath the widget named \"undefined\" at y[229.3,243.8]; \"Defendants Mailing Address\" at y=153.1 beneath the widgets named \"1\" (y[180.1,194.6]) and \"2\" (y[165.0,179.5]); \"Defendants Attorney and Maine Bar No.\" at y=181.7 beneath the attorney widget at y[195.2,209.8]; and \"Docket No:.\" at y=660.2 beneath the widget named \"Text1\" at y[658.8,671.3].",
+      "consequence": "Every caption in this family's map is quoted from the printed page and positioned by measurement, not by the capture's above-the-rule assumption. Two consequences are load-bearing: the field named \"undefined\" is the DEFENDANT'S SIGNATURE line and is classified protected rather than treated as an unnamed spare box, and the fields named \"1\" and \"2\" are the two lines of the mailing-address block rather than paragraph numbers."
+    },
+    {
+      "finding": "THE MAILING-ADDRESS LINES BIND NOTHING THROUGH THE ORDINARY CHANNEL. The two widgets are named \"1\" and \"2\" and the only caption near them is the block caption printed below, so decideBinding has no field name and no caption to match and returns no_allowlisted_fact_matches. Left as it found them, the delivered motion would carry no address for the defendant while the platform holds one — the same defect this sprint recorded on AOC-CV-226's street line.",
+      "consequence": "Written through the finalizer's opt-in narrativeAcrossFields channel, one held fact per field: participant.street_address on line one and participant.city_state_zip on line two, both established fact ids in the platform's own vocabulary. No caller text reaches the page through that channel — it resolves fact ids from the same facts set as every other write — and a value that will not fit its widget is refused whole rather than truncated."
+    },
+    {
+      "finding": "THE FORM PRINTS mm/dd/yyyy AND THE FACT IS STORED ISO. CR-218 prints \"Defendant DOB (mm/dd/yyyy)\" beneath the date-of-birth blank, and a date fact is stored YYYY-MM-DD. Rendering the stored string would put 1990-11-06 on a rule that reads month/day/year.",
+      "consequence": "printedDateOrder names the field \"Defendants DOB mmddyyyy\" and the order month_day_year, so the finalizer renders 11/06/1990. The order is named by this caller because this caller read the printed line; the shared module never infers an order from a field name, a locale or a jurisdiction."
+    },
+    {
+      "finding": "PARAGRAPHS 2 TO 5 OF CR-218 CARRY NO FIELD OF ANY KIND. The form has fifteen AcroForm fields and three of them are the court-for-filing checkboxes; the numbered assertions about the four-year period, other Maine convictions and deferred dispositions, out-of-state convictions and pending charges are printed text with a printed mark beside each. The defendant makes all four by signing.",
+      "consequence": "There is nothing for this build to tick or to leave unticked on any of them, so none appears in the field map as a control. Paragraph 3's defect — the committed record's finding that its trailing time limit governs the deferred-disposition clause but not the convictions clause, so the form asks for an unbounded assertion the statute does not require — is carried into participant-instructions.md in its own section, with both readings set out and an older Maine prior named as a point to take advice on before filing."
+    },
+    {
+      "finding": "MAINE SEALS AND DOES NOT EXPUNGE, and the committed track registry makes that a packet instruction rather than a preference: \"Never use 'expungement' in Maine participant copy.\"",
+      "consequence": "Asserted rather than intended. The build scans its own generated participant-instructions.md for the string \"expunge\" and STOPS with stopClass FORBIDDEN_JURISDICTION_WORD_IN_PARTICIPANT_COPY unless every occurrence sits inside one of the four sentences that exist to say Maine does not have it. A later edit that reintroduces the word cannot pass silently."
+    },
+    {
+      "finding": "NO FEE INSTRUMENT AND NO FEE-WAIVER INSTRUMENT ARE CARRIED, and both absences are the record's decision rather than an omission. The committed manifest records that no fee is expected under Administrative Order JB-05-26 (A. 3-26) and says in terms \"Do not route the participant to CV-067 or CV-191.\"",
+      "consequence": "The packet states the fee position in full, states why the $60 civil post-judgment figure does not reach a criminal motion, tells the participant to confirm with the clerk, and promises no refund. Per fee-and-waiver A4 nothing in the packet says it does not state a position, because it states one."
+    },
+    {
+      "finding": "THE SECOND COMPONENT THE MANIFEST DECLARES IS PROCESS GUIDANCE AND NOT A FORM. The committed packet-set manifest declares me-seal-gen-instructions-2 with outputStrategy process_guidance and officialFormId null.",
+      "consequence": "Carried in participant-instructions.md rather than rendered as a separate PDF, and named there in the component table read from the record. A document mapped and not rendered is a missing companion form; a process-guidance component rendered as guidance is not."
+    },
+    {
+      "finding": "THE GUIDE IS PRINTED FROM THE RECORD, NOT FROM THE BUILDER. The committed packet-set manifest carries this packet set's own requiredBeforeFiling list. Three Illinois builders in this sprint printed none of their own packet set's list because they never referenced the record, and nine zero counters never saw it.",
+      "consequence": "This build reads legal-design-packet-set-manifests.json at build time, locates packet set me-seal-gen-set, and prints its requiredBeforeFiling list verbatim into a dedicated section of participant-instructions.md with the count and the record's SHA-256 beside it. If the record stops declaring that list the build STOPS with RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS rather than printing a guide the record no longer supports."
+    }
+  ],
+  "captionCorrectionsApplied": [
+    {
+      "document": "CR-218",
+      "field": "Defendant",
+      "capturedLabel": null,
+      "measuredLabel": "Defendant",
+      "measuredAt": "page 1 rect x[31.70,237.70] y[672.20,686.80]; the form prints \"Defendant\" at x[242.28,280.12] y=675.48, on the widget's own line and 4.6pt to its right -- this form prints its captions after and below the rules they caption. The capture, which looks above and to the left, reached nothing"
+    },
+    {
+      "document": "CR-218",
+      "field": "County",
+      "capturedLabel": "Location (Town",
+      "measuredLabel": "County:",
+      "measuredAt": "page 1 rect x[400.60,581.00] y[687.40,701.90]; the form prints \"County:\" at x[354.96,386.26] y=690.60, on the widget's own line and 14.3pt to its left. The captured \"Location (Town\" is printed at y=675.48, the row below"
+    },
+    {
+      "document": "CR-218",
+      "field": "Location Town",
+      "capturedLabel": null,
+      "measuredLabel": "Location (Town):",
+      "measuredAt": "page 1 rect x[441.50,581.50] y[672.20,686.60]; the form prints \"Location (Town:)\" at x[354.96,403.59] y=675.48, on the widget's own line and to its left. The capture reached nothing"
+    },
+    {
+      "document": "CR-218",
+      "field": "Defendants DOB mmddyyyy",
+      "capturedLabel": "mm/dd/yyyy)",
+      "measuredLabel": "Defendant's DOB (mm/dd/yyyy):",
+      "measuredAt": "page 1 rect x[202.60,324.10] y[642.40,656.90]; the form prints the whole caption as one run at x[36.48,198.43] y=645.60, on the widget's own line and ending 4.2pt before it. The capture returned only its last eleven characters, which is why the printed order the field asks for is named explicitly in printedDateOrder rather than inferred from a fragment"
+    },
+    {
+      "document": "CR-218",
+      "field": "1 Defendant was convicted of the following crime of name of crime",
+      "capturedLabel": "1.Defendant was convicted of the following crime of (name of",
+      "measuredLabel": "1. Defendant was convicted of the following crime of (name of crime)",
+      "measuredAt": "page 1 rect x[401.20,576.10] y[526.70,541.20]; the form prints the whole sentence at x[54.00,398.69] y=528.00, on the widget's own line and ending 2.5pt before it. The capture cut it at 60 characters, which is CAPTION_MAX_CHARS in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+    },
+    {
+      "document": "CR-218",
+      "field": "on mmddyyyy",
+      "capturedLabel": "1.Defendant was c",
+      "measuredLabel": "on (mm/dd/yyyy)",
+      "measuredAt": "page 1 rect x[159.50,324.00] y[511.90,525.60]; the form's own content stream prints \"on (mm/dd/yyyy) . This crime is eligible for sealing under 15 M.R.S. §\" as one run beginning x=72.00 y=513.20, on the widget's own line and to its left. The captured string is the first 17 characters of \"1.Defendant was convicted of the following crime of (name of crime)\", printed at x[54.00,398.69] y=528.00 -- the line above"
+    },
+    {
+      "document": "CR-218",
+      "field": "undefined",
+      "capturedLabel": "\u0001y",
+      "measuredLabel": "Defendant's Signature",
+      "measuredAt": "page 1 rect x[324.00,580.70] y[229.30,243.80]; the form prints \"Defendant's Signature\" at x[329.40,455.53] y=217.10, directly beneath the widget. The captured \"\\u0001y\" is a stray two-glyph run at x[306.96,326.76] y=232.40"
+    },
+    {
+      "document": "CR-218",
+      "field": "Defendants Attorney and Maine Bar No",
+      "capturedLabel": null,
+      "measuredLabel": "Defendant's Attorney and Maine Bar No. (Having an attorney is not required for filing)",
+      "measuredAt": "page 1 rect x[31.40,252.10] y[195.20,209.80]; the form prints \"Defendant's Attorney and Maine Bar No.\" at x[35.76,263.85] y=181.70 and its parenthetical at x[35.76,294.47] y=168.00, both beneath the widget. The capture reached nothing"
+    },
+    {
+      "document": "CR-218",
+      "field": "1",
+      "capturedLabel": "(Having an attorney is not required fo r filing)",
+      "measuredLabel": "Defendant's Mailing Address",
+      "measuredAt": "page 1 rect x[324.00,580.70] y[180.10,194.60]; the form prints \"Defendant's Mailing Address\" at x[329.40,491.56] y=153.10, beneath this widget and the one below it, which are the two lines of that block. The captured attorney parenthetical is printed at x[35.76,294.47] y=168.00 -- a different column, ending 29.5pt to the left of this widget"
+    },
+    {
+      "document": "CR-218",
+      "field": "2",
+      "capturedLabel": "(Having an attorney is not required fo r filing)",
+      "measuredLabel": "Defendant's Mailing Address",
+      "measuredAt": "page 1 rect x[324.00,580.70] y[165.00,179.50]; the second line of the same block, captioned by the same printed run at x[329.40,491.56] y=153.10, on the same reasoning as the line above"
+    },
+    {
+      "document": "CR-218",
+      "field": "Text1",
+      "capturedLabel": "Location (Town",
+      "measuredLabel": "Docket No.:",
+      "measuredAt": "page 1 rect x[415.50,658.80,581.20,671.30] as (x0,y0,x1,y1) = x[415.50,581.20] y[658.80,671.30]; the form prints \"Docket No.:\" at x[354.96,388.08] y=660.24, on the widget's own line and 27.4pt to its left. The captured \"Location (Town\" is printed at x[354.96,403.59] y=675.48, the row above"
+    }
+  ]
+}

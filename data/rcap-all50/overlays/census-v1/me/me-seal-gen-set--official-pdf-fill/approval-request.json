@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "me-seal-gen-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "implementationStrategy": "official_pdf_fill",
+  "counselQuestionsRaised": [
+    "The court-for-filing election is left unmarked on the ground that § 2264(1) fixes the court by the participant's own case rather than by the route. Confirm.",
+    "CR-218 paragraph 3 is left to the participant with both readings set out, rather than being answered or the packet being withheld. Confirm that setting out the conflict is the right treatment.",
+    "The packet tells the participant that notice is understood to be the court's, to confirm at the counter and to offer a courtesy copy. The committed record holds this as a release blocker. Confirm the fail-closed wording.",
+    "The packet states that no fee is expected and explains why the $60 civil post-judgment figure does not reach this motion, and carries no fee-waiver form. Confirm.",
+    "The pinned CR-218 binary is encrypted and unreadable by the corpus toolchain; the build renders through a deterministic pikepdf decryption proved equivalent to the official binary and stops if the proof fails. Confirm that this transport treatment, rather than a source re-acquisition, is right for a Judicial Branch form.",
+    "The § 2264(7) post-grant self-reporting duty is carried in the participant instructions as the committed record directs. Confirm the wording, in particular the consequence that failing to request the hearing results in automatic unsealing.",
+    "No proposed order is included, on the committed record's ground that § 2264(5) requires the court to write its own and that none is published. Confirm."
+  ],
+  "mattersForTheReviewersAttention": [
+    "The pinned source is an ENCRYPTED PDF. The rendered pages come from a build-time pikepdf decryption of those exact bytes, proved equivalent page for page, field for field and content stream for content stream. Please check on the raster that the delivered page is the Judicial Branch's CR-218 Rev. 7/24 as published.",
+    "The word \"expungement\" must not appear in Maine participant copy except to say Maine does not have it. The build asserts this over its own guide and stops if it is breached; please confirm on reading.",
+    "CR-218 prints its captions BELOW the rules they caption. The field named \"undefined\" is the defendant's signature line and is left blank by design; the fields named \"1\" and \"2\" are the two lines of the mailing-address block and carry the participant's address.",
+    "Paragraphs 2 to 5 carry no field at all. Please check on the raster that no mark of any kind has been added beside any of them.",
+    "The three court-for-filing boxes are all unticked by design.",
+    "The date of birth is rendered mm/dd/yyyy because that is what the form prints beneath the blank; every other date on the form is the participant's.",
+    "The boundary fixture carries a 42-character street address, a 35-character name and a 22-character docket number on a one-page form with short rules. Nothing in this build shortens a value: a value that will not fit is refused whole and reported as unfittable. Please check on the raster that no value is clipped at a rule end.",
+    "participant-instructions.md prints the committed packet-set manifest's own requiredBeforeFiling list verbatim, with the record's SHA-256 beside it, plus its two-component table."
+  ]
+}
