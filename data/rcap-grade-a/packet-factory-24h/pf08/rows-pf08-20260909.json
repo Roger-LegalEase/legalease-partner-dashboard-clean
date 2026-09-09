@@ -399,6 +399,166 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "wv_nc_diversion_deferred-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "verdict": null,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "routeKeys": [
+        "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      ],
+      "jurisdiction": "WV",
+      "implementationStrategy": "official_pdf_fill",
+      "buildStatus": "official_forms_ingested",
+      "reviewStatus": "counsel_review_pending",
+      "builtBy": null,
+      "refusalRecordedBy": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+      "lane": "PF08",
+      "claim": "CLAIM_OK PF08 wv_nc_diversion_deferred-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "counters": null,
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "nineCountersZero": null,
+      "stopIsNotAboutCustody": "The one declared source binds byte-exact and the buildability measurement records EVERY_BOUND_SOURCE_IS_A_HELD_PDF. This family stops because the form that is held cannot carry the branch of the route this family is, not because the bytes are missing.",
+      "sourceCustody": {
+        "custodyIsSettled": true,
+        "sourceId": "official-form:SCA-C903",
+        "formNumber": "SCA-C903",
+        "revision": "REV-2010-04",
+        "pathInArchive": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "byteLength": 23275,
+        "custody": "master_library",
+        "boundBy": "exact_content_sha256",
+        "pageCount": 3,
+        "structuralClassInTheCommittedIndex": "unreadable",
+        "whatThatClassActuallyMeans": "the committed index records this binary as `unreadable` with a pdf-lib loadError. That is a property of the reader: the document is AES-256 encrypted (R6/V5) with an EMPTY user password, and it opens, with three US-Letter pages, no AcroForm and no annotations. It is a flat, encrypted PDF, not a corrupt one, and it is not why this family stops.",
+        "pdfLibLoadError": null,
+        "printedTextReadBy": "poppler pdftotext",
+        "printedTextReaderVersion": "24.02.0"
+      },
+      "allSourcesExact": true,
+      "measuredPrintedFace": {
+        "captionSaysReasonsOtherThanEntryOfAPlea": {
+          "present": true,
+          "occurrences": 5,
+          "printed": "MOTION FOR EXPUNGEMENT OF CRIMINAL RECORDS DUE TO ACQUITTAL OR DISMISSAL FOR REASONS OTHER THAN ENTRY OF A PLEA"
+        },
+        "paragraphFourSwearsTheDismissalWasNotForAPlea": {
+          "present": true,
+          "printed": "That 60 days have elapsed since the above referenced dismissal and that same dismissal was not in exchange for a guilty plea to another offense."
+        },
+        "noDiversionOrDeferredAdjudicationParagraph": {
+          "mentionsDiversion": false,
+          "mentionsDeferred": false
+        },
+        "noSameTransactionOrOccurrenceParagraph": {
+          "mentionsSameTransactionOrOccurrence": false
+        },
+        "chargeBlocks": 1,
+        "reasonForDismissalFreeTextLines": 1,
+        "recitedStatute": {
+          "citesTheTwoThousandText": true,
+          "printedRevision": "Rev. 04/2010"
+        }
+      },
+      "deliveryGateOfRecord": {
+        "routeKey": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+        "ruleId": "WV-61-11-25-SCA-C903-STALE-FORM",
+        "statute": "W. Va. Code § 61-11-25, as amended by H.B. 4399 (2024)",
+        "packetFamily": "West Virginia § 61-11-25 No-Conviction Expungement Petition",
+        "artifactApprovalRequired": true,
+        "requiredFacts": [
+          "Did the case end in acquittal, in dismissal, or in a dismissal following diversion or deferred adjudication?",
+          "Are there other charges arising from the same transaction or occurrence?",
+          "Which circuit court held the case?"
+        ],
+        "gate": {
+          "id": "wv_61_11_25_sca_c903_currency",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered petition and its hash",
+            "a current-law supplement covering what the published form omits",
+            "counsel's reading of whether SCA-C903 may be used at all for a deferred-adjudication dismissal"
+          ],
+          "owner": "RCAP packet factory, then artifact-level counsel review",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: SCA-C903 read at source 2026-08-06, revision date 04/01/2010",
+          "note": "Report dispositions ARTIFACT REVIEW STILL REQUIRED for both questions on this route, with a custom current-law civil petition preferred. SCA-C903 recites 'W. Va. Code § 61-11-25 (2000)' and is dated 04/01/2010, so it predates the 2010, 2012, 2022, 2023 and 2024 amendments including the H.B. 4399 text now in force. Its operative paragraphs still track current subsection (a) for a straight acquittal or dismissal, so it is usable there with a supplement. For a deferred-adjudication dismissal it is a different matter: the form is captioned 'for Reasons Other than Entry of a Plea', carries one charge block with a single free-text reason field, and has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph."
+        }
+      },
+      "mechanismOfRecord": {
+        "readFrom": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json ruleClauses",
+        "ruleClausesInspected": 139,
+        "deferredAdjudicationInvolvesAnEnteredPlea": "Deferred adjudication under 61-11-22a can last up to three years for a felony and up to two years for a misdemeanor. If the person complies with court-imposed terms, they may withdraw the guilty plea and the case is dismissed, or, if agreed by the parties and court, enter a plea to a lesser offense. Several violence, sex, child, strangulation, domestic battery, and household-member offenses are excluded or heavily restricted. (\"https://code.wvlegislature.gov/61-11-22A/\")",
+        "sameTransactionExtension": "A person whose charges were dismissed after successful completion of pretrial diversion under 61-11-22 or deferred adjudication under 61-11-22a may also petition for expungement of all charges originally brought if the charges arose from the same transaction or occurrence. (\"https://code.wvlegislature.gov/61-11-25/\")",
+        "bothClausesPresent": true
+      },
+      "failedSourceIdentities": [
+        {
+          "sourceIdentity": "official-form:SCA-C903",
+          "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+          "declaredSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+          "resolvedExactly": true,
+          "why": "SCA-C903 Rev. 04/2010 is captioned 'MOTION FOR EXPUNGEMENT OF CRIMINAL RECORDS DUE TO ACQUITTAL OR DISMISSAL FOR REASONS OTHER THAN ENTRY OF A PLEA' and recites 'W. Va. Code § 61-11-25 (2000)'. This family's route is the diversion and deferred-adjudication branch of § 61-11-25 as amended by H.B. 4399 (2024), and the compiled West Virginia profile states that a deferred adjudication under § 61-11-22a ends when the person 'may withdraw the guilty plea and the case is dismissed'. The form the participant would sign pro se therefore asserts in its own title that the dismissal was for reasons other than entry of a plea, in the one case where a plea is how it happened. The words 'diversion', 'deferred' and 'same transaction or occurrence' appear nowhere in the document, it carries one charge block and one free-text reason line, and the route's own required facts include whether other charges arose from the same transaction or occurrence."
+        }
+      ],
+      "componentsBuildable": [],
+      "componentsBlocked": [
+        "component:wv_nc_diversion_deferred-primary-filing-1",
+        "component:wv_nc_diversion_deferred-certificate-of-service-3"
+      ],
+      "declaredInstrumentWithNoBoundSource": {
+        "instrumentKind": "supplemental_pleading",
+        "namedInTheWorklistAs": "supplemental_pleading: wv_nc_diversion_deferred-supplemental-pleading-2",
+        "describedAs": "a current-law supplement covering what the published form omits",
+        "packetComponentDeclared": false,
+        "sourceBound": false,
+        "why": "MASTER_QUEUE declares four instrumentKinds for this family and two packetComponents. The supplemental pleading — the instrument the route contract says would answer for what SCA-C903 omits — is declared as an instrument kind and as a deliverable, has no packet component, and has no bound source of any kind."
+      },
+      "whyNoPartialBuild": "The blocked instrument is the primary filing itself. Filling the caption of a motion whose body this route cannot use would produce an artifact that looks finished and is not filable, and the certificate of service on page 3 certifies service OF that motion.",
+      "whatWouldUnblockIt": [
+        "counsel's reading, which the route contract's own delivery gate wv_61_11_25_sca_c903_currency already names as pending, that SCA-C903 may or may not be used for a deferred-adjudication dismissal; or",
+        "binding a source for the current-law supplemental pleading this family already declares as an instrument kind, so the packet can state the diversion or deferred-adjudication basis and the same-transaction-or-occurrence extension that the published form omits; or",
+        "an owner decision to build this family as the custom current-law civil petition the route contract's own note says is preferred, which is a custom_pleading strategy and not the official_pdf_fill this family is declared as; or",
+        "an owner decision to narrow this family to the straight acquittal-or-dismissal case, which is what wv_nc_acquittal_dismissal-set already is, and to retire this family rather than build it"
+      ],
+      "contradictionsFoundInTheRepository": [
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "legalInputStatus",
+          "says": "SETTLED",
+          "measured": "The LEGAL question is settled and the route contract says so in as many words — 'The legal answer is settled and the published form is stale; that is an artifact question, not a legal one, and it must not be sent to counsel as unresolved research.' The ARTIFACT question is not settled: the same route carries a pending artifact_legal_review gate whose items include counsel's reading of whether this form may be used at all here. The two are not in conflict, but a reader who takes legalInputStatus SETTLED as clearance to build will build the wrong thing."
+        },
+        {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "field": "sourceReadiness.custodyClass",
+          "says": "NO_ACQUISITION_TASK_NAMED",
+          "measured": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json records custodyClass null for this family with verdict EVERY_BOUND_SOURCE_IS_A_HELD_PDF. Both are consistent with the bytes being held; neither is a statement that the held form fits the route."
+        },
+        {
+          "record": "data/rcap-all50/local-source-corpus-index.json",
+          "field": "entries[].structuralClassObserved for SCA-C903",
+          "says": "unreadable",
+          "measured": "The document opens with an empty user password: three US-Letter pages, no AcroForm, no annotations. It is a flat encrypted PDF. Recording it as unreadable invites a later lane to stop on the wrong ground."
+        },
+        {
+          "record": "the route's requiredSourceIds",
+          "field": "source-sha256:242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035",
+          "says": "a second SCA-C903 binary, published at courtswv.gov in 2026-04",
+          "measured": "That digest resolves in custody, at LegalEase West Virginia/SCA-C-903.pdf: 2 pages, an AcroForm with 25 fields. It is NOT a newer revision — it prints 'Revised: 04/01/2010' and recites 'W. Va. Code § 61-11-25 (2000)' exactly as the bound binary does, and its five paragraphs are word-for-word the same. It is the same stale text re-typeset as a fillable form. Binding it instead would change nothing about why this family stops, and this build does not substitute it."
+        }
+      ],
+      "artifacts": [],
+      "rasterState": null,
+      "rasterStateIsNullBecause": "nothing was rendered, so there is no digest for the central raster workflow to bind to. BUILT_RASTER_PENDING would assert an artifact that does not exist.",
+      "rasterPages": 0,
+      "independentVerificationStatus": "NOT_APPLICABLE_NOTHING_WAS_BUILT",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
