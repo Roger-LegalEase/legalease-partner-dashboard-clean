@@ -2,7 +2,7 @@
 
 ## Route selected
 
-Motion to vacate and expunge eligible Illinois cannabis convictions. The misdemeanor/Class 4 classification and every case fact remain participant-supplied unless established by the certified record.
+Motion to vacate and expunge eligible Illinois cannabis convictions. The route asks the court for that relief and nothing more: the misdemeanor/Class 4 classification, the conviction date and whether the sentence and conditions are complete are the movant's own sworn facts, established from the certified disposition, and this packet leaves every one of them for the movant to make.
 
 ## Required before filing
 
@@ -18,6 +18,25 @@ The controlling record requires each of these before this packet is filed. They 
 - The movant signs the motion.
 - The source review does not state a separate cannabis motion fee. Treat county filing charges as county-specific and confirm with the clerk. ISP charges $60 to process a court order.
 - Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.
+
+## The printed elections this packet does not make for you
+
+This Motion asks the court for one thing, and the packet ticks that one box: item 4, "I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions." That is what this route is.
+
+Every other box printed on the Motion's face is a statement about YOUR record, sworn by you. This packet does not know those facts and does not tick them, and it will not swear to them on your behalf. Read each one against your certified disposition, then tick it yourself before you sign:
+
+- **1.a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5** (page 1)
+  The form prints beside item 1: "you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case." Which one describes your case is the offence class of your own conviction, which the registry collects as the required answer convictionClass and which this route does not settle: it serves misdemeanor and Class 4 felony cannabis convictions alike.
+- **1.b. Class 4 felony cannabis offense under 720 ILCS 550/4 or 720 ILCS 550/5** (page 1)
+  The same gate as 1.a, and the same reason. Tick 1.a and/or 1.b to match what your certified disposition says every listed case was.
+- **2. I was convicted before June 25, 2019** (page 1)
+  The date of your conviction is a fact of your own record, read off the certified disposition. This packet does not hold it and will not swear to it for you.
+- **3. I have completed the sentences or conditions imposed by the conviction in each of the cases listed** (page 1)
+  The record makes this a document to obtain before filing -- proof from the circuit clerk or probation department that the sentence and any conditions are complete -- and a point at which to stop and get help if it is disputed. Tick it only once that proof is in your hand.
+- **4. Cannabis Conviction (check the type of Cannabis conviction): Misdemeanor, or Class 4 Felony** (page 2)
+  The same classification as item 1, asked again per case. Tick Misdemeanor or Class 4 Felony for this case to match the certified disposition, and tick the same limb of item 1.
+
+Item 1 is a gate, not a formality: the form prints "you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case." If neither 1.a nor 1.b describes every case you have listed, this is not the right motion for that case -- stop and get help rather than filing it. Tick the same offence class in item 1 and in the item 4 table for each case; a motion that says misdemeanor in one place and Class 4 felony in the other contradicts itself on its face.
 
 Obtain a certified disposition for every cannabis conviction and compare the case number, arresting agency, arrest date, offense class and conviction date against it and against the Illinois State Police transcript. Correct the packet wherever they disagree. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.
 
@@ -38,6 +57,11 @@ Obtain a certified disposition for every cannabis conviction and compare the cas
 - Complete Case Number16 on CXP Motion to Vacate and Expunge page 1
 - Complete Case Number17 on CXP Motion to Vacate and Expunge page 1
 - Complete Case Number18 on CXP Motion to Vacate and Expunge page 1
+- Tick the printed election that matches your certified disposition: 1.a. Misdemeanor cannabis offenses under 720 ILCS 550/4 or 720 ILCS 550/5 (CXP Motion to Vacate and Expunge page 1)
+- Tick the printed election that matches your certified disposition: 1.b. Class 4 felony cannabis offense under 720 ILCS 550/4 or 720 ILCS 550/5 (CXP Motion to Vacate and Expunge page 1)
+- Tick the printed election that matches your certified disposition: 2. I was convicted before June 25, 2019 (CXP Motion to Vacate and Expunge page 1)
+- Tick the printed election that matches your certified disposition: 3. I have completed the sentences or conditions imposed by the conviction in each of the cases listed (CXP Motion to Vacate and Expunge page 1)
+- Tick the printed election that matches your certified disposition: 4. Cannabis Conviction (check the type of Cannabis conviction): Misdemeanor, or Class 4 Felony (CXP Motion to Vacate and Expunge page 2)
 - Complete 4 - Case Number2 on CXP Motion to Vacate and Expunge page 2
 - Complete 4 - Arresting Agency2 on CXP Motion to Vacate and Expunge page 2
 - Complete 4 - Date of Arrest2 on CXP Motion to Vacate and Expunge page 2

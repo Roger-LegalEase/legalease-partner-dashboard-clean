@@ -1,12 +1,37 @@
-# Illinois expungement or sealing packet - il-exp-qualprob-set
+# Illinois expungement packet - il-exp-qualprob-set
 
 ## Route selected
 
 Expungement after eligible qualified probation and the printed five-year condition, 20 ILCS 2630/5.2(b). Confirm from the certified disposition that the qualified probation ended successfully and that at least five years have passed. The Request answers item 1 Yes and item 12 No, elects Section 8, and records the outcome as QP, the printed expungement abbreviation for successfully completed Qualified Probation. This route carries no sealing authority, so Sections 13 to 24 stay wholly blank and the proposed Order's sealing half stays wholly blank.
 
+## What this packet asks for, and what it does not
+
+This is an expungement-only packet. On the Request, item 1 "I am requesting to expunge records" is answered Yes and item 12 "I am requesting to seal records" is answered No, which is what page 4 of the form directs a filer requesting only expungement to do. Because item 12 is No, Sections 13 to 23 are skipped and left blank, and the SEALING half of the proposed Order is left blank. Do not fill them in. If you also need records sealed, that is a different request on a different statutory ground and it needs its own packet.
+
 ## Required before filing
 
-Obtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition, confirm from the certified disposition that the qualified probation terminated successfully and that at least five years have passed since it ended, and resolve every mismatch before filing. Make the per-case expunge or seal election shown on the Request. Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
+The controlling record requires each of these before this packet is filed. They are printed here in the record's own words.
+
+- Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.
+- Check your answer to "Was the probation terminated satisfactorily?" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.
+- Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.
+- Check your answer to "Was the probation terminated satisfactorily?" against Certified disposition for each case, and correct the packet if they disagree.
+- Petitioner's signature and verification date — Request, verification block.
+- Expunge-versus-seal selection for each case — Case List, per-case election column.
+- Hearing date — Any notice issued after an objection.
+- The petitioner signs and verifies the Request. A wet signature is expected.
+- A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
+- Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
+
+Compare the ISP statewide transcript named above against every certified disposition, confirm from the certified disposition that the qualified probation terminated successfully and that at least five years have passed since it ended, and resolve every mismatch before filing. Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.
+
+### The Request is not signed for you
+
+The petitioner signs and verifies the Request. A wet signature is expected. The packet leaves the Request's verification block deliberately blank, and nothing else in this packet signs it. Sign and date that block yourself, in ink, after every item below is complete and you have checked it against your certified disposition and your Illinois State Police transcript. You verify this Request under 735 ILCS 5/1-109, where a statement you know to be false is perjury. A Request filed without your signature and verification is not a completed filing.
+
+### Every item this packet leaves for you
+
+Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
 
 - Complete arrest60 on EXP-AD Case List page 1
 - Complete arrest61 on EXP-AD Case List page 1
@@ -78,19 +103,27 @@ Obtain the ISP statewide transcript and certified dispositions for every arrest 
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
 
-## What this packet asks for, and what it does not
+Attach certified dispositions and any route-specific evidence identified above.
 
-This is an expungement-only packet. On the Request, item 1 "I am requesting to expunge records" is answered Yes and item 12 "I am requesting to seal records" is answered No, which is what page 4 of the form directs a filer requesting only expungement to do. Because item 12 is No, Sections 13 to 23 are skipped and left blank, and the SEALING half of the proposed Order is left blank. Do not fill them in. If you also need records sealed, that is a different request on a different statutory ground and it needs its own packet.
+## What it costs, and the waiver
 
-## Filing and notice
+A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.
 
-File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case.
+Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.
 
-**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.
+## Who serves, and how
 
-**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).
+The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.
 
-If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice.
+Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).
+
+If an objection results in a hearing, add the hearing date when the clerk or court supplies it and follow that notice. Do not complete court-owned service or order fields.
+
+## Where this is filed
+
+File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.
+
+The filing destination is the Circuit clerk of the county of arrest or charge. File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under § 5.2(d)(4).
 
 ## Stop and get help
 
