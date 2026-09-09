@@ -18,6 +18,86 @@ import { makeAgencyGuidanceFamily } from "./build-census-v1-agency-application-t
 const FAMILY_ID = "de_mandatory_expungement-set";
 const ROUTE_KEY = "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a";
 const OUT_DIR = "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill";
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const MEMO_PATH = "data/record-clearing/legal-design-intake/DE.memo.json";
+const TRACK_ID = "de_mandatory_expungement";
+
+/*
+ * The required-before-filing disclosure and the self-help stops are READ from
+ * the committed Delaware memo, not retyped here.
+ *
+ * Both were lost the same way. FIX54 restored the certified Delaware criminal
+ * history by hand into instructions[1]; ea96a068f rewrote that same string for
+ * an unrelated fee correction and the required document went out with it, with
+ * nothing left behind to notice. The self-help stops were never printed at all:
+ * this builder carried a three-paragraph PROSE PARAPHRASE of the record's nine
+ * conditions, and a paraphrase drops what it does not happen to mention. It
+ * said "prior or later convictions" and so never said what
+ * selfHelpStopConditions[2] says -- that a prior expungement GRANTED within ten
+ * years bars the route, which is a different fact from a conviction -- and it
+ * flattened selfHelpStopConditions[4], a Sec. 4201(c) or Beau Biden Act offence
+ * "where the only route is a pardon", down to the words "a violent felony",
+ * losing the pardon, the statute and the Act.
+ *
+ * No completeness counter can see either loss. The nine counters range over
+ * this family's twelve field-map rows and both defects are absent CONTENT
+ * rather than an unclassified blank, so verify-packet-completeness.mjs returns
+ * PASS_COMPLETE with or without them. Binding the text to the record is
+ * therefore the only protection that does not depend on somebody re-reading the
+ * memo by eye, and scripts/grade-a-packet-factory-24h/test-de-mandatory-expungement-record-disclosures.mjs
+ * asserts the binding held all the way into the delivered bytes.
+ *
+ * DE.memo.json is already a compositionSource, so it is hashed into
+ * source-receipt.json at build time and this text moves only when that hash
+ * moves.
+ */
+const MEMO_TRACK = (() => {
+  const memo = JSON.parse(fs.readFileSync(path.join(ROOT, MEMO_PATH), "utf8"));
+  const track = (memo.tracks ?? []).find((entry) => entry.trackId === TRACK_ID);
+  if (!track) throw new Error(`DE_MEMO_TRACK_ABSENT: ${TRACK_ID} is not in ${MEMO_PATH}`);
+  return track;
+})();
+
+const REQUIRED_BEFORE_FILING_DOCUMENTS = (MEMO_TRACK.supportingDocuments ?? [])
+  .filter((document) => document.requiredBeforeFiling === true);
+const REQUIRED_BEFORE_FILING_LIMITATION = (MEMO_TRACK.legalDesignDecision?.limitations ?? [])
+  .find((limitation) => limitation.classification === "required_before_filing");
+const FILING_RULE = MEMO_TRACK.rules?.filing;
+const SELF_HELP_STOP_CONDITIONS = MEMO_TRACK.selfHelpStopConditions ?? [];
+if (!REQUIRED_BEFORE_FILING_DOCUMENTS.length) throw new Error("DE_MEMO_DECLARES_NO_REQUIRED_BEFORE_FILING_DOCUMENT");
+if (!REQUIRED_BEFORE_FILING_LIMITATION) throw new Error("DE_MEMO_HAS_NO_REQUIRED_BEFORE_FILING_LIMITATION");
+if (!FILING_RULE) throw new Error("DE_MEMO_HAS_NO_FILING_RULE");
+if (!SELF_HELP_STOP_CONDITIONS.length) throw new Error("DE_MEMO_HAS_NO_SELF_HELP_STOP_CONDITIONS");
+
+/*
+ * The disclosure, in the record's own words.
+ *
+ * Every sentence below is either a quotation from DE.memo.json or a statement
+ * about what that record does and does not say. The one comparison it makes --
+ * that the service code the memo names for the certified history is the same
+ * string as the expungement enrolment code this guide states -- is a comparison of
+ * two literals both held in this repository, and it is immediately followed by
+ * the fact that the record does NOT settle whether those are one enrolment or
+ * two. Neither this builder nor this lane may settle it.
+ */
+const REQUIRED_BEFORE_FILING_DISCLOSURE = [
+  `Required before you use the agency process: obtain the ${REQUIRED_BEFORE_FILING_DOCUMENTS.map((document) => document.name).join(" and the ")}.`,
+  `The committed Delaware record states the requirement this way: "${REQUIRED_BEFORE_FILING_LIMITATION.statement}" and "${FILING_RULE}"`,
+  ...REQUIRED_BEFORE_FILING_DOCUMENTS.map((document) =>
+    `The same record states where to obtain the ${document.name} and how: it is obtained from ${document.obtainedFrom}, and "${document.howToObtain}"`),
+  "The service code the record names for the certified history, 27S23V, is the same code this guide states for the SBI expungement enrolment. The committed record does not state whether the certified history and the SBI expungement application are one enrolment or two, or whether one charge or two is due, so confirm with SBI what to order and what to pay before you enroll, pay, or send anything.",
+  "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree.",
+  "The 27S23V service-code sheet is retained in this repository by SHA-256, but no printed revision of it is established, so it is not evidence that the codes, amounts or instructions on it are current. Confirm the current instructions, codes and amounts with SBI before you enroll, pay, or send anything."
+].join(" ");
+
+/*
+ * The stops, verbatim. The nine are printed as the record states them, and the
+ * three route-boundary paragraphs this family already carried are kept beside
+ * them -- they say what the record does not, namely that an SBI denial or a
+ * referral to a court petition leaves this guidance-only route. Nothing is
+ * traded away for the restoration.
+ */
+const SELF_HELP_STOP_LINES = SELF_HELP_STOP_CONDITIONS.map((condition) => `- ${condition}`);
 
 const FAMILY = makeAgencyGuidanceFamily({
   familyId: FAMILY_ID,
@@ -70,6 +150,7 @@ const FAMILY = makeAgencyGuidanceFamily({
     {
       heading: "Exact SBI destination and next steps",
       paragraphs: [
+        REQUIRED_BEFORE_FILING_DISCLOSURE,
         "First ask SBI whether the automatic process has already reached your case. If you are applying through SBI, use its expungement enrollment service code 27S23V, not the personal-background-check code 27RVGT. The initial application fee is $72. Follow the registration instructions for your appointment or permitted mail-in option and identification. After review, SBI sends an eligibility notice. Only if SBI says you qualify for mandatory expungement, return the signed paperwork within 30 days after you receive it with a $75 money order payable to Delaware State Police. A notice directing discretionary relief leads to a different court process, not a court filing made with this guide.",
         "Source checked September 7, 2026: Delaware State Police, Obtaining a Certified Delaware Criminal History, https://dsp.delaware.gov/obtaining-a-certified-criminal-history/, and the linked official 27S23V service-code sheet. Enrollment is through the linked fingerprint service or by telephone at 1-866-761-8069. Bring valid, unexpired photo identification and any required name-linking document. Follow SBI's current directions before enrolling, paying or mailing anything; this guide does not supply a mailing address. The source page and sheet are retained by hash; no printed revision date is asserted for the sheet.",
         "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree.",
@@ -85,7 +166,9 @@ const FAMILY = makeAgencyGuidanceFamily({
       paragraphs: [
         "Stop and get help before taking another step if SBI says the case is not mandatory-eligible, directs you to a court petition, or the record does not clear after SBI's process. Those events leave this guidance-only route.",
         "Stop and get help if there is uncertainty about every charge in a case, waiting-period dates, prior or later convictions, pending charges, incarceration, probation or parole, unpaid fines, fees or restitution, or an offense involving domestic violence, a child, a vulnerable adult, a violent felony, or mixed traffic and nontraffic charges.",
-        "Stop and obtain appropriate legal advice if the goal is to attack the conviction rather than clear the record, or if immigration, firearms, professional licensing, a registry, or law-enforcement employment may be affected."
+        "Stop and obtain appropriate legal advice if the goal is to attack the conviction rather than clear the record, or if immigration, firearms, professional licensing, a registry, or law-enforcement employment may be affected.",
+        "The committed Delaware record states these stop conditions for this route. Each one is a reason to stop and get help before taking another step:",
+        ...SELF_HELP_STOP_LINES
       ]
     }
   ],
@@ -142,10 +225,15 @@ const FAMILY = makeAgencyGuidanceFamily({
   ],
   instructions: [
     "There is no checkout and nothing to file from this guide. Do not submit it to a court or agency. Contact the Delaware SBI Expungement Section at 302-739-5884 and use https://dsp.delaware.gov/expungements/ to confirm the current process.",
+    REQUIRED_BEFORE_FILING_DISCLOSURE,
     "Start by checking automatic-expungement status with SBI. If you use the SBI application process, enroll through its official fingerprint service using code 27S23V. Pay the initial $72 application charge and follow the registration and identification directions. Review your criminal-history and case information against the court records. If the resulting SBI notice finds you mandatory-eligible, return the signed paperwork within 30 days of receipt with a $75 money order payable to Delaware State Police. Otherwise, use the separate discretionary process identified by SBI. Code 27RVGT is for a personal-use report, not a substitute expungement application. Ask SBI before ordering any additional report. The current official process and enrollment sheet are retained with source hashes in this packet's source evidence; confirm current instructions before payment or submission.",
     "Have the listed record and case facts available. Ask whether the automatic process has reached the case. If SBI determines eligibility, wait for its letter and follow only the current instructions and any fee information SBI provides.",
     "SBI process costs: $72 initially, then a conditional $75 money order payable to Delaware State Police only when SBI finds mandatory eligibility and directs return of the paperwork. No separate court filing fee is added to this agency process. A discretionary court petition is a different route. Under 11 Del. C. Sec. 4372(l), certain unpaid fines or fees may require court waiver or conversion; stop and obtain legal help for that separate question rather than treating this guide as a court application.",
-    "Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a listed case fact is uncertain, or immigration, firearms, licensing, registry, or law-enforcement-employment consequences may be involved."
+    "Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a listed case fact is uncertain, or immigration, firearms, licensing, registry, or law-enforcement-employment consequences may be involved.",
+    "",
+    "The committed Delaware record states these stop conditions for this route. Each one is a reason to stop and get help before taking another step:",
+    "",
+    ...SELF_HELP_STOP_LINES
   ],
   buildFindings: [
     {
