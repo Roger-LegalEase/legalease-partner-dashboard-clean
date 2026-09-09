@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts } = require("pdf-lib");
+const { PDFDocument, PDFCheckBox, PDFTextField, StandardFonts, StandardFontEmbedder } = require("pdf-lib");
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INDEX_PATH = "data/rcap-all50/local-source-corpus-index.json";
 const WORKLIST_PATH = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
@@ -111,6 +111,7 @@ function pageOf(field, pages) {
  * they sit in rather than what they ask for.
  */
 const REQUIRED_LABELS = {
+  "CR-65:Text2": "Last four digits of your Social Security Number",
   "CR-65:COUNTY and it was given Court Case Number": "County where any previous expungement was filed",
   "CR-65:was     granted": "Court case number of any previous expungement",
   "C-10-CRIMINAL:undefined_2": "Your monthly gross income",
@@ -170,6 +171,29 @@ function requiredLabel(documentId, name, page) {
  */
 function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
+  /*
+   * CR-65 page 1 Text2 is the SOCIAL SECURITY NUMBER line, not a case number.
+   *
+   * /^text[1-7]$/ is a rule about the shape of an exported field name, and an
+   * official form does not name its fields after the facts they ask for. Six
+   * of these seven are the "Court Case Number (Assigned by Clerk)" caption box
+   * repeated down the pages; Text2 is the blank that follows the printed
+   * "XXX - XX -" on page 1, under the caption "(Social Security Number, Last
+   * four digits only)". This repository's own committed field census records
+   * it that way -- field-census.census-v1.json gives CR-65 Text2 the effective
+   * label "Social Security Number, last four digits only" -- and a 200 dpi
+   * raster of the delivered page shows the case number sitting on that line.
+   *
+   * So every one of these six Alabama packets swore, under penalty of perjury,
+   * that the petitioner's Social Security digits were CC-2024-000001.99. All
+   * nine counters read zero on it, because the field map called the write a
+   * case number and the counters take the field map as their authority.
+   *
+   * The platform does not hold anyone's Social Security number. It is not
+   * collected, it must not be guessed, and it therefore becomes a named blank
+   * the participant fills in before filing.
+   */
+  if (documentId === "CR-65" && key === "text2") return null;
   if (documentId === "CR-65" && /^text[1-7]$/.test(key)) return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "CR-65" && key === "county and it was given court case number") return null;
   if (documentId === "CR-65" && key === "telephone number_2") return null;
@@ -225,13 +249,49 @@ function attorneyField(documentId, name, page) {
  * allowed to be long, the widget's own limit is lifted and the type is set down
  * so the whole value fits inside the box.
  */
-function safeSet(field, value, { allowLong = false } = {}) {
+/*
+ * The second way a value gets shortened: the box, not the maxLength.
+ *
+ * Lifting the widget's maximum length was necessary and was not sufficient.
+ * None of the 216 fields on these two forms declares a maxLength at all, so the
+ * slice above never fired and the guessed "6pt if longer than 36 characters"
+ * was the only thing standing between a long value and the widget's own clip
+ * path. It was not enough. On the boundary fixture the case number
+ * CC-2024-000001.99 measured 72.48pt of Helvetica 8 inside CR-65 page 1 field
+ * Text2, whose appearance clips at 65.24pt, so all six Alabama families
+ * rendered that petition reading CC-2024-000001.9 -- a different case number,
+ * on a document sworn under penalty of perjury. Every one of the nine counters
+ * read zero throughout, because the value recorded in the field map was
+ * complete; only the ink was short.
+ *
+ * So the size is measured against the box the value is actually drawn in, with
+ * the same Helvetica metrics the appearance stream uses, and stepped down only
+ * as far as it has to go. A value that cannot be made to fit legibly fails the
+ * build instead of being drawn clipped, because a value a reader will misread
+ * is worse than a build that stops.
+ */
+const FONT_SIZE_LADDER = [8, 7, 6, 5];
+const HELVETICA_METRICS = StandardFontEmbedder.for(StandardFonts.Helvetica);
+
+function drawableWidthOf(field) {
+  const widget = field.acroField.getWidgets()[0];
+  if (!widget) return null;
+  // pdf-lib's generated appearance insets the clip path by 1pt on each side and
+  // starts the text 1pt in from the left edge, so this is what the reader sees.
+  return widget.getRectangle().width - 2;
+}
+
+function safeSet(field, value) {
   const max = typeof field.getMaxLength === "function" ? field.getMaxLength() : undefined;
-  if (allowLong && max && max < value.length) field.removeMaxLength();
-  const drawnText = allowLong ? value : (max ? value.slice(0, max) : value);
-  field.setFontSize(allowLong && value.length > 36 ? 6 : 8);
-  field.setText(drawnText);
-  return drawnText;
+  if (max && max < value.length) field.removeMaxLength();
+  const available = drawableWidthOf(field);
+  const size = available === null
+    ? 8
+    : FONT_SIZE_LADDER.find((candidate) => HELVETICA_METRICS.widthOfTextAtSize(value, candidate) <= available);
+  assert.ok(size, `value does not fit its box at ${FONT_SIZE_LADDER[FONT_SIZE_LADDER.length - 1]}pt and must not be drawn clipped: ${field.getName()} = ${value}`);
+  field.setFontSize(size);
+  field.setText(value);
+  return value;
 }
 
 async function fillDocument(source, fixtureName, fixture, config) {
@@ -261,7 +321,7 @@ async function fillDocument(source, fixtureName, fixture, config) {
     if (!(field instanceof PDFTextField)) continue;
     const known = knownValue(source.documentId, name, page, fixture);
     if (known && !protectedField(source.documentId, name, page)) {
-      const drawnText = safeSet(field, known[0], { allowLong: source.documentId === "CR-65" && name === "Printed Name of Petitioner" });
+      const drawnText = safeSet(field, known[0]);
       writes.push({ fieldId: id, fieldName: name, effectiveLabel: name, documentId: source.documentId, page, factId: known[1], drawnText });
     } else if (protectedField(source.documentId, name, page)) {
       refusals.push({ fieldId: id, fieldName: name, effectiveLabel: `Signature, court, or later-completion field: ${name}`, documentId: source.documentId, page, reason: "signature or date field; never prefilled", refusalClass: "signature_or_date_participant_completion", role: "protected" });
@@ -431,6 +491,7 @@ export function assertRepairInvariants(out) {
     "C-10-CRIMINAL:Employers Telephone Number",
     "C-10-CRIMINAL:MUNICIPALITY OF",
     "CR-65:COUNTY and it was given Court Case Number",
+    "CR-65:Text2",
     "CR-65:Telephone Number_2"
   ]) assert.ok(!written.has(forbidden), `semantically invalid write remains: ${forbidden}`);
 

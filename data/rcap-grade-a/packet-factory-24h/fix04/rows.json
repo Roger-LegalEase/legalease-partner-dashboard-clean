@@ -657,6 +657,188 @@
         "obligation:track-pathway:IL:il-exp-nonconv:adult-non-conviction-expungement"
       ],
       "firstExecutionEver": true
+    },
+    {
+      "itemId": "al-misd-conviction-set",
+      "lane": "FIX04",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateMeans": "This lane ran its own pdftoppm rasters to read the delivered pages. That is this builder's own check, not central acceptance. Central raster acceptance has not run on these bytes.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
+      "buildScriptNote": "shared Alabama host, reached through the three-line wrapper scripts/build-census-v1-al-misd-conviction-set.mjs",
+      "base": "2b5779953ded65b769064a35eb16243c955a38a0",
+      "branch": "al-six-rebuild-20260909",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 al-misd-conviction-set -> CLAIM_OK FIX04 al-misd-conviction-set (repair, grant set 09c0de5e1fad09ae), exit 0, asserted before any family content was read. The grant was NOT released and the claim ledger was NOT committed.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable, at al-six-rebuild-20260909 2b577995.",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family al-misd-conviction-set -> PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 2/2 source(s) bind by exact SHA-256 (custody_reconciliation).",
+      "standingVerdict": "FAIL_REPAIR_REQUIRED from vf04, verified at base 9c7e70ff0aae28c8a627c5a070b6b07202d9a780. That read predates FIX09's host repair 1b60b8a79 and predates this rebuild.",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "MEASURED CLEAR AS TO THE RECORDED FINDINGS, AND ONE NEW INSTANCE OF THE SAME CLASS WAS FOUND AND REPAIRED BY THIS LANE. participant.full_legal_name is no longer in 'Spouses Full Name if married', participant.phone is no longer in 'Employers Telephone Number', the filing county is no longer after 'MUNICIPALITY OF', and zero directions are written as held facts. The court case number was still being written onto the CR-65 page 1 Social Security line; that write is now refused.",
+        "REQUIRED_BEFORE_FILING": "MEASURED CLEAR. 58 required blanks, 0 opaque. The guide carries this track's own prerequisites from the bound record, including certified evidence that all court-ordered amounts with interest are satisfied.",
+        "ROUTE_OPTIONS": "MEASURED CLEAR. C-10-CRIMINAL:Check Box1.0 (the STATE OF ALABAMA caption branch) is written, C-10-CRIMINAL:COURT OF carries the filing county, and C-10-CRIMINAL:MUNICIPALITY OF is unwritten."
+      },
+      "whatFix09HadDone": "FIX09 repaired the shared Alabama host at the root in 1b60b8a79 and could not run it, because the CR-65 custody nationwide_recovery_pool_2026_09_02 was not mounted in that container. It is mounted here, so this lane could do what FIX09 could not: execute the repaired machinery and measure the bytes it produces.",
+      "sourcesRehashedByMe": {
+        "count": 2,
+        "allExact": true,
+        "method": "Both declared sources were resolved through data/rcap-all50/local-source-corpus-index.json with the repository's own makeCorpusEntryResolver, read, hashed by me, and compared against the digest the builder declares. Each was then loaded with pdf-lib for its page count and AcroForm field count, and checked for a %PDF header and a %%EOF trailer. Both matched.",
+        "sources": [
+          {
+            "documentId": "CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pages": 8,
+            "acroFields": 108,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "C-10-CRIMINAL",
+            "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+            "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+            "byteLength": 711433,
+            "pages": 3,
+            "acroFields": 108,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          }
+        ],
+        "pageInventory": "8 CR-65 pages plus 3 C-10-CRIMINAL pages = the 11-page packet. This is the inventory finding CHATB-AL-03 corrected the author handoff on, and it is what the sources measure here."
+      },
+      "canonicalSha256": "a161be5bf3924fdd86192a548e3ba78e9f7c929985f165370529fc91cc11e093",
+      "boundarySha256": "2457561dea9456de1bcabe9feb579ed1202db0048caccceb57c5ce8627ff00e9",
+      "canonicalByteLength": 906232,
+      "boundaryByteLength": 906473,
+      "pageCount": 11,
+      "priorDeliveredCanonicalSha256": "cb5ce94c56297469ffc63931234fd48f81e37aa2415f2fe93039792125d2dc3c",
+      "priorDeliveredBoundarySha256": "e6b6d470a9c3b65491db99d85f9ceca919d63653196bde0370831a67be75076c",
+      "deliveredBytesChangedByThisRun": true,
+      "rebuildAgainstTheRepairedHostBeforeThisLaneChangedAnything": {
+        "canonicalSha256": "7e8fa40e698070cb078beccdadf749e7a16c2a38271ad49fa152f1d247919d4c",
+        "boundarySha256": "c5ce17ee1749cd8f60f6ae3c666c7a592fe6b4f0cf0e937ce0fbbfdc6bf7ba9d",
+        "reproducedTheCommittedBytesExactly": false,
+        "whatThatMeans": "This family does run on the FIX09-repaired host, and rebuilding moved its bytes for the first time since that repair. The four writes FIX09 fixed at the root -- spouse name, employer telephone, MUNICIPALITY OF, the page-6 previous-expungement county -- disappeared from the delivered artifact here, along with the nine directions printed as held facts and the 45 opaque required-before-filing labels."
+      },
+      "newDefectsFoundByThisLane": [
+        {
+          "id": "AL6-01",
+          "obligation": "KNOWN_PREFILLS",
+          "severity": "wrong fact on a document sworn under penalty of perjury",
+          "where": "CR-65 page 1, AcroForm field Text2",
+          "printedContext": "The blank that follows the printed 'XXX - XX -' under the caption '(Social Security Number, Last four digits only)'.",
+          "observed": "The builder matched CR-65 text fields by the SHAPE of the exported name, /^Text[1-7]$/, and wrote matter.case_number into all of them. Six of those seven are the repeated 'Court Case Number (Assigned by Clerk)' caption box; Text2 is the Social Security line. So every one of these six Alabama families printed the court case number where the form asks for the petitioner's last four Social Security digits, and swore to it on page 6.",
+          "howItWasProven": "Three ways that do not depend on the builder's own field map. (1) The saved bytes: content streams decompressed, the source's own streams excluded by hash, every remaining show-text operator decoded with the matrix preceding it -- the case number decodes at the Text2 origin. (2) The repository's own committed field census, data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/field-census.census-v1.json, gives CR-65 Text2 the effectiveLabel 'Social Security Number, last four digits only' and Text3 'Court case number to be expunged'. (3) A 200 dpi pdftoppm raster of the delivered boundary page 1, read directly.",
+          "alreadyOnRecordIndependently": "Yes. Finding CHATB-AL-01 in data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-final-disposition.json states it for al-felony-dwop-set and al-felony-nonconviction-90-set. This lane found it independently and measured that it was true of all six, not two.",
+          "repair": "CR-65:Text2 is excluded from the case-number rule and returns null, so it is classified as a required-before-filing blank with the printed caption 'Last four digits of your Social Security Number'. The platform holds no Social Security number, so nothing is written there. The repair is added to the builders' own forbidden-write invariant so it cannot come back silently.",
+          "correctionFollowedExactly": "No digits are substituted, trimmed or derived from the case number; no identifier is invented; no full Social Security number is printed; the case number keeps its own field, CR-65 page 1 Text3, under the printed heading 'COURT CASE NUMBER TO BE EXPUNGED:'.",
+          "regressionAsked": "CHATB-AL-01 asks for a regression over distinct synthetic case-number and SSN-last-four values and a missing-last-four case. Only the missing-last-four case is reachable: the platform holds no Social Security fact at all, so the field is now unconditionally a refusal in both fixtures and there is no held value to vary. That is stated rather than dressed up as a passing test."
+        },
+        {
+          "id": "AL6-02",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "severity": "value drawn complete in the text layer and cut in the ink",
+          "where": "CR-65 page 1, the same field Text2, boundary fixture",
+          "observed": "'CC-2024-000001.99' measured 72.48pt of Helvetica 8; the widget's own appearance stream clips at x=1..66.236, leaving 65.24pt. The reader saw about 'CC-2024-000001.9'. The nine counters read zero throughout, because the value recorded in the field map was complete -- only the ink was short.",
+          "howItWasProven": "Measured from the saved bytes: the show-text operator decoded out of the flattened widget XObject, its advance width computed with the same Helvetica metrics the appearance stream uses, and compared against that XObject's own BBox and clip path. Confirmed against a 200 dpi raster before the repair.",
+          "alreadyOnRecordIndependently": "Yes. Finding CHATB-AL-02, same file, same two families. Measured here on all six.",
+          "repair": "safeSet now measures the value against the box it is actually drawn in and steps the size down 8/7/6/5, and asserts rather than drawing clipped ink if nothing fits. Fit or refuse; never truncate, and never let the widget do the truncating. No rectangle was revised.",
+          "noteOnOrder": "CHATB-AL-02 requires the semantic binding to be fixed first. Both repairs are in, and after AL6-01 nothing is written in that box at all, so the fit rule is now a standing guard rather than the thing holding this field together. Because no maxLength exists on any of the 216 fields and the only over-wide value was the one AL6-01 stopped writing, the fit rule changes no delivered byte at this base; it is kept because it is the safeguard that caught the defect."
+        }
+      ],
+      "openQuestionThisLaneDidNotDecide": {
+        "id": "AL6-03",
+        "obligation": "candidate PROTECTED_FIELDS / clerk-assignment",
+        "where": "CR-65 pages 1, 2, 3, 4, 5, 6 and 8 -- fields Text1, Text4, Text5, Text7 and Court Case Number, Court Case Number_2, Court Case Number_4",
+        "observed": "Each of those pages carries a caption box printed 'Court Case Number' with the sublabel '(Assigned by Clerk)'. The packet prefills all of them with the participant's underlying criminal case number. CR-65 page 7 carries the same box and this packet leaves it blank, because page 7 is blanket-protected -- so the packet is already inconsistent with itself about who owns that box. The form separately provides an explicit line 'COURT CASE NUMBER TO BE EXPUNGED:' for the underlying case, which is written and correct.",
+        "whyThisLaneDidNotChangeIt": "Deciding it means deciding whether that caption box is the expungement petition's own number, which a clerk assigns at filing and which the participant cannot know, or the underlying criminal case number. data/record-clearing/legal-design-intake/AL.memo.json establishes neither -- it contains no rule about the caption, the case number, or clerk assignment -- and this lane will not author a legal conclusion the held record does not carry, in either direction. Removing seven writes on a reading I cannot source would be as much an invention as leaving them.",
+        "whatIsNeededToDecideIt": "One line in the Alabama legal-design record, or counsel, saying which number belongs in the CR-65 caption box. If it is the clerk's, seven writes per family become required-before-filing blanks. This is reported so it cannot disappear, not repaired.",
+        "isStillPresentInTheDeliveredBytes": true
+      },
+      "provenFromTheSavedBytes": {
+        "method": "Not from the builder's field map. For each delivered PDF: every page's content streams were decompressed; each was hashed and excluded if it matched a content stream of one of the two source PDFs; the remaining builder-added streams were tokenized, their `Do` calls followed into the flattened widget XObjects, and every show-text operator decoded with the text and graphics matrices preceding it, carrying its device-space origin, font, size, render mode and fill colour.",
+        "sourceStreamsPreservedByteExact": true,
+        "sourceStreamsPreservedMeans": "On all 11 pages of both fixtures at least one content stream hashed identically to a stream of the official source, and the decoded builder-added ink accounts for the writes and nothing else. The official form's own ink was not rewritten.",
+        "showTextOperatorsDecoded": 37,
+        "declaredWrites": 37,
+        "showsEqualDeclaredWrites": true,
+        "whyThatMatters": "One decoded show-text operator per declared write, and no more, is the measurement that rules out source-authored default values: a default carried by the source form would have been flattened into ink too and would have decoded as an extra show with no declared write behind it. There were none, in either fixture, on any of the six families.",
+        "pagesWithNoBuilderInkAtAll": [
+          7,
+          11
+        ],
+        "pagesWithNoBuilderInkMeans": "Packet page 7 is CR-65 page 7, the Certificate of Service, and packet page 11 is C-10-CRIMINAL page 3, the judge's order. Neither carries a single byte of builder ink in either fixture. No certificate of mailing is completed before the mailing, no server signature, no service date or method, no judicial finding and no clerk act is fabricated.",
+        "invisibleWritesFoundInBytes": 0,
+        "invisibleWriteTest": "Every decoded show was checked for text render mode 3 or 7, for a white fill, and for a zero or negative effective size. None was found.",
+        "unexpectedValuesFoundInBytes": 0,
+        "unexpectedValueTest": "Every decoded string was matched against the closed set of values the fixture holds. Nothing else appears in the ink."
+      },
+      "determinismTwoRuns": {
+        "runsExecuted": 2,
+        "byteIdentical": true,
+        "method": "The builder was run, the whole family directory copied aside, the builder run again, and the two trees compared with diff -r. No file differed. This was done at each of the three stages: on the untouched FIX09-repaired machinery, after the fit-or-refuse repair, and after the Social Security repair.",
+        "note": "The builder stamps a fixed date, 2026-09-03T00:00:00.000Z, into every PDF's creation and modification date rather than a wall clock, which is why these digests are stable under a hash-bound receipt."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-conviction-set",
+        "result": "PASS_COMPLETE",
+        "allNineReportedNotJustTheFirst": true,
+        "noneOfTheseIsNull": "All nine were measurable in this container and all nine are reported as measured. None is a placeholder.",
+        "visualDefectsProvenance": "The verifier prints visualDefects 0, and on its own that number is worthless here: it printed 0 while the boundary packet was rendering a clipped, semantically wrong case number on the Social Security line. The 0 recorded above is this lane's own measurement, not the verifier's -- every show-text operator in both fixtures measured against its own clip box for overflow, against render mode and fill for invisibility, and the decisive pages read off 200 dpi pdftoppm rasters. It is still a builder's measurement of its own output and it decides nothing.",
+        "whatTheseCountersDoNotSee": "The same blind spot FIX09 recorded, confirmed again here: all nine read zero on the faulted bytes and all nine read zero on the repaired bytes. They accept the field map as their classification authority, so they can ask whether a write happened but never whether it was true, and they cannot see ink cut off by a widget's clip path. Every defect that mattered in this row was found by decoding the saved bytes and by looking at rendered pages."
+      },
+      "pagesInspected": [
+        "Boundary CR-65 page 1 at 200 dpi, before and after the repair, cropped to the 'XXX - XX - ___ (Social Security Number, Last four digits only)' line and the 'COURT CASE NUMBER TO BE EXPUNGED:' line beneath it. Before: the case number sits on the Social Security line, visibly cut. After: the Social Security line is blank and the case number sits only on its own line, complete.",
+        "Boundary CR-65 page 6 at 200 dpi, the whole page. The prior-expungement group is entirely blank and neither prior-application box is selected; Signature of Petitioner/Affiant is blank; the notary block, its date and the 'Sworn to and subscribed before me this ___ day of ___' line are blank; the entire attorney column -- name and bar number, signature, business address, city, state, zip, telephone and e-mail -- is blank; and 'Printed Name of Petitioner' reads 'Alexandria Catherine Montgomery-Washington' in full, not the truncation an earlier verdict saw.",
+        "Boundary CR-65 page 7 at 200 dpi, the whole page. The Certificate of Service is completely blank: no recipient box ticked, no date of service, no agent, no service address, no telephone, no method, no DATED line, no server signature or address. A certificate of mailing completed before the mailing would be false, and none is completed.",
+        "Boundary CR-65 pages 2, 3 and 4 at 200 dpi, cropped to the caption box, which is what established the '(Assigned by Clerk)' sublabel recorded under openQuestionThisLaneDidNotDecide.",
+        "All rasters were written under the session scratchpad and deleted; none was committed."
+      ],
+      "rasterMethod": "pdftoppm 24.02.0 at 200 dpi, the rasterizer the build hosts call. node scripts/verify-packet-build-environment.mjs --require-rasterizer reports build_time_rasterizer_available ok and page_rasterizer_available ok, and browser_environment_exported FAIL because RCAP_CHROMIUM_PATH is not exported in this container; pdftoppm needs neither.",
+      "whatChanged": [
+        "The delivered bytes moved for this family. Canonical cb5ce94c5629 -> a161be5bf392; boundary e6b6d470a9c3 -> 2457561dea94.",
+        "Two defects were repaired at the root rather than per family: the Social Security write (AL6-01) and the fit-or-refuse rule (AL6-02). Both defects were byte-identical across all six families, and the same two edits were made in all three Alabama builders -- the shared host and the two forks -- so that no family is knowingly left with a defect its siblings had fixed.",
+        "product-wiring.json was regenerated for this family with scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family al-misd-conviction-set, because rebuilding left it naming the previous canonical digest. A record that names a digest the artifact no longer has is a record contradicting its artifact.",
+        "No verdict was set, edited or cleared by this lane. No claim was released. No safeguard was weakened, no counter was hardcoded, and no route was opened.",
+        "Nothing outside the six granted family directories and the three Alabama builder scripts was modified."
+      ],
+      "whatThisRowDoesNotDischarge": [
+        "This lane built these bytes, so it does not verify them. Every measurement above is a builder's report on its own output. An independent lane that neither built nor repaired this family decides.",
+        "AL6-03, the '(Assigned by Clerk)' caption box, is still present in the delivered bytes and is not repaired. It is a live open question, not a cleared one.",
+        "The 58 required-before-filing refusals are declared and disclosed, not discharged. No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment, judicial finding, professional adoption or review approval was fabricated anywhere in this packet.",
+        "Central raster acceptance has not run on these bytes. The rasters this lane ran are its own reading, at 200 dpi, of the pages named above; pages not named were not read.",
+        "The builders' own --check invariants pass on all six, and a builder's self-test is the builder agreeing with itself.",
+        "The custody that carries CR-65, nationwide_recovery_pool_2026_09_02, is a partial recovery pool. It held every byte these six families needed. That is all it proves."
+      ],
+      "routeKeys": [
+        "obligation:track-pathway:AL:al-misd-conviction:eligible-conviction-expungement-under-the-redeemer-act"
+      ],
+      "builderInvariants": "node scripts/build-census-v1-al-misd-conviction-set.mjs --check -> \"al-misd-conviction-set: repair invariants PASS\"",
+      "memoDigestBound": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "grantsNothing": "This row opens no route, promotes no status, proves no packet and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one."
     }
   ],
   "currentDispatchAppend": {
