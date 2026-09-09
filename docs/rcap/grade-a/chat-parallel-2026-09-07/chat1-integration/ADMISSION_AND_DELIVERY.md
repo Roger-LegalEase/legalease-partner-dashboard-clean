@@ -1,3 +1,118 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T16:00Z -->
+# Captain checkpoint — 202/346; the raster transport is closed and the seven are with their readers
+
+Only the changed facts. Every earlier block below stays true of the moment it
+describes.
+
+## Published admissions this execution
+
+**Run `34364359375`, seven families, admitted seven, refused none.** The
+receipts arrived as a 10,020-byte `tar.xz` recovered outside this session; its
+declared SHA-256 `6f41ec5f…` was verified before extraction and again by the
+importer's own bundle-digest check. Each family went through the existing
+bundle-directory path of `admit-completed-fixture-raster.py` against current
+packet bytes and the immutable packet commit
+`159c0b5cf25e10a7fad6a7defb60bd6692e52480`, with the run and job identities read
+here from the Actions API rather than from the bundle: run completed
+successfully on the raster acceptance workflow, and all nine jobs — canary,
+matrix and seven families — concluded success. Fourteen controls per family plus
+four harness controls were exercised and rejected on every one. Nothing was
+rerendered.
+
+    az_certificate_second_chance-set      ma-seal-decrim-set
+    hi_nonconviction_expungement-set      me-seal-gen-set
+    la-985-expungement-by-redaction-set   nc_145_5_misdemeanor-set
+    ma-seal-admin-set
+
+Sixty page measurements over fourteen PDFs. Every image records
+`viewportDimensionsCheckedAgainstASecondSource: false`: the verdict records the
+paper rectangle rather than the viewport, and this session did not read the PNG
+bytes. Byte length and SHA-256 are still cross-checked between the verdict and
+the published inventory, which are two independently published records.
+
+**The raster queue is 215 of 216 RASTER_PASS.** The one row still pending is
+`pa_pardon_expungement-set`, refused for cause, and it is now joined by a second
+family with the same shape — see the full-set entry in `UNCONSUMED_REPAIRS.md`.
+
+## Exact gains and losses
+
+**Terminal is 202 of 346, unchanged.** That is the honest reading: a raster
+receipt is not a verdict. What the admissions bought is the next state.
+
+    SOURCE_READY          57 -> 55
+    BUILT_RASTER_PENDING   5 -> 7    fl-self-defense-set, ne-seal-pre2017-set
+    VERIFY_PENDING         0 -> 7    the seven admitted above
+    COMPLETE_PACKET_PROVEN     185   unchanged
+    GUIDANCE_READY 10 · HANDOFF_READY 2 · OUT_OF_SCOPE 5
+
+All seven VERIFY_PENDING families hold a live independent-verification grant —
+VF01 through VF07 — so the next terminal movement comes from their returns, not
+from another gate run. No new claim was minted for them; they were already
+granted.
+
+PF09 returned three rows: `ne-seal-pre2017-set` and `fl-self-defense-set` built
+and `mo-610-122-arrest-expungement-set` stopped BLOCKED_SOURCE on
+`official-form:CR143`, which PF09 resolved by hashing every file under every
+mounted root and found nowhere by content. Both builds needed the completeness
+matrix rewritten before the state machine could see them; without a completeness
+entry a family sits at SOURCE_READY with its packets on disk.
+`fl-self-defense-set` entered the raster queue as an ordinary two-fixture row and
+run `34373388204` was dispatched for it at commit `113305fa1…`.
+
+## Shared test defects fixed on the path to that acceptance
+
+**`[L9]` had stopped catching its own mutation, and CI was red on
+`lane_mutations` for it.** The check scored the union of every uppercase token in
+a whole lane return, so one row that scored all fifteen obligations vouched for
+every other row in the file. VF16 is that shape exactly: five Washington rows
+naming six obligations and one later Mississippi row naming all fifteen.
+Appending the sixth row made the five partial ones unreadable. The reading is now
+per row. That alone would have failed VF04, VF05 and VF06, which key their
+obligation tables `ROUTE IDENTITY`, `FEE AND WAIVER`, `SELF-HELP STOP` — so an
+obligation is now recognised by its name with space, underscore or hyphen
+between the words. Measured: 371 PASS rows, 0 flagged; the mutation flagged with
+9 unscored obligations. 24 of 24 mutation cases caught, 9 of 9 lane contracts,
+37 of 37 factory checks.
+
+**The Track 1 de-dup verifier was reading a deliberate route closure as a
+regression.** It reported `OR resultCode changed from packet_ready_with_caution
+to guidance_only`. Oregon did not regress: owner delivery-type decision
+`OWN-DT-2026-09-02-Q1` and the held_guidance route ratification closed
+`or_conviction_setaside-set` to guidance for this release. Making it pass by
+reopening Oregon would reverse an owner decision and open payment on a held
+route, so the comparison is directional instead — a difference is tolerated only
+when it strictly narrows AND the compiled profile itself declares the closure.
+Both negative controls fire: withhold the closure and the same narrowing fails
+again; widen from `guidance_only` to `packet_ready_with_caution` and both
+assertions fail.
+
+## Still needing Roger
+
+1. **A screening-parity approval pins a proof script that has since changed.**
+   `public-profile-lifecycle-validation-2026-08-26` pins
+   `scripts/verify-screening-verification-finetune.mjs` at `903b1b6e…`; commit
+   `b680a4e4d`, Roger's own "Repair sponsored Mississippi Preview finalization"
+   of 2026-09-03, moved it to `cdafceeb…` without re-signing. Re-signing asserts
+   an approver read the new script, which nobody did, so this is not mine to do.
+   It stops `npm test` at step 15 of 253 and would be red on any pull request to
+   `main`.
+2. **The full-set raster.** Two families now deliver more than two PDFs and the
+   batch workflow renders exactly two. Closing it is a workflow change on `main`.
+3. **AL6-03 Alabama CR-65 caption box** (3 families) and **Delaware
+   COMPONENT_SET** stand where they did.
+
+## One thing I did to myself, recorded
+
+I ran the 253-step test list in the integration worktree and interrupted it. One
+of those steps is a SQL mutation suite; the kill left
+`supabase/phase-53-rcap-consumer-job-binding.sql` with its sponsored-job binding
+guard replaced by `null;`. I caught it in `git status` before staging anything
+and restored the file from HEAD. Nothing was committed. Mutation-bearing suites
+belong in `/home/user/v9b-worktree`, which is where the lane-contract mutations
+were run.
+
+---
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T13:00Z -->
 # Captain checkpoint — 194/346; seven families passed the visual gate and cannot be admitted from here
 

@@ -1,3 +1,66 @@
+# A screening-parity approval pins a proof script that has since changed, and only Roger can re-sign it
+
+**Measured 2026-09-09.** `npm test` on this branch dies at
+`scripts/verify-expungement-plain-language-values.mjs` with:
+
+> screening parity approval is malformed:
+> `public-profile-lifecycle-validation-2026-08-26` proof
+> `scripts/verify-screening-verification-finetune.mjs` hashes to
+> `cdafceeb98c2e1df10f42a576f723c76d2c9ba2410a8587964d83cfcf7cf1bbd`, not
+> `903b1b6e61605b7e732e1754086c4496968cd95e96648ca8dbbb48bb93954642`
+
+The control is working. `data/expungement-ai/screening-parity-approved-deltas.json`
+records an approval over an exact proof script, and the script changed under it.
+
+**What changed it.** Commit `b680a4e4dd92e7422bc7030aa2189026929782a1`, "Repair
+sponsored Mississippi Preview finalization", authored by Roger-LegalEase on
+2026-09-03. It extended the proof's complete-packet fixture answers — court
+name, prosecuting authority, MCIC identifier delivery method, exhibit statuses
+and about thirty more — and did not re-sign the approval that pins the file.
+`b680a4e4d~1` still hashes to the pinned value, so the divergence is that one
+commit and nothing else. Neither the script nor the approval file exists on
+`origin/main`; this is entirely branch-local work in progress.
+
+**Why I did not fix it.** Editing `proofSha256` in an approval record asserts
+that an approver read the new script. Nobody did. An earlier agent reached
+exactly this point and reverted rather than re-sign — commit `31c5e63dd`,
+"Revert the pinned-proof edit; that fix needs an authorization I cannot grant" —
+and `6eab68fcf` shows the legitimate route, "one authorized proof re-signed".
+
+**What is needed, and from whom.** Roger, as the author of the change: either
+re-authorize `public-profile-lifecycle-validation-2026-08-26` over the new proof
+hash `cdafceeb…`, or say the fixture extension should come out. It is a
+one-line record change once the authorization exists. Until then `npm test` on
+this branch stops at step 15 of 253, which also means the RCAP All50 Handoff
+check would be red on any pull request to `main`.
+
+---
+
+# Two families now need a full-set raster the batch workflow cannot give them
+
+**Measured 2026-09-09.** `.github/workflows/rcap-packet-raster-acceptance-batch.yml`
+renders exactly two fixtures per family, `canonical` and `boundary`, and the
+importer refuses anything else — correctly, since a receipt over two of six
+delivered PDFs is not a family verdict.
+
+Two families deliver more than two:
+
+- `pa_pardon_expungement-set` — six delivered PDFs against a two-PDF receipt.
+  Its raster receipt was refused for cause on 2026-09-09 and it is the one row
+  in the raster queue still `RASTER_PENDING`, at 215 of 216.
+- `ne-seal-pre2017-set` — PF09 returned it on 2026-09-09 with six packets, three
+  route variants each rendered canonical and boundary. It reached
+  `BUILT_RASTER_PENDING` and `generate-raster-queue` did not enrol it.
+
+Neither is a defect in the packets. Both are the same missing capability, and it
+is now blocking two families rather than one. Closing it means a workflow change
+on `main` — a full-set variant that renders every declared deliverable and a
+receipt shape the importer will accept over more than two documents. That is a
+pull request to `main`, which nobody has asked for, so this is recorded rather
+than opened.
+
+---
+
 # The border scan's /MK /BC precondition was wrong, and there are TWO ways a square gets stamped
 
 **Measured 2026-09-09.** This closes the disagreement I recorded earlier today
