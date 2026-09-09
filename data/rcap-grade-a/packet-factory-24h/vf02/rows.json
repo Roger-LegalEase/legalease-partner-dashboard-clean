@@ -17307,6 +17307,278 @@
         "The composed pages transliterate the section sign to \"Sec.\" throughout; participant-instructions.md carries the literal section sign. Consistent, unambiguous and legible, so the fee, self-help-stop and record-prerequisite quotations are word-for-word apart from that one substitution."
       ],
       "repairAssignmentId": null
+    },
+    {
+      "itemId": "ri_deferred_sentence-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "verifier": "VF02 independent-verification reader of the four Rhode Island families after FIX120 and central raster run 34297296663; built and repaired nothing in this family",
+      "verifiedAtBase": "0cc3c9b5c",
+      "branch": "vf-ri-four-read",
+      "claim": "CLAIM_OK VF02 ri_deferred_sentence-set (independent-verification, grant set 6ec0e973623a7b0e)",
+      "canonicalSha256": "5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731",
+      "boundarySha256": "f5a6cb91d3915bb10b00aaa3fd7476fdde0e1838745bcd4ef46bdcb984d9e8d2",
+      "digestsConfirmedFirst": "YES. sha256sum over the family's fixtures/ was the first read of this family, before any record, report or page. Both digests match the RASTER_QUEUE rasterReceipt pair and the FIX120 row.",
+      "byteLengths": {
+        "canonical": 308652,
+        "boundary": 308842,
+        "measuredBy": "stat on the bytes on disk in this worktree"
+      },
+      "pageCountsRecomputed": {
+        "canonical": 14,
+        "boundary": 14,
+        "method": "pdf-lib 1.17.1 loaded from the bytes on disk",
+        "claimedByRasterQueue": 14,
+        "claimedByFix120": 14,
+        "claimedByRenderedArtifacts": 14,
+        "atBaseBeforeRepair": 14,
+        "agreement": "agree; this family's page count did not move in the repair, as FIX120 recorded"
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ri_deferred_sentence-set",
+        "runOnce": true,
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable (exit 1)",
+        "failuresVerbatim": [
+          "FAIL  private_is_git_ignored                 private/ is NOT git-ignored",
+          "FAIL  corpus_matches_committed_index         1 absent, 0 mismatched of 24 sampled"
+        ],
+        "passesThatMatterHereVerbatim": [
+          "  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+          "  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions",
+          "  ok  worktree_clean                         clean",
+          "  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear"
+        ],
+        "whatThisReaderFoundOnInspection": "Neither failure was worked around and neither touches Rhode Island. private/ in this worktree is the READ-ONLY SYMLINK the assignment required, so `git check-ignore` cannot descend it and the check reads not-ignored; `git ls-files private/` is empty. The corpus sample gap is one Alabama form. This reader separately hashed the mounted Master Library's Rhode Island tree first-hand and both Rhode Island binaries resolve by exact content there: Superior-55 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca and DC-33 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908. The preflight failure is reported, not suppressed, and is not treated as a bar on these four families.",
+        "reportedNotSuppressed": true
+      },
+      "egressAttemptedHere": [
+        {
+          "url": "https://riag.ri.gov/i-want/get-background-check",
+          "attemptedBy": "this reader",
+          "resultVerbatim": "curl: (56) CONNECT tunnel failed, response 403",
+          "proxyNote": "riag.ri.gov:443 - connect_rejected (the egress proxy denied the CONNECT (organization policy) or could not reach the destination)"
+        },
+        {
+          "url": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm",
+          "attemptedBy": "this reader",
+          "resultVerbatim": "curl: (56) CONNECT tunnel failed, response 403",
+          "proxyNote": "webserver.rilegislature.gov:443 - connect_rejected (the egress proxy denied the CONNECT (organization policy) or could not reach the destination)"
+        },
+        {
+          "url": "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+          "attemptedBy": "this reader",
+          "resultVerbatim": "curl: (56) CONNECT tunnel failed, response 403",
+          "proxyNote": "www.courts.ri.gov:443 - connect_rejected (the egress proxy denied the CONNECT (organization policy) or could not reach the destination)"
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set, run by this reader in this worktree: PASS_COMPLETE, 13/129 written, all nine counters zero.",
+      "rasterState": "RASTER_PASS",
+      "rasterStateBinding": {
+        "boundHow": "The RASTER_QUEUE row's rasterReceipt binds boundToCanonicalSha256 and boundToBoundarySha256, and both equal the bytes this reader hashed on disk BEFORE any other read of the family. The receipt also pins renderedCommitSha 25fb6a47e25717975b4953cb4924a164c181d4ec and workflowRunId 34297296663.",
+        "jobId": "102297334375",
+        "workflowRunId": "34297296663",
+        "renderedCommitSha": "25fb6a47e25717975b4953cb4924a164c181d4ec",
+        "canaryPrecondition": "canary job 102296585467 passed with its live negative controls in the same run; the family matrix depends on it, so no family verdict exists without it",
+        "receiptArtifactsNotDownloadedHere": "The receipt itself records that the PNG receipts were not downloaded, because the artifact download redirects to blob storage the egress proxy denies. This reader did not download them either and does not treat the central PNGs as read. The binding this reader verified is the digest pair on disk against the receipt's pinned pair, plus the recomputed page count.",
+        "documentsNotCoveredVsWhatThisGateDidNotRender": "Both fields are present on this row's live rasterReceipt and they answer two different questions. documentsNotCovered is [] - no canonical document the gate was asked for went unrendered. whatThisGateDidNotRender is ['boundary.pdf'] - a declared, hash-bound fixture the gate never renders by design. coverage.notRastered [] and coverage.notRenderedByThisGate ['boundary.pdf'] mirror the same split. No record in this family confuses the two: no file under the family directory carries either field, and product-wiring.json's acceptanceReceipt carries neither rather than conflating them.",
+        "supersededReceiptNote": "The four supersededReceipts on this row carry whatThisGateDidNotRender [] alongside documentsNotCovered [], because they predate the field. That is an older schema, not a live confusion of the two questions; the live receipt is correct.",
+        "buildStatusDisagreement": "build-status.json for this family still reads rasterState BUILT_RASTER_PENDING with rasterPages 0 and 'rasterEngine: not rendered in this run'. That is the builder's own record of the build, which did not raster, and it understates rather than overstates the current state; the live raster state is carried by RASTER_QUEUE and product-wiring."
+      },
+      "sourceResolution": {
+        "method": "Each source was classified here as FETCHED_HERE, HELD_BYTES_READ_HERE or RELAYED_FROM_REVIEW. This reader attempted all three Rhode Island hosts itself and records the exact refusals above. No relayed reading is presented as this reader's own fetch.",
+        "sources": [
+          {
+            "id": "official-form:Superior-55",
+            "resolution": "HELD_BYTES_READ_HERE",
+            "detail": "sha256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca, hashed first-hand by this reader at STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__...__REV-2025-02__EN.pdf in the mounted Master Library; the printed instruction and affidavit pages were read in the packet at 300 dpi."
+          },
+          {
+            "id": "official-form:DC-33",
+            "resolution": "HELD_BYTES_READ_HERE",
+            "detail": "sha256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, hashed first-hand by this reader in the same tree; Part Three A/B and the affidavit page were read at 300 dpi."
+          },
+          {
+            "id": "official-form:SUPERIOR-27 (corroborating)",
+            "resolution": "HELD_BYTES_READ_HERE",
+            "detail": "sha256 6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119, REV-2025-07. Its existence in the held tree independently corroborates the packet's statement that Rhode Island publishes a separate Superior Court misdemeanor form. No packet binds it."
+          },
+          {
+            "id": "RI-S1 / RI-S2 / RI-S5 (R.I. Gen. Laws 12-1.3-2, 12-1.3-3, 12-19-19(c))",
+            "resolution": "RELAYED_FROM_REVIEW",
+            "detail": "webserver.rilegislature.gov was attempted by this reader and refused: 'curl: (56) CONNECT tunnel failed, response 403'. Every statutory reading in this row is the 2026-09-07 reviewer's, relayed, and is labelled as such in the packet and in the family source-receipt."
+          },
+          {
+            "id": "RI-S3 (Superior Court expungement FAQ)",
+            "resolution": "RELAYED_FROM_REVIEW",
+            "detail": "courts.ri.gov was attempted by this reader and refused with the same 403. The packet's fee section names the FAQ, names the court that gave the answer, and states that this build did not fetch the page."
+          },
+          {
+            "id": "RI-S4 (RI Attorney General, get-background-check)",
+            "resolution": "RELAYED_FROM_REVIEW",
+            "detail": "riag.ri.gov was attempted by this reader and refused with the same 403. The packet's BCI block names the page, states THIS BUILD DID NOT FETCH IT, and tells the participant to read it before going."
+          },
+          {
+            "id": "review record CHATB20260907",
+            "resolution": "READ_IN_FULL_HERE",
+            "detail": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json read in full in this worktree, all seven RI-B findings and all seven RI-S sources."
+          },
+          {
+            "id": "FIX120 rows",
+            "resolution": "READ_IN_FULL_HERE",
+            "detail": "data/rcap-grade-a/packet-factory-24h/fix120/rows.json read in full in this worktree, all four rows and every document-level section."
+          }
+        ],
+        "postureVerdict": "The lane's declared source posture is accurate. Every statutory, FAQ and agency-page reading in these four packets is labelled RELAYED and no reading is presented as a first-hand fetch that was not one. This reader's own three fetch attempts were refused identically, which corroborates rather than merely accepts FIX120's account."
+      },
+      "howTheSweepWasProvedSensitive": {
+        "counterCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run by this reader in this worktree",
+        "sensitivityProof": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --mutations, run by this reader in this worktree: 'OK completeness mutations - 20 case(s), every injected defect caught and the accepted path proved reachable.' Twenty injected defects were each detected, including a protected write, an invisible field value, an unintended graphic outside every write box, an incomplete offence row, a missing route checkbox and a missing companion form; two CONTROL cases were correctly accepted; and the harness reported 'every mutated file restored byte-for-byte: true'. `git status --porcelain` was empty afterwards and the deferred canonical still hashed 5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731.",
+        "sensitivityLimit": "The mutation harness samples the first audited family that carries a top-level writes[]/refusals[] field map, which is al-diversion-set, not a Rhode Island family. It proves the sweep detects these defect classes at this head; it does not prove it on Rhode Island bytes specifically. A direct negative control on a Rhode Island fixture was attempted and REFUSED by this container's permission classifier (mutating a committed fixture), and the refusal was not worked around.",
+        "refusalProbe": "node ... --family ri_does_not_exist-set returned 'REFUSED: --family ri_does_not_exist-set matches no auditable family. 252 are auditable at this head.', so the tool refuses an unknown family rather than passing it."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Superior-55 for a Superior Court deferred-sentence route; the affidavit's Part Three (Deferred Sentence) is the Part the packet identifies, and the composed order recites 'R.I. Gen. Laws Sec. 12-19-19 and Sec. 12-1.3-2(e) ... Part Three: Deferred Sentence'. The legal name, authority and mechanism printed on the page match data/record-clearing/legal-design-track-registry.json track ri_deferred_sentence word for word.",
+          "finding": null
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Superior-55 bound by exact SHA-256 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca, which this reader hashed first-hand in the mounted Master Library; 'Superior-55 (revised February 2025)' is printed on every official page and was read at 300 dpi. source-receipt.json states in terms that it does not establish that the revision held is the revision the Judiciary publishes today.",
+          "finding": null
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "The five declared components - primary filing, proposed order, notice package, filing instructions and certified-copy checklist - are all present in the assembled 14-page packet and were each located by page. requiredComponentsMissing is 0 measured here.",
+          "finding": null
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "reports/actual-writes.json reports valuesReportedByFinalizer 4 on both fixtures, with addedGlyphsReadFromOutputBytes 126 on canonical and 258 on boundary - the difference is the longer boundary name, which is what a real read of the bytes would show. The four held facts are the participant name and date of birth in both captions plus the expunged election and the relief bullet. Confirmed visually at 300 dpi: name and DOB present and legible, Case Number and Bureau of Criminal Identification Number left blank because the platform holds neither.",
+          "finding": null
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "RI-B-01 is repaired at origin and on the page, and the two agree. Page 11 names the expungement-purpose STATE criminal records check, tells the participant to say so to BCI, gives valid photo identification and in-person-or-mail acquisition, states the $5 as a charge for the record and not a court filing fee, refuses the fingerprint-based national employment check as a substitute, and says a clear state report 'does not by itself prove that no relevant arrest or disposition exists'. The same sentences appear verbatim in the track registry, RI.memo.json and legal-design-packet-set-manifests.json, so nothing corrected on the page sits over an uncorrected record. blanks-left-for-the-participant.json declares 25 required-before-filing items with everyRequiredBeforeFilingItemIsDisclosed true, and the provenance paragraph states THIS BUILD DID NOT FETCH riag.ri.gov.",
+          "finding": null
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "Read at 300 dpi: 'expunged' is marked and 'sealed' is not; the second relief bullet (Chapter 12-1.3 expungement under Sec. 12-1.3-3(c) or (e)) is marked and the Sec. 12-1-12 destruction bullet is not; every judicial-complex box is blank because the platform holds no venue election; every sworn eligibility box in Parts One, Two and Three is blank. Page 12 explains why the second bullet is the one marked and says no clerk, court or lawyer approved the mark.",
+          "finding": null
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "The form's four printed charge rows are modelled individually: twelve fields (Count/Charge/Disposition x 4) are each declared in blanks-left-for-the-participant.json with their own disclosureLabel and participantMustSupply text, all are blank, and no row is half-filled. incompleteRows is 0 measured here, and the composed proposed order carries the same four rows blank with a printed instruction to copy them from the motion.",
+          "finding": "Limit stated rather than a defect: no held fixture supplies more than four charges, so behaviour past the form's four printed rows is not exercised by these bytes."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "reports/blanks-left-for-the-participant.json declares 29 protected blanks; reports/actual-writes.json reports refusedFieldsWithInk [] on both fixtures and the counter protectedWrites is 0 measured here. Read at 300 dpi: every sworn box in every Part is unmarked, the defendant signature line, the date, the Rhode Island Bar Number, the hearing date/time/courtroom, the notice certification date and police-department name, and the whole notarial certificate are blank. Nothing judicial is written on the composed order.",
+          "finding": null
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "Every live record naming these bytes pins the current pair and the current page count, and this reader recomputed all of it. reports/rendered-artifacts.json pins canonical 5887dd13d6be66f7cb64680b3cbfa9c7a42870efb1b4276fd6e1a826e1bdd731 byteLength 308652 pageCount 14 and boundary f5a6cb91d3915bb10b00aaa3fd7476fdde0e1838745bcd4ef46bdcb984d9e8d2 byteLength 308842 pageCount 14; product-wiring.json pins the canonical digest in its acceptanceReceipt and on all five declared components; RASTER_QUEUE pins both digests with pdf-lib 1.17.1 page evidence. sha256sum over fixtures/ was run FIRST, before any other read of this family, and pdf-lib recomputed the page counts here. A repository-wide search for the eight pre-repair digests from the 2026-09-07 review finds them only in three historical places - fix109/rows.json (a past lane's own record of what it produced), RASTER_QUEUE supersededReceipts, and the review record itself - and in no live record of these bytes.",
+          "finding": null
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "14 pages recomputed here with pdf-lib on the bytes on disk, matching expectedPages in the RASTER_QUEUE row, pageCounts in the FIX120 row and pageCount in reports/rendered-artifacts.json for both fixtures. Order read at 300 dpi and by extracted text: official form pages 1-4, composed proposed order, court-owned order page, notice guidance, filing instructions, then the composed guidance and the certified-copy checklist. No page is out of sequence and no page is blank.",
+          "finding": null
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "reports/actual-writes.json, derivedFromArtifactBytes true, reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on BOTH fixtures. This reader rendered the pages it ruled on at 300 dpi with pdftoppm and read them: no clipped write, no overlapping participant text, no stray mark. The boundary fixture's long identity (Maria-Alejandra O'Shaughnessy-Whitfield, DOB 1972-12-31) was rendered and read as well, which matters because boundary.pdf is the fixture the central gate never renders.",
+          "finding": null
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "A Superior Court route on the Superior Court's own form, filed in the court where the conviction occurred; the four Superior judicial complexes are printed as unmarked elections and the packet tells the participant to mark the one where the case was heard. No venue is asserted.",
+          "finding": null
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "This is a Superior Court route, so the Superior Court FAQ's no-fee answer is in scope for it, and the page says which court gave the answer and that this build did not fetch the page. The $5 BCI state-check cost is stated as a charge for the record and expressly not a court fee and not a court obligation. Page 10 records that underlying obligations may be waived or reduced by court order and that a waiver or reduction satisfies the eligibility condition. RI-B-02 is correctly NOT applied to this route, exactly as the review directed, so page 14 keeps the court's own instruction 8 and the original PAY EVERYTHING OFF step. The registry's researchResolvedQuestions entry answering the Chapter 12-1.3 filing-fee blocker is in scope here because this route is a Superior Court route.",
+          "finding": null
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Page 7 states the ten-day notice to the Office of the Attorney General and to the police department that brought the charge, puts the order of events in the right sequence (file, clerk sets the date, give notice, only then certify), leaves the whole certification line blank, and prints NO service address for either recipient, saying in terms that the platform holds none and does not guess. Certification-before-notice is called a false statement to a court.",
+          "finding": null
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL",
+          "evidence": "The stop LIST itself is correctly repaired and matches the registry word for word: the two imported first-offender stops are gone and replaced by a stop on any doubt the court will make the Sec. 12-19-19(c) compliance finding (saying in terms that a prior conviction or probation on another case is not itself a bar here) and a stop on any source imposing a further five- or ten-year wait. But RI-B-03's second limb survives elsewhere in this packet. rules.notice on track ri_deferred_sentence still carries the sentence 'The court may grant if it finds no felony or misdemeanor arrest or conviction during the lookback, no pending criminal proceeding, financial obligations satisfied or waived or reduced, good moral character, rehabilitation to the court's satisfaction, and that expungement is consistent with the public interest', and the packet prints it verbatim on page 7 under 'WHAT THE COMMITTED RECORD SAYS ABOUT THE HEARING'. That is the same sentence carried on all four tracks, and it is route-correct on the three routes that have a statutory lookback; this route has none - its waitingPeriods entry is the single line 'none beyond completion; eligibility for consideration is immediate on the court's compliance finding'. So a completed, compliant deferred-sentence participant with an arrest in some undefined lookback reads page 7 as a grant condition that bars the route, and nothing on page 7 or 8 caveats it. RI-B-03's own regression test says a completed compliant deferred-sentence scenario is not given a new waiting period or categorical prior bar.",
+          "finding": "RI-B-03 is not fully closed on this family. The imported, undefined first-offender lookback was removed from selfHelpStopConditions but survives in rules.notice at origin (data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/RI.memo.json, track ri_deferred_sentence) and is printed uncaveated on page 7 of both fixtures, where it contradicts pages 12 and 13 of the same packet."
+        }
+      },
+      "failedObligationNames": [
+        "SELF_HELP_STOP"
+      ],
+      "openQuestionsStillOpen": [
+        {
+          "findingId": "RI-B-06",
+          "bindsThisFamily": false,
+          "boundFamilies": [
+            "ri_first_offender_felony-set"
+          ],
+          "exactRemainingQuestion": "What corrected affidavit text, attachment, or acknowledged court-approved handling should a felony filer use for this particular sworn statement? Obtain an issuer correction or actual qualified legal determination. Do not ask again whether an ordinary first-offender felony uses the ten-year statutory route."
+        },
+        {
+          "findingId": "RI-B-07",
+          "bindsThisFamily": false,
+          "boundFamilies": [
+            "ri_first_offender_misdemeanor-set",
+            "ri_multiple_misdemeanors-set"
+          ],
+          "exactRemainingQuestion": "For these District Court filings, confirm the present filing charge, if any, from a District-specific official source or actual clerk response. Do not reintroduce the repealed $100 grant charge, apply civil fees, or ask counsel to find a nonexistent official proposed-order form."
+        }
+      ],
+      "disclosureRuling": "Neither RI-B-06 nor RI-B-07 binds this family, so there is no unanswered question for this packet to disclose or to invent an answer to. What this packet does disclose it discloses truthfully: the RI-B-05 mechanism reading is stated as the reviewer's and the statutes' and expressly not as any clerk's, court's or lawyer's approval, and the non-fetch of riag.ri.gov, courts.ri.gov and webserver.rilegislature.gov is stated on the page. Nothing is presented as fetched that was not. This family's failure is a contradiction inside the packet, not an invented answer.",
+      "carriedVersusFreshlyMeasured": "Everything in this row is freshly measured here. No result is carried from any prior independent row. All digests, byte lengths and page counts were recomputed on the bytes on disk. All rasters were produced by this reader at 300 dpi from those bytes; where two families' official-form pages proved pixel-identical, both members of the pair were rendered by this reader in this run and the identity was established by SHA-256 over this reader's own PNGs, so neither is a carry from another row.",
+      "observationsThatFailNoObligation": [
+        "product-wiring.json carries lastIndependentVerification {verdict BLOCKED_LEGAL_INPUT, lane vf03, verifiedAtBase 5727d573f} - a pre-repair verification at a different base, attributed to a lane id that under the current dispatch belongs to the felony family. It pins no digest and claims no PASS, so it misstates no bytes, but a reader could take it as current.",
+        "build-status.json reads rasterState BUILT_RASTER_PENDING with rasterPages 0 while the live state is RASTER_PASS. It understates rather than overstates and is honest about its own build ('not rendered in this run').",
+        "The registry's researchResolvedQuestions for this track carries the same Chapter 12-1.3 filing-fee resolution three times: twice from unresolvedQuestions and once from blockers. Duplication is untidy, not untrue.",
+        "Page 10 says underlying obligations may be waived or reduced by court order while page 14 says they must be paid in full. The two speak to different stages - the eligibility condition and the court's own post-grant instruction 8 - and the review expressly directed that RI-B-02 not be applied to this route, so this is not scored as a contradiction."
+      ],
+      "whatThisRowDoesNotClaim": [
+        "that riag.ri.gov, courts.ri.gov or webserver.rilegislature.gov was fetched by this reader - all three were attempted here and refused with 'curl: (56) CONNECT tunnel failed, response 403'",
+        "that the central raster PNGs were read - they were not downloaded by this reader and the receipt itself records that they were not downloaded when it was written",
+        "that any Rhode Island clerk, court or lawyer has approved this packet, its composed order or the relief bullet it marks",
+        "that the nine counters or a RASTER_PASS are counsel approval or a Grade-A fulfillment record"
+      ],
+      "independence": {
+        "builtByThisReader": false,
+        "repairedByThisReader": false,
+        "packetBytesEdited": false,
+        "mapsEdited": false,
+        "instructionsEdited": false,
+        "recordsEdited": false,
+        "buildersExecutedOrEdited": false,
+        "overlayDirectoriesModified": 0,
+        "claimLedgerCommitted": false,
+        "grantsReleased": 0,
+        "subagentsCreated": 0,
+        "commercialRoutesOpened": 0,
+        "productionTouched": false,
+        "note": "This reader built and repaired nothing in these four families. The only writes made anywhere are the four independent-verification rows, one to each lane's own file. Rasters were written under /tmp/vfri-raster only and deleted; no raster PNG was committed and no delete touched any directory this reader did not create."
+      },
+      "grantsNothing": "This row is a reader's measurement. It opens no commercial route, promotes nothing, approves no output, releases no grant and does not commit the claim ledger. A RASTER_PASS and nine zero counters are not counsel approval and not a Grade-A fulfillment record."
     }
   ],
   "postfixRead": {
