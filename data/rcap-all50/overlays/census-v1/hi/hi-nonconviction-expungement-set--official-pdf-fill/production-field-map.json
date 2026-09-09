@@ -1,0 +1,449 @@
+{
+  "schemaVersion": "rcap-production-field-map/v2",
+  "familyId": "hi_nonconviction_expungement-set",
+  "implementationStrategy": "participant_agency_application",
+  "routeKeys": [
+    "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement"
+  ],
+  "controllingRecord": {
+    "profile": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json@30a1ffcd9ec2eda42fbf739a9806b61999777c52b709774ac2609095ef44ccc1",
+    "routeContract": "src/lib/legal-authority/routes/p0.json@6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058"
+  },
+  "routeSelectionNote": "This packet is built for exactly one statutory route: Non-conviction arrest-information expungement under HRS § 831-3.2 (Haw. Rev. Stat. § 831-3.2). The form's other paragraph — the first-time drug/property offender and DUI-under-21 CONVICTION branch — is declared not applicable on this route and carries a named route condition. The form's own route mark is an INITIAL CELL beside a sworn paragraph, and this build never writes an applicant's initials; the route the packet proceeds under is stated here, in participant-instructions.md and in filing-instructions.md, and the participant initials the paragraph themselves.",
+  "geometrySource": "every write and refusal area is measured out of the bound source bytes at build time; no coordinate in the builder is authored",
+  "writes": [
+    {
+      "fieldId": "HCJDC-159B:current_legal_name",
+      "fieldName": "current_legal_name",
+      "effectiveLabel": "Current Legal Name (Last, First, Middle)",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.full_legal_name",
+      "fontSize": 8,
+      "rect": {
+        "x": 211.8,
+        "y": 397.7,
+        "width": 358.3,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 213.3,
+        "baseline": 401.2,
+        "widthAtExactMetrics": 73.53,
+        "ruleWidthPt": 358.3
+      },
+      "measuredRule": {
+        "x": 211.8,
+        "x2": 570.1,
+        "baseline": 399.7,
+        "printedLine": "Current Legal Name (Last, First, Middle): _______________________________________________________________"
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:date_of_birth",
+      "fieldName": "date_of_birth",
+      "effectiveLabel": "Date of Birth",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.date_of_birth",
+      "fontSize": 8,
+      "rect": {
+        "x": 349.6,
+        "y": 358.4,
+        "width": 130.8,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 351.1,
+        "baseline": 361.9,
+        "widthAtExactMetrics": 40.03,
+        "ruleWidthPt": 130.8
+      },
+      "measuredRule": {
+        "x": 349.6,
+        "x2": 480.4,
+        "baseline": 360.4,
+        "printedLine": "Social Security Number: ________________________ Date of Birth: _______________________ Sex: M____ F____"
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:home_address",
+      "fieldName": "home_address",
+      "effectiveLabel": "Home Address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.home_address",
+      "fontSize": 8,
+      "rect": {
+        "x": 106.9,
+        "y": 329.4,
+        "width": 466.3,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 108.4,
+        "baseline": 332.9,
+        "widthAtExactMetrics": 132.52,
+        "ruleWidthPt": 466.3
+      },
+      "measuredRule": {
+        "x": 106.9,
+        "x2": 573.2,
+        "baseline": 331.4,
+        "printedLine": "Home Address: __________________________________________________________________________________"
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:mailing_address",
+      "fieldName": "mailing_address",
+      "effectiveLabel": "Mailing Address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.mailing_address",
+      "fontSize": 8,
+      "rect": {
+        "x": 113.4,
+        "y": 309.8,
+        "width": 460.4,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 114.9,
+        "baseline": 313.3,
+        "widthAtExactMetrics": 132.52,
+        "ruleWidthPt": 460.4
+      },
+      "measuredRule": {
+        "x": 113.4,
+        "x2": 573.8,
+        "baseline": 311.8,
+        "printedLine": "Mailing Address: _________________________________________________________________________________"
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:phone",
+      "fieldName": "phone",
+      "effectiveLabel": "Phone",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.phone",
+      "fontSize": 8,
+      "rect": {
+        "x": 70.1,
+        "y": 290.1,
+        "width": 278.6,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 71.6,
+        "baseline": 293.6,
+        "widthAtExactMetrics": 49.81,
+        "ruleWidthPt": 278.6
+      },
+      "measuredRule": {
+        "x": 70.1,
+        "x2": 348.7,
+        "baseline": 292.1,
+        "printedLine": "Phone: _________________________________________________ Email: __________________________________"
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:email",
+      "fieldName": "email",
+      "effectiveLabel": "Email",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.email",
+      "fontSize": 8,
+      "rect": {
+        "x": 382.2,
+        "y": 290.1,
+        "width": 193.3,
+        "height": 12
+      },
+      "exactTextExtent": {
+        "x": 383.7,
+        "baseline": 293.6,
+        "widthAtExactMetrics": 95.47,
+        "ruleWidthPt": 193.3
+      },
+      "measuredRule": {
+        "x": 382.2,
+        "x2": 575.5,
+        "baseline": 292.1,
+        "printedLine": "Phone: _________________________________________________ Email: __________________________________"
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "fieldId": "HCJDC-159B:other_names_used",
+      "fieldName": "other_names_used",
+      "effectiveLabel": "Other Names Used",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the platform holds no alias history for this participant, and an agency application that omits a name it should carry is returned",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": "participant.other_names_used",
+      "participantMustSupply": "every other name you have used — maiden, married, former, or alias — or write NONE",
+      "measuredArea": {
+        "x": 125.6,
+        "x2": 569.2,
+        "baseline": 380
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:social_security_number",
+      "fieldName": "social_security_number",
+      "effectiveLabel": "Optional Social Security Number",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "optional participant-authored identifier; the form prints \"SSN is optional\" beside it and the platform does not invent it",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "measuredArea": {
+        "x": 147,
+        "x2": 283.3,
+        "baseline": 360.4
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:sex_marker_m",
+      "fieldName": "sex_marker_m",
+      "effectiveLabel": "Sex marker M",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the screening record holds no sex marker for this participant and this build never supplies a personal declaration",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": "participant.sex_marker",
+      "participantMustSupply": "mark M or F, whichever matches the arrest record being expunged",
+      "measuredArea": {
+        "x": 513,
+        "x2": 535.8,
+        "baseline": 360.4
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:sex_marker_f",
+      "fieldName": "sex_marker_f",
+      "effectiveLabel": "Sex marker F",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the screening record holds no sex marker for this participant and this build never supplies a personal declaration",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": "participant.sex_marker",
+      "participantMustSupply": "mark M or F, whichever matches the arrest record being expunged",
+      "measuredArea": {
+        "x": 549.2,
+        "x2": 571.9,
+        "baseline": 360.4
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:initial_nonconviction_paragraph",
+      "fieldName": "initial_nonconviction_paragraph",
+      "effectiveLabel": "Initial cell beside the Expungement of Non-Conviction Information paragraph",
+      "printedLabel": "Expungement of Non-Conviction Information:",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this cell is the applicant's sworn declaration under HRS § 831-3.2, including the declaration that the applicant is not a fugitive from justice; no packet may write an applicant's initials on a sworn paragraph",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": null,
+      "participantMustSupply": "write your initials in this cell — it is the paragraph this packet is built for, and initialling it is your own sworn declaration",
+      "measuredArea": {
+        "x": 36,
+        "x2": 67.32,
+        "baseline": 261.5
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:initial_conviction_paragraph",
+      "fieldName": "initial_conviction_paragraph",
+      "effectiveLabel": "Initial cell beside the conviction-expungement paragraph under HRS §§ 706-622.5, 706-622.8, 706-622.9 and 291E-0064(e)",
+      "printedLabel": "Expungement of First-time Drug Offender, Property Offender, and/or DUI <21:",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the conviction-expungement branch of this form belongs to a different statutory route",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "routeConditionThatMakesItInapplicable": "this family is the HRS § 831-3.2 NON-CONVICTION arrest route; that paragraph is the HRS §§ 706-622.5, 706-622.8, 706-622.9 and 291E-0064(e) conviction-expungement branch of the same form, and it requires a court order granting expungement of a conviction that this route never produces",
+      "measuredArea": {
+        "x": 36,
+        "x2": 67.32,
+        "baseline": 217.2
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:checklist_signature",
+      "fieldName": "checklist_signature",
+      "effectiveLabel": "Checklist box: Signature of applicant",
+      "printedLabel": "Signature of applicant",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an act only the applicant performs",
+      "isSelectionControl": true,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": null,
+      "participantMustSupply": "check this box only after you have personally signed the application",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "the box confirms that the applicant has personally signed; a statutory route cannot determine whether a signature has been made, and this packet never signs",
+      "measuredArea": {
+        "x": 58.6,
+        "x2": 65.5,
+        "baseline": 168
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:checklist_photo_id",
+      "fieldName": "checklist_photo_id",
+      "effectiveLabel": "Checklist box: Copy of valid government-issued photo ID of applicant",
+      "printedLabel": "Copy of valid government-issued photo ID of applicant",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an attachment only the applicant can supply",
+      "isSelectionControl": true,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": null,
+      "participantMustSupply": "attach a copy of your valid government-issued photo ID, then check this box",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "the box confirms an attachment was enclosed; whether this applicant enclosed a copy of their identification is a fact about this envelope, not about the statutory route, and the platform holds no such fact",
+      "measuredArea": {
+        "x": 176.8,
+        "x2": 183.7,
+        "baseline": 168
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:checklist_mailing_address",
+      "fieldName": "checklist_mailing_address",
+      "effectiveLabel": "Checklist box: Mailing Address",
+      "printedLabel": "Mailing Address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies the applicant's own review of where the certificate will be sent",
+      "isSelectionControl": true,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": null,
+      "participantMustSupply": "confirm the mailing address printed on the application is the one you want the certificate mailed to, then check this box",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "the box confirms the applicant has reviewed where the expungement certificate will be mailed; the route cannot make that confirmation on the applicant's behalf, and the address written above it is the platform's record rather than the applicant's check of it",
+      "measuredArea": {
+        "x": 58.6,
+        "x2": 65.5,
+        "baseline": 159
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:checklist_court_order",
+      "fieldName": "checklist_court_order",
+      "effectiveLabel": "Checklist box: Court Order Granting Expungement, if applicable",
+      "printedLabel": "Court Order Granting Expungement, if applicable",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the attachment belongs to the conviction branch of this form",
+      "isSelectionControl": true,
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+      "routeConditionThatMakesItInapplicable": "the form limits this attachment to applications to expunge a CONVICTION, and prints that such applications without the court order will be denied; this route expunges non-conviction arrest information and produces no such order",
+      "measuredArea": {
+        "x": 176.5,
+        "x2": 183.5,
+        "baseline": 159
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:checklist_payment",
+      "fieldName": "checklist_payment",
+      "effectiveLabel": "Checklist box: Payment — Money Order or Cashier's Check issued in the United States",
+      "printedLabel": "Payment – Money Order or Cashier's Check issued in the United States",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an enclosure only the applicant can supply",
+      "isSelectionControl": true,
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "factId": null,
+      "participantMustSupply": "enclose the money order or cashier's check payable to \"State of Hawaii\" in the amount the form prints, then check this box",
+      "determinedByTheCaseNotTheRoute": true,
+      "whyTheRouteCannotDetermineIt": "the box confirms payment was enclosed; the fee amount depends on whether this is a first-time expungement, which the platform does not hold, and whether payment was enclosed is an act of the applicant rather than a determination of the route",
+      "measuredArea": {
+        "x": 58.6,
+        "x2": 65.5,
+        "baseline": 149.6
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:applicant_signature",
+      "fieldName": "applicant_signature",
+      "effectiveLabel": "Signature of applicant",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "signature or date field; never prefilled — the applicant signs personally after the packet is complete",
+      "refusalClass": "signature_or_date_participant_completion",
+      "role": "protected",
+      "measuredArea": {
+        "x": 36,
+        "x2": 233.15,
+        "baseline": 104.3
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:signature_date",
+      "fieldName": "signature_date",
+      "effectiveLabel": "Signature date",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "signature or date field; never prefilled — a date written before signing would be false",
+      "refusalClass": "signature_or_date_participant_completion",
+      "role": "protected",
+      "measuredArea": {
+        "x": 245.2,
+        "x2": 344.7,
+        "baseline": 104.3
+      }
+    },
+    {
+      "fieldId": "HCJDC-159B:hcjdc_use_only_area",
+      "fieldName": "hcjdc_use_only_area",
+      "effectiveLabel": "LEAVE BLANK; HCJDC USE ONLY area",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "court, clerk, prosecutor, agency, or hearing field — the form prints LEAVE BLANK; HCJDC USE ONLY across it",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "role": "agency",
+      "measuredArea": {
+        "x": 406.8,
+        "x2": 572.9,
+        "baseline": 172.132
+      }
+    }
+  ]
+}
