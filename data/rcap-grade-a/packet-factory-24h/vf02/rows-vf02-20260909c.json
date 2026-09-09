@@ -199,6 +199,196 @@
       ],
       "visualDefects": [],
       "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
+    },
+    {
+      "itemId": "il-seal-2yr-set",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "postRepairNote": "A reread of the CURRENT bytes at 285c9b91c. Every FIX118 claim on this family is confirmed by measurement here rather than adopted: stroke-only Form XObjects 91 -> 0 per fixture; no ellipsized value anywhere in either fixture; the Request's Section 13 grid clean; 'Complete arrest' lines 11 -> 0; all eight registry stop conditions verbatim; the 46 fee-waiver check boxes now listed; and the SERVICE section now names the method, the recipients and the objection period, which is the fourth thing VF01 failed. Two defects stand, both shared with il-exp-qualprob-set.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine measure zero here and the family still fails. Neither defect below is a thing any of the nine counts."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:IL:il-seal-2yr:adult-conviction-sealing is identical in the MASTER_QUEUE.json family row and in production-field-map.json. The paper carries the route: Request item 12 'I am requesting to seal records' ticked Yes on packet page 4, Section 17 ticked on page 5 in its printed words 'I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence', the sealing table's Outcome cell carrying MC which is the form's own printed sealing abbreviation for a misdemeanor conviction, and the expungement table on Request page 2 left wholly blank. The guide states the negative election too, that Section 15 is NOT elected because Second Chance Probation and First Time Weapon Offense has no waiting period and is a different ground."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The same four sources as the other EXP-AD families, all four recomputed from bytes held in this container and all four exact. Three resolve by content against the 501-file Master Library index: EXP-AD Request 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853, EXP-AD Order Granting 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305, FW-CIV-APPLICATION b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5. The fourth is held under a different custody and the receipt says so; I recomputed it in this worktree at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c. Every declared byteLength and page count matches what I measured."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet set declares four components in order - primary_filing EXP-AD Request required, attachment EXP-AD Case List required, proposed_order EXP-AD Order Granting required, fee_waiver FW-CIV-APPLICATION conditional - and all four are rendered whole in both fixtures across 13 pages. I identified each from its own printed AOIC number in the delivered text: ATJ 2901.9 pages 1-6, ATJ 2902.1 page 7, ATJ 2905.6 pages 8-9, ATJ 601.9 pages 10-13."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 44 declared writes produce readable ink. Checking each declared value against the extracted reading-order text of the packet page its document and page map to, 42 of the 43 that carry drawn text match exactly and the one exception is the Section 17 check box, whose stored value is the string 'Yes' and whose ink is the tick I located on page 5 by its printed context. Every one of the three things VF01 failed here is gone from the bytes: the 'List all charges for each case number' cells carry a charge and not a case number (canonical Request page 4 row 1 reads 'Retail theft, Class A misdemeanor'), the inactive expungement table on Request page 2 is wholly blank in both fixtures, and no ellipsized value survives anywhere - I searched both whole fixtures for an ellipsis character and for three dots and found none, so the literal 'Charge exactly as shown o...' placeholder is gone."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "All ten of the record's requiredBeforeFiling lines are present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that section. FILE data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md, LINE 22, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1 rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column; I read the whole one-page form and it is a caption block, then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. The sentence also sends the participant away from where this packet actually made the election - item 12 Yes and Section 17 on the Request - and so contradicts the guide's own 'Route selected' paragraph five lines above it. This is defect (a) that VF05 scored on il-seal-3yr-set; FIX118 repaired it there and on no other family, and il-seal-2yr-set carries the sentence unchanged."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No refusal in the family carries routeDetermined true, and every election the route determines is ticked: Request item 12 Yes, Request Section 17, the self-represented box on Request page 6 and the self-represented box on FW-CIV page 4. Each tick is the form's own ZapfDingbats mark drawn inside the form's own printed empty-box glyph, not pdf-lib's synthesized check inside a synthesized square. One thing that looks like a missing election and is not: item 1 'I am requesting to expunge records' on Request page 1 carries neither Yes nor No. I read what the form prints immediately above item 1 - 'If you are only requesting to seal criminal records, do not fill out this section. Skip this section and go to Request to Seal Criminal Records starting in page 4, Section 12' - so on a seal-only route the form itself directs that the section be left blank, and the packet follows it. The form is asymmetric here and the packets follow it in both directions: on the expungement-only family il-exp-qualprob-set the form's page-4 instruction does ask the filer to tick No in Section 12, and that packet ticks it. Nothing on the proposed Order is ticked, which is right, because the form prints 'Do not check the boxes below. The judge will check the correct boxes.'"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Three repeating structures, all measured from the bytes. (1) The Request's sealing table on page 4: row 1 carries ink in all five cells and rows 2 through 10 are wholly blank in both fixtures; VF01's '18 visibly partial rows per fixture' does not reproduce. (2) The Request's expungement table on page 2 is wholly blank, correct for a sealing-only route. (3) The Case List's seventy arrest-or-case cells: only the first carries the case number and the other sixty-nine are wholly blank, all classified identically, and grep -c 'Complete arrest' on the delivered guide is 0 where VF01 found eleven such lines. I also checked the boundary fixture's three-line charge value does not spill into the row below it: the row-1 widgets on Request page 4 span y 469.1 to 505.1 and row 2 begins at 468.9, and every added word of row 1 lies between y 469.1 and 501.8, so the multiline value stays inside its own cell."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by differencing every word box of each of the four official sources against the corresponding delivered packet pages, on both fixtures. Canonical adds 34 words on the Request, 9 on the Case List, 21 on the Order and 20 on the fee waiver; boundary adds 62, 14, 30 and 24; nothing is removed from any source anywhere. Every added word is a caption, identity, address, contact or sealing-row value, or one of the four route ticks. The Request's verification block carries no signature and no date - the '/s/' beside 'Signature' is the official form's own printed text, present identically in the source. On the proposed Order the only writes are the page-1 caption and item 3, the block for the person who should receive the signed Order, which is the petitioner's own; the ENTERED line, the Judge line and the Date line are blank and the clerk-reserved 'Case Number' caption at the head of the Order's page 2 is blank, so the defect VF02 found on the sibling family - the participant's case number written into clerk-reserved captions - does not appear here. On the fee waiver the build writes only the caption and the applicant's name and contact details."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The hash half passes and the structural half does not. Hashes: canonical.pdf rehashes here to d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003 (1728326 bytes, 13 pages) and boundary.pdf to d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d (1729052 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: reloading each delivered fixture with pdf-lib and resolving every page's /Annots entries against the document returns 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - references to widget annotation objects the flatten removed from the file and did not remove from the pages. Poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' on every invocation. All four official sources open silently, and so do az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set, which I read this shift and which carry zero dangling references, so this is a fault of the shared EXP-AD build path and not of the factory. It is the identical defect I measured on il-exp-qualprob-set, it is present in that family's pre-repair bytes at 159c0b5cf so it is not new damage from FIX118, and it is also present on il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. One repair answers six families. It is material rather than cosmetic here because participant-instructions.md tells the participant this packet is delivered pre-flattened specifically because AOIC requires a flattened PDF for e-filing."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet manifest for this family is the committed packet set's component order, 1 primary_filing, 2 attachment, 3 proposed_order, 4 fee_waiver, and the delivered order matches exactly. Read back page by page from the delivered text: ATJ 2901.9 Page 1 of 6 through Page 6 of 6 on packet pages 1-6, ATJ 2902.1 Page 1 of 1 on page 7, ATJ 2905.6 Page 1 of 2 and Page 2 of 2 on pages 8-9, ATJ 601.9 Page 1 of 4 through Page 4 of 4 on pages 10-13. Each document is contiguous and in ascending source-page order, in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally on both fixtures, per document, against the official source pages, excluding the printed rules a value is meant to sit on and resolving the text-identity artefacts my differencing produces when a written value repeats a word the page already prints. No added word box leaves the media box on any of the 13 pages of either fixture, and no added word box collides with printed text or with another added word. The only apparent collisions are the route ticks, and reading their coordinates shows each sits inside the form's own printed empty-box glyph. Both things VF01 failed here are gone: no ellipsized value survives in either fixture - the canonical Case List charge, and the boundary Case List agency, charge and outcome values, all print whole - and the 91 stroke-only Form XObjects per fixture that pdf-lib synthesized around every unticked check box are now 0 on both, which I measured by walking all 443 flattened Form XObjects in each file. The admitted raster receipt for these exact digests measured 26 pages and reports problems [] and environmentProblems []."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's destination is {kind: clerk, name: 'Circuit clerk of the county of arrest or charge', detail: 'File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under section 5.2(d)(4).'}. The guide carries it under 'Where this is filed' and repeats it in the service section with the county-by-county rule and the Cook County district rule, and records the AOIC flattening requirement for e-filing."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both are stated in the record's own words under 'What it costs, and the waiver': a circuit clerk fee plus an ISP processing fee, both county-collected, ISP charging nothing to file a petition and $60 to process a court order, county totals commonly roughly $60 to $235 with McLean County publishing $136, and the instruction to treat every figure as county-specific. The waiver is not merely named, it is shipped: the Supreme Court Rule 298 Application for Waiver of Court Fees is component 4, rendered as packet pages 10-13, and the guide states that section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. The guide is also honest that the packet makes none of the waiver form's financial statements and lists all 46 of its check boxes as the participant's - the second-round FIX118 repair, and it is present here."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the fourth obligation VF01 failed on this family and it is repaired. '## Who serves, and how' now names the method - 'The circuit court clerk serves, under section 5.2(d)(4). The participant serves no one.' - and the recipients - the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer - together with the 60-day objection period under section 5.2(d)(5)(B) and the rule that absent an objection the court shall enter an order granting or denying under section 5.2(d)(6)(B). It adds that a separate flattened packet is filed with the clerk in each county, that Cook County filings go to the district matching the case, that a hearing date is added only when the clerk or court supplies it, and that court-owned service and order fields are not to be completed. I confirmed from the bytes that no service or certificate-of-service field is written."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry track names eight selfHelpStopConditions and all eight are printed verbatim under '## Stop and get help', confirmed one by one by exact string containment: an objection by the State's Attorney, ISP, the arresting agency or the chief legal officer; a contested hearing; an ambiguous or contested disposition on the transcript; an unrecognised case on the transcript which may indicate identity theft; federal or out-of-state records an Illinois court cannot reach; immigration consequences; a motion to vacate, modify or reconsider under section 5.2(d)(12); and denial of the petition. FIX118's round-two repair is confirmed landed, and the hand-written four-condition sentence it replaced does not survive beside it."
+        }
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "ARTIFACTS",
+          "file": "both fixtures under data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/",
+          "defect": "146 dangling indirect references per fixture: page /Annots arrays retain references to widget annotation objects the flatten deleted, and the trailer's /Size exceeds the object numbers the cross-reference table covers.",
+          "howToSeeIt": "pdfinfo on either fixture prints 'Syntax Error: Couldn't find trailer dictionary' and reconstructs the xref; loading with pdf-lib and resolving each page's /Annots entries returns 146 unresolvable refs.",
+          "repair": "In the shared EXP-AD build path, after form.flatten(), prune every page's /Annots array of references that no longer resolve (the Link annotations do resolve and must stay), and emit a cross-reference table covering every object number from 0 to /Size-1 with unused numbers marked free. Re-render both fixtures and re-raster.",
+          "scope": "Shared with il-exp-qualprob-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. Predates FIX118."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md",
+          "line": 22,
+          "exactText": "Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.",
+          "defect": "The official EXP-AD Case List has no per-case election column, so the instruction cannot be carried out, and it directs the participant away from the Request where this packet made the election (item 12 Yes, Section 17), contradicting the guide's own 'Route selected' paragraph.",
+          "repair": "Apply the wording FIX118 already wrote for il-seal-3yr-set: keep the record's requiredBeforeFiling line verbatim, then state that the official Case List carries no such column and what its fields actually are, state that the election was therefore made on the Request, and tell the participant to check it against the certified disposition and correct it on the Request rather than the Case List.",
+          "scope": "il-exp-qualprob-set carries the identical sentence at its line 26 and needs the same repair."
+        }
+      ],
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set returned PASS_COMPLETE, 44/424 written, nine zeros. Green, and the family still fails.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-2yr-set/il-seal-2yr-set.verdict.json, RASTER_PASS at packetCommitSha a77595707ec97a980306d184ac07b549884ce038, pagesMeasured 26, coversTheWholeFamily true, problems []. Pinned digests equal the digests recomputed here.",
+        "fix118ClaimsVerifiedNotAdopted": "Stroke-only Form XObjects 91 -> 0 per fixture, measured. No ellipsized value in either fixture, measured. Section 13 grid clean and rows 2-10 blank, measured. 'Complete arrest' lines 0, measured. Eight of eight stop conditions verbatim, measured one by one. Service section names method, recipients and objection period, read. The election-column repair FIX118 recorded for il-seal-3yr-set was not applied here."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/production-field-map.json",
+          "sha256": "cfa95433789a5a03ee899be60d086b71c3d83aa33dd37358d00e0aacf65e62e5"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "4d624dc887e4222151d84e9aed815325b277fa0bdf51ed2b8b62869609913725"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "ac25a1a2d13799549a47e2f6c961a39d344665a8dfe095b2bbb2efead2b2078b"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/source-receipt.json",
+          "sha256": "0e4e9cc86800f238d74b2dcc8d458cc7af863ad97f13c8fc4ba44f34aef8b989"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "fb61d4a4f2439b383aa093a349c854c4a87250a78c000dfaf0e264de63b81524"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "d733f413ddc771ccd8b7882319c90ea753e8ffe16e46e1cef10d76f617c6a958"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-2yr-set/il-seal-2yr-set.verdict.json",
+          "sha256": "41298d98810a1580d27f817d87540bbed1043e3eb046e31a64ca84cdf78b61e0"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+          "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c"
+        }
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
     }
   ]
 }
