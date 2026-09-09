@@ -1,0 +1,648 @@
+{
+  "schemaVersion": "rcap-verdict-currency-sweep/v1",
+  "measuredBy": "Captain, from git blob identity at each verdict base against HEAD",
+  "measuredAtCommit": "200ef13b97e41c00dd6701ae495a58f2cf90b727",
+  "question": "For every family whose state depends on a recorded verdict, do the packet bytes that verdict was measured on still exist at HEAD?",
+  "whyItMatters": "A FAIL measured on bytes that have since moved is not a repair backlog item. It is an unread packet, and the executable next step is a fresh raster and an independent read rather than a repair shift. Four repair shifts were about to be spent on families in that state.",
+  "howItWasMeasured": "For each family, every recorded verifiedAtBase was resolved with git rev-parse <base>:<path> for fixtures/canonical.pdf and fixtures/boundary.pdf and compared to the same paths at HEAD. Blob identity, not a commit count: the generator rewrites product-wiring.json for every admitted family on every run, so counting commits that touched a directory overstates movement badly.",
+  "whatThisDoesNotSay": "A moved fixture is not a repaired fixture. This says only that the recorded verdict no longer describes the current bytes. It sets no verdict, promotes nothing and clears no obligation.",
+  "counts": {
+    "packetBytesMovedSinceTheVerdict": 15,
+    "verdictStillDescribesCurrentBytes": 9,
+    "notDecidableHere": 9,
+    "baseNotReadable": 0
+  },
+  "rows": [
+    {
+      "familyId": "ar-drug-court-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "verdictBases": [
+        "5de917b3574b6e27df362e13b86b4bfaac4915f8"
+      ]
+    },
+    {
+      "familyId": "ar-pardon-seal-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
+      "verdictBases": [
+        "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf"
+      ]
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "verdictBases": [
+        "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+        "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+        "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "fc95a33ac24622e70e86114eaca363d3c4b1f350"
+      ]
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill",
+      "verdictBases": [
+        "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "d4653b258e2b09eebad4ec2b51edadbf9a26ae98"
+      ]
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "verdictBases": [
+        "0d4d1d5a1",
+        "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f",
+        "2c9c0a0014b90ccf194f4c1fb65dde08c1ab094a",
+        "5321af5c3",
+        "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+        "942cab9b5",
+        "df524f2fd",
+        "f1a686387",
+        "fc95a33ac24622e70e86114eaca363d3c4b1f350"
+      ]
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "verdictBases": [
+        "0d4d1d5a1",
+        "5321af5c3",
+        "942cab9b5",
+        "df524f2fd",
+        "f1a686387"
+      ]
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "verdictBases": [
+        "0d4d1d5a1",
+        "5321af5c3",
+        "942cab9b5",
+        "df524f2fd",
+        "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+        "f1a686387"
+      ]
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "verdictBases": [
+        "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+        "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+        "7314d48f70865e60531332f253b3c396d244540d",
+        "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "cd48fc14e",
+        "d609b1140b62204038f4161a01611d56ed35bd62",
+        "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+        "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      ]
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "NOT_DECIDABLE_HERE",
+      "why": "Neither fixtures/canonical.pdf nor fixtures/boundary.pdf exists at HEAD under the queued directory. A full declared set names its documents differently; this comparison does not reach them.",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "verdictBases": [
+        "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      ]
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "verdictBases": [
+        "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
+        "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+      ],
+      "perBase": {
+        "b5cb44279e39cc56d11f65be5dd3de0d16bab85e": {
+          "changedFixtures": []
+        },
+        "ba5dc7e5ac97cb6227e753970bd880e3cf373704": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "f6bfa5793869c174a5a3a9ec249ff875f25b175f",
+      "boundaryBlobAtHead": "c844d6336c3daca50514ee69622145f1d765f529"
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+      "verdictBases": [
+        "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
+        "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+      ],
+      "perBase": {
+        "b5cb44279e39cc56d11f65be5dd3de0d16bab85e": {
+          "changedFixtures": []
+        },
+        "ba5dc7e5ac97cb6227e753970bd880e3cf373704": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "2af1f8113d450a281c12c8eecec275ccee337565",
+      "boundaryBlobAtHead": "e8472999f9ba9c601b1bb359e2cce8f7ce15219f"
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
+      "verdictBases": [
+        "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "b5cb44279e39cc56d11f65be5dd3de0d16bab85e"
+      ],
+      "perBase": {
+        "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "e63f3f079cb9dcaf1955b5e92d60e46bd60ab1dd",
+      "boundaryBlobAtHead": "18804d5cd2ab0da5cfb3d8676030a4a43a37c6fb"
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "verdictBases": [
+        "0ed47bb50",
+        "942cab9b5",
+        "ab018b86a",
+        "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f"
+      ],
+      "perBase": {
+        "0ed47bb50": {
+          "changedFixtures": []
+        },
+        "942cab9b5": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "4521f9f33ad212a83296a9438a784957bbf73f25",
+      "boundaryBlobAtHead": "1f8370fe413047d6d2d42400426eb0079d1f6221"
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "553966eaa41173d16111f55ca53216c6bf88b1f1",
+        "d4653b258e2b09eebad4ec2b51edadbf9a26ae98"
+      ],
+      "perBase": {
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "2a615c616b018a8bb09e0c54541467e4e2693f55",
+      "boundaryBlobAtHead": "50fa00387653f411647aa964d26013cf96d91dae"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+      "verdictBases": [
+        "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "247b790b6decf4ab14924914b10ad16a6ab57400",
+        "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+        "88d688b8b6910f0c501cab0d72633554220d822b",
+        "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+        "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+        "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+        "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
+      ],
+      "perBase": {
+        "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "37afc85f59a5ae8ab41e198c099d631c25294a97",
+      "boundaryBlobAtHead": "8d52d64fec2abfc3edc6812171020346c763f97e"
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "verdictBases": [
+        "5de917b3574b6e27df362e13b86b4bfaac4915f8"
+      ],
+      "perBase": {
+        "5de917b3574b6e27df362e13b86b4bfaac4915f8": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "bec4813296ef67a07307937542686fb6ffdc9b4a",
+      "boundaryBlobAtHead": "451e33eef1decd8146ff2f8fc99748ee34e6b8c5"
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf",
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+        "d4653b258",
+        "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+      ],
+      "perBase": {
+        "159c0b5cf": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "d4205bae3d46ad4d0a5a370edeca57fbac31767f",
+      "boundaryBlobAtHead": "5b10cc8c195450c141f743c0cc70c8cb25546564"
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf",
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+        "d4653b258",
+        "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+      ],
+      "perBase": {
+        "159c0b5cf": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "4b8233cbdc7a1fbdb526edb39960e806e40c3eab",
+      "boundaryBlobAtHead": "51d32f2efc3758395ebf8d9316dae7b375e2c5da"
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+        "d4653b258",
+        "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+      ],
+      "perBase": {
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "815d6fd1619527fb6ab8eabc20ba0071b221256f",
+      "boundaryBlobAtHead": "1df035d5044245f76a8593e0d5749e7da3432728"
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "verdictBases": [
+        "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+        "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      ],
+      "perBase": {
+        "9e7582a9d1cec2bf96aad25d8071b10603282f0b": {
+          "changedFixtures": []
+        },
+        "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "955717fe6b0d742d558eb6e5b90e94f1fdeda3c8",
+      "boundaryBlobAtHead": "f2895fe9bda282c1ff12140f5e1e108fcde9614b"
+    },
+    {
+      "familyId": "la-985-expungement-by-redaction-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading",
+      "verdictBases": [
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc"
+      ],
+      "perBase": {
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "33c0220f99860893cb65929b5b9adcc41f319f71",
+      "boundaryBlobAtHead": "333b55dce16160da7a4832bce4e2384a3f10fe44"
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "state": "BUILT_RASTER_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+      "verdictBases": [
+        "247b790b6decf4ab14924914b10ad16a6ab57400",
+        "36d7718a7e48d7f87f18eeaf3b18ed9b3ce545c8",
+        "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+        "683e8e31a",
+        "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+        "7314d48f70865e60531332f253b3c396d244540d",
+        "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+        "8b8699c2a",
+        "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+        "d609b1140b62204038f4161a01611d56ed35bd62",
+        "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+        "ee5bdb5b56d69c00750663087e5e8c5a6d144acf"
+      ],
+      "perBase": {
+        "247b790b6decf4ab14924914b10ad16a6ab57400": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "f534177552964f3cca9e4a19c3f0fa8b40f55e34",
+      "boundaryBlobAtHead": "72783d2dc2fb4de1c9456c71cd87ef612b8cd226"
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "state": "VERIFY_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "verdictBases": [
+        "0cc3c9b5c",
+        "4dd482867",
+        "5727d573f",
+        "942cab9b5",
+        "d66978655",
+        "d7e293f81"
+      ],
+      "perBase": {
+        "0cc3c9b5c": {
+          "changedFixtures": []
+        },
+        "4dd482867": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "a2732a687b05b25250ba3dbf5e0d6d90640bf649",
+      "boundaryBlobAtHead": "080806806cd54ba110a1d50d1bdc244674c2fc21"
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "state": "VERIFY_PENDING",
+      "finding": "PACKET_BYTES_MOVED_SINCE_THE_VERDICT",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "verdictBases": [
+        "0cc3c9b5c",
+        "4dd482867",
+        "5727d573f",
+        "942cab9b5",
+        "d66978655",
+        "d7e293f81"
+      ],
+      "perBase": {
+        "0cc3c9b5c": {
+          "changedFixtures": []
+        },
+        "4dd482867": {
+          "changedFixtures": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        }
+      },
+      "canonicalBlobAtHead": "08abe57a26357f1b9d4ddb96ff5034a52e4b5394",
+      "boundaryBlobAtHead": "336301de9dc77d32bfdfdc3d4d9637a7ba8a6809"
+    },
+    {
+      "familyId": "ar-felony-seal-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+      "verdictBases": [
+        "5de917b3574b6e27df362e13b86b4bfaac4915f8"
+      ],
+      "perBase": {
+        "5de917b3574b6e27df362e13b86b4bfaac4915f8": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "8824b8bd58e1f3cb7a29a885ddd0d1821ee113e6",
+      "boundaryBlobAtHead": "9ded682ede455286030b06fd16c33b6d08361edf"
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "verdictBases": [
+        "453ecee9c6496bbc662b313e0a0169423a9add96",
+        "5b74dd31bc55c95b87fe46a840902d6772eb7068"
+      ],
+      "perBase": {
+        "453ecee9c6496bbc662b313e0a0169423a9add96": {
+          "changedFixtures": []
+        },
+        "5b74dd31bc55c95b87fe46a840902d6772eb7068": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "1ea9854885ce90d9936cecf8a5987a696c5dd0f0",
+      "boundaryBlobAtHead": "617ebcb4c832fb747d96092c252750211e339d43"
+    },
+    {
+      "familyId": "fl-10yr-bridge-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+      "verdictBases": [
+        "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14"
+      ],
+      "perBase": {
+        "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "f6434cf6f92a96d6ee2100bc260cff28df48206b",
+      "boundaryBlobAtHead": "836fb254fee17bfd3b3463a832d91832ba856b77"
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "state": "VERIFY_PENDING",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill",
+      "verdictBases": [
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc"
+      ],
+      "perBase": {
+        "285c9b91c4cc345c77cdad6a37d015e6f61f45bc": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "37b08a62c012c1ca295267e57657e25e2948487d",
+      "boundaryBlobAtHead": "9f246dd6eea886ac4832de66695aff7220bb3527"
+    },
+    {
+      "familyId": "ia-12347-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf"
+      ],
+      "perBase": {
+        "159c0b5cf": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "31463d51a925d22b975f359905be8d53bfd94628",
+      "boundaryBlobAtHead": "8121c7df191f1b5125ad4679b0681b4d148f8d7b"
+    },
+    {
+      "familyId": "md_pardon_expungement-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "verdictBases": [
+        "3687291a6",
+        "7f386ab54"
+      ],
+      "perBase": {
+        "3687291a6": {
+          "changedFixtures": []
+        },
+        "7f386ab54": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "d96afed78f73393184402b01e40cf15da385f8c2",
+      "boundaryBlobAtHead": "5b8d23f886f0f304eb0fdeb5760bc328e122ab2d"
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "verdictBases": [
+        "3687291a6",
+        "7f386ab54"
+      ],
+      "perBase": {
+        "3687291a6": {
+          "changedFixtures": []
+        },
+        "7f386ab54": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "7e02dc3eff5dae6c0905f4f48c70fef4cf317625",
+      "boundaryBlobAtHead": "7a0c7635c29a603b2edd84c9b23a817cf6bd955b"
+    },
+    {
+      "familyId": "nh_marijuana_annulment-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "verdictBases": [
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480"
+      ],
+      "perBase": {
+        "159c0b5cf25e10a7fad6a7defb60bd6692e52480": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "c664e45d4d71c178675e1ea0862abc10cf8ae7ef",
+      "boundaryBlobAtHead": "f58fcf57048289b9aa49b4e59dcbe070f672ab5b"
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "finding": "VERDICT_STILL_DESCRIBES_CURRENT_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "verdictBases": [
+        "247b790b6decf4ab14924914b10ad16a6ab57400",
+        "88d688b8b6910f0c501cab0d72633554220d822b"
+      ],
+      "perBase": {
+        "247b790b6decf4ab14924914b10ad16a6ab57400": {
+          "changedFixtures": []
+        },
+        "88d688b8b6910f0c501cab0d72633554220d822b": {
+          "changedFixtures": []
+        }
+      },
+      "canonicalBlobAtHead": "598a52d8e0f87c8050eccdb4958ef4eccaf0abc5",
+      "boundaryBlobAtHead": "82f7bbc5bc115a32eea989aa7dd42d2cfe97be6c"
+    }
+  ]
+}
