@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f31037d6c68c69f4dc1aac5709ddbb60d7d7ac3c",
+  "generatedAtCommit": "649220d0417d1a7d7214d7b9d8eb6aec358abd45",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3008,8 +3008,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:21:34.801Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13844,7 +13844,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d6182fa60f576f0cb65ca6498ee3c082c57568bb3b8dbc9c010429d9fcf7f246",
+  "claimsDigest": "3dcccd113800c44be40a7a838302902dbe9de59086c86915b559b7cb5dfee57d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -41780,6 +41780,16 @@
       "previouslyReleasedAt": "2026-09-05T11:24:42.958Z",
       "reissuedAt": "2026-09-09T09:58:33.957Z",
       "reason": "Rebuilt at 1aa762eaa with the four named defects removed; the builder left all nine counters null and set no verdict"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:21:34.801Z",
+      "reissuedAt": "2026-09-09T10:10:26.271Z",
+      "reason": "Repaired at 1b5a20e21: the required-before-filing document and all nine self-help stop conditions now print verbatim from DE.memo.json, canonical grew 3pp to 4pp, and the builder refuses to build if the record stops declaring them"
     }
   ],
   "transfers": [
