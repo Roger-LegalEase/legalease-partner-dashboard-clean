@@ -369,6 +369,280 @@
         "REQUIRED_BEFORE_FILING"
       ],
       "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "co_petition_seal_arrest-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 7,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId co_petition_seal_arrest-set is identical in source-receipt.json, production-field-map.json, reports/rendered-artifacts.json and the MASTER_QUEUE row, and the single routeKey obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704 is identical across them. The instrument matches the route: the track registry names JDF-417 plus JDF-417-ORDER under C.R.S. s 24-72-704, and the delivered pages are JDF 417 'Petition to Seal Arrest and Criminal Records - No Charges Filed - C.R.S. s 24-72-704' with JDF 418 'Order to Seal Arrest and Criminal Records'. The guide is explicit that this is the no-charges-filed form and that a dismissed or acquitted charge belongs on a different Colorado form, which is the right boundary for this route."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both official binaries and both committed records recompute exactly, first-hand. JDF-417 = e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4 and JDF-418 = b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993, both resolved in the Master Library at MASTER_LIBRARY_SOURCE_DIR/STATES/CO/02_PACKET_FORMS/ and both equal to the digests declared in the receipt, in every pageManifest entry and in the MASTER_QUEUE sourceHashes rows. I read both binaries: JDF-417 is 3 pages with 62 AcroForm fields, JDF-418 is 2 pages with 18. The receipt's whyNotByDeclaredPath is honest and I confirmed it: the queue names D-source-pack paths this container does not mount, and the identical bytes are in the Master Library at the identical digests, so binding is by content rather than by path. Both committed records the packet prints statements out of also rehash exactly as the receipt and the guide's own citations claim: CO.memo.json = 427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591 and legal-design-track-registry.json = 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The track registry's packetSet declares exactly two components, both required: co_petition_seal_arrest-primary-filing-1 (primary_filing, JDF-417) and co_petition_seal_arrest-proposed-order-2 (proposed_order, JDF-417-ORDER), and the MASTER_QUEUE row lists the same two. Both are delivered in both fixtures: packet pages 1-3 are JDF 417 and packet pages 4-5 are JDF 418, identified from the forms' own printed headers in the delivered text. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured per widget by comparing the delivered render against the source render inside each of the 90 widget rectangles I read from the two pinned binaries. Nineteen rectangles carry added ink and they are exactly the declared writes: nine on JDF-417 page 1 (county, name, date of birth, mailing address, city/state/zip, phone, e-mail, case number, and the section-B petitioner line), one on JDF-417 page 3, and nine on JDF-418 page 1. Every declared value prints complete in both fixtures. The boundary fixture's long values print whole and untruncated with no ellipsis: 'Maria-Alejandra O'Shaughnessy-Whitfield', '1188 Upper Notch Crossing Road, Apartment 14B', 'Colorado Springs, Colorado 80921-2214', 'maria.alejandra.oshaughnessy.whitfield@longmailexample.org', '(719) 555-0199 ext. 4417' and the case number '2024CR0011882-SUPPLEMENTAL'. knownRequiredFieldsMissing 0."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the per-widget render diff, not from the field map's roles. Zero added ink falls on any protected region. JDF-418 page 2 - the court's signature page - differs from its source by ZERO pixels in either fixture, added or removed. On JDF-418 page 1 the court's other-orders box, signature, date and Judge-or-Magistrate choice carry no ink. On JDF-417 the petitioner's signature block and its date rule are blank, the counsel signature block is blank, and the section-2 person-in-interest block (name, date of birth, mailing address, phone) is blank - the guide states the reason for that last one in terms, that copying one person's identity into another person's block on a sworn petition would be a false statement. The court-use-only boxes (Existing/New Case Event Code, Division/Courtroom, Court Address) carry no write. protectedWrites 0."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "SEVEN CONTROLS PER FIXTURE, IN BOTH FIXTURES, CARRY A SYNTHESIZED OUTLINE THE OFFICIAL FORM DOES NOT PRINT, AND ON TWO OF THEM THAT OUTLINE IS DRAWN OVER TEXT THE FORM DOES PRINT. This is a different mechanism from the one FIX120 closed, and it is present in the current post-repair bytes. HOW I MEASURED IT: I rendered each delivered page and its pinned source page to 150 dpi greyscale and took a directional pixel diff, then attributed every differing pixel to a widget by testing it against the 90 widget rectangles I read first-hand from the two source binaries. THE TWO INTERPRETER RADIOS, JDF-417 page 1, field Group1.7, /Rect [268.80 356.50 282.48 370.18] and [313.88 356.62 327.56 370.30]. The source prints one thin ring per option occupying pixels x 560-587 and x 654-681, rows 879-906. The delivered file draws a second, heavier ring shifted up and to the right, so the inked box becomes x 560-592 and x 654-686, rows 873-906: 99 and 94 dark pixels added, 102 and 106 removed, at each. Rendered and read at 3x, the printed row 'Do you need an interpreter?  No  Yes, in (language)' comes back with the synthesized ring cutting through the 'N' of 'No' and through the 'Y' of 'Yes', so both answer labels are struck through on the face of the filing. The row immediately below it, 'I want to attend court events: In-person / Virtually', is pixel-identical to the source, which proves this is per-widget and not a global rendering difference. THE FIVE SECTION-3 CHECKBOXES, JDF-417 page 2, fields 3A.0, 3B.0, 3C, 3D.0 and 3E.0, all at /Rect width and height 13.68pt. Each is delivered as TWO concentric squares where the form prints one. On 3A.0 (Prosecuting Attorney) the synthesized square lands up and to the right, taking the inked box from x 263-290 rows 249-276 to x 263-295 rows 243-276, 134 pixels added and 76 removed. On 3B.0 (Sheriff's Department), 3C (Colorado Bureau of Investigation (Required)), 3D.0 (Law Enforcement) and 3E.0 (Other) the synthesized square lands down and to the left, inside the printed one, so the bounding box is unchanged and 70 to 88 pixels are added within it - which is why a bounding-box or four-sided-box control does not see them. I read the crop at 2x and every one of the five shows a doubled box. These are the boxes that name the agencies the sealing order must reach, including the one the form itself marks required. WHY THE FAMILY'S OWN RECORD DOES NOT SHOW IT: reports/actual-writes.json publishes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for all four document rows, which is true and not the question - a stroked outline draws no glyph, and this ink is drawn at the census widget's own rect, exactly the case DEFECTS_NO_COUNTER_CAN_SEE warns must not be read as proof that nothing strayed. FOR THE REPAIR LANE: the prior VF01 FAIL of 20260909b named 13 four-sided boxes on /Ch choosers, and FIX120's control fourSidedWidgetBoxes() went 23 to 0. That control is measuring the right thing for /Ch and the wrong thing for these seven /Btn widgets, whose regenerated appearance is stamped at the widget /Rect at a size and offset that do not coincide with the mark the issuer's own page content already draws."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide carries a 'Stop and get help' section quoting the three conditions from the controlling record in the record's own words - the district attorney objects; the court sets a contested hearing; immigration, licensing or firearm consequences are in play - and cites CO.memo.json track co_petition_seal_arrest at SHA-256 427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591, which I recomputed and which matches. It then says plainly that a contested sealing hearing is one the packet cannot argue. The closing section states this is not legal advice, is not filed for you and does not decide eligibility."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The guide sends the participant to the clerk of the Colorado court in the county where the arrest happened, the District Court or County Court selected in section A, with the county already written in - which is consistent with the track registry's venue ('Statewide Colorado track; district court of the district where the arrest and criminal-record information is located') and with the form's own section A, which offers both court types. It then refuses to state a courthouse address, saying the platform holds no court directory and 'an unsourced address in a filing instruction is worse than none'. No clerk practice is fabricated. The delivered section A leaves Court Type and Court Address blank and writes only the county, matching what the guide says."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Service on this route runs through the section-3 agency list, and the guide handles it: it explains that the signed order is what reaches each agency and that the agency list on the petition decides who is bound by it, and it tells the participant to tick the Colorado Bureau of Investigation because the form itself prints its address and marks it required. The guide draws the distinction the prior FAIL turned on - the CBI as a record custodian to tick and serve versus the CBI criminal-history report the participant must obtain - in a dedicated paragraph. No service method, deadline or recipient beyond what the form and the record carry is invented."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "REPAIRED AND RE-READ. This is the obligation this lane failed on 20260909b, and FIX120 closed it. The track registry's packetSet.requiredBeforeFiling for co_petition_seal_arrest holds seven items. The two that the prior FAIL named are now printed VERBATIM in participant-instructions.md under a dedicated heading, 'Get your Colorado criminal-history report before you start': 'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.' and 'Check your answer to \"What was the arrest - which agency, what date, and what were you accused of?\" against Colorado criminal-history report, and correct the packet if they disagree.' I found both as exact substrings of the delivered guide. The section also carries the supportingDocuments detail from CO.memo.json (where obtained from, how to obtain it, when it is required), cites both records by SHA-256 - 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc and 427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591, both of which I recomputed and both of which match - and adds a new numbered step 1 telling the participant to have the report in front of them before filling anything in, plus a named cross-check at step 5 on the section 4a offence list. Crucially it also cures the confusion the prior FAIL identified, stating in terms that this is a different thing from ticking the CBI in section 3. The remaining five registry items are not verbatim in the guide but each is disclosed in substance: signature and date at steps 10 and 11 and again in the deliberately-left-blank list; the notarization item is itself a non-statement ('The source review does not state a notarization requirement'); the fee and fee-waiver items are non-statements too and the guide addresses the fee position directly. Nothing in the registry list is silently dropped."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both declared fixtures exist and both digests recompute exactly: canonical.pdf = 1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1 and boundary.pdf = a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50, and pdfinfo reports 5 pages on each, matching every declared pageCount. I checked the currency question the repair commit itself raised, because FIX120 recorded 'the family's RASTER_PASS binds the pre-repair digests' and returned BUILT_RASTER_PENDING: the admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/co_petition_seal_arrest-set/co_petition_seal_arrest-set.verdict.json now pins these POST-repair digests, both equal to what I recomputed, at packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490 with pagesMeasured 10 and coversTheWholeFamily true. So the raster covers the current bytes; the commit message is stale rather than wrong, and I record it because it would otherwise read as a currency gap. The raster admitting these bytes while they carry the seven synthesized outlines above is itself the point the brief makes about what a RASTER_PASS proves."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The page manifest maps packet pages 1-3 to JDF-417 source pages 1-3 and packet pages 4-5 to JDF-418 source pages 1-2, for both fixtures, and that is what the delivered bytes carry in that order, read from each page's own printed header. Primary filing precedes proposed order, matching the registry's component order 1 then 2. Delivered page count (5) equals the sum of the two sources' page counts (3 + 2). No page is duplicated, transposed or dropped; my per-page render diff aligned every delivered page against its declared source page with no misalignment."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No on-page election is written by the build, and I confirmed that is the correct treatment rather than an omission. The central one is section 4(b), 'Were charges ever filed in court?'. On this route the answer is No, and the packet deliberately leaves it blank; the guide states this explicitly and gives the reason - 'The platform does not put a sworn yes-or-no answer on a petition you are the one signing' - and adds the boundary warning that if charges WERE filed this is the wrong form. Section 2 (whether the filer is the person in interest) is likewise left to the participant with a stated reason. Section 3's five agency boxes are left to the participant, with the guide directing that the CBI box be ticked because the form marks it required. Section A's court type is left blank because the form offers District or County and the case decides. requiredOptionsMissing 0. Every one of these refusals is named to the participant in the guide's own tables, which is the difference between this family and the two I failed on disclosure today."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "JDF-417 section 4a is the repeating structure: nine offence rows, each a text cell paired with a Misdemeanor-or-Felony chooser, which I read from the source binary as fields 4A.1A through 4A.9A with choosers 4A.1B through 4A.9B. All eighteen cells are blank in both fixtures - I confirmed by per-widget render diff that none carries added ink - so no row is half-written and incompleteRows is 0. The guide names the structure and tells the participant to 'List every offence in section 4a exactly as the record writes it, and say for each whether it was a misdemeanor or a felony', with a named cross-check against the criminal-history report. Nine of the choosers show a 2-3 pixel loss at a rule end in the render diff; that is sub-pixel rendering jitter on a horizontal rule, not a lost or moved value, and I record it rather than counting it."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The controlling record does not establish a fee for this petition - its two items read 'The filing fee for this petition remains unresolved' and 'The source review does not address a fee waiver for this petition' - and the guide states that position instead of improving on it: 'Ask the clerk what fee applies, and what to do if you cannot pay it. The fee position for a petition to seal an arrest record is not established in any source this packet holds, so it is not stated here.' No amount, no waiver form and no waiver standard is fabricated, and I read both delivered forms end to end and neither prints a fee figure that the guide contradicts."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. Nineteen widget rectangles carry added ink across the two documents and they are exactly the declared writes; every declared value reads complete out of the delivered text layer in both fixtures.",
+        "requiredFactsNotCollected": "0. All seven items in the track registry's packetSet.requiredBeforeFiling are disclosed - the two criminal-history-report items verbatim under their own heading, the rest in substance - and the CO.memo.json supportingDocuments entry the prior FAIL named is now printed with its source, method and condition.",
+        "unclassifiedBlanks": "0. Every blank left on either form carries a disposition in the field map and appears in participant-instructions.md, either in the blanks list by form section or in the deliberately-left-blank list.",
+        "incompleteRows": "0. All eighteen cells of the nine-row section 4a offence table are uniformly blank in both fixtures; no row carries a charge without its misdemeanor-or-felony chooser or the reverse.",
+        "requiredOptionsMissing": "0. No election is route-determined here; section 4(b), section 2, the section 3 agency list and the section A court type are all correctly left to the participant, and every one of them is named to the participant in the guide.",
+        "requiredComponentsMissing": "0. Both required components, JDF-417 and JDF-418, are delivered in both fixtures.",
+        "invisibleWrites": "0. Every added word is readable in the delivered text layer and lands in a declared cell. Note that the seven synthesized outlines counted under visualDefects are not invisible WRITES - they are ink with no write behind them at all, which is why they belong in visualDefects and not here.",
+        "protectedWrites": "0. JDF-418 page 2 differs from its source by zero pixels in either fixture. No added ink on any signature, date, notary, counsel or court-use-only region, and none in the section-2 person-in-interest block.",
+        "visualDefects": "7 per fixture, identical in both, measured by me at 150 dpi by directional pixel diff of each delivered page against its pinned source page, attributed per widget against the 90 source widget rects, then confirmed by reading rendered crops at 2x and 3x. The seven are JDF-417 page 1 Group1.7 widget 1 (99 px added, 102 removed), Group1.7 widget 2 (94 added, 106 removed), and JDF-417 page 2 checkboxes 3A.0 (134/76), 3B.0 (88/0), 3C (70/0), 3D.0 (70/0) and 3E.0 (70/0). Not taken from the builder: reports/actual-writes.json publishes zero glyphs outside measured write boxes, which is true and does not reach a stroked outline."
+      },
+      "crossChecks": {
+        "priorVerdictAndRepair": "This lane returned FAIL_REPAIR_REQUIRED on this family at base 159c0b5cf25e10a7fad6a7defb60bd6692e52480 (rows-vf01-20260909b.json) on REQUIRED_BEFORE_FILING and CLIPPING_AND_OVERLAP. Commit 12b6d925a (FIX120) repaired both, changing both fixture binaries, participant-instructions.md, product-wiring.json, three reports and source-receipt.json. On re-read REQUIRED_BEFORE_FILING is genuinely closed. CLIPPING_AND_OVERLAP is not: FIX120 measured and closed the /Ch chooser case (23 four-sided boxes to 0) and the seven /Btn controls above are a different mechanism its control does not reach. postRepairReread true.",
+        "clonedFamilyPackets": "Checked against data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json: neither co_petition_seal_arrest-set nor any CO family appears in familiesDeliveringACloneOfAnother or in any clonedDeliverables group. No clone and no near-clone question arises.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/co_petition_seal_arrest-set/co_petition_seal_arrest-set.verdict.json, RASTER_PASS, pagesMeasured 10, coversTheWholeFamily true, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490. Its pinned digests equal the post-repair digests I recomputed, so the raster is current; it nevertheless passed bytes carrying seven synthesized outlines, which is what the raster gate is not for.",
+        "immaterialDifferencesRecordedNotCounted": "Two page-1 regions and nine section-4a choosers show 2-3 pixel differences at the ends of horizontal and vertical rules, and one 1-pixel-wide 71-pixel-tall column at the Court Address field. I cropped and read the two largest and they are antialiasing jitter on a re-encoded rule, not lost or moved content. Recorded so the count of 7 is not read as having swept them in."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/production-field-map.json",
+          "sha256": "0021033f0dca6e4216e9bf951c422f69a0f91f51e84b674b8237948ec4c782ad"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "c3ecbff8ac75a91c47f7daa0eb8ba2863da849c399453d79034fc254100a2713"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/source-receipt.json",
+          "sha256": "47f4aea33f992aaca26a901b4e3d05c08af3758ea066ae0b687185ffa4e911b8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "aa0acd1223057387fcbd6825f5e4bca060f083c03213f74d947caad97bbcc3c7"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "914b8f29e6dde930bef8df7a5ae7e5a47277c0f80841c516699de6b089c34518"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "1ddaa57b7f4baf6c7ac6d39d5a5f69640fdcd01eeebd3291171c1046a76f45b1"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "a08795e2fe8dbeba76cc479ba73cedba3bf06ff855b82f7069fc4497d7077d50"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+          "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+          "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993"
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+          "sha256": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        }
+      ],
+      "visualDefects": [
+        {
+          "document": "JDF-417",
+          "page": 1,
+          "field": "Group1.7 (widget 1)",
+          "rect": [
+            268.8,
+            356.5,
+            282.48,
+            370.18
+          ],
+          "defect": "synthesized ring drawn up and to the right of the ring the form prints; inked box grows from x560-587 rows879-906 to x560-592 rows873-906; the added stroke cuts through the printed 'N' of the answer label 'No'",
+          "pixelsAdded": 99,
+          "pixelsRemoved": 102,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 1,
+          "field": "Group1.7 (widget 2)",
+          "rect": [
+            313.88,
+            356.62,
+            327.56,
+            370.3
+          ],
+          "defect": "same synthesized ring; inked box grows from x654-681 to x654-686 rows873-906; the added stroke cuts through the printed 'Y' of the answer label 'Yes, in (language)'",
+          "pixelsAdded": 94,
+          "pixelsRemoved": 106,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 2,
+          "field": "3A.0 (Prosecuting Attorney)",
+          "rect": [
+            126.0,
+            658.96,
+            139.68,
+            672.64
+          ],
+          "defect": "second square stamped up and to the right of the printed checkbox; inked box grows from x263-290 rows249-276 to x263-295 rows243-276, delivering two offset squares where the form prints one",
+          "pixelsAdded": 134,
+          "pixelsRemoved": 76,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 2,
+          "field": "3B.0 (Sheriff's Department)",
+          "rect": [
+            126.0,
+            635.92,
+            139.68,
+            649.6
+          ],
+          "defect": "second square stamped inside the printed checkbox, down and to the left; bounding box unchanged, which is why a box-extent control does not see it",
+          "pixelsAdded": 88,
+          "pixelsRemoved": 0,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 2,
+          "field": "3C (Colorado Bureau of Investigation (Required))",
+          "rect": [
+            126.0,
+            595.81,
+            139.68,
+            609.49
+          ],
+          "defect": "second square stamped inside the printed checkbox; this is the agency box the form itself marks required",
+          "pixelsAdded": 70,
+          "pixelsRemoved": 0,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 2,
+          "field": "3D.0 (Law Enforcement)",
+          "rect": [
+            126.0,
+            556.63,
+            139.68,
+            570.31
+          ],
+          "defect": "second square stamped inside the printed checkbox",
+          "pixelsAdded": 70,
+          "pixelsRemoved": 0,
+          "inBothFixtures": true
+        },
+        {
+          "document": "JDF-417",
+          "page": 2,
+          "field": "3E.0 (Other)",
+          "rect": [
+            126.0,
+            465.93,
+            139.68,
+            479.61
+          ],
+          "defect": "second square stamped inside the printed checkbox",
+          "pixelsAdded": 70,
+          "pixelsRemoved": 0,
+          "inBothFixtures": true
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "grantsNothing": "An independent FAIL routes this family to repair against its own controlling records. It approves no output, promotes no route and opens no commercial path."
     }
   ]
 }
