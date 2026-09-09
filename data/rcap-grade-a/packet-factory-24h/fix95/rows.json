@@ -127,7 +127,8 @@
         "claim": "Every family directory under data/rcap-all50/overlays other than these three is byte-identical to the base.",
         "method": "sha256 over the sorted sha256 of all 7695 files under data/rcap-all50/overlays outside the three FIX95 family directories; the same 7695 paths are present at the base and none appears in git status.",
         "sha256": "755619d05c970af720e2be18135fbfc8ecd47f1c8c5a23d7d2923c212f45c5de"
-      }
+      },
+      "repairedByThisLane": true
     },
     {
       "itemId": "nm_identity_theft-set",
@@ -222,7 +223,8 @@
         "claim": "Every family directory under data/rcap-all50/overlays other than these three is byte-identical to the base.",
         "method": "sha256 over the sorted sha256 of all 7695 files under data/rcap-all50/overlays outside the three FIX95 family directories; the same 7695 paths are present at the base and none appears in git status.",
         "sha256": "755619d05c970af720e2be18135fbfc8ecd47f1c8c5a23d7d2923c212f45c5de"
-      }
+      },
+      "repairedByThisLane": true
     },
     {
       "itemId": "nm_release_without_conviction-set",
@@ -326,7 +328,15 @@
         "claim": "Every family directory under data/rcap-all50/overlays other than these three is byte-identical to the base.",
         "method": "sha256 over the sorted sha256 of all 7695 files under data/rcap-all50/overlays outside the three FIX95 family directories; the same 7695 paths are present at the base and none appears in git status.",
         "sha256": "755619d05c970af720e2be18135fbfc8ecd47f1c8c5a23d7d2923c212f45c5de"
-      }
+      },
+      "repairedByThisLane": true
     }
-  ]
+  ],
+  "captainCorrection": {
+    "on": "2026-09-09",
+    "by": "Captain, at integration",
+    "what": "Set repairedByThisLane true on 3 COMPLETED row(s).",
+    "why": "The lane declared repairedByThisLane true once at the document level and omitted it per row, where the generator reads it, so these completions would not have been consumed. This copies the lane own document-level declaration onto its own rows.",
+    "assertsNothingNew": "No obligation, counter, digest, verdict, page measurement or narrative was touched."
+  }
 }
