@@ -953,6 +953,225 @@
       "overlayDirectoryTouched": false,
       "artifacts": [],
       "why": "All three sources bind exactly, but the dispatched Section 411.0725 family builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e and the target overlay is empty. No approved shared host exports this route, so the five-component contract cannot be measured or completed in this lane without a new reviewed implementation."
+    },
+    {
+      "itemId": "hi_712_1200_deferred_expungement-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "jurisdiction": "HI",
+      "implementationStrategy": "official_pdf_fill",
+      "structuralClass": "flat_overlay",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-pathway:HI:hi_712_1200_deferred_expungement:deferred-prostitution-three-year"
+      ],
+      "routeLabel": "Deferred acceptance dismissal — HRS § 712-1200 three-year route",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind: 1/1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasured": true,
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "totals": {
+        "terminalFields": 20,
+        "written": 6,
+        "blank": 14,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 8,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
+          "OPTIONAL_PARTICIPANT_CONTENT": 1,
+          "PROTECTED_FIELD": 3
+        },
+        "fieldMapArithmetic": "6 written + 14 classified blanks = 20 terminal fields"
+      },
+      "writesByDocument": [
+        {
+          "documentId": "HCJDC-159B",
+          "written": 6,
+          "terminalFields": 20,
+          "refused": 14
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "HCJDC-159B"
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "documentId": "HCJDC-159B",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "byteLength": 181711,
+          "path": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "custodyIsPartial": true,
+          "rehashedByThisWorker": true,
+          "headerRead": "%PDF-",
+          "bindsExact": true
+        }
+      ],
+      "sourceConfirmation": "The bound source was re-hashed from the mounted bytes by this worker rather than taken from the dispatch aid: sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a over 181711 bytes, first bytes %PDF-, matching both the custody reconciliation and the committed corpus index. This source binds through the Nationwide recovery pool, a PARTIAL custody (completeOperationalCorpus false); it satisfies this one source obligation and asserts nothing about corpus completeness.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "78e674c8aaabc6adb66a4c4a40bc8232a1cb86c650bb0c5d21c6646226c01313",
+          "byteLength": 197328,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "d975f877ae1cf99d2e2a2b686557a0c832c13dab597bf975c3ebf8ad69cfa793",
+          "byteLength": 197450,
+          "pageCount": 1
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "visibleWriteVerification": "Verified from the final PDF bytes, not from the finalizer's report, and by differencing rather than absolute darkness: the source prints rules and labels inside these same rectangles, so an absolute-ink test reported ink in every box including ones that must stay blank and was discarded as a bad measurement. Each rectangle was rendered from the built packet and from the untouched source through scripts/raster/pdf-page-raster.mjs (chromium, magnify 3, calibration residual 1.108px) and the dark-pixel counts differenced. All 6 write boxes gained ink in both fixtures (canonical +1553 to +4339 px, boundary +1405 to +8917 px). All 5 must-stay-blank boxes gained exactly 0 px in both fixtures: signature, signature date, 'LEAVE BLANK; HCJDC USE ONLY', other names used, and the optional SSN. Text position was independently checked against the source geometry: every value starts at its printed rule's left end + 2pt and sits 0.6pt above the rule, on the line rather than through it.",
+      "routeOptionSelection": "The source form prints two waiting periods under EXPUNGEMENT OF NON-CONVICTION INFORMATION — one year for a Chapter 853 deferred plea generally, and three years where the dismissed charge is under HRS §712-1200. This family is the three-year §712-1200 route and the packet states it, in production-field-map.json routeSelectionNote and in participant-instructions.md, rather than asking the participant which applies. The conviction paragraph and its court-order attachment are declared NOT_APPLICABLE_ON_THIS_ROUTE with the route condition named. The applicant's initials beside the paragraph remain REQUIRED_BEFORE_FILING because an initial is a personal mark, not a route election.",
+      "protectedFieldsLeftBlank": [
+        "signature",
+        "signature_date",
+        "hcjdc_use_only"
+      ],
+      "participantFactsRequiredBeforeFiling": [
+        "other_names",
+        "sex_m",
+        "sex_f",
+        "route_initial",
+        "check_signature",
+        "check_photo_id",
+        "check_mailing_address",
+        "check_payment"
+      ],
+      "participantInstructionsDisclose": true,
+      "focusedCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'hi_712_1200_deferred_expungement-set'",
+        "result": "PASS_COMPLETE 6/20 written; all nine counters 0",
+        "whatItIsNot": "A build-side check run by the builder. It is not a verdict and not independent verification."
+      },
+      "selfVerified": false,
+      "buildScript": "scripts/build-census-v1-hi_712_1200_deferred_expungement-set.mjs"
+    },
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "jurisdiction": "LA",
+      "implementationStrategy": "custom_pleading",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF03 'la-985-1-interim-expungement-set'",
+      "claimResult": "ALREADY_RELEASED: la-985-1-interim-expungement-set at 2026-09-05T09:49:13.073Z",
+      "claimExitCode": 9,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "countersNotMeasuredReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
+      "whyStopped": "The mandatory assertion refused with exit 9. The grant for this family is recorded on PF03, the correct lane, but data/rcap-grade-a/packet-factory-24h/claim-ledger.json carries released true with releasedAt 2026-09-05T09:49:13.073Z, so no live grant exists to build under. The dispatch stated that all six grants were live at the base commit; measured at that base commit, this one is not. Re-opening a released grant is --reissue, a dispatch act, and a worker choosing to reissue its own grant would be granting itself authority. This lane did not read, render or inspect any artifact of this family.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent at the base commit and absent now; this lane created nothing under it",
+      "artifactsRead": [],
+      "artifacts": []
+    },
+    {
+      "itemId": "ma-seal-admin-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "countersNotMeasuredReason": "The family was never built, so there are no packet bytes to measure. Reporting zeros here would read as a clean packet.",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable; family_sources_bind: ma-seal-admin-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+          "sha256": null,
+          "why": "resolved:false, heldAs:null, absence 'label_does_not_identify_a_document' in the custody reconciliation; no digest is pinned for this label anywhere"
+        }
+      ],
+      "sourcesThatBound": [],
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "commissionAcquisition": true,
+      "whyStopped": "This family's row in data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json reads EVERY_BOUND_SOURCE_IS_A_HELD_PDF and MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES, and both are contradicted by the governed custody record. data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json records this family as custodyClass SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0, every documentSource carrying resolved:false, heldAs:null and absence 'label_does_not_identify_a_document', and commissionAcquisition true. The dispatch aid resolved a path by filename similarity and read its first bytes; it pins no digest, and its own text says it is not a source determination and that an id-string name is 'a prompt to look, never a finding'. There is therefore no pinned SHA-256 for this label to bind against, so builder-contract rule 1 cannot be satisfied and the family is stopped rather than built.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent at the base commit and absent now; this lane created nothing under it",
+      "artifacts": [],
+      "additionalFinding": "The label resolves to more than one held document and choosing between them is a source-identity determination this lane has no authority to make. Two candidates sit in the mounted recovery pool under LegalEase massachusetts/: fillable-jud-mps-Petition-to-Seal.pdf (sha256 416f9a1d1a7ade6e..., re-hashed by this worker) and jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf (sha256 f83d441b6ddaf1ef...), which are different forms for different sealing routes. Every corpus-index entry for these carries formNumber null, so the worklist's form-number resolver matches nothing either. Picking one by filename would bind a packet to a document no record names."
+    },
+    {
+      "itemId": "ma-seal-decrim-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "countersNotMeasuredReason": "The family was never built, so there are no packet bytes to measure. Reporting zeros here would read as a clean packet.",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable; family_sources_bind: ma-seal-decrim-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+          "sha256": null,
+          "why": "resolved:false, heldAs:null, absence 'label_does_not_identify_a_document' in the custody reconciliation; no digest is pinned for this label anywhere"
+        }
+      ],
+      "sourcesThatBound": [],
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "commissionAcquisition": true,
+      "whyStopped": "This family's row in data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json reads EVERY_BOUND_SOURCE_IS_A_HELD_PDF and MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES, and both are contradicted by the governed custody record. data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json records this family as custodyClass SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0, every documentSource carrying resolved:false, heldAs:null and absence 'label_does_not_identify_a_document', and commissionAcquisition true. The dispatch aid resolved a path by filename similarity and read its first bytes; it pins no digest, and its own text says it is not a source determination and that an id-string name is 'a prompt to look, never a finding'. There is therefore no pinned SHA-256 for this label to bind against, so builder-contract rule 1 cannot be satisfied and the family is stopped rather than built.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent at the base commit and absent now; this lane created nothing under it",
+      "artifacts": [],
+      "additionalFinding": "The label resolves to more than one held document and choosing between them is a source-identity determination this lane has no authority to make. Two candidates sit in the mounted recovery pool under LegalEase massachusetts/: fillable-jud-mps-Petition-to-Seal.pdf (sha256 416f9a1d1a7ade6e..., re-hashed by this worker) and jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf (sha256 f83d441b6ddaf1ef...), which are different forms for different sealing routes. Every corpus-index entry for these carries formNumber null, so the worklist's form-number resolver matches nothing either. Picking one by filename would bind a packet to a document no record names."
     }
   ],
   "currentReturn": {
@@ -1130,5 +1349,51 @@
         ]
       }
     ]
+  },
+  "thirdReturn": {
+    "why": "This lane id has now been executed three times, over three disjoint sets of families. The two earlier returns are preserved byte-for-byte in every field they wrote, including the stale top-level counts that describe the first return; this key records the third and overwrites none of them.",
+    "workerId": "claude-opus5-pf03-pf23-20260909",
+    "workerBranch": "pf03-pf23-build-20260909",
+    "engine": "Claude Opus 5 packet-build worker in an isolated git worktree, executing PF03 and PF23 as two lanes under the launching dispatch's container, raster and return overrides",
+    "shiftBaseSha": "08960cf4a779278e22a10fe782fcbffdb8823a66",
+    "familiesAssigned": 4,
+    "rowsReturned": 4,
+    "itemIds": [
+      "hi_712_1200_deferred_expungement-set",
+      "la-985-1-interim-expungement-set",
+      "ma-seal-admin-set",
+      "ma-seal-decrim-set"
+    ],
+    "familiesCompleted": [
+      "hi_712_1200_deferred_expungement-set"
+    ],
+    "familiesStopped": [
+      "la-985-1-interim-expungement-set",
+      "ma-seal-admin-set",
+      "ma-seal-decrim-set"
+    ],
+    "blockedSource": [
+      "ma-seal-admin-set",
+      "ma-seal-decrim-set"
+    ],
+    "blockedBeforeClaim": [
+      "la-985-1-interim-expungement-set"
+    ],
+    "blockedLegalInput": [],
+    "overlayDirectoriesTouchedByAStoppedFamily": 0,
+    "laneGate": {
+      "command": "node scripts/verify-packet-build-environment.mjs",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+      "rasterizerProbe": "node scripts/verify-packet-build-environment.mjs --require-rasterizer -> page_rasterizer_available ok: chromium at /opt/pw-browsers/chromium-1223/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px. browser_environment_exported FAILs in this container because RCAP_CHROMIUM_PATH is not exported and PLAYWRIGHT_BROWSERS_PATH is absent from /root/.legalease-corpus-env; the rasterizer itself resolves and renders, and the lane gate this assignment names does not include that export check.",
+      "flagsNotPassed": "--codex-cloud and --minimum-captain-sha were not passed: this is not a Codex Cloud container and the dispatch directed the unflagged invocation."
+    },
+    "packetsSelfVerified": 0,
+    "otherPfPromptsExecutedInThisWorktree": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "claimsReleased": 0,
+    "claimLedgerCommitted": false,
+    "dispatchExpectationThatDidNotHold": "The dispatch expected five of six families to build and one to stop. Measured at the base commit, four of six stop: one grant is already released, and three official_pdf_fill families the buildability aid called EVERY_BOUND_SOURCE_IS_A_HELD_PDF have no pinned digest to bind, because the aid resolves a filename and the custody record resolves an identity. The aid says so itself: it is not a source determination.",
+    "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable, and no route was opened."
   }
 }
