@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 988,
+    "rows": 985,
     "independentVerdicts": 252,
-    "failRepairRequired": 43,
+    "failRepairRequired": 39,
     "passIndependent": 194
   },
   "failRepairRequiredFamilies": [
@@ -78,10 +78,6 @@
     "nm_release_without_conviction-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "ri_deferred_sentence-set",
-    "ri_first_offender_felony-set",
-    "ri_first_offender_misdemeanor-set",
-    "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set"
   ],
@@ -11688,7 +11684,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-nonconv-set",
@@ -11789,6 +11785,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f78191545",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "FAIL: every digest, byte length and page count now pins what is on disk, and the settled question is correctly retired and true of delivered page 5 — but the acceptance receipt as transcribed overclaims. It reports a gate that rendered canonical.pdf only as documentsNotCovered [] and coversTheWholeFamily true beside the boundary digest it binds, and drops the source row's own statement that boundary.pdf was not rendered by that gate and that a defect appearing only there is not something RASTER_PASS excluded. What raster acceptance does not establish is therefore not stated where it is claimed.",
+          "evidence": "Measured fresh; this is the obligation this read owes. WHAT IS NOW CORRECT. Recomputed from the bytes: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845, 33154 B, 11 pages; boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58, 33493 B, 11 pages, with pdfinfo, an independent /Type /Page scan and the page tree's /Count all agreeing on 11 and 11. product-wiring.json censusV1Representation.fixtures now pins exactly those six values; reports/rendered-artifacts.json artifacts[] and pdfs[] pin exactly those six values; RASTER_QUEUE historicalRasterRows[31] canonicalPdfSha256/boundaryPdfSha256, documents[].pageCount and expectedPages agree; source-receipt.json names no artifact bytes at all and so carried no residue. The three stale keys VF04 named — whyAcceptanceReceiptIsNull, openCounselQuestion, howTheOpenQuestionIsTreated — are gone from product-wiring.json; the only surviving occurrence of the superseded pair 0441d16c… / 379dae5a… anywhere in the family directory is inside the labelled supersededFixtures.tenPagePairSupersededByFix107 block. approval-request.json no longer raises the notarisation question: it sits in counselQuestionsSettled with its answer, its controlling inputs (specification 2.0.0 notarisationRequired true; Roger Roman's direction of 2026-09-03, SHA-256 88497978c1…) and an express scope limit, and the four other questions remain raised. The retirement's factual basis was tested rather than trusted: delivered page 5 of BOTH fixtures is the VERIFICATION on oath with jurat, on its own sheet, under the petition caption — so the retired sentence 'No verification block and no notarial certificate was added' is indeed false of the delivered bytes, and the replacement notarisationTreatment sentence is true of them. WHAT IS STILL WRONG. censusV1Representation.acceptanceReceipt is the right receipt reported with the wrong reach. It asserts, in one object, documentsCovered ['canonical.pdf'] together with documentsNotCovered [] and coversTheWholeFamily true, while binding boundToBoundarySha256 87e4bf90… and sitting directly beneath a fixtures block that lists boundary.pdf as a delivered fixture of this family. documentsNotCovered [] is false on the record's own face: it names one covered document where the family and the queue row both carry two. The queue row this receipt is copied from states the limit plainly and the copy drops it — coverage.notRenderedByThisGate ['boundary.pdf'] and coverage.whatCompleteMeansHere 'every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.' Neither sentence, nor any equivalent, appears anywhere in product-wiring.json. whatItDoesNotEstablish states three real limits (not an independent semantic review, not counsel approval, not commercial authority) and omits the one limit that is specific to these exact bytes. Supporting, not independently disqualifying: whyThisReceiptIsTheOne says 'RASTER_QUEUE.json carries exactly this receipt for this family' without saying that the queue carries it as historicalRasterRows with historicalOnly true and currentGateAuthority false, while listing ms-nonconv-set at notEligible[92]. VF04 itself recorded the boundary carve-out in its own row under whatTheReceiptDoesNotCover and compensated by rastering both fixtures locally; the corrected family record does neither."
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": false
     },
     {
       "familyId": "name mailed to",
@@ -20908,48 +20926,6 @@
     {
       "familyId": "ri_deferred_sentence-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "ri-independent-findings",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier.",
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
-      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
-      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
-      "sessionIdentity": "chatb-20260907-independent-01",
-      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
-      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
-      "candidateCodeCommit": null,
-      "packetPublicationCommit": null,
-      "supersedesEvidencePath": null,
-      "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
-      "superseded": false
-    },
-    {
-      "familyId": "ri_deferred_sentence-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "d7e293f81",
@@ -21003,7 +20979,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "ri_deferred_sentence-set",
@@ -21089,42 +21065,6 @@
     },
     {
       "familyId": "ri_first_offender_felony-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "ri-independent-findings",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
-      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
-      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
-      "sessionIdentity": "chatb-20260907-independent-01",
-      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
-      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
-      "candidateCodeCommit": null,
-      "packetPublicationCommit": null,
-      "supersedesEvidencePath": null,
-      "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
-      "superseded": false
-    },
-    {
-      "familyId": "ri_first_offender_felony-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -21157,7 +21097,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "ri_first_offender_felony-set",
@@ -21281,42 +21221,6 @@
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "ri-independent-findings",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-02: The final participant-authored certified-copy checklist categorically tells the participant to pay everything in full, although earlier route guidance correctly recognizes court-approved reduction or waiver. Quoting the official form's short instruction does not cure the contradictory added command.",
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
-      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
-      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
-      "sessionIdentity": "chatb-20260907-independent-01",
-      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
-      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
-      "candidateCodeCommit": null,
-      "packetPublicationCommit": null,
-      "supersedesEvidencePath": null,
-      "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": false
-    },
-    {
-      "familyId": "ri_first_offender_misdemeanor-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -21349,7 +21253,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -21482,48 +21386,6 @@
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "ri-independent-findings",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "32cb0b474c200cd0c9c96e9e10253696d7a0ee6d",
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "RI-B-01: The required BCI acquisition step tells the participant to request a criminal history but does not identify the expungement-purpose request or give its current practical acquisition requirements and separate cost. An ordinary public/employment BCI omits some matters relevant to the packet's own arrest/history checks. | RI-B-03: Both page-12 self-help-stop lists import a rule stopping for any prior conviction or probation because it defeats first-offender status. That is not the eligibility structure of these two routes. Deferred guidance also imports an undefined first-offender lookback despite correctly stating immediate post-completion consideration earlier. | RI-B-04: Current DC-33 instructions say fewer than six, while its affidavit says not more than six. Current section 12-1.3-2(b) expressly permits more than one but fewer than six and allows any or all of those misdemeanors. The added guide nevertheless says whether fewer than six means up to five is unresolved.",
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json",
-      "evidenceSha256": "3d386447c30b5ca23343d29bc25eb7ef3a69d776f7eb99293b0d210a1beb6fbc",
-      "reviewer": "ChatGPT, GPT-6 Astra Pro, separate Chat B session",
-      "sessionIdentity": "chatb-20260907-independent-01",
-      "reviewScope": "Completed full-output visual and substantive negative review of eight PDFs. Not a complete map/write-contract audit and not promotion evidence. Concrete participant-facing defects below must be repaired even though the raster outputs are clean.",
-      "reviewBaseSource": "Document frozen packet snapshot, independently bound here to both current whole-PDF Git identities",
-      "candidateCodeCommit": null,
-      "packetPublicationCommit": null,
-      "supersedesEvidencePath": null,
-      "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
-      "superseded": false
-    },
-    {
-      "familyId": "ri_multiple_misdemeanors-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -21556,7 +21418,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
-      "superseded": true
+      "superseded": false
     },
     {
       "familyId": "ri_multiple_misdemeanors-set",
@@ -30011,7 +29873,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 17,
+  "rowsRefused": 21,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
@@ -30029,7 +29891,11 @@
     "vf10/pa_pardon_expungement-set: undeclared verdict FAIL",
     "vf11/in_arrest_no_charges-set: undeclared verdict FAIL",
     "vf11/rcap-ms-custom-pleading: undeclared verdict FAIL",
-    "vf12/tx_nd_conviction_no_supervision-set: undeclared verdict FAIL"
+    "vf12/tx_nd_conviction_no_supervision-set: undeclared verdict FAIL",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_felony-set: bounded review no longer describes both current PDFs",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_first_offender_misdemeanor-set: bounded review no longer describes both current PDFs",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_deferred_sentence-set: bounded review no longer describes both current PDFs",
+    "data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json/ri_multiple_misdemeanors-set: bounded review no longer describes both current PDFs"
   ],
   "whatARefusedRowMeans": "The row named a family and could not be read -- an undeclared verdict, an out-of-vocabulary obligation result, a PASS_COMPLETE_INDEPENDENT resting on an unmeasured obligation. It produced no verdict and moved no family. It is recorded here so a refusal is visible in the record rather than only in a console line, and so the count can be watched."
 }

@@ -27,27 +27,30 @@
       ],
       "recordId": "packet-set-manifest:ar-nonconviction-seal-set",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "5882bbcb261e7a0567bd5fb1aabce62d557156ac39de7e95dec43400942abec8",
-      "byteLength": 3688800,
+      "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+      "byteLength": 3694688,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle the filing destination, the service rule and its three-day deadline, the prosecutor's objection window, and the two records steps that precede the petition",
       "anchorStatementsVerified": 5,
       "identityRefresh": {
         "refreshedOn": "2026-09-09",
         "was": {
-          "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
-          "byteLength": 3684141
+          "sha256": "5882bbcb261e7a0567bd5fb1aabce62d557156ac39de7e95dec43400942abec8",
+          "byteLength": 3688800
         },
-        "why": "The record was rewritten around this receipt's anchor. 1 packet set(s) moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical. Only the whole-file identity moved.",
+        "why": "The record was rewritten around this receipt's anchor. 4 packet set(s) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor-set, ri_first_offender_felony-set, ri_multiple_misdemeanors-set, ri_deferred_sentence-set), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical. Only the whole-file identity moved.",
         "anchorsCompared": 1,
         "anchorDetail": [
           "ar-nonconviction-seal-set: identical"
         ],
         "anchorsIdentical": 1,
         "entriesThatMovedInThisRecord": [
-          "co_motion_seal_conviction-set"
+          "ri_first_offender_misdemeanor-set",
+          "ri_first_offender_felony-set",
+          "ri_multiple_misdemeanors-set",
+          "ri_deferred_sentence-set"
         ],
-        "previousPinLastSeenAtCommit": "f06f33bc6",
+        "previousPinLastSeenAtCommit": "HEAD~1",
         "whatThisDoesNotClaim": "Nothing about the packet's own bytes, its obligations or its verdict. This restores an identity binding that lapsed on an unrelated edit; it is not a verification, a promotion or an approval."
       }
     },
