@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d3d26124001facaf59856ea4d61975f56849f973",
+  "minimumCaptainSha": "bebf876320336dc440b4a31e378b9af0ff76b3e4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -72,21 +72,20 @@
     "sourceReady": 73,
     "sourceBlocked": 6,
     "legalBlocked": 14,
-    "verifyPending": 1,
-    "repairRequired": 22,
+    "verifyPending": 0,
+    "repairRequired": 23,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 176,
     "GUIDANCE_READY": 14,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 36,
+    "FAIL_REPAIR_REQUIRED": 37,
     "SOURCE_READY": 73,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 14,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -36790,11 +36789,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf30",
-        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "683e8e31a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36824,30 +36825,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "COMPONENT_SET",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "COMPONENT_SET"
       ],
       "failedObligations": [
         {
           "obligation": "COMPONENT_SET",
-          "finding": "The packet bytes contain a process-guidance component, but product-wiring.json omits the manifest's required process-guidance component from binding.packetComponents. The rendered guidance also says it states no timetable while the held unit requires it to explain the Board-to-AOPC quarterly cycle; the participant instructions state that cycle elsewhere, making the component internally inconsistent with the packet.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The manifest requires obtaining a copy of the pardon, confirming from that document whether it is unconditional, and recording the quarterly verification date before selecting/filed fallback work. Neither participant-instructions.md nor the rendered guidance tells the participant to obtain the pardon copy or perform those two checks.",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet discusses conditional versus unconditional pardons and the quarterly route but never carries the three held conditions as stops: no pardon yet/out-of-scope referral, inability to determine pardon type from the document, and a still-visible record after the quarterly cycle when fallback availability is unclear. The rendered guidance instead says simply to file if the record is not clear.",
-          "evidence": null
+          "finding": "The guidance-timetable limb is repaired and passes; the binding limb is not repaired at this base. FIX101's fix was reverted by the central regeneration in the next commit, and the required component and the manifest's declared order are still absent from the delivered wiring record.",
+          "evidence": "Manifest packetSets[362] declares three components, order 1 process-guidance (required), 2 primary-filing, 3 proposed-order. product-wiring.json binding.packetComponents at 683e8e31a names two and omits component:pa_pardon_expungement-process-guidance-1. Blob read at c27405c9c (three, in order), 48f4637c4 (two), 1e95f1f06 (two), 683e8e31a (two)."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",

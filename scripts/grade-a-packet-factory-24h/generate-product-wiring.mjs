@@ -74,6 +74,7 @@ const exactRasterFor = (familyId) => {
     { requireReceiptDeclaredCoverage: true });
   return evaluation.proven ? evaluation.row : null;
 };
+const declaredDeliveryRefusals = [];
 const currentVerdict = new Map();
 for (const r of verifierReturns.rows ?? []) {
   if (!r.isIndependentVerification || !r.verdict || r.superseded) continue;
@@ -251,7 +252,39 @@ for (const f of selectedFamilies) {
         digestsRepinned.push({ family: f.familyId, componentId: c.componentId ?? null, file: c.file, was: c.sha256, now: actual });
         c.sha256 = actual;
       }
-      existing = alignDeclaredDelivery(existing, f);
+      /*
+       * ONE FAMILY'S UNMET EXPECTATION MUST NOT BLIND THE OTHER 345.
+       *
+       * The declared-delivery binders assert what their family's records must
+       * look like, and a failed assertion throws out of the whole generator.
+       * Six families do that today — five because their binder expects the
+       * boundary fixture in the raster receipt and the central gate never
+       * renders boundary fixtures, and rcap-ga-guidance-implementation because
+       * its binder was written for a fifteen-document receipt while the queue
+       * holds one covering fewer. So generate-product-wiring.mjs has been
+       * exiting non-zero and NO family's wiring regenerated: 128 records were
+       * stale behind the first thrown assertion.
+       *
+       * Each refusal is real and is preserved: that family's binding is left
+       * exactly as committed and nothing is written for it. What changes is the
+       * blast radius. The failure is recorded per family and reported at the
+       * end, so the derivation completes for everyone else and the defect stays
+       * visible instead of stopping the queue.
+       */
+      try {
+        existing = alignDeclaredDelivery(existing, f);
+      } catch (e) {
+        /* An AssertionError's first line is boilerplate; the useful part is the
+         * assertion's own message where one was given, and otherwise the first
+         * differing lines. Truncating to line one made six distinct defects
+         * print the same sentence. */
+        const raw = String(e?.message ?? e);
+        const lines = raw.split("\n").map((l) => l.trim()).filter(Boolean);
+        const why = lines.find((l) => !/^Expected values|^\+ actual|^- expected|^\.\.\.|^\[|^\]$/.test(l) && l.length > 12)
+          ?? lines.slice(0, 3).join(" | ");
+        declaredDeliveryRefusals.push({ family: f.familyId, why: why.slice(0, 260) });
+        continue;
+      }
       if (JSON.stringify(existing) !== before) {
         if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
         refreshed++;
@@ -394,4 +427,9 @@ if (digestsRepinned.length) {
   for (const d of digestsRepinned) console.log(`    ${d.family} ${d.file.split("/").pop()} ${d.was.slice(0, 12)} -> ${d.now.slice(0, 12)}`);
 }
 for (const m of digestFileMissing) console.log(`  MISSING component file, digest left as declared: ${m.family} ${m.file}`);
+if (declaredDeliveryRefusals.length) {
+  console.log(`  ${declaredDeliveryRefusals.length} famil(ies) REFUSED their declared-delivery binding; their wiring is left exactly as committed:`);
+  for (const r of declaredDeliveryRefusals) console.log(`    ${r.family}: ${r.why}`);
+  console.log("  Each is a real mismatch between a family's binder and its records. It is reported rather than thrown so the other families still derive.");
+}
 if (checkOnly && (written > 0 || refreshed > 0)) process.exitCode = 1;

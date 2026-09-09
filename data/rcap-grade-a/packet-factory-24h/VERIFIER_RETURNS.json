@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 992,
+    "rows": 993,
     "independentVerdicts": 252,
     "failRepairRequired": 41,
     "passIndependent": 195
@@ -17035,6 +17035,28 @@
     {
       "familyId": "pa_pardon_expungement-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "683e8e31a",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The guidance-timetable limb is repaired and passes; the binding limb is not repaired at this base. FIX101's fix was reverted by the central regeneration in the next commit, and the required component and the manifest's declared order are still absent from the delivered wiring record.",
+          "evidence": "Manifest packetSets[362] declares three components, order 1 process-guidance (required), 2 primary-filing, 3 proposed-order. product-wiring.json binding.packetComponents at 683e8e31a names two and omits component:pa_pardon_expungement-process-guidance-1. Blob read at c27405c9c (three, in order), 48f4637c4 (two), 1e95f1f06 (two), 683e8e31a (two)."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": null,
@@ -17528,7 +17550,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_pardon_expungement-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_summary_conviction-set",
