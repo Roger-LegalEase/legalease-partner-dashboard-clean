@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "la-985-expungement-by-redaction-set",
+  "routeKey": "obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "la-985-expungement-by-redaction-set",
+    "jurisdiction": "LA",
+    "routeKeys": [
+      "obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Louisiana Article 985 Redaction Packet"
+    ],
+    "packetComponents": [
+      "component:la-985-expungement-by-redaction-fee-waiver-4",
+      "component:la-985-expungement-by-redaction-primary-filing-1",
+      "component:la-985-expungement-by-redaction-proposed-order-2",
+      "component:la-985-expungement-by-redaction-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "la-985-expungement-by-redaction-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "la-985-expungement-by-redaction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "LA-CCRP-ART-989",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-985-expungement-by-redaction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "LA-CCRP-ART-991",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-985-expungement-by-redaction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "LA-CCRP-ART-992",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+        "requirement": "required"
+      },
+      {
+        "componentId": "la-985-expungement-by-redaction-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "la-985-expungement-by-redaction-instructions-6",
+        "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+        "requirement": "required"
+      }
+    ]
+  }
+}

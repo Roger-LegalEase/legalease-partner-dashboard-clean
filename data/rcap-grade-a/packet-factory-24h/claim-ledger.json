@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9a3f7ff58e39e9e3e8caeb37d0b233a94aefe961",
+  "generatedAtCommit": "ef3314a877babc67b493fb01b9e0157e43a5d24a",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3614,8 +3614,9 @@
       "operation": "packet-build",
       "lane": "PF13",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T14:07:31.672Z",
+      "releaseReason": "PF13 41c9d22ed COMPLETED: HCJDC 159(b) filled with no authored coordinate, 125/234 added glyphs equal the non-whitespace characters of the six written values, 0 outside a write box"
     },
     {
       "subjectType": "packet-family",
@@ -4710,8 +4711,9 @@
       "operation": "packet-build",
       "lane": "PF13",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T14:07:31.785Z",
+      "releaseReason": "PF13 e4a392f50 COMPLETED: Art. 989 motion plus two orders and a guide; 18/18 requiredBeforeFiling, 20/20 participant actions, 6/6 stops, 3/3 exclusions, 4/4 open questions carried into the delivered PDF"
     },
     {
       "subjectType": "packet-family",
@@ -5390,10 +5392,9 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF13",
+      "lane": "PF02",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5984,9 +5985,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF13",
+      "lane": "PF06",
       "laneKind": "packet-build",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-09T14:07:32.009Z"
     },
     {
       "subjectType": "packet-family",
@@ -13870,7 +13872,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d23f5e357d5143d1d9e1028f8bf6c5bbc6b156849e512f7e770bf466662a7502",
+  "claimsDigest": "0d608ad15ba71d24530f1454180b49f05d28a66ee9c03223df52771eceb85aa8",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34099,6 +34101,42 @@
       "laneKind": "packet-build",
       "releasedAt": "2026-09-09T14:02:42.224Z",
       "reason": "PF06 2f16bad2c STOPPED/BLOCKED_LEGAL_INPUT: all four sources bind by exact SHA-256; the missing thing is an owner determination on the court option list (11 vs 73, intersection 0, no free-text field)"
+    },
+    {
+      "lane": "PF13",
+      "subjectType": "packet-family",
+      "subjectId": "hi_nonconviction_expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:07:31.672Z",
+      "reason": "PF13 41c9d22ed COMPLETED: HCJDC 159(b) filled with no authored coordinate, 125/234 added glyphs equal the non-whitespace characters of the six written values, 0 outside a write box"
+    },
+    {
+      "lane": "PF13",
+      "subjectType": "packet-family",
+      "subjectId": "la-985-expungement-by-redaction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:07:31.785Z",
+      "reason": "PF13 e4a392f50 COMPLETED: Art. 989 motion plus two orders and a guide; 18/18 requiredBeforeFiling, 20/20 participant actions, 6/6 stops, 3/3 exclusions, 4/4 open questions carried into the delivered PDF"
+    },
+    {
+      "lane": "PF13",
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:07:31.900Z",
+      "reason": "PF13 98950e4f7 STOPPED/BLOCKED_SOURCE: official-form:CR370 8a4d32d6... zero hits by digest, filename and byte length across all five mounted roots; its declared custody src05_worker_materialization_2026_09_02 is not mounted"
+    },
+    {
+      "lane": "PF13",
+      "subjectType": "packet-family",
+      "subjectId": "nd-summary-marijuana-pardon-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T14:07:32.009Z",
+      "reason": "PF13 98950e4f7 STOPPED: not a source block, SFN-61663 binds at three paths. Held by NON_FILING_NOTICE_PATTERNS informational_purposes_only matching a legal-advice disclaimer in the form footer - a probable false positive in a shared gate the lane refused to weaken"
     }
   ],
   "reissues": [
@@ -42515,6 +42553,16 @@
       "familyState": "SOURCE_READY",
       "reissuedAt": "2026-09-09T14:04:10Z",
       "reason": "the current dispatch names PF07 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mo-610-140-conviction-set",
+      "operation": "packet-build",
+      "lane": "PF02",
+      "dispatchNames": "PF02",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-09T14:10:17Z",
+      "reason": "the current dispatch names PF02 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
