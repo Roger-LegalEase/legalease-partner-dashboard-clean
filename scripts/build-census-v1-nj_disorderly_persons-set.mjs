@@ -9,6 +9,30 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const familyId = "nj_disorderly_persons-set";
 const out = "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill";
 
+/*
+ * FIX121, COMPONENT_SET.
+ *
+ * The packet-set manifest declares component 10, role `counting_disclosure`,
+ * requirement `required`. This family's own manifestComponentDelivery marked it
+ * "rendered" and pointed it at "## Where self-help ends" -- a section that
+ * carries this route's 29 held self-help entries and no counting rule at all.
+ * VF11 read that section in full and failed the obligation: the only place the
+ * word count appears there is the stop line "Counting disputes at the
+ * five-offence line.", which tells the participant to stop, and telling someone
+ * to stop counting is not telling them how the count works.
+ *
+ * A required disclosure is not satisfied by a heading. The section below is the
+ * disclosure itself, and every sentence of substance in it is CARRIED from a
+ * committed record rather than composed here: the counting rule is the track
+ * registry's own `mechanism` string, quoted whole; the caution about the
+ * Judiciary's self-help phrasing is that track's own held openLegalQuestion,
+ * quoted whole; and the intake question is the track's own generationRequirement
+ * for the offence count. Nothing states a count for this participant, because
+ * this packet performs no eligibility analysis and holds no offence history --
+ * which the section says in terms rather than leaving to be inferred.
+ */
+const COUNTING_DISCLOSURE_HEADING = "## How the offence count works on this route";
+
 const selfHelpBoundaries = Object.freeze([
   "Counting disputes at the five-offence line.",
   "Marijuana regrading analysis.",
@@ -138,6 +162,64 @@ ${stopRows}
 `;
 }
 
+/**
+ * The counting disclosure, rendered from this route's own committed record.
+ *
+ * Every quoted passage is read out of legal-design-track-registry.json at build
+ * time and asserted present, so the section cannot silently drift away from the
+ * record it claims to carry, and a registry edit is a build failure rather than
+ * a stale page.
+ */
+function countingDisclosureSection() {
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const track = registry.tracks.find((candidate) => candidate.trackId === "nj_disorderly_persons");
+  assert.ok(track, "nj_disorderly_persons legal-design track is absent");
+
+  const mechanism = String(track.mechanism ?? "").trim();
+  assert.ok(mechanism.includes("no more than five"),
+    "the held mechanism no longer states the five-offence rule this disclosure carries");
+  assert.ok(mechanism.includes("same day") && mechanism.includes("closely related"),
+    "the held mechanism no longer states the uncapped same-day and closely-related routes");
+
+  const countingCaution = (track.openLegalQuestions ?? [])
+    .find((entry) => String(entry.question ?? "").includes("up to three disorderly persons offenses"));
+  assert.ok(countingCaution, "the held counting-presentation open question is absent from the registry");
+
+  const countQuestion = (track.generationRequirements ?? [])
+    .find((entry) => entry.key === "dpoOffenceCount");
+  assert.ok(countQuestion, "the held dpoOffenceCount intake question is absent from the registry");
+
+  const capCorrection = (track.legalDesignLimitations ?? [])
+    .find((entry) => String(entry.statement ?? "").includes("cap from four to five"));
+  assert.ok(capCorrection, "the held disorderly-persons cap correction is absent from the registry");
+
+  return `
+${COUNTING_DISCLOSURE_HEADING}
+
+**This packet does not count your offences and does not decide whether you are eligible.** It holds no offence history for you: the fingerprint-based State Police SBI record named above is what produces the count, and nobody has read it here. What follows is the counting rule as this route's committed legal-design record states it, so that you can apply it to your own record or take it to a lawyer.
+
+### The held counting rule, quoted whole
+
+> ${mechanism.split("\n").join("\n> ")}
+
+Three things in that rule decide most records, and they are the three worth re-reading. The five-offence line is a **cap of five**, counted across disorderly persons offences, petty disorderly persons offences, or any combination of the two. The **same-day** route and the **interdependent-or-closely-related** route carry **no numeric cap at all**, so a record over five may still qualify under one of them. And any **crime** conviction — an indictable offence in New Jersey, a felony anywhere else — takes the record off this route entirely and onto N.J.S.A. 2C:52-2.
+
+### A published figure that is not this route's figure
+
+The committed record carries this caution about a number you are likely to meet first:
+
+> ${String(countingCaution.question).split("\n").join("\n> ")}
+
+So a published "up to three" is the cap for a different route, not for this one. The correction that this route's cap is **five** rather than four is itself a held legal-design item: "${capCorrection.statement}".
+
+### What you will be asked, and where this stops
+
+The intake question this route records for the count is: "${countQuestion.question}"
+
+Counting is where this packet stops and a lawyer starts. "Counting disputes at the five-offence line.", "Any same-day or closely-related bundling argument." and "Marijuana regrading analysis." are all held self-help stop conditions on this route, and they are listed again under "Where self-help ends" below. Marijuana and hashish regrading can move a conviction between routes or off the count entirely, and this packet does not perform that analysis.
+`;
+}
+
 function repairInstructions() {
   const file = `${out}/participant-instructions.md`;
   let instructions = fs.readFileSync(abs(file), "utf8");
@@ -165,6 +247,34 @@ File with the **Superior Court, Criminal Division**, in the county where the par
 Serve the petition as required and, after entry, serve a certified copy of the signed order on every record-holding agency. The held notice list is: **the county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation, and any relevant municipal court**. Keep the existing rule below: complete service certificates only after service actually occurs.
 `;
     instructions = instructions.replace(marker, `${filingSections}${marker}`);
+  }
+
+  /*
+   * FIX121, COMPONENT_SET, second limb. VF11 recorded that this family's
+   * "Who must be served" section names the notice list and says nothing
+   * whatever about objections, while its three siblings each address them --
+   * on a component the manifest declares as
+   * `service_and_objection_instructions`. The registry answers it directly and
+   * negatively, and the negative answer is carried rather than smoothed over.
+   */
+  if (!instructions.includes("On objections:")) {
+    const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+    const track = registry.tracks.find((candidate) => candidate.trackId === "nj_disorderly_persons");
+    assert.ok(track, "nj_disorderly_persons legal-design track is absent");
+    const heldObjection = "The exact objection window is recorded as an open question.";
+    assert.ok(String(track.rules?.notice ?? "").includes(heldObjection),
+      "the held notice rule no longer records the objection window as an open question");
+    const anchor = "Keep the existing rule below: complete service certificates only after service actually occurs.\n";
+    assert.ok(instructions.includes(anchor), "the service anchor line is absent");
+    instructions = instructions.replace(anchor, `${anchor}
+On objections: the committed track record states, of this route's notice rule, that **"${heldObjection}"** No held source in this repository establishes how long a prosecutor or any other served party has to object, so this packet states no period and none should be inferred from its silence. Ask the Criminal Division office in the county of filing what the objection window is. "Prosecutor objection." is a held self-help stop condition on this route: if an objection is filed, this packet does not answer it.
+`);
+  }
+
+  if (!instructions.includes(COUNTING_DISCLOSURE_HEADING)) {
+    const marker = "\n## Exact facts still required before filing\n";
+    assert.ok(instructions.includes(marker), "required-before-filing section marker is absent");
+    instructions = instructions.replace(marker, `${countingDisclosureSection()}${marker}`);
   }
 
   if (!instructions.includes("## All 11 actions required before filing")) {
@@ -285,9 +395,36 @@ function assertFix13Repair() {
     assert.ok(instructions.includes(`source field: \`${field}\``),
       `${field}: participant disclosure is absent`);
   }
-  for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served", "## Where self-help ends"]) {
+  for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served", "## Where self-help ends", COUNTING_DISCLOSURE_HEADING]) {
     assert.ok(instructions.includes(heading), `${heading}: instruction section is absent`);
   }
+
+  /*
+   * FIX121, COMPONENT_SET. Checked on the delivered section rather than on the
+   * declaration, because the declaration is exactly what was wrong before: the
+   * component was marked "rendered" and pointed at a section that carried no
+   * counting rule. A heading is not a disclosure, so the heading's presence is
+   * checked above and the RULE's presence is checked here.
+   */
+  const countingSection = instructions.slice(
+    instructions.indexOf(COUNTING_DISCLOSURE_HEADING),
+    instructions.indexOf("\n## Exact facts still required before filing\n"),
+  );
+  assert.ok(countingSection.length > 0, "the counting disclosure section is empty");
+  for (const held of [
+    "no more than five",
+    "same day",
+    "closely related",
+    "comparatively short period",
+    "This packet does not count your offences",
+  ]) {
+    assert.ok(countingSection.includes(held),
+      `the counting disclosure does not state the held rule: ${held}`);
+  }
+  assert.ok(instructions.includes("On objections:"),
+    "the service-and-objection component does not address objections");
+  assert.ok(instructions.includes("The exact objection window is recorded as an open question."),
+    "the held objection-window answer is not carried to the participant");
 
   /*
    * FIX76, COMPONENT_SET: the other half of the shared host's component table.
