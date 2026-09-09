@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "5f78f6f329313b96076a116371bdb61789b4f1b6",
+  "generatedAtCommit": "1e0c3e0966ad25df0b15a4f85fdd39b253f1c639",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2490,7 +2490,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -4791,11 +4791,12 @@
         "la-977d-marijuana-first-offense-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF14",
+      "laneKind": "packet-build",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
     },
     {
       "subjectType": "packet-family",
@@ -4806,12 +4807,11 @@
         "la-977d-marijuana-first-offense-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF14",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
       "released": false,
-      "releasedAt": null,
-      "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5638,11 +5638,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-09T22:10:56.596Z",
-      "releaseReason": "FIX01 returned this family COMPLETED with repairedByThisLane true and nine numeric zero counters. Releasing centrally so the repair is not stranded behind its own grant."
+      "releasedAt": "2026-09-09T22:10:56.596Z"
     },
     {
       "subjectType": "packet-family",
@@ -7223,7 +7222,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -7313,11 +7312,10 @@
         "rcap-in-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7328,10 +7326,11 @@
         "rcap-in-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF10",
-      "laneKind": "packet-build",
-      "released": false
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14198,7 +14197,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "914af21a28d51a602be5c224a89bc125ba998ac0b413022f7cb32388f843bd5d",
+  "claimsDigest": "382bd2cb88dd87fc3ee9b52fa086b8f48fdb365bbdb6cdfacd7e1e8606988c12",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -57108,6 +57107,22 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "withdrawnAt": "2026-09-09T23:40:51Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-977d-marijuana-first-offense-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-09T23:49:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-in-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-09-09T23:49:41Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

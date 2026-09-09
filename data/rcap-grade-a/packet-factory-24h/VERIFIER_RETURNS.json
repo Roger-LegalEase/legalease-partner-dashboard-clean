@@ -34,10 +34,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 140,
-    "rows": 1081,
-    "independentVerdicts": 285,
-    "failRepairRequired": 45,
+    "returnDirectories": 141,
+    "rows": 1084,
+    "independentVerdicts": 287,
+    "failRepairRequired": 47,
     "passIndependent": 219
   },
   "failRepairRequiredFamilies": [
@@ -64,6 +64,7 @@
     "in_infraction_nondisclosure-set",
     "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
+    "la-977d-marijuana-first-offense-set",
     "ma-expunge-k-set",
     "md_pardon_expungement-set",
     "me-seal-survivor-set",
@@ -82,6 +83,7 @@
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-hi-custom-pleading",
+    "rcap-in-custom-pleading",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
@@ -11581,6 +11583,36 @@
       "superseded": false
     },
     {
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The packet IS built for the route the record names, and that half is right: one route key, obligation:track-pathway:LA:la-977d-marijuana-first-offense:first-offense-marijuana-expungement-after-90-days-art-998; the primary filing is the Article 998 statutory motion Article 986 makes mandatory for this category; and the delivered motion states the route in its title, its Part II statutory heading and its recital. IT FAILS BECAUSE THIS PACKET'S INTERNAL IDENTITY AND ITS BUILD RECORD'S ANALYSIS ARE PRINTED ON THE FACE OF ALL THREE FILING DOCUMENTS. Read on the delivered pages, both fixtures. (1) The machine component identifier appears four times on documents that go to a court: canonical page 1 line 4 'Assigned component identity: la-977d-marijuana-first-offense-primary-filing-1'; page 2 foot 'LA-CCRP-ART-998, assigned component identity la-977d-marijuana-first-offense-primary-filing-1. Statutory source note: Acts 2023, No. 342, Sec. 1.'; page 4 line 3 'Assigned component identity: la-977d-marijuana-first-offense-proposed-order-2'; page 5 line 3 'Assigned component identity: la-977d-marijuana-first-offense-proposed-order-3'. This is the defect VF02 failed ri_multiple_misdemeanors-set on at this same base - a route's internal identifier printed on the filing. (2) Build-record analysis is printed five times on the filings, in the record's own internal vocabulary: page 1, 'The committed manual-completion record classifies both as manual completion items pending a data-protection review'; page 2, 'which the committed record makes the first condition on which self-help stops'; page 2, 'reproduced from the Article 998 statutory text this packet is bound to by content digest, as Article 986(A) requires'; page 3, 'The committed record requires both signature blocks the statute prints to be carried, which is why this one appears at all.' (3) WORST OF THE FIVE, because of where it is: canonical page 5 is the proposed Article 992 ORDER OF EXPUNGEMENT, a document handed to a judge to sign, and it recites this build's own design rationale - 'The Article 998 statutory motion prints no field for the date of arrest, for how many charges or counts the arrest carries, or for the original arrest charges, and Article 986(C) allows only the name of the court to vary on a statutory form. Those three are required participant inputs on the committed record, so they are carried here instead, on the order that identifies the record of arrest and conviction the decree reaches, rather than added to the face of a mandatory form.' That paragraph is addressed to this packet's own builder and reviewer and to nobody in the case. DEFECTS_NO_COUNTER_CAN_SEE records this exact class ('internal-record-text-printed-on-a-filing'), records that its first instance was found on THIS FAMILY'S SIBLING la-976-arrest-no-conviction-set, and states the fix in terms: 'Filings recite statute citations and rule text only. The record's own words belong in the guide, labelled as internal record text.' On this packet the guide, pages 7-19, is the right place and already does this well; the four filing pages are not.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 25 declared values are on the delivered pages of both fixtures - I found 25 of 25 by string search rather than accepting the report. THE FAILURE IS THAT THE MOVER'S NAME IS WRITTEN IN THE INVERSE OF THE ORDER THE FORM'S OWN PRINTED CAPTION DEMANDS, ON A MANDATORY STATUTORY FORM, ON BOTH FIXTURES, AND NOTHING TELLS THE PARTICIPANT TO CORRECT IT. The Article 998 statutory text this packet is bound to prints 'NAME: ____ (Last, First, MI)' - I read that from the pinned source bytes. The delivered page 1 prints 'NAME (Last, First, MI): Jordan Avery Reyes' on canonical and 'NAME (Last, First, MI): Maria-Alejandra O'Shaughnessy-Whitfield' on boundary. The factory's own fixture personas are first Jordan / middle Avery / last Reyes and last O'Shaughnessy-Whitfield / first Maria-Alejandra, which I confirmed from the shared persona used across build scripts. So Part I of a motion filed with the clerk, and matched by the Bureau against the state rap sheet, states the mover's surname as 'Jordan'. This is the same defect VF07 recorded today on rcap-hi-custom-pleading, where the caption was 'Current Legal Name (Last, First, Middle):' and the ink was given-name-first. Searched both instruction documents and all 19 delivered pages: no sentence anywhere tells the participant the name order, and the packet's own guide insists on rap-sheet matching for race and gender ('written as the state rap sheet writes it, so Part I matches the record the Bureau holds') while saying nothing about the name. TWO FURTHER FIDELITY ITEMS ON THE SAME MANDATORY FORM, RECORDED WITH IT because they share a repair. (a) The family asserts twice - build-findings 'no field the statutory form does not print was added to it' and packet-set-manifest.fieldsDeliberatelyNotAddedToThisForm - that Article 986(C) was applied without exception, and the delivered Article 998 motion prints three fields the statute does not: 'Whether the conviction is a misdemeanour or a felony: Misdemeanour' (a WRITE, LA-CCRP-ART-998.conviction_level, in the family's own actual-writes), 'Statute the mover was convicted under' and 'Whether this was the mover's first offense for possession of marijuana, tetrahydrocannabinol or a chemical derivative'. I read the pinned statutory source end to end: its Part II is the heading and 'l. Mover was convicted on ___/___/___ (MM/DD/YYYY)' and then the prayer, and it prints none of those three. The build applied its own 986(C) rule to the arrest date, the count and the original charges and moved them to the Article 992 order, then added three others to the same page. (b) The statute prints '(MM/DD/YYYY)' beside both of its date lines; the delivered motion drops that instruction and writes ISO - 'DOB: 1991-04-17' and '1. Mover was convicted on 2026-02-11' - on the form whose date the ninety-day computation runs from.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-977d-marijuana-first-offense-set",
+      "superseded": false
+    },
+    {
       "familyId": "la-978-felony-conviction-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf06",
@@ -13025,6 +13057,29 @@
     {
       "familyId": "mo-art-xiv-marijuana-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The fee half is right and the waiver half is missing, and the obligation is scored as one. FEE - correct: MO.memo.json rules.fees says 'Not fixed by Article XIV and county-variable ... No fee figure is published on this track', and filing-instructions.md publishes no figure: 'The held sources establish no filing fee for this petition and this packet states no amount. Ask the clerk.' That is the right answer for Missouri and this factory's own regression test (scripts/grade-a-packet-factory-24h/test-md-pardon-record-disclosures.mjs) names that sentence as true here. WAIVER - absent: MO.memo.json rules.feeWaiver names a waiver route for this track by form number and authority - 'GN10 under Rule 77.03 and section 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for.' The packet states that route NOWHERE. Measured by exhaustive case-insensitive search across every participant-facing byte this family delivers - participant-instructions.md, filing-instructions.md and the full pdftotext -layout extraction of canonical.pdf: zero occurrences of 'waiver', 'GN10', '514.040', '77.03', 'cannot pay', 'in forma pauperis' or 'indigen'. The word 'fee' appears twice in the whole delivered set, both in the two-line Fees section of filing-instructions.md. The record's stated reason bears on whether to GENERATE the form, not on whether to TELL the participant the route exists, and it concedes on its own face that some participants on this route do have a filing to pay for - which is exactly the population a waiver serves. A participant who cannot pay is told only to ask the clerk about an amount, and is never told Missouri has a statewide fee-waiver form or the rule that authorises it.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf20",
       "isIndependentVerification": true,
       "verifiedAtBase": "7f386ab54",
@@ -13080,7 +13135,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-art-xiv-marijuana-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-diversion-set",
@@ -20220,6 +20275,50 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-in-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "THE BRIEF ASKED WHICH OF THE TWO THIS IS. IT IS BOTH, AND THE OBLIGATION MEASURES WHAT IS PRESENT RATHER THAN WHAT WAS DISCLOSED, SO IT FAILS. What is delivered: attachments 4, 5 and 6 of in_conviction_serious_felony-set - the Appearance, Form ACR and the Confidential Information Form - and nothing else. What the three bound routes require and nobody renders: ten components. I verified the builder's claim independently rather than taking it, by searching the packetComponents of all 346 families in MASTER_QUEUE for the three track ids; the only components any family declares for in_conviction_serious_felony, in_collateral_action or in_supplemental_order are the three attachments this family delivers. So no family in the queue builds the serious-felony petition, its proposed order, its attachment-3 or its instructions component, and neither of the other two routes has a single component declared anywhere. A participant on any of these three routes cannot file with this packet: it contains no petition and no proposed order, and an Appearance and a notice of exclusion filed alone commence nothing. THE DISCLOSURE IS EXEMPLARY AND I RECORD IT IN FULL. participant-instructions.md opens 'What is in this packet, and what is not', its second heading is 'Read this first: these three forms are not the filing', and it says in terms 'The petition itself is not in this packet, and neither is the proposed order. If you file only these three sheets, you have not asked the court for anything', and then that neither of the other two routes' own filings is built here either. filing-instructions.md carries a section headed 'What this packet does NOT contain', and production-field-map.json lists all ten under componentsOfThisFamilysOwnRoutesThatNothingBuilds. That disclosure is why this is a queue scope decision - widen this family or open two more - rather than a build error, and the build lane says so itself. ONE MORE THING I MEASURED THAT BEARS ON THE SCOPE DECISION: three sibling Indiana families - in-conviction-felony-set, in-conviction-misd-set and in-conviction-d6-set - each deliver a COMPLETE ten-page packet whose pages 7-10 are these very same three documents, and they deliver them BLANK. I confirmed it by hashing the extracted text of every page of each: their page 8 is textually identical to this family's page 2, and their pages 7, 9 and 10 are the same three documents with 'STATE OF INDIANA ____________' and 'PETITIONER'S NAME: ______' unfilled. So the fill this family maps is genuinely owed work that nothing else does; it is simply attached to routes whose filings nobody builds.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "No signature, signature date or court-only field carries a VALUE - both signature rules on the Appearance, the signature rule on Form ACR, all three cause-number lines and the full Social Security number box are empty on the delivered pages, and I confirmed each. THE FAILURE IS THAT FOUR CERTIFICATE-OF-SERVICE CONTROLS CARRY INK THIS BUILD DREW. A certificate of service asserts that service has happened; this family's own approval-request calls a ticked one 'the single worst defect this packet could carry' and asks a reviewer to confirm both boxes are empty on each of the two documents. They are not empty. On packet page 2 (the Appearance's certificate of service) and packet page 3 (Form ACR's), each of the four alternatives' checkbox widgets is flattened as an appearance whose entire content is '0.5 0.5 17 17 re s' - a stroked rectangle - and that rectangle is stamped onto the page. Proved against the pinned source, not inferred: rendering source page 2 and delivered page 2 at 200 dpi and differencing them gives 554 added dark pixels and zero removed, in exactly two hollow squares of 277 pixels at x 110.2-121.7pt, on a page that carries no value write at all; the crop shows the form's own checkbox with a second, smaller square drawn inside it. reports/actual-writes.json publishes refusedFieldsWithInk: [] for both fixtures and that is false as delivered.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "EIGHT FLATTENED WIDGET APPEARANCES PER FIXTURE STAMP A RECTANGLE THE FORM DOES NOT PRINT ONTO THE DELIVERED PAGE. This is the same defect mo-art-xiv-marijuana-set was failed and repaired for - pdf-lib's default appearance provider reading /MK /BC for a widget with no usable /AP /N, with flatten then stamping the invention - and this factory's own scan-synthesized-widget-borders.mjs names the mechanism precisely. Measured, not inferred. (1) From the bytes: of 46 flattened appearance XObjects per fixture, 20 carry show-text, 18 are empty and 8 contain a path-paint operator and no text at all; their entire decompressed content is '0.5 0.5 9.599 11.8762 re s' at four page-1 checkboxes and '0.5 0.5 17 17 re s' at two page-2 and two page-3 checkboxes. Identical in canonical and boundary. (2) From the pixels, against the pinned source: differencing 200-dpi renders of source page 2 against delivered page 2 gives 554 added dark pixels and 0 removed, in exactly two hollow 277-pixel squares - and delivered page 2 carries no value write, so those pixels are the whole of what this build added to it. Page 3 gives the same two. Cropping the page-1 'I will accept service at the above email address' box shows the shape: the source draws the form's own checkbox; the delivered page draws that box AND a second, offset square inside it. Every other limb of this obligation is clean and I record it: no run is wider than its own box in either fixture (measured with Helvetica advance widths, including the boundary fixture's 39-character hyphenated name and 60-character email, which the finalizer shrinks to 8pt and 7.5pt and which fit), every one of the 13 ink runs is inside its own widget rect and appearance BBox, and no two runs overlap. FIX80's cohort does not list this family only because the scan predates its build; five of its Indiana siblings ARE in that cohort, with 659 exposed widgets between them.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "39 of the 40 stop conditions the three bound routes declare are carried VERBATIM, and I checked each one string by string against IN.memo.json rather than reading a count: in_conviction_serious_felony 13 of 13, in_supplemental_order 13 of 13, in_collateral_action 13 of 14. THE ONE THAT IS MISSING IS THE ONLY ONE UNIQUE TO ITS ROUTE: 'The court finds the collateral action does not relate to the expunged matter.' It is absent from participant-instructions.md, absent from filing-instructions.md and absent from all four delivered pages - I searched for it verbatim and for 'does not relate' and 'collateral action does not relate' in every delivered byte, and there is no occurrence and no paraphrase. The guide's stop list under 'When this is not a do-it-yourself matter' prints exactly the thirteen the serious-felony track declares, introduced as 'The record names these as the points where the filing these forms accompany stops being a self-help matter' - but three routes are bound to this family and the guide gives each of them its own filing, fee, notice and service section, so a participant on the collateral-action route reads a stop list from which their own route's distinctive condition has been dropped. Narrow, provable and worth naming so a repair carries it: the other thirty-nine need no work. (The guide claims no count, so this is a shortfall against the record rather than a false statement about itself.)",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-in-custom-pleading",
       "superseded": false
     },
     {
