@@ -46,6 +46,62 @@ path `private/Nationwide Record Clearing` under any argument. It re-hashes every
 staged file against `data/rcap-all50/nationwide-restore-manifest.json` and
 deletes rather than stages a file that does not match.
 
+## Update, same day: seven of eight chunks are here and verified
+
+Drive access opened mid-session and the desktop route delivered. Both were used
+for what each is good for, and the state is now:
+
+- **Google Drive is reachable.** `get_file_metadata` and `download_file_content`
+  both work against the toolkit id, and returned it correctly. But
+  `download_file_content` returns the payload as **base64 through the
+  conversation**, so a 29 MB part arrives as ~39 MB of context. That is not a
+  viable transport for the eight parts, and it is a property of the tool rather
+  than a permission gap. Metadata confirms the files: the toolkit reads 5,451
+  bytes, `application/zip`, owned by roger@legalease.com.
+- **Seven inner chunks arrived as direct uploads and every one verifies.**
+  part01 through part07, each exactly 29,000,000 bytes, each matching its
+  `chunk_sha256` in the manifest. Zero mismatches. They are staged unchanged in
+  `private/corpus-recovery-parts/chunks/`.
+- **The toolkit arrived too**, as a macOS-zipped copy: 9,163 bytes rather than
+  the manifest's 5,451, because the archive carries `__MACOSX` resource forks
+  and a `(1)` suffix. Its five real files are the expected ones, and its
+  `CORPUS_PARTS_MANIFEST.json` is **content-identical to the repository's** on
+  every part number, chunk length and digest — two independently transported
+  copies of the manifest that agree. Its `REASSEMBLED_EXPECTED.sha256` names the
+  same original digest.
+- **`reassemble_corpus.py` was read before being run.** Standard library only,
+  no network, no repository write, no corpus installation. It validates the
+  manifest's identity constants, requires all eight outer ZIPs by exact name,
+  checks each outer ZIP's size and digest, requires each to hold exactly its one
+  expected member at the expected size, streams and hashes each chunk against
+  `chunk_sha256`, checks the running total and the combined digest against the
+  original, confirms the result is a ZIP, and publishes with `os.link` so it
+  fails rather than overwrites. Inputs are kept; only its own temp file is
+  removed.
+
+### One file is missing, and that is the whole remainder
+
+`Nationwide_Corpus_Recovery_Kit.part08.bin` — **25,260,257 bytes**, sha256
+`57a3614a4bb3c32fdf7e5897971ccdb76339009cdc3c1253f45f151a40556fc4`.
+(Its outer ZIP is `Nationwide_Corpus_Recovery_Kit_part08.zip`, 25,260,437 bytes,
+`9efbde514296baa3476df562c6685e48ed9a2b79aa2c4d2f70166608ee26acf2`, Drive id
+`1YJnkcukGZchGN64COzjWgDw_ZqRN2w70`.)
+
+The arithmetic closes exactly: 203,000,000 bytes held + 25,260,257 owed =
+228,260,257, the original's length to the byte.
+
+### A note on which reassembly runs
+
+The script takes outer ZIPs; what arrived are inner chunks. Given the eight
+outer ZIPs it runs unchanged and that is the preferred path. Given eight
+verified inner chunks instead, the same proof is available without the wrapper
+check, which is a transport property and not a property of the payload: every
+chunk is already verified against its own `chunk_sha256`, and the concatenation
+is verified against `original_bytes`, `original_sha256` and `is_zipfile` exactly
+as the script does. Concatenating inner chunks in manifest order IS the payload;
+the prohibition is on concatenating the outer wrappers, which is a different
+and wrong operation. Whichever arrives, nothing is repackaged.
+
 ## The nine files to fetch
 
 Original: `Nationwide_Corpus_Recovery_Kit.zip`, 228260257 bytes,
