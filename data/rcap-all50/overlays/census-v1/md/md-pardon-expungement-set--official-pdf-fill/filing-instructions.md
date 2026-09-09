@@ -12,11 +12,15 @@
    true of your record, tick it too.
 5. Sign and date the petition.
 
-## If you are asking for a fee waiver
+## The filing fee, and asking for a waiver
 
-Maryland charges a filing fee for an expungement petition on a guilty disposition. This packet does not state an
-amount, because no held source establishes one; ask the clerk. If you cannot prepay it, complete the affidavit of
-income on CC-DC-089 in full, sign it, and file it with the petition.
+The Maryland record for this route states the filing fee, in these words: "$30 (CC-DC-CR-072B)." That is $30, keyed to
+this form.
+The petition itself prints no amount - its only fee wording is "Filing Fees Are Not Refundable" across the top
+of page 1 - so the form is not evidence that this figure is current, and nothing held here establishes any
+other cost of the filing. Confirm the amount with the clerk before you pay, and take the fee with you.
+If you cannot prepay it, the record names the waiver to use: "Request for Waiver of Prepaid Costs, CC-DC-089." That form is in this packet.
+Complete the affidavit of income on CC-DC-089 in full, sign it, and file it with the petition.
 
 **CC-DC-089 requires a companion this packet does not carry.** The form says a Notice Regarding Restricted
 Information under Rule 20-201.1, form MDJ-008, must be filed with it unless the case is one of six restricted

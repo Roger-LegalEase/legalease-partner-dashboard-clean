@@ -10,12 +10,12 @@
   ],
   "structuralClass": "flattened_acroform",
   "captionBasis": "every write box is the /Rect of the source's own AcroForm widget, read from the binary at build time and normalized where the source writes a rect bottom-edge-last. No coordinate in this map is hand-entered, and every write is proved back out of the saved content streams and flattened appearances.",
-  "routeSelectionNote": "This packet is built for the Article XIV, section 2 marijuana expungement petition. Three elections the route determines are made by the packet rather than left to the participant: the Case Type Code and Case Type Description on every FI-05 sheet (X#, Expunge Marijuana Criminal/Arrest Records, taken from the Case Types List printed on pages 3 and 4 of the FI-05 binary itself), and the three record-holding agencies CR375 names as Defendant(s) that are true of every case on this route - the court that entered the conviction, the MSHP CJIS Division as the state central repository, and the office that prosecuted the case. The incarceration pair is determined by the case, not the route, and is stated from the held screening fact. Race, ethnicity, sex and the further arresting agencies stay with the person filing.",
+  "routeSelectionNote": "This packet is built for the Article XIV, section 2 marijuana expungement petition. Three elections the route determines are made by the packet rather than left to the participant: the Case Type Code and Case Type Description on every FI-05 sheet (X#, Expunge Marijuana Criminal/Arrest Records, taken from the census destination record and matched to the description printed beside that code on page 4 of the FI-05 Case Types List), and the three record-holding agencies CR375 names as Defendant(s) that are true of every case on this route - the court that entered the conviction, the MSHP CJIS Division as the state central repository, and the office that prosecuted the case. The incarceration pair is determined by the case, not the route, and is stated from the held screening fact. Race, ethnicity, sex and the further arresting agencies stay with the person filing.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition",
       "selection": "FI-05 Case Type Code X# (Expunge Marijuana Criminal/Arrest Records)",
-      "sourceSupport": "the census destination record and the Case Types List printed on pages 3 and 4 of the FI-05 binary"
+      "sourceSupport": "the census destination record, which records this route as filed \"with FI-05 at case type X#\". The FI-05 Case Types List prints that code beside that description on its page 4, in the ASSOCIATE column; it does not place the row in CIRCUIT, and that division question is open with counsel"
     },
     {
       "routeKey": "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition",
@@ -1111,7 +1111,7 @@
       "disposition": "written",
       "routeDetermined": true,
       "determinedByTheCaseNotTheRoute": false,
-      "selectionBasis": "the census records this route as filed \"with FI-05 at case type X#\", and this binary's own Case Types List, printed on its pages 3 and 4, carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest Records  X#\""
+      "selectionBasis": "the census records this route as filed \"with FI-05 at case type X#\". That census destination record is the whole of the support for this value. The FI-05 binary corroborates the CODE ITSELF and nothing more: its Case Types List prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" on page 4 only, and the X# is drawn at x 213.48-224.36, inside the ASSOCIATE column (header x 195.72-243.69) rather than the CIRCUIT column (header x 250.08-284.02), whose cell is empty on that row. Whether a petition captioned \"IN THE ____ JUDICIAL CIRCUIT\" is nonetheless filed at this case type is a question for counsel, and approval-request.json asks it; this build does not answer it"
     },
     {
       "fieldId": "FI-05:Case Type Description",
@@ -1154,7 +1154,7 @@
       "disposition": "written",
       "routeDetermined": true,
       "determinedByTheCaseNotTheRoute": false,
-      "selectionBasis": "the description printed beside code X# in this binary's own Case Types List"
+      "selectionBasis": "the description printed beside code X# in this binary's own Case Types List, on its page 4"
     },
     {
       "fieldId": "FI-05:Submitted by",
@@ -2143,7 +2143,7 @@
       "disposition": "written",
       "routeDetermined": true,
       "determinedByTheCaseNotTheRoute": false,
-      "selectionBasis": "the census records this route as filed \"with FI-05 at case type X#\", and this binary's own Case Types List, printed on its pages 3 and 4, carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest Records  X#\""
+      "selectionBasis": "the census records this route as filed \"with FI-05 at case type X#\". That census destination record is the whole of the support for this value. The FI-05 binary corroborates the CODE ITSELF and nothing more: its Case Types List prints the row \"Expunge Marijuana Criminal/Arrest Records  X#\" on page 4 only, and the X# is drawn at x 213.48-224.36, inside the ASSOCIATE column (header x 195.72-243.69) rather than the CIRCUIT column (header x 250.08-284.02), whose cell is empty on that row. Whether a petition captioned \"IN THE ____ JUDICIAL CIRCUIT\" is nonetheless filed at this case type is a question for counsel, and approval-request.json asks it; this build does not answer it"
     },
     {
       "fieldId": "FI-05 (additional sheet):Case Type Description",
@@ -2186,7 +2186,7 @@
       "disposition": "written",
       "routeDetermined": true,
       "determinedByTheCaseNotTheRoute": false,
-      "selectionBasis": "the description printed beside code X# in this binary's own Case Types List"
+      "selectionBasis": "the description printed beside code X# in this binary's own Case Types List, on its page 4"
     },
     {
       "fieldId": "FI-05 (additional sheet):Submitted by",
