@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF06",
+  "workerBranch": "pf06-20260909",
+  "shiftBaseSha": "18b5f4270",
+  "writtenAlongside": "checkpoints.json in this directory belongs to a different worker (FABLE-PA). It was not overwritten.",
+  "note": "PF06 was assigned five families and completed one, so no five-family batch ever closed. Checkpointing is therefore by COMMIT, which serves the rule's purpose: no completed family was held back waiting for another. al-trafficking-set was pushed on its own as soon as it finished, before the four stopped rows were written.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "kind": "single-family-on-completion",
+      "familiesInThisCheckpoint": ["al-trafficking-set"],
+      "status": "COMPLETED",
+      "buildState": "BUILT_RASTER_PENDING",
+      "commit": "10d346b47",
+      "pushedTo": "origin/pf06-20260909",
+      "artifacts": 4,
+      "focusedCheck": "verify-packet-completeness.mjs --family al-trafficking-set: PASS_COMPLETE",
+      "verdictSet": false,
+      "why": "Completed families are pushed as they finish so the Captain can integrate immediately rather than waiting on the rest of the assignment."
+    },
+    {
+      "checkpoint": 2,
+      "kind": "assignment-close",
+      "familiesInThisCheckpoint": [
+        "de_pardon_expungement-set",
+        "fl-sealing-set",
+        "ia-901c3-set",
+        "nh_conviction_streamlined-set"
+      ],
+      "status": "STOPPED",
+      "stopClasses": {
+        "de_pardon_expungement-set": "BLOCKED_SOURCE",
+        "fl-sealing-set": "BLOCKED_SOURCE",
+        "ia-901c3-set": "BLOCKED_SOURCE",
+        "nh_conviction_streamlined-set": "BLOCKED_LEGAL_INPUT"
+      },
+      "overlayDirectoriesTouched": 0,
+      "buildersWritten": 0,
+      "why": "Four families were stopped rather than built. Each row names the exact identity that did not bind or the exact legal input that is open, the mounts searched by digest, and what would unblock it. Blocked rows are the finding, not a failure of the lane."
+    }
+  ],
+  "rowsReturned": 5,
+  "familiesAssigned": 5,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rastersGenerated": 0,
+  "sharedCentralArtifactsRegenerated": "none"
+}

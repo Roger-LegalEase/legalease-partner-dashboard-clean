@@ -709,7 +709,9 @@ async function baselineInk(source) {
   return reopened.getPages().map((page) => new Set(extractTextItems(page).map(inkKey)));
 }
 
-async function proveDeliveredInk(packetBytes, pageManifest, baselines) {
+async function proveDeliveredInk(packetBytes, pageManifest, baselines, mode = {}) {
+  const subtractBaseline = mode.subtractBaseline !== false;
+  const singleAssignment = mode.singleAssignment !== false;
   const pdf = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
   const itemsByPage = pdf.getPages().map((page) => extractTextItems(page));
 
@@ -750,15 +752,20 @@ async function proveDeliveredInk(packetBytes, pageManifest, baselines) {
     if (onPage.length === 0) continue;
     const printed = baselines[onPage[0].documentId]?.[onPage[0].page - 1] ?? new Set();
     for (const item of items) {
-      if (printed.has(inkKey(item))) { baselineGlyphsIgnored += 1; continue; }
+      if (subtractBaseline && printed.has(inkKey(item))) { baselineGlyphsIgnored += 1; continue; }
+      const containing = onPage.filter((box) => inside(item, box.rect));
+      if (containing.length === 0) { addedGlyphsOutsideAnyFieldRect += item.text.replace(/\s+/g, "").length; continue; }
+      if (!singleAssignment) {
+        // The pre-repair reader: every rectangle containing the glyph claims it.
+        for (const box of containing) assigned.get(box.fieldId).push(item);
+        continue;
+      }
       let best = null;
       let bestArea = Infinity;
-      for (const box of onPage) {
-        if (!inside(item, box.rect)) continue;
+      for (const box of containing) {
         const area = box.rect.width * box.rect.height;
         if (area < bestArea) { best = box; bestArea = area; }
       }
-      if (!best) { addedGlyphsOutsideAnyFieldRect += item.text.replace(/\s+/g, "").length; continue; }
       assigned.get(best.fieldId).push(item);
     }
   }
@@ -829,7 +836,7 @@ async function buildPacket(sources, fixture, variant, baselines) {
 
   const proof = await proveDeliveredInk(bytes, { boxes }, baselines);
   return {
-    bytes, pageCount: reopened.getPageCount(),
+    bytes, boxes, pageCount: reopened.getPageCount(),
     writes: filled.flatMap((item) => item.writes),
     refusals: filled.flatMap((item) => item.refusals),
     danglingAnnotsPruned: filled.reduce((sum, item) => sum + item.danglingAnnotsPruned, 0),
@@ -1276,9 +1283,81 @@ export async function build() {
   return { out, packets, artifacts };
 }
 
+/*
+ * NEGATIVE CONTROLS.
+ *
+ * Both repairs to the delivered-ink reader are re-run here against the SAME
+ * delivered bytes with the repair removed, and each must report defects the
+ * repaired reader does not. A control that cannot fail proves nothing about the
+ * reader that passes, so these assert that the pre-repair readers FIRE.
+ */
+export async function negativeControls() {
+  const record = controllingRecord();
+  const sources = resolveSources();
+  const baselines = {};
+  for (const source of sources) baselines[source.documentId] = await baselineInk(source);
+
+  const results = [];
+  for (const variant of Object.values(VARIANTS)) {
+    for (const fixture of Object.values(FIXTURES)) {
+      const name = `${fixture.fixtureClass}--${variant.variantId}`;
+      const packet = await buildPacket(sources, fixture, variant, baselines);
+      const manifest = { boxes: packet.boxes };
+
+      const repaired = await proveDeliveredInk(packet.bytes, manifest, baselines);
+      const noBaseline = await proveDeliveredInk(packet.bytes, manifest, baselines, { subtractBaseline: false });
+      const multiAssign = await proveDeliveredInk(packet.bytes, manifest, baselines, { singleAssignment: false });
+
+      assert.equal(repaired.refusedFieldsWithInk.length, 0, `${name}: the repaired reader must report no refused field carrying ink`);
+      assert.ok(noBaseline.refusedFieldsWithInk.length > 0,
+        `${name}: CONTROL DID NOT FIRE — dropping the blank-form baseline must make the form's own printed ink read as writes`);
+      assert.ok(multiAssign.refusedFieldsWithInk.some((row) => row.fieldId === "C-10-CRIMINAL:Spouses Full Name if married"),
+        `${name}: CONTROL DID NOT FIRE — crediting a glyph to every containing rectangle must read the date of birth as ink on the overlapping spouse-name field`);
+
+      results.push({
+        fixture: name,
+        repairedReaderRefusedFieldsWithInk: repaired.refusedFieldsWithInk.length,
+        preRepairNoBaselineSubtraction: noBaseline.refusedFieldsWithInk.length,
+        preRepairMultipleAssignment: multiAssign.refusedFieldsWithInk.length,
+        preRepairMultipleAssignmentNames: multiAssign.refusedFieldsWithInk.map((row) => row.fieldId)
+      });
+      console.log(`${name}: repaired=${repaired.refusedFieldsWithInk.length} refused-with-ink, `
+        + `no-baseline=${noBaseline.refusedFieldsWithInk.length} (control fires), `
+        + `multi-assignment=${multiAssign.refusedFieldsWithInk.length} (control fires)`);
+    }
+  }
+
+  // The route election must flip with the offence level and never double-elect.
+  for (const [a, b] of [[VARIANTS.misdemeanor, VARIANTS.felony], [VARIANTS.felony, VARIANTS.misdemeanor]]) {
+    const packet = await buildPacket(sources, FIXTURES.canonical, a, baselines);
+    const elected = packet.writes.filter((row) => row.factId === "route.selection").map((row) => row.fieldName);
+    assert.deepEqual(elected, [a.checkbox], `${a.variantId} must elect exactly ${a.checkbox}`);
+    assert.ok(!elected.includes(b.checkbox), `${a.variantId} must not elect ${b.checkbox}`);
+    assert.ok(!elected.includes(UNSCOPED_ELECTION.checkbox), `${a.variantId} must not elect Section IV`);
+  }
+
+  // Fit-or-refuse: a value that cannot be printed complete is refused carrying
+  // the held value, never shortened to fit.
+  const probe = await PDFDocument.load(sources.find((s) => s.documentId === "CR-65").bytes);
+  const font = await probe.embedFont(StandardFonts.Helvetica);
+  const narrow = probe.getForm().getField("Text2");
+  const overlong = "X".repeat(400);
+  const outcome = setComplete(narrow, overlong, font);
+  assert.ok(outcome.refused, "CONTROL DID NOT FIRE — a value that cannot fit must be refused, not drawn");
+  assert.equal(outcome.heldValue, overlong, "the refusal must carry the whole held value");
+  assert.ok(!outcome.drawnText, "a refused value must not be drawn at all");
+  assert.equal(narrow.getText() ?? "", "", "a refused value must leave the box empty rather than shortened");
+  console.log(`fit-or-refuse: a ${overlong.length}-character value in CR-65 Text2 was refused carrying its whole value, not shortened`);
+
+  console.log(`al-trafficking-set: ${results.length * 2 + 4} negative controls fired as designed`);
+  return results;
+}
+
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   const out = path.join(ROOT, OUT_REL);
-  if (process.argv.includes("--check")) {
+  if (process.argv.includes("--negative-control")) {
+    await negativeControls();
+  } else if (process.argv.includes("--check")) {
     assertRepairInvariants(out);
     console.log(`${FAMILY_ID}: repair invariants PASS`);
   } else {
