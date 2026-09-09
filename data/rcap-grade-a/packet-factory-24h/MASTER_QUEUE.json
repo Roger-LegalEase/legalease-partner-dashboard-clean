@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "649220d0417d1a7d7214d7b9d8eb6aec358abd45",
+  "minimumCaptainSha": "24ee51fe79f739c6a8f2da076a3b5e4d508d0001",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -66,26 +66,27 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 13,
+    "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
-    "remaining": 333,
-    "sourceReady": 73,
+    "remaining": 335,
+    "sourceReady": 70,
     "sourceBlocked": 6,
     "legalBlocked": 16,
     "verifyPending": 0,
-    "repairRequired": 23,
+    "repairRequired": 25,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 178,
-    "FAIL_REPAIR_REQUIRED": 36,
-    "PRODUCT_PATH_PENDING": 19,
+    "PRODUCT_PATH_PENDING": 21,
     "OUT_OF_SCOPE": 5,
     "LEGAL_BLOCKED": 16,
-    "SOURCE_READY": 73,
+    "FAIL_REPAIR_REQUIRED": 36,
+    "SOURCE_READY": 70,
     "SOURCE_BLOCKED": 6,
     "GUIDANCE_READY": 10,
     "HANDOFF_READY": 2,
+    "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,8 +110,6 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
-      "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
-      "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "ar-drug-court-set",
       "ar-felony-seal-set",
       "ar-pardon-seal-set",
@@ -170,10 +169,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 73,
-    "familiesPerBuilder": 3,
+    "sourceReadyFamilies": 70,
+    "familiesPerBuilder": 2.9,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 73 do, so a full roster of 24 builders averages 3.0 families each rather than 15 to 25.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 70 do, so a full roster of 24 builders averages 2.9 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 8 source obligations across 22 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -803,7 +802,7 @@
         "runtimeInstalled": false,
         "participantApplicationDischarged": false,
         "commercialAuthority": false,
-        "currentTreatmentHold": "FAIL_REPAIR_REQUIRED"
+        "currentTreatmentHold": "PRODUCT_PATH_PENDING"
       },
       "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
       "jurisdiction": "CT",
@@ -852,14 +851,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -871,7 +868,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Resolve the current FAIL_REPAIR_REQUIRED hold; it is not closed by the prior guidance review.",
+      "nextExecutableAction": "Resolve the current PRODUCT_PATH_PENDING hold; it is not closed by the prior guidance review.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -888,22 +885,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": null,
-          "findingReadFrom": null,
-          "evidence": "one of the four receipt-bound committed records no longer rehashes. source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7...; the file in this tree rehashes to fbf9bfef239f.... Git history shows the pin was exact as of commit eab70f9265c837929c0b73fc208e6c5c1db80670 (2026-08-28) and that commit cb6cbf45eca2df8befa57905b51a658859b2323f (2026-09-04, 'chore(rcap): project Virginia pardon route mapping') changed the shared ledger without touching this packet. The other three records rebind exactly. This is a stale binding created by a shared file drifting underneath it, not a packet built on a wrong source - but the obligation is that every source binds by exact SHA-256 recomputed from the bytes, and this one does not."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX106",
-      "activeOwnerLane": "rapid-repair",
+      "state": "PRODUCT_PATH_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -914,8 +902,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
@@ -1228,7 +1215,7 @@
         "runtimeInstalled": false,
         "participantApplicationDischarged": false,
         "commercialAuthority": false,
-        "currentTreatmentHold": "FAIL_REPAIR_REQUIRED"
+        "currentTreatmentHold": "PRODUCT_PATH_PENDING"
       },
       "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
       "jurisdiction": "CT",
@@ -1277,14 +1264,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf04",
-        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -1296,7 +1281,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Resolve the current FAIL_REPAIR_REQUIRED hold; it is not closed by the prior guidance review.",
+      "nextExecutableAction": "Resolve the current PRODUCT_PATH_PENDING hold; it is not closed by the prior guidance review.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -1313,22 +1298,13 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "3 of 4 recompute equal (CT.memo.json 90d96d9d..., guidance-packets/ct.json 0acfc6fe..., route-obligation-candidate.json 9816a479...). data/rcap-ledger/completed-output-counsel-manifest.json is pinned at 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161 bytes and recomputes to fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 / 321306 bytes. The pin corresponds to commit eab70f926; the file has since been amended by cb6cbf45e, whose only delta is the addition of a Kansas route entry. The CT substance the receipt relies on is unchanged; the whole-file binding no longer verifies.",
-          "findingReadFrom": "finding",
-          "evidence": "sha256sum recomputed here for each of the four compositionSources named in source-receipt.json"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX106",
-      "activeOwnerLane": "rapid-repair",
+      "state": "PRODUCT_PATH_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -1339,8 +1315,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
@@ -1784,7 +1759,7 @@
       "selectedIndependentVerdict": {
         "verdict": "PRODUCT_PATH_PENDING",
         "lane": "vf05",
-        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "verifiedAtBase": "7f386ab54",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -25542,9 +25517,14 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+      },
       "rasterEnrolmentRefusal": [
-        "packet build has not completed",
+        "the current failed obligations have not been repaired",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -25565,11 +25545,27 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "MD.memo.json track md_pardon_expungement lists three selfHelpStopConditions: the ten-year filing deadline being close or passed, more than one conviction putting the 'only one criminal act' condition in issue, and 'The State's Attorney objects.' The first two are carried into participant-instructions.md. The third is absent: case-insensitive search of participant-instructions.md and filing-instructions.md returns zero occurrences of \"State's Attorney\". The memo also records that the court serves the State's Attorney and that a 30-day objection period runs, so the participant is given the victim-objection notice from the form but is never told that a prosecutor's objection is a stop-and-get-a-lawyer condition.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "filing-instructions.md tells the participant 'Maryland charges a filing fee for an expungement petition on a guilty disposition. This packet does not state an amount, because no held source establishes one; ask the clerk.' MD.memo.json track md_pardon_expungement records rules.fees as '$30 (CC-DC-CR-072B).' - a held source that does establish the amount, keyed to this exact form - and the delivered petition itself prints 'Filing Fees Are Not Refundable' across the top of page 1. The sentence is the same boilerplate the Missouri family uses, where it is true because MO's memo says no fee figure is published on that track; carried into Maryland it asserts an absence the controlling memo contradicts. The waiver half is sound: CC-DC-089 is the memo's named waiver form and it is in the packet, and the MDJ-008 companion the form requires is flagged in both instruction files.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
@@ -28348,9 +28344,14 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+      },
       "rasterEnrolmentRefusal": [
-        "packet build has not completed",
+        "the current failed obligations have not been repaired",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -28371,11 +28372,34 @@
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The two source binaries themselves are exact: CR375 recomputes 2cfca7e9... and FI-05 recomputes 53f1e04e... from the mounted custodies, matching the receipt. The FI-05 identity claim also holds when read from the document: 4 pages, page 1 headed 'Confidential Case Filing Information Sheet - Non-Domestic Relations', footed 'SJRC (04-23) FI-05', printing the continuation instruction and the Case Types List. What does NOT hold is the recorded characterisation of that list. production-field-map.json states twice (selectionBasis on both FI-05 Case Type Code writes) and build-findings.json states once that the binary 'carries the CIRCUIT row \"Expunge Marijuana Criminal/Arrest Records  X#\"' on 'pages 3 and 4'. Measured from the bytes: the row is printed on page 4 only, and X# occupies xMin 213.48 to xMax 224.36 - the ASSOCIATE column, whose header spans x 197-244. The CIRCUIT column sits at x 257-284, where the neighbouring row 'Expungement of Crim/Arrest Record' carries XG and where the marijuana row carries no code at all. CR375's own caption is 'IN THE ____ JUDICIAL CIRCUIT, ____ COUNTY, MISSOURI'. A reviewer told the source says CIRCUIT would not check the column that decides which division the case type belongs to.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "MO.memo.json track mo-art-xiv-marijuana marks exactly one supporting document requiredBeforeFiling true: 'Certified docket sheet and judgment for each case', obtained from the clerk of the court where the case was charged or the finding of guilt entered, and the memo says it is often the only place a marijuana case's quantity appears. Neither participant-instructions.md nor filing-instructions.md names it. Case-insensitive search of both files returns zero occurrences of 'certified', 'docket' or 'judgment'. filing-instructions.md mentions a certificate of expungement, which is a different document the memo marks conditional and requiredBeforeFiling false. This is the Delaware-shaped regression: a document the memo owes before filing that the participant copy never tells the participant to obtain or submit.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Three elections are made by the packet rather than the participant. Two are sound: the three record-holding agencies named as Defendant(s), and the not-incarcerated posture taken from a held screening fact. The third, FI-05 Case Type Code X#, is written on the strength of two grounds, and only one of them survives the bytes. The census does record this route as filed 'with FI-05 at case type X#', so the value is not unfounded. But the second recorded ground - that the binary's own Case Types List 'carries the CIRCUIT row' for that description - is false, and it is the ground a reviewer would rely on to decide the code is right for a petition captioned in the judicial circuit. X# is printed in the ASSOCIATE column; the CIRCUIT column carries no code for that row. Repair the recorded basis and put the ASSOCIATE/CIRCUIT question to counsel; approval-request.json already asks counsel to confirm the code is current, which is the right place for it.",
+          "findingReadFrom": "finding",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
@@ -31636,9 +31660,13 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf20",
+        "verifiedAtBase": "7f386ab54",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json"
+      },
       "rasterEnrolmentRefusal": [
-        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -31663,7 +31691,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
@@ -48987,9 +49015,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 73,
+    "familiesAssignedToBuilders": 70,
     "sourceObligationsAssigned": 8,
-    "actualPromotedAndReleased": 73,
+    "actualPromotedAndReleased": 70,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
