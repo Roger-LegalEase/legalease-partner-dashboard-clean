@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
+  "why": "Run 34373388204 completed successfully and its receipt cannot be read from this session. The Actions API answers here; the artifact blob store does not. Fetching the signed download URL returned by download_workflow_run_artifact fails at the egress proxy with `CONNECT tunnel failed, response 403` against productionresultssa6.blob.core.windows.net. Everything below was read from the API here so that whoever can reach the blob store has the exact identities to pull and can prove they pulled the right bytes.",
+  "runId": "34373388204",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowDefinitionHeadSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "packetCommitSha": "113305fa146a82dbd06f4ae0c4839be043fbd9e1",
+  "runStatus": "completed",
+  "runConclusion": "success",
+  "families": ["fl-self-defense-set"],
+  "jobs": {
+    "Synthetic canary and live negative controls": "102539959683",
+    "Plan the family matrix": "102540710943",
+    "fl-self-defense-set": "102541068320"
+  },
+  "everyJobConclusion": "success",
+  "artifacts": [
+    {
+      "artifactId": "10113100894",
+      "name": "rcap-raster-fl-self-defense-set-34373388204",
+      "sizeInBytes": 3569568,
+      "digest": "sha256:ce37792d0df5484d1edc4fe7265d4a8134fef8c35437af28656550dad4035560",
+      "expiresAt": "2026-09-23T16:01:40Z"
+    },
+    {
+      "artifactId": "10112908265",
+      "name": "rcap-raster-canary",
+      "sizeInBytes": 5956,
+      "digest": "sha256:3833ab77d049d44baa120560b546da36a3a9421ba154793f478a60ddc701b3bc",
+      "expiresAt": "2026-09-23T15:57:08Z"
+    }
+  ],
+  "whatToSendBack": "The same bundle shape already consumed twice: a tar.xz carrying <runId>/<family>.verdict.json for each family plus the canary, negative-control and runtime receipts, a PAGE_IMAGES_SHA256.json inventory (runId, familyId, member, bytes, sha256, pngWidth, pngHeight per page image), and a TRANSPORT.json naming the run, artifact, job and canary identities. Do not send the PNG bodies; the inventory is what the identity path of the importer reads, and it records per image that the bytes were not read here.",
+  "doNot": "Do not rerender. The packet bytes this receipt is bound to are the ones at 113305fa1 and they have not moved.",
+  "recordedBy": "Captain, 2026-09-09, from mcp__github__actions_get and mcp__github__actions_list",
+  "admittedHere": false,
+  "newTerminalPromotions": 0
+}

@@ -61,6 +61,37 @@ than opened.
 
 ---
 
+# CORRECTED 2026-09-09 16:40Z: there is ONE way a square gets stamped, not two
+
+**FIX118 measured the Illinois half of this and it is not what the entry below
+says.** All 94 Illinois check-box widgets declare `/AP /N` holding ONLY their on
+state and no `/Off` entry at all -- the standard way a form says an unticked box
+draws nothing. `PDFCheckBox.needsAppearancesUpdate()` returns true whenever a
+widget's `/AS` is absent from `/AP /N`, so `form.updateFieldAppearances()`
+replaces every check box with pdf-lib's own: an `/Off` state stroking a hairline
+rectangle around the whole widget `/Rect`, and an on state that discards the
+form's ZapfDingbats mark. The form's own empty box is a 12 pt GLYPH on a
+different baseline -- on Request page 1, y=343.5 against a `/Rect` of
+y=341.175-353.179 -- so pdf-lib's square prints as a second, larger, offset box
+around the printed one.
+
+So the Illinois defect is pdf-lib synthesis, exactly as Missouri and Maryland
+are. It is **not** "the form's own `/Off` appearance misregistered by
+`flatten()`", which is how the entry below and my 13:00Z checkpoint recorded it.
+One mechanism, three states.
+
+The repair installs the `/Off` appearance the form omits -- an empty Form
+XObject the size of the widget -- before any field is touched, which makes
+`needsAppearancesUpdate()` false so pdf-lib regenerates nothing, then flattens
+with `updateFieldAppearances: false`. Negative control, the same
+`inkWithoutGlyphs()` the builders now assert zero on, run against the pre-repair
+committed bytes: **91 on all six fixtures, 0 on all six after.**
+
+Everything below about the `/MK /BC` precondition still holds and is why the
+scan could see any of this.
+
+---
+
 # The border scan's /MK /BC precondition was wrong, and there are TWO ways a square gets stamped
 
 **Measured 2026-09-09.** This closes the disagreement I recorded earlier today
