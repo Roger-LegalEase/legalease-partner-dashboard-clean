@@ -237,6 +237,42 @@ const FAMILIES = Object.freeze({
      * a filer acts on.
      */
     detachNestedControlFields: true,
+    /*
+     * FIX120, the second half of the same CLIPPING_AND_OVERLAP finding.
+     *
+     * VF05 scored one obligation and named two defects under it. FIX14 closed
+     * the privacy banner; this closes the other sentence of the same finding --
+     * "the same step also redraws every checkbox on the form with a doubled
+     * outline where the source and the derivative draw a single one".
+     *
+     * Measured here rather than assumed, on the committed bytes at fa6e03e89.
+     * All 18 CR-180 check-box widgets declare /AP /N holding only their on
+     * state (/1, /2 or /3) and no /Off entry, and every one sits at /AS /Off,
+     * so PDFCheckBox.needsAppearancesUpdate() is true on all 18 and
+     * form.updateFieldAppearances() replaces each with pdf-lib's default
+     * provider -- a hairline square the size of the widget /Rect. The delivered
+     * bytes carry exactly 18 flattened Form XObjects that stroke a closed
+     * four-segment path and draw no glyph ("0 0 0 RG 0 w [] 0 d ... 0 0 m
+     * 0 9 l 9 9 l 9 0 l h S"); the pinned source and this family's own
+     * derived-sources/cr-180-pikepdf-unlocked.pdf carry none. One synthesized
+     * square per widget, and the count matches exactly.
+     *
+     * The form draws its own box in page content, at a different place and a
+     * different size: page 1 line 2 strokes "50.873 270.046 18 9 re S" while
+     * the widget /Rect there is x=55.74 y=270.66 w=9 h=9. So pdf-lib's square
+     * lands inset and offset inside the box the Judicial Council prints, which
+     * is the doubled outline VF05 read.
+     *
+     * suppressSynthesizedAppearances installs the empty /Off appearance the
+     * form omits, so needsAppearancesUpdate() is false and pdf-lib regenerates
+     * nothing. It writes no participant fact and adds no ink; it removes ink
+     * the issuer never authored.
+     *
+     * THIS FAMILY ONLY. The flag is read off this family's own config, so the
+     * four sibling CR-180 families and every other family on this host are
+     * byte-unaffected -- proved by rebuilding ca-1203-41-set beside it.
+     */
+    suppressSynthesizedAppearances: true,
   },
   "ca-851-91-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-409",
@@ -3943,6 +3979,10 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
 function caScopedFinalizerOptions(config) {
   return {
     detachNestedControlFields: config.detachNestedControlFields === true,
+    // FIX120. Family-scoped like the flag above: a family that does not ask for
+    // it passes false, which is the finalizer's own default, so its bytes do
+    // not move.
+    suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true,
     minimumHorizontalScalePercent: config.minimumHorizontalScalePercent ?? null,
   };
 }
