@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "4c575710c4b8018d9d3458c3b5ef4ee47661ebd3",
+  "generatedAtCommit": "a0e9ded7cc2a23f0fe347e0dac6ada3792889c39",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7805,8 +7805,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T11:48:42.103Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7866,8 +7866,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T11:48:42.489Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13988,7 +13988,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "093c8c2687f9a50624a8d431fa88b253359107545dc8522741ce8d7fd6d7404b",
+  "claimsDigest": "d954ef051e53c26dbadfdce626afe3f84b3bc70ba4828fde5d44c25d7e0e4cf5",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43031,6 +43031,26 @@
       "previouslyReleasedAt": "2026-09-09T18:38:44.572Z",
       "reissuedAt": "2026-09-09T18:39:54.913Z",
       "reason": "Repair is in flight on this family; the grant belongs on the lane the generated dispatch names."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T11:48:42.103Z",
+      "reissuedAt": "2026-09-09T18:54:58.633Z",
+      "reason": "FEE_AND_WAIVER repaired and integrated on unchanged packet bytes; the family is VERIFY_PENDING and the post-repair reread needs a live grant on the lane its dispatch names."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T11:48:42.489Z",
+      "reissuedAt": "2026-09-09T18:54:58.742Z",
+      "reason": "FEE_AND_WAIVER repaired and integrated on unchanged packet bytes; the family is VERIFY_PENDING and the post-repair reread needs a live grant on the lane its dispatch names."
     }
   ],
   "transfers": [
