@@ -1,3 +1,50 @@
+# The custody class is wrong in BOTH directions, and its own row says so
+
+**Measured 2026-09-09** by PF07 (`79ec24edd`), which hashed all 1857 files under
+all five mounted custody roots and resolved every declared digest by content
+before writing a builder. It corrected me, and this entry supersedes the two
+below it on the same subject.
+
+I read `SOURCE_READY_BUILDABILITY.json` by its `custodyClass` field and told two
+running lanes which families were missing. **The guidance was inverted.**
+
+| family | I said | measured |
+|---|---|---|
+| `al-pardon-set` ABPP-3 `874e738a…` | held, carry on | **0 hits** |
+| `az_certificate_second_chance-set` | missing, stop | 4 and 4 hits |
+| `me-seal-gen-set` CR-218 `82a9e808…` | missing, stop | 1 hit |
+
+The record itself agrees with the measurement **when the row is read rather than
+summarised**. `al-pardon-set` carries `custodyClass: SOURCE_ALREADY_HELD` beside
+its own note: *"No file under any mounted root hashes to this digest, by
+declared path or by content."* The class contradicts the note, and the note is
+the measurement. The Arizona and Maine rows carry
+`custodyClass: SOURCE_GENUINELY_MISSING` while every one of their sources is
+`kind: held_pdf` — a class copied from a stale custody reconciliation, not
+measured.
+
+So the standing conclusion is not "the missing list under-reports". It is
+**`custodyClass` cannot be read as a fact in either direction**: it says held
+where nothing hashes, and missing where four files do. Three records now
+disagree about the same families — `custodyClass`, the row's own note, and
+MASTER_QUEUE's `sourceBound` / `sourceStatus`, which records `al-pardon-set` as
+`SOURCE_BOUND_BY_HELD_BYTES`.
+
+PF03 hit the third direction: `ma-seal-decrim-set` and `ma-seal-admin-set` are
+`SOURCE_IDENTITY_UNRESOLVED` with `documentSourcesResolved: 0`, and their one
+shared source hashes exactly once, at
+`private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase
+massachusetts/fillable-jud-mps-Petition-to-Seal.pdf`.
+
+**The only sound test is the one three lanes have now run independently:
+resolve each declared digest by content across the mounted roots.** Every lane
+brief says so, and every lane that did it got the right answer whatever the
+records said. The dispatch repair is to make the generator do the same thing
+rather than read any of these fields; it is recorded and not done, because it
+changes which families a generator assigns while lanes execute.
+
+---
+
 # The dispatch reads a custody scalar that answers a per-source question, and a lane paid for it
 
 **Measured 2026-09-09** after PF11 (`36ec1c777`) stopped on `ca-diversion-seal-set`
