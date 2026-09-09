@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "shift": "20260909c",
+  "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+  "independence": "This lane did not build, repair or raster any family below, edited no packet, builder, overlay, manifest or registry, and released no claim of its own.",
+  "measurementNote": "Every counter and obligation below was measured in this container from the committed artifact bytes and the controlling committed records. Where verify-packet-completeness.mjs was run it is recorded as a necessary cross-check and is never the basis of a result here. Visual findings rest only on the admitted raster receipt for the family, over the same bytes this lane rehashed.",
+  "rows": [
+    {
+      "itemId": "az_certificate_second_chance-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId az_certificate_second_chance-set is identical in production-field-map.json, reports/rendered-artifacts.json, build-status.json and the MASTER_QUEUE.json family row. The single routeKey obligation:track-only:AZ:az_certificate_second_chance is identical in the field map and in the MASTER_QUEUE row, and the guide's own trailer prints that same route key. The instrument set matches the route the registry names: track az_certificate_second_chance in data/record-clearing/legal-design-track-registry.json carries mechanism 'apply later after the set-aside order did not include a certificate', and the packet is built as the STANDALONE application, not the set-aside application."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "I indexed all 501 files of the Master Library at MASTER_LIBRARY_SOURCE_DIR by recomputed SHA-256 and both declared source digests resolve exactly, by content and not by declared path: 4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a = STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf, and b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e = the AOCCRSA4F-103023 order of the same edition. The build uses the 10/30/2023 edition where the packet-set manifest still names the 01/01/2022 form ids; that substitution is not the builder's own assertion, it is carried by the committed captain determination DET-AZ-SECOND-CHANCE-CURRENT-EDITION-IS-HELD in data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, which I read at that file and which names this family and both obligations."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet-set manifest for az_certificate_second_chance-set declares exactly two components, both requirement 'required': az_certificate_second_chance-primary-filing-1 (primary_filing) and az_certificate_second_chance-proposed-order-2 (proposed_order). Both are rendered in both fixtures: packet pages 1-3 carry AOCCRSA3F-103023 (I read 'Arizona Supreme Court / Page 1 of 3 / AOCCRSA3F-103023' through 'Page 3 of 3' out of the delivered text layer) and pages 4-5 carry AOCCRSA4F-103023 ('ORDER REGARDING APPLICATION FOR CERTIFICATE' and 'Page 2 of 2 / AOCCRSA4F-103023'). The manifest's three process_guidance components are carried in participant-instructions.md and the guide states that and gives the registry's reason."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 16 distinct declared values print complete in the delivered bytes of BOTH fixtures, checked by extracting each packet page's text and matching the whole declared string, then confirming it appears on the packet page the page manifest maps that component page to. Every one of the 19 write cells the field map declares produced ink: reports/actual-writes.json lists 16 distinct values because three cells repeat the case number, and I confirmed by direct page reads that CR2016-114872-001 stands at the head of packet pages 1, 2, 3, 4 and 5 of the canonical fixture, so application.case_number_page_2, application.case_number_page_3 and proposed_order.case_number_page_2 are all inked even though the byte-proof lists them only once. The boundary fixture's long values print whole and untruncated, including bartholomew.christiansen-featherstone@example-longdomain.org and '88214 North Old Ajo Stagecoach Trail, Space 117, Sierra Vista, AZ 85635-7412'."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by hand against three committed records, not against the builder's ledger. (1) The packet-set manifest's requiredBeforeFiling for this set is exactly five strings, and participant-instructions.md prints all five verbatim under 'Everything the committed record requires before you file', citing the manifest SHA-256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7, which I recomputed from data/record-clearing/legal-design-packet-set-manifests.json and which matches. (2) The track registry's manualCompletionItems holds one item, the signature in the application signature block, and the guide names it at step 7 and again in the deliberately-left-blank list; participantFilingRequirements is empty. (3) All 8 form blanks the field map classes REQUIRED_BEFORE_FILING appear in the guide's two per-document tables (6 application, 2 proposed_order) with the label the form prints and what to write. Unlike the CO family this lane failed on 20260909b, the registry carries no supportingDocuments entry here that the guide omits; the guide additionally names the set-aside order, the judgment of guilt and the probation-completion documentation under 'Documents you must obtain first'."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The three route-determined elections the field map records are instrument-level and are all carried out in the delivered bytes: the AOCCRSA3F + AOCCRSA4F instrument set, the standalone rather than set-aside application, and the 10/30/2023 edition of each. No on-page tick is route-determined: every checkbox on the application belongs to a fact about the participant's own record (Defendant vs Attorney for Defendant, Self vs Lawyer for, the two eligibility statements, additional-counts-continue) and every checkbox on the order is the court's. I confirmed from the bytes that nothing is ticked - the ink diff below shows no added glyph anywhere near a box - and each unticked election is surfaced in the guide with an instruction, not silently dropped: step 2 tells a self-filer to tick Defendant and Self, step 3 tells them which eligibility statement to tick and to fill its date."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The only repeating structure is the four count lines on application page 2 (Count I through Count IV). All four are blank in both fixtures - the word-level ink diff against the official source shows the only additions on that page are the case number, the declaration address and its city/state/zip - so no row states part of an offence while another cell of the same row is written. Count I is disclosed as REQUIRED_BEFORE_FILING with its own guide row; Counts II-IV are disclosed as the form's own optional further-count lines."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the artifact bytes rather than from the builder's report. I extracted every word box of the two official sources and of the corresponding delivered packet pages and differenced them: on the application 30 words are added and 0 removed, on the order 17 added and 0 removed, and every added word is a fragment of one of the 19 declared caption/identity writes. Nothing is added at the defendant's signature, the printed name beneath the declaration, the AUTHORIZATION TO PROCEED block or its date and signature, the whole of attorney page 3, the order's THE COURT FINDS lines, its DENYING and GRANTING lines, its 'Other reasons' line, its DATED day and month/year, or its Judicial Officer line. There is no certificate of mailing on either form. The For Clerk's Use Only boxes are likewise untouched."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash to exactly what the record names, recomputed here: canonical.pdf = 5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a, 378707 bytes, 5 pages; boundary.pdf = e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa, 378893 bytes, 5 pages. Those two digests are what reports/rendered-artifacts.json declares AND what the admitted raster verdict pinned when it rendered, so the admitted receipt is over the current bytes and not a stale one. Page counts read back from pdfinfo agree with the declared pageCount and with the length of each pageManifest."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The page manifest orders application source pages 1,2,3 as packet pages 1,2,3 and proposed_order source pages 1,2 as packet pages 4,5. Read back from the delivered text layer the order is exactly that: packet page 1 'Page 1 of 3 ... AOCCRSA3F-103023', page 2 'Page 2 of 3 ... AOCCRSA3F-103023', page 3 'Page 3 of 3 ... AOCCRSA3F-103023', page 4 the order's caption and 'ORDER REGARDING APPLICATION FOR CERTIFICATE', page 5 'Page 2 of 2 ... AOCCRSA4F-103023'. Both components are contiguous and in ascending source-page order in both fixtures, and this matches the manifest's component order (primary_filing order 1, proposed_order order 2)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "For each fixture I took every word box the build added (the delivered page's word boxes minus the official source page's word boxes) and tested it against every measured write cell the field map declares for that component and page, converting poppler's top-left coordinates to PDF user space. Canonical: 30 added words on the application, all 30 inside a declared cell; 17 on the order, all 17 inside. Boundary: 37 added words on the application, all 37 inside; 22 on the order, all 22 inside. Zero added words outside every cell and zero off the media box in either fixture. The admitted raster receipt independently reports problems [] over all 10 rendered pages."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's destination for this track is {kind: court, name: 'The court of conviction'}. participant-instructions.md names it under 'Where this goes': 'File in the court of conviction', quoting the committed record, and repeats it at step 10 with the order filed alongside the application. The guide also tells the participant that the court's own NAME must be written on the ____ COURT OF ARIZONA line of both forms because no held record establishes which Arizona court convicted them, which is consistent with the same line being classed REQUIRED_BEFORE_FILING on both documents."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The controlling record states no fee and no waiver: the manifest's pay_fee item is 'The source review does not state a filing fee for the standalone certificate application' and its apply_fee_waiver item is 'The source review does not address a fee waiver'. The guide states both verbatim under 'What it costs' and does not convert silence into a promise - 'No fee is stated for this application, and that is a gap in the record rather than a promise that it is free' - then instructs the participant to ask the clerk of the court of conviction what it costs and what to do if they cannot pay, and states that nothing in the packet is a fee-waiver form because the record names none. Both strings also appear verbatim in the requiredBeforeFiling block."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The manifest's serve_party item is 'The source review does not state a service requirement for the standalone application'. The guide states that under 'Who else has to be told' and then names, from the order's own printed first finding, that the prosecutor must have received a copy of the application, and tells the participant to ask the clerk how that court gets the application to the prosecutor and whether they must deliver it. It also carries the registry destination detail that where a victim requested post-conviction notice the attorney for the state notifies them, and separately states that no notarisation is stated and that the application is a declaration under penalty of perjury rather than a sworn affidavit. I confirmed from the bytes that neither form carries a certificate-of-service block."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's selfHelpStopConditions are three: a state or victim objection, a hearing being set, and a denial the person wants to challenge. All three are named in the guide's 'When to stop and get help' list and again in the body ('If the state or a victim objects, or a hearing is set, or a denial arrives that you want to challenge ... Get an Arizona lawyer'). The guide adds four further stops - doubt about offence class, an earlier certificate under A.R.S. 13-905(L), doubt about whether the conviction was actually set aside, and any immigration matter - and a closing statement that the packet is not legal advice, is not filed for the participant and does not decide eligibility."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "All 19 declared write cells produce ink in both fixtures; confirmed by whole-string page reads and by the word-box ink diff.",
+        "requiredFactsNotCollected": "The registry's four generationRequirements (set-aside granted and whether it included a certificate, offence class, date conditions were fulfilled, prior certificate) are each named to the participant under 'What this packet does not tell you, and who does'; none is silently dropped.",
+        "unclassifiedBlanks": "38 refusals across the two documents, and every one carries a disposition and a stated reason in the field map and appears in participant-instructions.md.",
+        "incompleteRows": "Counts I-IV all blank; no half-written row.",
+        "requiredOptionsMissing": "No on-page election is route-determined; the three route-determined instrument selections are all carried out.",
+        "requiredComponentsMissing": "Both required components rendered in both fixtures.",
+        "invisibleWrites": "Ink diff against the official sources: 47 added words on the canonical fixture and 59 on the boundary fixture, all readable in the extracted text layer and all inside declared cells; no write is drawn without producing readable ink.",
+        "protectedWrites": "Zero added words fall in any signature, signature date, court-only, prosecutor-only or clerk-only region; zero source words removed.",
+        "visualDefects": "The admitted raster receipt for this family, over the same two digests I rehashed, measured 10 pages and reports problems [] and environmentProblems []."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_certificate_second_chance-set returned PASS_COMPLETE, 19/57 written, nine zeros. Recorded as a necessary cross-check only; every result above was measured independently first.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json, RASTER_PASS, pagesMeasured 10, problems [], pinned digests equal to the digests recomputed here."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/production-field-map.json",
+          "sha256": "15f8a3139dce4185551c36b02b523d1a37dd559987fd36d80090cf14c08f1597"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "b0f37d977e27dc99c7f159023387214f544183a44d0d99d0c50a903776202479"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/source-receipt.json",
+          "sha256": "d96f9cfb7fed2eee9c99bf9c16ab4da2659e7ceeee5b9593ff047b4e8b59c47d"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "771a66124371aa3dc7b45d9a7f18dca86b3a5c7b13052a920038531dd4a8b1ff"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "34902008e2e551139b7f0faaf2c5662b466f880f085242b3fa838b76a6632047"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "e274c0cb1658200c39a7fd259b67485df9be417241cac63e6c5b706c9e58b9e4"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+          "sha256": "0c50d3b62b9eb5fc4d397d93485f75cd09e9b2b08564ad21565af697ba0bd35b"
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "sha256": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+          "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+          "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    }
+  ]
+}
