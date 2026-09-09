@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { hostAllowed, ALLOWED_EXACT_HOSTS, REFUSED_HOSTS } from "./lib/official-host-policy.mjs";
+import { sourceArtifactName } from "./lib/rcap-source-artifact-name.mjs";
 
 const ROOT = process.cwd();
 const MANIFEST = process.env.RCAP_MANIFEST || "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json";
@@ -108,21 +109,12 @@ if (planned.length > 256) fail(`${planned.length} entries exceeds the 256-job ma
  * for a mismatch nobody could see. It is derived once, from the two fields the
  * manifest already proves unique, and every later step is handed the result.
  *
- * GitHub artifact names may not contain " : < > | * ? \r \n \\ /, so the
- * derivation sanitizes rather than trusting a source id to be safe.
+ * The derivation itself lives in scripts/lib/rcap-source-artifact-name.mjs so
+ * that the single-URL dispatch path reaches the same one.
  */
 const artifactNameFor = (e) => {
-  /*
-   * Case-folded, because the uniqueness proof has to model the collision
-   * domain it protects. GitHub's artifact store treats names
-   * CASE-INSENSITIVELY, so two source ids differing only in case would pass a
-   * case-sensitive Map check here and then collide at upload time — where the
-   * second upload is the one that loses. Folding at derivation means the
-   * check below and the platform are asking the same question.
-   */
-  const safe = (x) => String(x).toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
-  const name = `rcap-source-${safe(e.jurisdiction)}-${safe(e.sourceId)}`;
-  if (!/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(name)) {
+  const name = sourceArtifactName(e.jurisdiction, e.sourceId);
+  if (name === null) {
     fail(`entry ${e.sourceId}: no valid artifact name can be derived from jurisdiction ${JSON.stringify(e.jurisdiction)} and source id ${JSON.stringify(e.sourceId)}`);
   }
   return name;
