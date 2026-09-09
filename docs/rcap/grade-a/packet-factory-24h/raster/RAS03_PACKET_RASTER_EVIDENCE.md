@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `68695e50280fc758393a158443636fe5f2b28e07`
+**Minimum required ancestor:** `08d11e2c007f12d7d1dc0260d6a06462d56b762b`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -177,14 +177,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf` — `2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf` — `8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### il-seal-3yr-set
 
 - canonical `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf` — `d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab`
 - boundary `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf` — `d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF03
 
 ### in_conviction_d6-set
 
