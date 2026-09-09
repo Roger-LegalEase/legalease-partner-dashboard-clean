@@ -182,6 +182,189 @@
       "visualDefects": [],
       "failedObligationNames": [],
       "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "fl-self-defense-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill on a measured flat overlay",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578 is identical in the MASTER_QUEUE.json family row, production-field-map.json, approval-request.json and product-wiring.json. The paper states the same route: I read out of the delivered bytes on packet page 1 the printed title 'APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)', which is FDLE's statute-specific application and carries no route election of its own. OBSERVATION FOR CAPTAIN, not a defect in this packet: MASTER_QUEUE.json labels this family's implementationStrategy participant_agency_application while the controlling legal record does not. I read data/record-clearing/legal-design-intake/FL.memo.json track fl-self-defense at sha256 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065 and its outputStrategy is the string 'official_pdf_fill', and its legalDesignDecision.rationale quotes the Florida amendment 'FL-6, lawful self-defense expunction | official_pdf_fill on the dedicated FDLE application'. The builder recorded the disagreement in production-field-map.json.strategyRecordDisagreement rather than resolving it, naming the queue label a Captain reconciliation. That is the correct handling; the packet is built for the strategy the legal record names."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One declared source, recomputed from bytes held in this container. Against the SHA-256 index I built over all 501 Master Library files, d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602 resolves exactly to STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf, 21702 bytes, 5 pages, which is the byteLength and page count the receipt and every page-manifest entry declare. The receipt's two controllingRecords also rehash exactly: FL.memo.json = 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065 and legal-design-track-registry.json = 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc. The guide surfaces the open source question honestly rather than hiding it: the registry release blocker 'Current FDLE application and instructions specific to this track have not been acquired' is printed under 'Open questions on this route', with the distinction that the held copy is the real Rev. 10/2019 form and the open question is whether FDLE has published a newer one."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet set fl-self-defense-set declares exactly one component, fl-self-defense-primary-filing-1, role primary_filing, requirement required, officialFormId FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION. Both fixtures render it whole: all five source pages are present and I read each back from the delivered text - page 1 the application, page 2 the WRITTEN CERTIFIED STATEMENT, page 3 the fingerprint card, page 4 GENERAL INFORMATION, page 5 the Application Checklist & Instructions. Nothing the record names is absent and nothing it does not name is added."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 25 declared writes carry drawnText in reports/actual-writes.json and all 25 print complete on their declared page of the canonical fixture, checked by whole-string match against the extracted text of that exact page. The boundary fixture holds a different, longer participant (29 writes: the same 25 plus two further arrest rows), and I read its added ink back positionally: the long values print whole and untruncated, including 'Montgomery-Washington', '1188 Martin Luther King Junior Boulevard Apartment 1407', 'alexandria.montgomery.washington@example.org', 'Leon County Sheriff's Office and Tallahassee Police Department' and the three full charge descriptions with their statute cites. reports/actual-writes.json reports incompleteValues [] and invisibleWrites [] on both fixtures and my own byte reading agrees."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Checked line by line against the committed records rather than the builder's ledger. The registry packet set carries seven requiredBeforeFiling strings and participant-instructions.md carries all seven verbatim under 'Do these before you submit' - I compared each on whitespace-normalised text and all seven match. Critically, this family's registry ALSO carries a supportingDocuments entry with requiredBeforeFiling true - the prosecutor certification from the State Attorney for the circuit - and unlike the CO family this lane failed on 20260909b, the guide does not omit it: it has its own section 'The one thing this packet cannot do for you', it is repeated under 'Documents to obtain' with the record's own howToObtain text, and filing-instructions.md makes it step 2. The registry's two manualCompletionItems (prosecutor certification fields, applicant signature) are both named. Separately, the seven form blanks the field map classes requiredBeforeFiling (race, sex, Florida driver licence number, and race, sex, place of birth and the ORI/stamp on the fingerprint card) each appear in the guide's 'Blanks you must fill in before you submit' with FDLE's own checklist quoted as the authority for requiring them."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the field map and the paper. Not one of the 88 refusals carries routeDetermined true, and reading FDLE40-026 itself confirms why: FDLE publishes a separate application per statute and this one is the self-defense application, so the route is stated by which form it is rather than by a tick. The only tick-shaped marks on the document are the notary's 'Personally Known ___ or Produced Identification ___' pair, which belongs to the notary, and the instructional checklist glyphs on page 5, which are printed guidance and not fields. Nothing route-determined is left unselected."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two repeating structures, both measured from the bytes. (1) The eight-row Date(s) of Arrest / Charge(s) Description table on page 1: the canonical fixture fills row 1 with both cells (03/11/2022 and 'Aggravated Assault with a Deadly Weapon, Fla. Stat. 784.021(1)(a)') and leaves rows 2-8 wholly empty; the boundary fixture fills rows 1, 2 and 3 with both cells each and leaves rows 4-8 wholly empty. No row carries a date with no charge or a charge with no date. (2) The eight-line certification table on page 2 (Charge(s) Description, Statute Violation, Case Number, Action): all 32 cells are empty on both fixtures, which is correct because the section is the prosecutor's. The guide states the rule it followed - 'A row with a date and no charge beside it reads as finished and is not, so a row is either wholly filled or wholly empty' - and tells the participant to write further charges in themselves."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by differencing every word box of the official source against every word box of each delivered fixture. Canonical adds 36 words and removes none; boundary adds 74 and removes none. Every added word sits in the participant identity, address, arresting-agency or arrest-row bands of page 1 (all at y <= 397 in poppler top-left coordinates), the name/DOB/phone band at the head of page 2, or the name and DOB band of the fingerprint card on page 3. Nothing is added at the Applicant's Signature or its Date, anywhere in the notary acknowledgment (STATE OF, COUNTY OF, the day/month blanks, Signature of Notary Public, the commissioned-name stamp line, Type of Identification Produced), anywhere below the printed line '*The section below must be completed by the state attorney/statewide prosecutor.*' on page 2 (State Attorney/Statewide Prosecutor, Reviewing Officer, County, Circuit, the certifying signature, its date and Title), or at the Signature of Official Taking Fingerprints or Signature of Person Fingerprinted on page 3. Pages 4 and 5 receive no ink at all. The field map's own role census agrees: 39 refusals are the prosecutor's, 6 the notary's, 4 protected signature/date fields, 1 the fingerprinting agency's."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash here to exactly what the record names: canonical.pdf = a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b, 27193 bytes, 5 pages; boundary.pdf = 627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba, 27987 bytes, 5 pages. The same two digests are declared in reports/rendered-artifacts.json, reports/build-summary.json, approval-request.json, participant-instructions.md's 'What was delivered' block, and pinned by the admitted raster verdict, so the admitted receipt is over these bytes and not a stale set."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both page manifests map source pages 1..5 to packet pages 1..5 of the single document, one to one and in order. Read back from the delivered text the order is exactly that, and each delivered page matches the same-numbered source page word for word apart from the added values: page 1 the application (footer 'Page 1 of 2 / Revised October 2019 / FDLE40-026'), page 2 the written certified statement, page 3 the fingerprint card, page 4 GENERAL INFORMATION, page 5 the checklist. Nothing is reordered, dropped or duplicated."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally on both fixtures. No added word box falls outside the 612x792 media box, and none comes within 18pt of the right edge. No added word box intersects any printed word box of the source, and no added word box intersects another added word box; the five apparent collisions my first pass reported on the boundary fixture were an artefact of matching words by text - 'and', 'or', 'of' and 'Public' occur both inside the long boundary charge descriptions and in the printed notary and certify lines - and reading the coordinates shows those flagged boxes are the source's own printed positions with no added ink there. The tightest real case is the boundary mailing address, which the record's own longest fixture value makes 'Martin Luther King Junior Boulevard Apartment 1407': it ends at x=275.4 while the City column begins at x=385.5, so it does not run into the next column, and its ZIP 32301-4417 ends at x=566.5. reports/actual-writes.json independently reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures over 113 measured cells."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The controlling record's destination is {kind: agency, name: 'Florida Department of Law Enforcement', detail: 'Dedicated FDLE application. The prosecutor certification is obtained separately by the participant.'}, identical in FL.memo.json and in the track registry. Both guides name it: participant-instructions.md prints the destination and the record's file line 'Submit the dedicated FDLE application with the prosecutor certification'; filing-instructions.md gives the order of operations and the postal address, which I confirmed is FDLE's own printed address on page 4 of the delivered document ('ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489') rather than an address the packet invented. The intermediate destination is also named: pages 1 and 2 go first to the State Attorney's office for the circuit, which is what the form itself prints."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states no fee and no waiver: 'The source review does not state a fee for this application' and 'The source review does not address a fee waiver'. Both appear verbatim in participant-instructions.md and again in filing-instructions.md. The packet does not stop at the silence, and it does not invent a figure either: it reports FDLE's own printed checklist on delivered page 5, 'A nonrefundable money order, cashier's check or personal check for $75.00 made payable to FDLE', explicitly attributed - 'This packet prints no fee figure of its own: the $75.00 above is FDLE's own printed checklist speaking' - and tells the participant to pay what FDLE's checklist states and to ask the Seal & Expunge Section if the two disagree. I confirmed the $75.00 line is printed on the source's page 5 and is not added ink. The waiver treatment is likewise honest: 'This packet includes no fee-waiver form, because none is established for this application.'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states 'The source review does not state a service requirement', carried verbatim in both guides. Against that silence the packet names, from the form's own printed words, who must actually receive the paper: the State Attorney/statewide prosecutor's office must receive pages 1 and 2 ('*Page 1 and 2 of this application must be submitted to the state attorney/statewide prosecutors office.*'), the fingerprinting agency must take and sign the page-3 card and apply its ORI or stamp, the clerk of court in the county of origin supplies the certified dispositions, and the completed packet goes to FDLE. Notarisation is handled the same way: the record says none is stated, and the guide adds FDLE's own printed requirement that the applicant sign before a notary public or deputy clerk, with the instruction not to sign page 1 until then."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's three selfHelpStopConditions - the prosecutor declining to certify, any immigration matter, and anything the participant wants to argue rather than assert - are all printed under 'Stop and get help' in participant-instructions.md. The first is given its own section earlier as well, quoting the record's post_generation_handoff limitation 'If the prosecutor declines, route to counsel'. The guide also states plainly what the packet cannot do ('LegalEase does not obtain or review it') and prints the route's open release blocker so the participant knows the source-currency question is unresolved."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "All 25 declared canonical writes and all the boundary writes produce readable ink on their declared pages.",
+        "requiredFactsNotCollected": "The five facts the record does not establish (race, sex, Florida driver licence number, place of birth, SSN which the form marks voluntary) are each named to the participant with the reason and with FDLE's own requirement quoted where FDLE requires them; none is dropped in silence.",
+        "unclassifiedBlanks": "113 measured cells = 25 writes + 88 refusals, and all 88 refusals carry a stated reason plus a role (39 prosecutor, 38 participant, 6 notary, 4 protected, 1 agency). The 46 not named individually in the guide are the empty arrest rows 2-8 and the whole page-2 certification table, both disclosed as classes with reasons, and the guide says so explicitly rather than letting them pass unmentioned.",
+        "incompleteRows": "Canonical 1 of 8 arrest rows filled, boundary 3 of 8, each filled row carrying both its cells; page-2 certification table wholly empty.",
+        "requiredOptionsMissing": "No refusal carries routeDetermined true and the form carries no route election.",
+        "requiredComponentsMissing": "The single required component is rendered whole, all five pages, in both fixtures.",
+        "invisibleWrites": "Ink diff against the official source: 36 added words canonical, 74 boundary, every one readable in the extracted text layer at a sensible position; nothing drawn without appearing.",
+        "protectedWrites": "Zero added words in any signature, signature-date, notary, prosecutor-certification or fingerprinting-official region; zero source words removed on either fixture.",
+        "visualDefects": "The admitted raster receipt for this family, whose pinned digests equal the digests I recomputed, measured 10 pages and reports problems [] and environmentProblems []. Note that the family's own build-summary.json still records visualDefects null because the build container could not raster; the admitted central receipt supplies it."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-self-defense-set returned PASS_COMPLETE, 25/113 written, nine zeros. Necessary cross-check only.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/fl-self-defense-set/fl-self-defense-set.verdict.json, RASTER_PASS at packetCommitSha 113305fa146a82dbd06f4ae0c4839be043fbd9e1, pagesMeasured 10, coversTheWholeFamily true, problems []."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/production-field-map.json",
+          "sha256": "6646a3c52d019092723b0f36d824bcffe48250203635cfefc36a536494b03a09"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "8cd1ee89527ec10cb19ab2e53b5f40763a3ccb31c2c34505b07ab1d36eda7f84"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "51a59e80fe991f8faa08dcc214537a13c6e4b99486f25c067647584e0589f044"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/source-receipt.json",
+          "sha256": "3f5132e604221c203655acfbd744e46fd148d91eba42a80af01f83f5a2a609a0"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "ec06a248999bfa2609bb6667f929d881bce55ea21ed45d11b40938abf01bca73"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "a014593c3ae7d7a39c3be5ffb41328a7347be1ae52410cc810c263404f610aad"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "7b1fb95f5f02e2a17b549f772a540cac4855af7aa3a3b3acf7e3b2ae84c81df9"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/measured-overlay-anchors.json",
+          "sha256": "5fd8d343e3bb23a7db1ece169f52a4f2bc62d59c04cbc4e87f1d0d2bfc03c8f8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/build-summary.json",
+          "sha256": "53616bb972c202dc274bb4b090152cf55b6ea0549d0ca683edfd1a3e252518ae"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/fl-self-defense-set/fl-self-defense-set.verdict.json",
+          "sha256": "ed38c8c157add2a089ab77036d829d1897367f593764ff4da530df6ac59cf15c"
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+          "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+          "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "observationsForCaptain": [
+        "MASTER_QUEUE.json records implementationStrategy participant_agency_application for this family while the controlling legal record (FL.memo.json track fl-self-defense) records official_pdf_fill. The builder disclosed the disagreement rather than resolving it. This is a queue-label reconciliation for Captain; it is not a defect in the delivered packet and does not affect any obligation above."
+      ],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
     }
   ]
 }
