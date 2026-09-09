@@ -2384,8 +2384,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T05:56:02.105Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13729,7 +13729,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d0647e3421b4b999f05feb59896f8b4c55f2d4a2f96dad31595aedf5d00cf195",
+  "claimsDigest": "3d09ea1f394ff9420db333f214a18ffb83484117419695e6e941bce6880b7900",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40902,6 +40902,16 @@
       "laneKind": "independent-verification",
       "previouslyReleasedAt": "2026-09-09T04:20:45.547Z",
       "reissuedAt": "2026-09-09T04:20:53.285Z",
+      "reason": "Repaired bytes, unread verdict. The selected independent verdict predates a commit that moved this family's delivered fixtures, so the failure it records was measured on bytes that no longer exist. Sources bind at this base and the packet is built; what is owed is an independent read of the current bytes by a lane that neither built nor repaired them."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-04T05:56:02.105Z",
+      "reissuedAt": "2026-09-09T04:24:02.940Z",
       "reason": "Repaired bytes, unread verdict. The selected independent verdict predates a commit that moved this family's delivered fixtures, so the failure it records was measured on bytes that no longer exist. Sources bind at this base and the packet is built; what is owed is an independent read of the current bytes by a lane that neither built nor repaired them."
     }
   ],
