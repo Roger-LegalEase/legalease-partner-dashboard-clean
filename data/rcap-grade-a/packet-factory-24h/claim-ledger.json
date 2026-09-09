@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "711235c1046e465ac7f2224bef929b3bf645e16b",
+  "generatedAtCommit": "25c56504af0a0041f467a3af10328ff276f2e6eb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -9593,10 +9593,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:30.703Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
     },
     {
@@ -9639,10 +9639,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:30.804Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
     },
     {
@@ -14035,7 +14035,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "15ec7de6bd2832ef32352bd4f3d6062ed3109cda051152cb4595bc6d81e348d9",
+  "claimsDigest": "73bafb5a26457c8a2c27d642868e9dda96b23aa661d5209fcc08b4e747a916b9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -52031,6 +52031,28 @@
       "previouslyReleasedAt": "2026-09-09T21:57:27.457Z",
       "transferredAt": "2026-09-09T21:57:27.566Z",
       "reason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF09",
+      "previouslyReleasedAt": "2026-09-05T21:16:30.703Z",
+      "transferredAt": "2026-09-09T22:17:08.870Z",
+      "reason": "A Captain measurement proves 26 doubled widget placements per fixture in this family's delivered bytes -- the same defect VF08 proved on its sibling. Its PASS was read before that was known and needs a fresh independent read on the current bytes."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF09",
+      "previouslyReleasedAt": "2026-09-05T21:16:30.804Z",
+      "transferredAt": "2026-09-09T22:17:09.047Z",
+      "reason": "A Captain measurement proves 26 doubled widget placements per fixture in this family's delivered bytes -- the same defect VF08 proved on its sibling. Its PASS was read before that was known and needs a fresh independent read on the current bytes."
     }
   ],
   "grants": [
