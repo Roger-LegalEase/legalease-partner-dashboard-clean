@@ -27,7 +27,9 @@ And one thing the record IS explicit about:
 
 Both of these forms are **flat** - the Colorado Judicial Department published them with no fillable fields at all. Every value this packet wrote was placed on a printed rule measured out of the form's own page, and nothing was placed anywhere the form does not draw a line.
 
-Written for you: your name, your date of birth, your case number, your street address, your telephone number and your email address on the petition; and your name, date of birth, case number, street address, city, state and ZIP on the proposed order. Everything else is yours, and every one of those blanks is listed below - and where a value held for you was longer than the rule the form prints, it was left for you rather than shortened to fit, and reports/actual-writes.json records which.
+Written for you, where the value held for you fits the rule the form draws: your name, your date of birth, your case number, your street address, your telephone number and your email address on the petition; and your name, date of birth, case number, street address, city, state and ZIP on the proposed order. Everything else is yours, and every one of those blanks is listed below - and where a value held for you was longer than the rule the form prints, it was left for you rather than shortened to fit, and reports/actual-writes.json records which.
+
+**One line to check before you file: the State line in section "1. Background" of JDF 686, the proposed order.** The rule Colorado draws there is 31.25 points wide - narrower than every other blank on the sheet - and this packet writes your city and your ZIP on either side of it. A value too long to sit on a rule that narrow at a readable size is refused rather than shrunk or clipped, so this is the one line on this packet that is written for some participants and left for others. **Look at it.** If it already carries a state, that is this packet's own write and you leave it alone - writing over it puts two answers on the order a judge signs. If it is empty, write it yourself. reports/actual-writes.json records which of the two happened in your packet: a value written there is listed under actualWrites, and a value refused for length is listed under unfittable.
 
 ## The tick boxes are yours, all of them, and you mark them by hand
 
@@ -153,7 +155,6 @@ The petition's first item asks who the Petitioner is, and gives four choices. **
 - **The Division and Courtroom boxes**, on both forms. The form prints "This box is for court use only" over them.
 - **The judge's or magistrate's signature and the date on the proposed order.**
 - **The city or town at the head of both forms.** This is a municipal conviction, so that line names the city or town whose court heard it, and the platform holds a county rather than a municipality.
-- **The State line at section 1 of the order.** The rule Colorado draws there is 31 points wide - narrower than every other blank on the sheet - and this packet writes your city and your ZIP on either side of it. Write your state on it yourself.
 
 ## When this is not a do-it-yourself matter
 

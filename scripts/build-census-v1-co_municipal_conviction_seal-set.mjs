@@ -1159,11 +1159,39 @@ function optionalItems(maps) {
     .map((r) => ({ document: m.formNumber, field: r.field, label: r.effectiveLabel, participantMaySupply: r.participantMaySupply })));
 }
 
+/*
+ * The one rule on this packet that is written in one fixture and refused in the
+ * other, read out of the maps rather than asserted in prose.
+ *
+ * VF01 failed this family on KNOWN_PREFILLS because the guide carried an
+ * unconditional sentence listing the order's State line under "What the
+ * platform deliberately left blank" and telling the participant to write a
+ * state on it. The canonical bytes print CO on that rule. An unconditional
+ * sentence about a conditional outcome is false for whichever fixture it does
+ * not describe, and a participant who acts on it hand-writes over correct data
+ * on the document a judge signs. The guide now states the mechanism, says which
+ * record answers it for the packet in hand, and asserts nothing that both
+ * fixtures do not share.
+ */
+function narrowRuleWrittenInOneFixtureOnly(maps) {
+  for (const m of maps) {
+    for (const w of m.canonicalWrites ?? []) {
+      if (w.ruleIsBelowTheReadersDefaultMinimum !== true) continue;
+      const boundaryRefusal = (m.boundaryRefusals ?? [])
+        .find((r) => r.field === w.field && r.unfittable?.outcome === "refused");
+      if (!boundaryRefusal) continue;
+      return { document: m.formNumber, write: w, boundaryRefusal };
+    }
+  }
+  return null;
+}
+
 function participantInstructions(record, maps, rbf, optional) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const { track } = record;
   const buildBlockers = (track.unresolvedQuestions ?? []).filter((q) => q.impact === "build_blocker");
+  const narrowRule = narrowRuleWrittenInOneFixtureOnly(maps);
 
   const out = [];
   out.push(`# What to do with this packet - ${ROUTE.publicLabel}`, "");
@@ -1201,12 +1229,30 @@ function participantInstructions(record, maps, rbf, optional) {
     + "nothing was placed anywhere the form does not draw a line.", ""
   );
   out.push(
-    "Written for you: your name, your date of birth, your case number, your street address, your telephone number "
-    + "and your email address on the petition; and your name, date of birth, case number, street address, city, "
-    + "state and ZIP on the proposed order. Everything else is yours, and every one of those blanks is listed "
-    + "below - and where a value held for you was longer than the rule the form prints, it was left for you rather "
-    + "than shortened to fit, and reports/actual-writes.json records which.", ""
+    "Written for you, where the value held for you fits the rule the form draws: your name, your date of birth, your "
+    + "case number, your street address, your telephone number and your email address on the petition; and your name, "
+    + "date of birth, case number, street address, city, state and ZIP on the proposed order. Everything else is "
+    + "yours, and every one of those blanks is listed below - and where a value held for you was longer than the rule "
+    + "the form prints, it was left for you rather than shortened to fit, and reports/actual-writes.json records "
+    + "which.", ""
   );
+  if (narrowRule) {
+    const w = narrowRule.write;
+    const label = w.effectiveLabel;
+    out.push(
+      [
+        `**One line to check before you file: the ${label} line in section "${w.sectionHeading}" of `,
+        `${narrowRule.document.replace("-", " ")}, the proposed order.** The rule Colorado draws there is ${w.measuredRule.width} `,
+        "points wide - narrower than every other blank on the sheet - and this packet writes your city and your ZIP ",
+        "on either side of it. A value too long to sit on a rule that narrow at a readable size is refused rather ",
+        "than shrunk or clipped, so this is the one line on this packet that is written for some participants and ",
+        `left for others. **Look at it.** If it already carries a ${label.toLowerCase()}, that is this packet's own `,
+        "write and you leave it alone - writing over it puts two answers on the order a judge signs. If it is empty, ",
+        "write it yourself. reports/actual-writes.json records which of the two happened in your packet: a value ",
+        "written there is listed under actualWrites, and a value refused for length is listed under unfittable."
+      ].join(""), ""
+    );
+  }
 
   out.push("## The tick boxes are yours, all of them, and you mark them by hand", "");
   out.push(
@@ -1286,7 +1332,11 @@ function participantInstructions(record, maps, rbf, optional) {
   out.push("- **The Division and Courtroom boxes**, on both forms. The form prints \"This box is for court use only\" over them.");
   out.push("- **The judge's or magistrate's signature and the date on the proposed order.**");
   out.push("- **The city or town at the head of both forms.** This is a municipal conviction, so that line names the city or town whose court heard it, and the platform holds a county rather than a municipality.");
-  out.push("- **The State line at section 1 of the order.** The rule Colorado draws there is 31 points wide - narrower than every other blank on the sheet - and this packet writes your city and your ZIP on either side of it. Write your state on it yourself.");
+  /* The order's State line does NOT belong on this list. It is written whenever
+   * the state held for the participant fits its 31.25pt rule, and refused only
+   * when it does not, so listing it as deliberately blank is false for every
+   * packet where it was written. It is described where it is true instead --
+   * see narrowRuleWrittenInOneFixtureOnly above. */
   out.push("");
 
   out.push("## When this is not a do-it-yourself matter", "");
@@ -1690,8 +1740,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
         finding:
           "The rule Colorado draws under this caption is 31.25 points wide, below the shared rule reader's 40-point "
           + "default minimum, so at the default setting it is invisible and the participant's city and ZIP would sit "
-          + "either side of an unwritten gap. This build narrows the threshold through the module's own option, "
-          + "writes the state on the form's own drawn rule, and records the measurement for the module's owner."
+          + "either side of an unwritten gap. This build narrows the threshold through the module's own option and "
+          + "writes the state on the form's own drawn rule wherever the value held for the participant fits it, and "
+          + "records the measurement for the module's owner. Fitting is decided per packet and not per family: the "
+          + "canonical fixture writes CO there, and the boundary fixture's spelled-out Colorado is refused as "
+          + "unfittable and left for the participant, so the participant guide describes the check rather than "
+          + "asserting either outcome."
       }
     ],
     everyRequiredBeforeFilingItemIsDisclosed: true,
