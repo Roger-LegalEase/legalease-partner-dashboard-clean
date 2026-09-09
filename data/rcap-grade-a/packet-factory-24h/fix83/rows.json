@@ -1373,6 +1373,168 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "Repair-engineering evidence only; no approval, release, legal decision or route opening."
+    },
+    {
+      "itemId": "ut_pet_limitations-set",
+      "familyId": "ut_pet_limitations-set",
+      "lane": "FIX83",
+      "laneKind": "repair",
+      "wave": "OWNER-WITHHOLDING-LIFT-UT-MA-20260909",
+      "status": "CONFIRMED_NO_CHANGE",
+      "repairedByThisLane": true,
+      "independentVerification": false,
+      "branch": "fix-ut-ma-withholding-lift",
+      "worktree": "/home/user/utma-worktree",
+      "repairedAtBase": "a94898087",
+      "builtAtBase": "a9489808722625dc5ed9041c10624729704a667c",
+      "worker": "FIX83 repair lane, this shift. Author of this reading; not an independent reviewer of it.",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX83 ut_pet_limitations-set -> CLAIM_OK FIX83 ut_pet_limitations-set (repair, grant set 85edc2180e2692bc), exit 0. Asserted inside /home/user/utma-worktree before any family artifact was read or built. The grant is NOT released here and the claim ledger is NOT committed.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "buildEnvironmentPreflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ut_pet_limitations-set",
+        "resultVerbatim": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "exitCode": 1,
+        "theTwoFailures": [
+          "private_is_git_ignored: 'private/ is NOT git-ignored'. Recorded rather than argued away. In this checkout private/ is a symlink to the read-only source tree and .gitignore line 53 carries the directory form 'private/', which does not match a symlink; git status is clean and nothing under private/ is tracked, staged or committed by this lane.",
+          "corpus_matches_committed_index: '1 absent, 0 mismatched of 24 sampled'. The absent file touches no Utah source; family_sources_bind passed 9/9 by exact SHA-256 (custody_reconciliation) for this family."
+        ],
+        "whatPassed": "repo_identity, clone_is_complete, worktree_clean, node 22.22.2, pdf-lib 1.17.1, master_library_mounted (501 files, 329 PDFs, 51 jurisdictions), family_sources_bind 9/9, master_library_not_at_operational_path, absent_is_not_empty, stale_artifact_block_consulted (0 artifacts under this family clear)."
+      },
+      "ownerDecisionAddressed": {
+        "record": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+        "decision": "OWN-ADOPT-2026-09-02-BATCH-53, Roger Roman, 2026-09-02",
+        "ownerDecision": "DO NOT PUBLISH AN UNCONFIRMED FEE. Follow the controlling design's refusal and direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it.",
+        "namedAction": "Confirm the unsupported fee is absent and the clerk or BCI referral remains, then advance the current bytes through raster and independent reread as needed.",
+        "whatWasFound": "The named correction was already made at origin and is present in the delivered bytes. It was made by commit 417f6d281 (2026-09-02) under the flag ownerFeeCorrection, set on this family and on ut_pet_traffic-set only. Nothing needed changing, so nothing was changed. The entry in OWNER_CORRECTIONS_REQUIRED.json is untouched and the family still owes the independent reread the record's liftedHow requires.",
+        "entryRemovedFromWithholdingRecord": false
+      },
+      "precedentsFollowed": [
+        {
+          "family": "ms-fel-set",
+          "read": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading, its rows in fix83/vf04 and the correcting commit 417f6d281",
+          "whatWasCopied": "The test applied, not new text. ms-fel-set had published '$150.00 on each petition' over its own design's refusal and the fix was to withdraw the packet-authored figure and carry the refusal naming the specific clerk. The same test applied here asks: does this packet assert a fee of its own, and does the specific-office referral survive? Both answers were checked on the delivered bytes rather than on the build script alone."
+        },
+        {
+          "family": "ut_pet_traffic-set",
+          "read": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill and the same commit 417f6d281",
+          "whatWasCopied": "The exact treatment, because this family shares its build host and its ownerFeeCorrection flag: stop asserting a fee, carry UT.memo rules.fees' refusal, and separately state what the delivered official forms print with attribution to form and revision - the one basis on which the owner permits a figure at all. This family already carries that identical treatment; it was verified rather than re-applied."
+        }
+      ],
+      "copiesEnumeratedBefore": {
+        "textSearchedFor": "the packet-authored fee assertion the owner's correction withdrew: 'The court filing fee is $150.'",
+        "searchScope": "repository-wide excluding .git and node_modules, plus targeted greps of data/record-clearing/, the family directory and every generated artifact under data/rcap-all50/ and data/rcap-grade-a/",
+        "found": [
+          {
+            "where": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+            "carriesTheAssertion": false,
+            "note": "This is the held family. It carries the refusal instead: 'This packet does not publish a filing fee.' (1 occurrence), 'This packet does not publish a BCI application fee.' (1), 'Ask the clerk of the district court where your case was heard' (1), 'bci.utah.gov/expungements' (3)."
+          },
+          {
+            "where": "fixtures/canonical.pdf and fixtures/boundary.pdf, 19 pages each",
+            "carriesTheAssertion": false,
+            "note": "pdftotext over the delivered bytes finds money only where an enclosed OFFICIAL FORM prints it: '$150 [X] Expungement Petition - Criminal (E)' on packet page 5, which is 1044XX page 2 rev. May 6 2026 with the row marked; and '$65.00' three times on packet pages 1-2, which are BCI's own application instructions. No packet-authored figure appears in either fixture."
+          },
+          {
+            "where": "scripts/build-census-v1-ut_pet_acquittal-set.mjs line 2158",
+            "carriesTheAssertion": true,
+            "legitimatelyDiffers": true,
+            "why": "This is the else-branch of the ownerFeeCorrection gate and it serves the FIVE Utah siblings the owner did not hold: acquittal, conviction, no_charges, dismissed_with_prejudice, dismissed_without_prejudice. The gating is deliberate and documented in the source at the flag: the money paragraphs are shared by seven families and only two are under this correction, so setting it unconditionally would rewrite five unclaimed families' delivered bytes and five families whose digests the owner's batch adoption records. Correcting it here would be a change to families this lane holds no grant on."
+          },
+          {
+            "where": "five sibling participant-instructions.md files under data/rcap-all50/overlays/census-v1/ut/",
+            "carriesTheAssertion": true,
+            "legitimatelyDiffers": true,
+            "why": "Same reason: they are the rendered output of that else-branch, they are not held under this correction, and this lane's grant does not reach them."
+          },
+          {
+            "where": "data/rcap-grade-a/packet-factory-24h/vf03, vf05, vf06, vf10, vf11 rows.json",
+            "carriesTheAssertion": true,
+            "legitimatelyDiffers": true,
+            "why": "These are independent-verification findings quoting the packet text as it stood when each lane read it. They are dated evidence of past reads, not live packet copy. Rewriting a verdict record to match a later repair would destroy the evidence trail; this lane touches no independent-verification row."
+          },
+          {
+            "where": "data/record-clearing/ hits for '$150'",
+            "carriesTheAssertion": false,
+            "why": "All are Oklahoma (OSBI arrest-record processing fee) and California (PC 987.8 reimbursement) text in OK.memo.json, CA.memo.json and the track registry. None is Utah and none is this route."
+          }
+        ]
+      },
+      "copiesCorrected": "None. No copy needed correcting inside the boundary of this grant: the held family already carries the correction in every copy it owns (build script branch, participant-instructions.md, both fixtures, build-findings.json). Every copy that still carries the withdrawn sentence is either an unheld sibling this lane holds no grant on or a dated verification record that must not be rewritten.",
+      "copiesSurvivingAfter": {
+        "insideTheHeldFamily": 0,
+        "evidence": "grep -c 'The court filing fee is $150' over the family's participant-instructions.md returns 0. grep across the whole family directory for 'The court filing fee is', 'The BCI application fee is' and 'the filing fee is $' returns 2 lines, both in build-findings.json and both the NEGATED form ('... is NO LONGER PUBLISHED as this packet's own figure, per OWNER_CORRECTIONS_REQUIRED.json Q4'). Zero surviving assertions.",
+        "outsideTheHeldFamily": "6 rendered/source copies on the five unheld siblings and their shared host branch, plus 5 verification-record quotations. Each is named above with why it legitimately differs. None was removed."
+      },
+      "whatChanged": {
+        "files": [],
+        "pages": [],
+        "summary": "Nothing. The family was rebuilt with its own build script (node scripts/build-census-v1-ut_pet_limitations-set.mjs, exit 0, 'completeness repair rendered 9 source-bound components, 2 fixtures, 38 page rasters') and the rebuild produced a byte-identical family directory: git status reported zero modified paths across all 50 files, including both fixture PDFs and all 38 committed raster PNGs. The correction was already at origin and already in the delivered bytes."
+      },
+      "pagesThatMoved": [],
+      "inkDelta": {
+        "measured": "not applicable: no byte moved, so there is no pre/post pair to difference. The deterministic-rebuild identity above is the stronger statement.",
+        "pagesInspectedAnyway": [
+          "canonical page 5 (1044XX cover sheet page 2, the fee page) rendered fresh at 300 dpi and read: the row '$150 [x] Expungement Petition - Criminal (E)' is printed by the form and marked by the packet, footer 'Revised May 6, 2026', which is the revision the instructions attribute it to. This is the official form's own figure, quoted and attributed, not a packet assertion.",
+          "canonical page 1 (BCI Instructions for Certificate of Eligibility Application) rendered fresh at 300 dpi and read: '$65.00 and non-refundable' is printed by BCI on its own form, with the indigency fee-waiver sequencing rule and bci.utah.gov/expungements printed alongside. The BCI referral the owner's action requires is on the delivered face as well as in the guide."
+        ],
+        "rasterMethod": "poppler pdftoppm -r 300, rendered under /tmp/utma-work/ut300 (a directory this lane created) and deleted after reading. No PNG under any committed path was written, moved or deleted by this lane."
+      },
+      "canonicalSha256": "c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9",
+      "boundarySha256": "d609fb3de01fb5e5b736e1d63753088bee559767f1dabf9f5aa8127a6c4f8909",
+      "digestsUnchangedByThisLane": true,
+      "pageCounts": {
+        "canonical": 19,
+        "boundary": 19
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set -> PASS_COMPLETE, 38/445 written, exit 0. Measured before and after the rebuild with identical output. Reported as measured; nothing was tuned to reach it.",
+        "whyNineZerosIsNotAPass": "The counters read the field map. They cannot see whether a fee the owner withheld is published in prose, which is the thing this correction is about, and they are not an independent verdict."
+      },
+      "rasterOwed": {
+        "owed": true,
+        "whatIsOwed": "A fresh central raster of BOTH fixtures through .github/workflows/rcap-packet-raster-acceptance-batch.yml, dispatched centrally. This lane claims no raster acceptance and took none.",
+        "whyTheExistingReceiptDoesNotBind": "The live rasterReceipt in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json for this family is workflow run 34001777533 (job 101402126153, renderedCommitSha adaf13062, verdict RASTER_PASS). It is bound to boundToCanonicalSha256 ba7fe75c2165e0975b1e77b2434696717309e510b9314e281383129f7c36c4f8 and boundToBoundarySha256 9d1a3bb9008a180b0df1d5acaeaad444f01bd4ebe2abb42ed537dcab2dde3ed8. The bytes on disk are c949b633fc0f... and d609fb3de01f.... Neither matches, so the receipt is true only of bytes this family no longer ships. The bytes moved after that raster in commits debba018a -> 99bbde528/19c425778/6ac98a4f1 (Utah caption and filing-prerequisite repairs). The receipt is not stale bookkeeping to be re-pointed; it binds what it rendered and a re-raster is genuinely owed.",
+        "secondReason": "Even for the bytes it does bind, that receipt records documentsCovered ['canonical.pdf'] and whatThisGateDidNotRender ['boundary.pdf'], so it never rendered the boundary fixture at all.",
+        "rasterAcceptanceClaimedByThisLane": false
+      },
+      "sharedHostByteIdentityProof": {
+        "sharedHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs, shared by all seven Utah petition families",
+        "hostEditedByThisLane": false,
+        "method": "SHA-256 recomputed over fixtures/canonical.pdf and fixtures/boundary.pdf for all seven families in data/rcap-all50/overlays/census-v1/ut/ immediately before the rebuild and again immediately after, and the two listings diffed.",
+        "result": "Identical, 0 differences across 14 PDFs. The six families other than the held one are byte-identical before and after, and so is the held family.",
+        "digests": {
+          "ut-pet-acquittal-set": "canonical b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5 / boundary 9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4",
+          "ut-pet-conviction-set": "canonical ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6 / boundary b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "ut-pet-dismissed-with-prejudice-set": "canonical 53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a / boundary f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f",
+          "ut-pet-dismissed-without-prejudice-set": "canonical 53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a / boundary f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f",
+          "ut-pet-limitations-set": "canonical c949b633fc0f4a1e3f93eea1f61ba23274a45e3a95200741ef8be40b2920dac9 / boundary d609fb3de01fb5e5b736e1d63753088bee559767f1dabf9f5aa8127a6c4f8909",
+          "ut-pet-no-charges-set": "canonical 4c24a15e43cf80ea7a40105617adf4ebb83aef46a39000b8bcffdedfc1090523 / boundary d9548fb7c6cab115e89137d4600b8aefb3f269dc341d97fe2d1441a213ae93df",
+          "ut-pet-traffic-set": "canonical b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909 / boundary ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03"
+        }
+      },
+      "whatThisDoesNotClaim": [
+        "It does not claim the owner withholding is lifted. The record's liftedHow requires the named correction, a rebuild, and a reread by an independent verifier who is neither builder nor repairer. This lane did the first two and is disqualified from the third.",
+        "It asserts no PASS, requests no promotion, and touches no independent-verification row.",
+        "It does not claim raster acceptance and did not take a central raster.",
+        "It does not claim the family is approved, approved_for_live, live, counsel-approved or commercially deliverable.",
+        "It does not remove, weaken, reword or reinterpret any entry in OWNER_CORRECTIONS_REQUIRED.json, which this lane did not edit.",
+        "It invents no fee, no form, no clerk answer and no counsel decision. The only figures anywhere near this packet are printed by the enclosed official forms and are quoted with their form number and revision.",
+        "It makes no statement about the five unheld Utah siblings, whose text still carries the withdrawn sentence by deliberate gating and whose correction is a separate decision on a separate grant."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repair lane's confirmation is engineering evidence about bytes. It opens no route, sets no price, creates no fulfillment record, extends no approval to these bytes, and does not make the family COMPLETE_PACKET_PROVEN. The owner withholding stands and one independent reread is still owed."
     }
   ],
   "changedPaths": [
