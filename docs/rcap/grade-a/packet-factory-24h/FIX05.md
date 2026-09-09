@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `58f03978665215d365eab38d1380de41840aed8f` (or the newer dispatch base)
+**Minimum required ancestor:** `7ae4b8679346f39c977bb3f774af944732baff56` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'la-976-arrest-no-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha 58f03978665215d365eab38d1380de41840aed8f
+  --minimum-captain-sha 7ae4b8679346f39c977bb3f774af944732baff56
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,7 +41,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'la-976-arrest-no-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'mn_petition_609a02_subd3-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'co_petition_seal_arrest-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,7 +66,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `la-976-arrest-no-conviction-set`
 - `mn_petition_609a02_subd3-set`
-- `co_petition_seal_arrest-set`
+- `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
 
 ## What you receive
 
@@ -81,10 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
 - `data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
 - `scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs`
 - `scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs`
-- `scripts/build-census-v1-co_petition_seal_arrest-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
 
 ## Never write here
 
