@@ -1,265 +1,257 @@
 #!/usr/bin/env node
-// Route-obligation census v1 — packet family `census-pending-family:ME:juvenile-sealing`.
+// Route-obligation census v1 — packet family `wv_conv_nonviolent_felony-set`.
 //
-//   node "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs" [--check] [--no-raster]
+//   node scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs [--check] [--no-raster]
 //
-// Maine, the three-year petition branch of juvenile sealing under
-// 15 M.R.S. § 3308-C. Route
-// `obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition`.
+// West Virginia, expunging a nonviolent felony conviction under
+// W. Va. Code § 61-11-26(a)(2) and (b)(3). Route
+// `obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26`.
 //
-// WHICH BRANCH THIS IS, AND WHY THAT IS THE WHOLE POINT
+// ONE FORM, THREE COMPONENTS, AND THE REASON THAT IS NOT A SHRUNK PACKET
 //
-// Section 3308-C has two branches and only one of them is a filing. For a
-// juvenile adjudicated of a Class D or Class E juvenile crime, or of a juvenile
-// crime that would be a civil offense if committed by an adult, the court seals
-// the record AUTOMATICALLY within five business days after a Notice of
-// Discharge is filed — no petition, no wait, nothing for the participant to
-// file. The committed route contract records that in terms: "Qualifying Class
-// D, Class E and civil-type juvenile matters enter the automatic branch with no
-// separate participant filing wait."
+// The committed packet-set manifest declares six components. Three of them —
+// the primary filing, the verification and the certificate of service — all
+// carry officialFormId SCA-C907, because the Supreme Court of Appeals publishes
+// them as one four-page instrument: the petition on pages 1 and 2, the
+// verification on page 3 and the certificate of service on page 4. The packet
+// delivers that instrument whole, so all three are rendered. The remaining
+// three components are process_guidance and are carried in
+// participant-instructions.md, which is where guidance about serving, referral
+// and filing belongs; the record's own component table is printed in the guide
+// so a reader can check the six against what they received.
 //
-// This family is the OTHER branch, and it is narrow: murder, Class A, Class B
-// or Class C juvenile crimes, and OUI matters. JV-043 states the same
-// restriction on its own printed face. So the first thing this packet's guide
-// tells a participant is how to tell whether they need it at all — because a
-// participant on the automatic branch who files this petition is paying for a
-// filing the statute already gave them.
+// WHAT THIS PACKET REFUSES TO DECIDE, AND WHY THAT IS MOST OF THE FORM
 //
-// THE PINNED BINARY IS ENCRYPTED
+// The committed record is unusually explicit about what a build may not put on
+// this petition, and it is the heart of the family: "The nonviolent
+// determination and the same-transaction analysis are legal conclusions, not
+// participant questions." Section 61-11-26(p)(5) defines a nonviolent felony
+// partly by two express JUDICIAL FINDINGS — that the circuit court finds it
+// consistent with the purposes of the article and not to involve violence or
+// potential violence. A build cannot make a judicial finding, and a build that
+// ticked the eligibility recital would be asserting one on a petition VERIFIED
+// UNDER OATH BEFORE A NOTARY.
 //
-// JV-043 as published is an encrypted PDF: /Filter /Standard, /R 6, AES-256,
-// with both streams and strings encrypted. pdf-lib throws in PDFCatalog.Pages
-// before it reaches a page, and `ignoreEncryption: true` does not decrypt — it
-// only suppresses the throw. The committed corpus index already records the
-// consequence: structuralClassObserved "unreadable".
+// So page 1's four eligibility recitals are left unticked. Two of them are not
+// on this route at all and say so on their own printed face — they are the
+// § 61-11-26a three-year branch, and this family is § 61-11-26 — and are
+// declared not applicable against a named route condition. The other two are
+// the § 61-11-26 single-felony and multiple-felony recitals, and which applies
+// is decided by how many felonies there were and whether they arose from the
+// same transaction, which the record records as a legal conclusion AND as a
+// self-help stop condition. Both are disclosed to the participant with the
+// record's own words beside them.
 //
-// The identity stays the pinned official binary. Its bytes are carried through
-// a deterministic pikepdf decryption that is PROVED equivalent to the official
-// binary before anything is rendered — page count, page geometry, the terminal
-// field set, every field difference, the page content streams and XFA — and the
-// family stops rather than rendering if that proof fails. The source's own
-// SHA-256 is recomputed from disk before and after the read. The derivative is
-// transport: build-time only, never committed, deleted when the build ends.
-// This is the treatment already proved on five encrypted California forms and
-// on Maine's own CR-218, and it is used here for the same reason and on the
-// same terms.
+// EVERY FELONY HERE IS A REFERRAL TRIGGER
 //
-// WHAT THIS PACKET WILL NOT SAY
-//
-// Maine seals; it does not expunge, and sealing does not erase. The compiled
-// profile records that courts, criminal justice agencies, the juvenile and the
-// juvenile's designee can still reach a sealed juvenile record, and that
-// firearm prohibitions are NOT removed by sealing. All three statements are
-// carried to the participant in the record's own words. Nothing here promises
-// erasure.
+// The committed record's first stop condition is not a nuance: "Any felony
+// conviction. Every West Virginia felony expungement is a referral trigger and
+// the participant should have a lawyer review the petition before it is filed."
+// The guide says so before it says anything about how to fill the form in.
 //
 // A built family is a built family. It is not verified, not approved and not
 // sellable, and this builder issues no verdict on its own packets.
 
-const FAMILY_ID = "census-pending-family:ME:juvenile-sealing";
-const ROUTE_KEY = "obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition";
+const FAMILY_ID = "wv_conv_nonviolent_felony-set";
+const ROUTE_KEY = "obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26";
 const PETITION = "petition";
 
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const PACKET_SET_ID = "wv_conv_nonviolent_felony-set";
+
 /*
- * THE WORD MAINE'S COMMITTED RECORD FORBIDS IN PARTICIPANT COPY, AND THE ONLY
- * SENTENCES IN WHICH THIS PACKET MAY USE IT.
+ * SENTENCES THE COMMITTED RECORD REQUIRES THIS PACKET TO CARRY.
  *
- * The instruction is jurisdiction-wide, not track-specific: "Maine seals; it
- * does not expunge. The Judicial Branch says in terms that Maine does not have
- * expungement and the record is not completely erased. Never use 'expungement'
- * in Maine participant copy." It is a committed packet instruction on the
- * Maine track registry, and this family binds that record by SHA-256 and
- * re-reads the sentence as an anchor rather than asserting the rule on its own
- * authority.
+ * The build host this family copied carries a Maine-specific gate in the other
+ * direction: it asserts that a word the Maine record FORBIDS never appears in
+ * the generated guide. There is no forbidden word here — "expungement" is the
+ * statutory term in West Virginia and appears in the title of the form itself —
+ * so that gate is not carried over, and this one is put in its place.
  *
- * The gate runs over the GENERATED guide before a byte of the overlay directory
- * exists, so a later edit cannot reintroduce the word quietly, and a family
- * that breaches it stops with its directory untouched.
+ * Each string below is a statement the committed record makes and that a
+ * participant is worse off for not being told. They are asserted over the
+ * GENERATED guide before a byte of the overlay directory exists, so a later
+ * edit cannot quietly drop one, and a family that loses one stops with its
+ * directory untouched.
  */
-const FORBIDDEN_WORD = "expunge";
-const FORBIDDEN_WORD_IS_ALLOWED_ONLY_IN = [
-  "Maine seals; it does not expunge",
-  "Maine seals and does not expunge"
+const REQUIRED_PHRASES = [
+  "Every West Virginia felony expungement is a referral trigger",
+  "The nonviolent determination and the same-transaction analysis are legal conclusions, not participant questions",
+  "A DUI conviction does not automatically block expungement",
+  "$200",
+  "$100",
+  "none under § 61-11-26",
+  "30 days"
 ];
 
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
-  buildScript: "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
-  outDir: "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill",
-  jurisdiction: "ME",
+  buildScript: "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
+  outDir: "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+  jurisdiction: "WV",
   custodyClass: "SOURCE_ALREADY_HELD",
   implementationStrategy: "official_pdf_fill",
   assembledPacketRole: "assembled_packet_of_official_forms",
-  legalName: "Petition to Seal Juvenile Case Records, 15 M.R.S. § 3308-C(10)(A)",
-  routeName: "petitioning the Maine Juvenile Court to seal juvenile case records on the three-year branch for murder, Class A, B or C juvenile crimes and OUI matters",
-  statutes: ["15 M.R.S. § 3308-C", "15 M.R.S. § 3308-C(10)(A)", "29-A M.R.S. § 2411"],
+  legalName: "Verified Petition to Expunge a Nonviolent Felony Conviction, W. Va. Code § 61-11-26(a)(2) and (b)(3)",
+  routeName: "petitioning a West Virginia circuit court to expunge a nonviolent felony conviction under W. Va. Code § 61-11-26",
+  statutes: [
+    "W. Va. Code § 61-11-26(a)(2)", "W. Va. Code § 61-11-26(b)(3)", "W. Va. Code § 61-11-26(c)",
+    "W. Va. Code § 61-11-26(e)", "W. Va. Code § 61-11-26(i)(3)", "W. Va. Code § 61-11-26(n)",
+    "W. Va. Code § 61-11-26(p)(2)", "W. Va. Code § 61-11-26(p)(3)", "W. Va. Code § 61-11-26(p)(5)",
+    "W. Va. Code § 59-1-11(a)(1)"
+  ],
   routes: [{ routeKey: ROUTE_KEY }],
 
   records: [
     {
-      recordId: "route-obligation-census:ME:juvenile-sealing:serious_or_oui_three_year_petition",
-      path: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      recordId: "packet-set-manifest:wv_conv_nonviolent_felony-set",
+      path: PACKET_SET_MANIFESTS,
       role:
-        "the committed route-obligation census entry for this exact route: its statutory authority, its "
-        + "participant-facing instrument, the fact that the participant initiates it, and the recorded note "
-        + "that the three-year petition branch is limited to murder, Class A, B or C juvenile crimes and OUI "
-        + "matters while the qualifying lower-class and civil-type matters enter the automatic branch instead",
+        "the committed packet-set manifest for this exact packet set. Its six components and its "
+        + "seventeen-item requiredBeforeFiling list are read from these bytes at build time and printed "
+        + "verbatim into participant-instructions.md",
       mustContain: [
-        ROUTE_KEY,
-        "15 M.R.S. § 3308-C",
-        "petition under § 3308-C for murder, Class A, B or C juvenile crimes, or OUI matters",
-        "Qualifying Class D, Class E and civil-type juvenile matters enter the automatic branch with no separate participant filing wait. The three-year petition branch is limited to murder, Class A, B or C juvenile crimes and OUI matters.",
-        "Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C"
+        "\"packetSetId\": \"wv_conv_nonviolent_felony-set\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-primary-filing-1\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-verification-2\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-certificate-of-service-3\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-service-package-4\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-attorney-referral-notice-5\"",
+        "\"componentId\": \"wv_conv_nonviolent_felony-filing-instructions-6\"",
+        "The characterisation of the felony as nonviolent — SCA-C907, page 1, the eligibility recitals.",
+        "The same-transaction or series-of-transactions characterisation — SCA-C907, page 1, where more than one felony is listed.",
+        "Recipient street addresses, delivery-method election, and the certificate of service date and signature — SCA-C907, page 4.",
+        "Circuit court case number — SCA-C907, page 1, caption block."
       ]
     },
     {
-      recordId: "route-contract:ME:juvenile-sealing",
-      path: "src/lib/legal-authority/routes/single-routes.json",
-      role:
-        "the committed route contract: the mechanism, the statute, the single-stage shape, the "
-        + "participant_packet outcome mode, the three-year elapsed-eligibility clock and the fact it is "
-        + "anchored to final discharge, the required facts, the exclusions and the two components of the "
-        + "packet family",
-      mustContain: [
-        "\"routeKey\": \"ME:juvenile-sealing\"",
-        "Juvenile sealing — petition branch for serious and OUI matters",
-        "\"anchorFactId\": \"discharge_date\"",
-        "three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions",
-        "\"packetFamily\": \"Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C\"",
-        "\"Petition under § 3308-C\"",
-        "\"Final discharge proof\"",
-        "the court acts within this period after final discharge; it is not a prefiling wait"
-      ]
-    },
-    {
-      recordId: "track-registry:me-seal-gen:maine-wide-packet-instruction",
+      recordId: "track-registry:wv_conv_nonviolent_felony",
       path: "data/record-clearing/legal-design-track-registry.json",
       role:
-        "the committed Maine track registry, bound for one jurisdiction-wide packet instruction this family "
-        + "is held to as much as any other Maine packet: that Maine seals rather than expunges, that the "
-        + "record is not completely erased, and that the word is never used in Maine participant copy. The "
-        + "generated guide is gated against that sentence before it is written",
+        "the committed legal-design track registry entry for this track. It settles the venue and destination "
+        + "this packet states, the five-year clock and what it runs from, the filing fee and the State Police "
+        + "fee, the express absence of a fee waiver, the five service recipients, the thirty-day opposition "
+        + "and reply periods, the two packet instructions and the ten stop conditions the packet carries word "
+        + "for word",
       mustContain: [
-        "Maine seals; it does not expunge. The Judicial Branch says in terms that Maine does not have expungement and the record is not completely erased. Never use 'expungement' in Maine participant copy."
+        "\"trackId\": \"wv_conv_nonviolent_felony\"",
+        "The circuit court in which the conviction or convictions occurred.",
+        "Clerk of the circuit court of the county of conviction",
+        "The circuit clerk charges the § 59-1-11(a)(1) civil-action fee, which the official text sets at $200, and $100 is paid to the records division of the West Virginia State Police on grant under § 61-11-26(n).",
+        "none under § 61-11-26. The $100 State Police fee is waived only on a § 61-11-26a petition.",
+        "Opposing parties have 30 days from receipt to file a notice of opposition; the petitioner has 30 days after service of the opposition to reply.",
+        "The petitioner serves the five § 61-11-26(e) recipients. The prosecuting attorney serves identified victims.",
+        "Required on the SCA-C907 verification, page 3.",
+        "A DUI conviction does not automatically block expungement of an unrelated otherwise expungeable felony if the DUI conviction is at least five years old when the petition is filed.",
+        "The nonviolent determination and the same-transaction analysis are legal conclusions, not participant questions.",
+        "Any felony conviction. Every West Virginia felony expungement is a referral trigger and the participant should have a lawyer review the petition before it is filed.",
+        "Whether multiple felonies arose from the same transaction or series of transactions.",
+        "The court sets the matter for hearing under § 61-11-26(i)(3)",
+        "Any prior expungement, which likely exhausts the once-per-lifetime rule."
       ]
     },
     {
-      recordId: "compiled-profile:ME-maine#juvenile-sealing",
-      path: "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
-      role:
-        "the compiled Maine profile's juvenile-sealing pathway: the automatic branch and its five-business-day "
-        + "court period, the three petition conditions, the court's discretion and the standard it exercises "
-        + "it against, what sealing does and does not do, who can still reach a sealed juvenile record, the "
-        + "firearm statement, and the Judicial Branch form number for this petition",
-      mustContain: [
-        "\"id\": \"juvenile-sealing\"",
-        "For juvenile adjudications that would be murder, Class A, Class B, Class C, or OUI if committed by an adult, the person may petition to seal if:",
-        "Waiting period At least 3 years after discharge from the juvenile disposition",
-        "New juvenile/adult record No later juvenile adjudication or adult conviction since disposition",
-        "Pending matters No current juvenile or adult proceedings pending",
-        "Juvenile sealing petition JV-043 - Petition to Seal Juvenile Case Records"
-      ]
+      recordId: "route-obligation-census:WV:wv_conv_nonviolent_felony",
+      path: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      role: "the committed route-obligation census: the exact route key this family serves",
+      mustContain: [ROUTE_KEY]
     }
   ],
 
   officialComponents: {
     [PETITION]: {
-      sourceId: "official-form:JV-043",
-      documentId: "JV-043",
-      formNumber: "JV-043",
-      officialTitle: "Petition to Seal Juvenile Case Records",
-      revision: "REV-2021-12",
-      instrumentKind: "Maine § 3308-C(10)(A) juvenile sealing petition",
-      sha256: "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+      sourceId: "official-form:SCA-C907",
+      documentId: "SCA-C907",
+      formNumber: "SCA-C907",
+      officialTitle: "Petition for Expungement of Felony Violations (SCA-C907), Rev. 06/04/2019",
+      revision: "REV-2019-06-04",
+      instrumentKind: "WV § 61-11-26 verified felony expungement petition, verification and certificate of service",
+      sha256: "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
       acroform: true,
       captionOnly: false,
       /*
-       * THE PINNED BINARY IS ENCRYPTED. See the header. The identity below is
-       * the official one; this flag says the bytes must be carried through a
-       * proven-equivalent decryption before any toolchain can read them, and
-       * the family stops if the proof fails.
-       */
-      transportUnlock: {
-        why:
-          "the pinned official binary is an encrypted PDF (/Filter /Standard, /R 6, AES-256, /StmF /StdCF "
-          + "/StrF /StdCF); pdf-lib throws \"Expected instance of PDFDict, but got instance of undefined\" in "
-          + "PDFCatalog.Pages before it reaches a page, and ignoreEncryption: true suppresses the throw "
-          + "without decrypting anything, so neither a census nor an ink audit is possible against those "
-          + "bytes directly. The committed corpus index already records structuralClassObserved "
-          + "\"unreadable\" for this entry.",
-        method: "pikepdf.open(exact_pinned_source).save(derivative, deterministic_id=True)",
-        equivalenceReader: "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
-        precedent:
-          "scripts/build-census-v1-me-seal-gen-set.mjs over the encrypted Maine Judicial Branch CR-218, itself "
-          + "following scripts/build-census-v1-ca-1203-4-set.mjs over five encrypted California forms"
-      },
-      /*
-       * THE SIGNATURE AND THE DATE BESIDE IT, REFUSED BY ROLE.
+       * THE PETITIONER'S ADDRESS, ON THE TWO STACKED LINES THE FORM PRINTS FOR
+       * IT, AND THE VERIFICATION'S NAME LINE.
        *
-       * The signature widget on this form is NAMED "undefined" - the Judicial
-       * Branch left it unnamed and the extractor supplies that string - and its
-       * caption, "Signature of Juvenile", is printed BELOW the rule it belongs
-       * to. A refusal that depends on a name that is not a name, or on a
-       * caption the harvester has to find underneath the widget, is a refusal
-       * resting on two things that could each move. Role is checked first in
-       * the finalizer and is not overridable by any name or caption match, so
-       * both are declared here as well as in the field map.
-       */
-      unwritable: [
-        { field: "undefined", class: "participant_signature" },
-        { field: "Date mmddyyyy", class: "participant_signature_date" }
-      ],
-      /*
-       * THREE FIELDS THE ORDINARY DESCRIPTOR CHANNEL CANNOT REACH, EACH WRITTEN
-       * THROUGH THE FINALIZER'S OWN narrativeAcrossFields CHANNEL - one held
-       * fact per field, no caller text of any kind.
+       * `PetAdd1` and `PetAdd2` are one address block in two widgets, and BOTH
+       * match the street-address descriptor - it matches `addr(ess)?\\s*(line\\s*)?\\d`
+       * - so the ordinary channel would print the street line on both and
+       * deliver a petition whose address has no city, state or ZIP.
        *
-       * `Juvenile` is the caption block's name line. Measured on the unlocked
-       * derivative: the widget sits at x[31.1,243.1] y[655.8,672.2] and the
-       * word "Juvenile" is printed at y=659, BELOW it, as this form prints
-       * every caption. Neither the field name nor that caption matches any
-       * allowlisted descriptor - "juvenile" is not among the party words the
-       * name descriptor knows - so decideBinding has nothing to match and the
-       * caption of a petition would ship with no petitioner on it while the
-       * platform holds the name.
+       * `PetitionerName2` is the verification's own name line on page 3: "I,
+       * ______ after making oath or affirmation to tell the truth". A bare "2"
+       * suffix on a name field is not something the descriptor list knows, and
+       * a verification sworn before a notary with no name in it is not a
+       * verification.
        *
-       * `Mailing Address 1` and `Mailing Address 2` are the two stacked lines
-       * of one address block. BOTH match the street-address descriptor, which
-       * matches `addr(ess)?\s*(line\s*)?\d`, so the ordinary channel would
-       * write the street line onto both of them and deliver a petition whose
-       * mailing address has no city, state or ZIP and repeats the street twice.
-       * That is the AOC-CV-226 defect this sprint has recorded before. Line one
-       * takes participant.street_address and line two takes
-       * participant.city_state_zip, both established fact ids in the platform's
-       * own vocabulary.
-       *
-       * The channel resolves each fact from the same facts set as every other
+       * Each is written through the finalizer's own narrativeAcrossFields
+       * channel, one held fact per field and no caller text of any kind. The
+       * channel resolves each fact from the same facts set as every other
        * write, runs the same protect test on the caption and the field name,
-       * fits the value to that widget's own rectangle, and REFUSES IT WHOLE
+       * fits the value to that widget's own rectangle, and refuses it whole
        * rather than truncating.
        */
-      /*
-       * THE DATE OF BIRTH, IN THE ORDER THE FORM ASKS FOR IT.
-       *
-       * The printed caption is "The above-named juvenile, whose date of birth
-       * is (mm/dd/yyyy)", and the platform holds the fact as an ISO date. An
-       * ISO date on that line is not a shorter answer or a differently
-       * formatted one, it is a DIFFERENT DATE to anyone reading the page: a
-       * juvenile born on 6 November 2004 would be shown as 2004-11-06 on a
-       * line whose own caption says the first number is the month. The
-       * finalizer's own printed-order channel renders it 11/06/2004 instead.
-       *
-       * Named explicitly rather than inferred from the caption: the field name
-       * carries "mmddyyyy" and the caption carries "(mm/dd/yyyy)", and a build
-       * that guessed the order from either would guess it from a string that
-       * could be reworded.
-       */
-      printedDateOrder: { "The abovenamed juvenile whose date of birth is mmddyyyy": "month_day_year" },
       narrativeLines: [
-        { factId: "participant.full_legal_name", fields: ["Juvenile"] },
-        { factId: "participant.street_address", fields: ["Mailing Address 1"] },
-        { factId: "participant.city_state_zip", fields: ["Mailing Address 2"] }
+        { factId: "participant.street_address", fields: ["PetAdd1"] },
+        { factId: "participant.city_state_zip", fields: ["PetAdd2"] },
+        { factId: "participant.full_legal_name", fields: ["PetitionerName2"] }
+      ],
+      /*
+       * THE THREE SIGNATURE-ADJACENT WIDGETS OF THE CERTIFICATE OF SERVICE,
+       * REFUSED BY ROLE.
+       *
+       * `CertifyName`, `CertifyDay`, `CertifyMonth` and `CertifyYear` are the
+       * opening of a certificate that a service has ALREADY HAPPENED. None of
+       * them may carry a value before the papers are delivered, and the
+       * committed manifest says so in its own words: "Recipient street
+       * addresses, delivery-method election, and the certificate of service
+       * date and signature - SCA-C907, page 4." `CertifyName` would otherwise
+       * bind the petitioner's own name through the ordinary channel, which is
+       * how a certificate of service gets signed by a build.
+       */
+      unwritable: [
+        { field: "CertifyName", class: "certificate_of_service_before_service" },
+        { field: "CertifyDay", class: "certificate_of_service_before_service" },
+        { field: "CertifyMonth", class: "certificate_of_service_before_service" },
+        { field: "CertifyYear", class: "certificate_of_service_before_service" },
+        { field: "PetSocSecno", class: "government_identifier" },
+        /*
+         * FOUR FIELDS THAT WERE WRITTEN, WRONGLY, AND PASSED ALL NINE
+         * COUNTERS BEFORE THIS BUILD READ ITS OWN OUTPUT.
+         *
+         * Item d on page 2 asks for the petitioner's "current name, previous
+         * names, and all aliases" on two lines. Item e asks for "all of
+         * petitioner's addresses from the date of offense to current" on two
+         * more. The field map declared all four required-before-filing, and
+         * the finalizer wrote them anyway: `PetitionersCurrentName1` and
+         * `...2` match the name descriptor on a bare \bname\b, and
+         * `PetitionersOffenseAddress1` and `...2` match the street-address
+         * descriptor. The delivered page carried the legal name on both name
+         * lines and the current street address on both address lines.
+         *
+         * That is not a formatting problem. Item d asks for three things and a
+         * legal name alone ASSERTS there are no previous names and no aliases.
+         * Item e asks for a residence history and one address written twice
+         * ASSERTS the petitioner has lived at one address since the offence.
+         * This petition is verified under oath before a notary under
+         * § 61-11-26, and the committed record separately names the address
+         * history as a manual completion item.
+         *
+         * The nine counters could not see it: the completeness contract reads
+         * the MAP, the map said these were blanks, and the ink audit charges
+         * only glyphs OUTSIDE a measured box. Diffing the delivered pages
+         * against the pinned source found it.
+         *
+         * Role is checked first in the finalizer and is not overridable by any
+         * name or caption match, which is the only refusal that holds here -
+         * the map's own refusal did not. The gate below asserts the two agree
+         * from now on.
+         */
+        { field: "PetitionersCurrentName1", class: "asks_for_more_than_the_platform_holds" },
+        { field: "PetitionersCurrentName2", class: "asks_for_more_than_the_platform_holds" },
+        { field: "PetitionersOffenseAddress1", class: "asks_for_more_than_the_platform_holds" },
+        { field: "PetitionersOffenseAddress2", class: "asks_for_more_than_the_platform_holds" }
       ]
     }
   },
@@ -268,292 +260,516 @@ const SPEC = {
 
   components: [PETITION],
   componentTitles: {
-    [PETITION]: "JV-043 — Petition to Seal Juvenile Case Records (15 M.R.S. § 3308-C(10)(A))"
+    [PETITION]: "SCA-C907 — Petition for Expungement of Felony Violations, its Verification and its Certificate of Service"
   },
   componentConditions: {},
   componentDescriptions: {
     [PETITION]:
-      "the Maine Judicial Branch's own one-page petition, delivered exactly as it publishes it. The caption "
-      + "name, the date of birth and your contact block are filled in; the court location, the docket number, "
-      + "the gender boxes and your signature are yours"
+      "the Supreme Court of Appeals' own four-page instrument, delivered exactly as it publishes it: the "
+      + "petition on pages 1 and 2, the verification you swear before a notary on page 3, and the certificate "
+      + "of service on page 4. Your name, address, telephone number and the county of conviction are filled "
+      + "in; every fact about the conviction, every eligibility recital, and all of pages 3 and 4 are yours"
   },
 
   fixtures: {
     canonical: {
-      "participant.full_legal_name": "Casey Lorraine Thibodeau",
-      "participant.date_of_birth": "2004-11-06",
-      "participant.street_address": "34 Winter Harbor Road",
-      "participant.city_state_zip": "Bangor, ME 04401",
-      "participant.phone": "207-555-0142",
-      "participant.email": "casey.thibodeau@example.org"
+      "participant.full_legal_name": "Casey Lorraine Whitmore",
+      "participant.street_address": "34 Kanawha Boulevard East",
+      "participant.city_state_zip": "Charleston, WV 25301",
+      "participant.phone": "304-555-0142",
+      "matter.county": "Kanawha"
     },
     boundary: {
       "participant.full_legal_name": "Jean-Baptiste Ouellette-Michaud III",
-      "participant.date_of_birth": "1998-01-09",
-      "participant.street_address": "1785 Presque Isle Ridge Road, Apartment 3B",
-      "participant.city_state_zip": "Presque Isle, ME 04769-1183",
-      "participant.phone": "(207) 555-0199 ext. 4417",
-      "participant.email": "jean.baptiste.ouellette.michaud@longmailexample.org"
+      "participant.street_address": "1785 Upper Buckhannon Ridge Road, Apartment 3B",
+      "participant.city_state_zip": "Philippi, WV 26416-1183",
+      "participant.phone": "(304) 555-0199 ext. 4417",
+      "matter.county": "Pocahontas"
     }
   },
 
   composedFromNote: null,
 
   formIdentityNote:
-    "JV-043 is the Maine Judicial Branch's own published Petition to Seal Juvenile Case Records, Rev. 12/21, "
-    + "one page, bound by exact SHA-256 through the committed corpus index - resolved BY DIGEST rather than by "
-    + "form number or filename - and delivered as the Judicial Branch issues it. The pinned binary is an "
-    + "encrypted PDF; this build carries it through a deterministic pikepdf decryption proved equivalent to "
-    + "the official binary page for page, field for field and content stream for content stream, and stops "
-    + "rather than rendering if that proof fails. The bound identity is the official encrypted binary and its "
-    + "SHA-256 is recomputed from the file on disk before and after the read. Nothing is composed, substituted "
-    + "or invented.",
+    "SCA-C907 is the Supreme Court of Appeals of West Virginia's own published Petition for Expungement of "
+    + "Felony Violations, Rev. 06/04/2019, four pages, bound by exact SHA-256 through the committed corpus "
+    + "index - resolved BY DIGEST rather than by form number or filename - and delivered as the Court issues "
+    + "it, all four pages including the verification and the certificate of service. Nothing is composed, "
+    + "substituted or invented. The committed manifest's three official_pdf_fill components all name this one "
+    + "form because the Court publishes them as one instrument.",
 
   agencyTreatmentNote: null,
 
   routeSelectionNote:
-    "The ROUTE is stated by the instrument and by the form's own printed face. JV-043 cites 15 M.R.S. "
-    + "§ 3308-C(10)(A) under its title, and its opening sentence restricts itself to a juvenile crime that, if "
-    + "the juvenile were an adult, \"would constitute murder or a Class A, B, or C, or operating under the "
-    + "influence as defined in Title 29-A, section 2411\" - which is this route's cohort and not the other "
-    + "branch's. There is no statutory election anywhere on the form to make: the three checkboxes on the "
-    + "caption line are the juvenile's gender, which is a fact about the person and not a choice of route, and "
-    + "they are left for the participant with the guide telling them to mark one.",
+    "The ROUTE is stated by the instrument and by the recital this packet does NOT tick. SCA-C907 serves both "
+    + "W. Va. Code § 61-11-26 and § 61-11-26a and prints four mutually exclusive eligibility recitals for "
+    + "them. This family is the § 61-11-26 nonviolent-felony route, so the two § 61-11-26a recitals - the "
+    + "three-year branch, which the form's own text conditions on § 61-11-26a(a)(1) or (a)(2) and on "
+    + "documentation under § 61-11-26a(b) - are declared not applicable against a named route condition. The "
+    + "two that remain are BOTH on this route: one for a single felony and one for multiple felonies arising "
+    + "from the same transaction. Which of those two applies is not the route's to settle. The committed "
+    + "record states it directly - \"The nonviolent determination and the same-transaction analysis are legal "
+    + "conclusions, not participant questions\" - and § 61-11-26(p)(5) makes two of the four limbs of the "
+    + "nonviolent definition express findings of the circuit court. Neither is ticked and both are disclosed.",
 
   routeSelectionsMade: [
     {
-      selection: "branch of 15 M.R.S. § 3308-C",
-      value: "the three-year petition branch for murder, Class A, B or C juvenile crimes and OUI matters, not the automatic branch",
+      selection: "statutory route",
+      value: "W. Va. Code § 61-11-26, the nonviolent felony conviction route, and not § 61-11-26a",
       determinedBy:
-        "the committed route-obligation census note - \"Qualifying Class D, Class E and civil-type juvenile "
-        + "matters enter the automatic branch with no separate participant filing wait. The three-year "
-        + "petition branch is limited to murder, Class A, B or C juvenile crimes and OUI matters.\" - and the "
-        + "form's own printed restriction to the same cohort"
+        "the committed route-obligation census route key "
+        + "obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26 "
+        + "and the committed track registry, whose authority list is § 61-11-26 throughout and whose fee-waiver "
+        + "entry distinguishes the two: \"none under § 61-11-26. The $100 State Police fee is waived only on a "
+        + "§ 61-11-26a petition.\""
     },
     {
       selection: "instrument",
-      value: "JV-043, Petition to Seal Juvenile Case Records, and no proposed order",
+      value: "SCA-C907, delivered whole - petition, verification and certificate of service",
       determinedBy:
-        "the compiled Maine profile's own form table, \"Juvenile sealing petition JV-043 - Petition to Seal "
-        + "Juvenile Case Records\", and the committed route contract, whose packetComponents are the petition "
-        + "under § 3308-C and proof of final discharge and which names no order form"
+        "the committed packet-set manifest, whose three official_pdf_fill components - primary filing, "
+        + "verification and certificate of service - all carry officialFormId SCA-C907"
     }
   ],
 
-  instructionsHeading: "What to do — petitioning the Maine Juvenile Court to seal juvenile case records under 15 M.R.S. § 3308-C",
+  instructionsHeading: "What to do — petitioning a West Virginia circuit court to expunge a nonviolent felony conviction under W. Va. Code § 61-11-26",
 
   instructionsIntro: [
-    "**Read this first: you may not need to file anything at all.** Section 3308-C has two branches. If the juvenile crime was a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court seals the record BY ITSELF — the compiled record states it as: \"the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court.\" There is no petition and no waiting period on that branch. The committed route contract says the same thing: \"Qualifying Class D, Class E and civil-type juvenile matters enter the automatic branch with no separate participant filing wait.\"",
-    "This packet is the OTHER branch, and it is narrow. It is for a juvenile adjudication that, if the juvenile were an adult, would be murder, a Class A, Class B or Class C crime, or operating under the influence under 29-A M.R.S. § 2411. JV-043 prints that restriction on its own face. If your matter is not in that group, do not file this petition — find out whether the automatic branch has already sealed your record.",
-    "This packet is the Maine Judicial Branch's own form, filled in with what the platform holds about you and left blank everywhere it does not. It filled in your name, your date of birth, your mailing address, your telephone number and your email. The court location, the docket number, the gender boxes and your signature are yours.",
-    "**Maine seals; it does not expunge.** Sealing does not erase the juvenile record. The compiled record states who can still reach it: \"Maine courts, criminal justice agencies, the juvenile, and the juvenile's designee can still access sealed juvenile records; the public generally cannot.\""
+    "**Have a lawyer look at this petition before you file it.** This is not a formality and it is not us being cautious. The committed record's first stop condition is: \"Any felony conviction. Every West Virginia felony expungement is a referral trigger and the participant should have a lawyer review the petition before it is filed.\"",
+    "**This packet does not say your felony was nonviolent, and it will not.** Section 61-11-26(p)(5) defines a nonviolent felony partly by two things the CIRCUIT COURT has to find — that it is consistent with the purposes of the article and that it does not involve violence or potential violence to another person or the public. The committed record puts it plainly: \"The nonviolent determination and the same-transaction analysis are legal conclusions, not participant questions.\" This petition is verified under oath before a notary, and no build may swear to a legal conclusion on your behalf.",
+    "The platform filled in your name, your address, your telephone number and the county of conviction. Every fact about the conviction itself — the case numbers, the charges, the dates, the sentence, the victims, the verdict — is yours to fill from the certified court records, never from memory.",
+    "**A DUI conviction does not automatically block expungement of an unrelated otherwise expungeable felony if the DUI conviction is at least five years old when the petition is filed.** That is the committed record's own packet instruction and it is here because people assume the opposite."
   ],
 
   whoDecides: [
-    "A judge of the Maine Juvenile Court, on the petition. The compiled record states the standard: \"The court may grant unless the public's right to information substantially outweighs the juvenile's privacy interest.\" That is a discretionary judgment and no packet can make it for you.",
-    "The three conditions the compiled record records for this branch are: \"Waiting period At least 3 years after discharge from the juvenile disposition\"; \"New juvenile/adult record No later juvenile adjudication or adult conviction since disposition\"; and \"Pending matters No current juvenile or adult proceedings pending.\"",
-    "The three years run from FINAL DISCHARGE, not from the adjudication and not from any release. The committed route contract anchors the clock to the discharge date and words it as \"three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions.\""
+    "A judge of the circuit court in which the conviction occurred. The court may set the matter for hearing under § 61-11-26(i)(3), where the committed record records that it may examine law enforcement, confinement, parole, out-of-state and federal records and hear testimony.",
+    "The five recipients you serve may oppose. The committed record records the timetable: \"Opposing parties have 30 days from receipt to file a notice of opposition; the petitioner has 30 days after service of the opposition to reply. Form SCA-C912 is the victim's notice of opposition and is filed by the victim.\" SCA-C912 is not in this packet because it is not yours to file.",
+    "The prosecuting attorney serves identified victims. You do not.",
+    "The five-year clock runs from the LATEST of three dates, not from the conviction: five years after conviction, after completion of any sentence of incarceration, or after completion of any period of supervision, whichever is later in time. On a felony the committed record notes it \"almost always runs from one of these, not from the conviction date.\""
   ],
 
   filingDestination: [
-    "The Juvenile Court. JV-043's own opening sentence says the juvenile \"hereby petitions the Juvenile Court to seal from public inspection all juvenile case records pertaining to the juvenile crime and its disposition and any prior juvenile case records and their dispositions.\"",
-    "**No committed record this packet binds states which court location takes it, and this build does not choose one for you.** The route-obligation census records this route's destination as \"not recorded\". The form prints a Location (Town) line at the head of the caption; write in the town of the District Court that handled your juvenile case, as the caption of your own case names it, and ask a court clerk if you are not sure."
+    "The clerk of the circuit court of the county of conviction. Venue, as the committed record records it: \"The circuit court in which the conviction or convictions occurred.\"",
+    "Filing, in the record's own words: \"File the verified SCA-C907 petition, with the verification notarised and the certificate of service completed, with the clerk of the circuit court of the county of conviction, once five years have run from the later of conviction, release from incarceration and completion of supervision. Have a lawyer review the petition before filing.\""
   ],
 
   feeAndWaiver: [
-    "**No committed record this packet binds states a filing fee for this petition, and none states that there is no fee.** Ask the clerk of the court you are filing in what it charges before you go. This packet quotes no figure because no record it binds gives one.",
-    "The compiled Maine profile does record the Judicial Branch's fee-waiver instruments — \"Fee waiver CV-067 - Application to Proceed Without Payment of Fees\" and \"Fee waiver financial affidavit CV-191 - Financial Affidavit\". Neither is bound to this family and neither is in this packet. If the clerk tells you there is a fee and you cannot pay it, ask the clerk for CV-067 and CV-191."
+    "The committed record states the fee: \"The circuit clerk charges the § 59-1-11(a)(1) civil-action fee, which the official text sets at $200, and $100 is paid to the records division of the West Virginia State Police on grant under § 61-11-26(n).\" The $200 is due at filing; the $100 is due only if the court grants the petition.",
+    "**There is no fee waiver on this route.** The committed record: \"none under § 61-11-26. The $100 State Police fee is waived only on a § 61-11-26a petition.\" Ask the circuit clerk what it will accept if you cannot pay $200; this packet carries no waiver form because the record says none exists here."
   ],
 
   service: [
-    "**No committed record this packet binds states a service requirement for this petition, and JV-043 carries no certificate-of-service block of any kind.** Ask the clerk of the court you are filing in whether anyone must be served and how.",
-    "No committed record states a notarization requirement for this petition. JV-043 carries a plain signature line, not a jurat."
+    "You serve five recipients, and the form lists seven numbered lines because two of them are conditional. The committed record: \"The petitioner serves the five § 61-11-26(e) recipients. The prosecuting attorney serves identified victims. On a felony route the institution of confinement is usually a live recipient.\"",
+    "**Every recipient's street address is yours to look up and write in, and so is the delivery method and the date.** The committed manifest names them as items you complete: \"Recipient street addresses, delivery-method election, and the certificate of service date and signature — SCA-C907, page 4.\"",
+    "**Nothing on page 4 is filled in by this platform.** A certificate of service certifies a delivery that has not happened yet. Complete it, sign it and date it AFTER you have actually served, never before.",
+    "Notarization, as the record records it: \"Required on the SCA-C907 verification, page 3.\" Do not sign page 3 until you are in front of the notary."
   ],
 
   documentsToObtain: [
-    ["Proof of your final discharge from the juvenile disposition", "From the Juvenile Court that handled the case. The committed route contract names this as the second component of this packet family, beside the petition itself, and the three-year clock is measured from the date on it. This platform cannot obtain it for you and does not have it."],
-    ["The docket number and court location of the juvenile case", "From the Juvenile Court's own file, or from the paperwork you were given at the time. Both go in the caption at the head of the petition and neither is held by this platform."]
+    ["Certified disposition, judgment order and sentencing order, and the indictment or information", "The circuit clerk of the county of conviction. Check the conviction date and the sentence against what you tell us — the committed record makes that check a step before filing, not a suggestion."],
+    ["Written proof of release and of supervision completion", "The institution of confinement and the supervising probation or parole office. On a felony the five-year clock almost always runs from one of these rather than from the conviction date."],
+    ["A copy of any current restitution, protection, restraining or no-contact order", "The clerk of the court that entered it. Item i on page 2 tells you in its own words to attach it: \"(If yes, attach copy of order to this petition)\"."],
+    ["A copy of any order granting you an earlier expungement", "The court that granted it. Item m on page 3 says to attach it — and note the committed record's stop condition: \"Any prior expungement, which likely exhausts the once-per-lifetime rule.\""]
   ],
 
   steps: [
-    "**Check which branch you are on first.** If the juvenile crime was Class D, Class E, or would be a civil offense for an adult, the court seals the record automatically after a Notice of Discharge and this petition is not your route.",
-    "**Check the three-year clock against your final discharge date**, not against the adjudication date and not against any release date.",
-    "**Get proof of your final discharge** from the Juvenile Court, and the docket number and court location from its file.",
-    "**Fill in the blanks listed below** on the petition: the court location, the docket number, and the gender box on the caption line.",
-    "**Sign and date the petition personally.** This platform never signs for you and never dates a signing line.",
-    "**Ask the clerk what the filing fee is, if any, and whether anyone must be served**, before you file. No record this packet binds answers either question.",
-    "**File the petition with the Juvenile Court**, with your proof of final discharge."
+    "**Get a lawyer to review the petition.** Every West Virginia felony expungement is a referral trigger.",
+    "**Get the certified court records and the written proof of release and supervision completion**, and work out the five-year date from the LATEST of conviction, release and end of supervision.",
+    "**Fill in every blank listed below**, from those records rather than from memory.",
+    "**Choose the eligibility recital on page 1 yourself**, with your lawyer. This packet ticks none of the four, and two of them are not on this route at all.",
+    "**Sign page 2, then take page 3 to a notary and swear the verification in front of them.** Do not sign page 3 beforehand.",
+    "**File with the clerk of the circuit court of the county of conviction and pay the $200 civil-action fee.**",
+    "**Serve the five § 61-11-26(e) recipients**, then complete, sign and date the certificate of service on page 4 and file it.",
+    "**Watch the 30-day windows.** An opposing party has 30 days from receipt to file a notice of opposition, and you have 30 days after service of an opposition to reply."
   ],
 
   deliberatelyBlank: [
-    "**Your signature and the date beside it.** A signature is yours alone, and a date written before you sign would be false. On this form the signature widget is not even named by the Judicial Branch, and it is refused by role rather than by name so that nothing can reach it.",
-    "**The Location (Town) and Docket No. lines in the caption.** They come from your own case file and no committed record establishes them for any particular Maine juvenile matter.",
-    "**The gender boxes on the caption line.** They are a fact about you, not a choice this platform may make."
+    "**The four eligibility recitals on page 1.** Two are the § 61-11-26a three-year branch and are not on this route; the other two turn on whether your felonies arose from the same transaction, which the record records as a legal conclusion and as a stop condition.",
+    "**Your signature on page 2, the verification signature and date on page 3, and the notarial block.** A verification is sworn testimony and no build may swear it.",
+    "**Everything on page 4.** It certifies a service that has not happened.",
+    "**Your Social Security number.** The shared semantics refuse a government identifier on any form, and this one prints only the last four digits after \"SSN: XXX-XX-\".",
+    "**The three date-of-birth boxes on page 1.** See the note below.",
+    "**The circuit court case number.** The committed manifest names it as an item you complete from the court record."
   ],
 
   notTold: [
-    "What the filing fee is, or whether there is one. No committed record this packet binds states a fee for this petition or states that there is none.",
-    "Whether anyone must be served. No committed record states a service requirement, and the form carries no certificate-of-service block.",
-    "Which court location takes the petition. The route-obligation census records this route's destination as \"not recorded\".",
-    "Whether the court will grant it. The standard the compiled record gives is discretionary — the court may grant unless the public's right to information substantially outweighs the juvenile's privacy interest."
+    "Whether your felony is nonviolent within § 61-11-26(p)(5). Two of that definition's four limbs are express findings of the circuit court.",
+    "Whether multiple felonies arose from the same transaction or series of transactions. The record records this as a legal conclusion and as a stop condition.",
+    "Which of the three date-of-birth boxes on page 1 takes the month. The form prints only \"DOB: / /\" and its own three widgets are NAMED Day, then Month, then Year, left to right, which is the opposite of the usual American order. No committed record settles which the Court intends, so this packet writes none of the three and asks you to fill them in — putting a month where a day belongs on a petition sworn before a notary is not a formatting slip.",
+    "Whether the court will grant it. It may set the matter for hearing and take evidence."
   ],
 
   stopConditions: [
-    "The juvenile crime was a Class D or Class E juvenile crime, or would be a civil offense for an adult. That is the automatic branch and this petition is the wrong instrument.",
-    "There has been a later juvenile adjudication or an adult conviction since the disposition. The compiled record makes a clean record a condition of this branch.",
-    "There is a current juvenile or adult proceeding pending. The compiled record makes the absence of pending matters a condition of this branch.",
-    "Three years have not passed since final discharge, or you cannot establish the final-discharge date.",
-    "You are relying on sealing to remove a firearm prohibition. The compiled record states in terms that \"firearm prohibitions are not removed by sealing.\"",
-    "Anyone tells you sealing erases the record. It does not, and the compiled record names who still has access.",
-    "Immigration consequences are in play."
+    "Any felony conviction. Every West Virginia felony expungement is a referral trigger and the participant should have a lawyer review the petition before it is filed.",
+    "Whether the felony is nonviolent within § 61-11-26(p)(5), which is a judicial finding.",
+    "Whether multiple felonies arose from the same transaction or series of transactions.",
+    "Any violence, domestic violence, household member, strangulation, sex, child victim, deadly weapon or dwelling burglary issue.",
+    "Any pending charge.",
+    "Any protection, no-contact, restitution or restraining order.",
+    "Any identified victim who may oppose, and any notice of opposition actually filed.",
+    "Any prior expungement, which likely exhausts the once-per-lifetime rule.",
+    "The court sets the matter for hearing under § 61-11-26(i)(3), where it may examine law enforcement, confinement, parole, out-of-state and federal records and hear testimony.",
+    "Firearm rights, immigration, professional licensing, law enforcement or corrections employment, or federal, tribal, military or out-of-state records questions."
   ],
 
   whatThisIsNot:
-    "This is the Maine Judicial Branch's own petition form, filled in with what the platform holds and left "
-    + "blank everywhere it does not. It is not legal advice, it is not filed for you, it does not establish "
-    + "that you are on the petition branch rather than the automatic one, and it does not decide whether the "
-    + "court will grant it. Maine seals and does not expunge: the compiled record states that Maine courts, "
-    + "criminal justice agencies, the juvenile and the juvenile's designee can still access a sealed juvenile "
-    + "record, and that firearm prohibitions are not removed by sealing.",
+    "This is the Supreme Court of Appeals' own petition form, filled in with what the platform holds and left "
+    + "blank everywhere it does not. It is not legal advice, it is not filed for you, it does not assert that "
+    + "your felony is nonviolent, it does not choose your eligibility recital, and it does not decide whether "
+    + "the court will grant it. Every West Virginia felony expungement is a referral trigger, and this packet "
+    + "says so first rather than last.",
 
   receiptDoesNotEstablish: [
-    "that any juvenile adjudication falls on the three-year petition branch rather than the automatic branch",
-    "that three years have run from final discharge, or that any clean-record or no-pending-matter condition is met",
-    "that any court location or docket number is the right one for a particular juvenile case"
+    "that any felony is nonviolent within W. Va. Code § 61-11-26(p)(5)",
+    "that any felonies arose from the same transaction or series of transactions",
+    "that five years have run from the later of conviction, release from incarceration and completion of supervision",
+    "that any recipient named on the certificate of service is the right recipient for a particular case"
   ],
 
   buildFindings: [
     {
       finding:
-        "The pinned JV-043 binary is an ENCRYPTED PDF - /Filter /Standard, /R 6, AES-256, /StmF /StdCF /StrF "
-        + "/StdCF - and pdf-lib cannot read it. The committed corpus index already records "
-        + "structuralClassObserved \"unreadable\" for this entry, and the source-identity sweep's own "
-        + "acroFieldCount of 14 was produced by a reader that is not the one every builder in this factory "
-        + "uses.",
+        "The committed record forbids this build from making the determination the form's own eligibility "
+        + "recitals assert: \"The nonviolent determination and the same-transaction analysis are legal "
+        + "conclusions, not participant questions.\" Section 61-11-26(p)(5) makes two of the four limbs of the "
+        + "nonviolent definition express findings OF THE CIRCUIT COURT, and this petition is verified under "
+        + "oath before a notary.",
       consequence:
-        "The bytes are carried through the repository's proven transport unlock: pikepdf opens the exact "
-        + "pinned source and saves a derivative with deterministic_id, the derivative is proved equivalent to "
-        + "the official binary by the repository's own fidelity reader, and the family stops rather than "
-        + "rendering if the proof fails. Measured on this build: page count identical, page geometry "
-        + "identical, no field only in one side, no field difference, content stream identical on the single "
-        + "page, derivative not encrypted, source SHA-256 unchanged before and after. The derivative is "
-        + "build-time only and is never committed."
+        "None of the four eligibility recitals on page 1 is ticked. The two § 61-11-26a recitals are declared "
+        + "NOT_APPLICABLE_ON_THIS_ROUTE against a named route condition - they are the three-year branch and "
+        + "this family is § 61-11-26. The two § 61-11-26 recitals are declared required-before-filing with "
+        + "determinedByTheCaseNotTheRoute and the record's own sentence as the reason, and both are printed in "
+        + "participant-instructions.md."
     },
     {
       finding:
-        "Three of the fourteen fields cannot bind through the ordinary descriptor channel. `Juvenile` is the "
-        + "caption's name line, and neither its field name nor its printed caption is among the party words "
-        + "the name descriptor knows. `Mailing Address 1` and `Mailing Address 2` BOTH match the "
-        + "street-address descriptor, which matches `addr(ess)?\\s*(line\\s*)?\\d`, so the ordinary channel "
-        + "would write the street line onto both and deliver a mailing address with no city, state or ZIP.",
+        "The three date-of-birth widgets on page 1 are NAMED PetDOBDay, PetDOBMonth and PetDOBYear in that "
+        + "left-to-right order, and the form prints nothing but \"DOB: / /\" above them. The widget names say "
+        + "day-month-year; the ordinary American convention on a court form is month-day-year. The two "
+        + "disagree and no committed record settles which the Supreme Court of Appeals intends.",
+      consequence:
+        "The platform holds the date of birth and writes none of the three boxes. All three are declared "
+        + "required-before-filing and the guide tells the participant what the conflict is. Writing a month "
+        + "into a box named Day on a petition sworn before a notary would assert a date of birth that is not "
+        + "the participant's, and a filled box is harder to notice than an empty one. This is a source "
+        + "question for whoever can read the Court's own guidance, and it is carried as a counsel question "
+        + "rather than guessed."
+    },
+    {
+      finding:
+        "THIS FAMILY SHIPPED FOUR VALUES ONTO A SWORN PETITION THAT ITS OWN FIELD MAP DECLARED BLANK, AND ALL "
+        + "NINE COUNTERS READ ZERO OVER IT. Item d on page 2 asks for the petitioner's \"current name, previous "
+        + "names, and all aliases\" across two lines and item e asks for \"all of petitioner's addresses from "
+        + "the date of offense to current\" across two more. The map declared all four required-before-filing. "
+        + "The shared finalizer wrote them anyway - PetitionersCurrentName1 and ...2 match the name descriptor "
+        + "on a bare \\bname\\b, PetitionersOffenseAddress1 and ...2 match the street-address descriptor - so "
+        + "the delivered page carried the legal name on both name lines and the current street address on both "
+        + "address lines.",
+      consequence:
+        "Item d asks for three things, and a legal name alone ASSERTS there are no previous names and no "
+        + "aliases. Item e asks for a residence history, and one address written twice ASSERTS the petitioner "
+        + "has lived at one address since the offence. Both assertions would have been made on a petition "
+        + "verified under oath before a notary, and the committed record separately names the address history "
+        + "as a manual completion item. All four are now refused BY ROLE, which the finalizer checks before any "
+        + "name or caption match. "
+        + "Two things about how it was found matter more than the fix. First, no counter could see it: the "
+        + "completeness contract reads the MAP, the map was telling the truth about what it intended, and the "
+        + "ink audit charges only glyphs outside a measured box - there are none on an AcroForm path. It was "
+        + "found by diffing the delivered pages against the pinned source item by item and noticing ten added "
+        + "items where the map declared six. Second, the same gap can open on any family on this path, so this "
+        + "script now compares report.written against its own declared writes per document and per fixture and "
+        + "STOPS rather than rendering when they disagree - stopClass "
+        + "FINALIZER_WROTE_A_FIELD_THE_MAP_DECLARES_BLANK. That gate was tested by removing one refusal and "
+        + "confirming it fires and names the field and the fact."
+    },
+    {
+      finding:
+        "`CertifyName` on page 4 binds the petitioner's own name through the ordinary descriptor channel, and "
+        + "page 4 is a CERTIFICATE OF SERVICE - it certifies a delivery that has not happened when the packet "
+        + "is produced.",
+      consequence:
+        "CertifyName and the three certificate date widgets are declared unwritable BY ROLE, which the "
+        + "finalizer checks before any name or caption match, as well as protected in the field map. Nothing "
+        + "on page 4 carries ink."
+    },
+    {
+      finding:
+        "`PetAdd1` and `PetAdd2` are one address block in two widgets and BOTH match the street-address "
+        + "descriptor, and `PetitionerName2` - the verification's own name line on page 3 - matches no "
+        + "descriptor at all.",
       consequence:
         "All three are written through the finalizer's own opt-in narrativeAcrossFields channel, one held fact "
-        + "per field and no caller text of any kind. Reported here for the lane that owns "
+        + "per field. Without it the petition would carry the street line twice with no city, state or ZIP, "
+        + "and a verification sworn before a notary with no name in it. Reported for the lane that owns "
         + "scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does not open."
     },
     {
       finding:
-        "The signature widget on this form is NAMED \"undefined\" - the Judicial Branch left it unnamed - and "
-        + "its caption \"Signature of Juvenile\" is printed BELOW the rule rather than beside it.",
+        "The widget named `MulitipleFelonlySatisfiesDate` on page 1 has a NEGATIVE height (-17) in its own "
+        + "/Rect, and its name carries two typographical errors as the Court published them.",
       consequence:
-        "Both the signature and the date beside it are declared unwritable BY ROLE, which the finalizer checks "
-        + "first and does not allow any name or caption match to override, as well as being declared protected "
-        + "in the field map. A refusal that rested on a name that is not a name would be one rename away from "
-        + "signing a petition for somebody."
+        "Nothing is written into it - it is a § 61-11-26a recital date and is not on this route - so the "
+        + "malformed rectangle affects no output here. It is recorded because a family that DID write to it "
+        + "would be drawing into an inverted box, and because the field map must use the Court's own spelling "
+        + "rather than a corrected one."
     },
     {
       finding:
-        "This route's destination is recorded as \"not recorded\" in the route-obligation census, and no "
-        + "committed record this family binds states a filing fee, a fee-waiver route or a service "
-        + "requirement for this petition.",
+        "The committed packet-set manifest declares six components. Three are official_pdf_fill and all three "
+        + "name the same officialFormId, SCA-C907, because the Court publishes the petition, the verification "
+        + "and the certificate of service as one four-page instrument. The other three are process_guidance.",
       consequence:
-        "The packet states each of those as an express non-statement and names the office that answers it - "
-        + "the clerk of the court being filed in - rather than quoting a figure or a rule no record supports. "
-        + "The compiled profile's CV-067 and CV-191 fee-waiver instruments are named to the participant but "
-        + "are not bound to this family and are not in the packet."
-    },
-    {
-      finding:
-        "READING THE DELIVERED BYTES CAUGHT A DATE IN THE WRONG ORDER. The first build of this family passed "
-        + "all nine counters and rendered the date of birth as \"2004-11-06\" onto a line whose own printed "
-        + "caption reads \"whose date of birth is (mm/dd/yyyy)\". No counter can see that: the value is "
-        + "present, visible, inside its widget and bound to the right fact, and the completeness contract has "
-        + "nothing that compares a rendered value against the order the form prints beneath it.",
-      consequence:
-        "The finalizer's own printedDateOrderByField channel is now declared for that field and the page "
-        + "renders 11/06/2004. Named explicitly rather than inferred, because both the field name and the "
-        + "caption carry the order as a string that could be reworded. Recorded here because it is a defect "
-        + "class the nine counters do not reach, and the only thing that found it was diffing the delivered "
-        + "page against the pinned source item by item."
-    },
-    {
-      finding:
-        "The committed route contract's packetComponents are two: \"Petition under § 3308-C\" and \"Final "
-        + "discharge proof\". Only the first is a document this platform can render.",
-      consequence:
-        "Proof of final discharge is carried as a document the participant must obtain, named in "
-        + "participant-instructions.md with where to get it and why the three-year clock depends on it. It is "
-        + "not silently dropped and it is not invented."
+        "The instrument is delivered whole, so all three fill components are rendered. The three "
+        + "process_guidance components are carried in participant-instructions.md, and the record's own "
+        + "six-component table is printed in the guide so a reader can check what they received against what "
+        + "the record declares."
     }
   ],
 
   counselQuestions: [
-    "The packet states no filing fee and no service requirement because no committed record it binds states either, and directs the participant to the clerk for both. Confirm that delegation, or supply the content.",
-    "The route's destination is recorded as \"not recorded\" and the packet asks the participant to write in the court location. Confirm that is right for a Juvenile Court filing, or supply the venue rule.",
-    "The three gender checkboxes on the caption line are left for the participant as required-before-filing items rather than being treated as an election. Confirm that treatment.",
-    "The guide opens by telling the participant they may be on the automatic branch and should not file at all. Confirm the wording of that warning against the statute."
+    "The date-of-birth boxes on page 1 are left blank because the widget names say day-month-year and the American convention says month-day-year. Confirm the order the Supreme Court of Appeals intends, or confirm that leaving them to the participant is right.",
+    "None of the four page-1 eligibility recitals is ticked, and the two § 61-11-26 recitals are disclosed to the participant as case-determined. Confirm that leaving the recital unticked is preferable to a runtime that selects it, given that the petition is verified under oath.",
+    "The packet writes the county of conviction into the caption but not the circuit court case number, because the committed manifest names the case number as a manual completion item and does not name the county. Confirm that split.",
+    "The guide leads with the referral trigger rather than with instructions. Confirm the placement and the wording."
   ],
 
   reviewersAttention: [
-    "The pinned source is an ENCRYPTED PDF. The rendered page comes from a build-time pikepdf decryption of those exact bytes, proved equivalent page for page, field for field and content stream for content stream. Please check on the raster that the delivered page is the Judicial Branch's JV-043 Rev. 12/21 as published.",
-    "Please check the raster shows the signature line and the date beside it EMPTY. The signature widget is named \"undefined\" on this form and is refused by role rather than by name.",
-    "The mailing address occupies two stacked widgets. Please check the raster shows the street line on the first and the city, state and ZIP on the second, and not the street twice.",
-    "The BOUNDARY fixture carries a 52-character email address and a 42-character street line to exercise the fitter on this form's narrow contact widgets; the canonical fixture shows ordinary values.",
-    "The date of birth renders as 11/06/2004, not as an ISO date, because the form prints \"(mm/dd/yyyy)\" beside the line. Please check the raster shows month first.",
-    "One printed line of the source, at y=474, extracts as mojibake (\"Po Yv}}µ...\"). It is a font-encoding artifact of the Judicial Branch's own published file, it is present identically in the source and in the delivered page, and this build neither introduced it nor can repair it without altering the official bytes. It is called out here so a reviewer reading an extraction does not mistake it for damage this build caused."
+    "Please check the raster shows page 3 and page 4 carrying NO ink at all except the petitioner's name on the verification line — no signature, no date, no notarial content, no recipient address, no delivery-method mark.",
+    "Please check the raster shows all four eligibility checkboxes on page 1 unmarked, and the three date-of-birth boxes empty.",
+    "The petitioner's address occupies two stacked widgets on page 1. Please check the raster shows the street line on the first and the city, state and ZIP on the second, and not the street twice.",
+    "The BOUNDARY fixture carries a 46-character street line and a hyphenated three-part name to exercise the fitter on this form's narrow caption widgets; the canonical fixture shows ordinary values.",
+    "Pages 2 and 4 should carry NO ink at all. An earlier build of this family wrote the legal name onto both lines of item d and the street address onto both lines of item e, and passed all nine counters doing it. Please check the raster shows item d and item e empty.",
+    "Seven sentences the committed record makes are asserted over the generated guide before it is written — the referral trigger, the legal-conclusion sentence, the DUI sentence, the $200 and $100 fees, the express absence of a fee waiver and the 30-day windows. A guide that lost one would stop the family rather than ship."
   ],
 
   composedBody() {
-    throw new Error("this family composes no pages: its only component is the official JV-043 petition");
+    throw new Error("this family composes no pages: its only component is the official SCA-C907 instrument");
   },
 
   /* ---- field maps ------------------------------------------------------------- */
   mapFor(componentId, h) {
     const writes = [];
     const refusals = [];
-    if (componentId === PETITION) {
-      writes.push(
-        h.write("Juvenile", "Juvenile (the caption block at the head of the petition; the form prints this caption BELOW the rule)", "participant.full_legal_name", 1),
-        h.write("The abovenamed juvenile whose date of birth is mmddyyyy", "The above-named juvenile, whose date of birth is (mm/dd/yyyy)", "participant.date_of_birth", 1),
-        h.write("Printed Name", "Printed Name:", "participant.full_legal_name", 1),
-        h.write("Mailing Address 1", "Mailing Address - first line", "participant.street_address", 1),
-        h.write("Mailing Address 2", "Mailing Address - second line", "participant.city_state_zip", 1),
-        h.write("Telephone", "Telephone:", "participant.phone", 1),
-        h.write("Email", "Email:", "participant.email", 1)
-      );
+    if (componentId !== PETITION) throw new Error(`no field map declared for component ${componentId}`);
 
-      refusals.push(
-        h.rbf("Location Town", "Location (Town): in the caption at the head of the petition",
-          "the town in which the Juvenile Court that handled your case sits, as the caption of your own case names it. Ask a court clerk if you are not sure",
-          "no committed record this family binds establishes the court location for any particular Maine juvenile case, and the route-obligation census records this route's destination as \"not recorded\"", 1),
-        h.rbf("Docket No", "Docket No.: in the caption at the head of the petition",
-          "the docket number of the juvenile case you want sealed, from the court's own file or from the paperwork you were given",
-          "the platform holds no docket number for any juvenile matter, and the shared binder additionally reads a bare \"Docket No.\" caption as a repeating charge-row label demanding an indexed fact this one-case petition does not have", 1),
-        h.rbf("Check Box1", "Gender on the caption line - the box for male",
-          "mark ONE of the three gender boxes on the caption line: male, female or other. This one is male",
-          "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf", 1),
-        h.rbf("Check Box2", "Gender on the caption line - the box for female",
-          "mark ONE of the three gender boxes on the caption line: male, female or other. This one is female",
-          "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf", 1),
-        h.rbf("Check Box3", "Gender on the caption line - the box for other",
-          "mark ONE of the three gender boxes on the caption line: male, female or other. This one is other",
-          "the juvenile's gender is a fact about the person and the platform holds no gender fact; this build marks no box on a petition on the participant's behalf", 1),
-        h.protectedBlank("Date mmddyyyy", "Date (mm/dd/yyyy) beside the juvenile's signature",
-          "a date written before the petition is signed would be false; the field is also declared unwritable by role, which the finalizer checks before any name or caption match", 1),
-        h.protectedBlank("undefined", "Signature of Juvenile - the widget the Judicial Branch leaves unnamed, captioned \"Signature of Juvenile\" printed directly beneath it",
-          "the juvenile signs the petition personally and this build never signs for anyone; the field is also declared unwritable by role, so no rename and no caption change can reach it", 1)
-      );
-    }
+    const notOnThisRoute = (id, label, condition, why, page) => ({
+      ...h.optional(id, label, why, page),
+      isSelectionControl: true, kind: "selection_control",
+      reason: `not applicable on this route: ${condition}`,
+      disposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+      routeConditionThatMakesItInapplicable: condition,
+      routeDetermined: false
+    });
+    const caseDetermined = (id, label, what, why, page) => ({
+      ...h.rbf(id, label, what, why, page),
+      isSelectionControl: true, kind: "selection_control",
+      determinedByTheCaseNotTheRoute: true,
+      whyTheRouteCannotDetermineIt:
+        "This family is the W. Va. Code § 61-11-26 nonviolent-felony route and BOTH of these recitals are on "
+        + "it: one for a single felony and one for multiple felonies arising from the same transaction. Which "
+        + "applies is decided by how many felonies there were and whether they arose from the same "
+        + "transaction or series of transactions - facts of the record and, as the committed track registry "
+        + "states, legal conclusions: \"The nonviolent determination and the same-transaction analysis are "
+        + "legal conclusions, not participant questions.\" The registry additionally records the "
+        + "same-transaction question as a self-help stop condition. The petition is verified under oath "
+        + "before a notary under § 61-11-26, so an unticked recital is the only honest state for it."
+    });
+    const A26A =
+      "This packet is built for the W. Va. Code § 61-11-26 nonviolent-felony route "
+      + "(routeKey obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26). "
+      + "This recital is the § 61-11-26a three-year branch, which the form's own printed text conditions on "
+      + "§ 61-11-26a(a)(1) or § 61-11-26a(a)(2) and on documentation required under § 61-11-26a(b), and which "
+      + "the committed track registry distinguishes from this route in terms: \"none under § 61-11-26. The "
+      + "$100 State Police fee is waived only on a § 61-11-26a petition.\"";
+
+    writes.push(
+      h.write("PetitionerName1", "Petitioner (First/Middle/Last) in the caption at the head of page 1", "participant.full_legal_name", 1),
+      h.write("County", "IN THE CIRCUIT COURT OF ______ COUNTY, WEST VIRGINIA", "matter.county", 1),
+      h.write("PetAdd1", "Address: in the caption - first line", "participant.street_address", 1),
+      h.write("PetAdd2", "Address: in the caption - second line", "participant.city_state_zip", 1),
+      h.write("PetPhoneNum", "Phone No. in the caption", "participant.phone", 1),
+      h.write("PetitionerName2", "The verification's own name line on page 3 - \"I, ______ after making oath or affirmation to tell the truth\"", "participant.full_legal_name", 3)
+    );
+
+    refusals.push(
+      // ---- page 1, the viewer controls
+      h.optional("ResetButton", "Reset - a viewer control on the form, never a filing fact",
+        "the form's own button; it clears the form on screen and is not a blank on the filing", 1),
+      h.optional("PrintForm", "Print this form - a viewer control, never a filing fact",
+        "the form's own button; it prints the form and is not a blank on the filing", 1),
+
+      // ---- page 1, the caption
+      h.rbf("CircuitCaseNo", "Circuit Court Case No. in the caption",
+        "the circuit court case number of the conviction, from the certified court records",
+        "the committed packet-set manifest names this as an item the participant completes: \"Circuit court case number - SCA-C907, page 1, caption block\"", 1),
+      h.rbf("MagCaseNo", "Magistrate Court Case No. in the caption",
+        "the magistrate court case number, if the case began there; leave it blank if it did not",
+        "the platform holds no magistrate court number and the record establishes none", 1),
+      h.rbf("ConvictionDate", "Conviction Date: in the caption",
+        "the date of the conviction, taken from the certified judgment order and checked against it rather than recalled",
+        "the committed manifest makes checking the conviction date against the certified records a step before filing, and the platform holds no conviction date", 1),
+      h.rbf("PetDOBDay", "DOB - the FIRST of the three boxes, which the form names Day",
+        "the day of your date of birth if the Court intends day-month-year, or the month if it intends month-day-year. The form prints only \"DOB: / /\" and names its three widgets Day, Month and Year in that left-to-right order, which is the opposite of the usual American order. Ask the circuit clerk which the Court expects before you write in any of the three",
+        "the widget names and the ordinary American convention disagree about which box takes the month, no committed record settles it, and a wrong number in a date of birth on a petition verified under oath is worse than an empty box", 1),
+      h.rbf("PetDOBMonth", "DOB - the SECOND of the three boxes, which the form names Month",
+        "the month of your date of birth if the Court intends day-month-year, or the day if it intends month-day-year. See the note on the first box",
+        "the widget names and the ordinary American convention disagree about which box takes the month, and no committed record settles it", 1),
+      h.rbf("PetDOBYear", "DOB - the THIRD of the three boxes, which the form names Year",
+        "the four-digit year of your date of birth",
+        "this build writes none of the three date-of-birth boxes, because writing the year alone into a date whose other two boxes are ambiguous would read as a date that had been checked", 1),
+      h.rbf("PetSocSecno", "SSN: XXX-XX-____ in the caption",
+        "the last four digits of your Social Security number, which is all this line asks for",
+        "the shared semantics refuse a government identifier on any form, so the platform never writes one", 1),
+
+      // ---- page 1, the charge table
+      ...[1, 2, 3, 4].flatMap((n) => [
+        h.rbf(`Charge${n}`, `CHARGE: - row ${n} of the felony table on page 1`,
+          `the felony you were convicted of on row ${n}, worded exactly as the certified judgment order words it, with the Code section it was under`,
+          "the platform holds no charge for this matter, and wording an offence differently from the judgment is how a petition gets denied", 1),
+        h.rbf(`CaseNo${n}`, `CASE NO.: - row ${n} of the felony table on page 1`,
+          `the case number for the felony on row ${n}`,
+          "the platform holds no case number for this matter", 1)
+      ]),
+
+      // ---- page 1, the four eligibility recitals
+      caseDetermined("SingleFelonyCB",
+        "Eligibility recital - the box for a SINGLE felony conviction under § 61-11-26",
+        "tick this recital only if it is true of your case, and only after a lawyer has reviewed it. The form states it as: \"For the expungement under WV Code §61-11-26 of a single above listed and described felony conviction, five years have passed since the completion of petitioner's sentence and any period of supervision.\"",
+        "the platform holds no conviction, no sentence-completion date and no supervision-end date for this participant, and the nonviolent characterisation is an express finding of the circuit court", 1),
+      h.rbf("SingleFelonyCompletionDate", "Eligibility recital, single felony under § 61-11-26 - \"The date of completion was: ____\"",
+        "the date your sentence and any period of supervision were completed - the LATER of release from incarceration and the end of supervision, not the conviction date",
+        "the platform holds no completion date, and the committed record notes that on a felony the five-year clock almost always runs from release or supervision rather than from conviction", 1),
+      caseDetermined("MultipleFelonyCB",
+        "Eligibility recital - the box for MULTIPLE felony convictions under § 61-11-26 arising from the same transaction",
+        "tick this recital only if it is true of your case, and only after a lawyer has reviewed it. The form states it as: \"For the expungement under WV Code §61-11-26 of multiple above listed and described felony convictions, all the charges arose from the same transaction and five years have passed since any conviction and the completion of petitioner's sentence and any period of supervision.\" The committed record records the same-transaction question as a self-help stop condition as well as a legal conclusion",
+        "whether multiple felonies arose from the same transaction or series of transactions is a legal conclusion the committed record refuses to put to the participant as a question and refuses to let a build assert", 1),
+      h.rbf("MultipleFelonyCompletionDate", "Eligibility recital, multiple felonies under § 61-11-26 - \"The date of completion was: ____\"",
+        "the date of completion for the multiple-felony recital, if that is the recital that applies",
+        "the platform holds no completion date for this participant", 1),
+      notOnThisRoute("SingleSatisfiedCB",
+        "Eligibility recital - the box for a single felony under § 61-11-26a, the three-year branch",
+        A26A,
+        "a recital whose own printed text is conditioned on § 61-11-26a(a)(1) or (a)(2) and on § 61-11-26a(b) documentation is not on the § 61-11-26 route this packet is built for", 1),
+      notOnThisRoute("SingleFelonySatisfiesDate",
+        "Eligibility recital, single felony under § 61-11-26a - \"The date of completion was: ____\"",
+        A26A,
+        "the completion date belonging to a recital this route does not use", 1),
+      notOnThisRoute("MultilpleSatisfiedCB",
+        "Eligibility recital - the box for multiple felonies under § 61-11-26a, the three-year branch (the Court's own spelling of the field name is kept)",
+        A26A,
+        "a recital whose own printed text is conditioned on § 61-11-26a(a)(1) or (a)(2) and on § 61-11-26a(b) documentation is not on the § 61-11-26 route this packet is built for", 1),
+      notOnThisRoute("MulitipleFelonlySatisfiesDate",
+        "Eligibility recital, multiple felonies under § 61-11-26a - \"The date of completion was: ____\" (the Court's own spelling of the field name is kept, and this widget's own rectangle has a negative height)",
+        A26A,
+        "the completion date belonging to a recital this route does not use", 1),
+
+      // ---- page 2
+      h.rbf("PetitionersCurrentName1", "Item d - petitioner's current name, previous names and all aliases, first line",
+        "your current name, every previous legal name and every alias you have been known by. The platform holds one legal name and this line asks for all three things at once, so it is yours to complete",
+        "writing the legal name alone here would answer a third of the question and would assert that there are no previous names or aliases", 2),
+      h.rbf("PetitionersCurrentName2", "Item d - petitioner's current name, previous names and all aliases, second line",
+        "the continuation of your names and aliases",
+        "the same question as the line above", 2),
+      h.rbf("PetitionersOffenseAddress1", "Item e - all of petitioner's addresses from the date of offense to current, first line",
+        "every place you have lived, in order, from the date of the offence to today, with the dates",
+        "the committed record names address history since the offence as a manual completion item, and the platform holds one current address and no address history", 2),
+      h.rbf("PetitionersOffenseAddress2", "Item e - all of petitioner's addresses from the date of offense to current, second line",
+        "the continuation of your address history",
+        "the same item as the line above", 2),
+      h.rbf("PetArrestDate", "Item f - date of arrest",
+        "the date you were arrested, from the certified court records",
+        "the platform holds no arrest date for this matter", 2),
+      h.rbf("Charges1", "Item g - the charges petitioner was convicted on, first line",
+        "the charges you were convicted on, worded as the certified judgment order words them",
+        "the platform holds no charge for this matter", 2),
+      h.rbf("Charges2", "Item g - the charges petitioner was convicted on, second line",
+        "the continuation of the charges",
+        "the platform holds no charge for this matter", 2),
+      h.rbf("VictimsNames1", "Item h - name(s) of victim(s) if applicable, first line",
+        "the name of any identifiable victim, if there was one",
+        "the platform holds no victim identity for this matter and would never write one", 2),
+      h.rbf("VictimsNames2", "Item h - name(s) of victim(s) if applicable, second line",
+        "the continuation of the victim names",
+        "the platform holds no victim identity for this matter", 2),
+      h.election("CurrentOrderCB1", "Item i - is there a CURRENT restitution, protection, restraining or no-contact order - the Yes box",
+        "only the participant knows, and the form's own Yes branch requires the order to be attached to the petition; the route does not determine it", 2),
+      h.election("CurrentOrderCB2", "Item i - is there a CURRENT restitution, protection, restraining or no-contact order - the No box",
+        "the negative half of the same election", 2),
+      h.election("PriorOrderCB1", "Item i - was there a PRIOR restitution, protection, restraining or no-contact order - the Yes box",
+        "only the participant knows; the route does not determine it", 2),
+      h.election("PriorOrderCB2", "Item i - was there a PRIOR restitution, protection, restraining or no-contact order - the No box",
+        "the negative half of the same election", 2),
+      h.rbf("Verdict1", "Item j - the Court's verdict and the punishment imposed, first line",
+        "the verdict and the sentence the court imposed, from the certified judgment and sentencing orders",
+        "the platform holds no verdict or sentence for this matter", 2),
+      h.rbf("Verdict2", "Item j - the Court's verdict and the punishment imposed, second line",
+        "the continuation of the verdict and sentence",
+        "the platform holds no verdict or sentence for this matter", 2),
+      h.rbf("GroundsForExpungement1", "Item k - grounds for the expungement request, first line",
+        "why you are asking, in detail - for example employment or licensure",
+        "this is a statement about the participant's own life and nobody can write it for them", 2),
+      h.rbf("GroundsForExpungement2", "Item k - grounds for the expungement request, second line",
+        "the continuation of your grounds",
+        "this is a statement about the participant's own life", 2),
+      ...[1, 2, 3, 4, 5].map((n) => h.rbf(`RehabilitationSteps${n}`,
+        `Item l - steps taken since the offence towards personal rehabilitation, line ${n} of five`,
+        "what you have done since the offence - treatment, work, study, family or community life - in detail",
+        "the committed manifest names the rehabilitation statement as an item the participant completes, and it is a statement about their own life", 2)),
+
+      // ---- page 3
+      h.election("ExpungementCB1", "Item m - has petitioner ever been granted expungement or similar relief - the Yes box",
+        "only the participant knows; the form's own Yes branch requires the order to be attached, and the committed record records a prior expungement as a stop condition that likely exhausts the once-per-lifetime rule", 3),
+      h.election("ExpungementCB2", "Item m - has petitioner ever been granted expungement or similar relief - the No box",
+        "the negative half of the same election", 3),
+
+      // ---- page 4, the certificate of service
+      h.protectedBlank("CertifyName", "Certificate of service - the name of the person certifying the service",
+        "this certifies a service that has not happened; the field is also declared unwritable by role, which the finalizer checks before any name or caption match, because it would otherwise bind the petitioner's own name", 4),
+      h.protectedBlank("CertifyDay", "Certificate of service - the day of the month of service",
+        "a service date written before service would be false", 4),
+      h.protectedBlank("CertifyMonth", "Certificate of service - the month of service",
+        "a service date written before service would be false", 4),
+      h.protectedBlank("CertifyYear", "Certificate of service - the year of service",
+        "a service date written before service would be false", 4),
+      h.rbf("StatePoliceSuperintendent1", "Certificate of service, recipient 1 - the Superintendent of the State Police, at ____",
+        "the street address of the Superintendent of the West Virginia State Police, looked up before you serve",
+        "the committed manifest names recipient street addresses as items the participant completes, and the platform holds none of them", 4),
+      h.rbf("ProsecutingAttCounty", "Certificate of service, recipient 2 - the ______ County Prosecuting Attorney Office",
+        "the county whose prosecuting attorney office you are serving",
+        "the platform holds the county of conviction but the record assigns every certificate-of-service entry to the participant, and a served office is a fact about the service rather than about the case", 4),
+      h.rbf("ProsecutingAttAdd", "Certificate of service, recipient 2 - the Prosecuting Attorney Office address",
+        "the street address of that prosecuting attorney's office",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.rbf("ChiefLEO1", "Certificate of service, recipient 3 - the Chief of Police or other Executive Head of the Municipal Police Department where the offence was committed, first line",
+        "the name and street address of that police department",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.rbf("ChiefLEO2", "Certificate of service, recipient 3 - the Chief of Police or other Executive Head of the Municipal Police Department, second line",
+        "the continuation of that address",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.rbf("OffensesCommittedAt1", "Certificate of service, recipient 4 - the Superintendent or Warden of any institution in which the petitioner was confined, first line",
+        "the name and street address of the institution you were confined in, if you were. The committed record notes that on a felony route the institution of confinement is usually a live recipient",
+        "the platform holds no institution of confinement and no address for one", 4),
+      h.rbf("OffensesCommittedAt2", "Certificate of service, recipient 4 - the Superintendent or Warden of any institution in which the petitioner was confined, second line",
+        "the continuation of that address",
+        "the platform holds no institution of confinement", 4),
+      h.rbf("CircuitDisposedCharges", "Certificate of service, recipient 5 - the Circuit Court that disposed of the charges, at ____",
+        "the street address of the circuit court that disposed of your charges",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.rbf("MagDisposedCharges", "Certificate of service, recipient 6 - the Magistrate Court that disposed of the charges, at ____",
+        "the street address of the magistrate court, if one disposed of any of your charges",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.rbf("MunicipalDisposedCharges", "Certificate of service, recipient 7 - the Municipal Court that disposed of the charges, at ____",
+        "the street address of the municipal court, if one disposed of any of your charges",
+        "the committed manifest names recipient street addresses as items the participant completes", 4),
+      h.protectedBlank("FirstClassMailCB", "Certificate of service - the First Class Mail delivery-method box",
+        "the delivery method certifies how a service that has not happened was carried out; the committed manifest names the delivery-method election as an item completed after service", 4),
+      h.protectedBlank("HandDeliveryCB", "Certificate of service - the Hand Delivery delivery-method box",
+        "the delivery method certifies how a service that has not happened was carried out", 4),
+      h.protectedBlank("CertifiedMailCB", "Certificate of service - the Certified Mail, Return Receipt delivery-method box",
+        "the delivery method certifies how a service that has not happened was carried out", 4)
+    );
+
     return { writes, refusals };
   }
 };
@@ -1670,97 +1886,65 @@ function requiredBeforeFilingItems(maps) {
  * stopped declaring it STOPS rather than printing a guide the record no longer
  * supports.
  */
-/*
- * THE COMMITTED RECORD THIS FAMILY'S GUIDE PRINTS FROM.
- *
- * The build host this family copied read its list out of the committed
- * packet-set manifest, keyed by packetSetId. THIS FAMILY HAS NO PACKET SET. Its
- * route-obligation census entry records `packetSetId: null` and `trackId: null`,
- * there is no legal-design track for ME juvenile sealing, and the packet-set
- * manifest carries nothing for it. A host that insisted on a manifest would
- * report the record as having stopped declaring something it never declared.
- *
- * The controlling record for this route is the committed ROUTE CONTRACT at
- * src/lib/legal-authority/routes/single-routes.json#ME:juvenile-sealing, which
- * is where this route's mechanism, statute, eligibility clock, required facts
- * and packet components actually live, and which this family already binds by
- * SHA-256 with every relied-on statement re-read as an anchor. The guide prints
- * ITS `requiredFacts` and ITS `packetComponents`, word for word, with its path
- * and its digest beside them, on exactly the terms the host applied to the
- * manifest: if the record changes the guide changes with it, and if the record
- * stops declaring either the family is not built.
- */
-const ROUTE_CONTRACT_RECORD = "src/lib/legal-authority/routes/single-routes.json";
-const ROUTE_CONTRACT_KEY = "ME:juvenile-sealing";
-
 function declaredRequiredBeforeFiling() {
-  const abs = path.join(ROOT, ROUTE_CONTRACT_RECORD);
+  const abs = path.join(ROOT, PACKET_SET_MANIFESTS);
   if (!fs.existsSync(abs)) {
-    return { ok: false, why: `the committed route contract is not at ${ROUTE_CONTRACT_RECORD}` };
+    return { ok: false, why: `the committed packet-set manifest is not at ${PACKET_SET_MANIFESTS}` };
   }
   const bytes = fs.readFileSync(abs);
-  let contracts;
-  try { contracts = JSON.parse(bytes.toString("utf8")); }
-  catch (error) { return { ok: false, why: `the committed route contract does not parse: ${error.message}` }; }
-  const list = Array.isArray(contracts) ? contracts : (contracts.routes ?? Object.values(contracts).find(Array.isArray) ?? []);
-  const contract = list.find((r) => r && r.routeKey === ROUTE_CONTRACT_KEY);
-  if (!contract) {
-    return { ok: false, why: `the committed route contract no longer carries route ${ROUTE_CONTRACT_KEY}` };
+  let manifest;
+  try { manifest = JSON.parse(bytes.toString("utf8")); }
+  catch (error) { return { ok: false, why: `the committed packet-set manifest does not parse: ${error.message}` }; }
+  const set = (manifest.packetSets ?? []).find((s) => s.packetSetId === PACKET_SET_ID);
+  if (!set) {
+    return { ok: false, why: `the committed packet-set manifest no longer carries packet set ${PACKET_SET_ID}` };
   }
-  /* The record's own questions, and the anchor sentence its eligibility clock
-   * is stated in. Both are printed verbatim; neither is reworded here. */
-  const items = [
-    ...(contract.requiredFacts ?? []).map((s) => String(s)).filter((s) => s.trim().length > 0),
-    ...(contract.timing?.anchorText ? [`The eligibility clock: ${String(contract.timing.anchorText)}`] : []),
-    ...(contract.notes ? [String(contract.notes)] : [])
-  ];
+  const items = (set.requiredBeforeFiling ?? []).map((s) => String(s)).filter((s) => s.trim().length > 0);
   if (items.length === 0) {
-    return { ok: false, why: `route ${ROUTE_CONTRACT_KEY} no longer declares any required facts, eligibility anchor or notes` };
+    return { ok: false, why: `packet set ${PACKET_SET_ID} no longer declares a requiredBeforeFiling list` };
   }
-  const components = (contract.packetComponents ?? []).map((label) => ({
-    componentId: String(label),
-    role: String(label) === "Petition under \u00a7 3308-C" ? "primary_filing" : "participant_obtained_record",
-    requirement: "required",
-    outputStrategy: String(label) === "Petition under \u00a7 3308-C" ? "official_pdf_fill" : "obtained_by_the_participant",
-    officialFormId: String(label) === "Petition under \u00a7 3308-C" ? "JV-043" : null,
-    conditionDescription: null
+  const components = (set.components ?? []).map((c) => ({
+    componentId: c.componentId, role: c.role, requirement: c.requirement,
+    outputStrategy: c.outputStrategy, officialFormId: c.officialFormId ?? null,
+    conditionDescription: c.conditionDescription ?? null
   }));
   if (components.length === 0) {
-    return { ok: false, why: `route ${ROUTE_CONTRACT_KEY} no longer declares any packet components` };
+    return { ok: false, why: `packet set ${PACKET_SET_ID} no longer declares any components` };
   }
   return {
     ok: true, items, components,
-    path: ROUTE_CONTRACT_RECORD, packetSetId: ROUTE_CONTRACT_KEY,
-    packetSetVersion: contract.ruleId ?? null,
+    path: PACKET_SET_MANIFESTS, packetSetId: PACKET_SET_ID,
+    packetSetVersion: set.version ?? null,
     sha256: crypto.createHash("sha256").update(bytes).digest("hex")
   };
 }
 
 /*
- * THE WORD THIS JURISDICTION'S COMMITTED RECORD FORBIDS IN PARTICIPANT COPY.
+ * THE SENTENCES THIS JURISDICTION'S COMMITTED RECORD REQUIRES THE GUIDE TO
+ * CARRY, ASSERTED OVER THE GENERATED BYTES.
  *
- * "Maine seals; it does not expunge. The Judicial Branch says in terms that
- * Maine does not have expungement and the record is not completely erased.
- * Never use 'expungement' in Maine participant copy." -- committed track
- * registry, me-seal-gen, packetInstructions.
+ * The host this family copied carries a Maine gate that forbids a word. West
+ * Virginia forbids none - "expungement" is the statutory term and is printed in
+ * the title of the form itself - so the gate is turned around rather than
+ * dropped: the same discipline, applied to statements the record makes and a
+ * participant is worse off for not being told.
  *
- * That is a packet instruction, so it is asserted over the generated bytes
- * rather than merely intended by the author. Every occurrence of the word must
- * sit inside one of the sentences that exist to say Maine does not have it; any
- * other occurrence stops the family. A later edit cannot reintroduce it
- * quietly.
+ * The list is REQUIRED_PHRASES above. It is checked against the generated guide
+ * before a byte of the overlay directory exists, so a later edit cannot quietly
+ * lose one, and a family that loses one stops with its directory untouched. The
+ * function keeps the host's name and return shape so the caller is unchanged.
  */
 function forbiddenWordBreaches(markdown) {
-  const breaches = [];
   const hay = String(markdown);
-  const needle = new RegExp(FORBIDDEN_WORD, "gi");
-  for (const match of hay.matchAll(needle)) {
-    const from = Math.max(0, match.index - 160);
-    const window = hay.slice(from, match.index + 160);
-    if (FORBIDDEN_WORD_IS_ALLOWED_ONLY_IN.some((allowed) => window.includes(allowed))) continue;
-    breaches.push({ at: match.index, matched: match[0], context: hay.slice(Math.max(0, match.index - 80), match.index + 80).replace(/\s+/g, " ") });
-  }
-  return breaches;
+  return REQUIRED_PHRASES
+    .filter((phrase) => !hay.includes(phrase))
+    .map((phrase) => ({
+      at: null,
+      matched: phrase,
+      context:
+        "the committed record makes this statement and the generated participant guide does not carry it; "
+        + "the packet is not built without it"
+    }));
 }
 
 function participantInstructions(maps, rbf, declared) {
@@ -1806,25 +1990,26 @@ function participantInstructions(maps, rbf, declared) {
 
   out.push("## Everything the committed record requires before you file", "");
   out.push(
-    `These ${declared.items.length} items are printed word for word from the committed route contract for route `
-    + `\`${declared.packetSetId}\` (rule ${declared.packetSetVersion ?? "unruled"}), read from `
+    `These ${declared.items.length} items are printed word for word from the committed packet-set manifest for `
+    + `packet set \`${declared.packetSetId}\` (version ${declared.packetSetVersion ?? "unversioned"}), read from `
     + `\`${declared.path}\` at build time. The file's SHA-256 is \`${declared.sha256}\`. Nothing here is this `
     + "packet's own restatement of the record: if the record changes, this list changes with it, and if the "
     + "record stops declaring it the packet is not built.", "");
   for (const item of declared.items) out.push(`- ${item}`);
   out.push("");
 
-  out.push("### The components the same record declares for this packet", "");
+  out.push("### The components the same record declares for this packet set", "");
   out.push("| Component | Role | Required | How it is produced | Official form |", "| --- | --- | --- | --- | --- |");
   for (const c of declared.components) {
     out.push(`| \`${c.componentId}\` | ${c.role} | ${c.requirement}${c.conditionDescription ? ` — ${c.conditionDescription}` : ""} | ${c.outputStrategy} | ${c.officialFormId ?? "—"} |`);
   }
   out.push("");
   out.push(
-    "The second component, proof of final discharge, is a record you obtain from the Juvenile Court rather "
-    + "than a document this platform can produce. It is listed in \"Documents you must obtain first\" above, "
-    + "with where to get it and why the three-year clock depends on it. It is not in the PDF and it is not "
-    + "silently dropped.", "");
+    "The three `process_guidance` components are carried in this document rather than as separate PDFs. The "
+    + "committed track registry records why: the record-gathering step is preparation before filing and the "
+    + "follow-through step is ordinary post-filing handoff, so neither is a legally distinct unit. The "
+    + "good-character affidavit request is guidance for the same reason — the affidavits are third parties' "
+    + "sworn statements and this platform builds the request and does not draft the content.", "");
 
   out.push("## What you do, in order", "");
   for (const [i, s] of SPEC.steps.entries()) out.push(`${i + 1}. ${s}`);
@@ -1980,7 +2165,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       familyId: SPEC.familyId, status: "STOPPED",
       stopClass: "RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS",
       why: declaredRecord.why,
-      record: ROUTE_CONTRACT_RECORD, packetSetId: ROUTE_CONTRACT_KEY,
+      record: PACKET_SET_MANIFESTS, packetSetId: PACKET_SET_ID,
       overlayDirectoryTouched: false
     };
   }
@@ -2121,6 +2306,44 @@ export async function runFamily(argv = process.argv.slice(2)) {
           bytes = result.bytes;
           report = result.report;
           const writtenNames = new Set(report.written.map((w) => w.field));
+          /*
+           * THE FINALIZER MAY WRITE NOTHING THE FIELD MAP DOES NOT DECLARE.
+           *
+           * This family shipped four values onto a sworn petition that its own
+           * field map declared blank, and every one of the nine counters read
+           * zero over it: the completeness contract reads the map, and the map
+           * was telling the truth about what it intended. The gap was between
+           * the map and the finalizer, and nothing in the factory was looking
+           * at it.
+           *
+           * So the two are compared here, per document and per fixture, before
+           * the bytes go anywhere. A field the finalizer wrote that the map
+           * does not declare as a write is a value nobody declared and nobody
+           * reviewed, and it stops the family rather than shipping. The
+           * comparison is cheap, it is exact, and it is the check that would
+           * have caught this the first time.
+           */
+          {
+            const declaredWrites = new Set((SPEC.mapFor(componentId, mapHelpers(componentId)).writes ?? [])
+              .map((w) => String(w.field).slice(`${componentId}.`.length)));
+            const undeclared = [...writtenNames].filter((n) => !declaredWrites.has(n)).sort();
+            if (undeclared.length > 0) {
+              return {
+                familyId: SPEC.familyId, status: "STOPPED",
+                stopClass: "FINALIZER_WROTE_A_FIELD_THE_MAP_DECLARES_BLANK",
+                fixture: fixtureName, component: componentId, documentId: b.doc.documentId,
+                undeclaredWrites: undeclared.map((field) => ({
+                  field,
+                  factId: report.written.find((w) => w.field === field)?.factId ?? null
+                })),
+                why:
+                  "the shared finalizer bound and wrote fields this family's field map declares as blanks left "
+                  + "for the participant. The nine completeness counters cannot see this: they read the map, "
+                  + "and the map is not what was rendered. Nothing was written to the overlay directory.",
+                overlayDirectoryTouched: false
+              };
+            }
+          }
           boxes = census.fields.flatMap((f) => (f.widgets ?? []).map((w) => ({
             key: f.name, page: w.page, rect: w.rect, written: writtenNames.has(f.name)
           })));
