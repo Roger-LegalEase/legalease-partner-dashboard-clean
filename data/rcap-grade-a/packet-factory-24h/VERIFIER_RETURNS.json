@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 136,
-    "rows": 1072,
-    "independentVerdicts": 277,
-    "failRepairRequired": 38,
-    "passIndependent": 218
+    "returnDirectories": 137,
+    "rows": 1074,
+    "independentVerdicts": 279,
+    "failRepairRequired": 39,
+    "passIndependent": 219
   },
   "failRepairRequiredFamilies": [
     "al-felony-dwop-set",
@@ -59,6 +59,7 @@
     "ia-12347-set",
     "il-seal-2yr-set",
     "in_infraction_nondisclosure-set",
+    "ky_protective_order_record_expungement-set",
     "la-976-arrest-no-conviction-set",
     "ma-expunge-k-set",
     "md_pardon_expungement-set",
@@ -11294,6 +11295,43 @@
       "superseded": false
     },
     {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": null,
+          "findingReadFrom": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set",
+      "superseded": false
+    },
+    {
       "familyId": "ky_void_seal_controlled_substance-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -14707,6 +14745,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf30/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
       "superseded": true
+    },
+    {
+      "familyId": "nd-regular-pardon-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-regular-pardon-set",
+      "superseded": false
     },
     {
       "familyId": "nd-summary-marijuana-pardon-set",

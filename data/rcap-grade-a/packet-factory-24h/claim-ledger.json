@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+  "generatedAtCommit": "491b479930757b6bad7e4a4d705f2908969f9ca4",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4672,11 +4672,10 @@
         "ky_protective_order_record_expungement-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF08",
+      "laneKind": "packet-build",
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -4687,10 +4686,11 @@
         "ky_protective_order_record_expungement-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF08",
-      "laneKind": "packet-build",
-      "released": false
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6166,21 +6166,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "nd-regular-pardon-set",
-      "familyId": "nd-regular-pardon-set",
-      "itemId": null,
-      "familyIds": [
-        "nd-regular-pardon-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "nd-summary-marijuana-pardon-set",
       "familyId": "nd-summary-marijuana-pardon-set",
       "itemId": null,
@@ -7239,7 +7224,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.396Z"
@@ -8090,7 +8075,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T18:52:48.212Z"
@@ -14214,7 +14199,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "30a35aa1dbd2be73d74e4e97eb0959db5defa1e404d9725a9a3695359dcf5b75",
+  "claimsDigest": "ffa9afb6787ef18eba9a2125f375ff4735a903d22fe2f8421ca82fe5031e9fde",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -57007,6 +56992,22 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-09T22:55:14Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ky_protective_order_record_expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-09T23:31:45Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-regular-pardon-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-09T23:31:45Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
