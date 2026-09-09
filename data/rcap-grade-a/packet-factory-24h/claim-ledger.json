@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8f2701e0fd2aa9d3f09234a6acabb4219c69079a",
+  "generatedAtCommit": "a7619b13a4f02ac2aa89d0a1df1f4afed0d54d2d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3819,8 +3819,8 @@
       "operation": "independent-verification",
       "lane": "VF13",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:15:51.502Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF13 returned an independent verdict on the delivered bytes: FAIL_REPAIR_REQUIRED, evidence in vf13/rows.json at 9285d8019"
     },
     {
@@ -3865,8 +3865,8 @@
       "operation": "independent-verification",
       "lane": "VF13",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:15:51.408Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF13 returned an independent verdict on the delivered bytes: FAIL_REPAIR_REQUIRED, evidence in vf13/rows.json at 9285d8019"
     },
     {
@@ -4001,8 +4001,8 @@
       "operation": "independent-verification",
       "lane": "VF13",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:15:51.600Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF13 returned an independent verdict on the delivered bytes: FAIL_REPAIR_REQUIRED, evidence in vf13/rows.json at 9285d8019"
     },
     {
@@ -4123,8 +4123,8 @@
       "operation": "independent-verification",
       "lane": "VF13",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:15:51.719Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF13 returned an independent verdict on the delivered bytes: FAIL_REPAIR_REQUIRED, evidence in vf13/rows.json at 9285d8019"
     },
     {
@@ -4169,8 +4169,8 @@
       "operation": "independent-verification",
       "lane": "VF13",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T06:15:51.826Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "VF13 returned an independent verdict on the delivered bytes: FAIL_REPAIR_REQUIRED, evidence in vf13/rows.json at 9285d8019"
     },
     {
@@ -13770,7 +13770,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "2c7f0b23050640c9b6b17b1d6fb3a9e1c56d75c643886bf34d37d73ba9ca1562",
+  "claimsDigest": "5887b6ba64295fe04b3be8096ed0b66bf0ce1acd982e431fda021e4fb991205f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -41465,6 +41465,56 @@
       "previouslyReleasedAt": "2026-09-04T05:56:02.258Z",
       "reissuedAt": "2026-09-09T06:39:03.967Z",
       "reason": "Rebuilt at 2e59aad82 with AL6-01 (a case number written on the SSN line) and AL6-02 (clipped ink) repaired at the root; the builder must not verify its own bytes"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-nonconv-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:15:51.408Z",
+      "reissuedAt": "2026-09-09T07:26:40.180Z",
+      "reason": "Repaired at 35dd96e41 by a lane that must not verify its own bytes; VF13's earlier findings are the baseline the new bytes are read against"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:15:51.600Z",
+      "reissuedAt": "2026-09-09T07:26:40.290Z",
+      "reason": "Repaired at 35dd96e41 by a lane that must not verify its own bytes; VF13's earlier findings are the baseline the new bytes are read against"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:15:51.719Z",
+      "reissuedAt": "2026-09-09T07:26:40.425Z",
+      "reason": "Repaired at 35dd96e41 by a lane that must not verify its own bytes; VF13's earlier findings are the baseline the new bytes are read against"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:15:51.826Z",
+      "reissuedAt": "2026-09-09T07:26:40.551Z",
+      "reason": "Repaired at 35dd96e41 by a lane that must not verify its own bytes; VF13's earlier findings are the baseline the new bytes are read against"
+    },
+    {
+      "lane": "VF13",
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T06:15:51.502Z",
+      "reissuedAt": "2026-09-09T07:26:40.660Z",
+      "reason": "Repaired at 35dd96e41 by a lane that must not verify its own bytes; VF13's earlier findings are the baseline the new bytes are read against"
     }
   ],
   "transfers": [

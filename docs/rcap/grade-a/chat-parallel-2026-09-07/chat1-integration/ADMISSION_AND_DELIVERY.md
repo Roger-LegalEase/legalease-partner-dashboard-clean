@@ -1,3 +1,108 @@
+<!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T07:35Z -->
+# Captain checkpoint — 195/346; four measuring instruments were reporting numbers they had not measured
+
+Only the changed facts. Every earlier block below stays true of the moment it
+describes.
+
+**Census: 195/346 terminal, −4 since 05:20Z.** 178 COMPLETE_PACKET_PROVEN, 11
+GUIDANCE_READY, 2 HANDOFF_READY, 4 OUT_OF_SCOPE. Every one of the four that left
+was counted terminal on evidence that did not exist, and each was found by a
+different instrument failing in the same way.
+
+| Family | Was | Is | Why it was never terminal |
+|---|---|---|---|
+| `de_mandatory_expungement-set` | GUIDANCE_READY | FAIL_REPAIR_REQUIRED | dispatched to VF01 since `83a08a8ad` with the claim released; nobody had read it |
+| `ct-destruction-request` | GUIDANCE_READY | FAIL_REPAIR_REQUIRED | a verifier had failed it; its reasoning was in `detail` and the extractor read only `finding` |
+| `ct-provisional-pardon` | GUIDANCE_READY | FAIL_REPAIR_REQUIRED | same |
+| `ct-absolute-pardon` (erasure) | GUIDANCE_READY | PRODUCT_PATH_PENDING | same |
+
+## The pattern, stated once
+
+Four separate defects surfaced today, all the same shape: **a measuring
+instrument reporting a quantity it had not measured.** Each made the count look
+better than the work was.
+
+1. **The row gate could not see a whole custody.** All 380 recovery-pool index
+   entries carry `formNumber: null`; the resolver matched on that string, so no
+   pool-held document resolved at all. 15 families were UNRESOLVABLE; 8 now bind.
+   Fixed at `ab38d8d48`.
+2. **The completeness gate reported zeros for counters it never ran.** Three
+   counters read keys that 28 families' artifact records do not carry, so their
+   loops iterated nothing and the counters kept their initial `0`. 249
+   PASS_COMPLETE of 255 becomes 213. Fixed at `aba0bed20`.
+3. **The extractor discarded a third of the reasoning verifiers produced.** 380
+   of 1,325 non-passing obligations wrote their finding under `detail`; it read
+   only `finding`. That is what kept three Connecticut families terminal. Fixed
+   at `e9acad067`.
+4. **The route-election counter can only see 6 of 346 families.** Six fields in
+   the corpus declare `measured_route_selection`; 9,341 carry the election
+   refusal class and none is examined. **Recorded and deliberately not repaired**
+   at `11cc7c621` — widening it needs a per-family legal judgement about which
+   elections a route determines, and the hand that found the gap should not also
+   decide unreviewed which admissions it revokes.
+
+A fifth is open and unfixed: `visualDefects` still prints `0` where geometry was
+measured but no raster was run. The Alabama lane put it exactly — the gate
+"prints a zero for a raster nobody ran" — and the `aba0bed20` repair covers the
+28-family case, not this one.
+
+## Work landed
+
+| What | Evidence |
+|---|---|
+| Alabama six rebuilt; a court case number was being printed on the SSN line of a sworn petition, in every one | `b83b49d66` |
+| Alabama six independently read: 3 FAIL, 3 blocked on one legal answer | `ef7bf8734`, `8d44be590` |
+| An **inverted safeguard**: a builder invariant requiring the unsupported notarization direction | `al-felony-nonconviction-90-set.mjs:318` |
+| Illinois five failed independently, then repaired at the root | `9285d8019`, `35dd96e41` |
+| Two Illinois self-tests were enshrining the defects they were meant to catch | `35dd96e41` |
+| The single-URL acquisition path, broken before every fetch | `b9b558573` |
+| Both New Mexico 4-222 candidates excluded by measurement | `df140b121`, `97d5b4ba9` |
+
+## Rolling shortlist
+
+| Item | Kind | Exact unmet requirement | Owner | State |
+|---|---|---|---|---|
+| 25 families whose builder is newer than their delivered bytes | measurement | does a rebuild change the packet, or only a timestamp? 14 are COMPLETE_PACKET_PROVEN | repro lane | running |
+| Five families | build | `mo-art-xiv`, NH streamlined, NE pardoned, MD pardon, TX deferred | build lane | running |
+| Illinois five | independent verification | repaired bytes never read; VF13 holds the baseline | VF13 | ready to dispatch |
+| Alabama three | repair | inverted notary assertion; six unsupported sworn certifications | FIX02/03/06 | ready to dispatch |
+| `il-exp-pardon-set` and two siblings | repair | delivered bytes predate the repair everyone cites as precedent | unassigned | pending the measurement |
+| `visualDefects` over an unrun raster | shared gate | prints 0 where nothing was rastered | unassigned | open |
+| Route-election counter | shared gate | sees 6 of 346; needs per-family legal judgement | **Roger / counsel** | recorded, not repaired |
+| 14 `SOURCE_IDENTITY_UNRESOLVED` families | source acquisition | every source `label_does_not_identify_a_document` | unassigned | acquisition owed |
+
+## PRODUCTION
+
+Untouched. `commercialRoutesOpened: 0`, `productionTouched: false`.
+
+## USER-ONLY
+
+1. **AL6-03 — the highest-leverage single answer on this list.** One sentence in
+   `AL.memo.json` saying whether CR-65's printed "Court Case Number (Assigned by
+   Clerk)" takes the underlying criminal case number or the clerk-assigned
+   expungement number, and whether the same answer governs the identically
+   captioned C-10-CRIMINAL box. Either reading yields a defect and only the
+   direction is open: nine pages are wrongly prefilled, or two are wrongly blank.
+   **Three families are blocked on that and nothing else.**
+2. **New Mexico 4-222.** Both published candidates excluded by measurement. No
+   statewide copy with a blank district line has been located and it may not
+   exist; if New Mexico publishes only per district, the three families need a
+   per-district source set or the caption treated as participant-completed.
+3. **Delaware.** Its memo reclassifies the route from process guidance to a
+   participant application packet; what ships says on its face it is guidance
+   only and is filed nowhere. Composing the application would mean asserting a
+   form and destination SBI has not published.
+4. **`/dev/null` in this container** is a regular file, not a character device. I
+   broke it with a stray `ln -sfn` and the classifier blocks `mknod`. Redirects
+   work; a fresh container clears it.
+5. Push access to `legalease-source-artifacts` for the verified 228 MB archive.
+6. Phase 50 `CREATE OR REPLACE TRIGGER` authorization.
+7. The seven `missingRequiredEnvironment` staging values.
+8. A persistent production worker host.
+9. The component-authority decision (207 families would gain a component).
+10. A BMC issuer confirmation for `ma-bmc-multi-set`; the New Jersey intake gap;
+    the 70 pool manifest files still absent and the 11 SRC05 files still owed.
+
 <!-- CLAUDE CAPTAIN CHECKPOINT 2026-09-09T06:10Z -->
 # Captain checkpoint — 198/346; the count went DOWN by one, on purpose
 
