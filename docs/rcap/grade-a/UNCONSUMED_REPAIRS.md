@@ -11,6 +11,72 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## The stale-bytes screen measured: 20 of 25 reproduce, and my screen was wrong (2026-09-09)
+
+The measurement lane answered the question and corrected the question.
+
+**Answer.** Of the 25 screened: 5 reproduce their whole directory exactly, 11
+reproduce their packet PDFs with only the raster stage differing, 4 reproduce
+with only a recorded source hash drifted, 1 was unmeasurable, and **4 diverge
+substantively**. The wall-clock-stamp category I anticipated is **empty** — every
+`build-status.json` that changed changed its raster fields, not a timestamp. And
+`64f2dbb8e`, the commit twelve of the 25 pointed at, **changed no output at all**,
+which is why the screen was recorded as a screen.
+
+**All 14 `COMPLETE_PACKET_PROVEN` families in that set reproduce their packet
+bytes exactly.** None of the four with wrong bytes is proven; all four already sit
+in `FAIL_REPAIR_REQUIRED`.
+
+**MY SCREEN UNDER-COVERED ITS OWN CRITERION.** It derived each family's builder
+name from the overlay DIRECTORY name, which is hyphenated, while many family ids
+use underscores — so `md_pardon_expungement-set` looked for
+`build-census-v1-md-pardon-expungement-set.mjs`, found nothing, and was silently
+skipped. Re-run against `MASTER_QUEUE` family ids with both spellings tried, the
+criterion matches **54 families, 36 of them `COMPLETE_PACKET_PROVEN`** — not 25
+and 14. The lane independently reported 64 (85 counting shared hosts) by its own
+method. Either way the screen I published covered under half of its subject.
+
+**29 of the 54 are still unmeasured, 22 of them `COMPLETE_PACKET_PROVEN`.**
+
+Also recorded by the lane: the existing 87-row `BUILD_REPRODUCIBILITY.json` was
+measured at base `4b1d36fd5` on 2026-09-02, which predates `64f2dbb8e`,
+`d5450b1c8` and `32b4cd663` — its rows for families those commits touched are
+themselves stale.
+
+## Four Illinois families deliver bytes that are stale AND wrong (2026-09-09)
+
+`il-exp-pardon-set`, `il-exp-precompletion-set` and `il-seal-nonconv-set` share
+the EXP-AD host. Their delivered bytes carry, identically:
+
+- **20 of 20 charge cells holding the case number** `2021-CF-004217`;
+- **zero Order page-2 item-3 writes** (8 Order writes, all on page 1);
+- Case List `arrest2..arrest5` filled as columns of one row;
+- `"Charge exactly as shown o…"` — a direction to the participant, truncated,
+  printed where a charge belongs.
+
+Rebuilding writes one real charge, adds all four Order item-3 contact fields,
+drops 31 spurious writes and answers the item-1/12/3(b) elections. Writes go
+70→45, 70→46 and 72→44.
+
+**`il-seal-edu-set` is a fourth and nobody had named it.** The sweep first filed
+it `UNKNOWN_INVOCATION` because the tool's `determineInvocation` misses top-level
+entry points; its builder does enter on a bare `node <script>`. Its delivered
+charge cell prints the direction sentence in full, its Order item 3 is blank, and
+its `participant-instructions.md` ships **66 lines of interior AcroForm field
+names as instructions** — `- Complete arrest60 on EXP-AD Case List page 1`.
+
+### Tool limitations the lane found, worth fixing before the next sweep
+
+- `determineInvocation` misses top-level entry points — it cost a true positive.
+- A builder asserting a required flag reads as `UNBUILDABLE` (`ar-felony-seal-set`
+  asserts `--no-raster`).
+- The 600s default timeout is shorter than four custom-pleading raster stages.
+- A delivered directory that never ran its raster stage reads as `DIVERGES`
+  against a rebuild that does — 11 of the sweep's 16 `DIVERGES` rows.
+- `scripts/build-census-v1-ar-felony-seal-set.mjs` writes
+  `data/rcap-grade-a/packet-factory-24h/pf13/rows.json`, outside its own family
+  directory.
+
 ## Four families deliver packets whose form fields are still live (2026-09-09)
 
 The build lane observed in passing, outside its grants, that four delivered
