@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "d44890ce0213c570625fbb5e8eddf0e5a0499a01",
+  "generatedAtCommit": "436a78a182597b6c1d19c8ee22d6cf86ba5b576e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1441,10 +1441,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX120",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T19:07:50.174Z"
     },
     {
       "subjectType": "packet-family",
@@ -1607,7 +1607,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.014Z"
@@ -1653,7 +1653,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-08T23:57:02.118Z"
@@ -1790,10 +1790,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX120",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T19:07:50.294Z"
     },
     {
       "subjectType": "packet-family",
@@ -2459,7 +2459,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T13:21:40.625Z"
@@ -3150,7 +3150,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T17:55:10.866Z"
@@ -4091,7 +4091,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T16:42:21.634Z"
@@ -4213,7 +4213,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T16:42:21.411Z"
@@ -4259,7 +4259,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T16:42:21.523Z"
@@ -13988,7 +13988,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d954ef051e53c26dbadfdce626afe3f84b3bc70ba4828fde5d44c25d7e0e4cf5",
+  "claimsDigest": "b3d80a66d290d8a0d378b98c2cae11eb43966a7941cdb93647774013cbc6739a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34505,6 +34505,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-09T18:52:48.321Z",
       "reason": "FIX01/FIX08 return integrated: FEE_AND_WAIVER discharged on the delivered artifacts, and the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX120",
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T19:07:50.174Z",
+      "reason": "FIX120 return integrated; the released grant is what lets the post-repair transition read as causal."
+    },
+    {
+      "lane": "FIX120",
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-09T19:07:50.294Z",
+      "reason": "FIX120 return integrated; the released grant is what lets the post-repair transition read as causal."
     }
   ],
   "reissues": [

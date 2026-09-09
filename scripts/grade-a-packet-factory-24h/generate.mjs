@@ -3048,6 +3048,16 @@ const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git workt
 const RASTER_RULE = [
   "**A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.",
   "Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.",
+  /*
+   * WHICH FIELD CARRIES WHICH FACT, because two lanes in one day put the
+   * raster state into `status` and neither was being careless -- the line above
+   * says \"return the family BUILT_RASTER_PENDING\" and says nothing about where
+   * it goes, so `status` is the obvious place. The post-repair reader then sees
+   * no completed repair behind a transition, and a sound repair reads as an
+   * unfinished one.
+   */
+  "Put that in `rasterState`. `status` is the row's own outcome and takes exactly `COMPLETED` or `STOPPED`: a repair that finished is `COMPLETED` even though nobody has rastered it, because `status` records whether YOU finished, not whether a page was looked at. The post-repair reader in `generate.mjs` takes only rows whose `status` is `COMPLETED`, so a finished repair filed as `BUILT_RASTER_PENDING` leaves its family sitting in FAIL.",
+  "`countersBefore` and `countersAfter` hold exactly the nine counters and nothing else -- that reader requires every value to be numerically zero, so a prose key alongside them (`measuredBy`, a caveat, even a boolean `allNineZero`) makes the whole object read as non-zero. Put the prose in siblings and keep every word of it.",
   "`BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**",
   "The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.",
   "Page rasters go through `scripts/raster/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.",

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d44890ce0213c570625fbb5e8eddf0e5a0499a01` (or the newer dispatch base)
+**Minimum required ancestor:** `436a78a182597b6c1d19c8ee22d6cf86ba5b576e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'sd_arrest_expungement-set' \
   --codex-cloud \
-  --minimum-captain-sha d44890ce0213c570625fbb5e8eddf0e5a0499a01
+  --minimum-captain-sha 436a78a182597b6c1d19c8ee22d6cf86ba5b576e
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 1 exact family before reading or writing family content:
+- Assert only these 2 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-2yr-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -47,6 +48,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - **A missing Chromium is not a source blocker and it is not a legal blocker.** ENV-RAS01 established that this container cannot resolve or fetch one -- the Playwright CDN answers HTTP 403 from inside Codex. That is an environment fact about the container, not a fact about the packet, and classifying it as BLOCKED_SOURCE would put a packet defect on a record that has none.
 - Finish every nonvisual obligation. Record the exact SHA-256 of the canonical and boundary PDFs you produced. Return the family `BUILT_RASTER_PENDING`.
+- Put that in `rasterState`. `status` is the row's own outcome and takes exactly `COMPLETED` or `STOPPED`: a repair that finished is `COMPLETED` even though nobody has rastered it, because `status` records whether YOU finished, not whether a page was looked at. The post-repair reader in `generate.mjs` takes only rows whose `status` is `COMPLETED`, so a finished repair filed as `BUILT_RASTER_PENDING` leaves its family sitting in FAIL.
+- `countersBefore` and `countersAfter` hold exactly the nine counters and nothing else -- that reader requires every value to be numerically zero, so a prose key alongside them (`measuredBy`, a caveat, even a boolean `allNineZero`) makes the whole object read as non-zero. Put the prose in siblings and keep every word of it.
 - `BUILT_RASTER_PENDING` is a factory workflow state and not a launch verdict. It zeroes nothing and waives nothing: visualDefects stays whatever it is, because it records that nobody has looked, not that there is nothing to see. **No packet becomes PASS_COMPLETE without RASTER_PASS.**
 - The render happens in `.github/workflows/rcap-packet-raster-acceptance-batch.yml` on a browser-equipped runner, against the exact bytes your hashes pin. RASTER_PASS sends the family to independent verification; RASTER_FAIL sends it to FIX.
 - Page rasters go through `scripts/raster/pdf-page-raster.mjs`. It discovers its own browser and calibrates the page-to-pixel mapping against both the paper bounds and stamped marks.
@@ -57,9 +60,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 1 family
+## The 2 families
 
 - `sd_arrest_expungement-set`
+- `il-seal-2yr-set`
 
 ## What you receive
 
@@ -73,7 +77,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-il-seal-2yr-set.mjs`
 
 ## Never write here
 
