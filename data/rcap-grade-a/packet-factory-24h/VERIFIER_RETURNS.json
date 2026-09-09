@@ -35,19 +35,16 @@
   ],
   "counts": {
     "returnDirectories": 112,
-    "rows": 998,
+    "rows": 1004,
     "independentVerdicts": 252,
-    "failRepairRequired": 41,
+    "failRepairRequired": 38,
     "passIndependent": 196
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
-    "al-diversion-set",
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
-    "al-misd-conviction-set",
-    "al-misd-dwop-set",
     "al-pardoned-felony-set",
     "ar-drug-court-set",
     "ar-felony-seal-set",
@@ -839,6 +836,32 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-diversion-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-diversion-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-diversion-set",
       "superseded": false
     },
     {
@@ -936,7 +959,7 @@
       "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-dwop-set",
@@ -989,6 +1012,30 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set",
+      "superseded": false
     },
     {
       "familyId": "al-felony-dwop-set",
@@ -1124,7 +1171,7 @@
       "supersedesEvidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-current-defect-disposition.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1159,6 +1206,30 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": true
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
+      "superseded": false
     },
     {
       "familyId": "al-felony-nonconviction-90-set",
@@ -1231,6 +1302,32 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-conviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-conviction-set",
       "superseded": false
     },
     {
@@ -1274,6 +1371,32 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set",
@@ -1334,6 +1457,30 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardoned-felony-set",

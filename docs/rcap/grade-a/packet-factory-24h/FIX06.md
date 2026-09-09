@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `b83b49d6688b3d30cb6c27a757509893e2ba7670` (or the newer dispatch base)
+**Minimum required ancestor:** `f77dce112823a1c97e9db7cabf23e6d4b1ed62ee` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-cannabis-vacate-set' \
   --codex-cloud \
-  --minimum-captain-sha b83b49d6688b3d30cb6c27a757509893e2ba7670
+  --minimum-captain-sha f77dce112823a1c97e9db7cabf23e6d4b1ed62ee
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -40,8 +40,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-cannabis-vacate-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'al-pardoned-felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-seal-edu-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'co_motion_seal_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ri_first_offender_misdemeanor-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,8 +62,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 ## The 3 families
 
 - `il-cannabis-vacate-set`
-- `al-pardoned-felony-set`
-- `il-seal-edu-set`
+- `co_motion_seal_nonconviction-set`
+- `ri_first_offender_misdemeanor-set`
 
 ## What you receive
 
@@ -77,11 +77,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
-- `scripts/build-census-v1-al-pardoned-felony-set.mjs`
-- `scripts/build-census-v1-il-seal-edu-set.mjs`
+- `scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs`
 
 ## Never write here
 

@@ -11,6 +11,78 @@ rewrites `product-wiring.json` inside every family directory on every run, and a
 regenerated derived record is not a repair. Narrowing to the two things a reader
 would actually be reading is what makes the answer mean something.
 
+## An inverted safeguard: a builder invariant that REQUIRES the defect (2026-09-09)
+
+`scripts/build-census-v1-al-felony-nonconviction-90-set.mjs:318` reads:
+
+```js
+assert.match(instructions, /notary/i);
+```
+
+The builder's own repair invariant requires the word to appear in the delivered
+participant instructions. What appears there is *"Sign the petition under oath
+before an authorized officer or notary…"* — and `AL.memo.json` `rules.notarization`
+for this track reads *"The source review does not state a notarization requirement
+for CR-65."* The repaired shared host refuses that exact sentence:
+
+```js
+assert.doesNotMatch(filing, /Sign the petition under oath before an authorized officer or notary/)
+```
+
+Two builders forked before that repair and never run it. One of them asserts the
+opposite. So a text-only fix to `al-felony-nonconviction-90-set` fails the
+builder's own check, and the check is what keeps an unsupported legal direction
+in front of participants.
+
+This is not a safeguard to weaken — it is a safeguard pointing the wrong way, and
+the repair is to make it assert what the memo actually establishes. Found by
+VF03; the family is `FAIL_REPAIR_REQUIRED` and queued for repair behind the
+Illinois lane holding FIX03.
+
+`al-felony-dwop-set` carries the same unsupported sentence without the inverted
+assertion.
+
+## Six sworn certifications the route never establishes (2026-09-09)
+
+CR-65 Section V is conjunctive — *"If you have not checked all eight boxes, the
+conviction is not eligible"* — and `al-pardoned-felony-set` ticks all eight, as
+`route.selection`, on a petition sworn on page 6. `AL.memo.json` track
+`al-pardoned-felony` carries `exclusions: []`, `waitingPeriods: []` and four
+inputs. So 11.1 (180 days) and 11.2 through 11.6 (violent / sex / moral turpitude
+/ serious traffic / CDL) assert facts the route never establishes or asks about,
+and 11.0 is contradicted by the track's own stop condition, *"The pardon
+withholds firearm rights and the restoration question controls."* Only 10.6 is
+route-determined. The list is hardcoded at
+`scripts/build-census-v1-al-diversion-set.mjs:56`.
+
+The controlling comparison, which is why this is not an objection to conjunctive
+ticking as such: sibling `al-misd-conviction-set` ticks seven Section II boxes
+and every one is backed by a memo exclusion, waiting period or input.
+
+This is the AL6-01 defect class surviving the AL6-01 repair — a value written
+because the mapping says to, not because the record establishes it — with all
+nine counters at zero.
+
+## AL6-03: which case does the CR-65 caption box mean? (2026-09-09, owner question)
+
+`CR-65:Court Case Number_3` on page 7 (x=445.44, w=129.00 — the same x and width
+as the boxes filled on pages 6 and 8) is blank while nine pages carry the number;
+`C-10-CRIMINAL:Court Case Number_3` likewise. Page 1 separately prints
+"COURT CASE NUMBER TO BE EXPUNGED:" as its own line, which the packet also fills,
+which argues the caption box means something else. The box is printed
+"Court Case Number (Assigned by Clerk)".
+
+**Either reading yields a defect; only the direction is open.** If the box means
+the expungement case the clerk assigns, the packet prefills nine pages it should
+leave blank. If it means the underlying criminal case, page 7 is a missing write.
+Nothing in `AL.memo.json` establishes which, and it is an Alabama forms-practice
+conclusion rather than a fact in the record.
+
+Three families are `BLOCKED_LEGAL_INPUT` on `KNOWN_PREFILLS` for this and no
+other reason: `al-diversion-set`, `al-misd-conviction-set`, `al-misd-dwop-set`.
+They are otherwise clean. **This is the single answer that would move three
+families.**
+
 ## The route-election counter can only see six families (2026-09-09, measured)
 
 VF13 returned `FAIL_REPAIR_REQUIRED` on all five Illinois families with
