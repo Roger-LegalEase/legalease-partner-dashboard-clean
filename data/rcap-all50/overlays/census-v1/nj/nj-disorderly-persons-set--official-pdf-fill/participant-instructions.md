@@ -69,6 +69,32 @@ File with the **Superior Court, Criminal Division**, in the county where the par
 
 Serve the petition as required and, after entry, serve a certified copy of the signed order on every record-holding agency. The held notice list is: **the county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation, and any relevant municipal court**. Keep the existing rule below: complete service certificates only after service actually occurs.
 
+On objections: the committed track record states, of this route's notice rule, that **"The exact objection window is recorded as an open question."** No held source in this repository establishes how long a prosecutor or any other served party has to object, so this packet states no period and none should be inferred from its silence. Ask the Criminal Division office in the county of filing what the objection window is. "Prosecutor objection." is a held self-help stop condition on this route: if an objection is filed, this packet does not answer it.
+
+## How the offence count works on this route
+
+**This packet does not count your offences and does not decide whether you are eligible.** It holds no offence history for you: the fingerprint-based State Police SBI record named above is what produces the count, and nobody has read it here. What follows is the counting rule as this route's committed legal-design record states it, so that you can apply it to your own record or take it to a lawyer.
+
+### The held counting rule, quoted whole
+
+> Available to a person convicted of one or more disorderly persons or petty disorderly persons offences who has not been convicted of any crime, in this State or any other jurisdiction; a person with any crime conviction uses N.J.S.A. 2C:52-2 instead. Three alternative routes: no more than five disorderly persons offences, no more than five petty disorderly persons offences, or a combination of no more than five; or multiple offences whose convictions were entered on the same day; or multiple offences that were interdependent or closely related in circumstances and committed as part of a sequence of events within a comparatively short period. The same-day and closely-related routes carry no numeric cap. The statute expressly provides that a person shall not be required to provide plea or sentencing transcripts or presentence reports with the application or any other filing. Expungement in New Jersey is defined at N.J.S.A. 2C:52-1 as the extraction and isolation of criminal justice records, not their destruction. In most contexts the person may then answer that the event did not occur. Certain law enforcement, judicial and specified licensing uses survive under N.J.S.A. 2C:52-27. The relief reaches New Jersey records only: federal and out-of-state records are untouched, although out-of-state convictions still count when assessing eligibility. There is no federal immigration effect.
+
+Three things in that rule decide most records, and they are the three worth re-reading. The five-offence line is a **cap of five**, counted across disorderly persons offences, petty disorderly persons offences, or any combination of the two. The **same-day** route and the **interdependent-or-closely-related** route carry **no numeric cap at all**, so a record over five may still qualify under one of them. And any **crime** conviction — an indictable offence in New Jersey, a felony anywhere else — takes the record off this route entirely and onto N.J.S.A. 2C:52-2.
+
+### A published figure that is not this route's figure
+
+The committed record carries this caution about a number you are likely to meet first:
+
+> Whether New Jersey Courts' self-help phrasing, "You can expunge no more than one indictable conviction and up to three disorderly persons offenses or petty disorderly persons offenses", is being read by participants as the cap for all routes when it describes the N.J.S.A. 2C:52-2 route only. This is a presentation risk rather than a legal question, and it was re-confirmed on the official page on 2026-08-06.
+
+So a published "up to three" is the cap for a different route, not for this one. The correction that this route's cap is **five** rather than four is itself a held legal-design item: "Correct the disorderly persons cap from four to five".
+
+### What you will be asked, and where this stops
+
+The intake question this route records for the count is: "How many disorderly persons and petty disorderly persons offences are on your record?"
+
+Counting is where this packet stops and a lawyer starts. "Counting disputes at the five-offence line.", "Any same-day or closely-related bundling argument." and "Marijuana regrading analysis." are all held self-help stop conditions on this route, and they are listed again under "Where self-help ends" below. Marijuana and hashish regrading can move a conviction between routes or off the count entirely, and this packet does not perform that analysis.
+
 ## All 11 actions required before filing
 
 The legal-design track records the following 11 actions. Review every one before filing; do not treat the generated sample values as a substitute for these checks.

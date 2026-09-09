@@ -1654,9 +1654,20 @@ Object.assign(FAMILY, {
           deliveredIn: "participant-instructions.md, carrying the statutory transcript protection word for word from this route's committed packetInstructions.",
           heading: "## Transcripts you are not required to produce",
         },
+        /*
+         * FIX121. This pointed at "## Where self-help ends", which carries this
+         * route's 29 held self-help entries and no counting rule: its only
+         * counting-shaped line tells the participant to STOP counting and see a
+         * lawyer, which is the opposite of the disclosure the manifest requires.
+         * VF11 failed COMPONENT_SET on exactly that -- a required component
+         * recorded as delivered by a section that does not make it. It now names
+         * the section that carries the rule, rendered by this family's own
+         * entrypoint from the track registry's committed mechanism and checked
+         * there against the delivered text rather than against this declaration.
+         */
         counting_disclosure: {
-          deliveredIn: "participant-instructions.md, the held self-help lists, which name \u201cCounting disputes at the five-offence line.\u201d and \u201cMarijuana regrading analysis.\u201d as points where self-help ends.",
-          heading: "## Where self-help ends",
+          deliveredIn: "participant-instructions.md, which carries this route's committed counting rule from the track registry's own `mechanism` -- the five-offence cap across disorderly persons and petty disorderly persons offences, the uncapped same-day and closely-related routes, and the crime-conviction bar -- together with the held caution that the published \u201cup to three\u201d figure belongs to the N.J.S.A. 2C:52-2 route rather than this one, and the statement that this packet performs no count.",
+          heading: "## How the offence count works on this route",
           byEntrypoint: true,
         },
       },
