@@ -1,3 +1,55 @@
+# The dispatch reads a custody scalar that answers a per-source question, and a lane paid for it
+
+**Measured 2026-09-09** after PF11 (`36ec1c777`) stopped on `ca-diversion-seal-set`
+and reported the contradiction rather than working around it.
+
+`MASTER_QUEUE.json` gives that family `sourceStatus: SOURCE_BOUND_BY_HELD_BYTES`,
+`sourceBound: true` and `sourceReadiness.ready: true`, with
+`sourceReadiness.custodyClass: SOURCE_GENUINELY_MISSING` nested inside the same
+row. The dispatch was written from the outer fields and sent a lane to build a
+packet around `official-form:SDSC-CRM-307`
+(`da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287`, 211228 B),
+which is in no mounted custody: the recovery pool holds 371 of its 380 indexed
+entries and this is one of the nine that are absent. The lane searched every
+mount, acquired nothing, and recorded the stop.
+
+**The record that was right already existed and nothing reads it.**
+`data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json`
+measured this family `SOURCE_GENUINELY_MISSING`, 0 of 1 document sources
+resolved. Nothing under `scripts/` consults that file before dispatching.
+
+**Do not read the 25 as 25 false rows.** 25 families carry `custodyClass:
+SOURCE_GENUINELY_MISSING` beside `sourceBound: true`, and nine of them are
+COMPLETE_PACKET_PROVEN -- but a spot check of `az_record_sealing_conviction-set`
+shows why that is not nine bad proofs: its `boundSources` carry real paths and
+digests, and its `satisfiedByRelationship` names the obligation that needs no
+standalone binary at all. The scalar is a whole-family summary of a per-source
+fact, so it reads MISSING wherever any one obligation lacks a binary, including
+where every source the packet actually uses binds. It is useless as a dispatch
+signal in both directions: it cried missing on families that were fine, and the
+dispatch ignored it where it was right.
+
+The buildability record's own list is the narrow one -- **13 families**:
+`az_certificate_second_chance-set`, `ca-diversion-seal-set`,
+`de_discretionary_family_court-set`, `de_discretionary_superior_court-set`,
+`de_pardon_expungement-set`, `ky_protective_order_record_expungement-set`,
+`ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`,
+`nd-regular-pardon-set`, `official-form-treatment:obligation:research-decision-route`,
+`ut_pet_special_certificate-set`, `wv_acc_treatment_job_readiness-set`.
+
+Three of those thirteen were live in running build lanes when this was measured
+-- `az_certificate_second_chance-set` and `me-seal-gen-set` on PF07,
+`de_pardon_expungement-set` on PF06 -- and both lanes were told, so they measure
+custody first and record an honest BLOCKED_SOURCE row instead of repeating
+PF11's loss.
+
+The repair is to make the packet-build dispatch consult the buildability record
+rather than the scalar. It is recorded rather than done because it changes which
+families a generator will assign, and four lanes are executing against the
+current assignment right now.
+
+---
+
 # pdf-lib stamps a border the form does not print, and the counter that should see it counts glyphs
 
 **Measured 2026-09-09** by VF20 (`05cde650f`) on `mo-art-xiv-marijuana-set` and

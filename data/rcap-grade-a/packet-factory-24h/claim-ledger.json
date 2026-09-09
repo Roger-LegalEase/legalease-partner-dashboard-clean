@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c8bc1b1fdfa5500324f6be44e1592b10c5feddd5",
+  "generatedAtCommit": "0785c850ff3b60efc2b9d483eb8b0c593c9003bc",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1482,8 +1482,9 @@
       "operation": "packet-build",
       "lane": "PF11",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-09T13:46:46.551Z",
+      "releaseReason": "PF11 36ec1c777 STOPPED/BLOCKED_SOURCE: official-form:SDSC-CRM-307 da6852b5... is in no mounted custody; SOURCE_READY_BUILDABILITY.json already recorded 0 of 1 resolved and the dispatch did not consult it"
     },
     {
       "subjectType": "packet-family",
@@ -6128,21 +6129,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "nh_conviction_standard-set",
-      "familyId": "nh_conviction_standard-set",
-      "itemId": null,
-      "familyIds": [
-        "nh_conviction_standard-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF11",
-      "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "nh_conviction_streamlined-set",
       "familyId": "nh_conviction_streamlined-set",
       "itemId": null,
@@ -6167,7 +6153,9 @@
       "operation": "packet-build",
       "lane": "PF11",
       "laneKind": "packet-build",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-09T13:46:46.434Z",
+      "releaseReason": "PF11 36ec1c777 COMPLETED: three sources bound, 18 of 140 fields written, nine counters zero; BUILT_RASTER_PENDING"
     },
     {
       "subjectType": "packet-family",
@@ -13865,9 +13853,25 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_standard-set",
+      "itemId": null,
+      "familyId": "nh_conviction_standard-set",
+      "familyIds": [
+        "nh_conviction_standard-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF11",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-09T13:47:01.639Z",
+      "releaseReason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
     }
   ],
-  "claimsDigest": "a833cf3e0fa78083c5841e4d3a3175b4d82a6ed4328a20b7747f00d202830550",
+  "claimsDigest": "2bf8eb7aa79ba736474d7b90925822b51f199c1d7fe2237a372da0de89e18f30",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34024,6 +34028,33 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-09T13:24:32.766Z",
       "reason": "reissued before the family reached a verification state; F34 refused it correctly, so it is released pending diagnosis of why the repair did not advance the family"
+    },
+    {
+      "lane": "PF11",
+      "subjectType": "packet-family",
+      "subjectId": "nh_marijuana_annulment-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T13:46:46.434Z",
+      "reason": "PF11 36ec1c777 COMPLETED: three sources bound, 18 of 140 fields written, nine counters zero; BUILT_RASTER_PENDING"
+    },
+    {
+      "lane": "PF11",
+      "subjectType": "packet-family",
+      "subjectId": "ca-diversion-seal-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T13:46:46.551Z",
+      "reason": "PF11 36ec1c777 STOPPED/BLOCKED_SOURCE: official-form:SDSC-CRM-307 da6852b5... is in no mounted custody; SOURCE_READY_BUILDABILITY.json already recorded 0 of 1 resolved and the dispatch did not consult it"
+    },
+    {
+      "lane": "PF11",
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_standard-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-09T13:47:01.639Z",
+      "reason": "PF11 36ec1c777 COMPLETED: five sources bound by pinned digest, 33 of 206 fields written, nine counters zero; BUILT_RASTER_PENDING. Re-granted only to record this release honestly after the original grant was already gone from the ledger."
     }
   ],
   "reissues": [
@@ -50884,6 +50915,17 @@
       "grantedBy": "Captain",
       "reason": "The failures on record measured a pre-namespacing overlay and a raster state that has since been corrected; the current deliverable owes a fresh read",
       "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "PF11",
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_standard-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "grantedAt": "2026-09-09T13:46:52.496Z",
+      "grantedBy": "Captain",
+      "reason": "probe",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ],
   "withdrawals": [
@@ -55037,6 +55079,14 @@
       "operation": "packet-build",
       "lane": "PF14",
       "withdrawnAt": "2026-09-09T10:33:35Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_conviction_standard-set",
+      "operation": "packet-build",
+      "lane": "PF11",
+      "withdrawnAt": "2026-09-09T13:45:52Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
