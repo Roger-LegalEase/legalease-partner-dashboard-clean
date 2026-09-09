@@ -8,21 +8,22 @@
   "returnFilename": "rows-pf05-20260909.json",
   "writtenAlongsideRatherThanOver": "rows.json, LANE_NOT_EXECUTED.json and PFB_SHIFT_RETURN.json (earlier PF05 material) survive byte-for-byte; this return is a distinct file.",
   "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
-  "headShaAtReturn": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "headShaAtReturn": "c85647aab53d59fb1998c58915addb632ab48419",
   "headShaAtReturnIs": "the parent of the commit that carries this file, read with git rev-parse HEAD before committing. It is not the sha of that commit, which cannot be known before it exists, and it is not transcribed by hand.",
   "worktree": "/home/user/pfc-worktree",
   "familiesAssignedByPrompt": 3,
   "familiesGrantedByClaimLedger": 3,
-  "rowsReturned": 1,
+  "rowsReturned": 2,
   "familiesCompleted": 0,
-  "familiesStopped": 1,
+  "familiesStopped": 2,
   "blockedSource": [
-    "nh_conviction_streamlined-set"
+    "nh_conviction_streamlined-set",
+    "nc_auto_146_a4_agency_followup-set"
   ],
   "blockedLegalInput": [],
   "blockedBeforeClaim": [],
   "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "shiftIsIncomplete": "This return covers family 1 of 3. ut_pet_cannabis-set and nc_auto_146_a4_agency_followup-set are not yet returned and no row for either is present. Absence of a row here is not a result for those families.",
+  "shiftIsIncomplete": "This return covers families 1 and 3. ut_pet_cannabis-set is not yet returned and no row for it is present. Absence of a row here is not a result for that family.",
   "rasterState": "BUILT_RASTER_PENDING",
   "rasterNote": "No packet was built in this return, so there is nothing to raster and no digest to bind. rasterState is carried for schema continuity and zeroes nothing.",
   "packetsSelfVerified": 0,
@@ -97,7 +98,11 @@
       "otherSourceDefectsMeasuredSoTheNextLaneNeedNotResurvey": [
         {
           "form": "NHJB-2328-DFPe",
-          "fields": ["12.total", "money.total", "monthly.total"],
+          "fields": [
+            "12.total",
+            "money.total",
+            "monthly.total"
+          ],
           "sourceCarriedValue": "0",
           "consequence": "delivered unchanged these state that the filer has no income, no cash and no monthly expenses. Any build of this form must clear them."
         },
@@ -115,8 +120,18 @@
           "consequence": "a stored single-space text value."
         },
         {
-          "forms": ["NHJB-3057-DSe", "NHJB-2311-Se", "NHJB-2328-DFPe", "NHJB-2956-FPe"],
-          "pushButtonCounts": { "NHJB-3057-DSe": 4, "NHJB-2311-Se": 4, "NHJB-2328-DFPe": 4, "NHJB-2956-FPe": 3 },
+          "forms": [
+            "NHJB-3057-DSe",
+            "NHJB-2311-Se",
+            "NHJB-2328-DFPe",
+            "NHJB-2956-FPe"
+          ],
+          "pushButtonCounts": {
+            "NHJB-3057-DSe": 4,
+            "NHJB-2311-Se": 4,
+            "NHJB-2328-DFPe": 4,
+            "NHJB-2956-FPe": 3
+          },
           "consequence": "Clear Form, Lock and Save Form, Top of Page and Form Guide push buttons must be detached before flattening or their captions are drawn onto the filed page."
         }
       ],
@@ -133,6 +148,60 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "nc_auto_146_a4_agency_followup-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "verdict": null,
+      "jurisdiction": "NC",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-only:NC:nc_auto_146_a4_agency_followup"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "the one document source of this family could not be resolved to held bytes, so no packet was built and no counter was measured.",
+      "claimAssertion": "CLAIM_OK PF05 nc_auto_146_a4_agency_followup-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "failedSourceIdentity": {
+        "sourceId": "official-form:AOC-G-260",
+        "declaredPath": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+        "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+        "tier": "exact_form_number",
+        "resolvedAnywhere": false
+      },
+      "why": "The single bound source of this family does not resolve. Its digest was searched for by content across every mounted custody root - 6051 files in one pass and the whole main repository, 5939 files, in a second - and returned zero hits. No file named AOC-G-260 exists anywhere under any mounted root, so there was nothing to substitute even if substitution were permitted, and it is not: a different revision of the same form number is a different document.",
+      "whereTheIndexSaysItLives": {
+        "custody": "src05_worker_materialization_2026_09_02",
+        "path": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+        "acroFieldCount": 91,
+        "structuralClassObserved": "acroform",
+        "custodyType": "EPHEMERAL_WORKER_MATERIALIZATION_NOT_PERSISTED",
+        "bytesHeldByAnyMountedCustody": false,
+        "custodySelfDescription": "The committed corpus index declares of this custody that the bytes were never staged, committed, or added to any release, that no mounted custody holds them, and that declaring the custody rather than deleting it leaves every source obligation keyed to them refusing rather than silently resolving. This family is one of those obligations, and it is refusing exactly as the index says it should.",
+        "reacquisitionIsExecutable": "The index records that the src05 return carries the Google Drive fileId and owner-only visibility of each of these binaries, so re-acquisition by the owner is executable. Three of the fourteen were later found in the repository at their exact digest; AOC-G-260 is not one of the three."
+      },
+      "centralRecordDisagreement": "MASTER_QUEUE.json carries sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, sourceReadiness.ready true, custodyClass SOURCE_ALREADY_HELD and state SOURCE_READY for this family. SOURCE_READY_BUILDABILITY.json carries documentSourcesNamed 1, documentSourcesResolved 1 and custodyClass SOURCE_ALREADY_HELD. None of that is true of these bytes. The same buildability row contradicts its own summary in its per-source array, where this source reads kind not_present_in_a_custody_mounted_here and the row verdict reads NOT_MEASURABLE_HERE. The per-source measurement is right and the three summary scalars are wrong. Reported, not corrected: those are shared central artifacts and not this lane to edit.",
+      "artifactsRead": 0,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
-  ]
+  ],
+  "orderDeviation": "PF05.md orders the families NH, UT, NC on a cheapest-first rationale. NC turned out to be the cheapest of the three - its single bound source does not resolve anywhere, which is a measurement, not a build - so it was measured and returned before UT rather than after. Nothing about UT was skipped or pre-judged to do it.",
+  "custodyVerification": {
+    "method": "every declared digest searched for by CONTENT HASH across every mounted custody root, not by declared path and not by any central record custodyClass scalar",
+    "mountsSearched": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "/home/user/legalease-partner-dashboard-clean (whole tree, including private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, private/source-imports/Nationwide_Recovery_Pool_2026-09-02, private/source-imports/rcap-d-source-packs-2026-08-12, private/human-source-returns and reference/)",
+      "/home/user/pfc-worktree"
+    ],
+    "filesHashedAcrossPasses": "6051 in the four-root pass and 5939 in the whole-main-repo pass",
+    "networkAcquisitions": 0
+  }
 }
