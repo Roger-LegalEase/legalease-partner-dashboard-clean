@@ -136,6 +136,32 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const MEMO_PATH = "data/record-clearing/legal-design-intake/MA.memo.json";
 const MANIFEST_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 
+/*
+ * DIGEST BINDING FOR A ZERO-BINARY COMPOSITION, added 2026-09-09.
+ *
+ * This family binds no document bytes, so the only authority it can bind is the
+ * two committed records it is composed from. Until now the receipt named them
+ * and nothing more: no sha256, no byteLength, nothing a reader could recompute.
+ * An independent read (vf09) recorded that as a SOURCE_IDENTITY failure and
+ * said in terms that the defect is independent of this family's legal block,
+ * does not clear when that block clears, and that a repair lane can fix it now.
+ *
+ * The shape is copied from the sibling family under the SAME owner decision
+ * that is already COMPLETE_PACKET_PROVEN, vt_seal_under_25-set, whose receipt
+ * carries compositionSources as { path, sha256, byteLength } computed at build
+ * time. Nothing here decides, softens or asserts anything about this family's
+ * form-identity question: it records which exact bytes of MA.memo.json and
+ * legal-design-packet-set-manifests.json this packet was composed from.
+ */
+function digestOf(relPath) {
+  const bytes = fs.readFileSync(path.join(ROOT, relPath));
+  return {
+    path: relPath,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length
+  };
+}
+
 function resolveCodifiedGrounds() {
   const failures = [];
   try {
@@ -162,7 +188,8 @@ function resolveCodifiedGrounds() {
       }
     }
   } catch (e) { failures.push({ record: MANIFEST_PATH, why: String(e.message ?? e) }); }
-  return { failures };
+  const compositionSources = failures.length > 0 ? [] : [digestOf(MEMO_PATH), digestOf(MANIFEST_PATH)];
+  return { failures, compositionSources };
 }
 
 /* ---- fixtures --------------------------------------------------------------- */
@@ -235,7 +262,21 @@ export function composedBody(componentId, facts) {
     L.push("THE THRESHOLD. This consolidated route exists only for THREE OR MORE criminal records from TWO OR MORE divisions of the Boston Municipal Court Department, and only for BMC records - it does not reach District Court, Juvenile Court or Superior Court records. Below the threshold, or for non-BMC records, the ordinary judicial sealing route applies, with the statewide form filed once per case. Count your qualifying records against your own CORI before anything is filed.", "");
     L.push("WHAT QUALIFIES. Only dismissal or nolle prosequi records fall within this consolidated procedure under the second paragraph of Sec. 100C. No waiting period applies. A not-guilty finding or a finding of no probable cause requires the appropriate separate Sec. 100C process; this consolidation limit does not decide whether that record can be sealed.", "");
     L.push("THE VENUE RULE. The Standing Order keys venue to residence: file in the BMC division in whose territorial jurisdiction you live. If you no longer live in BMC territory, file in the division your most recent eligible record is from. The instructions on the petition's caption line follow this rule.", "");
-    L.push("SUPPLEMENTS, NOT REPLACES. In the BMC, the consolidated petition supplements rather than replaces the statewide per-case sealing form. Ask the clerk of the venue division how the division wants the statewide form presented alongside this petition, and whether the division uses any form of its own for the consolidated procedure - whether the BMC publishes one is an open question this packet does not decide.", "");
+    /*
+     * OWNER CORRECTION Q3 OF 2026-09-02, CARRIED INTO THE DELIVERED PAGE.
+     *
+     * The Q3 correction named the located statewide per-case form, TC0057, so
+     * that a participant and a clerk are talking about the same document. It
+     * reached participant-instructions.md and it did NOT reach this composed
+     * page, which is the copy the participant actually holds inside the packet.
+     * The two said different things until now; this is the same sentence the
+     * guide already carries.
+     *
+     * What deliberately does NOT change: the last clause. Whether the BMC
+     * publishes a form for the consolidated procedure is still open on the
+     * governing record, and this page keeps saying so rather than resolving it.
+     */
+    L.push("SUPPLEMENTS, NOT REPLACES. In the BMC, the consolidated petition supplements rather than replaces the statewide per-case sealing form, which is Trial Court form TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal - the per-case form for a dismissal or a nolle prosequi, which prints \"Use a separate form for each case\" on its own face and is not included in this packet. Ask the clerk of the venue division whether that division wants TC0057 filed alongside this petition and how many, and whether the division uses any form of its own for the consolidated procedure - whether the BMC publishes one is an open question this packet does not decide. Ask before you file; do not assume this petition alone is the whole filing.", "");
     L.push("YOUR CORI FIRST. Request your own CORI from the Massachusetts Department of Criminal Justice Information Services before completing the petition. Every record you list - division, docket number, disposition - is copied from it and from your court paperwork, never from memory. This packet never collects, inspects or authenticates your CORI.", "");
     L.push("THE GOOD-CAUSE NARRATIVE. Commonwealth v. Pon sets the standard, and the narrative is yours to write. Answer, in your own words, on the petition's dotted lines:");
     L.push("- What specific problems have these records caused you - in work, housing, licensing or elsewhere?");
@@ -581,7 +622,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
 
-  const { failures } = resolveCodifiedGrounds();
+  const { failures, compositionSources } = resolveCodifiedGrounds();
   if (failures.length > 0) {
     return {
       familyId: FAMILY_ID, status: "BLOCKED_LEGAL_INPUT", failedGrounds: failures,
@@ -696,7 +737,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     bindingMethod:
       "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus "
       + "CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is "
-      + "grounded on two committed records, verified present and un-drifted before anything is composed: the "
+      + "grounded on two committed records, verified present and un-drifted before anything is composed and "
+      + "bound below by exact SHA-256 and byte length so a reader can recompute them: the "
       + "legal-design intake track (including its localFormOverride flag) and the packet-set manifest.",
     routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId,
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
@@ -719,9 +761,26 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "replaces the statewide per-case form. The composed petition is drafted against the Standing Order's "
       + "required contents and the Pon standard. No form was substituted and none was invented.",
     codifiedGrounds: [
-      { record: MEMO_PATH, what: "track ma-bmc-multi: the Standing Order procedure, the three-record two-division threshold, the venue rule, the counsel limitations, the open form question" },
-      { record: MANIFEST_PATH, what: `packetSetId ${FAMILY_ID}: the two-component set and the required-before-filing items` }
+      {
+        record: MEMO_PATH,
+        what: "track ma-bmc-multi: the Standing Order procedure, the three-record two-division threshold, the venue rule, the counsel limitations, the open form question",
+        sha256: compositionSources[0].sha256,
+        byteLength: compositionSources[0].byteLength
+      },
+      {
+        record: MANIFEST_PATH,
+        what: `packetSetId ${FAMILY_ID}: the two-component set and the required-before-filing items`,
+        sha256: compositionSources[1].sha256,
+        byteLength: compositionSources[1].byteLength
+      }
     ],
+    compositionSources,
+    compositionSourceBindingNote:
+      "Each record this zero-binary composition is grounded on is bound here by exact SHA-256 and byte length, "
+      + "computed from the file on disk on this build, in the same shape the sibling family vt_seal_under_25-set "
+      + "carries under the same owner decision. A reader can recompute both and detect drift. This binds the "
+      + "records the packet was composed FROM; it decides nothing about which petition controls this filing, "
+      + "which the track registry still holds open.",
     documents: [],
     composedComponentsAuthoredByThisBuild: COMPONENTS,
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,
