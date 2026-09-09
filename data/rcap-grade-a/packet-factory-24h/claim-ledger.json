@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "08d11e2c007f12d7d1dc0260d6a06462d56b762b",
+  "generatedAtCommit": "0f20af3b726df822ae1ae2b1600245460b869f7e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4089,8 +4089,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T15:05:52.386Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4211,8 +4211,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T15:05:52.516Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4257,8 +4257,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-09T14:52:41.956Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14075,7 +14075,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "87a547d351246c103b54799a8c6c196dc20f32bf1f5b310a5d1177c438ca00a4",
+  "claimsDigest": "5d0d4dcdd3f61b6d988fc04e06303260fcefc4ac422576ef1a1ce93ce38a5b93",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42978,6 +42978,36 @@
       "previouslyReleasedAt": "2026-09-09T13:24:32.656Z",
       "reissuedAt": "2026-09-09T14:24:54.546Z",
       "reason": "post-repair reread: the family now carries a current RASTER_PASS admitted from the original receipt of run 34357236801"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-qualprob-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T15:05:52.386Z",
+      "reissuedAt": "2026-09-09T17:36:05.178Z",
+      "reason": "Raster receipt of run 34378560072 admitted over the repaired bytes at a77595707; the family is VERIFY_PENDING and the post-repair reread needs a live grant on the lane its dispatch names."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T15:05:52.516Z",
+      "reissuedAt": "2026-09-09T17:36:05.286Z",
+      "reason": "Raster receipt of run 34378560072 admitted over the repaired bytes at a77595707; the family is VERIFY_PENDING and the post-repair reread needs a live grant on the lane its dispatch names."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-09T14:52:41.956Z",
+      "reissuedAt": "2026-09-09T17:36:05.398Z",
+      "reason": "Raster receipt of run 34378560072 admitted over the repaired bytes at a77595707; the family is VERIFY_PENDING and the post-repair reread needs a live grant on the lane its dispatch names."
     }
   ],
   "transfers": [
