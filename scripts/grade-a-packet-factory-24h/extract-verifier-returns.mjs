@@ -134,7 +134,12 @@ const harvestNamedObligations = (node, found = new Map(), depth = 0) => {
   for (const [k, v] of Object.entries(node)) {
     const o = canonicalObligation(k);
     if (o && readsAsFail(v) && !found.has(o))
-      found.set(o, { obligation: o, finding: typeof v === "string" ? v : null, evidence: null, readFrom: "a named-obligation block outside proofObligations" });
+      /* Same provenance key as the proofObligations path, so one field answers
+       * "which field said this" for every obligation however it was found. The
+       * older prose `readFrom` stays for its existing readers. */
+      found.set(o, { obligation: o, finding: typeof v === "string" ? v : null, evidence: null,
+        findingReadFrom: typeof v === "string" && v.trim() ? "named-obligation-block" : null,
+        readFrom: "a named-obligation block outside proofObligations" });
     harvestNamedObligations(v, found, depth + 1);
   }
   return found;
@@ -220,16 +225,38 @@ for (const { base, name: d, file, chat, inputSha256 } of sweep) {
     let failedObligations = [];
     let unmeasuredObligations = [];
     let blockedLegalObligations = [];
+    /*
+     * A LANE'S REASONING IS NOT LOST BECAUSE IT CHOSE THE OTHER FIELD NAME.
+     *
+     * This read only `finding`, and lanes write their reasoning under either
+     * `finding` or `detail` -- both are how a verifier states why an obligation
+     * did not pass, and nothing ever told them which key this extractor reads.
+     * Measured across every lane file: 759 non-passing obligations carry
+     * `finding` and 380 carry ONLY `detail`. All 380 were extracted as null, so
+     * a third of the reasoning verification lanes produced was discarded on the
+     * way into the records the factory acts on -- including holds that then
+     * looked reasonless to F26, which is how this was found.
+     *
+     * The text is taken as the lane wrote it and the source key is recorded, so
+     * a reader can always tell which field answered rather than inferring it.
+     */
+    const obligationFinding = (v) => {
+      const finding = typeof v?.finding === "string" && v.finding.trim() ? v.finding : null;
+      if (finding) return { finding, findingReadFrom: "finding" };
+      const detail = typeof v?.detail === "string" && v.detail.trim() ? v.detail : null;
+      if (detail) return { finding: detail, findingReadFrom: "detail" };
+      return { finding: null, findingReadFrom: null };
+    };
     if (r.proofObligations) {
       try {
         failedObligations = Object.entries(r.proofObligations)
           .filter(([, v]) => obligationFailed(v?.result))
-          .map(([k, v]) => ({ obligation: k, finding: v.finding ?? null, evidence: v.evidence ?? null }));
+          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v.evidence ?? null }));
         unmeasuredObligations = Object.entries(r.proofObligations)
           .filter(([, v]) => obligationUnmeasured(v?.result)).map(([k]) => k).sort();
         blockedLegalObligations = Object.entries(r.proofObligations)
           .filter(([, v]) => obligationBlockedLegal(v?.result))
-          .map(([k, v]) => ({ obligation: k, finding: v.finding ?? null, evidence: v.evidence ?? null }));
+          .map(([k, v]) => ({ obligation: k, ...obligationFinding(v), evidence: v.evidence ?? null }));
       } catch (e) { problems.push(`${d}/${familyId}: ${e.message}`); continue; }
     }
     let obligationsReadFromElsewhere = false;
