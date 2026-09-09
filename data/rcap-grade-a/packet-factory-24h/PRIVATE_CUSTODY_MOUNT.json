@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "rcap-private-custody-mount/v1",
+  "recordedBy": "Captain, 2026-09-09",
+  "why": "A build lane reported three families BLOCKED_SOURCE on bytes that are held. The cause was not custody and not the packets: it was the shape of the worktrees I provisioned. This records the fact so no lane loses another shift to it.",
+  "theFact": "private/ is a mounted source custody holding 868 MB of official-form bytes, and it is NOT a git path. .gitignore line 53 ignores private/, so it exists only where it was materialised. `git sparse-checkout add private` can never produce it, and its absence from a checkout proves nothing about whether the bytes are held.",
+  "whereItActuallyLives": "/home/user/legalease-partner-dashboard-clean/private",
+  "theResolverConsequence": "scripts/lib/corpus-index-paths.mjs resolves any custody declared pathsRelativeTo: \"repositoryRoot\" inside the running checkout. From a worktree without private/, it reports genuinely held sources as unmounted. That is a resolver artefact rather than a custody fact, and it hits every family whose sources sit under human_source_returns or d_source_packs -- not only the lane that found it.",
+  "whatIDid": "Symlinked private/ into every lane worktree that lacked it: pfa, pfc, pfd, pfe, pf14, pf23, src1. Zero disk cost, and the path is gitignored so no lane can commit it by accident. The shared lane brief now says this in the sparse-checkout section.",
+  "whyNotACodeChange": "Adding a second resolution mechanism -- an env-root fallback per custody -- would leave two ways to answer the same question and a lane could satisfy one while failing the other. The custody is supposed to be mounted at the checkout root; mounting it there is the fix. A code change would be warranted only if a custody genuinely cannot be mounted.",
+  "whatThisDoesNotSay": "Nothing here says any particular source is held. It says a lane that reports one unmounted from a worktree without private/ has measured its own checkout, not custody. Every source binding is still by content digest.",
+  "affectedLanesNotified": ["PF10", "PF05", "PF12", "PF14", "PF23"],
+  "foundBy": "PF24, from three families it stopped and then re-checked against the real mount"
+}
