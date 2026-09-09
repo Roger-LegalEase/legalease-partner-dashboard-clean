@@ -303,10 +303,37 @@
       "documentsCovered": [
         "canonical.pdf"
       ],
-      "documentsNotCovered": [],
-      "coversTheWholeFamily": true,
+      "documentsNotCovered": [
+        "boundary.pdf"
+      ],
       "expectedPages": 11,
-      "whatItDoesNotEstablish": "Raster acceptance is a rendering and placement gate. It is not an independent semantic review, not counsel approval, and not commercial authority."
+      "whatItDoesNotEstablish": "Raster acceptance is a rendering and placement gate. It is not an independent semantic review, not counsel approval, and not commercial authority.",
+      "coverage": {
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRenderedByThisGate": [
+          "boundary.pdf"
+        ],
+        "everyCanonicalDocumentRendered": true,
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+        "wordsTakenFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json, this family's row, coverage block — copied rather than restated so the two records cannot drift"
+      },
+      "boundaryDigestBindingMeans": "boundary.pdf is bound to this receipt by hash so the receipt cannot be read against different bytes. It is not a statement that the gate rendered it.",
+      "correctedOn": {
+        "on": "2026-09-09",
+        "by": "Captain, on VF12's independent finding",
+        "was": {
+          "documentsCovered": [
+            "canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true
+        },
+        "why": "the receipt claimed the raster covered the whole family while naming only canonical.pdf and binding the boundary digest, so a reader would take boundary.pdf as raster-accepted when the gate never rendered it",
+        "whatDidNotChange": "the run, job, rendered commit, both bound digests, the expected page count and what raster acceptance does not establish"
+      }
     },
     "independentVerificationOwed": {
       "owed": true,
