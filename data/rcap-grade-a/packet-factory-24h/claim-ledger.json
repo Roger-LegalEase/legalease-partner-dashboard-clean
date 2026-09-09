@@ -1456,10 +1456,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX120",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T13:21:40.504Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1805,10 +1805,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX120",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T13:21:40.293Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7864,10 +7864,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX121B",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T03:40:34.762Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7925,10 +7925,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX121B",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-09T03:40:34.868Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -14018,7 +14018,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0fab6fe2810a066f8b599e9b6b960a6393f3459f6d107c0fe1b45826be585c2d",
+  "claimsDigest": "519ac8835edea969ee67d57ac54412cfe4572eac9935c22b9318078dc8a58481",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -51362,6 +51362,50 @@
       "previouslyReleasedAt": "2026-09-09T06:38:06.140Z",
       "transferredAt": "2026-09-09T17:58:27.476Z",
       "reason": "Alabama repair cohort consolidated onto one lane: three finished packets each failing a single obligation on an independent read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX120",
+      "previouslyReleasedAt": "2026-09-09T13:21:40.504Z",
+      "transferredAt": "2026-09-09T18:32:35.974Z",
+      "reason": "Single-obligation CLIPPING_AND_OVERLAP on a finished packet; the FIX118 Illinois repair establishes the pdf-lib synthesized-border mechanism and its control."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX121B",
+      "previouslyReleasedAt": "2026-09-09T03:40:34.762Z",
+      "transferredAt": "2026-09-09T18:32:36.568Z",
+      "reason": "Single-obligation FEE_AND_WAIVER on a finished packet; nearest executable closure."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX121B",
+      "previouslyReleasedAt": "2026-09-09T03:40:34.868Z",
+      "transferredAt": "2026-09-09T18:32:36.788Z",
+      "reason": "Single-obligation FEE_AND_WAIVER on a finished packet; nearest executable closure."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX120",
+      "previouslyReleasedAt": "2026-09-09T13:21:40.293Z",
+      "transferredAt": "2026-09-09T18:32:48.573Z",
+      "reason": "Shares the CLIPPING_AND_OVERLAP obligation with the rest of this cohort."
     }
   ],
   "grants": [
