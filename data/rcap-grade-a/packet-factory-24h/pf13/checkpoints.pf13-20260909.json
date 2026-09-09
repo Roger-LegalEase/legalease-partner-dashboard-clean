@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF13",
+  "returnName": "checkpoints.pf13-20260909",
+  "whyThisFileIsNotCheckpointsJson": "data/rcap-grade-a/packet-factory-24h/pf13/checkpoints.json already carries an earlier PF13 return for a different grant. It is left untouched and this one is written alongside it.",
+  "workerBranch": "pf13-20260909",
+  "checkpointRule": "return every five completed families, or every two hours, whichever comes first",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "hi_nonconviction_expungement-set completed",
+      "familiesResolved": ["hi_nonconviction_expungement-set"],
+      "commit": "41c9d22ed",
+      "pushed": "pf13-20260909",
+      "note": "Pushed on completion rather than batched, so the family could be integrated immediately. Fewer than five families in the grant, so the five-family checkpoint never falls; each family is returned as it lands instead."
+    },
+    {
+      "checkpoint": 2,
+      "at": "la-985-expungement-by-redaction-set completed",
+      "familiesResolved": ["la-985-expungement-by-redaction-set"],
+      "commit": "e4a392f50",
+      "pushed": "pf13-20260909",
+      "note": "Pushed on completion."
+    },
+    {
+      "checkpoint": 3,
+      "at": "end of lane",
+      "familiesResolved": ["mo-610-140-conviction-set", "nd-summary-marijuana-pardon-set"],
+      "note": "Both stopped. Neither overlay directory was created or changed: the Missouri directory does not exist, and the North Dakota directory is byte-for-byte identical to base 18b5f4270. Rows for both are in rows.pf13-20260909.json with null counters, because nothing was measured.",
+      "sourceDigestSweep": "Run at the coordinator's mid-task instruction across all five mounted roots, 1857 files, before this checkpoint closed. It confirmed the Missouri stop independently and confirmed that the other three families' sources are genuinely held."
+    }
+  ]
+}
