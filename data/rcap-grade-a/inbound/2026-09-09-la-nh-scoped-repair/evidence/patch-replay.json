@@ -1,0 +1,43 @@
+{
+  "isolatedReplay": true,
+  "gitApplyCheckExit": 0,
+  "gitApplyExit": 0,
+  "installedFilesVerified": 25,
+  "allAppliedFileHashesMatched": true,
+  "focusedTestsAfterReplay": 22,
+  "reversalRestoresPreimages": true,
+  "duplicateAndAlteredPreimagesRefused": true,
+  "checks": [
+    {
+      "name": "replayed-node-tests",
+      "exitCode": 0,
+      "elapsedSeconds": 2.0
+    },
+    {
+      "name": "duplicate-patch-refused",
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "/mnt/data/la-nh-work/candidate.patch"
+      ],
+      "exitCode": 1
+    },
+    {
+      "name": "patch-reverse",
+      "command": [
+        "git",
+        "apply",
+        "--reverse",
+        "/mnt/data/la-nh-work/candidate.patch"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "unexpected-preimage-refused",
+      "exitCode": 1
+    }
+  ],
+  "environmentCorrection": "Initial partial checkout lacked an unchanged transitive helper. Restored retained unchanged helper files; then all 22 focused tests passed. No stub or test weakening.",
+  "scope": "Partial test checkout with retained metadata and shared installed dependencies, not full current-Captain convergence or release test."
+}
