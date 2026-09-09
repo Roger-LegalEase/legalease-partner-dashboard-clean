@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "rcap-in-custom-pleading",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "advisory",
+      "finding": "THIS FAMILY DELIVERS THE SUPPORTING FORMS OF A FILING IT DOES NOT DELIVER. MASTER_QUEUE binds three routes to it and declares three components, and all three are attachments 4, 5 and 6 of in_conviction_serious_felony-set. That packet set's own primary filing, proposed order, attachment-3 and instructions component are not declared here, and neither in_collateral_action-set nor in_supplemental_order-set has ANY component declared by any family in the queue.",
+      "consequence": "The packet says so on its own first page of instructions, in terms: these three sheets are not the filing, the petition is not in this packet, and filing only these three asks the court for nothing. The full list of undelivered components is in production-field-map.json under componentsOfThisFamilysOwnRoutesThatNothingBuilds and in filing-instructions.md. Whether this family's scope should be widened, or two more families opened, is a queue decision and not a build lane's."
+    },
+    {
+      "finding": "MASTER_QUEUE names three sourceIds - official-form:CCA-GF-0120-3016, official-form:CCA-XP-0120-7002 Form ACR and official-form:Confidential Information Form - and all three declare the same digest, b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5.",
+      "consequence": "This is one fifteen-page published binary carrying three documents. It is bound once, filled once and flattened once, and the three documents are page slices of it. The receipt records the three identities against the one binary so they are never read as three binaries, and each slice's selection is proved from the identifier the Coalition printed in that page's own footer before the page was copied."
+    },
+    {
+      "finding": "The bundle's AcroForm is BUNDLE-WIDE. `cap-PetitionerFullName` carries fourteen widgets across pages 1, 3, 5, 7, 8, 9 and 13; `cap-COUNTY` four; `DD-cap-CourtType` four; `Address` two.",
+      "consequence": "A page extracted first and filled afterwards would carry no fields at all, so the whole bundle is filled and flattened and the delivered pages are then copied out. Fields whose every widget is on a page this family does not deliver are declared unwritable to the finalizer and listed in field-census.census-v1.json under fieldsEntirelyOnPagesNotDelivered, so nothing is written on a page this packet does not ship either."
+    },
+    {
+      "finding": "NONE OF THE THREE DOCUMENTS HAS A CONTROL FOR ITS OWN CAUSE NUMBER. All three print a cause-number line - \"CAUSE NO. ______\" on the Appearance and Form ACR, \"XP CAUSE NUMBER\" on the Confidential Information Form - and the binary draws no widget on any of them.",
+      "consequence": "The cause number is carried to the participant on all three and is the FIRST item in the instructions, rather than drawn at a hand-entered coordinate. Every write box in this factory's official-form path is the /Rect of the source's own widget, and ink in white space would be the first exception."
+    },
+    {
+      "finding": "The committed serious-felony track record instructs: \"Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.\"",
+      "consequence": "`PetFullSSN` on the Confidential Information Form is carried to the participant and the instructions say plainly that the platform does not hold the number, does not store it and will not ask for it. The shared field semantics refuses a government identifier before this build reaches it, so the refusal is doubled rather than relied on once."
+    },
+    {
+      "finding": "Both the Appearance and Form ACR carry a CERTIFICATE OF SERVICE with two alternatives, and four of their boxes are named County - which binds matter.county by name - while two more bind a date.",
+      "consequence": "Every certificate-of-service control on both documents is refused and carried to the participant, with the reason stated on its own row: a certificate of service asserts that service HAS HAPPENED, and a packet that ticked it would make that assertion for a filing nobody has served. The visual review sheet names it as the single worst defect this packet could carry."
+    },
+    {
+      "finding": "The Coalition authored this bundle's field names as mnemonics rather than as printed captions - `DD-cap-CourtType`, `Check Box13`, `ProsecutorAddress3` - so several do not appear verbatim on the paper.",
+      "consequence": "reports/caption-evidence.json records, per field, whether the name was found in the printed text and the printed line read at the widget's own coordinate where it was not. A sibling Indiana family delivers these same three documents blank and records that a field-level map for them is owed; this family is that map, and it is auditable line by line rather than asserted."
+    },
+    {
+      "finding": "Both output-byte glyph readings are MEASURED and are measured on the DELIVERED packet rather than on the filled bundle: the added glyphs at every measured write box, and the glyphs outside them by differencing against the same three documents assembled from the un-written bundle.",
+      "consequence": "A write that landed on a bundle page this family does not ship would count as zero added glyphs here, which is the honest answer for a packet that does not contain that page. The method is recorded per fixture in reports/actual-writes.json."
+    },
+    {
+      "severity": "advisory",
+      "finding": "MASTER_QUEUE gives this family implementationStrategy custom_pleading, while the committed packet-set manifest gives all three of its components outputStrategy official_pdf_fill and this build composes nothing.",
+      "consequence": "The queue's label is recorded unchanged in the source receipt and the delivered treatment is named beside it as official_form_retention_and_fill. Nothing central is edited by this lane to reconcile them; the discrepancy is reported."
+    }
+  ]
+}

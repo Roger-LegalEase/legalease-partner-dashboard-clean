@@ -157,16 +157,240 @@
       "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "rcap-in-custom-pleading",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "This lane built the family. The raster receipt comes from the central workflow on the digests below, and the completeness verdict from an independent verification lane. Neither is asserted here.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:IN:in_collateral_action",
+        "obligation:track-only:IN:in_supplemental_order",
+        "obligation:track-pathway:IN:in_conviction_serious_felony:conviction-expungement-with-records-marked-expunged"
+      ],
+      "jurisdiction": "IN",
+      "implementationStrategy": "custom_pleading",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "builtBy": "scripts/build-census-v1-rcap-in-custom-pleading.mjs",
+      "buildScriptWrittenByThisLane": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "blankDispositions": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 2,
+        "REQUIRED_BEFORE_FILING": 23,
+        "PARTICIPANT_ELECTION_GENUINE": 10
+      },
+      "componentSet": [
+        "in_conviction_serious_felony-attachment-4",
+        "in_conviction_serious_felony-attachment-5",
+        "in_conviction_serious_felony-attachment-6"
+      ],
+      "componentConditions": {
+        "in_conviction_serious_felony-attachment-4": "Required for a self-represented filer."
+      },
+      "sources": [
+        {
+          "sourceIds": [
+            "official-form:CCA-GF-0120-3016"
+          ],
+          "documentId": "CCA-GF-0120-3016",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:CCA-XP-0120-7002 Form ACR"
+          ],
+          "documentId": "CCA-XP-0120-7002 Form ACR",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "sourceIds": [
+            "official-form:Confidential Information Form"
+          ],
+          "documentId": "Confidential Information Form",
+          "custody": null,
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "allSourcesExact": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+          "byteLength": 221589,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8",
+          "byteLength": 221845,
+          "pageCount": 4
+        }
+      ],
+      "inkReadBackFromOutputBytes": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 198,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 46,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 5,
+          "addedGlyphsReadFromOutputBytes": 410,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 46,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "requiredBeforeFiling": 23,
+      "participantElections": 10,
+      "routeSelectionsMade": 0,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "oneBinaryThreeIdentities": "MASTER_QUEUE names three sourceIds for this family and every one of them declares the same digest, b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. This is one published binary carrying three documents, not three binaries, and the three documents below are page slices of it whose selection is proved from each page's own printed face.",
+      "implementationStrategyAsDelivered": "official_form_retention_and_fill",
+      "whyThatDiffersFromTheQueuesLabel": "MASTER_QUEUE calls this family custom_pleading. Its three declared components are official forms whose own outputStrategy in the committed packet-set manifest is official_pdf_fill, and nothing composed is declared, so what this build delivers is three issuer-published documents filled inside the issuer's own boxes. The queue's label is recorded above unchanged and the delivered treatment is named beside it.",
+      "pageSelectionProof": [
+        {
+          "documentId": "CCA-GF-0120-3016",
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "sourcePage": 1,
+          "packetPage": 1,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-GF-0120-3016",
+            "Page 1 of 2"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "CCA-GF-0120-3016",
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "sourcePage": 2,
+          "packetPage": 2,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-GF-0120-3016",
+            "Page 2 of 2"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "CCA-XP-0120-7002 Form ACR",
+          "componentId": "in_conviction_serious_felony-attachment-5",
+          "sourcePage": 7,
+          "packetPage": 3,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CCA-XP-0120-7002",
+            "Notice of Exclusion of Confidential Information from Public Access",
+            "Page 1 of 1"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        },
+        {
+          "documentId": "Confidential Information Form",
+          "componentId": "in_conviction_serious_felony-attachment-6",
+          "sourcePage": 8,
+          "packetPage": 4,
+          "markersFoundInThePagesOwnPrintedText": [
+            "CONFIDENTIAL INFORMATION FORM",
+            "Not Public Record"
+          ],
+          "basis": "read from the page's own extracted text before the page was copied"
+        }
+      ],
+      "componentsOfThisFamilysOwnRoutesThatNothingBuilds": [
+        {
+          "componentId": "in_conviction_serious_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-instructions-7",
+          "role": "instructions",
+          "requirement": "required",
+          "packetSetId": "in_conviction_serious_felony-set"
+        },
+        {
+          "componentId": "in_collateral_action-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_collateral_action-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_collateral_action-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_collateral_action-set"
+        },
+        {
+          "componentId": "in_supplemental_order-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        },
+        {
+          "componentId": "in_supplemental_order-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        },
+        {
+          "componentId": "in_supplemental_order-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "packetSetId": "in_supplemental_order-set"
+        }
+      ],
+      "scopeFinding": "This family delivers the three statewide supporting forms of a filing it does not deliver. Its own routes' primary filings, proposed orders and remaining attachments are declared by no family in the queue. The packet says so on its own first page of instructions; widening the scope or opening more families is a queue decision, not a build lane's."
     }
   ],
-  "headShaAtReturn": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
-  "rowsReturned": 1,
+  "headShaAtReturn": "5e31be0d1321915b1577f03d316a5773e6554530",
+  "rowsReturned": 2,
   "familiesCompleted": [
-    "md_10105_early-set"
+    "md_10105_early-set",
+    "rcap-in-custom-pleading"
   ],
   "familiesStopped": [],
   "familiesNotYetReturned": [
-    "rcap-in-custom-pleading",
     "co_municipal_conviction_seal-set"
   ],
   "blockedSource": [],

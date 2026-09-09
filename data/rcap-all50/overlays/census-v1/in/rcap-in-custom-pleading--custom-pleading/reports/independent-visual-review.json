@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "rcap-in-custom-pleading",
+  "required": true,
+  "granted": false,
+  "reviewedBy": null,
+  "note": "Four pages, cut out of a fifteen-page bundle after the whole bundle was filled and flattened. No page was rastered by this build; the central raster workflow renders them from the hashes in reports/rendered-artifacts.json.",
+  "whatToLookAt": [
+    "Packet page 1 and 2 must be the Appearance (footer CCA-GF-0120-3016, \"Page 1 of 2\" and \"Page 2 of 2\"), page 3 must be Form ACR (footer CCA-XP-0120-7002, \"Page 1 of 1\"), page 4 must be the Confidential Information Form (\"Not Public Record\" at the head and the foot). No page of the Section 1 petition and no page of the court's findings and order may appear anywhere in the packet.",
+    "Page 1 caption: the participant's name on the Petitioner rule, the county on BOTH the \"IN THE ___ COURT\" line and the \"COUNTY OF ___\" line, and the court-type chooser EMPTY - not showing the bundle's own row of underscores.",
+    "Page 1 item 2: the address block carries the street on one line and the city, state and zip beneath it, inside the box. Item 4's related-cases table is entirely empty, all twelve cells, and neither Yes nor No is ticked.",
+    "Page 1 contact block: email and phone filled, fax empty, and the \"I will accept service at the above email address\" box UNTICKED. The packet does not choose to be served by email on the participant's behalf.",
+    "Page 2 and page 3 certificates of service: BOTH tick boxes empty, both dates empty, both county lines empty and both prosecutor address blocks empty on each. A ticked certificate of service on an unfiled packet would be a false statement, and it is the single worst defect this packet could carry.",
+    "Page 4, the Confidential Information Form: the participant's name present and the FULL SOCIAL SECURITY NUMBER BOX EMPTY. The platform must never hold that number and must never draw it.",
+    "All four pages: the cause-number lines are blank, because the bundle draws no box on them. Confirm no ink appears on any of those printed rules.",
+    "Boundary fixture: the long hyphenated name and the 60-character email either fit their boxes or are reported unfittable in reports/actual-writes.json. Nothing may spill outside a box or over a printed caption."
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8",
+      "pageCount": 4
+    }
+  ],
+  "rasterPages": []
+}
