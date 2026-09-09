@@ -366,10 +366,41 @@ function writtenFieldsBySourceDigest(dir, receipt = null) {
     byDigest.set(digest, names);
   };
   // Schema one: one entry per SOURCE, carrying the source digest directly.
-  if (Array.isArray(proof.documents)) {
+  if (Array.isArray(proof.documents) && proof.documents.some((d) => typeof d.sourceSha256 === "string")) {
     for (const doc of proof.documents) {
       add(typeof doc.sourceSha256 === "string" ? doc.sourceSha256.toLowerCase() : null, doc.actualWrites);
     }
+    return byDigest;
+  }
+  /*
+   * Schema three: one entry per delivered FIXTURE -- {fixture, actualWrites} --
+   * naming no source at all. Missouri's and Maryland's hosts write it, and
+   * schema one used to claim these families by the shape of `documents` alone
+   * and then hand back an empty map, so every digest missed and the family was
+   * reported NOT_MEASURABLE_HERE. That was 155 of the 219 unmeasurable
+   * documents, and VF20 proved at least two of them are real cohort members by
+   * measuring them another way: 29 synthesised squares in Missouri and 50 in
+   * Maryland, which this scan reported as nothing to see.
+   *
+   * There is no per-source split to recover here, so this does not invent one.
+   * `measure` asks only `writtenFieldNames.has(name)` against names it reads
+   * from THIS source's own AcroForm, so the union of the family's written
+   * field names answers that question exactly whenever no two of its sources
+   * share a field name -- a name in the union that this source does not carry
+   * is simply never asked about. Where sources DO share a name, a widget the
+   * family wrote in one source can read as written in the other, which
+   * under-reports the cohort. The caller is told which names those are rather
+   * than being left to assume exactness.
+   */
+  if (Array.isArray(proof.documents)) {
+    const union = new Set();
+    for (const doc of proof.documents) for (const write of doc.actualWrites ?? []) if (write?.field) union.add(write.field);
+    if (union.size === 0) return byDigest;
+    for (const doc of receipt?.documents ?? []) {
+      const digest = typeof doc.sha256 === "string" ? doc.sha256.toLowerCase() : null;
+      if (digest) byDigest.set(digest, union);
+    }
+    byDigest.attributionIsFamilyWide = true;
     return byDigest;
   }
   /*
@@ -454,6 +485,15 @@ async function main() {
         row.resolution = "RESOLVED_BY_CONTENT_HASH";
         row.resolvedFrom = path.relative(rootDir, hits[0]);
         row.writtenFields = writesByDigest.get(declaredSha).size;
+        if (writesByDigest.attributionIsFamilyWide === true) {
+          /* The proof names no source, so the written set is the family's, not
+           * this document's. Say so on the row: a shared field name would make
+           * a widget this family wrote elsewhere read as written here, which
+           * under-reports rather than over-reports, and a reader is entitled to
+           * know which of the two this number is. */
+          row.writtenFieldsAttribution = "FAMILY_WIDE_UNION";
+          row.whatFamilyWideAttributionMeans = "the write proof records writes per delivered fixture and names no source, so this is the family's whole written field set. It answers this source's question exactly unless two of the family's sources share a field name, in which case a widget written in the other source reads as written here and the cohort is under-reported.";
+        }
         try {
           const measurement = written ? measureWritten : measure;
           Object.assign(row, await measurement(fs.readFileSync(hits[0]), writesByDigest.get(declaredSha)));
