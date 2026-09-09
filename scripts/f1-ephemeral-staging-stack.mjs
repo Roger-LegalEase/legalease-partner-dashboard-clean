@@ -320,7 +320,17 @@ const A = () => USERS[0]; const B = () => USERS[1];
   itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
   psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
         values (gen_random_uuid(), '${B().id}', 'packet', 'MD', 'F1 staging pathway B', 'packet_ready', 'unpaid') on conflict do nothing`);
-  psql(`insert into public.partner_records (partner_slug) values ('${SANDBOX_PARTNER_SLUG}') on conflict do nothing`);
+  /* partner_records requires four columns with no default: partner_id,
+   * partner_slug, partner_name and program_tier (remote_schema baseline). This
+   * seed supplied only partner_slug, so the insert failed the partner_id
+   * not-null constraint and took the whole run down with it — run 34292788664
+   * died here after auth and Mailpit had already passed. The three missing
+   * values are synthetic, deterministic and derived from the sandbox slug, like
+   * every other identity this stack creates; nothing here describes a real
+   * partner, and the row lives only in the disposable runner-local stack. */
+  psql(`insert into public.partner_records (partner_id, partner_slug, partner_name, program_tier)
+        values ('${SANDBOX_PARTNER_SLUG}', '${SANDBOX_PARTNER_SLUG}', 'F1 staging sandbox partner', 'sandbox')
+        on conflict do nothing`);
   const partnerRow = psql(`select partner_slug from public.partner_records where partner_slug='${SANDBOX_PARTNER_SLUG}'`).out;
   record("sponsored_partner_seeded", partnerRow === SANDBOX_PARTNER_SLUG, `partner ${SANDBOX_PARTNER_SLUG} present; sponsored accounting deep-matrix runs in the repository battery step`);
 }
